@@ -513,12 +513,12 @@
             <div class="section-kicker">INTERACTIVE TOOL</div>
             <h2 class="section-title">OVER RANGE <em>ANALYSER.</em></h2>
           </div>
-          <p class="section-copy">Choose a start and end over to total runs, balls and boundaries for those overs across available innings.</p>
+          <p class="section-copy">Select a competition/format, then choose any over range to analyse Tilak Varma's recorded batting deliveries.</p>
         </div>
 
         <div class="calculator-card">
           <div class="calculator-controls">
-            <label for="first-over">FIRST OVER
+            <label for="data-format">FORMAT / COMPETITION\n              <select id="data-format"></select>\n            </label>\n            <label for="first-over">FIRST OVER
               <select id="first-over"></select>
             </label>
             <label for="last-over">LAST OVER
@@ -581,269 +581,23 @@
   </footer>
 
   <script>
-    (() => {
-      "use strict";
-
-      const DATA_URL = "../data/death-overs.json";
-      const REFRESH_INTERVAL_MS = 12 * 60 * 60 * 1000;
-
-      const firstOverSelect = document.querySelector("#first-over");
-      const lastOverSelect = document.querySelector("#last-over");
-      const calculateButton = document.querySelector("#calculate");
-
-      let statsData = null;
-      let refreshTimer = null;
-
-      const formatNumber = (value) =>
-        Number(value || 0).toLocaleString("en-IN");
-
-      function populateOverOptions() {
-        for (let over = 1; over <= 20; over += 1) {
-          firstOverSelect.add(new Option(String(over), String(over)));
-          lastOverSelect.add(new Option(String(over), String(over)));
-        }
-
-        firstOverSelect.value = "16";
-        lastOverSelect.value = "20";
-      }
-
-      function showUnavailableState(message) {
-        ["runs", "balls", "boundaries", "sr"].forEach((id) => {
-          document.getElementById(id).textContent = "—";
-        });
-
-        document.getElementById("status").textContent = message;
-        document.getElementById("feed-status").textContent = "WAITING FOR DATA";
-        document.getElementById("matches").innerHTML =
-          '<div class="empty-state">No innings data is available in the published feed yet. The page will show stats when data is published.</div>';
-        document.getElementById("match-summary").textContent =
-          "No innings data available";
-      }
-
-      function calculateRange() {
-        if (!statsData) return;
-
-        const innings = Array.isArray(statsData.innings)
-          ? statsData.innings
-          : [];
-
-        if (innings.length === 0) {
-          showUnavailableState(
-            "Stats are waiting for the data feed. No calculation has been made."
-          );
-          return;
-        }
-
-        let firstOver = Number(firstOverSelect.value);
-        let lastOver = Number(lastOverSelect.value);
-
-        if (firstOver > lastOver) {
-          [firstOver, lastOver] = [lastOver, firstOver];
-          firstOverSelect.value = String(firstOver);
-          lastOverSelect.value = String(lastOver);
-        }
-
-        const selectedOvers = innings.flatMap((inningsItem) =>
-          (inningsItem.overs || []).filter(
-            (overItem) =>
-              Number(overItem.over) >= firstOver &&
-              Number(overItem.over) <= lastOver
-          )
-        );
-
-        const totals = selectedOvers.reduce(
-          (sum, overItem) => {
-            sum.runs += Number(overItem.runs || 0);
-            sum.balls += Number(overItem.balls || 0);
-            sum.fours += Number(overItem.fours || 0);
-            sum.sixes += Number(overItem.sixes || 0);
-            return sum;
-          },
-          { runs: 0, balls: 0, fours: 0, sixes: 0 }
-        );
-
-        document.getElementById("runs").textContent = formatNumber(totals.runs);
-        document.getElementById("balls").textContent = formatNumber(totals.balls);
-        document.getElementById("boundaries").textContent =
-          formatNumber(totals.fours) + " / " + formatNumber(totals.sixes);
-        document.getElementById("sr").textContent = totals.balls
-          ? ((totals.runs * 100) / totals.balls).toFixed(2)
-          : "—";
-
-        document.getElementById("status").textContent =
-          "OVERS " + firstOver + "–" + lastOver +
-          " · " + formatNumber(statsData.matchesFound) + " MATCHES IN FEED" +
-          " · DATA UPDATED " + (statsData.updatedAt || "TIME UNKNOWN");
-      }
-
-      function renderLatestMatch() {
-        const panel = document.getElementById("latest-match-panel");
-        const match = statsData && statsData.featuredMatch;
-        if (!panel || !match) return;
-        const esc = (value) => String(value ?? "").replace(/[&<>"']/g, ch => ({
-          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-        })[ch]);
-        panel.hidden = false;
-        panel.innerHTML = '<div class="latest-top"><span>NEWEST VERIFIED MATCH</span><span>' + esc(match.date) + ' · ' + esc(match.format) + '</span></div>' +
-          '<div class="latest-main"><div><h3>' + esc(match.teams) + '</h3><p>' + esc(match.venue) + ' · ' + esc(match.result) + '</p><p>Over-by-over calculator uses verified ball-by-ball data only. This scorecard is shown separately until a delivery feed is available.</p></div>' +
-          '<div class="latest-runs">' + esc(match.playerRuns) + '*<small>FROM ' + esc(match.playerBalls) + ' BALLS</small></div></div>' +
-          '<a class="latest-source" href="' + esc(match.source) + '" target="_blank" rel="noreferrer">Open full scorecard ↗</a>';
-      }
-
-      function renderSnapshot() {
-        const innings = Array.isArray(statsData.innings)
-          ? statsData.innings
-          : [];
-
-        const allOvers = innings.flatMap((inningsItem) =>
-          Array.isArray(inningsItem.overs) ? inningsItem.overs : []
-        );
-
-        const totals = allOvers.reduce(
-          (sum, overItem) => {
-            sum.runs += Number(overItem.runs || 0);
-            sum.balls += Number(overItem.balls || 0);
-            return sum;
-          },
-          { runs: 0, balls: 0 }
-        );
-
-        document.getElementById("total-runs").textContent =
-          formatNumber(totals.runs);
-        document.getElementById("total-innings").textContent =
-          formatNumber(statsData.inningsFound || innings.length);
-        document.getElementById("total-balls").textContent =
-          formatNumber(totals.balls);
-        document.getElementById("overall-sr").textContent =
-          totals.balls ? ((totals.runs * 100) / totals.balls).toFixed(2) : "—";
-
-        document.getElementById("feed-status").textContent =
-          innings.length ? "STATS LOADED" : "WAITING FOR DATA";
-        document.getElementById("last-refresh").textContent =
-          statsData.updatedAt || "Timestamp unavailable";
-
-        startRefreshCountdown();
-      }
-
-      function startRefreshCountdown() {
-        if (refreshTimer) window.clearInterval(refreshTimer);
-
-        const updatedAt = String(statsData.updatedAt || "")
-          .replace(" UTC", "Z")
-          .replace(" ", "T");
-        const updatedAtMs = Date.parse(updatedAt);
-        const nextRefreshElement = document.getElementById("next-refresh");
-
-        if (!Number.isFinite(updatedAtMs)) {
-          nextRefreshElement.textContent = "Every 12 hours";
-          return;
-        }
-
-        const nextRefreshMs = updatedAtMs + REFRESH_INTERVAL_MS;
-
-        function updateCountdown() {
-          const remainingMs = Math.max(0, nextRefreshMs - Date.now());
-          const hours = Math.floor(remainingMs / 3600000);
-          const minutes = Math.floor((remainingMs % 3600000) / 60000);
-
-          nextRefreshElement.textContent = remainingMs === 0
-            ? "Refresh window reached"
-            : hours + "h " + minutes + "m remaining";
-        }
-
-        updateCountdown();
-        refreshTimer = window.setInterval(updateCountdown, 60000);
-      }
-
-      function renderRecentInnings() {
-        const container = document.getElementById("matches");
-        const innings = Array.isArray(statsData.innings)
-          ? statsData.innings
-          : [];
-        const recentInnings = innings.slice(0, 15);
-
-        document.getElementById("match-summary").textContent =
-          formatNumber(statsData.inningsFound || innings.length) +
-          " innings · Updated " + (statsData.updatedAt || "time unavailable");
-
-        if (!recentInnings.length) {
-          container.innerHTML =
-            '<div class="empty-state">No innings are available yet. Check again after the stats feed has been populated.</div>';
-          return;
-        }
-
-        container.innerHTML = recentInnings.map((match) => {
-          const overChips = (match.overs || []).map((over) => (
-            '<div class="over-chip">' +
-              'OVER ' + Number(over.over) +
-              '<b>' + formatNumber(over.runs) + ' RUNS</b>' +
-              '<span>' + formatNumber(over.balls) + ' balls · ' +
-              formatNumber(over.fours) + ' fours · ' +
-              formatNumber(over.sixes) + ' sixes</span>' +
-            '</div>'
-          )).join("");
-
-          return (
-            '<article class="match-card">' +
-              '<div class="match-card-head">' +
-                '<div>' +
-                  '<h3>' + escapeHtml(match.opposition || "Match") + '</h3>' +
-                  '<div class="match-meta">' +
-                    escapeHtml(match.teams || "") +
-                    (match.venue ? " · " + escapeHtml(match.venue) : "") +
-                    " · Innings " + Number(match.innings || 1) +
-                  '</div>' +
-                '</div>' +
-                '<span class="match-date">' + escapeHtml(match.date || "Date unavailable") + '</span>' +
-              '</div>' +
-              '<div class="over-chips">' + overChips + '</div>' +
-            '</article>'
-          );
-        }).join("");
-      }
-
-      function escapeHtml(value) {
-        return String(value).replace(/[&<>"']/g, (character) => ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;"
-        })[character]);
-      }
-
-      async function loadStats() {
-        document.getElementById("feed-status").textContent = "CONNECTING";
-
-        try {
-          const response = await fetch(DATA_URL, { cache: "no-store" });
-
-          if (!response.ok) {
-            throw new Error("Stats feed returned HTTP " + response.status);
-          }
-
-          statsData = await response.json();
-          renderLatestMatch();
-          renderSnapshot();
-          renderRecentInnings();
-          calculateRange();
-        } catch (error) {
-          showUnavailableState(
-            "Could not load stats right now. Refresh the page or check the published data feed."
-          );
-          document.getElementById("feed-status").textContent = "FEED UNAVAILABLE";
-          document.getElementById("last-refresh").textContent = "Not connected";
-          document.getElementById("next-refresh").textContent = "Every 12 hours";
-          console.error("Stats feed error:", error);
-        }
-      }
-
-      populateOverOptions();
-      calculateButton.addEventListener("click", calculateRange);
-      firstOverSelect.addEventListener("change", calculateRange);
-      lastOverSelect.addEventListener("change", calculateRange);
-      loadStats();
-    })();
-  </script>
+(()=>{"use strict";
+const URL_DATA="../data/death-overs.json",REFRESH=12*60*60*1000;
+const fs=document.querySelector("#data-format"),first=document.querySelector("#first-over"),last=document.querySelector("#last-over"),button=document.querySelector("#calculate");
+let root=null,active="t20i",timer=null;
+const names={ipl:"IPL",t20i:"T20 INTERNATIONALS",t20:"OTHER MEN'S T20",odi:"ODI",test:"TEST (AVAILABLE ARCHIVE)"},fmt=n=>Number(n||0).toLocaleString("en-IN");
+function data(){return root?.formats?.[active]||(active===root?.defaultFormat?root:null)}
+function options(max=20){const a=Number(first.value)||(max===20?16:Math.max(1,max-4)),b=Number(last.value)||max;first.replaceChildren();last.replaceChildren();for(let n=1;n<=max;n++){first.add(new Option(n,n));last.add(new Option(n,n))}first.value=Math.min(a,max);last.value=Math.min(b,max);if(+first.value>+last.value)last.value=first.value}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function unavailable(msg){["runs","balls","boundaries","sr","total-runs","total-innings","total-balls","overall-sr"].forEach(id=>document.getElementById(id).textContent="—");document.getElementById("status").textContent=msg;document.getElementById("feed-status").textContent="WAITING FOR DATA";document.getElementById("matches").innerHTML='<div class="empty-state">No delivery-level innings available for this format in the current archive.</div>';document.getElementById("match-summary").textContent="No innings data available"}
+function calculate(){const d=data();if(!d?.innings?.length){unavailable("No published Tilak Varma delivery data for "+(names[active]||active)+".");return}let a=+first.value,b=+last.value;if(a>b){[a,b]=[b,a];first.value=a;last.value=b}const selected=d.innings.flatMap(i=>(i.overs||[]).filter(o=>+o.over>=a&&+o.over<=b));const t=selected.reduce((s,o)=>{for(const k of ["runs","balls","fours","sixes"])s[k]+=+(o[k]||0);return s},{runs:0,balls:0,fours:0,sixes:0});document.getElementById("runs").textContent=fmt(t.runs);document.getElementById("balls").textContent=fmt(t.balls);document.getElementById("boundaries").textContent=fmt(t.fours)+" / "+fmt(t.sixes);document.getElementById("sr").textContent=t.balls?(t.runs*100/t.balls).toFixed(2):"—";document.getElementById("status").textContent="FORMAT "+(d.label||names[active])+" · OVERS "+a+"–"+b+" · "+fmt(d.matchesFound)+" MATCHES · UPDATED "+(root.updatedAt||"TIME UNKNOWN")}
+function snapshot(){const d=data(),innings=d?.innings||[],overs=innings.flatMap(i=>i.overs||[]),t=overs.reduce((s,o)=>({runs:s.runs+(+o.runs||0),balls:s.balls+(+o.balls||0)}),{runs:0,balls:0});document.getElementById("total-runs").textContent=fmt(t.runs);document.getElementById("total-innings").textContent=fmt(d?.inningsFound||innings.length);document.getElementById("total-balls").textContent=fmt(t.balls);document.getElementById("overall-sr").textContent=t.balls?(t.runs*100/t.balls).toFixed(2):"—";document.getElementById("feed-status").textContent=innings.length?"STATS LOADED":"NO DATA FOR FORMAT";document.getElementById("last-refresh").textContent=root.updatedAt||"Timestamp unavailable";if(timer)clearInterval(timer);const stamp=Date.parse(String(root.updatedAt||"").replace(" UTC","Z").replace(" ","T"));function tick(){if(!Number.isFinite(stamp)){document.getElementById("next-refresh").textContent="Every 12 hours";return}const ms=Math.max(0,stamp+REFRESH-Date.now());document.getElementById("next-refresh").textContent=ms===0?"Refresh window reached":Math.floor(ms/3600000)+"h "+Math.floor(ms%3600000/60000)+"m remaining"}tick();timer=setInterval(tick,60000)}
+function matches(){const d=data(),box=document.getElementById("matches"),rows=d?.innings||[];document.getElementById("match-summary").textContent=fmt(d?.inningsFound||rows.length)+" innings · "+(d?.label||names[active])+" · Updated "+(root.updatedAt||"time unavailable");if(!rows.length){box.innerHTML='<div class="empty-state">No delivery-level innings are available for this format.</div>';return}box.innerHTML=rows.slice(0,15).map(m=>'<article class="match-card"><div class="match-card-head"><div><h3>'+esc(m.opposition||"Match")+'</h3><div class="match-meta">'+esc(m.teams||"")+(m.venue?" · "+esc(m.venue):"")+" · Innings "+(+m.innings||1)+'</div></div><span class="match-date">'+esc(m.date||"Date unavailable")+'</span></div><div class="over-chips">'+(m.overs||[]).map(o=>'<div class="over-chip">OVER '+(+o.over)+'<b>'+fmt(o.runs)+' RUNS</b><span>'+fmt(o.balls)+' balls · '+fmt(o.fours)+' fours · '+fmt(o.sixes)+' sixes</span></div>').join("")+'</div></article>').join("")}
+function featured(){const p=document.getElementById("latest-match-panel"),m=root?.featuredMatch;if(!p||!m)return;p.hidden=false;p.innerHTML='<div class="latest-top"><span>FEATURED SCORECARD</span><span>'+esc(m.date)+' · '+esc(m.format)+'</span></div><div class="latest-main"><div><h3>'+esc(m.teams)+'</h3><p>'+esc(m.venue)+' · '+esc(m.result)+'</p><p>Over analyser below uses the selected format archive.</p></div><div class="latest-runs">'+esc(m.playerRuns)+'*<small>FROM '+esc(m.playerBalls)+' BALLS</small></div></div><a class="latest-source" href="'+esc(m.source)+'" target="_blank" rel="noreferrer">Open full scorecard ↗</a>'}
+function change(){active=fs.value;options(active==="odi"?50:active==="test"?90:20);snapshot();matches();calculate();document.querySelector(".section-copy").textContent="Selected: "+(data()?.label||names[active])+". Choose an over range to analyse Tilak Varma's recorded batting deliveries."}
+async function load(){document.getElementById("feed-status").textContent="CONNECTING";try{const r=await fetch(URL_DATA,{cache:"no-store"});if(!r.ok)throw Error("HTTP "+r.status);root=await r.json();fs.replaceChildren();Object.entries(root.formats||{}).forEach(([k,v])=>fs.add(new Option(names[k]||v.label||k.toUpperCase(),k)));active=root.formats?.[root.defaultFormat]?root.defaultFormat:(root.formats?.ipl?"ipl":Object.keys(root.formats||{})[0]);fs.value=active;featured();change()}catch(e){unavailable("Could not load stats. Refresh the page or check the published data feed.");document.getElementById("feed-status").textContent="FEED UNAVAILABLE";document.getElementById("last-refresh").textContent="Not connected";document.getElementById("next-refresh").textContent="Every 12 hours";console.error(e)}}
+options();fs.addEventListener("change",change);button.addEventListener("click",calculate);first.addEventListener("change",calculate);last.addEventListener("change",calculate);load();
+})();
+</script>
 </body>
 </html>
