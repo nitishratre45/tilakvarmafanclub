@@ -38,7 +38,15 @@
           return '<article class="home-format-card"><span>' + esc(label) + '</span><strong>' + esc(number(s.runs)) + '</strong><small>' + esc(s.matches ?? "—") + ' matches · HS ' + esc(s.highestScore ?? "—") + '</small><small>AVG ' + esc(s.average ?? "—") + ' · SR ' + esc(s.strikeRate ?? "—") + '</small></article>';
         }).filter(Boolean).join("");
       }
-      if ($("home-data-updated")) $("home-data-updated").textContent = "Last update: " + (data.lastUpdated || "time unavailable");
+      if ($("home-data-updated")) {
+        const stamps = [data.lastUpdated, data.lastChecked, data.careerStatsUpdated,
+          data.recentUpdated, data.statsguru?.updatedAt, data.bowlingStats?.updatedAt]
+          .filter(value => typeof value === "string" && value.trim())
+          .map(value => ({ value, time: Date.parse(value.replace(" UTC", "Z").replace(" ", "T")) }))
+          .filter(item => Number.isFinite(item.time))
+          .sort((a, b) => b.time - a.time);
+        $("home-data-updated").textContent = "Last update: " + (stamps[0]?.value || "time unavailable");
+      }
       const rows = Array.isArray(data.recentInnings) ? data.recentInnings.slice(0, 4) : [];
       if (inningsHost) inningsHost.innerHTML = rows.length ? rows.map(row => {
         
