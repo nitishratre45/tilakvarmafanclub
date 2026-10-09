@@ -53,12 +53,12 @@ jobs:
           node --check assets/upgrade.js
           python - <<'PY'
           from pathlib import Path
-          import re
           html = Path("death-overs/index.html").read_text(encoding="utf-8")
-          scripts = re.findall(r"<script>([\s\S]*?)</script>", html)
-          if not scripts:
+          start = html.rfind("<script>")
+          end = html.find("</script>", start)
+          if start < 0 or end < 0:
               raise SystemExit("No embedded Death Overs script found")
-          Path("/tmp/death-overs-inline.js").write_text(scripts[-1], encoding="utf-8")
+          Path("/tmp/death-overs-inline.js").write_text(html[start + len("<script>"):end], encoding="utf-8")
           PY
           node --check /tmp/death-overs-inline.js
           python -m compileall -q scripts
