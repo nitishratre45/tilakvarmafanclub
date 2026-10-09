@@ -3,7 +3,7 @@ name: Refresh ESPNcricinfo Statsguru
 on:
   workflow_dispatch:
   schedule:
-    - cron: "23 0 * * *"
+    - cron: "23 1 * * *"
   push:
     branches: [main]
     paths:
