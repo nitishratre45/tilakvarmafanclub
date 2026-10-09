@@ -85,48 +85,49 @@ def parse_overall_t20():
 def main():
  data=json.loads(FILE.read_text(encoding="utf-8"))
  formats=data.setdefault("careerFormats",{})
- overall=parse_overall_t20()
- t20i=formats.get("T20I",{})
- ipl=formats.get("IPL",{})
- minimum_runs=int(t20i.get("runs",0) or 0)+int(ipl.get("runs",0) or 0)
- if overall and int(overall.get("runs",0))>=minimum_runs and int(overall.get("innings",0))>=int(t20i.get("innings",0) or 0)+int(ipl.get("innings",0) or 0):
-  formats["Overall T20 (all competitions)"]=overall
-  print("Updated overall T20 from Cricbuzz:",overall["runs"],"runs across",overall["innings"],"innings")
- else:
-  # Cricbuzz's public all-matches page can return only a recent page of innings.
-  # Never publish that partial subtotal as a career total. Keep a verified T20I + IPL floor instead.
-  runs=minimum_runs
-  inns=int(t20i.get("innings",0) or 0)+int(ipl.get("innings",0) or 0)
-  outs=int(t20i.get("notOuts",0) or 0)+int(ipl.get("notOuts",0) or 0)
-  balls=int(t20i.get("balls",0) or 0)+int(ipl.get("balls",0) or 0)
-  if not balls:
-   for rec in (t20i,ipl):
-    sr=float(rec.get("strikeRate",0) or 0)
-    if sr>0:balls+=round(int(rec.get("runs",0) or 0)*100/sr)
-  highs=[(int(re.match(r"\d+",str(rec.get("highestScore","0"))).group()),str(rec.get("highestScore"))) for rec in (t20i,ipl) if re.match(r"\d+",str(rec.get("highestScore","")))]
-  highest=max(highs,default=(0,"—"))[1]
-  formats["Overall T20 (all competitions)"]={"matches":int(t20i.get("matches",0) or 0)+int(ipl.get("matches",0) or 0),"innings":inns,"notOuts":outs,"runs":runs,"balls":balls,"highestScore":highest,"average":round(runs/(inns-outs),2) if inns>outs else None,"strikeRate":round(runs*100/balls,2) if balls else None,"hundreds":int(t20i.get("hundreds",0) or 0)+int(ipl.get("hundreds",0) or 0),"fifties":int(t20i.get("fifties",0) or 0)+int(ipl.get("fifties",0) or 0),"source":"Verified T20I + IPL totals; domestic T20 coverage incomplete","coverage":"minimum verified subtotal; not a complete all-T20 career total"}
-  print("Cricbuzz overall T20 list incomplete; publishing verified T20I + IPL subtotal, not the partial page sum.")
  scraped=parse(ESPN)
- # ICC page has a format summary; merge only rows parsed as a proper table.
- # ICC international figures are preloaded in the JSON fallback; only use ESPN table parsing here.
+ # ESPNcricinfo's format summary includes the full T20s career row (international + domestic/franchise).
+ # Prefer that complete career row over Cricbuzz's paginated all-matches list.
+ overall_from_espn=scraped.pop("Overall T20 (all competitions)",None)
+ if overall_from_espn and int(overall_from_espn.get("runs",0) or 0)>=int(formats.get("Overall T20 (all competitions)",{}).get("runs",0) or 0):
+  formats["Overall T20 (all competitions)"]=overall_from_espn
+  print("Updated full T20 career from ESPNcricinfo:",overall_from_espn["runs"],"runs")
+ else:
+  overall=parse_overall_t20()
+  t20i=formats.get("T20I",{})
+  ipl=formats.get("IPL",{})
+  minimum_runs=int(t20i.get("runs",0) or 0)+int(ipl.get("runs",0) or 0)
+  current=formats.get("Overall T20 (all competitions)",{})
+  if overall and int(overall.get("runs",0))>=minimum_runs and int(overall.get("innings",0))>=int(t20i.get("innings",0) or 0)+int(ipl.get("innings",0) or 0):
+   formats["Overall T20 (all competitions)"]=overall
+   print("Updated overall T20 from complete Cricbuzz list:",overall["runs"],"runs")
+  elif int(current.get("runs",0) or 0)>minimum_runs:
+   print("Keeping saved full T20 career total; external match list is incomplete.")
+  else:
+   runs=minimum_runs
+   inns=int(t20i.get("innings",0) or 0)+int(ipl.get("innings",0) or 0)
+   outs=int(t20i.get("notOuts",0) or 0)+int(ipl.get("notOuts",0) or 0)
+   balls=int(t20i.get("balls",0) or 0)+int(ipl.get("balls",0) or 0)
+   if not balls:
+    for rec in (t20i,ipl):
+     sr=float(rec.get("strikeRate",0) or 0)
+     if sr>0:balls+=round(int(rec.get("runs",0) or 0)*100/sr)
+   highs=[(int(re.match(r"\\d+",str(rec.get("highestScore","0"))).group()),str(rec.get("highestScore"))) for rec in (t20i,ipl) if re.match(r"\\d+",str(rec.get("highestScore","")))]
+   highest=max(highs,default=(0,"—"))[1]
+   formats["Overall T20 (all competitions)"]={"matches":int(t20i.get("matches",0) or 0)+int(ipl.get("matches",0) or 0),"innings":inns,"notOuts":outs,"runs":runs,"balls":balls,"highestScore":highest,"average":round(runs/(inns-outs),2) if inns>outs else None,"strikeRate":round(runs*100/balls,2) if balls else None,"hundreds":int(t20i.get("hundreds",0) or 0)+int(ipl.get("hundreds",0) or 0),"fifties":int(t20i.get("fifties",0) or 0)+int(ipl.get("fifties",0) or 0),"source":"Verified T20I + IPL totals; domestic T20 coverage incomplete","coverage":"minimum verified subtotal; not a complete all-T20 career total"}
+  print("Cricbuzz list incomplete; did not treat its partial page as a career total.")
  if scraped:
   updated=[]
-  for fmt, incoming in scraped.items():
+  for fmt,incoming in scraped.items():
    current=formats.get(fmt,{})
-   current_runs=int(current.get("runs",0) or 0)
-   incoming_runs=int(incoming.get("runs",0) or 0)
-   # Keep the last-known record if ESPN returns a lower/stale total.
-   if not current or incoming_runs>=current_runs:
-    formats[fmt]=incoming
-    updated.append(fmt)
-   else:
-    print(f"Keeping newer {fmt} total ({current_runs}); ESPN response is stale ({incoming_runs}).")
+   if not current or int(incoming.get("runs",0) or 0)>=int(current.get("runs",0) or 0):
+    formats[fmt]=incoming;updated.append(fmt)
+   else: print(f"Keeping newer {fmt} total ({current.get('runs')}); ESPN response is stale ({incoming.get('runs')}).")
   if updated:
    data["careerSource"]=ESPN
    data["careerStatsUpdated"]=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-  print("Updated from ESPN:", ", ".join(updated) if updated else "no newer format totals")
- else: print("No parseable career table found; retaining existing stats.")
+  print("Updated from ESPN:",", ".join(updated) if updated else "no newer format totals")
+ else: print("No parseable ESPN career table found; retaining existing stats.")
  t=formats.get("T20I",{})
  if t.get("runs") is not None:
   data["careerStats"]={"t20iRuns":t["runs"],"highestScore":t.get("highestScore","120*"),
