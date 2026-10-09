@@ -86,12 +86,27 @@ def main():
  data=json.loads(FILE.read_text(encoding="utf-8"))
  formats=data.setdefault("careerFormats",{})
  overall=parse_overall_t20()
- if overall:
-  current=formats.get("Overall T20 (all competitions)",{})
-  if int(overall.get("runs",0)) >= int(current.get("runs",0) or 0):
-   formats["Overall T20 (all competitions)"]=overall
-   print("Updated overall T20 from Cricbuzz:",overall["runs"],"runs across",overall["innings"],"innings")
-  else: print("Keeping newer saved overall T20 total; Cricbuzz list appears incomplete/stale.")
+ t20i=formats.get("T20I",{})
+ ipl=formats.get("IPL",{})
+ minimum_runs=int(t20i.get("runs",0) or 0)+int(ipl.get("runs",0) or 0)
+ if overall and int(overall.get("runs",0))>=minimum_runs and int(overall.get("innings",0))>=int(t20i.get("innings",0) or 0)+int(ipl.get("innings",0) or 0):
+  formats["Overall T20 (all competitions)"]=overall
+  print("Updated overall T20 from Cricbuzz:",overall["runs"],"runs across",overall["innings"],"innings")
+ else:
+  # Cricbuzz's public all-matches page can return only a recent page of innings.
+  # Never publish that partial subtotal as a career total. Keep a verified T20I + IPL floor instead.
+  runs=minimum_runs
+  inns=int(t20i.get("innings",0) or 0)+int(ipl.get("innings",0) or 0)
+  outs=int(t20i.get("notOuts",0) or 0)+int(ipl.get("notOuts",0) or 0)
+  balls=int(t20i.get("balls",0) or 0)+int(ipl.get("balls",0) or 0)
+  if not balls:
+   for rec in (t20i,ipl):
+    sr=float(rec.get("strikeRate",0) or 0)
+    if sr>0:balls+=round(int(rec.get("runs",0) or 0)*100/sr)
+  highs=[(int(re.match(r"\\d+",str(rec.get("highestScore","0"))).group()),str(rec.get("highestScore"))) for rec in (t20i,ipl) if re.match(r"\\d+",str(rec.get("highestScore","")))]
+  highest=max(highs,default=(0,"—"))[1]
+  formats["Overall T20 (all competitions)"]={"matches":int(t20i.get("matches",0) or 0)+int(ipl.get("matches",0) or 0),"innings":inns,"notOuts":outs,"runs":runs,"balls":balls,"highestScore":highest,"average":round(runs/(inns-outs),2) if inns>outs else None,"strikeRate":round(runs*100/balls,2) if balls else None,"hundreds":int(t20i.get("hundreds",0) or 0)+int(ipl.get("hundreds",0) or 0),"fifties":int(t20i.get("fifties",0) or 0)+int(ipl.get("fifties",0) or 0),"source":"Verified T20I + IPL totals; domestic T20 coverage incomplete","coverage":"minimum verified subtotal; not a complete all-T20 career total"}
+  print("Cricbuzz overall T20 list incomplete; publishing verified T20I + IPL subtotal, not the partial page sum.")
  scraped=parse(ESPN)
  # ICC page has a format summary; merge only rows parsed as a proper table.
  # ICC international figures are preloaded in the JSON fallback; only use ESPN table parsing here.
