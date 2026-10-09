@@ -477,3 +477,27 @@ body,.hero,.profile-section,.stats-section,.feature-section,.records-section,.fa
  .section{padding:28px 4vw}
  footer{gap:10px;font-size:9px}
 }
+
+
+/* Statsguru analysis */
+.statsguru-section{background:#091523;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.statsguru-sourcebar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:15px 18px;margin-bottom:18px;background:var(--panel);border:1px solid var(--line);font:10px var(--mono);color:var(--muted)}
+.statsguru-sourcebar b{color:var(--white);font-weight:500}
+.statsguru-sourcelinks,.statsguru-footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.statsguru-sourcelinks a,.statsguru-footer-links a{color:var(--cyan)}
+.statsguru-format-tabs{display:flex;gap:7px;overflow-x:auto;padding:0 0 14px}
+.statsguru-format-tabs button,.statsguru-category-grid button{font:700 11px var(--body);color:#c9d5e4;background:var(--panel);border:1px solid var(--line);padding:12px 15px;cursor:pointer;white-space:nowrap}
+.statsguru-format-tabs button.active,.statsguru-category-grid button.active{background:var(--orange);color:#101522;border-color:var(--orange)}
+.statsguru-category-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:18px}
+.statsguru-category-grid button{text-align:left;white-space:normal;min-height:48px;line-height:1.4}
+.statsguru-panel{padding:22px;background:var(--panel);border:1px solid var(--line)}
+.statsguru-panel-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px}
+.statsguru-panel-head h3{font:800 clamp(23px,3vw,34px)/1.1 var(--display);margin:9px 0 0}
+.statsguru-format-pill{border:1px solid var(--orange);color:var(--orange);padding:7px 10px;font:10px var(--mono)}
+.statsguru-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:18px}
+.statsguru-metric{padding:14px;background:var(--panel2);border:1px solid var(--line);min-width:0}
+.statsguru-metric span{display:block;color:var(--muted);font:9px var(--mono);letter-spacing:.08em}
+.statsguru-metric strong{display:block;font:800 clamp(24px,3vw,36px)/1.1 var(--display);margin-top:10px;overflow-wrap:anywhere}
+.statsguru-note{font-size:11px;color:var(--muted);line-height:1.7;margin:15px 0 0}
+.statsguru-footer-links{font:11px var(--mono);margin-top:17px}
+@media(max-width:760px){.statsguru-section{padding:55px 5vw}.statsguru-category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.statsguru-category-grid button{font-size:10px;padding:10px;min-height:43px}.statsguru-panel{padding:12px}.statsguru-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.statsguru-metric{padding:11px}.statsguru-sourcebar{align-items:flex-start;padding:12px}.statsguru-sourcelinks{gap:10px}.statsguru-panel .table-wrap table{min-width:520px}.statsguru-format-tabs button{padding:10px 12px}}
