@@ -254,10 +254,21 @@ def main():
             new_formats[fmt] = result
             print(fmt + ": verified summary; " + str(len(result["careerBreakdown"])) + " breakdown rows; " + str(len(result["innings"])) + " bowling innings")
         except Exception as exc:
-            errors.append(fmt + ": " + str(exc))
-            print("Could not refresh " + fmt + "; retaining prior snapshot:", exc)
-            if fmt not in old_formats:
-                raise SystemExit("No previous " + fmt + " bowling snapshot and fresh parse failed.")
+            print("Could not refresh " + fmt + " from the Statsguru endpoint:", exc)
+            if fmt in {"T20I", "ODI", "T20"}:
+                errors.append(fmt + ": " + str(exc))
+                if fmt not in old_formats:
+                    raise SystemExit("No previous required " + fmt + " bowling snapshot and fresh parse failed.")
+            elif fmt not in old_formats:
+                # Keep the UI honest when Statsguru rejects a domestic format:
+                # publish an explicit unavailable state rather than inventing stats.
+                new_formats[fmt] = {
+                    "summary": None, "careerBreakdown": [], "innings": [],
+                    "inningsCount": 0, "source": "ESPNcricinfo Statsguru",
+                    "unavailableReason": "This format is not exposed by the current Statsguru endpoint."
+                }
+            else:
+                print("Keeping the last saved optional-format snapshot for", fmt)
     if errors:
         raise SystemExit("Bowling refresh incomplete; saved snapshot not updated: " + "; ".join(errors))
     data["bowlingStats"] = {**old, "source": "ESPNcricinfo Statsguru",
