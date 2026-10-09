@@ -53,9 +53,8 @@ def official_profile_image():
         ]
         if player_images:
             return next((url for url in player_images if "headshot" in url.lower()), player_images[0])
-        # ICC's page can omit image markup in server-rendered HTML; retain the official image path.
-        if "Tilak Varma" in page and "70761" in page:
-            return ICC_IMAGE_FALLBACK
+        # ICC can omit the player image from server-rendered HTML.
+        # Return None rather than inventing a fallback URL; keep the last saved photo.
     except Exception as exc:
         print(f"ICC profile image not refreshed: {exc}")
     return None
