@@ -591,7 +591,7 @@
 const URL_DATA="../data/death-overs.json",REFRESH=12*60*60*1000;
 const fs=document.querySelector("#data-format"),year=document.querySelector("#year-filter"),first=document.querySelector("#first-over"),last=document.querySelector("#last-over"),button=document.querySelector("#calculate");
 let root=null,active="t20i",timer=null;
-const names={ipl:"IPL",t20i:"T20 INTERNATIONALS",t20:"OTHER MEN'S T20",overall_t20:"OVERALL T20 · IPL + INTERNATIONAL + DOMESTIC",odi:"ODI",test:"TEST (AVAILABLE ARCHIVE)"},fmt=n=>Number(n||0).toLocaleString("en-IN");
+const names={ipl:"IPL",t20i:"T20 INTERNATIONALS",t20:"OTHER MEN'S T20",overall_t20:"OVERALL T20 · IPL + INTERNATIONAL + DOMESTIC",hyderabad:"HYDERABAD · DOMESTIC T20",odi:"ODI",test:"TEST (AVAILABLE ARCHIVE)"},fmt=n=>Number(n||0).toLocaleString("en-IN");
 function rawData(){return root?.formats?.[active]||(active===root?.defaultFormat?root:null)}
 function data(){const d=rawData();if(!d)return null;const y=year?.value||"all";const innings=(d.innings||[]).filter(i=>y==="all"||String(i.date||"").slice(0,4)===y);return {...d,innings,inningsFound:innings.length,matchesFound:new Set(innings.map(i=>i.matchId||i.date+"|"+i.teams)).size}}
 function options(max=20){const a=Number(first.value)||(max===20?16:Math.max(1,max-4)),b=Number(last.value)||max;first.replaceChildren();last.replaceChildren();for(let n=1;n<=max;n++){first.add(new Option(n,n));last.add(new Option(n,n))}first.value=Math.min(a,max);last.value=Math.min(b,max);if(+first.value>+last.value)last.value=first.value}
