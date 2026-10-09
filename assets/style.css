@@ -992,3 +992,47 @@ option{background:#0d1a2c;color:#f4f7fb}
 :root[data-theme-resolved="light"] .settings-theme-options button[aria-pressed="true"] strong{color:#b84219}
 @media(max-width:760px){.settings-section{padding:28px 4vw!important}.settings-theme-options{gap:7px}.settings-theme-options button{padding:12px 10px}.settings-theme-options button strong{font-size:12px}.settings-theme-options button small{font-size:9px}.settings-card h3{font-size:21px}}
 @media(max-width:390px){.settings-theme-options{gap:5px}.settings-theme-options button{padding:10px 7px}.settings-theme-options button>span{font-size:17px}.settings-theme-options button small{font-size:8px}}
+
+
+/* Bowling career: compact home preview and full Stats subview */
+.home-bowling-card{margin:12px 0 24px;padding:16px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:5px}
+.home-bowling-heading,.bowling-subheading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.home-bowling-heading h3,.bowling-subheading h3{margin:5px 0 0;color:var(--white);font:800 clamp(22px,3vw,29px)/1 var(--display)}
+.home-bowling-heading h3 em,.bowling-subheading h3 em{color:var(--cyan);font-style:normal}
+.home-bowling-heading .button{padding:9px 11px;font-size:9px;white-space:nowrap}
+.home-bowling-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:14px}
+.home-bowling-metric{min-width:0;padding:10px;background:var(--panel2);border:1px solid var(--line);border-top:2px solid var(--cyan);border-radius:3px}
+.home-bowling-metric span{display:block;color:var(--muted);font:8px var(--mono);letter-spacing:.05em}
+.home-bowling-metric strong{display:block;margin-top:5px;color:var(--white);font:800 clamp(18px,2.5vw,25px)/1 var(--display);overflow-wrap:anywhere}
+.home-bowling-updated{margin:11px 0 0;color:var(--muted);font:9px/1.5 var(--mono)}
+.bowling-stats-view>.section-heading{margin-bottom:16px}
+.bowling-sourcebar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 12px;margin-bottom:12px;background:var(--panel);border:1px solid var(--line);color:var(--muted);font:9px/1.6 var(--mono)}
+.bowling-sourcebar b{color:var(--cyan)}
+.bowling-format-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.bowling-format-tabs button{padding:9px 12px;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:4px;font:700 10px var(--body);cursor:pointer}
+.bowling-format-tabs button.active{color:#07101f;background:var(--cyan);border-color:var(--cyan)}
+.bowling-summary{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;margin-bottom:22px}
+.bowling-metric{min-width:0;padding:12px;background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--cyan);border-radius:4px}
+.bowling-metric span{display:block;color:var(--muted);font:8px var(--mono);letter-spacing:.04em}
+.bowling-metric strong{display:block;margin-top:7px;color:var(--white);font:800 clamp(18px,2vw,25px)/1.05 var(--display);overflow-wrap:anywhere}
+.bowling-breakdown-wrap,.bowling-innings-wrap{margin:18px 0;padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:5px}
+.bowling-subheading{margin-bottom:12px}
+.bowling-subheading h3{font-size:24px}
+.bowling-subheading>span{color:var(--muted);font:9px var(--mono)}
+.bowling-stats-view .table-wrap{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+.bowling-stats-view table{min-width:950px}
+.bowling-stats-view th,.bowling-stats-view td{white-space:nowrap}
+.bowling-stats-view .bowling-wickets-cell{color:var(--cyan);font-weight:800;text-align:center;background:rgba(124,229,242,.08)}
+.bowling-stats-view .bowling-best-cell{color:var(--cyan);font-weight:800}
+.bowling-stats-view .bowling-card-link{color:var(--orange);font-weight:800}
+.bowling-data-note{margin-top:14px;color:var(--muted);font-size:10px;line-height:1.6}
+:root[data-theme-resolved="light"] .home-bowling-card,:root[data-theme-resolved="light"] .bowling-breakdown-wrap,:root[data-theme-resolved="light"] .bowling-innings-wrap,:root[data-theme-resolved="light"] .bowling-metric{background:#fff;color:#152235;border-color:rgba(18,35,55,.16)}
+:root[data-theme-resolved="light"] .home-bowling-metric{background:#f2f7fa;color:#152235;border-color:rgba(18,35,55,.16)}
+:root[data-theme-resolved="light"] .home-bowling-heading h3,:root[data-theme-resolved="light"] .bowling-subheading h3,:root[data-theme-resolved="light"] .bowling-metric strong{color:#152235}
+:root[data-theme-resolved="light"] .home-bowling-metric span,:root[data-theme-resolved="light"] .bowling-metric span{color:#5d6d82}
+:root[data-theme-resolved="light"] .bowling-format-tabs button{background:#fff;color:#34465c;border-color:rgba(18,35,55,.2)}
+:root[data-theme-resolved="light"] .bowling-format-tabs button.active{background:#087e91;color:#fff;border-color:#087e91}
+:root[data-theme-resolved="light"] .bowling-stats-view .bowling-wickets-cell{background:#e7f5f7;color:#087e91}
+:root[data-theme-resolved="light"] .bowling-stats-view .bowling-best-cell{color:#087e91}
+@media(max-width:760px){.home-bowling-card{padding:12px;margin:10px 0 18px}.home-bowling-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.home-bowling-metric{padding:8px 6px}.home-bowling-metric span{font-size:7px}.home-bowling-metric strong{font-size:18px}.bowling-stats-view{padding:25px 3.5vw!important}.bowling-summary{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.bowling-metric{padding:9px 7px}.bowling-metric strong{font-size:20px}.bowling-breakdown-wrap,.bowling-innings-wrap{padding:9px;margin:12px 0}.bowling-subheading h3{font-size:21px}.bowling-sourcebar{font-size:8px;padding:8px}.bowling-format-tabs button{padding:8px 9px;font-size:9px}}
+@media(max-width:420px){.home-bowling-heading{align-items:flex-start;flex-direction:column}.home-bowling-heading .button{align-self:flex-start}.home-bowling-stats{gap:4px}.home-bowling-metric{padding:7px 5px}.home-bowling-metric strong{font-size:16px}.home-bowling-metric span{font-size:6px}.bowling-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
