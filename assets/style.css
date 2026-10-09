@@ -666,3 +666,34 @@ option{background:#0d1a2c;color:#f4f7fb}
 @keyframes cs-fade-in{from{opacity:0}to{opacity:1}}
 @keyframes cs-rise-in{from{transform:translateY(14px);opacity:.7}to{transform:translateY(0);opacity:1}}
 @media(prefers-reduced-motion:reduce){.cs-overlay,.cs-dialog{animation:none!important}.cs-trigger,.cs-trigger-arrow{transition:none!important}}
+
+
+/* ESPNcricinfo-style player analysis filter, adapted to the fan site's dark UI. */
+.player-analysis-filter{margin:0 0 18px;padding:18px;background:linear-gradient(135deg,#0e1b2d,#091422);border:1px solid var(--line)}
+.player-analysis-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
+.player-analysis-head h3{font:800 clamp(22px,3vw,30px)/1.1 var(--display);margin:8px 0 0}
+.player-analysis-head h3 em{color:var(--orange);font-style:normal}
+.player-analysis-badge{flex:0 0 auto;padding:7px 9px;border:1px solid rgba(124,229,242,.25);color:var(--cyan);font:9px var(--mono)}
+.player-analysis-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.player-analysis-grid label{display:grid;align-content:start;gap:8px;min-width:0;color:#9db1ca;font:9px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.player-analysis-grid input{width:100%;min-width:0;min-height:48px;padding:12px;color:#f4f7fb;background:#07101f;border:1px solid #40536c;border-radius:3px;font:12px var(--mono);color-scheme:dark}
+.player-analysis-grid input:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.player-analysis-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:14px}
+.player-analysis-actions .button{min-height:42px;padding:10px 14px;font-size:10px;cursor:pointer}
+.player-analysis-actions #sg-filter-status{flex:1 1 240px;min-width:0;color:var(--cyan);font:9px/1.7 var(--mono)}
+.player-analysis-help{margin:12px 0 0;color:var(--muted);font-size:10px;line-height:1.7}
+@media(max-width:850px){.player-analysis-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+@media(max-width:560px){
+ .player-analysis-filter{padding:12px;margin-bottom:14px}
+ .player-analysis-head{flex-direction:column;gap:9px;margin-bottom:14px}
+ .player-analysis-head h3{font-size:24px}
+ .player-analysis-badge{font-size:8px}
+ .player-analysis-grid{grid-template-columns:1fr 1fr;gap:9px}
+ .player-analysis-grid label{font-size:8px;gap:6px}
+ .player-analysis-grid input,.player-analysis-grid .cs-trigger{min-height:44px;padding:10px 9px;font-size:10px}
+ .player-analysis-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+ .player-analysis-actions .button{width:100%;padding:10px 8px;font-size:9px}
+ .player-analysis-actions #sg-filter-status{grid-column:1/-1}
+ .player-analysis-help{font-size:9px}
+}
+@media(max-width:360px){.player-analysis-grid{grid-template-columns:1fr}.player-analysis-actions{grid-template-columns:1fr}}
