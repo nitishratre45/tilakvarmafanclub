@@ -130,13 +130,20 @@
       if(appliedFrom||appliedTo)text+=" · date range "+(appliedFrom||"earliest")+" to "+(appliedTo||"latest");
       status.textContent=text+" · "+(sg.updatedAt||"snapshot timestamp unavailable");
     }
-    if(selectedCategory==="batting"){
-      if(type==="ground"||appliedFrom||appliedTo){
+    if(selectedCategory==="batting"||selectedCategory==="innings"||selectedCategory==="highscores"){
+      if(selectedCategory==="innings"||selectedCategory==="highscores"||type==="ground"||appliedFrom||appliedTo){
         const listed=inningsRows(source).sort((a,b)=>parseDate(b.date)-parseDate(a.date));
-        const rowRender=r=>{
-          return "<tr><td>"+esc(r.date)+"</td><td>"+esc(r.score||"—")+"</td><td>"+esc(r.opposition||"—")+"</td><td>"+esc(r.ground||"—")+"</td></tr>";
-        };
-        rowsTable(listed,["DATE","SCORE","OPPOSITION","GROUND"],rowRender,"No verified innings match this ground/date filter.");
+        const rowRender=r=>"<tr>"+
+          '<td class="sg-cell-date">'+esc(r.date)+"</td>"+
+          '<td class="sg-cell-runs">'+esc(r.score||"—")+"</td>"+
+          '<td class="sg-cell-minutes">'+esc(r.minutes??"—")+"</td>"+
+          '<td class="sg-cell-balls">'+esc(r.balls??"—")+"</td>"+
+          "<td>"+esc(r.fours??"—")+"</td><td>"+esc(r.sixes??"—")+"</td>"+
+          "<td>"+esc(r.strikeRate??"—")+"</td><td>"+esc(r.position??"—")+"</td>"+
+          "<td>"+esc(r.dismissal??"—")+"</td><td>"+esc(r.innings??"—")+"</td>"+
+          "<td>"+esc(r.opposition||"—")+"</td><td>"+esc(r.ground||"—")+"</td>"+
+          (r.matchUrl?'<td><a class="sg-scorecard-link" href="'+esc(r.matchUrl)+'" target="_blank" rel="noopener">↗</a></td>':"<td>—</td>")+"</tr>";
+        rowsTable(listed,["DATE","RUNS","MINS","BALLS","4s","6s","SR","POS","DISMISSAL","INNS","OPPOSITION","GROUND","CARD"],rowRender,"No verified innings match this ground/date filter.");
       }else{
         const rowsToShow=breakdownRows(source);
         rowsTable(rowsToShow,["GROUP / FILTER","SPAN","MATCHES","INNINGS","NOT OUT","RUNS","HIGH SCORE","AVERAGE","BALLS","STRIKE RATE","100s","50s","DUCKS","4s","6s"],r=>"<tr>"+
@@ -156,10 +163,17 @@
           rowsTable([],["DATE","SCORE","OPPOSITION","GROUND"],()=>"", "This filter is available as an aggregate Explore breakdown. Switch to Career summary to explore the matching totals.");
         }
       }else{
-        const rowRender=r=>{
-          return "<tr><td>"+esc(r.date)+"</td><td>"+esc(r.score||"—")+"</td><td>"+esc(r.opposition||"—")+"</td><td>"+esc(r.ground||"—")+"</td></tr>";
-        };
-        rowsTable(listed,["DATE","SCORE","OPPOSITION","GROUND"],rowRender,"No verified innings match the selected filters.");
+        const rowRender=r=>"<tr>"+
+          '<td class="sg-cell-date">'+esc(r.date)+"</td>"+
+          '<td class="sg-cell-runs">'+esc(r.score||"—")+"</td>"+
+          '<td class="sg-cell-minutes">'+esc(r.minutes??"—")+"</td>"+
+          '<td class="sg-cell-balls">'+esc(r.balls??"—")+"</td>"+
+          "<td>"+esc(r.fours??"—")+"</td><td>"+esc(r.sixes??"—")+"</td>"+
+          "<td>"+esc(r.strikeRate??"—")+"</td><td>"+esc(r.position??"—")+"</td>"+
+          "<td>"+esc(r.dismissal??"—")+"</td><td>"+esc(r.innings??"—")+"</td>"+
+          "<td>"+esc(r.opposition||"—")+"</td><td>"+esc(r.ground||"—")+"</td>"+
+          (r.matchUrl?'<td><a class="sg-scorecard-link" href="'+esc(r.matchUrl)+'" target="_blank" rel="noopener">↗</a></td>':"<td>—</td>")+"</tr>";
+        rowsTable(listed,["DATE","RUNS","MINS","BALLS","4s","6s","SR","POS","DISMISSAL","INNS","OPPOSITION","GROUND","CARD"],rowRender,"No verified innings match the selected filters.");
       }
     }
     const note=$("statsguru-note");
