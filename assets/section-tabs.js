@@ -2,11 +2,11 @@
   const sections=[...document.querySelectorAll("main > section[id]")];
   const nav=document.getElementById("main-nav");
   const menu=document.querySelector(".menu-toggle");
-  const allowed=new Set(sections.map(s=>s.id));
+  const allowed=new Set(sections.map(s=>s.id).filter(id=>id!=="home-snapshot"));
   function show(id, updateHash){
     if(!allowed.has(id)) id="profile";
     sections.forEach(s=>{
-      const active=s.id===id;
+      const active=s.id===id || (id==="profile" && s.id==="home-snapshot");
       s.hidden=!active;
       s.setAttribute("aria-hidden",String(!active));
     });
