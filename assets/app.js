@@ -42,22 +42,20 @@
     const esc = (value) => String(value ?? "").replace(/[&<>"']/g, ch => ({
       "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
     })[ch]);
-    const featured = data.featuredMatch;
-    const featuredHost = document.getElementById("featured-match");
-    if (featuredHost && featured) {
-      featuredHost.innerHTML = `
-        <article class="featured-match-card">
-          <div class="featured-match-top"><span class="match-pill">LATEST VERIFIED SCORECARD</span><span class="featured-date">${esc(featured.date)} · ${esc(featured.format || "T20I")}</span></div>
-          <div class="featured-match-main"><div><p class="featured-kicker">${esc(featured.venue || "")}</p><h3>${esc(featured.title || "India match")}</h3><p class="featured-result">${esc(featured.result || "")}</p><p class="featured-partnership">${esc(featured.partnership || "")}</p></div><div class="featured-score"><strong>${esc(featured.runs)}<small>${featured.notOut ? "*" : ""}</small></strong><span>RUNS · ${esc(featured.balls)} BALLS</span></div></div>
-          <div class="featured-stats"><span><b>${esc(featured.fours)}</b> FOURS</span><span><b>${esc(featured.sixes)}</b> SIXES</span><span><b>${esc(featured.strikeRate)}</b> STRIKE RATE</span><span><b>${esc(featured.teamScore || "")}</b> INDIA</span></div>
-        </article>`;
+    const rankings = data.iccRankings || {};
+    set("icc-ranking-t20i", rankings.T20I ? "T20I #" + rankings.T20I : "T20I ranking unavailable");
+    set("icc-ranking-odi", rankings.ODI ? "ODI #" + rankings.ODI : "ODI ranking unavailable");
+    set("icc-ranking-updated", rankings.updatedAt ? "Updated " + rankings.updatedAt : "Official ICC ranking snapshot");
+    const recordHost = document.getElementById("icc-record-highlights");
+    if (recordHost) {
+      const records = Array.isArray(data.iccRecords) ? data.iccRecords : [];
+      recordHost.innerHTML = records.length ? records.map(record =>
+        '<article class="official-record-card"><strong>' + esc(record.rank || "—") + '</strong><span>' + esc(record.category || "ICC record") + '</span><h4>' + esc(record.title || "Player record") + '</h4></article>'
+      ).join("") : '<p class="activity-empty">Official record data is temporarily unavailable.</p>';
     }
-    const activityHost = document.getElementById("activity-feed");
-    const activity = Array.isArray(data.activityLog) ? data.activityLog : [];
-    if (activityHost) {
-      activityHost.innerHTML = activity.length ? activity.map((item) => `
-        <article class="activity-item"><div class="activity-content"><div class="activity-meta"><span>${esc(item.category || "UPDATE")}</span><time>${esc(item.date || "")}</time></div><h3>${esc(item.title || "Site update")}</h3><p>${esc(item.description || "")}</p></div></article>`).join("") : '<div class="activity-empty">No updates have been logged yet.</div>';
-    }
+    set("icc-records-updated", data.iccRecordsUpdated ? "Last checked " + data.iccRecordsUpdated : "Official record snapshot");
+
+
   } catch (error) {
     set("data-status", "Source unavailable");
     const tbody = $("#recent-table");
