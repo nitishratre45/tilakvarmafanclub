@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "death-overs.json"
-URL = "https://cricsheet.org/downloads/t20s_male_json.zip"
+URL = "https://cricsheet.org/downloads/t20i_json.zip"
 ALIASES = {"tilakvarma", "tilakverma", "tilakvardhanvarma"}
 
 def norm(value):
@@ -26,7 +26,7 @@ def main():
             try:
                 data = json.loads(archive.read(filename).decode("utf-8-sig"))
                 info = data.get("info", {})
-                if info.get("match_type", "").lower() not in ("t20", "t20i", "international t20"): continue
+                if info.get("match_type", "").lower() not in ("t20", "t20i", "it20", "international t20"): continue
                 if info.get("gender", "").lower() not in ("male", "men", ""): continue
                 if info.get("team_type", "international").lower() != "international": continue
                 players = info.get("players", {})
