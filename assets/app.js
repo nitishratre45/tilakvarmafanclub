@@ -7,7 +7,9 @@
     const response = await fetch("data/site-data.json", { cache: "no-store" });
     if (!response.ok) throw new Error("Data feed unavailable");
     const data = await response.json();
-    const stats = data.careerStats || {};\n    const photo = document.getElementById("tilak-photo");\n    if (photo && data.profile && data.profile.photo) photo.src = data.profile.photo;
+    const stats = data.careerStats || {};
+    const photo = document.getElementById("tilak-photo");
+    if (photo && data.profile && data.profile.photo) photo.src = data.profile.photo;
     document.querySelectorAll("[data-stat]").forEach(el => {
       const key = el.dataset.stat;
       if (stats[key] !== undefined) el.textContent = stats[key];
