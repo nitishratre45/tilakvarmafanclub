@@ -62,6 +62,11 @@ jobs:
                   )
 
           for row in data.get("recentInnings", []):
+              source = str(row.get("source", ""))
+              if "icc-cricket.com/rankings/" in source:
+                  raise SystemExit(
+                      f"Recent innings must link to a match-level source, not an ICC rankings page: {row.get('date')}"
+                  )
               runs, balls, strike_rate = row.get("runs"), row.get("balls"), row.get("strikeRate")
               if isinstance(runs, (int, float)) and isinstance(balls, (int, float)) and balls > 0:
                   calculated = round(runs * 100 / balls, 2)
