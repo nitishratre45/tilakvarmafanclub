@@ -75,10 +75,11 @@ def main():
  if formats.get("overall_t20",{}).get("innings"):
   overall=formats["overall_t20"]
   existing={str(row.get("matchId","")) for row in overall["innings"]}
-  for row in formats.get("ipl",{}).get("innings",[]):
-   clone=dict(row);clone["format"]="overall_t20";clone["matchId"]="ipl:"+str(row.get("matchId",""))
-   if clone["matchId"] not in existing:
-    overall["innings"].append(clone);existing.add(clone["matchId"])
+  for source_key in ("ipl","hyderabad"):
+   for row in formats.get(source_key,{}).get("innings",[]):
+    clone=dict(row);clone["format"]="overall_t20";clone["matchId"]=source_key+":"+str(row.get("matchId",""))
+    if clone["matchId"] not in existing:
+     overall["innings"].append(clone);existing.add(clone["matchId"])
   totals=defaultdict(lambda:{"runs":0,"balls":0,"fours":0,"sixes":0})
   for row in overall["innings"]:
    for over in row.get("overs",[]):
