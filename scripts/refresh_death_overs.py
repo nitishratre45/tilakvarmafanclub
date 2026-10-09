@@ -81,8 +81,10 @@ def main():
  formats={};failures={};cache={}
  for key,cfg in ARCHIVES.items():
   try:
-   if cfg["url"] not in cache:cache[cfg["url"]]=download(cfg["url"])
-   formats[key]=build(cache[cfg["url"]],cfg["kind"])
+   url=cfg["url"] or discover_hyderabad_archive()
+   if url not in cache:cache[url]=download(url)
+   cfg["url"]=url
+   formats[key]=build(cache[url],cfg["kind"])
    print(f'{cfg["label"]}: {formats[key]["matchesFound"]} matches, {formats[key]["inningsFound"]} innings')
   except Exception as e:failures[key]=str(e);print(f'WARNING {key}: {e}')
  # Overall T20 combines the broad men's T20 archive with IPL deliveries.
