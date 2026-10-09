@@ -6,7 +6,21 @@ from datetime import datetime,timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; OUT=ROOT/"data"/"death-overs.json"
 ALIASES={"tilakvarma","tilakverma","tilakvardhanvarma"}
-ARCHIVES={"ipl":{"label":"IPL","url":"https://cricsheet.org/downloads/ipl_json.zip","kind":"ipl"},"t20i":{"label":"T20 Internationals","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20i"},"t20":{"label":"Other Men's T20","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20"},"overall_t20":{"label":"Overall T20 · IPL + T20I + domestic","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"overall_t20"},"odi":{"label":"ODI","url":"https://cricsheet.org/downloads/odis_male_json.zip","kind":"odi"},"test":{"label":"Test (available archive)","url":"https://cricsheet.org/downloads/tests_male_json.zip","kind":"test"},"hyderabad":{"label":"Hyderabad (domestic T20 archive)","url":"https://cricsheet.org/downloads/hyderabad_india_json.zip","kind":"hyderabad"}}
+ARCHIVES={"ipl":{"label":"IPL","url":"https://cricsheet.org/downloads/ipl_json.zip","kind":"ipl"},"t20i":{"label":"T20 Internationals","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20i"},"t20":{"label":"Other Men's T20","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20"},"overall_t20":{"label":"Overall T20 · IPL + T20I + domestic","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"overall_t20"},"odi":{"label":"ODI","url":"https://cricsheet.org/downloads/odis_male_json.zip","kind":"odi"},"test":{"label":"Test (available archive)","url":"https://cricsheet.org/downloads/tests_male_json.zip","kind":"test"},"hyderabad":{"label":"Hyderabad (domestic T20 archive)","url":None,"kind":"hyderabad"}}
+def discover_hyderabad_archive():
+ req=urllib.request.Request("https://cricsheet.org/downloads/",headers={"User-Agent":"TilakVarmaFC/1.1"})
+ with urllib.request.urlopen(req,timeout=45) as r: page=r.read().decode("utf-8","replace")
+ # Inspect the HTML table row that names the Hyderabad (India) club team.
+ for match in re.finditer(r"<tr\\b[^>]*>(.*?)</tr>",page,re.I|re.S):
+  row=match.group(1)
+  text=re.sub(r"<[^>]+>"," ",row)
+  text=re.sub(r"\\s+"," ",text).strip()
+  if "Hyderabad (India)" not in text:continue
+  links=re.findall(r"<a\\b[^>]*href=[\"']([^\"']+)[\"'][^>]*>(.*?)</a>",row,re.I|re.S)
+  for href,label in links:
+   if "json" in re.sub(r"<[^>]+>"," ",label).lower() and ".zip" in href.lower():
+    return href if href.startswith("http") else "https://cricsheet.org"+href
+ raise RuntimeError("Could not resolve Hyderabad (India) JSON archive link from Cricsheet downloads page")
 def norm(v): return re.sub(r"[^a-z]","",str(v).lower())
 def target(v): return norm(v) in ALIASES
 def download(url):
