@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#07101f">
   <meta name="description" content="Tilak Varma T20I over-by-over batting stats and death-overs calculator.">
   <title>Tilak Varma Stats Centre | The 72 Club</title>
-  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="../assets/style.css?v=20261010-lastupdate1">
   <style>
 
     .latest-match-panel{margin:18px 0 0;padding:22px;border:1px solid rgba(255,106,53,.4);background:linear-gradient(120deg,#14283e,#0b1727);border-radius:4px}
@@ -436,6 +436,7 @@
   </style>
 </head>
 <body>
+  <header class="topbar"><a class="brand" href="../"><span class="brand-mark">72</span><span>TILAK VARMA <small>FAN CLUB</small></span></a><button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="death-nav">☰</button><nav id="death-nav"><a href="../">Home</a><a href="../#stats">Stats</a><a href="../#records">Records</a><a href="../#innings">Matches</a><a href="./" aria-current="page">Death-overs</a></nav></header>
   <header class="topbar">
     <a class="brand" href="../" aria-label="Tilak Varma fan club home">
       <span class="brand-mark">72</span>
@@ -501,7 +502,7 @@
           </div>
           <div class="refresh-item">
             <small>LAST DATA UPDATE</small>
-            <strong id="last-refresh">Checking…</strong>
+            <strong id="last-refresh">Last update: Checking…</strong>
           </div>
           <div class="refresh-item">
             <small>NEXT SCHEDULED REFRESH</small>
@@ -612,6 +613,7 @@ async function load(){document.getElementById("feed-status").textContent="CONNEC
 options();fs.addEventListener("change",change);year.addEventListener("change",()=>{snapshot();matches();calculate()});button.addEventListener("click",calculate);first.addEventListener("change",calculate);last.addEventListener("change",calculate);load();
 })();
 </script>
-<script src="../assets/custom-selects.js"></script>
+<script>const dm=document.querySelector(".menu-toggle"),dn=document.querySelector("#death-nav");dm?.addEventListener("click",()=>{const open=dn.classList.toggle("open");dm.setAttribute("aria-expanded",String(open))});dn?.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>dn.classList.remove("open")));</script>
+  <script src="../assets/custom-selects.js"></script>
 </body>
 </html>
