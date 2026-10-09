@@ -132,7 +132,7 @@
     }
     if(selectedCategory==="batting"||selectedCategory==="innings"||selectedCategory==="highscores"){
       if(selectedCategory==="innings"||selectedCategory==="highscores"||type==="ground"||appliedFrom||appliedTo){
-        const listed=inningsRows(source).sort((a,b)=>parseDate(b.date)-parseDate(a.date));
+        const listed=inningsRows(source).sort((a,b)=>selectedCategory==="highscores"?(Number(b.runs)||-1)-(Number(a.runs)||-1):parseDate(b.date)-parseDate(a.date));
         const rowRender=r=>"<tr>"+
           '<td class="sg-cell-date">'+esc(r.date)+"</td>"+
           '<td class="sg-cell-runs">'+esc(r.score||"—")+"</td>"+
