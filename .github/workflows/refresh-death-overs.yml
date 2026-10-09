@@ -72,6 +72,12 @@ jobs:
             echo "Stats JSON is unchanged; nothing to commit."
           else
           git commit -m "chore: refresh Tilak death-overs stats"
-          git pull --rebase origin main
-          git push
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push; then exit 0; fi
+            echo "Push race on attempt $attempt; retrying after refresh."
+            sleep 2
+          done
+          echo "Unable to push refreshed data after 3 attempts."
+          exit 1
           fi
