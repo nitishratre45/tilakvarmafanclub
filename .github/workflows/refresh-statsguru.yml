@@ -30,23 +30,6 @@ jobs:
           python-version: "3.12"
       - name: Validate Statsguru refresh script
         run: python -m py_compile scripts/refresh_statsguru.py
-      - name: Validate refreshed Statsguru snapshot
-        run: |
-          python -m json.tool data/site-data.json > /dev/null
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          data = json.loads(Path("data/site-data.json").read_text(encoding="utf-8"))
-          stats = data.get("statsguru", {})
-          if stats.get("lastAttemptStatus") != "success":
-              raise SystemExit("ERROR: Statsguru refresh was partial; refusing to publish a misleading fresh timestamp. " + repr(stats.get("lastAttemptErrors", [])))
-          formats = stats.get("formats", {})
-          for fmt in ("T20I", "ODI", "T20"):
-              item = formats.get(fmt, {})
-              if not item.get("summary") or not item.get("innings"):
-                  raise SystemExit("ERROR: verified Statsguru summary/innings missing for " + fmt)
-          print("Validated all three Statsguru formats; timestamp:", stats.get("updatedAt"))
-          PY
       - name: Commit updated Statsguru snapshot
         run: |
           git config user.name "github-actions[bot]"
@@ -56,6 +39,7 @@ jobs:
             git reset --hard origin/main
             python -u scripts/refresh_statsguru.py
             python -m json.tool data/site-data.json > /dev/null
+            python -c "import json; from pathlib import Path; d=json.loads(Path('data/site-data.json').read_text(encoding='utf-8')); s=d.get('statsguru', {}); assert s.get('lastAttemptStatus') == 'success', 'Statsguru refresh partial: '+repr(s.get('lastAttemptErrors', [])); formats=s.get('formats', {}); assert all(formats.get(f, {}).get('summary') and formats.get(f, {}).get('innings') for f in ('T20I','ODI','T20')), 'One or more Statsguru formats are missing verified data'; print('Validated all three Statsguru formats; timestamp:', s.get('updatedAt'))"
             git add data/site-data.json
             if git diff --cached --quiet; then
               echo "No Statsguru data changes to commit."
