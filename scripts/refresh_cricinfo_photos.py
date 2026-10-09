@@ -71,7 +71,7 @@ def main():
         # The gallery is a client-rendered page on some deployments; inspect
         # embedded JSON for the same official CDN image URLs as a fallback.
         embedded = re.findall(
-            r'https?:\\?/\\?/(?:img1\\.hscicdn\\.com|images\\.espncricinfo\\.com|a\\.espncdn\\.com)[^"\\\\<> ]+',
+            r'https?:\\?/\\?/(?:img1\.hscicdn\.com|images\.espncricinfo\.com|a\.espncdn\.com)[^"\\\\<> ]+',
             page,
             re.I,
         )
@@ -90,7 +90,7 @@ def main():
             if key in seen:
                 continue
             seen.add(key)
-            title = re.sub(r"\\s+", " ", alt).strip()
+            title = re.sub(r"\s+", " ", alt).strip()
             if not title or len(title) < 4:
                 title = "Tilak Varma · Match photo"
             items.append({
