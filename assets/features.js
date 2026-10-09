@@ -9,7 +9,7 @@ async function init(){
   const a=await fetch("data/site-data.json",{cache:"no-store"}),b=await fetch("data/fan-zone.json",{cache:"no-store"});
   if(!a.ok)throw Error("Stats feed unavailable");
   site=await a.json();fan=b.ok?await b.json():{};rows=Array.isArray(site.recentInnings)?site.recentInnings:[];
-  explorer();milestones();analytics();poll();links();search();
+  explorer();milestones();analytics();poll();links();quiz();
  }catch(e){console.error(e);["explorer-table","milestone-grid","analytics-grid"].forEach(id=>{if($(id))$(id).textContent="Data unavailable. Please try again later.";});}
 }
 function explorer(){
@@ -45,16 +45,29 @@ function poll(){
  $("fan-poll-form").addEventListener("submit",e=>{e.preventDefault();const v=document.querySelector('input[name="fan-poll"]:checked');if(!v)return;counts[v.value]=Number(counts[v.value]||0)+1;try{localStorage.setItem(key,JSON.stringify(counts));}catch{}show();});show();
 }
 function links(){const host=$("fan-links");if(!host)return;host.innerHTML=(fan.gallery||[]).map(x=>'<a class="fan-link" href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer"><span>'+esc(x.type||"RESOURCE")+'</span><strong>'+esc(x.title)+'</strong><small>'+esc(x.description||"Open source")+'</small>↗</a>').join("")||host.innerHTML;}
-function search(){
- const input=$("site-search-input"),host=$("site-search-results");if(!input||!host)return;const docs=[];
- const add=(title,desc,url)=>docs.push({title:String(title||""),desc:String(desc||""),url:url||"#"});
- document.querySelectorAll("main section[id]").forEach(s=>add(s.querySelector("h1,h2,h3")?.textContent||s.id,s.innerText.slice(0,250),"#"+s.id));
- (site.recentInnings||[]).forEach(r=>add(r.date+" "+r.opposition+" "+r.runs+" runs",(r.format||"Cricket")+" · "+r.balls+" balls",r.source||"#innings"));
- Object.entries(site.careerFormats||{}).forEach(([f,s])=>add(f+" career stats",s.runs+" runs · avg "+s.average+" · SR "+s.strikeRate,s.source||"#stats"));
- (site.activityLog||[]).forEach(x=>add(x.title,x.description,x.source));(fan.gallery||[]).forEach(x=>add(x.title,x.description,x.url));
- const run=()=>{const q=input.value.trim().toLowerCase();if(!q){host.innerHTML='<p class="search-hint">Start typing to search this site.</p>';return;}const found=docs.filter(x=>(x.title+" "+x.desc).toLowerCase().includes(q)).slice(0,12);host.innerHTML=found.length?found.map(x=>'<a class="search-result" href="'+esc(x.url)+'"><strong>'+esc(x.title)+'</strong><span>'+esc(x.desc)+'</span></a>').join(""):'<p class="search-hint">No matches. Try a format, opponent or date.</p>';};
- input.addEventListener("input",run);input.addEventListener("keydown",e=>{if(e.key==="Enter"){run();host.querySelector("a")?.focus();}});run();
+function quiz(){
+ const form=$("fan-quiz-form"),host=$("quiz-options");if(!form||!host)return;
+ const questions=Array.isArray(fan.quiz)?fan.quiz.filter(q=>q&&q.question&&Array.isArray(q.options)&&q.options.length):[];
+ const updated=$("fan-zone-updated");if(updated)updated.textContent="Fan Zone content updated: "+(fan.updatedAt||"date not recorded")+" · reload page for the latest version.";
+ if(!questions.length){$("quiz-question").textContent="Quiz is taking a break";host.innerHTML='<p class="feature-note">No quiz questions are available yet.</p>';return;}
+ let index=0,score=0,answered=false;
+ const render=()=>{
+  answered=false;const q=questions[index];$("quiz-question").textContent=q.question;
+  host.innerHTML=q.options.map((option,i)=>'<label class="poll-option"><input type="radio" name="fan-quiz-answer" value="'+i+'" '+(!i?"checked":"")+'><span>'+esc(option)+'</span></label>').join("");
+  const button=form.querySelector('button[type="submit"]');button.textContent="CHECK ANSWER ↗";
+  $("quiz-feedback").textContent="Question "+(index+1)+" of "+questions.length+" · Score "+score;
+ };
+ form.addEventListener("submit",e=>{
+  e.preventDefault();const button=form.querySelector('button[type="submit"]');
+  if(answered){index=(index+1)%questions.length;render();return;}
+  const selected=form.querySelector('input[name="fan-quiz-answer"]:checked');if(!selected)return;
+  const q=questions[index],correct=Number(selected.value)===Number(q.answer);if(correct)score++;
+  answered=true;$("quiz-feedback").textContent=(correct?"Correct! ":"Not quite. ")+(q.explanation||"")+" · Score "+score;
+  button.textContent=index===questions.length-1?"PLAY AGAIN ↻":"NEXT QUESTION ↗";
+ });
+ render();
 }
+
 function drawPoster(){
  const c=$("poster-canvas"),ctx=c?.getContext("2d");if(!ctx)return;const pal={india:["#f7f8fc","#ff9933","#138808","#10264b"],blue:["#eaf4ff","#1765bd","#071b48","#f7fbff"],dark:["#06101f","#ff6a35","#122b49","#f5f7fb"]},p=pal[$("poster-theme").value]||pal.india,[bg,a,b,ink]=p;
  ctx.fillStyle=bg;ctx.fillRect(0,0,c.width,c.height);if($("poster-theme").value==="india"){ctx.fillStyle=a;ctx.fillRect(0,0,c.width,c.height*.23);ctx.fillStyle="#fff";ctx.fillRect(0,c.height*.23,c.width,c.height*.54);ctx.fillStyle=b;ctx.fillRect(0,c.height*.77,c.width,c.height*.23);}else{ctx.fillStyle=a;ctx.fillRect(0,0,c.width,30);ctx.fillStyle=b;ctx.fillRect(0,c.height-32,c.width,32);}
