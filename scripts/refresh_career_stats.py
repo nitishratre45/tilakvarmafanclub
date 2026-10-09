@@ -78,7 +78,7 @@ def main():
    "average":t.get("average",44.08),"strikeRate":t.get("strikeRate",145.06),
    "fifties":t.get("fifties",10),"hundreds":t.get("hundreds",2)}
 
- data["lastUpdated"]=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+ data.setdefault("lastChecked", datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
  FILE.write_text(json.dumps(data,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
  print("Career stats refresh complete; formats:",", ".join(sorted(formats)))
 if __name__=="__main__":main()
