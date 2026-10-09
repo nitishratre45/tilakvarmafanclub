@@ -11,7 +11,7 @@
   function metric(label,value){return '<div class="statsguru-metric"><span>'+esc(label.toUpperCase())+'</span><strong>'+esc(fmt(value))+'</strong></div>';}
   function rowsTable(rows,headers,render,emptyText){
     $("statsguru-thead").innerHTML="<tr>"+headers.map(h=>"<th>"+esc(h)+"</th>").join("")+"</tr>";
-    $("statsguru-tbody").innerHTML=rows.length?rows.map(render).join(""):'<tr><td colspan="'+headers.length+'" class="empty">'+esc(emptyText||"No verified ESPNcricinfo Statsguru rows match these filters.")+'</td></tr>';
+    $("statsguru-tbody").innerHTML=rows.length?rows.map(render).join(""):'<tr><td colspan="'+headers.length+'" class="empty">'+esc(emptyText||"No verified Explore data rows match these filters.")+'</td></tr>';
   }
   function parseDate(value){
     const s=String(value||"").trim();
@@ -117,7 +117,7 @@
     const sg=data.statsguru||{},source=sourceData(),rows=source.innings.slice();
     const stamp=sg.updatedAt||"waiting for first successful source refresh";
     const sourceLink=sg.sourceUrl&&/^https:\/\//i.test(sg.sourceUrl)?' · <a href="'+esc(sg.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Open source ↗</a>':"";
-    $("statsguru-updated").innerHTML=esc("ESPNcricinfo Statsguru · "+stamp)+sourceLink;
+    $("statsguru-updated").innerHTML=esc("Explore · ESPNcricinfo · "+stamp)+sourceLink;
     $("statsguru-format-label").textContent=selectedFormat==="T20"?"T20 · all competitions":selectedFormat;
     $("statsguru-title").textContent=titles[selectedCategory]||"Player analysis";
     $("statsguru-eyebrow").textContent=selectedCategory==="batting"?"CAREER OVERVIEW":selectedCategory.toUpperCase()+" · "+selectedFormat.toUpperCase();
@@ -155,7 +155,7 @@
           $("statsguru-summary").innerHTML=[metric("MATCHES",filteredGroup.matches),metric("INNINGS",filteredGroup.innings),metric("RUNS",filteredGroup.runs),metric("AVERAGE",filteredGroup.average)].join("");
           rowsTable([filteredGroup],["GROUP / FILTER","SPAN","MATCHES","INNINGS","NOT OUT","RUNS","HIGH SCORE","AVERAGE","BALLS","STRIKE RATE","100s","50s","DUCKS","4s","6s"],r=>"<tr>"+[r.group,r.span,r.matches,r.innings,r.notOuts,r.runs,r.highestScore,r.average,r.balls,r.strikeRate,r.hundreds,r.fifties,r.ducks,r.fours,r.sixes].map(v=>"<td>"+esc(fmt(v))+"</td>").join("")+"</tr>");
         }else{
-          rowsTable([],["DATE","SCORE","OPPOSITION","GROUND","SCORECARD"],()=>"", "This filter is available as an aggregate Statsguru breakdown. Switch to Career summary to explore the matching totals.");
+          rowsTable([],["DATE","SCORE","OPPOSITION","GROUND","SCORECARD"],()=>"", "This filter is available as an aggregate Explore breakdown. Switch to Career summary to explore the matching totals.");
         }
       }else{
         const rowRender=r=>{
@@ -166,7 +166,7 @@
       }
     }
     const note=$("statsguru-note");
-    note.textContent="Source: ESPNcricinfo Statsguru. Saved snapshot: "+(sg.updatedAt||"timestamp unavailable")+". Scheduled refresh: every 24 hours. If ESPNcricinfo is unavailable, the last successful snapshot is preserved; missing figures are not invented.";
+    note.textContent="Explore data source: ESPNcricinfo. Saved snapshot: "+(sg.updatedAt||"timestamp unavailable")+". Scheduled refresh: every 24 hours. If ESPNcricinfo is unavailable, the last successful snapshot is preserved; missing figures are not invented.";
   }
   function resetFilters(){
     $("sg-filter-type").value="all";appliedFrom="";appliedTo="";
