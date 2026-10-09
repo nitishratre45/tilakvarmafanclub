@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Refresh Tilak Varma format-wise career stats from ESPNcricinfo/ICC public pages.
-Preserves last-known values when scraping is blocked or the page format changes."""
+"""Refresh Tilak Varma format-wise career stats from ESPNcricinfo.
+Cricbuzz is a fallback for all-T20 totals only; preserve verified values on source failures."""
 import html, json, re, urllib.request
 from datetime import datetime, timezone
 from html.parser import HTMLParser
@@ -9,7 +9,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 FILE = ROOT / "data" / "site-data.json"
 ESPN = "https://www.espncricinfo.com/cricketers/tilak-varma-1170265"
-ICC = "https://www.icc-cricket.com/rankings/70761/tilak-varma"
 CRICBUZZ = "https://www.cricbuzz.com/profiles/14504/tilak-varma/all-matches/batting"
 HEAD = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36 TilakVarmaFC/1.0"
