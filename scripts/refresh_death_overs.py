@@ -22,7 +22,7 @@ def classify(info):
  return None
 def parse_match(data,filename,key,totals):
  info=data.get("info",{})
- if classify(info)!=key:return [],None
+ if key!="ipl" and classify(info)!=key:return [],None
  players=info.get("players",{});teams=info.get("teams",[])
  if not any(target(p) for group in players.values() for p in group):return [],None
  mid=Path(filename).stem;date=str((info.get("dates") or [""])[0]);venue=info.get("venue","");rows=[]
