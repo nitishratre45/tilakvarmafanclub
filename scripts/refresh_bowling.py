@@ -15,7 +15,7 @@ from refresh_statsguru import clean, number, parse_tables, cell_text, fetch, sta
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "data" / "site-data.json"
-FORMATS = {"T20I": 3, "ODI": 2, "T20": 6}
+FORMATS = {"T20I": 3, "ODI": 2, "List A": 5, "FC": 4, "T20": 6}
 
 def stamp():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
@@ -195,6 +195,32 @@ def scrape(fmt, match_class):
     summary = parse_summary(innings_page)
     innings = parse_innings(innings_page, fmt)
     breakdown = parse_breakdown(innings_page)
+
+    # Statsguru paginates long match lists. Collect all available pages (up to
+    # 20) and deduplicate rows so the site shows more than just page one.
+    seen = {
+        (row.get("date"), row.get("opposition"), row.get("ground"), row.get("innings"))
+        for row in innings
+    }
+    for page_number in range(2, 21):
+        try:
+            page = fetch(stats_url(match_class, "innings", page_number, "bowling"))
+        except Exception as exc:
+            print(fmt + ": pagination stopped at page " + str(page_number - 1) + ":", exc)
+            break
+        page_rows = parse_innings(page, fmt)
+        if not page_rows:
+            break
+        fresh = []
+        for row in page_rows:
+            key = (row.get("date"), row.get("opposition"), row.get("ground"), row.get("innings"))
+            if key not in seen:
+                seen.add(key)
+                fresh.append(row)
+        if not fresh:
+            break
+        innings.extend(fresh)
+
     if not summary or (not innings and fmt != "ODI") or len(breakdown) <= 1:
         summary_page = fetch(stats_url(match_class, None, 1, "bowling"))
         summary = parse_summary(summary_page) or summary
@@ -209,7 +235,6 @@ def scrape(fmt, match_class):
             "inningsCount": len(innings), "source": "ESPNcricinfo Statsguru",
             "careerUrl": stats_url(match_class, None, 1, "bowling"),
             "inningsUrl": stats_url(match_class, "innings", 1, "bowling")}
-
 def main():
     if not DATA_FILE.exists():
         raise SystemExit("Missing data/site-data.json")
