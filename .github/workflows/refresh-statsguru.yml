@@ -1,0 +1,57 @@
+name: Refresh ESPNcricinfo Statsguru
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 0 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/refresh_statsguru.py"
+      - ".github/workflows/refresh-statsguru.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-espncricinfo-statsguru
+  cancel-in-progress: false
+
+jobs:
+  refresh-statsguru:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate Statsguru refresh script
+        run: python -m py_compile scripts/refresh_statsguru.py
+      - name: Refresh official ESPNcricinfo batting data
+        run: python -u scripts/refresh_statsguru.py
+      - name: Validate refreshed JSON
+        run: python -m json.tool data/site-data.json > /dev/null
+      - name: Commit updated Statsguru snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            python -u scripts/refresh_statsguru.py
+            python -m json.tool data/site-data.json > /dev/null
+            git add data/site-data.json
+            if git diff --cached --quiet; then
+              echo "No Statsguru data changes to commit."
+              exit 0
+            fi
+            git commit -m "chore: refresh ESPNcricinfo Statsguru batting data"
+            if git push origin HEAD:main; then exit 0; fi
+            echo "Concurrent update on attempt $attempt; retrying from latest main."
+            sleep 2
+          done
+          echo "Unable to publish Statsguru data after 3 attempts."
+          exit 1
