@@ -833,3 +833,49 @@ option{background:#0d1a2c;color:#f4f7fb}
 .gallery-live-fallback p{margin:7px 0 12px;color:var(--muted);font-size:11px;line-height:1.6}
 .gallery-live-fallback button{padding:10px 13px;color:#101522;background:var(--orange);border:0;border-radius:3px;font:800 10px var(--body);cursor:pointer}
 @media(max-width:560px){.gallery-live-fallback{align-items:flex-start;gap:11px;padding:13px}.gallery-fallback-mark{flex-basis:48px;width:48px;height:48px;font-size:25px}.gallery-live-fallback strong{font-size:18px}.gallery-live-fallback p{font-size:10px}}
+
+/* Explore: compact ESPNcricinfo-style batting analysis */
+.statsguru-section{padding-top:42px!important;padding-bottom:48px!important}
+.statsguru-sourcebar{padding:8px 12px;margin-bottom:10px;font-size:9px}
+.statsguru-format-tabs{padding-bottom:9px;gap:5px}
+.statsguru-format-tabs button{padding:8px 11px;font-size:10px}
+.statsguru-category-grid{margin-bottom:10px;gap:6px}
+.statsguru-category-grid button{min-height:36px;padding:8px 10px;font-size:10px}
+.statsguru-panel{padding:14px}
+.statsguru-panel-head{margin-bottom:10px}
+.statsguru-panel-head h3{font-size:clamp(20px,2.5vw,27px);margin-top:5px}
+.statsguru-format-pill{padding:5px 8px;font-size:9px}
+.statsguru-summary{grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;margin-bottom:12px}
+.statsguru-metric{padding:8px 9px;border-top-width:2px!important}
+.statsguru-metric span{font-size:8px;letter-spacing:.045em}
+.statsguru-metric strong{font-size:clamp(17px,2vw,23px);margin-top:4px;line-height:1.05}
+.statsguru-panel .table-wrap{max-width:100%;overscroll-behavior-x:contain}
+.statsguru-panel .table-wrap table{min-width:1020px}
+.statsguru-panel .table-wrap th{padding:9px 10px;font-size:9px;white-space:nowrap}
+.statsguru-panel .table-wrap td{padding:9px 10px;font-size:11px;white-space:nowrap}
+.statsguru-panel .table-wrap tbody tr:nth-child(even){background:rgba(255,255,255,.018)}
+.statsguru-panel .table-wrap .sg-cell-date{color:#d4e3f8;font:10px var(--mono);background:rgba(124,229,242,.065)}
+.statsguru-panel .table-wrap .sg-cell-runs{color:#101522;background:var(--orange);font:800 13px var(--display);text-align:center;min-width:54px}
+.statsguru-panel .table-wrap .sg-cell-minutes,.statsguru-panel .table-wrap .sg-cell-balls{color:var(--cyan);font:11px var(--mono);text-align:center;background:rgba(124,229,242,.045)}
+.statsguru-panel .table-wrap .sg-scorecard-link{color:var(--orange);font-weight:800}
+.statsguru-note{font-size:10px;margin-top:10px}
+.statsguru-summary .statsguru-metric:nth-child(4){border-top-color:var(--orange)!important}
+.statsguru-summary .statsguru-metric:nth-child(5){border-top-color:var(--cyan)!important}
+.statsguru-summary .statsguru-metric:nth-child(6){border-top-color:var(--cyan)!important}
+@media(max-width:760px){
+ .statsguru-section{padding:28px 3.5vw!important}
+ .statsguru-sourcebar{padding:7px 9px;font-size:8px;gap:6px}
+ .statsguru-format-tabs{gap:4px;padding-bottom:7px}
+ .statsguru-format-tabs button{padding:8px 9px;font-size:9px}
+ .statsguru-category-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+ .statsguru-category-grid button{font-size:9px;padding:7px 5px;min-height:34px;text-align:center}
+ .statsguru-panel{padding:9px}
+ .statsguru-panel-head h3{font-size:22px}
+ .statsguru-summary{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+ .statsguru-metric{padding:7px 6px}
+ .statsguru-metric span{font-size:7px;letter-spacing:0}
+ .statsguru-metric strong{font-size:19px;margin-top:4px}
+ .statsguru-panel .table-wrap table{min-width:990px}
+ .statsguru-panel .table-wrap th{padding:8px;font-size:8px}
+ .statsguru-panel .table-wrap td{padding:8px;font-size:10px}
+}
