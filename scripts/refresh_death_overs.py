@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_FILE = ROOT / "data" / "death-overs.json"
-SOURCE_URL = "https://cricsheet.org/downloads/t20i_json.zip"
+SOURCE_URL = "https://cricsheet.org/downloads/t20s_male_json.zip"
 
 PLAYER_ALIASES = {
     "tilakvarma",
