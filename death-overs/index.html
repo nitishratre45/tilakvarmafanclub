@@ -242,6 +242,9 @@
     }
 
     .calculator-controls select {
+      color-scheme: dark;
+      appearance: none;
+      -webkit-appearance: none;
       width: 100%;
       min-height: 48px;
       padding: 12px 14px;
@@ -251,6 +254,8 @@
       border-radius: 2px;
       font: 12px var(--mono);
     }
+
+    .calculator-controls select option { background: #0d1a2c; color: #f4f7fb; }
 
     .calculator-controls select:focus-visible,
     .calculate-button:focus-visible {
