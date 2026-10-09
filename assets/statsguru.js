@@ -15,7 +15,17 @@
     const formats=sg&&sg.formats||{};
     if(selectedFormat==="All"){
       const all=["T20","ODI"].flatMap(fmt=>(formats[fmt]&&Array.isArray(formats[fmt].innings)?formats[fmt].innings:[]));
-      return {summary:null,innings:all,formats};
+      const parts=["T20","ODI"].map(fmt=>formats[fmt]&&formats[fmt].summary).filter(Boolean);
+      const sum=key=>parts.reduce((n,part)=>n+(typeof part[key]==="number"?part[key]:0),0);
+      const runs=sum("runs"),balls=sum("balls"),innings=sum("innings"),notOuts=sum("notOuts");
+      const best=parts.map(part=>({value:Number.parseInt(String(part.highestScore||"").replace(/[^0-9]/g,""),10)||0,text:part.highestScore})).sort((a,b)=>b.value-a.value)[0];
+      const summary=parts.length?{
+        matches:sum("matches"),innings,notOuts,runs,highestScore:best?.text||"—",
+        average:innings>notOuts?Math.round((runs/(innings-notOuts))*100)/100:null,
+        balls,strikeRate:balls?Math.round((runs*100/balls)*100)/100:null,
+        hundreds:sum("hundreds"),fifties:sum("fifties"),fours:sum("fours"),sixes:sum("sixes")
+      }:null;
+      return {summary,innings:all,formats};
     }
     const entry=formats[selectedFormat]||{};
     return {summary:entry.summary||null,innings:Array.isArray(entry.innings)?entry.innings:[],formats};
