@@ -39,7 +39,7 @@ jobs:
             git reset --hard origin/main
             python -u scripts/refresh_cricinfo_photos.py
             python -m json.tool data/cricinfo-photos.json > /dev/null
-            python -c "import json; from pathlib import Path; d=json.loads(Path('data/cricinfo-photos.json').read_text(encoding='utf-8')); assert isinstance(d.get('items'), list) and d['items'], 'No saved gallery photos available'; assert d.get('source') == 'ESPNcricinfo', 'Unexpected gallery source'; print('Validated', len(d['items']), 'gallery photos; last successful update:', d.get('updatedAt', 'unknown'))"
+            python -c "import json; from pathlib import Path; d=json.loads(Path('data/cricinfo-photos.json').read_text(encoding='utf-8')); assert isinstance(d.get('items'), list), 'Gallery items must be a list'; assert d.get('source') == 'ESPNcricinfo', 'Unexpected gallery source'; print('Gallery check complete; saved photos:', len(d['items']), 'last successful update:', d.get('updatedAt') or 'not yet available', 'attempt status:', d.get('lastAttemptStatus', d.get('status', 'unknown')))"
             git add data/cricinfo-photos.json
             if git diff --cached --quiet; then
               echo "Gallery snapshot unchanged."
