@@ -325,3 +325,23 @@ body,.hero,.profile-section,.stats-section,.feature-section,.records-section,.fa
 .fan-zone-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:900px){.fan-zone-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.fan-zone-grid{grid-template-columns:1fr}}
+
+/* The 72 Dashboard + Moments Archive */
+.upgrade-section{border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(18,34,56,.35),transparent)}
+.upgrade-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.upgrade-card,.moment-card{border:1px solid var(--line);background:linear-gradient(145deg,#102139,#0b1728);padding:22px;min-width:0}
+.upgrade-card .feature-eyebrow,.moment-card .feature-eyebrow{font:10px var(--mono);letter-spacing:.1em;color:var(--cyan)}
+.upgrade-card h3,.moment-card h3{font:700 25px/1.1 var(--display);margin:14px 0 8px}
+.upgrade-card strong{font:800 38px var(--display);color:var(--orange);display:block;margin:10px 0}
+.upgrade-card p,.moment-card p{font-size:12px;line-height:1.8;color:var(--muted)}
+.dashboard-foot,.moments-tools{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-top:22px;flex-wrap:wrap}
+.dashboard-foot span{font:10px var(--mono);color:var(--muted)}
+.moments-tools label{display:flex;gap:12px;align-items:center;color:var(--muted);font-size:12px;flex:1;max-width:520px}
+.moments-tools input{background:var(--panel);border:1px solid var(--line);color:var(--white);padding:12px 14px;min-width:0;flex:1;font:12px var(--body)}
+.moments-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+.moment-score{font:800 48px/.95 var(--display);color:var(--orange);margin:18px 0 8px}
+.moment-card .moment-meta{font:10px var(--mono);color:var(--muted)}
+.moment-card .moment-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.moment-tags span{font:9px var(--mono);padding:6px 8px;border:1px solid var(--line);color:#d9e4f3}
+@media(max-width:900px){.upgrade-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.moments-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.upgrade-grid,.moments-grid{grid-template-columns:1fr}.moments-tools label{width:100%;max-width:none;align-items:flex-start;flex-direction:column}.moments-tools input{width:100%;min-height:44px}.upgrade-card,.moment-card{padding:19px}}
