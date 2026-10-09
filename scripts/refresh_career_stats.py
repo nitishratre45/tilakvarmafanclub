@@ -60,7 +60,7 @@ def main():
  formats=data.setdefault("careerFormats",{})
  scraped=parse(ESPN)
  # ICC page has a format summary; merge only rows parsed as a proper table.
- scraped.update(parse(ICC))
+ # ICC international figures are preloaded in the JSON fallback; only use ESPN table parsing here.
  if scraped:
   formats.update(scraped)
   data["careerSource"]=ESPN
