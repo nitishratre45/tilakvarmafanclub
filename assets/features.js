@@ -48,7 +48,7 @@ function links(){const host=$("fan-links");if(!host)return;host.innerHTML=(fan.g
 function quiz(){
  const form=$("fan-quiz-form"),host=$("quiz-options");if(!form||!host)return;
  const questions=Array.isArray(fan.quiz)?fan.quiz.filter(q=>q&&q.question&&Array.isArray(q.options)&&q.options.length):[];
- const updated=$("fan-zone-updated");if(updated)updated.textContent="Fan Zone content updated: "+(fan.updatedAt||"date not recorded")+" · reload page for the latest version.";
+ const updated=$("fan-zone-updated");if(updated)updated.textContent="Fan content: "+(fan.updatedAt||"date not recorded")+" · Stats last checked: "+(site.lastUpdated||"not recorded")+" · Automatic refresh runs every 12 hours.";
  if(!questions.length){$("quiz-question").textContent="Quiz is taking a break";host.innerHTML='<p class="feature-note">No quiz questions are available yet.</p>';return;}
  let index=0,score=0,answered=false;
  const render=()=>{
