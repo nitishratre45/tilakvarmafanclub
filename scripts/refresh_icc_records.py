@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+"""Refresh ICC player rankings and record highlights without replacing saved data on source failures."""
+import html
+import json
+import re
+import urllib.request
+from datetime import datetime, timedelta, timezone
+from html.parser import HTMLParser
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+FILE = ROOT / "data" / "site-data.json"
+ICC_URL = "https://www.icc-cricket.com/rankings/70761/tilak-varma"
+HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClub/1.0; public-data-refresh)"}
+
+class TextParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.parts = []
+    def handle_data(self, data):
+        self.parts.append(data)
+
+def utc_now():
+    return datetime.now(timezone.utc)
+
+def stamp(value=None):
+    return (value or utc_now()).strftime("%Y-%m-%d %H:%M UTC")
+
+def parse_stamp(value):
+    if not value:
+        return None
+    try:
+        return datetime.strptime(value, "%Y-%m-%d %H:%M UTC").replace(tzinfo=timezone.utc)
+    except (TypeError, ValueError):
+        return None
+
+def fetch_page():
+    request = urllib.request.Request(ICC_URL, headers=HEADERS)
+    with urllib.request.urlopen(request, timeout=45) as response:
+        raw = response.read().decode("utf-8", "replace")
+    parser = TextParser()
+    parser.feed(raw)
+    text = re.sub(r"\s+", " ", html.unescape(" ".join(parser.parts))).strip()
+    return raw, text
+
+def extract_rankings(text):
+    match = re.search(r"ICC Rankings(.{0,700}?)See More Rankings", text, re.I)
+    section = match.group(1) if match else text[:2500]
+    found = re.search(r"\bODI\s+(\d+)(?:\s+\d+)?\s+T20I\s+(\d+)\b", section, re.I)
+    if not found:
+        return None
+    return {"ODI": int(found.group(1)), "T20I": int(found.group(2))}
+
+def extract_records(text):
+    specs = [
+        ("T20I Matches", "Fastest players to score 1,000 runs in T20 cricket",
+         r"(\d+)\s*(?:st|nd|rd|th)\s+T20I Matches Fastest Players to Score 1000 In T20"),
+        ("T20I Matches", "Youngest player to score a T20I hundred",
+         r"(\d+)\s*(?:st|nd|rd|th)\s+T20I Matches Youngest Player to Score T20 Hundred"),
+        ("Youth ODI Matches", "Youngest player to score a Youth ODI hundred",
+         r"(\d+)\s*(?:st|nd|rd|th)\s+Youth ODI Matches Youngest Player to Score YouthODI Hundred"),
+    ]
+    records = []
+    for category, title, pattern in specs:
+        match = re.search(pattern, text, re.I)
+        if match:
+            rank_number = int(match.group(1))
+            suffix = "th" if 10 <= rank_number % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(rank_number % 10, "th")
+            records.append({"rank": str(rank_number) + suffix, "category": category, "title": title})
+    return records
+
+def main():
+    data = json.loads(FILE.read_text(encoding="utf-8"))
+    now = utc_now()
+    try:
+        _, text = fetch_page()
+    except Exception as exc:
+        print("ICC profile unavailable; retaining saved ranking and records:", exc)
+        return
+
+    existing = data.get("iccRankings") or {}
+    rank_time = parse_stamp(existing.get("updatedAt"))
+    ranking_due = not rank_time or now - rank_time >= timedelta(hours=48)
+    if ranking_due:
+        ranking = extract_rankings(text)
+        if ranking:
+            data["iccRankings"] = {
+                **ranking,
+                "source": ICC_URL,
+                "updatedAt": stamp(now),
+            }
+            print("Updated ICC rankings:", ranking)
+        else:
+            print("Could not parse ICC rankings; saved ranking values retained.")
+    else:
+        print("ICC rankings are still within their 48-hour refresh window.")
+
+    records = extract_records(text)
+    data["iccRecordsCheckedAt"] = stamp(now)
+    if records:
+        data["iccRecords"] = records
+        data["iccRecordsUpdated"] = stamp(now)
+        print("Updated ICC record highlights:", len(records))
+    else:
+        print("Could not parse ICC record highlights; saved records retained.")
+
+    FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+if __name__ == "__main__":
+    main()
