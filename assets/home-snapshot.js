@@ -41,9 +41,9 @@
       if ($("home-data-updated")) $("home-data-updated").textContent = data.lastUpdated || "Timestamp unavailable";
       const rows = Array.isArray(data.recentInnings) ? data.recentInnings.slice(0, 4) : [];
       if (inningsHost) inningsHost.innerHTML = rows.length ? rows.map(row => {
-        const url = safeUrl(row.source);
+        
         const runs = row.runs === "DNB" ? "DNB" : (row.runs ?? "—");
-        return '<article class="home-innings-row"><div class="home-innings-score"><strong>' + esc(runs) + '</strong><span>' + esc(row.balls === "—" || row.balls == null ? "balls —" : row.balls + " balls") + '</span></div><div class="home-innings-detail"><strong>' + esc(row.opposition || "Opponent unavailable") + '</strong><span>' + esc(row.date || "Date unavailable") + ' · ' + esc(row.format || "Cricket") + '</span><small>' + esc(row.result || row.venue || "") + '</small></div>' + (url ? '<a class="home-row-source" href="' + url + '" target="_blank" rel="noopener noreferrer" aria-label="Open scorecard source">↗</a>' : '') + '</article>';
+        return '<article class="home-innings-row"><div class="home-innings-score"><strong>' + esc(runs) + '</strong><span>' + esc(row.balls === "—" || row.balls == null ? "balls —" : row.balls + " balls") + '</span></div><div class="home-innings-detail"><strong>' + esc(row.opposition || "Opponent unavailable") + '</strong><span>' + esc(row.date || "Date unavailable") + ' · ' + esc(row.format || "Cricket") + '</span><small>' + esc(row.result || row.venue || "") + '</small></div></article>';
       }).join("") : '<p class="activity-empty">No recent innings are available yet.</p>';
     } catch (error) {
       if (statsHost) statsHost.innerHTML = '<p class="activity-empty">Career snapshot temporarily unavailable.</p>';
@@ -56,7 +56,7 @@
       const items = Array.isArray(data.items) ? data.items.slice(0, 2) : [];
       if (newsHost) newsHost.innerHTML = items.length ? items.map(item => {
         const url = safeUrl(item.url);
-        return '<article class="home-news-item"><span>' + esc(item.publisher || "Cricket news") + ' · ' + esc(item.published || "Latest") + '</span><h4>' + (url ? '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + esc(item.title) + '</a>' : esc(item.title)) + '</h4><p>' + esc(item.summary || "") + '</p></article>';
+        return '<article class="home-news-item"><span>' + esc(item.publisher || "Cricket news") + ' · ' + esc(item.published || "Latest") + '</span><h4>' + (url ? '<a href="' + url + '" data-article-url="' + url + '" data-article-title="' + esc(item.title) + '">' + esc(item.title) + '</a>' : esc(item.title)) + '</h4><p>' + esc(item.summary || "") + '</p></article>';
       }).join("") : '<p class="activity-empty">No recent stories available. Check Photos & News for more.</p>';
     } catch (error) {
       if (newsHost) newsHost.innerHTML = '<p class="activity-empty">Latest news is temporarily unavailable.</p>';
