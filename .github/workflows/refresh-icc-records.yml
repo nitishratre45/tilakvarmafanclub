@@ -1,0 +1,47 @@
+name: Refresh ICC rankings and record highlights
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "37 2 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/refresh_icc_records.py"
+      - ".github/workflows/refresh-icc-records.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-icc-player-records
+  cancel-in-progress: false
+
+jobs:
+  refresh-icc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Refresh official ICC rankings and record highlights
+        run: python -u scripts/refresh_icc_records.py
+      - name: Validate saved site data
+        run: |
+          python -m json.tool data/site-data.json > /dev/null
+          python -m py_compile scripts/refresh_icc_records.py
+      - name: Commit refreshed ICC data when changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/site-data.json
+          if git diff --cached --quiet; then
+            echo "No ICC data changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: refresh ICC rankings and record highlights"
+          git push origin HEAD:main
