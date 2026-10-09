@@ -73,15 +73,15 @@ def extract_rank_from_table(url):
 def extract_records(text):
     specs = [
         ("T20I Matches", "Fastest players to score 1,000 runs in T20 cricket",
-         r"(\d+)\s*(?:st|nd|rd|th)\s+T20I Matches Fastest Players to Score 1000 In T20"),
+         r"(\d+)\s*(?:st|nd|rd|th)\s+T20I\s+Matches.{0,180}?Fastest.{0,120}?(?:1,?000)"),
         ("T20I Matches", "Youngest player to score a T20I hundred",
-         r"(\d+)\s*(?:st|nd|rd|th)\s+T20I Matches Youngest Player to Score T20 Hundred"),
+         r"(\d+)\s*(?:st|nd|rd|th)\s+T20I\s+Matches.{0,180}?Youngest.{0,120}?T20\s+Hundred"),
         ("Youth ODI Matches", "Youngest player to score a Youth ODI hundred",
-         r"(\d+)\s*(?:st|nd|rd|th)\s+Youth ODI Matches Youngest Player to Score YouthODI Hundred"),
+         r"(\d+)\s*(?:st|nd|rd|th)\s+Youth\s+ODI\s+Matches.{0,180}?Youngest.{0,120}?Youth.?ODI\s+Hundred"),
     ]
     records = []
     for category, title, pattern in specs:
-        match = re.search(pattern, text, re.I)
+        match = re.search(pattern, text, re.I | re.S)
         if match:
             rank_number = int(match.group(1))
             suffix = "th" if 10 <= rank_number % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(rank_number % 10, "th")
@@ -127,7 +127,9 @@ def main():
         data["iccRecordsUpdated"] = stamp(now)
         print("Updated ICC record highlights:", len(records))
     else:
-        print("Could not parse ICC record highlights; saved records retained.")
+        at = text.casefold().find("records")
+        print("Could not parse ICC record highlights; saved records retained. Record text sample:",
+              text[max(0, at - 80):at + 900] if at >= 0 else text[:500])
 
     FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
