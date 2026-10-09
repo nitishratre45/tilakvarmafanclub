@@ -27,9 +27,11 @@
       const sr = row.strikeRate ?? (row.balls ? (row.runs * 100 / row.balls).toFixed(2) : "—");
       return "<tr>" + [row.date, row.opposition, row.runs, row.balls, row.fours, row.sixes, sr].map(v => "<td>" + (v ?? "—") + "</td>").join("") + "</tr>";
     }).join("") : '<tr><td colspan="7" class="empty">No recent innings have been loaded yet. See the Cricsheet source and refresh workflow.</td></tr>';
-    set("recent-runs", rows.reduce((sum, r) => sum + Number(r.runs || 0), 0));
+    set("recent-runs", rows.reduce((sum, r) => sum + (typeof r.runs === "number" && Number.isFinite(r.runs) ? r.runs : 0), 0));
     set("recent-count", rows.length);
-    set("data-status", rows.length ? "Available" : "Awaiting feed");
+    const lastChecked = Date.parse(data.lastUpdated || "");
+    const stale = !Number.isFinite(lastChecked) || (Date.now() - lastChecked) > 36 * 60 * 60 * 1000;
+    set("data-status", !rows.length ? "Awaiting feed" : stale ? "Stale · last check overdue" : "Available · auto-refresh enabled");
     set("recent-updated", data.recentUpdated || "No refresh timestamp yet");
 
     const esc = (value) => String(value ?? "").replace(/[&<>"']/g, ch => ({
@@ -48,8 +50,8 @@
     const activityHost = document.getElementById("activity-feed");
     const activity = Array.isArray(data.activityLog) ? data.activityLog : [];
     if (activityHost) {
-      activityHost.innerHTML = activity.length ? activity.map((item, index) => `
-        <article class="activity-item"><span class="activity-index">${String(index + 1).padStart(2, "0")}</span><div class="activity-content"><div class="activity-meta"><span>${esc(item.category || "UPDATE")}</span><time>${esc(item.date || "")}</time></div><h3>${esc(item.title || "Site update")}</h3><p>${esc(item.description || "")}</p></div></article>`).join("") : '<div class="activity-empty">No updates have been logged yet.</div>';
+      activityHost.innerHTML = activity.length ? activity.map((item) => `
+        <article class="activity-item"><div class="activity-content"><div class="activity-meta"><span>${esc(item.category || "UPDATE")}</span><time>${esc(item.date || "")}</time></div><h3>${esc(item.title || "Site update")}</h3><p>${esc(item.description || "")}</p></div></article>`).join("") : '<div class="activity-empty">No updates have been logged yet.</div>';
     }
   } catch (error) {
     set("data-status", "Source unavailable");
