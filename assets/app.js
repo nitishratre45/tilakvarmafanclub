@@ -24,7 +24,7 @@
     }
     const src = $("#career-source");
     if (src) src.remove();
-    set("career-updated", "Snapshot timestamp: " + (data.lastUpdated || "not recorded"));
+    set("career-updated", "Last update: " + (data.lastUpdated || "time unavailable"));
     const rows = data.recentInnings || [];
     const tbody = $("#recent-table");
     if (tbody) tbody.innerHTML = rows.length ? rows.map(row => {
@@ -37,7 +37,7 @@
     const stale = !Number.isFinite(lastChecked) || (Date.now() - lastChecked) > 36 * 60 * 60 * 1000;
     const refreshFailed = data.lastRefreshStatus === "source-unavailable";
     set("data-status", !rows.length ? "Awaiting feed" : refreshFailed ? "Saved data retained · retry scheduled" : stale ? "Stale · last check overdue" : "Available · auto-refresh enabled");
-    set("recent-updated", data.recentUpdated || "No refresh timestamp yet");
+    set("recent-updated", "Last update: " + (data.recentUpdated || data.lastUpdated || "time unavailable"));
 
     const esc = (value) => String(value ?? "").replace(/[&<>"']/g, ch => ({
       "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
