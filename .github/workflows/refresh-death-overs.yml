@@ -1,0 +1,76 @@
+name: Refresh Tilak death-overs stats
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 */12 * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - "scripts/refresh_death_overs.py"
+      - ".github/workflows/refresh-death-overs.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-death-overs
+  cancel-in-progress: false
+
+jobs:
+  refresh-death-overs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download archive and build stats JSON
+        run: |
+          python -u scripts/refresh_death_overs.py
+
+      - name: Validate generated data
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("data/death-overs.json")
+          if not path.exists():
+              raise SystemExit("ERROR: data/death-overs.json was not generated")
+
+          data = json.loads(path.read_text(encoding="utf-8"))
+          print("Updated at:", data.get("updatedAt"))
+          print("Matches found:", data.get("matchesFound"))
+          print("Innings found:", data.get("inningsFound"))
+          print("Read errors:", data.get("readErrors"))
+
+          if not data.get("updatedAt"):
+              raise SystemExit("ERROR: generated data has no update timestamp")
+          if not isinstance(data.get("innings"), list):
+              raise SystemExit("ERROR: innings must be a JSON array")
+          if not data.get("innings"):
+              raise SystemExit(
+                  "ERROR: zero Tilak innings found. Refusing to publish an empty dataset; "
+                  "check archive availability and player-name matching."
+              )
+          PY
+
+      - name: Commit refreshed stats
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/death-overs.json
+          if git diff --cached --quiet; then
+            echo "Stats JSON is unchanged; nothing to commit."
+          else
+            git commit -m "chore: refresh Tilak death-overs stats"
+            git push
+          fi
