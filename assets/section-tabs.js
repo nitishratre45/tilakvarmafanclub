@@ -7,6 +7,7 @@
   function setStatsView(view){
     const views=[...document.querySelectorAll("#stats .stats-subview")];
     if(!views.some(node=>node.id===view))view="stats-overview";
+    try{sessionStorage.setItem("tilak-stats-view",view);}catch(e){}
     views.forEach(node=>{node.hidden=node.id!==view;node.setAttribute("aria-hidden",String(node.id!==view));});
     document.querySelectorAll("[data-stats-tab]").forEach(button=>{
       const active=button.dataset.statsTab===view;
@@ -59,5 +60,8 @@
   });
   window.addEventListener("hashchange",()=>show(location.hash.slice(1)||"profile",false,legacyViews[location.hash.slice(1)]));
   const initial=location.hash.slice(1)||"profile";
-  show(initial,false,legacyViews[initial]);
+  let savedStatsView=null;
+  try{savedStatsView=sessionStorage.getItem("tilak-stats-view");}catch(e){}
+  const initialStatsView=legacyViews[initial]||(initial==="stats"?savedStatsView:null);
+  show(initial,false,initialStatsView);
 })();
