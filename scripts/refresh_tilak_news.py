@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import urljoin
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "tilak-news.json"
@@ -32,6 +33,27 @@ class TextOnly(HTMLParser):
 def clean(value):
     value=html.unescape(value or "")
     return re.sub(r"\s+"," ",value).strip()
+
+def article_image(url):
+    """Best-effort publisher Open Graph thumbnail; images are optional."""
+    try:
+        req=urllib.request.Request(url,headers=HEADERS)
+        with urllib.request.urlopen(req,timeout=8) as response:
+            page=response.read(700_000).decode("utf-8","replace")
+            page_url=response.geturl()
+        patterns=[
+            r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)',
+            r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']',
+            r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)',
+        ]
+        for pattern in patterns:
+            match=re.search(pattern,page,re.I)
+            if match:
+                candidate=urljoin(page_url,html.unescape(match.group(1)))
+                if candidate.startswith("https://"):return candidate
+    except Exception:
+        pass
+    return ""
 
 def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -57,12 +79,14 @@ def main():
             description=item.findtext("description") or ""
             parser=TextOnly(); parser.feed(description)
             summary=clean(" ".join(parser.parts))
+            if not re.search(r"\b(tilak|varma)\b",title+" "+summary,re.I): continue
             image=""
             media=item.find("media:content",NS)
             if media is None: media=item.find("media:thumbnail",NS)
             if media is not None:image=media.attrib.get("url","")
             if not image and parser.images:image=parser.images[0]
             if not image.startswith("https://"):image=""
+            if not image and len(items)<5:image=article_image(link)
             pub=clean(item.findtext("pubDate"))
             items.append({"title":title,"url":link,"publisher":publisher or "Google News","published":pub,"summary":summary[:320],"image":image,"source":"Google News RSS"})
             if len(items)>=10:break
