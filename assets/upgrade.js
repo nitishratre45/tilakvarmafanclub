@@ -2,7 +2,7 @@
 "use strict";
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-let rows=[],site={};
+let rows=[],site={},archive={};
 const safeNum=v=>typeof v==="number"&&Number.isFinite(v)?v:null;
 async function start(){
  try{
@@ -22,6 +22,17 @@ function dashboard(){
  if(formatHost){const order=["T20I","ODI","IPL","First-class","List A"];formatHost.innerHTML='<div class="format-snapshot-head"><span class="feature-eyebrow">CAREER BY FORMAT</span><span>Saved snapshot</span></div><div class="format-snapshot-grid">'+order.filter(k=>formats[k]).map(k=>'<article class="format-snapshot-card"><span>'+esc(k.toUpperCase())+'</span><strong>'+esc(Number(formats[k].runs||0).toLocaleString("en-IN"))+'</strong><small>RUNS</small><p>HS '+esc(formats[k].highestScore??"—")+' · AVG '+esc(formats[k].average??"—")+'</p></article>').join("")+'</div>';}
  const last=site.lastChecked||site.lastUpdated||"not recorded";const freshness=$("dashboard-freshness");
  if(freshness)freshness.textContent="Saved data checked: "+last+" · "+scored.length+" numeric innings loaded ("+sum+" runs across listed rows)";
+}
+function archiveSnapshot(){
+ const host=$("archive-snapshot");if(!host)return;
+ const formats=archive.formats||{};
+ const order=["ipl","t20i","odi","t20","test"].filter(k=>formats[k]);
+ const cards=order.map(k=>{
+  const f=formats[k],innings=Array.isArray(f.innings)?f.innings:[],overs=innings.flatMap(i=>Array.isArray(i.overs)?i.overs:[]);
+  const totals=overs.reduce((s,o)=>{s.runs+=Number(o.runs||0);s.balls+=Number(o.balls||0);return s},{runs:0,balls:0});
+  return {key:k,label:f.label||k.toUpperCase(),matches:Number(f.matchesFound||0),innings:Number(f.inningsFound||innings.length),runs:totals.runs,balls:totals.balls};
+ });
+ host.innerHTML='<div class="format-snapshot-head"><span class="feature-eyebrow">BALL-BY-BALL ARCHIVE · TILAK VARMA</span><span>Archive updated '+esc(archive.updatedAt||"date unavailable")+'</span></div>'+(cards.length?'<div class="archive-snapshot-grid">'+cards.map(c=>'<article class="archive-snapshot-card"><span>'+esc(c.label.toUpperCase())+'</span><strong>'+esc(c.matches.toLocaleString("en-IN"))+'</strong><small>MATCHES · '+esc(c.innings.toLocaleString("en-IN"))+' INNINGS</small><p>'+esc(c.runs.toLocaleString("en-IN"))+' batter runs · '+esc(c.balls.toLocaleString("en-IN"))+' balls faced</p></article>').join("")+'</div>':'<p class="activity-empty">Archive data is not available yet. The main career snapshot remains visible.</p>');
 }
 function moments(){
  const host=$("moments-grid");if(!host)return;
