@@ -30,7 +30,7 @@
     <section class="admin-card">
       <div class="admin-card-head"><div><span class="admin-kicker">02 / DATA EDITOR</span><h2>Change the <em>feed.</em></h2></div></div>
       <div class="admin-fields">
-        <div><label class="admin-label" for="dataset">JSON dataset</label><select id="dataset"><option value="data/site-data.json">Site profile, career stats, recent innings & activity log</option><option value="data/death-overs.json">Over-by-over stats & latest match summary</option></select></div>
+        <div><label class="admin-label" for="dataset">JSON dataset</label><select id="dataset"><option value="data/site-data.json">Site profile, career stats, recent innings & activity log</option><option value="data/death-overs.json">Over-by-over stats & latest match summary</option><option value="data/fan-zone.json">Fan Zone poll question, options & source links</option></select></div>
         <div><label class="admin-label" for="commit-message">Commit message</label><input id="commit-message" type="text" value="chore: update Tilak Varma FC data" maxlength="120"></div>
       </div>
       <div class="admin-editor-toolbar"><span id="loaded-file">No file loaded</span><span>JSON · UTF-8</span></div>
@@ -41,7 +41,7 @@
     <section class="admin-card admin-help">
       <span class="admin-kicker">03 / QUICK GUIDE</span>
       <h2>What can I <em>edit?</em></h2>
-      <ul><li><b>site-data.json:</b> profile, career stats, recent innings, featured match and the “What's happening” activity feed.</li><li><b>death-overs.json:</b> verified over-by-over archive and the latest match summary panel.</li><li><b>Workflow:</b> GitHub Actions refreshes source data every 12 hours; Cloudflare deploys commits from <code>main</code>.</li></ul>
+      <ul><li><b>site-data.json:</b> profile, career stats, recent innings, featured match and the “What's happening” activity feed.</li><li><b>fan-zone.json:</b> edit the community poll prompt/options and source-linked fan resources. Votes remain local to each visitor browser.</li><li><b>death-overs.json:</b> verified over-by-over archive and the latest match summary panel.</li><li><b>Workflow:</b> GitHub Actions refreshes source data every 12 hours; Cloudflare deploys commits from <code>main</code>.</li></ul>
       <p>Do not put passwords, API secrets, private notes or personal information in either JSON file. This is a content editor, not an authentication system for multiple users.</p>
       <a href="https://github.com/nitishratre45/tilakvarmafanclub/actions" target="_blank" rel="noreferrer">View refresh runs ↗</a>
     </section>
