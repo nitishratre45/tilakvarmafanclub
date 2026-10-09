@@ -1036,3 +1036,45 @@ option{background:#0d1a2c;color:#f4f7fb}
 :root[data-theme-resolved="light"] .bowling-stats-view .bowling-best-cell{color:#087e91}
 @media(max-width:760px){.home-bowling-card{padding:12px;margin:10px 0 18px}.home-bowling-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.home-bowling-metric{padding:8px 6px}.home-bowling-metric span{font-size:7px}.home-bowling-metric strong{font-size:18px}.bowling-stats-view{padding:25px 3.5vw!important}.bowling-summary{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.bowling-metric{padding:9px 7px}.bowling-metric strong{font-size:20px}.bowling-breakdown-wrap,.bowling-innings-wrap{padding:9px;margin:12px 0}.bowling-subheading h3{font-size:21px}.bowling-sourcebar{font-size:8px;padding:8px}.bowling-format-tabs button{padding:8px 9px;font-size:9px}}
 @media(max-width:420px){.home-bowling-heading{align-items:flex-start;flex-direction:column}.home-bowling-heading .button{align-self:flex-start}.home-bowling-stats{gap:4px}.home-bowling-metric{padding:7px 5px}.home-bowling-metric strong{font-size:16px}.home-bowling-metric span{font-size:6px}.bowling-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* Mobile custom-select readability fix (2026-10). */
+.cs-dialog,
+.cs-dialog * { box-sizing: border-box; }
+.cs-dialog-head { align-items: flex-start; }
+.cs-dialog-head > div { flex: 1 1 auto; width: 0; min-width: 0; }
+.cs-dialog-title {
+  display: block;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  line-height: 1.28;
+  letter-spacing: .01em;
+}
+.cs-options { display: flex; flex-direction: column; gap: 2px; }
+.cs-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  line-height: 1.5;
+  letter-spacing: normal;
+}
+.cs-option-label {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  line-height: 1.5;
+}
+.cs-option-mark { flex-shrink: 0; }
+@media (max-width: 640px) {
+  .cs-dialog { width: 100%; }
+  .cs-dialog-head { gap: 12px; }
+  .cs-dialog-title { font-size: clamp(17px, 5vw, 20px); }
+  .cs-option { min-height: 54px; padding: 13px 12px; }
+  .cs-option-label { font-size: 13px; }
+}
