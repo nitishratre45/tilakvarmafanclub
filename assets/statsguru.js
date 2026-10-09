@@ -25,10 +25,11 @@
         balls,strikeRate:balls?Math.round((runs*100/balls)*100)/100:null,
         hundreds:sum("hundreds"),fifties:sum("fifties"),fours:sum("fours"),sixes:sum("sixes")
       }:null;
-      return {summary,innings:all,formats};
+      const breakdown=["T20","ODI"].flatMap(fmt=>(formats[fmt]&&Array.isArray(formats[fmt].careerBreakdown)?formats[fmt].careerBreakdown:[]));
+      return {summary,innings:all,breakdown,formats};
     }
     const entry=formats[selectedFormat]||{};
-    return {summary:entry.summary||null,innings:Array.isArray(entry.innings)?entry.innings:[],formats};
+    return {summary:entry.summary||null,innings:Array.isArray(entry.innings)?entry.innings:[],breakdown:Array.isArray(entry.careerBreakdown)?entry.careerBreakdown:[],formats};
   }
   function sortDate(v){
     const s=String(v||"");
@@ -56,7 +57,17 @@
         ["FOURS",summary.fours],["SIXES",summary.sixes]
       ]:[["SOURCE","ESPNcricinfo"],["CAREER SUMMARY","Awaiting source data"]];
       summaryHost.innerHTML=values.map(x=>metric(x[0],x[1])).join("");
-      rowsTable([],["DATE","SCORE","OPPOSITION","GROUND","WICKETS","MATCH"],()=> "");
+      const breakdown=Array.isArray(source.breakdown)?source.breakdown:[];
+      if(breakdown.length){
+        rowsTable(breakdown,["GROUP / FILTER","SPAN","MATCHES","INNINGS","NOT OUT","RUNS","HIGH SCORE","AVERAGE","BALLS","STRIKE RATE","100s","50s","DUCKS","4s","6s"],r=>"<tr>"+
+          [r.group,r.span,r.matches,r.innings,r.notOuts,r.runs,r.highestScore,r.average,r.balls,r.strikeRate,r.hundreds,r.fifties,r.ducks,r.fours,r.sixes].map(v=>"<td>"+esc(fmt(v)) +"</td>").join("")+"</tr>");
+      }else{
+        const fallback=rows.slice().sort((a,b)=>sortDate(b.date)-sortDate(a.date));
+        rowsTable(fallback,["DATE","SCORE","OPPOSITION","GROUND","WICKETS","CT / ST","SCORECARD"],r=>{
+          const match=r.matchUrl&&/^https:\/\//i.test(r.matchUrl)?'<a href="'+esc(r.matchUrl)+'" target="_blank" rel="noopener noreferrer">Open ↗</a>':"—";
+          return "<tr><td>"+esc(r.date)+"</td><td>"+esc(r.score)+"</td><td>"+esc(r.opposition)+"</td><td>"+esc(r.ground)+"</td><td>"+esc(r.wickets)+"</td><td>"+esc((r.catches??"—")+" / "+(r.stumpings??"—"))+"</td><td>"+match+"</td></tr>";
+        });
+      }
     }else if(["innings","highscores","matches","series"].includes(selectedCategory)){
       if(selectedCategory==="highscores")rows.sort((a,b)=>(typeof b.runs==="number"?b.runs:-1)-(typeof a.runs==="number"?a.runs:-1));
       else rows.sort((a,b)=>sortDate(b.date)-sortDate(a.date));
