@@ -62,15 +62,22 @@ def main():
  # ICC page has a format summary; merge only rows parsed as a proper table.
  # ICC international figures are preloaded in the JSON fallback; only use ESPN table parsing here.
  if scraped:
-  formats.update(scraped)
-  data["careerSource"]=ESPN
-  data["careerStatsUpdated"]=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+  current_runs = int(formats.get("T20I", {}).get("runs", 0) or 0)
+  incoming_runs = int(scraped.get("T20I", {}).get("runs", 0) or 0)
+  # Do not let stale/cached source totals roll back a newer verified total.
+  if incoming_runs >= current_runs:
+   formats.update(scraped)
+   data["careerSource"]=ESPN
+   data["careerStatsUpdated"]=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+  else:
+   print(f"Keeping newer T20I total ({current_runs}); ESPN response is stale ({incoming_runs}).")
  else: print("No parseable career table found; retaining existing stats.")
  t=formats.get("T20I",{})
  if t.get("runs") is not None:
   data["careerStats"]={"t20iRuns":t["runs"],"highestScore":t.get("highestScore","120*"),
    "average":t.get("average",44.08),"strikeRate":t.get("strikeRate",145.06),
    "fifties":t.get("fifties",10),"hundreds":t.get("hundreds",2)}
+
  data["lastUpdated"]=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
  FILE.write_text(json.dumps(data,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
  print("Career stats refresh complete; formats:",", ".join(sorted(formats)))
