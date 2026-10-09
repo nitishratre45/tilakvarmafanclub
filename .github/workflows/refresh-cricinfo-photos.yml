@@ -1,0 +1,54 @@
+name: Refresh ESPNcricinfo photos
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "53 3 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/refresh_cricinfo_photos.py"
+      - ".github/workflows/refresh-cricinfo-photos.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-cricinfo-photo-gallery
+  cancel-in-progress: false
+
+jobs:
+  refresh-photos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate photo refresh script
+        run: python -m py_compile scripts/refresh_cricinfo_photos.py
+      - name: Refresh official Tilak Varma photo gallery
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            python -u scripts/refresh_cricinfo_photos.py
+            python -m json.tool data/cricinfo-photos.json > /dev/null
+            python -c "import json; from pathlib import Path; d=json.loads(Path('data/cricinfo-photos.json').read_text(encoding='utf-8')); assert isinstance(d.get('items'), list) and d['items'], 'No saved gallery photos available'; assert d.get('source') == 'ESPNcricinfo', 'Unexpected gallery source'; print('Validated', len(d['items']), 'gallery photos; last successful update:', d.get('updatedAt', 'unknown'))"
+            git add data/cricinfo-photos.json
+            if git diff --cached --quiet; then
+              echo "Gallery snapshot unchanged."
+              exit 0
+            fi
+            git commit -m "chore: refresh Tilak Varma ESPNcricinfo photos"
+            if git push origin HEAD:main; then exit 0; fi
+            echo "Concurrent repository update on attempt $attempt; retrying."
+            sleep 2
+          done
+          echo "Unable to publish photo gallery after 3 attempts."
+          exit 1
