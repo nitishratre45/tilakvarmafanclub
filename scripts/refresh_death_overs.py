@@ -71,6 +71,21 @@ def main():
    formats[key]=build(cache[cfg["url"]],cfg["kind"])
    print(f'{cfg["label"]}: {formats[key]["matchesFound"]} matches, {formats[key]["inningsFound"]} innings')
   except Exception as e:failures[key]=str(e);print(f'WARNING {key}: {e}')
+ # Overall T20 combines the broad men's T20 archive with IPL deliveries.
+ if formats.get("overall_t20",{}).get("innings"):
+  overall=formats["overall_t20"]
+  existing={str(row.get("matchId","")) for row in overall["innings"]}
+  for row in formats.get("ipl",{}).get("innings",[]):
+   clone=dict(row);clone["format"]="overall_t20";clone["matchId"]="ipl:"+str(row.get("matchId",""))
+   if clone["matchId"] not in existing:
+    overall["innings"].append(clone);existing.add(clone["matchId"])
+  totals=defaultdict(lambda:{"runs":0,"balls":0,"fours":0,"sixes":0})
+  for row in overall["innings"]:
+   for over in row.get("overs",[]):
+    for metric in ("runs","balls","fours","sixes"):totals[int(over["over"])][metric]+=int(over.get(metric,0) or 0)
+  overall["innings"].sort(key=lambda row:(row.get("date",""),row.get("matchId",""),row.get("innings",0)),reverse=True)
+  overall["matchesFound"]=len(existing);overall["inningsFound"]=len(overall["innings"])
+  overall["overTotals"]=[{"over":n,**totals[n],"strikeRate":round(totals[n]["runs"]*100/totals[n]["balls"],2) if totals[n]["balls"] else 0} for n in range(1,21)]
  if not formats or not any(v["innings"] for v in formats.values()):raise RuntimeError("No Tilak innings found; refusing to publish empty data.")
  default=next((k for k in ("t20i","ipl","t20","odi","test") if formats.get(k,{}).get("innings")),next(iter(formats)));d=formats[default]
  out={"updatedAt":datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),"player":"Tilak Varma","defaultFormat":default,"formats":formats,"sourceErrors":failures,"source":d["source"],"coverageNote":"Only Tilak Varma deliveries found in available Cricsheet archives are included. Coverage varies by format; Test archive data is not a complete first-class career record.","matchesFound":d["matchesFound"],"inningsFound":d["inningsFound"],"overTotals":d["overTotals"],"innings":d["innings"],"readErrors":sum(x["readErrors"] for x in formats.values())}
