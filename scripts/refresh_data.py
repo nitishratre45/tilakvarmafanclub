@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "data" / "site-data.json"
 ICC_URL = "https://www.icc-cricket.com/rankings/70761/tilak-varma"
 MI_URL = "https://www.mumbaiindians.com/players/70761------------profile"
-CRICSHEET_URL = "https://cricsheet.org/downloads/menst20_json.zip"
+CRICSHEET_URL = "https://cricsheet.org/downloads/t20s_male_json.zip"
 PLAYER = "Tilak Varma"
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClub/1.0; public-data-refresh)"}
 
@@ -95,6 +95,12 @@ def cricsheet_recent():
         except (json.JSONDecodeError, UnicodeDecodeError):
             continue
         info = match.get("info", {})
+        if str(info.get("match_type", "")).lower() not in {"t20", "t20i", "it20"}:
+            continue
+        if str(info.get("team_type", "international")).lower() != "international":
+            continue
+        if str(info.get("gender", "male")).lower() not in {"male", "men", ""}:
+            continue
         players = info.get("players", {})
         if not any(any(str(p).casefold() == PLAYER.casefold() for p in team_players)
                    for team_players in players.values()):
