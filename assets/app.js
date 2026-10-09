@@ -49,9 +49,16 @@
     const recordHost = document.getElementById("icc-record-highlights");
     if (recordHost) {
       const records = Array.isArray(data.iccRecords) ? data.iccRecords : [];
-      recordHost.innerHTML = records.length ? records.map(record =>
-        '<article class="official-record-card"><strong>' + esc(record.rank || "—") + '</strong><span>' + esc(record.category || "ICC record") + '</span><h4>' + esc(record.title || "Player record") + '</h4></article>'
-      ).join("") : '<p class="activity-empty">Official record data is temporarily unavailable.</p>';
+      const formats = data.careerFormats || {};
+      const careerRecords = [
+        {rank:formats.T20I?.highestScore,category:"T20I career",title:"Highest international T20 score"},
+        {rank:formats.IPL?.highestScore,category:"IPL career",title:"Highest IPL score"},
+        {rank:formats["List A"]?.highestScore,category:"List A career",title:"Highest List A score"}
+      ].filter(record => record.rank);
+      const cards = records.concat(careerRecords);
+      recordHost.innerHTML = cards.length ? cards.map(record =>
+        '<article class="official-record-card"><strong>' + esc(record.rank || "—") + '</strong><span>' + esc(record.category || "Career record") + '</span><h4>' + esc(record.title || "Player record") + '</h4></article>'
+      ).join("") : '<p class="activity-empty">Record data is temporarily unavailable.</p>';
     }
     set("icc-records-updated", data.iccRecordsCheckedAt ? "Checked " + data.iccRecordsCheckedAt : (data.iccRecordsUpdated ? "Last updated " + data.iccRecordsUpdated : "Official record snapshot"));
 
