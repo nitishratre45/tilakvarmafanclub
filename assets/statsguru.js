@@ -2,13 +2,13 @@
   const $=id=>document.getElementById(id);
   const esc=v=>String(v??"—").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const fmt=v=>typeof v==="number"?v.toLocaleString("en-IN",{maximumFractionDigits:2}):(v??"—");
-  const titles={batting:"Batting career summary",innings:"Batting innings list",highscores:"High scores",bowling:"Bowling career summary",bowlinglist:"Bowling innings list",bestbowling:"Best bowling",fielding:"Fielding career summary",catches:"Most catches",series:"Series averages",matches:"T20I match list"};
+  const titles={batting:"Batting career summary",innings:"Batting innings list",highscores:"High scores",bowling:"Bowling career summary",bowlinglist:"Bowling innings list",bestbowling:"Best innings bowling",bestmatchbowling:"Best match bowling",bowlingmatches:"Bowling match list",bowlingseries:"Bowling series averages",fielding:"Fielding career summary",fieldinglist:"Fielding innings list",catches:"Most catches in an innings",fieldingseries:"Fielding series statistics",series:"Batting series averages",matches:"T20I match list"};
   let selectedFormat="T20I", selectedCategory="batting", data=null;
   function metric(label,value){return '<div class="statsguru-metric"><span>'+esc(label.toUpperCase())+'</span><strong>'+esc(fmt(value))+'</strong></div>';}
   function rowsTable(rows,headers,render){
     const head=$("statsguru-thead"),body=$("statsguru-tbody");
     head.innerHTML="<tr>"+headers.map(h=>"<th>"+esc(h)+"</th>").join("")+"</tr>";
-    body.innerHTML=rows.length?rows.map(render).join(""):'<tr><td colspan="'+headers.length+'" class="empty">No verified '+esc(selectedCategory==="bowling"||selectedCategory==="bowlinglist"||selectedCategory==="bestbowling"?"bowling":selectedCategory==="fielding"||selectedCategory==="catches"?"fielding":"innings")+' records are stored for this filter yet. Open the source links above for the full scorecard/history.</td></tr>';
+    body.innerHTML=rows.length?rows.map(render).join(""):'<tr><td colspan="'+headers.length+'" class="empty">No verified '+esc(["bowling","bowlinglist","bestbowling","bestmatchbowling","bowlingmatches","bowlingseries"].includes(selectedCategory)?"bowling":["fielding","fieldinglist","catches","fieldingseries"].includes(selectedCategory)?"fielding":"innings")+' records are stored for this filter yet. Open the source links above for the full scorecard/history.</td></tr>';
   }
   function render(){
     if(!data)return;
@@ -48,7 +48,7 @@
       rowsTable([],["DATE","OPPOSITION","DETAIL","SOURCE"],()=> "");
     }
     const note=$("statsguru-note");
-    if(["bowling","bowlinglist","bestbowling","fielding","catches","series"].includes(selectedCategory)){
+    if(["bowling","bowlinglist","bestbowling","bestmatchbowling","bowlingmatches","bowlingseries","fielding","fieldinglist","catches","fieldingseries"].includes(selectedCategory)){
       note.textContent="This repository's current scheduled data snapshot contains batting innings and career summaries, but not a complete verified bowling/fielding/series dataset. No figures are fabricated. Use ESPNcricinfo Statsguru and Cricbuzz links to inspect the original records.";
     }else{
       note.textContent="Figures come from the site's saved data snapshot; recent innings are filtered locally. The existing repository automation refreshes its source data on a 12-hour schedule when upstream sources are available. Source links open ESPNcricinfo and Cricbuzz for verification.";
