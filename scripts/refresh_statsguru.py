@@ -109,11 +109,11 @@ def fetch(url):
     with urllib.request.urlopen(req, timeout=45) as response:
         return response.read().decode("utf-8", "replace")
 
-def stats_url(match_class, view=None, page=1):
+def stats_url(match_class, view=None, page=1, kind="batting"):
     # ESPNcricinfo's legacy Statsguru endpoint uses semicolon-separated query
     # parameters. Encoding the whole filter string as the class value causes
     # HTTP 400, so preserve the legacy query syntax.
-    query = "class=" + str(match_class) + ";template=results;type=batting"
+    query = "class=" + str(match_class) + ";template=results;type=" + str(kind)
     if view:
         query += ";view=" + view
     if page > 1:
