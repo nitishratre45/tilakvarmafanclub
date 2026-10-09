@@ -320,3 +320,8 @@ body,.hero,.profile-section,.stats-section,.feature-section,.records-section,.fa
 .fan-quiz-card{border-top:2px solid var(--orange)!important}
 @media(max-width:900px){.fan-zone-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.fan-zone-grid{grid-template-columns:1fr}.section{padding-top:58px;padding-bottom:58px}.profile-section{padding-top:42px!important;padding-bottom:42px!important}}
+
+/* Three balanced Fan Zone panels on desktop */
+.fan-zone-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:900px){.fan-zone-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.fan-zone-grid{grid-template-columns:1fr}}
