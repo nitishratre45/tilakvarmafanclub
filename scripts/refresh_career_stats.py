@@ -112,7 +112,7 @@ def main():
     for rec in (t20i,ipl):
      sr=float(rec.get("strikeRate",0) or 0)
      if sr>0:balls+=round(int(rec.get("runs",0) or 0)*100/sr)
-   highs=[(int(re.match(r"\\d+",str(rec.get("highestScore","0"))).group()),str(rec.get("highestScore"))) for rec in (t20i,ipl) if re.match(r"\\d+",str(rec.get("highestScore","")))]
+   highs=[(int(re.match(r"\d+",str(rec.get("highestScore","0"))).group()),str(rec.get("highestScore"))) for rec in (t20i,ipl) if re.match(r"\d+",str(rec.get("highestScore","")))]
    highest=max(highs,default=(0,"—"))[1]
    formats["Overall T20 (all competitions)"]={"matches":int(t20i.get("matches",0) or 0)+int(ipl.get("matches",0) or 0),"innings":inns,"notOuts":outs,"runs":runs,"balls":balls,"highestScore":highest,"average":round(runs/(inns-outs),2) if inns>outs else None,"strikeRate":round(runs*100/balls,2) if balls else None,"hundreds":int(t20i.get("hundreds",0) or 0)+int(ipl.get("hundreds",0) or 0),"fifties":int(t20i.get("fifties",0) or 0)+int(ipl.get("fifties",0) or 0),"source":"Verified T20I + IPL totals; domestic T20 coverage incomplete","coverage":"minimum verified subtotal; not a complete all-T20 career total"}
   print("Cricbuzz list incomplete; did not treat its partial page as a career total.")
