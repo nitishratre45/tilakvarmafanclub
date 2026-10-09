@@ -623,3 +623,7 @@ option{background:#0d1a2c;color:#f4f7fb}
  .stats-subview.section{padding:18px 0!important}
  .icc-ranking-card strong{font-size:21px}
 }
+
+/* Keep the focused Statsguru categories balanced on desktop. */
+.statsguru-category-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:760px){.statsguru-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
