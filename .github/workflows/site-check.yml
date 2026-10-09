@@ -88,9 +88,22 @@ jobs:
           fielding = data.get("fieldingStats", {}).get("formats", {})
           for fmt, entry in fielding.items():
               summary = entry.get("summary", {})
-              if summary and summary.get("matches") is not None:
-                  if int(summary["matches"]) < 0 or int(summary.get("catches", 0)) < 0:
-                      raise SystemExit(f"Invalid fielding totals for {fmt}")
+              rows = entry.get("innings", [])
+              if not summary:
+                  continue
+              for key in ("matches", "catches", "stumpings", "runOuts", "dismissals"):
+                  if summary.get(key) is not None and int(summary[key]) < 0:
+                      raise SystemExit(f"Invalid fielding total {fmt}.{key}")
+              if isinstance(rows, list):
+                  for key in ("catches", "stumpings", "runOuts", "dismissals"):
+                      saved = summary.get(key)
+                      if saved is None:
+                          continue
+                      actual = sum(int(row.get(key, 0) or 0) for row in rows)
+                      if actual != int(saved):
+                          raise SystemExit(
+                              f"Fielding mismatch for {fmt}.{key}: summary={saved}, innings sum={actual}"
+                          )
           for fmt, entry in data.get("careerFormats", {}).items():
               t20i_summary = data.get("statsguru", {}).get("formats", {}).get("T20I", {}).get("summary", {})
               if fmt == "T20I" and entry.get("runs") is not None and entry["runs"] != t20i_summary.get("runs"):
