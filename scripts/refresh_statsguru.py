@@ -307,6 +307,17 @@ def scrape_format(fmt, match_class):
     summary = parse_career_summary(first_page)
     innings = parse_innings_page(first_page, fmt)
     career_breakdown = parse_career_breakdown(first_page)
+    # Statsguru exposes the grouped Career summary view separately on some
+    # responses. Prefer it when the innings page only exposes the overall row.
+    if len(career_breakdown) <= 1:
+        try:
+            summary_page = fetch(stats_url(match_class, "summary", 1))
+            split_rows = parse_career_breakdown(summary_page)
+            if len(split_rows) > len(career_breakdown):
+                career_breakdown = split_rows
+            summary = parse_career_summary(summary_page) or summary
+        except Exception as exc:
+            print(fmt + ": optional grouped-summary view unavailable; using innings page:", exc)
     for page_number in range(2, 16):
         if len(innings) < (page_number - 1) * 40:
             break
