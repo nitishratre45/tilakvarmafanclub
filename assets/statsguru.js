@@ -177,8 +177,11 @@
         return true;
       }
       $("statsguru-summary").innerHTML=metrics([["MATCHES",summary.matches],["CATCHES",summary.catches],["STUMPINGS",summary.stumpings],["RUN OUTS",summary.runOuts],["DISMISSALS",summary.dismissals]]);
-      if(category==="fielding")rowsTable(fieldBreakdown,["GROUP / SERIES","SPAN","MATCHES","CATCHES","STUMPINGS","RUN OUTS","DISMISSALS"],r=>"<tr>"+[r.group,r.span,r.matches,r.catches,r.stumpings,r.runOuts,r.dismissals].map(v=>"<td>"+esc(v??"—")+"</td>").join("")+"</tr>","No verified fielding career breakdown rows.");
-      else{
+      if(category==="fielding")rowsTable(fieldBreakdown,["GROUP / FILTER","SPAN","MATCHES","CATCHES","STUMPINGS","RUN OUTS","DISMISSALS"],r=>"<tr>"+[r.group,r.span,r.matches,r.catches,r.stumpings,r.runOuts,r.dismissals].map(v=>"<td>"+esc(v??"—")+"</td>").join("")+"</tr>","No verified fielding career breakdown rows.");
+      else if(category==="fieldingseries"){
+        const seriesRows=fieldBreakdown.filter(r=>/series|tournament|cup|league|ipl|premier|world cup|asia cup/i.test(String(r.group||"")));
+        rowsTable(seriesRows,["SERIES / TOURNAMENT","SPAN","MATCHES","CATCHES","STUMPINGS","RUN OUTS","DISMISSALS"],r=>"<tr>"+[r.group,r.span,r.matches,r.catches,r.stumpings,r.runOuts,r.dismissals].map(v=>"<td>"+esc(v??"—")+"</td>").join("")+"</tr>","No verified fielding series rows are present in this format.");
+      }else{
         let list=fieldRows;
         if(category==="mostcatches")list=list.slice().sort((a,b)=>(Number(b.catches)||0)-(Number(a.catches)||0));
         else list=list.slice().sort((a,b)=>parseDate(b.date)-parseDate(a.date));
