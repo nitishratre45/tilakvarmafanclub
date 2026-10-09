@@ -1,19 +1,21 @@
-# Tilak Varma 72 FC
+# Tilak Varma Fan Club — The 72 Club
 
-A fresh fan-made website for Tilak Varma. The site is independent and not affiliated with BCCI, ICC, Mumbai Indians, or Tilak Varma.
+A responsive static fan website celebrating Tilak Varma, built with HTML, CSS and vanilla JavaScript for Cloudflare Pages.
 
-## Features
-- Responsive fan page with ICC-sourced profile image and source-linked photo gallery.
-- Career-stat snapshot with explicit source link; verify latest figures at the linked official source.
-- Recent T20I innings processed from Cricsheet public ball-by-ball data by Python.
-- GitHub Actions workflow to refresh recent-innings data roughly twice per day.
-- Static data editor at `/admin/`; it downloads a JSON file for a manual GitHub commit and is not a password-protected server admin.
+## Included
+- Responsive landing page and stats dashboard
+- Recent innings table backed by `data/site-data.json`
+- Scheduled GitHub Actions refresh for recent innings from Cricsheet
+- Data maintenance guide in `admin/`
 
-## Sources
-- ICC player profile: https://www.icc-cricket.com/rankings/70761/tilak-varma
-- BCCI player profile: https://www.bcci.tv/international/men/players/tilak-verma/993
-- Cricsheet: https://cricsheet.org/
-- Gallery photos link back to publisher pages. Check the respective publisher for reuse/licensing requirements.
+## Run locally
+Serve the repository root with any static HTTP server, for example `python -m http.server 8000`.
 
 ## Deployment
-Cloudflare Pages project name: `tilakvarma72fc`. Production address: `https://tilakvarma72fc.pages.dev` once deployment succeeds. Build command: none. Build output: `/` (repository root).
+See [DEPLOYMENT.md](DEPLOYMENT.md). Configure Cloudflare Pages with branch `main`, no build command, and repository root as output.
+
+## Data accuracy
+Career stats are a manually maintained snapshot, not a live official feed. Verify before posting. Recent innings update only when the scheduled source refresh succeeds and matching player records are present.
+
+## Disclaimer
+Independent fan-made project; not affiliated with Tilak Varma, BCCI, IPL, or any team.
