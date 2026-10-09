@@ -22,3 +22,26 @@
 .format-card>a{display:inline-block;color:var(--cyan);font:9px var(--mono);margin-top:12px}
 .format-heading{margin-top:60px}
 @media(max-width:800px){.career-formats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Profile-first layout and stronger career-run hierarchy */
+.profile-section{padding-top:72px;padding-bottom:72px}
+.profile-photo-wrap{min-height:390px;box-shadow:0 24px 70px #0004}
+.stats-section{background:linear-gradient(180deg,#07101f 0%,#091726 100%)}
+.stats-section .section-heading:first-child{margin-bottom:32px}
+.stats-grid:not(.career-formats) .stat-feature{grid-column:span 2;min-height:190px;padding:28px 32px;background:linear-gradient(125deg,#ff7847,#e94e2e);box-shadow:0 16px 38px #ff6a351c}
+.stats-grid:not(.career-formats) .stat-feature strong{font-size:clamp(58px,7vw,82px);margin:16px 0 8px}
+.stats-grid:not(.career-formats) .stat-card:not(.stat-feature){min-height:190px;display:flex;flex-direction:column;justify-content:center}
+.stats-grid:not(.career-formats) .stat-card:not(.stat-feature) strong{font-size:clamp(42px,4.5vw,58px)}
+.stats-grid:not(.career-formats) .stat-feature .stat-label{font-size:11px}
+.stats-grid:not(.career-formats) .stat-feature .stat-note{font-size:11px}
+.format-heading{padding-top:8px}
+.data-line{padding:15px 17px;background:#0d1a2c;border:1px solid var(--line)}
+@media(max-width:800px){
+ .profile-section{padding-top:48px;padding-bottom:48px}
+ .stats-grid:not(.career-formats) .stat-feature{grid-column:span 2;min-height:155px}
+ .stats-grid:not(.career-formats) .stat-card:not(.stat-feature){min-height:135px}
+}
+@media(max-width:430px){
+ .stats-grid:not(.career-formats) .stat-feature strong{font-size:58px}
+ .stats-grid:not(.career-formats) .stat-card:not(.stat-feature) strong{font-size:38px}
+}
