@@ -24,9 +24,21 @@ async function init(){
   if(!items.length)throw Error("No gallery photos available");
   host.innerHTML=items.map(item=>{
    const src=safeUrl(item.image),title=esc(item.title||"Tilak Varma · Match photo");
-   return src?'<article class="cricinfo-photo-card"><button type="button" class="cricinfo-photo-open" data-photo-url="'+src+'" data-photo-title="'+title+'" aria-label="View '+title+'"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+src+'" alt="'+title+'"></button><div class="cricinfo-photo-caption">'+title+'</div></article>':"";
+   if(src)return '<article class="cricinfo-photo-card"><button type="button" class="cricinfo-photo-open" data-photo-url="'+src+'" data-photo-title="'+title+'" aria-label="View '+title+'"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+src+'" alt="'+title+'"></button><div class="cricinfo-photo-caption">'+title+'</div></article>';
+   if(data.sheet&&item.position)return '<article class="cricinfo-photo-card"><button type="button" class="cricinfo-photo-open cricinfo-photo-sheet" data-photo-url="" data-photo-title="'+title+'" data-sheet-position="'+item.position.x+','+item.position.y+'" aria-label="View '+title+'" style="background-image:url(&quot;'+data.sheet+'&quot;);background-position:'+item.position.x*100+'% '+item.position.y*50+'%;"><span class="sr-only">'+title+'</span></button><div class="cricinfo-photo-caption">'+title+'</div></article>';
+   return "";
   }).join("")||'<p class="activity-empty">Photos are temporarily unavailable.</p>';
-  host.querySelectorAll(".cricinfo-photo-open").forEach(button=>button.addEventListener("click",()=>lightbox().openPhoto(button.dataset.photoUrl,button.dataset.photoTitle)));
+  host.querySelectorAll(".cricinfo-photo-open").forEach(button=>button.addEventListener("click",()=>{
+   const src=button.dataset.photoUrl;
+   if(src){lightbox().openPhoto(src,button.dataset.photoTitle);return;}
+   const pos=(button.dataset.sheetPosition||"0,0").split(",").map(Number);
+   const box=lightbox(),img=box.querySelector("img");
+   img.src=data.sheet;img.alt="Tilak Varma photo gallery";
+   box.querySelector("p").textContent=button.dataset.photoTitle;
+   img.style.objectPosition="center";
+   box.querySelector(".photo-lightbox-panel").style.setProperty("--sheet-position",pos[0]+","+pos[1]);
+   box.hidden=false;document.body.style.overflow="hidden";
+  }));
   host.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>img.closest(".cricinfo-photo-card")?.remove(),{once:true}));
   if(stamp)stamp.textContent=(data.updatedAt?"Updated "+data.updatedAt:"Latest saved gallery")+(data.lastAttemptStatus==="source-unavailable"?" · last saved photos kept":"");
  }catch(error){
