@@ -31,6 +31,27 @@
     set("recent-count", rows.length);
     set("data-status", rows.length ? "Available" : "Awaiting feed");
     set("recent-updated", data.recentUpdated || "No refresh timestamp yet");
+
+    const esc = (value) => String(value ?? "").replace(/[&<>"']/g, ch => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[ch]);
+    const featured = data.featuredMatch;
+    const featuredHost = document.getElementById("featured-match");
+    if (featuredHost && featured) {
+      featuredHost.innerHTML = `
+        <article class="featured-match-card">
+          <div class="featured-match-top"><span class="match-pill">LATEST VERIFIED SCORECARD</span><span class="featured-date">${esc(featured.date)} · ${esc(featured.format || "T20I")}</span></div>
+          <div class="featured-match-main"><div><p class="featured-kicker">${esc(featured.venue || "")}</p><h3>${esc(featured.title || "India match")}</h3><p class="featured-result">${esc(featured.result || "")}</p><p class="featured-partnership">${esc(featured.partnership || "")}</p></div><div class="featured-score"><strong>${esc(featured.runs)}<small>${featured.notOut ? "*" : ""}</small></strong><span>RUNS · ${esc(featured.balls)} BALLS</span></div></div>
+          <div class="featured-stats"><span><b>${esc(featured.fours)}</b> FOURS</span><span><b>${esc(featured.sixes)}</b> SIXES</span><span><b>${esc(featured.strikeRate)}</b> STRIKE RATE</span><span><b>${esc(featured.teamScore || "")}</b> INDIA</span></div>
+          <a class="featured-source" href="${esc(featured.source || "#")}" target="_blank" rel="noreferrer">Open source scorecard ↗</a>
+        </article>`;
+    }
+    const activityHost = document.getElementById("activity-feed");
+    const activity = Array.isArray(data.activityLog) ? data.activityLog : [];
+    if (activityHost) {
+      activityHost.innerHTML = activity.length ? activity.map((item, index) => `
+        <article class="activity-item"><span class="activity-index">${String(index + 1).padStart(2, "0")}</span><div class="activity-content"><div class="activity-meta"><span>${esc(item.category || "UPDATE")}</span><time>${esc(item.date || "")}</time></div><h3>${esc(item.title || "Site update")}</h3><p>${esc(item.description || "")}</p>${item.source ? `<a href="${esc(item.source)}" target="_blank" rel="noreferrer">Source / details ↗</a>` : ""}</div></article>`).join("") : '<div class="activity-empty">No updates have been logged yet.</div>';
+    }
   } catch (error) {
     set("data-status", "Source unavailable");
     const tbody = $("#recent-table");
