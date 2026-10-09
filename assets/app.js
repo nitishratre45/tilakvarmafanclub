@@ -12,6 +12,10 @@
       const key = el.dataset.stat;
       if (stats[key] !== undefined) el.textContent = stats[key];
     });
+    const formatHost = document.getElementById("career-formats");
+    if (formatHost && data.careerFormats) {
+      formatHost.innerHTML = Object.entries(data.careerFormats).map(([name, s]) => `<article class="stat-card format-card"><span class="stat-label">${name.toUpperCase()}</span><strong>${Number(s.runs || 0).toLocaleString("en-IN")}</strong><span class="stat-note">${s.matches ?? "—"} matches · HS ${s.highestScore ?? "—"}</span><span class="format-detail">AVG ${s.average ?? "—"} · SR ${s.strikeRate ?? "—"} · 100s ${s.hundreds ?? "—"} · 50s ${s.fifties ?? "—"}</span><a href="${s.source || data.careerSource || "#"}" target="_blank" rel="noreferrer">Source ↗</a></article>`).join("");
+    }
     const src = $("#career-source");
     if (src && data.careerSource) src.href = data.careerSource;
     set("career-updated", "Snapshot timestamp: " + (data.lastUpdated || "not recorded"));
