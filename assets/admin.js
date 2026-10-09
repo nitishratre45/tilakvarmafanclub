@@ -45,6 +45,37 @@
     if (!response.ok) throw new Error(body.message || ("GitHub API returned HTTP " + response.status));
     return body;
   }
+
+  function renderSourceMap(data) {
+    const host = $("source-map-content");
+    if (!host) return;
+    if (!data || typeof data !== "object" || !data.careerFormats) {
+      host.innerHTML = '<p class="admin-status">Select and load data/site-data.json to view source provenance.</p>';
+      return;
+    }
+    const escHtml = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+    const items = [];
+    const add = (dataset, source, detail) => {
+      if (!source) return;
+      items.push({dataset, source, detail});
+    };
+    add("Career overview / default source", data.careerSource, "Fallback career reference");
+    add("Recent innings", data.recentSource, "Recent-form dataset / fallback feed");
+    add("Latest featured match", data.featuredMatch?.source, "Latest verified scorecard");
+    add("Player photo", data.profile?.photoSource, "Profile image provenance");
+    Object.entries(data.careerFormats).forEach(([format, values]) => add(format + " career stats", values?.source || data.careerSource, "Format-wise career snapshot"));
+    const recentSources = new Map();
+    (Array.isArray(data.recentInnings) ? data.recentInnings : []).forEach(row => {
+      if (row.source) {
+        const key = row.source;
+        if (!recentSources.has(key)) recentSources.set(key, []);
+        recentSources.get(key).push(row.date + " " + row.opposition);
+      }
+    });
+    recentSources.forEach((matches, source) => add("Recent innings · " + matches.slice(0,3).join(", ") + (matches.length>3 ? " +" + (matches.length-3) + " more" : ""), source, "Per-row scorecard/profile source"));
+    host.innerHTML = items.length ? '<div class="source-map-list">' + items.map(item => '<article class="source-map-item"><div><strong>'+escHtml(item.dataset)+'</strong><small>'+escHtml(item.detail)+'</small></div><a href="'+escHtml(item.source)+'" target="_blank" rel="noopener noreferrer">'+escHtml(item.source)+' ↗</a></article>').join("") + '</div>' : '<p class="admin-status">No source URLs are recorded in this dataset.</p>';
+  }
+
   async function loadFile() {
     if (!token) {
       setStatus("Enter your GitHub token first.", "error");
@@ -56,8 +87,9 @@
     try {
       const result = await api(path + "?ref=" + BRANCH);
       const text = decodeUtf8(result.content);
-      JSON.parse(text);
+      const parsed = JSON.parse(text);
       loaded = { path, sha: result.sha, text };
+      renderSourceMap(path === "data/site-data.json" ? parsed : null);
       editor.value = JSON.stringify(JSON.parse(text), null, 2);
       $("loaded-file").textContent = path + " · loaded";
       saveButton.disabled = false;
@@ -135,6 +167,7 @@
     token = "";
     tokenInput.value = "";
     loaded = null;
+    renderSourceMap(null);
     editor.value = "";
     saveButton.disabled = true;
     $("loaded-file").textContent = "No file loaded";
