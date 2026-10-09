@@ -1,280 +1,82 @@
 #!/usr/bin/env python3
-"""Build a web-ready Tilak Varma T20I over-by-over dataset from Cricsheet."""
-
-import io
-import json
-import re
-import urllib.request
-import zipfile
+"""Build format-aware Tilak Varma over-by-over data from Cricsheet archives."""
+import io,json,re,urllib.request,zipfile
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime,timezone
 from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
-OUTPUT_FILE = ROOT / "data" / "death-overs.json"
-SOURCE_URL = "https://cricsheet.org/downloads/t20s_male_json.zip"
-
-PLAYER_ALIASES = {
-    "tilakvarma",
-    "tilakverma",
-    "tilakvardhanvarma",
-}
-
-
-def normalize_name(value):
-    """Normalize a player name so common spelling variants can be matched."""
-    return re.sub(r"[^a-z]", "", str(value).lower())
-
-
-def download_archive():
-    """Download the source archive and verify that it is a ZIP file."""
-    request = urllib.request.Request(
-        SOURCE_URL,
-        headers={"User-Agent": "TilakVarmaFC/1.0"},
-    )
-
-    with urllib.request.urlopen(request, timeout=120) as response:
-        archive_bytes = response.read()
-
-    if not archive_bytes.startswith(b"PK"):
-        raise RuntimeError("The downloaded Cricsheet file is not a valid ZIP archive.")
-
-    return archive_bytes
-
-
-def is_target_player(player_name):
-    return normalize_name(player_name) in PLAYER_ALIASES
-
-
-def is_supported_match(info):
-    """Keep men's international T20 matches represented by this archive."""
-    match_type = str(info.get("match_type", "")).lower()
-    gender = str(info.get("gender", "")).lower()
-    team_type = str(info.get("team_type", "international")).lower()
-
-    supported_types = {"t20", "t20i", "it20", "international t20"}
-    supported_genders = {"male", "men", ""}
-
-    return (
-        match_type in supported_types
-        and gender in supported_genders
-        and team_type == "international"
-    )
-
-
-def collect_player_innings(match_data, filename, match_ids, over_totals):
-    """Extract Tilak's batting overs and add their totals to the archive summary."""
-    info = match_data.get("info", {})
-
-    if not is_supported_match(info):
-        return []
-
-    players_by_team = info.get("players", {})
-    all_players = [
-        player
-        for team_players in players_by_team.values()
-        for player in team_players
-    ]
-
-    if not any(is_target_player(player) for player in all_players):
-        return []
-
-    match_id = Path(filename).stem
-    match_ids.add(match_id)
-
-    teams = info.get("teams", [])
-    match_date = str((info.get("dates") or [""])[0])
-    match_venue = info.get("venue", "")
-    player_innings = []
-
-    for innings_number, innings_data in enumerate(
-        match_data.get("innings", []),
-        start=1,
-    ):
-        batting_team = innings_data.get("team", "")
-        batting_players = players_by_team.get(batting_team, [])
-
-        if not any(is_target_player(player) for player in batting_players):
-            continue
-
-        runs_by_over = defaultdict(
-            lambda: {
-                "runs": 0,
-                "balls": 0,
-                "fours": 0,
-                "sixes": 0,
-            }
-        )
-
-        for over_data in innings_data.get("overs", []):
-            over_number = int(over_data.get("over", -1)) + 1
-
-            for delivery in over_data.get("deliveries", []):
-                batter = delivery.get("batter", delivery.get("batsman", ""))
-
-                if not is_target_player(batter):
-                    continue
-
-                over_stats = runs_by_over[over_number]
-                run_data = delivery.get("runs", {})
-                batter_runs = int(
-                    run_data.get("batter", run_data.get("batsman", 0)) or 0
-                )
-                extras = delivery.get("extras", {}) or {}
-
-                over_stats["runs"] += batter_runs
-
-                if not int(extras.get("wides", 0) or 0):
-                    over_stats["balls"] += 1
-
-                if batter_runs == 4:
-                    over_stats["fours"] += 1
-                elif batter_runs == 6:
-                    over_stats["sixes"] += 1
-
-        if not runs_by_over:
-            continue
-
-        opposition = next(
-            (team for team in teams if team != batting_team),
-            "Unknown",
-        )
-
-        overs = []
-        for over_number, values in sorted(runs_by_over.items()):
-            over_stats = {
-                "over": over_number,
-                **values,
-                "strikeRate": round(values["runs"] * 100 / values["balls"], 2) if values["balls"] else 0,
-            }
-            overs.append(over_stats)
-
-            for stat_name in ("runs", "balls", "fours", "sixes"):
-                over_totals[over_number][stat_name] += values[stat_name]
-
-        player_innings.append(
-            {
-                "date": match_date,
-                "matchId": match_id,
-                "teams": " vs ".join(teams),
-                "opposition": opposition,
-                "venue": match_venue,
-                "innings": innings_number,
-                "battingTeam": batting_team,
-                "overs": overs,
-            }
-        )
-
-    return player_innings
-
-
-def build_dataset(archive_bytes):
-    """Parse all match files and assemble the public JSON payload."""
-    match_ids = set()
-    over_totals = defaultdict(lambda: defaultdict(int))
-    innings = []
-    read_errors = []
-
-    with zipfile.ZipFile(io.BytesIO(archive_bytes)) as archive:
-        json_files = [
-            name
-            for name in archive.namelist()
-            if name.lower().endswith(".json")
-        ]
-
-        for filename in json_files:
-            try:
-                match_data = json.loads(
-                    archive.read(filename).decode("utf-8-sig")
-                )
-                innings.extend(
-                    collect_player_innings(
-                        match_data,
-                        filename,
-                        match_ids,
-                        over_totals,
-                    )
-                )
-            except Exception as error:  # Keep one malformed match from stopping the refresh.
-                read_errors.append(
-                    {
-                        "file": filename,
-                        "error": str(error),
-                    }
-                )
-
-    innings.sort(
-        key=lambda item: (
-            item["date"],
-            item["matchId"],
-            item["innings"],
-        ),
-        reverse=True,
-    )
-
-    over_summary = []
-    for over_number in range(1, 21):
-        values = over_totals[over_number]
-        runs = values["runs"]
-        balls = values["balls"]
-
-        over_summary.append(
-            {
-                "over": over_number,
-                "runs": runs,
-                "balls": balls,
-                "fours": values["fours"],
-                "sixes": values["sixes"],
-                "strikeRate": round(runs * 100 / balls, 2) if balls else 0,
-            }
-        )
-
-    return {
-        "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
-        "source": SOURCE_URL,
-        "coverageNote": (
-            "Only matches present in the archive are included. "
-            "Archive coverage may be incomplete."
-        ),
-        "matchesFound": len(match_ids),
-        "inningsFound": len(innings),
-        "overTotals": over_summary,
-        "innings": innings,
-        "readErrors": len(read_errors),
-    }
-
-
+ROOT=Path(__file__).resolve().parents[1]; OUT=ROOT/"data"/"death-overs.json"
+ALIASES={"tilakvarma","tilakverma","tilakvardhanvarma"}
+ARCHIVES={"ipl":{"label":"IPL","url":"https://cricsheet.org/downloads/ipl_json.zip","kind":"ipl"},"t20i":{"label":"T20 Internationals","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20i"},"t20":{"label":"Other Men's T20","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20"},"odi":{"label":"ODI","url":"https://cricsheet.org/downloads/odis_male_json.zip","kind":"odi"},"test":{"label":"Test (available archive)","url":"https://cricsheet.org/downloads/tests_male_json.zip","kind":"test"}}
+def norm(v): return re.sub(r"[^a-z]","",str(v).lower())
+def target(v): return norm(v) in ALIASES
+def download(url):
+ req=urllib.request.Request(url,headers={"User-Agent":"TilakVarmaFC/1.1"})
+ with urllib.request.urlopen(req,timeout=120) as r: b=r.read()
+ if not b.startswith(b"PK"): raise RuntimeError("Not a ZIP archive: "+url)
+ return b
+def classify(info):
+ mt=str(info.get("match_type","")).lower().strip(); tt=str(info.get("team_type","")).lower().strip()
+ if mt in {"test","tests"}: return "test"
+ if mt in {"odi","one day international"}: return "odi"
+ if mt in {"t20","t20i","it20","international t20"}: return "t20i" if tt=="international" else "t20"
+ return None
+def parse_match(data,filename,key,totals):
+ info=data.get("info",{})
+ if classify(info)!=key:return [],None
+ players=info.get("players",{});teams=info.get("teams",[])
+ if not any(target(p) for group in players.values() for p in group):return [],None
+ mid=Path(filename).stem;date=str((info.get("dates") or [""])[0]);venue=info.get("venue","");rows=[]
+ for innno,inn in enumerate(data.get("innings",[]),1):
+  team=inn.get("team","")
+  if not any(target(p) for p in players.get(team,[])):continue
+  byover=defaultdict(lambda:{"runs":0,"balls":0,"fours":0,"sixes":0})
+  for od in inn.get("overs",[]):
+   number=int(od.get("over",-1))+1
+   for d in od.get("deliveries",[]):
+    if not target(d.get("batter",d.get("batsman",""))):continue
+    s=byover[number];rd=d.get("runs",{});br=int(rd.get("batter",rd.get("batsman",0)) or 0);ex=d.get("extras",{}) or {}
+    s["runs"]+=br
+    if not int(ex.get("wides",0) or 0):s["balls"]+=1
+    if br==4:s["fours"]+=1
+    elif br==6:s["sixes"]+=1
+  if not byover:continue
+  opposition=next((t for t in teams if t!=team),"Unknown");overs=[]
+  for number,v in sorted(byover.items()):
+   overs.append({"over":number,**v,"strikeRate":round(v["runs"]*100/v["balls"],2) if v["balls"] else 0})
+   for name in ("runs","balls","fours","sixes"):totals[number][name]+=v[name]
+  rows.append({"date":date,"matchId":mid,"format":key,"teams":" vs ".join(teams),"opposition":opposition,"venue":venue,"innings":innno,"battingTeam":team,"overs":overs})
+ return rows,mid if rows else None
+def build(payload,key):
+ ids=set();totals=defaultdict(lambda:defaultdict(int));innings=[];errors=[]
+ with zipfile.ZipFile(io.BytesIO(payload)) as z:
+  for name in (n for n in z.namelist() if n.lower().endswith(".json")):
+   try:
+    rows,mid=parse_match(json.loads(z.read(name).decode("utf-8-sig")),name,key,totals);innings.extend(rows)
+    if mid:ids.add(mid)
+   except Exception as e:errors.append({"file":name,"error":str(e)})
+ innings.sort(key=lambda x:(x["date"],x["matchId"],x["innings"]),reverse=True)
+ maximum=50 if key=="odi" else 90 if key=="test" else 20
+ summary=[]
+ for n in range(1,maximum+1):
+  v=totals[n];r,b=v["runs"],v["balls"]
+  summary.append({"over":n,"runs":r,"balls":b,"fours":v["fours"],"sixes":v["sixes"],"strikeRate":round(r*100/b,2) if b else 0})
+ return {"label":ARCHIVES[key]["label"],"source":ARCHIVES[key]["url"],"matchesFound":len(ids),"inningsFound":len(innings),"overTotals":summary,"innings":innings,"readErrors":len(errors)}
 def main():
-    archive_bytes = download_archive()
-    payload = build_dataset(archive_bytes)
-
-    # Preserve a separately verified latest-match summary that is not yet
-    # present in the archive's delivery-by-delivery records.
-    if OUTPUT_FILE.exists():
-        try:
-            previous_payload = json.loads(OUTPUT_FILE.read_text(encoding="utf-8"))
-            if previous_payload.get("featuredMatch"):
-                payload["featuredMatch"] = previous_payload["featuredMatch"]
-                payload["coverageNote"] = (
-                    "Over totals and calculator use verified ball-by-ball archive innings only. "
-                    "The latest scorecard summary is shown separately until delivery-level data is available."
-                )
-        except (OSError, json.JSONDecodeError) as error:
-            print(f"Could not preserve previous featured match summary: {error}")
-
-    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT_FILE.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
-
-    print(
-        f"Created {OUTPUT_FILE}: "
-        f"{payload['matchesFound']} matches, "
-        f"{payload['inningsFound']} innings, "
-        f"{payload['readErrors']} read errors"
-    )
-
-
-if __name__ == "__main__":
-    main()
+ formats={};failures={};cache={}
+ for key,cfg in ARCHIVES.items():
+  try:
+   if cfg["url"] not in cache:cache[cfg["url"]]=download(cfg["url"])
+   formats[key]=build(cache[cfg["url"]],cfg["kind"])
+   print(f'{cfg["label"]}: {formats[key]["matchesFound"]} matches, {formats[key]["inningsFound"]} innings')
+  except Exception as e:failures[key]=str(e);print(f'WARNING {key}: {e}')
+ if not formats or not any(v["innings"] for v in formats.values()):raise RuntimeError("No Tilak innings found; refusing to publish empty data.")
+ default="t20i" if formats.get("t20i",{}).get("innings") else "ipl";d=formats[default]
+ out={"updatedAt":datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),"player":"Tilak Varma","defaultFormat":default,"formats":formats,"sourceErrors":failures,"source":d["source"],"coverageNote":"Only Tilak Varma deliveries found in available Cricsheet archives are included. Coverage varies by format; Test archive data is not a complete first-class career record.","matchesFound":d["matchesFound"],"inningsFound":d["inningsFound"],"overTotals":d["overTotals"],"innings":d["innings"],"readErrors":sum(x["readErrors"] for x in formats.values())}
+ if OUT.exists():
+  try:
+   prev=json.loads(OUT.read_text(encoding="utf-8"))
+   if prev.get("featuredMatch"):out["featuredMatch"]=prev["featuredMatch"]
+  except (OSError,json.JSONDecodeError):pass
+ OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+ print("Wrote formats:",", ".join(formats))
+if __name__=="__main__":main()
