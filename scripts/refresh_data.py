@@ -178,10 +178,20 @@ def main():
     data["lastUpdated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     data["dataNote"] = (
         "Recent form is refreshed from ICC public profile when its page layout can be parsed, "
-        "with Cricsheet T20I data as fallback. Profile photo is read from the official Mumbai Indians "
+        "with Cricsheet international T20 data as fallback. Profile photo is read from the official Mumbai Indians "
         "profile metadata. Career totals are preserved unless a reliable, recognizable source value "
         "is available; verify official scorecards before publication."
     )
+    # Public audit trail: show scheduled refreshes on the homepage activity feed.
+    activity = data.setdefault("activityLog", [])
+    activity.insert(0, {
+        "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "category": "AUTOMATION",
+        "title": "Scheduled Python refresh completed",
+        "description": "Public profile and match feeds were checked. Existing verified rows are retained when a source is blocked or returns stale data.",
+        "source": "https://github.com/nitishratre45/tilakvarmafanclub/actions"
+    })
+    data["activityLog"] = activity[:12]
     DATA_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Data refresh finished. Recent rows available: {len(data.get('recentInnings', []))}")
 
