@@ -17,7 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "data" / "site-data.json"
 PLAYER_ID = "1170265"
-BASE = "https://stats.espncricinfo.com/ci/engine/player/" + PLAYER_ID + ".html"
+BASE = "https://stats.cricinfo.com/ci/engine/player/" + PLAYER_ID + ".html"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -90,10 +90,12 @@ def fetch(url):
         return response.read().decode("utf-8", "replace")
 
 def stats_url(match_class, view, page=1):
-    params = [("class", str(match_class)), ("template", "results"), ("type", "batting"), ("view", view)]
+    # Statsguru's legacy engine expects the semicolon-separated filters encoded
+    # as one class query value; unescaped semicolons can return HTTP 400.
+    query = "class=" + str(match_class) + ";template=results;type=batting;view=" + view
     if page > 1:
-        params.append(("page", str(page)))
-    return BASE + "?" + ";".join(k + "=" + v for k, v in params)
+        query += ";page=" + str(page)
+    return BASE + "?" + urllib.parse.quote(query, safe="")
 
 def parse_tables(page):
     parser = TableParser()
