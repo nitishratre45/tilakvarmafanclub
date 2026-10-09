@@ -45,6 +45,7 @@ jobs:
           python -m json.tool data/death-overs.json > /dev/null
           python -m json.tool data/fan-zone.json > /dev/null
           python -m json.tool data/tilak-news.json > /dev/null
+          python -m json.tool data/cricinfo-photos.json > /dev/null
           python - <<'PY'
           import json
           from pathlib import Path
@@ -83,6 +84,17 @@ jobs:
                       raise SystemExit(
                           f"Bowling overs/balls mismatch for {fmt}: {overs} overs, {balls} balls"
                       )
+
+          fielding = data.get("fieldingStats", {}).get("formats", {})
+          for fmt, entry in fielding.items():
+              summary = entry.get("summary", {})
+              if summary and summary.get("matches") is not None:
+                  if int(summary["matches"]) < 0 or int(summary.get("catches", 0)) < 0:
+                      raise SystemExit(f"Invalid fielding totals for {fmt}")
+          for fmt, entry in data.get("careerFormats", {}).items():
+              t20i_summary = data.get("statsguru", {}).get("formats", {}).get("T20I", {}).get("summary", {})
+              if fmt == "T20I" and entry.get("runs") is not None and entry["runs"] != t20i_summary.get("runs"):
+                  raise SystemExit("careerFormats.T20I runs do not match the ESPNcricinfo Statsguru snapshot")
 
           death = json.loads(Path("data/death-overs.json").read_text(encoding="utf-8"))
           if not isinstance(death.get("innings"), list) and not isinstance(death.get("formats"), dict):
