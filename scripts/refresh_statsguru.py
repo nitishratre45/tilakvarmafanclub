@@ -109,11 +109,13 @@ def fetch(url):
     with urllib.request.urlopen(req, timeout=45) as response:
         return response.read().decode("utf-8", "replace")
 
-def stats_url(match_class, view, page=1):
+def stats_url(match_class, view=None, page=1):
     # ESPNcricinfo's legacy Statsguru endpoint uses semicolon-separated query
     # parameters. Encoding the whole filter string as the class value causes
     # HTTP 400, so preserve the legacy query syntax.
-    query = "class=" + str(match_class) + ";template=results;type=batting;view=" + view
+    query = "class=" + str(match_class) + ";template=results;type=batting"
+    if view:
+        query += ";view=" + view
     if page > 1:
         query += ";page=" + str(page)
     return BASE + "?" + query
@@ -182,13 +184,6 @@ def parse_career_breakdown(page):
     seen = set()
     last_indexes = None
     parsed_tables = parse_tables(page)
-    if not getattr(parse_career_breakdown, "_debugged", False):
-        parse_career_breakdown._debugged = True
-        print("DEBUG Statsguru tables:", len(parsed_tables))
-        for ti, tbl in enumerate(parsed_tables):
-            samples = [cell_text(row) for row in tbl if len(row) >= 10]
-            if samples:
-                print("DEBUG table", ti, "rows", len(tbl), "wide samples", samples[:2])
     for table in parsed_tables:
         header_index = None
         indexes = {}
@@ -319,7 +314,7 @@ def scrape_format(fmt, match_class):
     # responses. Prefer it when the innings page only exposes the overall row.
     if len(career_breakdown) <= 1:
         try:
-            summary_page = fetch(stats_url(match_class, "summary", 1))
+            summary_page = fetch(stats_url(match_class, None, 1))
             split_rows = parse_career_breakdown(summary_page)
             if len(split_rows) > len(career_breakdown):
                 career_breakdown = split_rows
