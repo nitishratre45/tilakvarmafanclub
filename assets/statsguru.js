@@ -10,7 +10,7 @@
 
   function metric(label,value){return '<div class="statsguru-metric"><span>'+esc(label.toUpperCase())+'</span><strong>'+esc(fmt(value))+'</strong></div>';}
   function rowsTable(rows,headers,render,emptyText){
-    $("statsguru-thead").innerHTML="<tr>"+headers.map(h=>"<th>"+esc(h)+"</th>").join("")+"</tr>";
+    $("statsguru-thead").innerHTML="<tr>"+headers.map(h=>"<th"+(String(h).toLowerCase()==="runs"?" class=\"sg-head-runs\"":"")+">"+esc(h)+"</th>").join("")+"</tr>";
     $("statsguru-tbody").innerHTML=rows.length?rows.map(render).join(""):'<tr><td colspan="'+headers.length+'" class="empty">'+esc(emptyText||"No verified Explore data rows match these filters.")+'</td></tr>';
   }
   function parseDate(value){
