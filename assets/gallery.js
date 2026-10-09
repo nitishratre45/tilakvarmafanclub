@@ -37,7 +37,7 @@ async function init(){
   }).join("")||'<p class="activity-empty">Photos are temporarily unavailable.</p>';
   host.querySelectorAll(".cricinfo-photo-open").forEach(button=>button.addEventListener("click",()=>lightbox().openPhoto(button.dataset.photoUrl,button.dataset.photoTitle)));
   host.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>img.closest(".cricinfo-photo-card")?.remove(),{once:true}));
-  if(stamp)stamp.textContent=(data.updatedAt?"Updated "+data.updatedAt:"Latest saved gallery")+(data.lastAttemptStatus==="source-unavailable"?" · last saved photos kept":"");
+  if(stamp)stamp.textContent=(data.updatedAt?"Last update: "+data.updatedAt:"Last update: time unavailable")+(data.lastAttemptStatus==="source-unavailable"?" · last saved photos kept":"");
  }catch(error){liveFallback(host,stamp,data);}
 }
 lightbox();init();
