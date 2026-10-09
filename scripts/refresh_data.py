@@ -183,8 +183,10 @@ def main():
             print("Incoming archive is older than current recent scorecards; preserving current rows.")
     else:
         print("No new recent-form rows found; preserving existing recentInnings.")
-    data["profileUpdated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    data["lastUpdated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    checked_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    data["profileUpdated"] = checked_at
+    data["lastChecked"] = checked_at
+    data["lastRefreshStatus"] = "available" if (rows or photo) else "source-unavailable"
     data["dataNote"] = (
         "Recent form and the player headshot are refreshed from the ICC public profile when available, "
         "with Cricsheet international T20 data as fallback for recent form. Career totals are preserved "
