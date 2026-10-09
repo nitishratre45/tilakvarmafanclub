@@ -70,7 +70,7 @@ def main():
    print(f'{cfg["label"]}: {formats[key]["matchesFound"]} matches, {formats[key]["inningsFound"]} innings')
   except Exception as e:failures[key]=str(e);print(f'WARNING {key}: {e}')
  if not formats or not any(v["innings"] for v in formats.values()):raise RuntimeError("No Tilak innings found; refusing to publish empty data.")
- default="t20i" if formats.get("t20i",{}).get("innings") else "ipl";d=formats[default]
+ default=next((k for k in ("t20i","ipl","t20","odi","test") if formats.get(k,{}).get("innings")),next(iter(formats)));d=formats[default]
  out={"updatedAt":datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),"player":"Tilak Varma","defaultFormat":default,"formats":formats,"sourceErrors":failures,"source":d["source"],"coverageNote":"Only Tilak Varma deliveries found in available Cricsheet archives are included. Coverage varies by format; Test archive data is not a complete first-class career record.","matchesFound":d["matchesFound"],"inningsFound":d["inningsFound"],"overTotals":d["overTotals"],"innings":d["innings"],"readErrors":sum(x["readErrors"] for x in formats.values())}
  if OUT.exists():
   try:
