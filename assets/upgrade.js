@@ -18,6 +18,8 @@ function dashboard(){
  const scored=rows.filter(r=>safeNum(r.runs)!==null),sum=scored.reduce((n,r)=>n+r.runs,0),best=scored.reduce((b,r)=>!b||r.runs>b.runs?r:b,null);
  const cards=[["T20I CAREER RUNS",Number.isFinite(Number(runs))?Number(runs).toLocaleString("en-IN"):runs,"Saved career snapshot"],["BATTING AVERAGE",avg,"T20 International"],["STRIKE RATE",sr,"T20 International"],["BEST IN LOADED INNINGS",best?best.runs+" runs":"—",best?(best.date+" · "+best.opposition):"No numeric innings available"]];
  host.innerHTML=cards.map(c=>'<article class="upgrade-card"><span class="feature-eyebrow">'+esc(c[0])+'</span><strong>'+esc(c[1])+'</strong><h3>'+esc(c[2])+'</h3></article>').join("");
+ const formatHost=$("format-snapshot"),formats=site.careerFormats||{};
+ if(formatHost){const order=["T20I","ODI","IPL","First-class","List A"];formatHost.innerHTML='<div class="format-snapshot-head"><span class="feature-eyebrow">CAREER BY FORMAT</span><span>Saved snapshot</span></div><div class="format-snapshot-grid">'+order.filter(k=>formats[k]).map(k=>'<article class="format-snapshot-card"><span>'+esc(k.toUpperCase())+'</span><strong>'+esc(Number(formats[k].runs||0).toLocaleString("en-IN"))+'</strong><small>RUNS</small><p>HS '+esc(formats[k].highestScore??"—")+' · AVG '+esc(formats[k].average??"—")+'</p></article>').join("")+'</div>';}
  const last=site.lastChecked||site.lastUpdated||"not recorded";const freshness=$("dashboard-freshness");
  if(freshness)freshness.textContent="Saved data checked: "+last+" · "+scored.length+" numeric innings loaded ("+sum+" runs across listed rows)";
 }
