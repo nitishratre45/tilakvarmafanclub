@@ -6,8 +6,16 @@
 
   const isMobile = () => window.matchMedia("(max-width: 640px)").matches;
   const labelFor = (select) => {
+    const ariaLabel = select.getAttribute("aria-label");
+    if (ariaLabel && ariaLabel.trim()) return ariaLabel.trim();
     const label = select.labels && select.labels[0];
-    return (label && label.textContent.trim()) || select.getAttribute("aria-label") || select.id.replace(/[-_]/g, " ") || "Choose an option";
+    if (label) {
+      const clone = label.cloneNode(true);
+      clone.querySelectorAll("select, option, script, style").forEach(node => node.remove());
+      const text = clone.textContent.replace(/\\s+/g, " ").trim();
+      if (text) return text;
+    }
+    return select.id.replace(/[-_]/g, " ") || "Choose an option";
   };
   const selectedOption = (select) => select.options[select.selectedIndex] || select.options[0] || null;
 
