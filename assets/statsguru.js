@@ -194,7 +194,7 @@
   });
   $("sg-reset-filter").addEventListener("click",resetFilters);
   fetch("data/site-data.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error("site data unavailable");return r.json();}).then(d=>{data=d;syncFilterOptions();render();}).catch(()=>{
-    $("statsguru-updated").textContent="Could not load ESPNcricinfo snapshot";
-    $("statsguru-tbody").innerHTML='<tr><td colspan="6" class="empty">Player-analysis data is temporarily unavailable. Please try again later.</td></tr>';
+    $("statsguru-updated").textContent="Explore data is temporarily unavailable";
+    $("statsguru-tbody").innerHTML='<tr><td colspan="4" class="empty">Explore data is temporarily unavailable. Please try again later.</td></tr>';
   });
 })();
