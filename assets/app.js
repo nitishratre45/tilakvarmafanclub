@@ -29,9 +29,10 @@
     }).join("") : '<tr><td colspan="7" class="empty">No recent innings have been loaded yet. See the Cricsheet source and refresh workflow.</td></tr>';
     set("recent-runs", rows.reduce((sum, r) => sum + (typeof r.runs === "number" && Number.isFinite(r.runs) ? r.runs : 0), 0));
     set("recent-count", rows.length);
-    const lastChecked = Date.parse(data.lastUpdated || "");
+    const lastChecked = Date.parse(data.lastChecked || data.lastUpdated || "");
     const stale = !Number.isFinite(lastChecked) || (Date.now() - lastChecked) > 36 * 60 * 60 * 1000;
-    set("data-status", !rows.length ? "Awaiting feed" : stale ? "Stale · last check overdue" : "Available · auto-refresh enabled");
+    const refreshFailed = data.lastRefreshStatus === "source-unavailable";
+    set("data-status", !rows.length ? "Awaiting feed" : refreshFailed ? "Source unavailable · saved data retained" : stale ? "Stale · last check overdue" : "Available · auto-refresh enabled");
     set("recent-updated", data.recentUpdated || "No refresh timestamp yet");
 
     const esc = (value) => String(value ?? "").replace(/[&<>"']/g, ch => ({
