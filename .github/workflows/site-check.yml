@@ -1,0 +1,40 @@
+name: Validate Tilak Varma FC site
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'admin/**'
+      - 'assets/**'
+      - 'data/fan-zone.json'
+      - '.github/workflows/site-check.yml'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check assets/app.js
+          node --check assets/features.js
+          node --check assets/admin.js
+      - name: Validate JSON data
+        run: |
+          python -m json.tool data/site-data.json > /dev/null
+          python -m json.tool data/death-overs.json > /dev/null
+          python -m json.tool data/fan-zone.json > /dev/null
+      - name: Verify feature modules are linked
+        run: |
+          grep -q 'assets/features.js' index.html
+          grep -q 'data/fan-zone.json' assets/features.js
+          grep -q 'data/fan-zone.json' admin/index.html
