@@ -15,7 +15,7 @@ Serve the repository root with any static HTTP server, for example `python -m ht
 See [DEPLOYMENT.md](DEPLOYMENT.md). Configure Cloudflare Pages with branch `main`, no build command, and repository root as output.
 
 ## Data accuracy
-Career and match statistics are sourced from ESPNcricinfo/Statsguru where the public data is available. ICC is used for official ICC rankings/records only. Saved snapshots can lag behind live scorecards; missing values are not guessed. Recent innings update only when the scheduled source refresh succeeds and matching player records are present.
+Career totals and Statsguru breakdowns are sourced from ESPNcricinfo where the public data is available. ICC is used for official rankings/records and profile metadata; recent innings refresh from match-level Cricsheet data when newer verified deliveries are available. Saved snapshots can lag behind live scorecards; missing values are not guessed. Recent innings update only when the scheduled source refresh succeeds and matching player records are present.
 
 ## Disclaimer
 Independent fan-made project; not affiliated with Tilak Varma, BCCI, IPL, or any team.
