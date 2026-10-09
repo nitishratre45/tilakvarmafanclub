@@ -92,10 +92,10 @@ def fetch(url):
 def stats_url(match_class, view, page=1):
     # Statsguru's legacy engine expects the semicolon-separated filters encoded
     # as one class query value; unescaped semicolons can return HTTP 400.
-    query = "class=" + str(match_class) + ";template=results;type=batting;view=" + view
+    query = str(match_class) + ";template=results;type=batting;view=" + view
     if page > 1:
         query += ";page=" + str(page)
-    return BASE + "?" + urllib.parse.quote(query, safe="")
+    return BASE + "?class=" + urllib.parse.quote(query, safe="")
 
 def parse_tables(page):
     parser = TableParser()
