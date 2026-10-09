@@ -29,6 +29,15 @@
           '<article class="home-mini-stat"><span>' + esc(label) + '</span><strong>' + esc(value) + '</strong></article>'
         ).join("");
       }
+      const formatHost = $("home-format-stats");
+      if (formatHost) {
+        const order = [["ODI","ODI"],["FC","First-class"],["T20I","T20I"],["LIST A","List A"],["IPL","IPL"],["OVERALL T20","Overall T20 (all competitions)"]];
+        formatHost.innerHTML = order.map(([label,key]) => {
+          const s = data.careerFormats?.[key];
+          if (!s) return "";
+          return '<article class="home-format-card"><span>' + esc(label) + '</span><strong>' + esc(number(s.runs)) + '</strong><small>' + esc(s.matches ?? "—") + ' matches · HS ' + esc(s.highestScore ?? "—") + '</small><small>AVG ' + esc(s.average ?? "—") + ' · SR ' + esc(s.strikeRate ?? "—") + '</small></article>';
+        }).filter(Boolean).join("");
+      }
       if ($("home-data-updated")) $("home-data-updated").textContent = data.lastUpdated || "Timestamp unavailable";
       const rows = Array.isArray(data.recentInnings) ? data.recentInnings.slice(0, 4) : [];
       if (inningsHost) inningsHost.innerHTML = rows.length ? rows.map(row => {
