@@ -275,3 +275,48 @@ img{max-width:100%}
 
 .source-map-notice{margin:0 0 14px;padding:13px 15px;border-left:3px solid #ff9933;background:#10243c;color:#b8c9de;font-size:11px;line-height:1.7}
 .source-map-notice strong{color:#ffb15c}
+
+
+/* Final visual system: one consistent navy canvas, warm India-orange accent */
+:root{--bg:#07101f;--panel:#0d1a2c;--panel2:#122238;--white:#f4f7fb;--muted:#a0aec1;--orange:#ff9933;--cyan:#b8d4f7;--line:rgba(184,212,247,.14);--india-green:#138808}
+body,.hero,.profile-section,.stats-section,.feature-section,.records-section,.fan-zone-section,.poster-section,.innings-section,.activity-section,.impact-section,.about-section{background:#07101f!important;color:var(--white)}
+.hero{background:radial-gradient(ellipse at 75% 45%,rgba(35,75,112,.2),transparent 48%),#07101f!important}
+.profile-section{background:#091626!important}
+.ticker{background:#10243b!important;color:#d9e8fa!important;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ticker b{color:var(--orange)!important}
+.section h2 em,.profile-copy h2 em,.section-heading h2 em,.records-section h2 em,.analytics-head h3 em{color:var(--orange)!important}
+.stats-grid:not(.career-formats) .stat-feature{background:#0d1a2c!important;color:var(--white)!important;border:1px solid rgba(255,153,51,.5)!important;box-shadow:none!important}
+.stat-feature .stat-label,.stat-feature .stat-note{color:var(--muted)!important}
+.stat-feature strong{color:var(--orange)}
+.stat-watermark{color:#ff993311!important}
+.stat-card,.format-card,.milestone-card,.analytics-metric,.explorer-metric,.fan-card,.poster-controls{background:#0d1a2c!important;color:var(--white)!important;border:1px solid var(--line)!important;box-shadow:none!important}
+.stat-card .stat-label,.stat-card .stat-note,.format-detail,.milestone-values span,.milestone-card p,.milestone-card small,.analytics-metric span,.explorer-metric span,.poster-controls label{color:var(--muted)!important}
+.stat-card strong,.milestone-values strong,.analytics-metric strong,.explorer-metric strong{color:var(--white)!important}
+.stat-feature strong,.milestone-values strong{color:var(--orange)!important}
+.data-line,.featured-match-card,.activity-item,.explorer-chart,.analytics-chart,.poster-preview{background:#0d1a2c!important;border-color:var(--line)!important}
+.records-section .section-heading>p,.section-heading>p,.profile-intro,.profile-teams,.impact-copy p,.about-copy p{color:var(--muted)!important}
+.explorer-summary,.analytics-grid{gap:10px}
+.explorer-metric,.analytics-metric{border-top:2px solid var(--orange)!important}
+.bar-track i,.milestone-track i,.poll-track i{background:var(--orange)!important}
+.milestone-track,.poll-track{background:#24354b!important}
+.fan-card{border-top:2px solid var(--orange)!important}
+.fan-card:nth-child(2){border-top-color:var(--orange)!important}
+.poll-option{background:#091626!important;border-color:var(--line)!important;color:var(--white)!important}
+.poll-option:has(input:checked){background:#12243a!important;border-color:var(--orange)!important}
+.poll-option input{accent-color:var(--orange)!important}
+.poll-result>div:first-child,.poll-results small,.fan-link small,.fan-link span{color:var(--muted)!important}
+.poll-result b,.fan-link:hover{color:var(--orange)!important}
+.fan-link{background:#091626!important;border-color:var(--line)!important;color:var(--white)!important}
+.poster-controls input,.poster-controls select,.explorer-toolbar select,.explorer-toolbar input{background:#07101f!important;color:var(--white)!important;border-color:var(--line)!important}
+.button.primary,.primary{background:var(--orange)!important;color:#171717!important}
+.button.primary:hover,.primary:hover{background:#ffb45e!important}
+.button.outline,.outline{background:transparent!important;color:var(--white)!important;border-color:#53657b!important}
+.button.outline:hover,.outline:hover{border-color:var(--orange)!important;color:var(--orange)!important}
+.feature-eyebrow,.eyebrow,.profile-teams b,.featured-kicker,.activity-meta{color:var(--cyan)!important}
+.live-dot{background:var(--orange)!important;box-shadow:0 0 10px #ff993344!important}
+.activity-item:hover{border-color:#ff993355!important}
+.quiz-feedback{min-height:44px;margin:14px 0 8px;color:#dce8f7;font-size:11px;line-height:1.8}
+.fan-zone-updated{display:block;margin-top:10px;color:var(--muted);font:9px/1.7 var(--mono)}
+.fan-quiz-card{border-top:2px solid var(--orange)!important}
+@media(max-width:900px){.fan-zone-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.fan-zone-grid{grid-template-columns:1fr}.section{padding-top:58px;padding-bottom:58px}.profile-section{padding-top:42px!important;padding-bottom:42px!important}}
