@@ -407,7 +407,7 @@ def parse_fielding_breakdown(page):
                     elif h in {"ro", "runouts", "runout"}: columns["runOuts"] = j
                     elif h in {"dismissals", "total"}: columns["dismissals"] = j
                 break
-        if columns is None:
+        if header_idx is None or columns is None:
             continue
         for row in table[header_idx + 1:]:
             vals = cell_text(row)
