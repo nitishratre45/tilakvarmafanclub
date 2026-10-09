@@ -9,20 +9,8 @@ async function init(){
   const a=await fetch("data/site-data.json",{cache:"no-store"}),b=await fetch("data/fan-zone.json",{cache:"no-store"});
   if(!a.ok)throw Error("Stats feed unavailable");
   site=await a.json();fan=b.ok?await b.json():{};rows=Array.isArray(site.recentInnings)?site.recentInnings:[];
-  explorer();milestones();analytics();poll();links();quiz();
- }catch(e){console.error(e);["explorer-table","milestone-grid","analytics-grid"].forEach(id=>{if($(id))$(id).textContent="Data unavailable. Please try again later.";});}
-}
-function explorer(){
- const f=$("explorer-format"),o=$("explorer-opponent");if(!f||!o)return;
- f.innerHTML='<option value="all">All formats</option>'+[...new Set(rows.map(r=>r.format).filter(Boolean))].sort().map(x=>'<option>'+esc(x)+'</option>').join("");
- o.innerHTML='<option value="all">All opponents</option>'+[...new Set(rows.map(r=>r.opposition).filter(Boolean))].sort().map(x=>'<option>'+esc(x)+'</option>').join("");
- const render=()=>{
-  const q=$("explorer-query").value.toLowerCase().trim(),data=rows.filter(r=>(f.value==="all"||r.format===f.value)&&(o.value==="all"||r.opposition===o.value)&&(!q||(r.date+" "+r.opposition+" "+r.format).toLowerCase().includes(q))),scored=data.filter(r=>num(r)!==null),total=scored.reduce((s,r)=>s+num(r),0),max=Math.max(1,...scored.map(num));
-  $("explorer-summary").innerHTML=[["INNINGS SHOWN",data.length],["RUNS",total],["AVG / SCORED INNINGS",scored.length?(total/scored.length).toFixed(1):"—"],["TOP SCORE",scored.length?max:"—"]].map(x=>'<div class="explorer-metric"><span>'+esc(x[0])+'</span><strong>'+esc(x[1])+'</strong></div>').join("");
-  $("explorer-table").innerHTML=data.length?data.map(r=>'<tr><td>'+esc(r.date)+'</td><td>'+esc(r.format||"—")+'</td><td>'+esc(r.opposition)+'</td><td>'+esc(r.runs)+'</td><td>'+esc(r.balls)+'</td><td>'+esc(r.strikeRate??"—")+'</td></tr>').join(""):'<tr><td colspan="6" class="empty">No innings match these filters.</td></tr>';
-  $("explorer-chart").innerHTML=scored.length?'<div class="bar-chart">'+scored.slice(0,10).reverse().map(r=>'<div class="bar-row"><span>'+esc(r.date)+' · '+esc(r.opposition)+'</span><div class="bar-track"><i style="width:'+Math.max(2,num(r)/max*100)+'%"></i></div><b>'+num(r)+'</b></div>').join("")+'</div>':'<p class="feature-note">No numeric innings available for the chart.</p>';
- };
- [f,o].forEach(x=>x.addEventListener("change",render));$("explorer-query").addEventListener("input",render);render();
+  milestones();analytics();poll();links();quiz();
+ }catch(e){console.error(e);["milestone-grid","analytics-grid"].forEach(id=>{if($(id))$(id).textContent="Data unavailable. Please try again later.";});}
 }
 function milestones(){
  const host=$("milestone-grid");if(!host)return;const t=site.careerFormats?.T20I||site.careerStats||{},runs=Number(t.runs??site.careerStats?.t20iRuns),fifties=Number(t.fifties??site.careerStats?.fifties),hundreds=Number(t.hundreds??site.careerStats?.hundreds),list=[];
