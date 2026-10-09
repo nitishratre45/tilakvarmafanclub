@@ -148,9 +148,24 @@ def main():
         except Exception as exc:
             print(f"Cricsheet fallback failed: {exc}")
     if rows:
-        data["recentInnings"] = rows
-        data["recentSource"] = rows[0].get("source", ICC_URL)
-        data["recentUpdated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        existing = data.get("recentInnings", [])
+        def sortable_date(row):
+            value = str(row.get("date", ""))
+            for fmt in ("%Y-%m-%d", "%d-%b-%Y", "%d %b %Y"):
+                try:
+                    return datetime.strptime(value, fmt).date()
+                except ValueError:
+                    pass
+            return datetime.min.date()
+        # Archive feeds can lag the latest scorecard. Preserve verified newer manual rows.
+        newest_existing = max((sortable_date(row) for row in existing), default=datetime.min.date())
+        newest_incoming = max((sortable_date(row) for row in rows), default=datetime.min.date())
+        if newest_incoming >= newest_existing:
+            data["recentInnings"] = rows
+            data["recentSource"] = rows[0].get("source", ICC_URL)
+            data["recentUpdated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        else:
+            print("Incoming archive is older than current recent scorecards; preserving current rows.")
     else:
         print("No new recent-form rows found; preserving existing recentInnings.")
     data["profileUpdated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
