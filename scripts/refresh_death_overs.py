@@ -248,6 +248,20 @@ def main():
     archive_bytes = download_archive()
     payload = build_dataset(archive_bytes)
 
+    # Preserve a separately verified latest-match summary that is not yet
+    # present in the archive's delivery-by-delivery records.
+    if OUTPUT_FILE.exists():
+        try:
+            previous_payload = json.loads(OUTPUT_FILE.read_text(encoding="utf-8"))
+            if previous_payload.get("featuredMatch"):
+                payload["featuredMatch"] = previous_payload["featuredMatch"]
+                payload["coverageNote"] = (
+                    "Over totals and calculator use verified ball-by-ball archive innings only. "
+                    "The latest scorecard summary is shown separately until delivery-level data is available."
+                )
+        except (OSError, json.JSONDecodeError) as error:
+            print(f"Could not preserve previous featured match summary: {error}")
+
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
