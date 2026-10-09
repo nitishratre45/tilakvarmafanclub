@@ -128,8 +128,11 @@ def main():
         print("Updated ICC record highlights:", len(records))
     else:
         at = text.casefold().find("records")
-        print("Could not parse ICC record highlights; saved records retained. Record text sample:",
-              text[max(0, at - 80):at + 900] if at >= 0 else text[:500])
+        print("Could not parse ICC record highlights; saved records retained.")
+        for needle in ("Fastest Players to Score", "Youngest Player to Score T20", "Youngest Player to Score YouthODI"):
+            pos = text.casefold().find(needle.casefold())
+            print("ICC record probe:", needle, pos,
+                  text[max(0, pos - 160):pos + 240] if pos >= 0 else "not present")
 
     FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
