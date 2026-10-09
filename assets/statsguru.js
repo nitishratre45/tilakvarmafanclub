@@ -107,7 +107,7 @@
       ].join("");
       return;
     }
-    if(!s){$("statsguru-summary").innerHTML=metric("SOURCE","Awaiting verified data");return;}
+    if(!s){$("statsguru-summary").innerHTML=metric("STATUS","Awaiting data");return;}
     $("statsguru-summary").innerHTML=[
       ["MATCHES",s.matches],["INNINGS",s.innings],["NOT OUTS",s.notOuts],["RUNS",s.runs],["HIGHEST",s.highestScore],["AVERAGE",s.average],["BALLS FACED",s.balls],["STRIKE RATE",s.strikeRate],["HUNDREDS",s.hundreds],["FIFTIES",s.fifties],["FOURS",s.fours],["SIXES",s.sixes]
     ].map(x=>metric(x[0],x[1])).join("");
@@ -115,9 +115,8 @@
   function render(){
     if(!data)return;
     const sg=data.statsguru||{},source=sourceData(),rows=source.innings.slice();
-    const stamp=sg.updatedAt||"waiting for first successful source refresh";
-    const sourceLink=sg.sourceUrl&&/^https:\/\//i.test(sg.sourceUrl)?' · <a href="'+esc(sg.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Open source ↗</a>':"";
-    $("statsguru-updated").innerHTML=esc("Explore · ESPNcricinfo · "+stamp)+sourceLink;
+    const stamp=sg.updatedAt||"Waiting for update";
+    $("statsguru-updated").textContent=stamp;
     $("statsguru-format-label").textContent=selectedFormat==="T20"?"T20 · all competitions":selectedFormat;
     $("statsguru-title").textContent=titles[selectedCategory]||"Player analysis";
     $("statsguru-eyebrow").textContent=selectedCategory==="batting"?"CAREER OVERVIEW":selectedCategory.toUpperCase()+" · "+selectedFormat.toUpperCase();
