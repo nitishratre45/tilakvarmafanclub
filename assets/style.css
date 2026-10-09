@@ -934,3 +934,61 @@ option{background:#0d1a2c;color:#f4f7fb}
  :root[data-theme="system"] .statsguru-panel .table-wrap .sg-cell-date{background:#e7f5f7;color:#203c51}
  :root[data-theme="system"] .statsguru-panel .table-wrap .sg-cell-runs,:root[data-theme="system"] .statsguru-panel .table-wrap th.sg-head-runs{background:#fff0e8;color:#c94c20}
 }
+
+
+/* Centralised appearance settings and readable theme contrast */
+.settings-section{padding-top:44px!important;padding-bottom:44px!important}
+.settings-card{max-width:880px;margin:0 auto;padding:clamp(16px,3vw,26px);background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 12px 34px rgba(0,0,0,.08)}
+.settings-card-copy{display:flex;align-items:flex-start;gap:14px}
+.settings-icon{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;border:1px solid var(--line);border-radius:8px;color:var(--orange);font-size:23px;background:var(--panel2)}
+.settings-card h3{margin:0;color:var(--white);font:800 23px/1.2 var(--display)}
+.settings-card p{color:var(--muted);font-size:12px;line-height:1.7}
+.settings-card-copy p{margin:7px 0 0;max-width:560px}
+.settings-theme-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px}
+.settings-theme-options button{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0;padding:15px;color:var(--white);background:var(--panel2);border:1px solid var(--line);border-radius:6px;text-align:left;cursor:pointer;transition:border-color .15s,background .15s,transform .15s}
+.settings-theme-options button>span{font-size:19px;color:var(--orange)}
+.settings-theme-options button strong{font:800 14px var(--body);color:var(--white)}
+.settings-theme-options button small{font-size:10px;color:var(--muted)}
+.settings-theme-options button[aria-pressed="true"]{border-color:var(--orange);box-shadow:inset 0 0 0 1px var(--orange);background:color-mix(in srgb,var(--orange) 10%,var(--panel2))}
+.settings-theme-options button[aria-pressed="true"] strong{color:var(--orange)}
+.settings-theme-options button:hover{transform:translateY(-1px);border-color:var(--orange)}
+.settings-theme-options button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.settings-card .settings-status{margin:16px 0 0;padding-top:12px;border-top:1px solid var(--line);font:10px/1.6 var(--mono)}
+/* Resolve system theme in JS so every component receives the same contrast rules. */
+:root[data-theme-resolved="light"]{--bg:#f4f7fb;--panel:#fff;--panel2:#eaf0f7;--white:#152235;--muted:#5d6d82;--line:rgba(18,35,55,.16);--orange:#c94c20;--cyan:#087e91;color-scheme:light}
+:root[data-theme-resolved="light"] body{background:var(--bg);color:var(--white)}
+:root[data-theme-resolved="light"] .topbar{background:rgba(244,247,251,.96);color:var(--white)}
+:root[data-theme-resolved="light"] .topbar nav{background:var(--panel);color:var(--white)}
+:root[data-theme-resolved="light"] .profile-section,:root[data-theme-resolved="light"] .home-snapshot-section,:root[data-theme-resolved="light"] .stats-section,:root[data-theme-resolved="light"] .statsguru-section,:root[data-theme-resolved="light"] .records-section,:root[data-theme-resolved="light"] .fan-zone-section,:root[data-theme-resolved="light"] .innings-section,:root[data-theme-resolved="light"] .tilak-news-section,:root[data-theme-resolved="light"] .settings-section,:root[data-theme-resolved="light"] .about-section{background:var(--bg);color:var(--white)}
+:root[data-theme-resolved="light"] .hero{background:radial-gradient(ellipse at 75% 45%,rgba(32,120,155,.10),transparent 48%),linear-gradient(115deg,#f4f7fb,#eaf0f7)}
+:root[data-theme-resolved="light"] .stat-card,:root[data-theme-resolved="light"] .home-mini-stat,:root[data-theme-resolved="light"] .home-format-card,:root[data-theme-resolved="light"] .home-snapshot-block,:root[data-theme-resolved="light"] .statsguru-panel,:root[data-theme-resolved="light"] .statsguru-sourcebar,:root[data-theme-resolved="light"] .settings-card,:root[data-theme-resolved="light"] .fan-card,:root[data-theme-resolved="light"] .milestone-card,:root[data-theme-resolved="light"] .analytics-metric,:root[data-theme-resolved="light"] .search-box,:root[data-theme-resolved="light"] .search-result,:root[data-theme-resolved="light"] .poster-controls,:root[data-theme-resolved="light"] .admin-source-map,:root[data-theme-resolved="light"] .source-map-item,:root[data-theme-resolved="light"] .source-map-notice,:root[data-theme-resolved="light"] .cricinfo-gallery,:root[data-theme-resolved="light"] .cricinfo-photo-card,:root[data-theme-resolved="light"] .tilak-news-card,:root[data-theme-resolved="light"] .gallery-live-fallback{background:#fff;color:var(--white);border-color:var(--line)}
+:root[data-theme-resolved="light"] .statsguru-format-tabs button,:root[data-theme-resolved="light"] .statsguru-category-grid button,:root[data-theme-resolved="light"] .player-analysis-filter,:root[data-theme-resolved="light"] .player-analysis-toggle,:root[data-theme-resolved="light"] .player-analysis-content,:root[data-theme-resolved="light"] .poll-option,:root[data-theme-resolved="light"] .fan-link,:root[data-theme-resolved="light"] .ticker,:root[data-theme-resolved="light"] .data-line{background:var(--panel2);color:var(--white);border-color:var(--line)}
+:root[data-theme-resolved="light"] h1,:root[data-theme-resolved="light"] h2,:root[data-theme-resolved="light"] h3,:root[data-theme-resolved="light"] h4,:root[data-theme-resolved="light"] p,:root[data-theme-resolved="light"] label,:root[data-theme-resolved="light"] summary,:root[data-theme-resolved="light"] .profile-copy,:root[data-theme-resolved="light"] .home-snapshot-blockhead,:root[data-theme-resolved="light"] .home-format-heading,:root[data-theme-resolved="light"] .analytics-head,:root[data-theme-resolved="light"] .official-records-head{color:var(--white)}
+:root[data-theme-resolved="light"] .eyebrow,:root[data-theme-resolved="light"] .stat-label,:root[data-theme-resolved="light"] .stat-note,:root[data-theme-resolved="light"] .activity-empty,:root[data-theme-resolved="light"] .home-snapshot-foot,:root[data-theme-resolved="light"] .home-format-heading>span,:root[data-theme-resolved="light"] .profile-facts small,:root[data-theme-resolved="light"] .profile-teams,:root[data-theme-resolved="light"] .feature-note,:root[data-theme-resolved="light"] .gallery-attribution,:root[data-theme-resolved="light"] .gallery-heading>span,:root[data-theme-resolved="light"] .tilak-news-meta,:root[data-theme-resolved="light"] .player-analysis-help,:root[data-theme-resolved="light"] .statsguru-note{color:var(--muted)}
+:root[data-theme-resolved="light"] input,:root[data-theme-resolved="light"] select,:root[data-theme-resolved="light"] textarea{background:#fff!important;color:#152235!important;border-color:rgba(18,35,55,.24)!important}
+:root[data-theme-resolved="light"] input::placeholder,:root[data-theme-resolved="light"] textarea::placeholder{color:#64748b!important}
+:root[data-theme-resolved="light"] th{background:#e8eef5;color:#34465c;border-color:var(--line)}
+:root[data-theme-resolved="light"] td{color:#26374b;border-color:var(--line)}
+:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-date{background:#e7f5f7;color:#203c51}
+:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-minutes,:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-balls{background:#edf8fa;color:#087e91}
+:root[data-theme-resolved="light"] .statsguru-panel .table-wrap th.sg-head-runs,:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-runs{background:#fff0e8;color:#b84219}
+:root[data-theme-resolved="light"] .statsguru-panel .table-wrap tbody tr:nth-child(even){background:#f7f9fc}
+:root[data-theme-resolved="light"] .statsguru-panel .table-wrap tbody tr:hover{background:#eaf3f8}
+:root[data-theme-resolved="light"] .statsguru-panel .table-wrap tbody tr:hover .sg-cell-runs{background:#ffe0d0}
+:root[data-theme-resolved="light"] .button,:root[data-theme-resolved="light"] button{color:var(--white)}
+:root[data-theme-resolved="light"] .button.primary,:root[data-theme-resolved="light"] .player-analysis-actions .button.primary,:root[data-theme-resolved="light"] .settings-theme-options button[aria-pressed="true"]{color:#fff}
+:root[data-theme-resolved="light"] .theme-switcher button[aria-pressed="true"]{color:#fff;background:var(--orange)}
+:root[data-theme-resolved="light"] .profile-intro,:root[data-theme-resolved="light"] .section-heading>p,:root[data-theme-resolved="light"] .home-snapshot-block p,:root[data-theme-resolved="light"] .about-copy p{color:#425269}
+:root[data-theme-resolved="light"] .article-reader-panel,:root[data-theme-resolved="light"] .photo-lightbox-panel{background:#fff;color:#152235}
+:root[data-theme-resolved="light"] .article-reader-head{background:#edf2f8;color:#152235}
+:root[data-theme-resolved="light"] .article-reader-head h3,:root[data-theme-resolved="light"] .photo-lightbox-panel p{color:#152235}
+:root[data-theme-resolved="light"] .article-reader-close,:root[data-theme-resolved="light"] .photo-lightbox-close{background:#e7edf5;color:#152235;border-color:#94a3b8}
+:root[data-theme-resolved="light"] .article-reader-foot{background:#f4f7fb;color:#425269}
+:root[data-theme-resolved="light"] footer{background:var(--bg);color:var(--white)}
+:root[data-theme-resolved="light"] .settings-theme-options button{background:#f2f6fb;color:#152235}
+:root[data-theme-resolved="light"] .settings-theme-options button strong{color:#152235}
+:root[data-theme-resolved="light"] .settings-theme-options button small{color:#5d6d82}
+:root[data-theme-resolved="light"] .settings-theme-options button[aria-pressed="true"]{background:#fff0e8;border-color:#c94c20}
+:root[data-theme-resolved="light"] .settings-theme-options button[aria-pressed="true"] strong{color:#b84219}
+@media(max-width:760px){.settings-section{padding:28px 4vw!important}.settings-theme-options{gap:7px}.settings-theme-options button{padding:12px 10px}.settings-theme-options button strong{font-size:12px}.settings-theme-options button small{font-size:9px}.settings-card h3{font-size:21px}}
+@media(max-width:390px){.settings-theme-options{gap:5px}.settings-theme-options button{padding:10px 7px}.settings-theme-options button>span{font-size:17px}.settings-theme-options button small{font-size:8px}}
