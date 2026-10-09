@@ -17,9 +17,15 @@
   }
   function renderHome(){
     const host=$("home-bowling-stats");if(!host)return;
-    const s=formats().T20I?.summary;
-    if(!s){host.innerHTML='<p class="activity-empty">Verified bowling snapshot is being prepared. No figures are estimated.</p>';return;}
-    host.innerHTML=[metric("T20I WICKETS",s.wickets,"home-bowling-metric"),metric("BEST FIGURES",s.bestBowling,"home-bowling-metric"),metric("ECONOMY",s.economy,"home-bowling-metric"),metric("OVERS",overValue(s),"home-bowling-metric")].join("");
+    const order=["T20I","ODI","List A","FC","T20"];
+    const available=order.map(format=>({format,summary:formats()[format]?.summary})).filter(item=>item.summary);
+    if(!available.length){host.innerHTML='<p class="activity-empty">Verified bowling snapshot is being prepared. No figures are estimated.</p>';return;}
+    host.innerHTML=available.map(({format,summary})=>
+      '<article class="home-bowling-format-card"><span class="home-bowling-format-name">'+esc(format==="FC"?"FIRST-CLASS":format==="T20"?"T20 · ALL COMPETITIONS":format)+'</span>'+
+      '<strong class="home-bowling-format-wickets">'+esc(fmt(summary.wickets))+' <small>WKTS</small></strong>'+
+      '<span class="home-bowling-format-detail">Best '+esc(summary.bestBowling||"—")+' · Econ '+esc(fmt(summary.economy))+'</span>'+
+      '<span class="home-bowling-format-detail">Matches '+esc(fmt(summary.matches))+' · Overs '+esc(overValue(summary))+'</span></article>'
+    ).join("");
     if($("home-bowling-updated"))$("home-bowling-updated").textContent="ESPNcricinfo Statsguru · updated "+(allData.bowlingStats?.updatedAt||"timestamp unavailable");
   }
   function renderBreakdown(){
