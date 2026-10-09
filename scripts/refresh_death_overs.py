@@ -6,7 +6,7 @@ from datetime import datetime,timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; OUT=ROOT/"data"/"death-overs.json"
 ALIASES={"tilakvarma","tilakverma","tilakvardhanvarma"}
-ARCHIVES={"ipl":{"label":"IPL","url":"https://cricsheet.org/downloads/ipl_json.zip","kind":"ipl"},"t20i":{"label":"T20 Internationals","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20i"},"t20":{"label":"Other Men's T20","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20"},"odi":{"label":"ODI","url":"https://cricsheet.org/downloads/odis_male_json.zip","kind":"odi"},"test":{"label":"Test (available archive)","url":"https://cricsheet.org/downloads/tests_male_json.zip","kind":"test"}}
+ARCHIVES={"ipl":{"label":"IPL","url":"https://cricsheet.org/downloads/ipl_json.zip","kind":"ipl"},"t20i":{"label":"T20 Internationals","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20i"},"t20":{"label":"Other Men's T20","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20"},"overall_t20":{"label":"Overall T20 · IPL + T20I + domestic","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"overall_t20"},"odi":{"label":"ODI","url":"https://cricsheet.org/downloads/odis_male_json.zip","kind":"odi"},"test":{"label":"Test (available archive)","url":"https://cricsheet.org/downloads/tests_male_json.zip","kind":"test"}}
 def norm(v): return re.sub(r"[^a-z]","",str(v).lower())
 def target(v): return norm(v) in ALIASES
 def download(url):
@@ -22,7 +22,9 @@ def classify(info):
  return None
 def parse_match(data,filename,key,totals):
  info=data.get("info",{})
- if key!="ipl" and classify(info)!=key:return [],None
+ if key=="overall_t20":
+  if str(info.get("match_type","")).lower().strip() not in {"t20","t20i","it20","international t20"}:return [],None
+ elif key!="ipl" and classify(info)!=key:return [],None
  players=info.get("players",{});teams=info.get("teams",[])
  if not any(target(p) for group in players.values() for p in group):return [],None
  mid=Path(filename).stem;date=str((info.get("dates") or [""])[0]);venue=info.get("venue","");rows=[]
