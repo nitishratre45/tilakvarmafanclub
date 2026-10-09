@@ -29,11 +29,11 @@ def stamp():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
 def clean(value):
-    return re.sub(r"\\s+", " ", html.unescape(str(value or ""))).strip()
+    return re.sub(r"\s+", " ", html.unescape(str(value or ""))).strip()
 
 def number(value):
     value = clean(value).replace(",", "")
-    match = re.search(r"-?\\d+(?:\\.\\d+)?", value)
+    match = re.search(r"-?\d+(?:\.\d+)?", value)
     if not match:
         return None
     parsed = float(match.group())
@@ -43,7 +43,7 @@ def score(value):
     value = clean(value)
     if not value:
         return None, False
-    match = re.search(r"(\\d+)\\s*(\\*)?", value)
+    match = re.search(r"(\d+)\s*(\*)?", value)
     if not match:
         return value, False
     return int(match.group(1)), bool(match.group(2))
@@ -131,7 +131,7 @@ def parse_career_summary(page):
                 if len(values) <= max(col.values()):
                     continue
                 joined = " ".join(values).casefold()
-                if "overall" not in joined and not re.search(r"\\b(?:career|total)\\b", joined):
+                if "overall" not in joined and not re.search(r"\b(?:career|total)\b", joined):
                     continue
                 result = {}
                 for key, i in col.items():
