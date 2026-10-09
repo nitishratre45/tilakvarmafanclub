@@ -3,7 +3,7 @@
   const $=id=>document.getElementById(id);
   const esc=v=>String(v??"—").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const fmt=v=>typeof v==="number"?v.toLocaleString("en-IN",{maximumFractionDigits:2}):(v??"—");
-  const titles={batting:"Career summary",innings:"Innings by innings",highscores:"High scores"};
+  const titles={batting:"Batting career summary",matchlist:"T20I match list",innings:"Batting innings list",highscores:"High scores",battingseries:"Batting series averages",bowling:"Bowling career summary",bowlinginnings:"Bowling innings list",bowlingmatches:"Bowling match list",bestinningsbowling:"Best innings bowling",bestmatchbowling:"Best match bowling",bowlingseries:"Bowling series averages",fielding:"Fielding career summary",fieldinginnings:"Fielding innings list",mostcatches:"Most catches in an innings",fieldingseries:"Fielding series statistics"};
   const FILTER_LABELS={"all":"All-round / general","opposition":"Opposition","home-away":"Home or away","country":"Host country / region","ground":"Ground","year":"Year","season":"Season","result":"Match result","position":"Batting position","innings":"Match innings","daynight":"Day / night","series":"Series / tournament"};
   const MONTHS={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
   let selectedFormat="T20I",selectedCategory="batting",data=null,activeBreakdownFilter="all",activeBreakdownValue="all",appliedFrom="",appliedTo="";
@@ -112,6 +112,95 @@
       ["MATCHES",s.matches],["INNINGS",s.innings],["NOT OUTS",s.notOuts],["RUNS",s.runs],["HIGHEST",s.highestScore],["AVERAGE",s.average],["BALLS FACED",s.balls],["STRIKE RATE",s.strikeRate],["HUNDREDS",s.hundreds],["FIFTIES",s.fifties],["FOURS",s.fours],["SIXES",s.sixes]
     ].map(x=>metric(x[0],x[1])).join("");
   }
+  function renderAdditional(source){
+    const category=selectedCategory;
+    const fmt=selectedFormat==="All"?"T20":selectedFormat;
+    const bowlingRoot=data?.bowlingStats?.formats||{};
+    const bowling=bowlingRoot[fmt]||{};
+    const fieldRoot=data?.fieldingStats?.formats||data?.statsguru?.fieldingFormats||{};
+    const field=fieldRoot[fmt]||{};
+    const officialUrl="https://www.espncricinfo.com/cricketers/tilak-varma-1170265/bowling-batting-stats";
+    const link='<p class="sg-data-unavailable">This category has no verified saved dataset yet. I have not filled it with guessed figures. <a href="'+officialUrl+'" target="_blank" rel="noopener">Open Tilak Varma’s ESPNcricinfo stats ↗</a></p>';
+    const setPanel=(eyebrow,title,summary,headers,rows,empty)=>{
+      $("statsguru-eyebrow").textContent=eyebrow;
+      $("statsguru-title").textContent=title;
+      $("statsguru-summary").innerHTML=summary||"";
+      if(headers&&rows) rowsTable(rows,headers,r=>"<tr>"+headers.map(h=>"<td>"+esc(fmtValue(r[h]))+"</td>").join("")+"</tr>",empty);
+      else rowsTable([],["STATUS"],()=>"",empty||"No verified data available.");
+    };
+    const fmtValue=v=>v===null||v===undefined||v===""?"—":v;
+    const metrics=(pairs)=>pairs.map(p=>metric(p[0],p[1])).join("");
+    const bowlingRows=Array.isArray(bowling.innings)?bowling.innings.slice():[];
+    const breakdown=Array.isArray(bowling.careerBreakdown)?bowling.careerBreakdown.slice():[];
+    const sortBowling=(rows)=>rows.sort((a,b)=>(Number(b.wickets)||0)-(Number(a.wickets)||0)||(Number(a.runsConceded)||999)-(Number(b.runsConceded)||999));
+    const bowlingHeaders=["DATE","OPPOSITION","FIGURES","OVERS","MAIDENS","RUNS","WICKETS","ECONOMY","GROUND","SCORECARD"];
+    const bowlingRow=(r)=>"<tr><td>"+esc(r.date)+"</td><td>"+esc(r.opposition)+"</td><td>"+esc(r.figures||((r.wickets??"—")+"/"+(r.runsConceded??"—")))+"</td><td>"+esc(r.overs??"—")+"</td><td>"+esc(r.maidens??"—")+"</td><td>"+esc(r.runsConceded??"—")+"</td><td>"+esc(r.wickets??"—")+"</td><td>"+esc(r.economy??"—")+"</td><td>"+esc(r.ground??"—")+"</td><td>"+(r.matchUrl?'<a class="sg-scorecard-link" href="'+esc(r.matchUrl)+'" target="_blank" rel="noopener">↗</a>':"—")+"</td></tr>";
+    if(category==="bowling"||category==="bowlinginnings"||category==="bowlingmatches"||category==="bestinningsbowling"||category==="bestmatchbowling"||category==="bowlingseries"){
+      $("statsguru-eyebrow").textContent="BOWLING · "+selectedFormat.toUpperCase();
+      $("statsguru-title").textContent=titles[category];
+      $("statsguru-format-label").textContent=selectedFormat==="T20"?"T20 · all competitions":selectedFormat;
+      const s=bowling.summary;
+      if(!s){
+        $("statsguru-summary").innerHTML=metrics([["STATUS","Not available"],["FORMAT",fmt]]);
+        rowsTable([],["STATUS"],()=>"", "ESPNcricinfo’s saved snapshot does not currently expose this format’s bowling figures. Choose T20I, ODI or T20 when available.");
+        $("statsguru-note").textContent="Bowling data is separate from the batting snapshot and is only displayed when verified.";
+        return true;
+      }
+      $("statsguru-summary").innerHTML=metrics([["MATCHES",s.matches],["BOWLING INNINGS",s.innings],["OVERS",s.overs],["MAIDENS",s.maidens],["RUNS CONCEDED",s.runsConceded],["WICKETS",s.wickets],["AVERAGE",s.average],["ECONOMY",s.economy],["STRIKE RATE",s.strikeRate],["BEST FIGURES",s.bestBowling],["4-WICKET HAULS",s.fourWicketHauls],["5-WICKET HAULS",s.fiveWicketHauls]]);
+      if(category==="bowling"){
+        const grouped=breakdown.filter(r=>/series|tournament|cup|league|ipl|premier/i.test(String(r.group||"")));
+        const list=category==="bowling"&&grouped.length?grouped:breakdown;
+        rowsTable(list,["group","span","matches","innings","overs","maidens","runsConceded","wickets","average","economy","strikeRate","bestBowling"].map(x=>({group:"GROUP / FILTER",span:"SPAN",matches:"MATCHES",innings:"INNINGS",overs:"OVERS",maidens:"MAIDENS",runsConceded:"RUNS",wickets:"WICKETS",average:"AVERAGE",economy:"ECONOMY",strikeRate:"STRIKE RATE",bestBowling:"BEST"}[x])),r=>"<tr>"+[r.group,r.span,r.matches,r.innings,r.overs,r.maidens,r.runsConceded,r.wickets,r.average,r.economy,r.strikeRate,r.bestBowling].map(v=>"<td>"+esc(v??"—")+"</td>").join("")+"</tr>","No grouped bowling breakdown is available for this format.");
+      } else if(category==="bowlingseries"){
+        const list=breakdown.filter(r=>/series|tournament|cup|league|ipl|premier/i.test(String(r.group||"")));
+        rowsTable(list,["GROUP / SERIES","SPAN","MATCHES","INNINGS","OVERS","RUNS","WICKETS","AVERAGE","ECONOMY","STRIKE RATE","BEST"],r=>"<tr>"+[r.group,r.span,r.matches,r.innings,r.overs,r.runsConceded,r.wickets,r.average,r.economy,r.strikeRate,r.bestBowling].map(v=>"<td>"+esc(v??"—")+"</td>").join("")+"</tr>","No verified series-specific bowling rows are saved yet.");
+      } else {
+        let list=bowlingRows.slice();
+        if(category==="bestinningsbowling"||category==="bestmatchbowling")list=sortBowling(list);
+        else list.sort((a,b)=>parseDate(b.date)-parseDate(a.date));
+        rowsTable(list,bowlingHeaders,bowlingRow,"No verified bowling innings match this format.");
+      }
+      $("statsguru-note").textContent="Source: ESPNcricinfo Statsguru. Updated "+(data.bowlingStats?.updatedAt||"timestamp unavailable")+". Missing figures are not estimated.";
+      return true;
+    }
+    if(category==="fielding"||category==="fieldinginnings"||category==="mostcatches"||category==="fieldingseries"){
+      $("statsguru-eyebrow").textContent="FIELDING · "+selectedFormat.toUpperCase();
+      $("statsguru-title").textContent=titles[category];
+      $("statsguru-format-label").textContent=selectedFormat==="T20"?"T20 · all competitions":selectedFormat;
+      const summary=field.summary||{};
+      const fieldRows=Array.isArray(field.innings)?field.innings.slice():[];
+      const fieldBreakdown=Array.isArray(field.careerBreakdown)?field.careerBreakdown.slice():[];
+      if(!Object.keys(summary).length&&!fieldRows.length&&!fieldBreakdown.length){
+        $("statsguru-summary").innerHTML=metrics([["STATUS","Awaiting verified feed"],["FORMAT",fmt]]);
+        rowsTable([],["FIELDING DATA"],()=>"", "Fielding career/innings/series data is not present in the saved Statsguru snapshot yet.");
+        $("statsguru-note").innerHTML='Fielding data is not guessed. '+link;
+        return true;
+      }
+      $("statsguru-summary").innerHTML=metrics([["MATCHES",summary.matches],["CATCHES",summary.catches],["STUMPINGS",summary.stumpings],["RUN OUTS",summary.runOuts],["DISMISSALS",summary.dismissals]]);
+      if(category==="fielding")rowsTable(fieldBreakdown,["GROUP / SERIES","SPAN","MATCHES","CATCHES","STUMPINGS","RUN OUTS","DISMISSALS"],r=>"<tr>"+[r.group,r.span,r.matches,r.catches,r.stumpings,r.runOuts,r.dismissals].map(v=>"<td>"+esc(v??"—")+"</td>").join("")+"</tr>","No verified fielding career breakdown rows.");
+      else{
+        let list=fieldRows;
+        if(category==="mostcatches")list=list.slice().sort((a,b)=>(Number(b.catches)||0)-(Number(a.catches)||0));
+        else list=list.slice().sort((a,b)=>parseDate(b.date)-parseDate(a.date));
+        rowsTable(list,["DATE","OPPOSITION","GROUND","CATCHES","STUMPINGS","RUN OUTS","INNINGS","SCORECARD"],r=>"<tr>"+[r.date,r.opposition,r.ground,r.catches,r.stumpings,r.runOuts,r.innings].map(v=>"<td>"+esc(v??"—")+"</td>").join("")+(r.matchUrl?'<td><a href="'+esc(r.matchUrl)+'" target="_blank" rel="noopener">↗</a></td>':"<td>—</td>")+"</tr>","No verified fielding innings/series data is saved.");
+      }
+      $("statsguru-note").textContent="Fielding values are shown only when a verified fielding dataset is available.";
+      return true;
+    }
+    if(category==="battingseries"){
+      $("statsguru-eyebrow").textContent="BATTING · SERIES AVERAGES";
+      $("statsguru-title").textContent=titles[category];
+      const list=source.breakdown.filter(r=>/series|tournament|cup|league|ipl|premier/i.test(String(r.group||"")));
+      if(!list.length){$("statsguru-summary").innerHTML=metrics([["STATUS","No series rows"],["FORMAT",selectedFormat]]);rowsTable([],["SERIES"],()=>"", "No verified batting series averages are present in this saved format.");}
+      else{
+        $("statsguru-summary").innerHTML=metrics([["SERIES ROWS",list.length],["MATCHES",list.reduce((n,r)=>n+(Number(r.matches)||0),0)],["RUNS",list.reduce((n,r)=>n+(Number(r.runs)||0),0)]]);
+        rowsTable(list,["GROUP / SERIES","SPAN","MATCHES","INNINGS","RUNS","HIGH SCORE","AVERAGE","STRIKE RATE","100s","50s"],r=>"<tr>"+[r.group,r.span,r.matches,r.innings,r.runs,r.highestScore,r.average,r.strikeRate,r.hundreds,r.fifties].map(v=>"<td>"+esc(v??"—")+"</td>").join("")+"</tr>","No verified batting series averages.");
+      }
+      $("statsguru-note").textContent="Series rows are filtered from the saved ESPNcricinfo career breakdown; rows are not invented.";
+      return true;
+    }
+    return false;
+  }
   function render(){
     if(!data)return;
     const sg=data.statsguru||{},source=sourceData(),rows=source.innings.slice();
@@ -122,16 +211,21 @@
     $("statsguru-eyebrow").textContent=selectedCategory==="batting"?"CAREER OVERVIEW":selectedCategory.toUpperCase()+" · "+selectedFormat.toUpperCase();
     document.querySelectorAll("[data-sg-format]").forEach(b=>b.classList.toggle("active",b.dataset.sgFormat===selectedFormat));
     document.querySelectorAll("[data-sg-category]").forEach(b=>b.classList.toggle("active",b.dataset.sgCategory===selectedCategory));
-    renderSummary(source);
     const type=activeBreakdownFilter,value=activeBreakdownValue,group=selectedGroup(source);
+    if(renderAdditional(source)){
+      const status=$("sg-filter-status");
+      if(status)status.textContent="Explore category: "+(titles[selectedCategory]||selectedCategory)+" · "+(data.statsguru?.updatedAt||"saved snapshot");
+      return;
+    }
+    renderSummary(source);
     const status=$("sg-filter-status");
     if(status){
       let text=type==="all"?"Showing the complete saved career breakdown":(FILTER_LABELS[type]||type)+": "+(value==="all"?"all available values":value);
       if(appliedFrom||appliedTo)text+=" · date range "+(appliedFrom||"earliest")+" to "+(appliedTo||"latest");
       status.textContent=text+" · "+(sg.updatedAt||"snapshot timestamp unavailable");
     }
-    if(selectedCategory==="batting"||selectedCategory==="innings"||selectedCategory==="highscores"){
-      if(selectedCategory==="innings"||selectedCategory==="highscores"||type==="ground"||appliedFrom||appliedTo){
+    if(selectedCategory==="batting"||selectedCategory==="innings"||selectedCategory==="matchlist"||selectedCategory==="highscores"){
+      if(selectedCategory==="innings"||selectedCategory==="matchlist"||selectedCategory==="highscores"||type==="ground"||appliedFrom||appliedTo){
         const listed=inningsRows(source).sort((a,b)=>selectedCategory==="highscores"?(Number(b.runs)||-1)-(Number(a.runs)||-1):parseDate(b.date)-parseDate(a.date));
         const rowRender=r=>"<tr>"+
           '<td class="sg-cell-date">'+esc(r.date)+"</td>"+
