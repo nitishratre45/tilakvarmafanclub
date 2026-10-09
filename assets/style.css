@@ -345,3 +345,10 @@ body,.hero,.profile-section,.stats-section,.feature-section,.records-section,.fa
 .moment-tags span{font:9px var(--mono);padding:6px 8px;border:1px solid var(--line);color:#d9e4f3}
 @media(max-width:900px){.upgrade-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.moments-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.upgrade-grid,.moments-grid{grid-template-columns:1fr}.moments-tools label{width:100%;max-width:none;align-items:flex-start;flex-direction:column}.moments-tools input{width:100%;min-height:44px}.upgrade-card,.moment-card{padding:19px}}
+
+/* Personal, browser-only fan streak */
+.streak-panel{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px;border:1px solid var(--line);background:linear-gradient(110deg,#102139,#0b1728);flex-wrap:wrap}
+.streak-panel .feature-eyebrow{font:10px var(--mono);letter-spacing:.12em;color:var(--cyan)}
+.streak-panel strong{display:block;font:800 clamp(38px,5vw,62px)/1 var(--display);color:var(--orange);margin:14px 0 8px}
+.streak-panel p{font-size:12px;line-height:1.8;color:var(--muted);margin:0}
+.streak-panel button:disabled{opacity:.8;cursor:default}
