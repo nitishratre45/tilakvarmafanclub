@@ -67,17 +67,20 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/death-overs.json
-          if git diff --cached --quiet; then
-            echo "Stats JSON is unchanged; nothing to commit."
-          else
-          git commit -m "chore: refresh Tilak death-overs stats"
           for attempt in 1 2 3; do
-            git pull --rebase origin main
-            if git push; then exit 0; fi
-            echo "Push race on attempt $attempt; retrying after refresh."
+            git fetch origin main
+            git reset --hard origin/main
+            python -u scripts/refresh_death_overs.py
+            python -c "import json; d=json.load(open('data/death-overs.json')); assert d.get('innings'), 'No innings found'; assert d.get('updatedAt'), 'Missing timestamp'; print('Validated', d.get('matchesFound'), 'matches and', d.get('inningsFound'), 'innings')"
+            git add data/death-overs.json
+            if git diff --cached --quiet; then
+              echo "Stats JSON is unchanged; nothing to commit."
+              exit 0
+            fi
+            git commit -m "chore: refresh Tilak death-overs stats"
+            if git push origin HEAD:main; then exit 0; fi
+            echo "Concurrent update on attempt $attempt; retrying from latest main."
             sleep 2
           done
-          echo "Unable to push refreshed data after 3 attempts."
+          echo "Unable to publish refreshed stats after 3 attempts."
           exit 1
-          fi
