@@ -388,3 +388,92 @@ body,.hero,.profile-section,.stats-section,.feature-section,.records-section,.fa
 .archive-snapshot-card p{margin:11px 0 0;color:var(--muted);font-size:11px;line-height:1.6;overflow-wrap:anywhere}
 @media(max-width:900px){.archive-snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.archive-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.archive-snapshot-card{padding:14px}}
+
+
+/* Compact, source-led homepage refresh */
+.profile-quick-actions{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0 8px}
+.profile-quick-actions .button{padding:10px 13px;gap:10px}
+.tilak-news-section{background:#081321;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.tilak-news-layout{display:grid;grid-template-columns:minmax(190px,.7fr) minmax(0,1.3fr);gap:22px;align-items:start}
+.tilak-feature-photo-wrap{margin:0;min-width:0;border:1px solid var(--line);background:var(--panel)}
+.tilak-feature-photo-wrap img{display:block;width:100%;aspect-ratio:4/5;max-height:520px;object-fit:cover;object-position:top center;background:var(--panel2)}
+.tilak-feature-photo-wrap figcaption{padding:12px;font:10px var(--mono);line-height:1.7;color:var(--muted)}
+.tilak-feature-photo-wrap figcaption a,.tilak-official-links a{color:var(--cyan)}
+.tilak-news-content{min-width:0}
+.tilak-news-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tilak-news-card{min-width:0;border:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;overflow:hidden}
+.tilak-news-image{display:block;aspect-ratio:16/9;background:var(--panel2);overflow:hidden}
+.tilak-news-image img{width:100%;height:100%;object-fit:cover;display:block}
+.tilak-news-body{padding:14px;display:flex;flex:1;flex-direction:column;align-items:flex-start}
+.tilak-news-body .tilak-news-meta{font:9px var(--mono);line-height:1.6;color:var(--cyan);overflow-wrap:anywhere}
+.tilak-news-body h3{font-size:14px;line-height:1.45;margin:9px 0;color:var(--white)}
+.tilak-news-body h3 a:hover{color:var(--orange)}
+.tilak-news-body p{font-size:11px;line-height:1.65;color:var(--muted);margin:0 0 12px}
+.tilak-news-source{font:10px var(--mono);color:var(--orange);margin-top:auto;padding-top:8px}
+.tilak-news-meta{font:10px var(--mono);line-height:1.6;color:var(--muted);margin:12px 0 0;overflow-wrap:anywhere}
+.tilak-official-links{margin-top:22px}
+.ticker,.impact-section,.fan-streak-panel{display:none!important}
+@media(max-width:800px){
+ .profile-section{grid-template-columns:112px minmax(0,1fr);gap:16px;padding-top:22px!important;padding-bottom:22px!important;align-items:start}
+ .profile-photo-wrap{width:112px;min-height:142px;max-height:none;aspect-ratio:4/5}
+ .profile-copy h2{font-size:clamp(34px,8vw,48px);margin:8px 0}
+ .profile-intro{font-size:11px;line-height:1.6;margin:8px 0}
+ .profile-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin:12px 0}
+ .profile-facts div{padding:8px}
+ .profile-facts small{font-size:8px;margin-bottom:4px}
+ .profile-facts strong{font-size:10px}
+ .profile-teams{font-size:10px;line-height:1.6;margin:8px 0}
+ .profile-teams b{font-size:9px}
+ .profile-quick-actions{margin:10px 0 4px;gap:6px}
+ .profile-quick-actions .button{font-size:9px;padding:8px 9px}
+ .profile-copy .about-links{gap:7px;font-size:10px;flex-wrap:wrap}
+ .hero{display:none}
+ .section{padding:34px 5vw}
+ .section-heading{margin-bottom:18px;display:flex;align-items:flex-start;flex-direction:column;gap:8px}
+ .section h2{font-size:clamp(29px,7vw,39px);line-height:1;margin:8px 0 0}
+ .section-heading>p{font-size:11px;line-height:1.55;margin:0;max-width:none}
+ .stats-grid{gap:7px}
+ .stat-card{min-height:100px;padding:12px}
+ .stat-card strong{font-size:30px;margin:12px 0 7px}
+ .stat-label{font-size:9px;letter-spacing:.07em}
+ .stat-note,.format-detail{font-size:9px;line-height:1.45}
+ .career-formats{margin:10px 0 16px}
+ .data-line{font-size:9px;gap:6px}
+ .tilak-news-layout{grid-template-columns:96px minmax(0,1fr);gap:10px}
+ .tilak-feature-photo-wrap img{aspect-ratio:3/4;max-height:160px}
+ .tilak-feature-photo-wrap figcaption{padding:7px;font-size:8px}
+ .tilak-news-grid{grid-template-columns:1fr;gap:7px}
+ .tilak-news-body{padding:10px}
+ .tilak-news-body h3{font-size:12px;line-height:1.4;margin:6px 0}
+ .tilak-news-body p{font-size:10px;line-height:1.5}
+ .tilak-news-body .tilak-news-meta,.tilak-news-source{font-size:8px}
+ .tilak-official-links{margin-top:12px;font-size:10px;gap:10px}
+ .table-wrap{border-radius:2px}
+ th{padding:10px 12px;font-size:9px}
+ td{padding:10px 12px;font-size:11px}
+ .explorer-toolbar{gap:8px}
+ .fan-zone-grid,.analytics-grid,.milestone-grid{gap:8px}
+ .fan-card{padding:13px}
+}
+@media(max-width:430px){
+ .topbar{min-height:56px;padding:0 4vw}
+ .brand{font-size:11px;gap:8px}
+ .brand-mark{width:34px;height:34px;font-size:17px}
+ nav{top:55px;padding:14px 5vw;gap:14px}
+ .profile-section{grid-template-columns:88px minmax(0,1fr);gap:10px}
+ .profile-photo-wrap{width:88px;min-height:118px}
+ .profile-copy h2{font-size:32px}
+ .profile-intro{font-size:10px}
+ .profile-facts div{padding:7px 6px}
+ .profile-facts strong{font-size:9px}
+ .profile-quick-actions .button{font-size:8px;padding:7px}
+ .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .stat-card{padding:10px;min-height:90px}
+ .stat-card strong{font-size:27px}
+ .format-detail{display:block;overflow-wrap:anywhere}
+ .tilak-news-layout{grid-template-columns:82px minmax(0,1fr);gap:8px}
+ .tilak-feature-photo-wrap figcaption{font-size:7px;padding:6px}
+ .tilak-news-body h3{font-size:11px}
+ .section{padding:28px 4vw}
+ footer{gap:10px;font-size:9px}
+}
