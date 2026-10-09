@@ -55,7 +55,7 @@ async function init(){
     (item.summary?'<p>'+esc(item.summary)+'</p>':'')+(url?'<button class="article-read-button" type="button" data-article-url="'+url+'" data-article-title="'+title+'">Read story <span>↗</span></button>':'')+'</div></article>';
   }).join(""):'<p class="activity-empty">No fresh stories are available right now.</p>';
   host.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>img.closest(".tilak-news-image")?.remove(),{once:true}));
-  if(meta)meta.textContent="Latest stories · updated "+(news.updatedAt||"date unavailable");
+  if(meta)meta.textContent="Last update: "+(news.updatedAt||"time unavailable")+" · Latest stories";
  }catch(e){
   host.innerHTML='<p class="activity-empty">News is temporarily unavailable. Please check again later.</p>';
   if(meta)meta.textContent="Stories temporarily unavailable";
