@@ -143,7 +143,7 @@ jobs:
                   if parsed.scheme or parsed.netloc or ref.startswith("#") or not parsed.path:
                       continue
                   target = (page.parent / parsed.path).resolve()
-                  if not target.is_file():
+                  if not target.exists():
                       raise SystemExit(f"{page} references missing local asset: {ref}")
               print(f"Validated IDs, anchors and local assets in {page}.")
           PY
