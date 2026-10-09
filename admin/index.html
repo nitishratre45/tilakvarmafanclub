@@ -36,6 +36,11 @@
       <div class="admin-editor-toolbar"><span id="loaded-file">No file loaded</span><span>JSON · UTF-8</span></div>
       <textarea id="json-editor" class="admin-json" spellcheck="false" placeholder="Connect GitHub and load a dataset first…" aria-label="JSON data editor"></textarea>
       <div class="admin-actions admin-actions-bottom"><button id="format-json" class="admin-button ghost" type="button">FORMAT JSON</button><button id="download-json" class="admin-button ghost" type="button">DOWNLOAD BACKUP</button><button id="save-data" class="admin-button primary" type="button" disabled>SAVE TO GITHUB ↗</button></div>
+      <section class="admin-source-map" aria-labelledby="source-map-title">
+        <div class="admin-card-head"><div><span class="admin-kicker">DATA PROVENANCE</span><h2 id="source-map-title">Where does each <em>dataset come from?</em></h2></div></div>
+        <p class="admin-footnote">This source map is visible only inside Admin Studio. The public fan site keeps source URLs out of the stats cards and match UI.</p>
+        <div id="source-map-content" class="source-map-content"><p class="admin-status">Load site-data.json to inspect dataset sources.</p></div>
+      </section>
       <p class="admin-footnote">Save validates JSON and updates only the selected file. Every save creates a Git commit. Avoid changing match totals or over-level data unless you have a verified scorecard/source.</p>
     </section>
     <section class="admin-card admin-help">
