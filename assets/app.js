@@ -2,7 +2,10 @@
   const $ = (s) => document.querySelector(s);
   const set = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value ?? "—"; };
   set("year", new Date().getFullYear());
-  $(".menu-toggle")?.addEventListener("click", () => $("nav")?.classList.toggle("open"));
+  const menuButton=$(".menu-toggle"), nav=$("nav");
+  menuButton?.setAttribute("aria-expanded","false");
+  menuButton?.addEventListener("click",()=>{const open=nav?.classList.toggle("open")||false;menuButton.setAttribute("aria-expanded",String(open));});
+  nav?.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{nav.classList.remove("open");menuButton?.setAttribute("aria-expanded","false");}));
   try {
     const response = await fetch("data/site-data.json", { cache: "no-store" });
     if (!response.ok) throw new Error("Data feed unavailable");
@@ -10,6 +13,7 @@
     const stats = data.careerStats || {};
     const photo = document.getElementById("tilak-photo");
     if (photo && data.profile && data.profile.photo) photo.src = data.profile.photo;
+    if (photo) photo.addEventListener("error",()=>{photo.style.display="none";},{once:true});
     document.querySelectorAll("[data-stat]").forEach(el => {
       const key = el.dataset.stat;
       if (stats[key] !== undefined) el.textContent = stats[key];
