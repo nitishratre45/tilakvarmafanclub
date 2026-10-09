@@ -30,13 +30,13 @@
     if (tbody) tbody.innerHTML = rows.length ? rows.map(row => {
       const sr = row.strikeRate ?? (row.balls ? (row.runs * 100 / row.balls).toFixed(2) : "—");
       return "<tr>" + [row.date, row.opposition, row.runs, row.balls, row.fours, row.sixes, sr].map(v => "<td>" + (v ?? "—") + "</td>").join("") + "</tr>";
-    }).join("") : '<tr><td colspan="7" class="empty">No recent innings have been loaded yet. See the Cricsheet source and refresh workflow.</td></tr>';
+    }).join("") : '<tr><td colspan="7" class="empty">No recent innings have been loaded yet. Check back after the next data update.</td></tr>';
     set("recent-runs", rows.reduce((sum, r) => sum + (typeof r.runs === "number" && Number.isFinite(r.runs) ? r.runs : 0), 0));
     set("recent-count", rows.length);
     const lastChecked = Date.parse(data.lastChecked || data.lastUpdated || "");
     const stale = !Number.isFinite(lastChecked) || (Date.now() - lastChecked) > 36 * 60 * 60 * 1000;
     const refreshFailed = data.lastRefreshStatus === "source-unavailable";
-    set("data-status", !rows.length ? "Awaiting feed" : refreshFailed ? "Source unavailable · saved data retained" : stale ? "Stale · last check overdue" : "Available · auto-refresh enabled");
+    set("data-status", !rows.length ? "Awaiting feed" : refreshFailed ? "Saved data retained · retry scheduled" : stale ? "Stale · last check overdue" : "Available · auto-refresh enabled");
     set("recent-updated", data.recentUpdated || "No refresh timestamp yet");
 
     const esc = (value) => String(value ?? "").replace(/[&<>"']/g, ch => ({
@@ -64,8 +64,8 @@
 
 
   } catch (error) {
-    set("data-status", "Source unavailable");
+    set("data-status", "Saved snapshot unavailable");
     const tbody = $("#recent-table");
-    if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="empty">Could not load the data file. Check the data source and try again.</td></tr>';
+    if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="empty">Could not load the saved data. Please try again later.</td></tr>';
   }
 })();
