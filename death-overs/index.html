@@ -1,631 +1,1097 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#07101f">
-  <meta name="description" content="Tilak Varma T20I over-by-over batting stats and death-overs calculator.">
-  <title>Tilak Varma Stats Centre | The 72 Club</title>
-  <link rel="stylesheet" href="../assets/style.css?v=20261010-lastupdate1">
-  <style>
-
-    .latest-match-panel{margin:18px 0 0;padding:22px;border:1px solid rgba(255,106,53,.4);background:linear-gradient(120deg,#14283e,#0b1727);border-radius:4px}
-    .latest-match-panel[hidden]{display:none}
-    .latest-match-panel .latest-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#7ce5f2;font:10px var(--mono);letter-spacing:.08em}
-    .latest-match-panel .latest-main{display:flex;justify-content:space-between;align-items:center;gap:18px;margin:16px 0}
-    .latest-match-panel h3{font:800 clamp(24px,4vw,38px)/1 var(--display);margin:0}
-    .latest-match-panel p{font-size:11px;line-height:1.8;color:#91a0b6;margin:9px 0 0}
-    .latest-match-panel .latest-runs{font:900 clamp(46px,7vw,72px)/.9 var(--display);color:#ff6a35;text-align:right}
-    .latest-match-panel .latest-runs small{display:block;margin-top:8px;color:#91a0b6;font:10px var(--mono);letter-spacing:.05em}
-    .latest-match-panel .latest-source{display:inline-block;margin-top:8px;color:#7ce5f2;font:10px var(--mono)}
-    @media(max-width:560px){.latest-match-panel{padding:16px}.latest-match-panel .latest-main{align-items:flex-start}.latest-match-panel .latest-runs{font-size:48px}}
-
-    :root {
-      --stats-glow: rgba(124, 229, 242, 0.13);
-      --stats-border: rgba(255, 255, 255, 0.12);
-      --stats-surface: #0d1a2c;
-    }
-
-    .stats-hero {
-      position: relative;
-      overflow: hidden;
-      padding: clamp(58px, 8vw, 100px) 8vw 54px;
-      background:
-        radial-gradient(ellipse at 85% 15%, rgba(255, 106, 53, 0.18), transparent 36%),
-        radial-gradient(ellipse at 72% 65%, var(--stats-glow), transparent 42%),
-        linear-gradient(125deg, #07101f, #0c1c30 72%, #101b2a);
-      border-bottom: 1px solid var(--stats-border);
-    }
-
-    .stats-hero::after {
-      content: "72";
-      position: absolute;
-      top: -80px;
-      right: 5vw;
-      color: rgba(255, 255, 255, 0.025);
-      font: 900 clamp(260px, 36vw, 500px)/1 var(--display);
-      pointer-events: none;
-    }
-
-    .stats-hero > * { position: relative; z-index: 1; }
-
-    .stats-hero h1 {
-      max-width: 900px;
-      margin: 22px 0 20px;
-      font: 900 clamp(54px, 8.5vw, 112px)/0.88 var(--display);
-      letter-spacing: -0.035em;
-    }
-
-    .stats-hero h1 em {
-      color: var(--orange);
-      font-style: normal;
-    }
-
-    .stats-hero p {
-      max-width: 650px;
-      color: #a8b6c9;
-      font-size: 13px;
-      line-height: 1.9;
-    }
-
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      margin-top: 25px;
-    }
-
-    .hero-tag {
-      padding: 9px 12px;
-      border: 1px solid var(--stats-border);
-      background: rgba(7, 16, 31, 0.55);
-      color: #c8d5e5;
-      font: 10px var(--mono);
-      letter-spacing: 0.04em;
-    }
-
-    .hero-tag strong { color: var(--cyan); font-weight: 500; }
-
-    .page-shell {
-      width: min(1180px, 84vw);
-      margin: 0 auto;
-    }
-
-    .section-kicker {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--cyan);
-      font: 10px var(--mono);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .section-title {
-      margin: 13px 0 8px;
-      font: 800 clamp(34px, 5vw, 58px)/0.98 var(--display);
-      letter-spacing: -0.02em;
-    }
-
-    .section-title em { color: var(--orange); font-style: normal; }
-
-    .section-copy {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.8;
-    }
-
-    .stats-section { padding: 58px 0; }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 25px;
-    }
-
-    .snapshot-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .snapshot-card {
-      position: relative;
-      overflow: hidden;
-      min-height: 155px;
-      padding: 22px;
-      background: linear-gradient(145deg, #122238, #0a1626);
-      border: 1px solid var(--stats-border);
-      transition: transform 180ms ease, border-color 180ms ease;
-    }
-
-    .snapshot-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(255, 106, 53, 0.55);
-    }
-
-    .snapshot-card:first-child {
-      background: linear-gradient(145deg, #ff7949, #d8482c);
-      border-color: #ff7949;
-      color: #111827;
-    }
-
-    .snapshot-card small {
-      display: block;
-      color: var(--muted);
-      font: 10px var(--mono);
-      letter-spacing: 0.08em;
-    }
-
-    .snapshot-card:first-child small,
-    .snapshot-card:first-child span { color: #49271e; }
-
-    .snapshot-card strong {
-      display: block;
-      margin: 18px 0 8px;
-      font: 800 clamp(32px, 4vw, 48px)/0.95 var(--display);
-      overflow-wrap: anywhere;
-    }
-
-    .snapshot-card span {
-      display: block;
-      color: var(--muted);
-      font-size: 10px;
-      line-height: 1.6;
-    }
-
-    .refresh-strip {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 1px;
-      margin-top: 14px;
-      background: var(--stats-border);
-      border: 1px solid var(--stats-border);
-    }
-
-    .refresh-item {
-      min-width: 0;
-      padding: 17px 19px;
-      background: #0b1728;
-    }
-
-    .refresh-item small {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--muted);
-      font: 9px var(--mono);
-      letter-spacing: 0.09em;
-    }
-
-    .refresh-item strong {
-      display: block;
-      color: var(--cyan);
-      font: 500 11px var(--mono);
-      overflow-wrap: anywhere;
-    }
-
-    .status-dot {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      margin-right: 7px;
-      border-radius: 50%;
-      background: var(--orange);
-      box-shadow: 0 0 10px rgba(255, 106, 53, 0.5);
-    }
-
-    .calculator-card {
-      padding: clamp(20px, 4vw, 34px);
-      background:
-        radial-gradient(ellipse at 100% 0%, rgba(124, 229, 242, 0.07), transparent 45%),
-        var(--stats-surface);
-      border: 1px solid var(--stats-border);
-    }
-
-    .calculator-controls {
-      display: grid;
-      grid-template-columns: minmax(0, 1.25fr) repeat(3, minmax(0, .75fr)) minmax(0, auto);
-      gap: 12px;
-      align-items: end;
-      margin-top: 24px;
-      min-width: 0;
-    }
-
-    .calculator-controls label {
-      display: grid;
-      gap: 8px;
-      min-width: 0;
-      color: var(--muted);
-      font: 10px var(--mono);
-      letter-spacing: 0.07em;
-    }
-
-    .calculator-controls select {
-      color-scheme: dark;
-      appearance: none;
-      -webkit-appearance: none;
-      width: 100%;
-      min-height: 48px;
-      padding: 12px 14px;
-      color: var(--white);
-      background: #07101f;
-      border: 1px solid #40536c;
-      border-radius: 2px;
-      font: 12px var(--mono);
-    }
-
-    .calculator-controls select option { background: #0d1a2c; color: #f4f7fb; }
-
-    .calculator-controls select:focus-visible,
-    .calculate-button:focus-visible {
-      outline: 2px solid var(--cyan);
-      outline-offset: 3px;
-    }
-
-    .calculate-button {
-      min-height: 48px;
-      padding: 12px 19px;
-      color: #101522;
-      background: var(--orange);
-      border: 1px solid var(--orange);
-      border-radius: 2px;
-      font: 800 11px var(--mono);
-      cursor: pointer;
-      transition: background 180ms ease, transform 180ms ease;
-    }
-
-    .calculate-button:hover {
-      background: #ff895f;
-      transform: translateY(-1px);
-    }
-
-    .result-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .result-card {
-      min-width: 0;
-      padding: 18px;
-      background: #07101f;
-      border: 1px solid var(--stats-border);
-    }
-
-    .result-card small {
-      display: block;
-      color: var(--muted);
-      font: 9px var(--mono);
-      letter-spacing: 0.08em;
-    }
-
-    .result-card strong {
-      display: block;
-      margin-top: 12px;
-      font: 800 clamp(27px, 4vw, 42px)/1 var(--display);
-      overflow-wrap: anywhere;
-    }
-
-    .result-card:first-child strong { color: var(--orange); }
-
-    .calculator-status {
-      min-height: 24px;
-      margin: 18px 0 0;
-      color: var(--cyan);
-      font: 10px/1.8 var(--mono);
-    }
-
-    .method-note {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 10px;
-      line-height: 1.8;
-    }
-
-    .innings-section { padding: 12px 0 80px; }
-
-    .innings-summary {
-      max-width: 360px;
-      color: var(--muted);
-      font: 10px/1.8 var(--mono);
-      text-align: right;
-    }
-
-    .match-list { display: grid; gap: 12px; }
-
-    .match-card {
-      padding: clamp(17px, 3vw, 24px);
-      background: linear-gradient(115deg, #0d1a2c, #0a1524);
-      border: 1px solid var(--stats-border);
-      transition: border-color 180ms ease;
-    }
-
-    .match-card:hover { border-color: rgba(124, 229, 242, 0.35); }
-
-    .match-card-head {
-      display: flex;
-      align-items: start;
-      justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 18px;
-    }
-
-    .match-card h3 {
-      margin: 0;
-      font: 700 clamp(21px, 3vw, 29px)/1.1 var(--display);
-    }
-
-    .match-date {
-      flex-shrink: 0;
-      color: var(--cyan);
-      font: 10px var(--mono);
-    }
-
-    .match-meta {
-      margin-top: 7px;
-      color: var(--muted);
-      font: 9px/1.8 var(--mono);
-    }
-
-    .over-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .over-chip {
-      min-width: 104px;
-      padding: 10px 12px;
-      background: #07101f;
-      border: 1px solid var(--stats-border);
-      color: #b9c6d8;
-      font: 10px/1.7 var(--mono);
-    }
-
-    .over-chip b {
-      display: block;
-      color: var(--orange);
-      font-size: 15px;
-    }
-
-    .over-chip span { color: var(--muted); font-size: 9px; }
-
-    .empty-state {
-      padding: 35px 20px;
-      color: var(--muted);
-      background: #0d1a2c;
-      border: 1px dashed var(--stats-border);
-      font-size: 12px;
-      line-height: 1.8;
-      text-align: center;
-    }
-
-    .back-link { white-space: nowrap; }
-
-    @media (max-width: 850px) {
-      .page-shell { width: 88vw; }
-      .stats-hero { padding-right: 6vw; padding-left: 6vw; }
-      .snapshot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .section-head { align-items: start; flex-direction: column; }
-      .innings-summary { text-align: left; }
-    }
-
-    @media (max-width: 600px) {
-      .stats-hero { padding-top: 55px; padding-bottom: 40px; }
-      .stats-hero h1 { font-size: clamp(52px, 15vw, 78px); }
-      .page-shell { width: 88vw; }
-      .stats-section { padding: 43px 0; }
-      .calculator-controls {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07101f" />
+    <meta
+      name="description"
+      content="Tilak Varma T20I over-by-over batting stats and death-overs calculator."
+    />
+    <title>Tilak Varma Stats Centre | The 72 Club</title>
+    <link rel="stylesheet" href="../assets/style.css?v=20261010-lastupdate1" />
+    <style>
+      .latest-match-panel {
+        margin: 18px 0 0;
+        padding: 22px;
+        border: 1px solid rgba(255, 106, 53, 0.4);
+        background: linear-gradient(120deg, #14283e, #0b1727);
+        border-radius: 4px;
+      }
+      .latest-match-panel[hidden] {
+        display: none;
+      }
+      .latest-match-panel .latest-top {
+        display: flex;
+        justify-content: space-between;
         gap: 10px;
+        flex-wrap: wrap;
+        color: #7ce5f2;
+        font: 10px var(--mono);
+        letter-spacing: 0.08em;
       }
-      .calculator-controls label {
-        min-width: 0;
-        font-size: 9px;
+      .latest-match-panel .latest-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        margin: 16px 0;
+      }
+      .latest-match-panel h3 {
+        font: 800 clamp(24px, 4vw, 38px) / 1 var(--display);
+        margin: 0;
+      }
+      .latest-match-panel p {
+        font-size: 11px;
+        line-height: 1.8;
+        color: #91a0b6;
+        margin: 9px 0 0;
+      }
+      .latest-match-panel .latest-runs {
+        font: 900 clamp(46px, 7vw, 72px) / 0.9 var(--display);
+        color: #ff6a35;
+        text-align: right;
+      }
+      .latest-match-panel .latest-runs small {
+        display: block;
+        margin-top: 8px;
+        color: #91a0b6;
+        font: 10px var(--mono);
+        letter-spacing: 0.05em;
+      }
+      .latest-match-panel .latest-source {
+        display: inline-block;
+        margin-top: 8px;
+        color: #7ce5f2;
+        font: 10px var(--mono);
+      }
+      @media (max-width: 560px) {
+        .latest-match-panel {
+          padding: 16px;
+        }
+        .latest-match-panel .latest-main {
+          align-items: flex-start;
+        }
+        .latest-match-panel .latest-runs {
+          font-size: 48px;
+        }
+      }
+
+      :root {
+        --stats-glow: rgba(124, 229, 242, 0.13);
+        --stats-border: rgba(255, 255, 255, 0.12);
+        --stats-surface: #0d1a2c;
+      }
+
+      .stats-hero {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(58px, 8vw, 100px) 8vw 54px;
+        background:
+          radial-gradient(ellipse at 85% 15%, rgba(255, 106, 53, 0.18), transparent 36%),
+          radial-gradient(ellipse at 72% 65%, var(--stats-glow), transparent 42%),
+          linear-gradient(125deg, #07101f, #0c1c30 72%, #101b2a);
+        border-bottom: 1px solid var(--stats-border);
+      }
+
+      .stats-hero::after {
+        content: "72";
+        position: absolute;
+        top: -80px;
+        right: 5vw;
+        color: rgba(255, 255, 255, 0.025);
+        font: 900 clamp(260px, 36vw, 500px) / 1 var(--display);
+        pointer-events: none;
+      }
+
+      .stats-hero > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .stats-hero h1 {
+        max-width: 900px;
+        margin: 22px 0 20px;
+        font: 900 clamp(54px, 8.5vw, 112px) / 0.88 var(--display);
+        letter-spacing: -0.035em;
+      }
+
+      .stats-hero h1 em {
+        color: var(--orange);
+        font-style: normal;
+      }
+
+      .stats-hero p {
+        max-width: 650px;
+        color: #a8b6c9;
+        font-size: 13px;
+        line-height: 1.9;
+      }
+
+      .hero-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 25px;
+      }
+
+      .hero-tag {
+        padding: 9px 12px;
+        border: 1px solid var(--stats-border);
+        background: rgba(7, 16, 31, 0.55);
+        color: #c8d5e5;
+        font: 10px var(--mono);
         letter-spacing: 0.04em;
-        gap: 6px;
       }
-      .calculator-controls select {
-        min-width: 0;
-        min-height: 44px;
-        padding: 10px 8px;
+
+      .hero-tag strong {
+        color: var(--cyan);
+        font-weight: 500;
+      }
+
+      .page-shell {
+        width: min(1180px, 84vw);
+        margin: 0 auto;
+      }
+
+      .section-kicker {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--cyan);
+        font: 10px var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .section-title {
+        margin: 13px 0 8px;
+        font: 800 clamp(34px, 5vw, 58px) / 0.98 var(--display);
+        letter-spacing: -0.02em;
+      }
+
+      .section-title em {
+        color: var(--orange);
+        font-style: normal;
+      }
+
+      .section-copy {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.8;
+      }
+
+      .stats-section {
+        padding: 58px 0;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 25px;
+      }
+
+      .snapshot-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .snapshot-card {
+        position: relative;
+        overflow: hidden;
+        min-height: 155px;
+        padding: 22px;
+        background: linear-gradient(145deg, #122238, #0a1626);
+        border: 1px solid var(--stats-border);
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease;
+      }
+
+      .snapshot-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(255, 106, 53, 0.55);
+      }
+
+      .snapshot-card:first-child {
+        background: linear-gradient(145deg, #ff7949, #d8482c);
+        border-color: #ff7949;
+        color: #111827;
+      }
+
+      .snapshot-card small {
+        display: block;
+        color: var(--muted);
+        font: 10px var(--mono);
+        letter-spacing: 0.08em;
+      }
+
+      .snapshot-card:first-child small,
+      .snapshot-card:first-child span {
+        color: #49271e;
+      }
+
+      .snapshot-card strong {
+        display: block;
+        margin: 18px 0 8px;
+        font: 800 clamp(32px, 4vw, 48px) / 0.95 var(--display);
+        overflow-wrap: anywhere;
+      }
+
+      .snapshot-card span {
+        display: block;
+        color: var(--muted);
         font-size: 10px;
-        text-overflow: ellipsis;
+        line-height: 1.6;
       }
-      .calculate-button { grid-column: 1 / -1; width: 100%; }
-      .result-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .refresh-strip { grid-template-columns: 1fr; }
-      .refresh-item { padding: 14px 16px; }
-      .match-card-head { flex-direction: column; gap: 8px; }
-      .over-chip { flex: 1 1 105px; }
-      .back-link { font-size: 10px; }
-    }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
+      .refresh-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1px;
+        margin-top: 14px;
+        background: var(--stats-border);
+        border: 1px solid var(--stats-border);
       }
-    }
-  </style>
-</head>
-<body>
-  <header class="topbar"><a class="brand" href="../"><span class="brand-mark">72</span><span>TILAK VARMA <small>FAN CLUB</small></span></a><button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="death-nav">☰</button><nav id="death-nav"><a href="../#profile">Profile</a><a href="../#stats">Stats</a><a href="../#records">Records</a><a href="../#innings">Matches</a><a href="../#fan-zone">Fan Zone</a><a href="../#moments">Photos &amp; News</a><a href="./" aria-current="page">Death-overs</a><a href="../#about">About</a><a href="../#settings">Settings</a></nav></header>
 
+      .refresh-item {
+        min-width: 0;
+        padding: 17px 19px;
+        background: #0b1728;
+      }
 
-  <main>
-    <section class="stats-hero">
-      <div class="eyebrow"><span class="live-dot"></span> THE 72 CLUB · STATS CENTRE</div>
-      <h1>NUMBERS<br><em>BEHIND THE GAME.</em></h1>
-      <p>
-        Explore Tilak Varma's available T20 International ball-by-ball data,
-        compare over ranges and track the batting numbers as the dataset refreshes.
-      </p>
-      <div class="hero-tags" aria-label="Stats features">
-        <span class="hero-tag"><strong>01</strong> OVER RANGE ANALYSER</span>
-        <span class="hero-tag"><strong>02</strong> INNINGS LOG</span>
-        <span class="hero-tag"><strong>03</strong> AUTO-REFRESH STATUS</span>
-      </div>
-    </section>
+      .refresh-item small {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--muted);
+        font: 9px var(--mono);
+        letter-spacing: 0.09em;
+      }
 
-    <section class="stats-section">
-      <div class="page-shell">
-        <div class="section-head">
-          <div>
-            <div class="section-kicker"><span class="live-dot"></span> DATA SNAPSHOT</div>
-            <h2 class="section-title">CAREER <em>AT A GLANCE.</em></h2>
-          </div>
-          <p class="section-copy">Calculated from the innings currently available to this page.</p>
+      .refresh-item strong {
+        display: block;
+        color: var(--cyan);
+        font: 500 11px var(--mono);
+        overflow-wrap: anywhere;
+      }
+
+      .status-dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        margin-right: 7px;
+        border-radius: 50%;
+        background: var(--orange);
+        box-shadow: 0 0 10px rgba(255, 106, 53, 0.5);
+      }
+
+      .calculator-card {
+        padding: clamp(20px, 4vw, 34px);
+        background:
+          radial-gradient(ellipse at 100% 0%, rgba(124, 229, 242, 0.07), transparent 45%),
+          var(--stats-surface);
+        border: 1px solid var(--stats-border);
+      }
+
+      .calculator-controls {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) repeat(3, minmax(0, 0.75fr)) minmax(0, auto);
+        gap: 12px;
+        align-items: end;
+        margin-top: 24px;
+        min-width: 0;
+      }
+
+      .calculator-controls label {
+        display: grid;
+        gap: 8px;
+        min-width: 0;
+        color: var(--muted);
+        font: 10px var(--mono);
+        letter-spacing: 0.07em;
+      }
+
+      .calculator-controls select {
+        color-scheme: dark;
+        appearance: none;
+        -webkit-appearance: none;
+        width: 100%;
+        min-height: 48px;
+        padding: 12px 14px;
+        color: var(--white);
+        background: #07101f;
+        border: 1px solid #40536c;
+        border-radius: 2px;
+        font: 12px var(--mono);
+      }
+
+      .calculator-controls select option {
+        background: #0d1a2c;
+        color: #f4f7fb;
+      }
+
+      .calculator-controls select:focus-visible,
+      .calculate-button:focus-visible {
+        outline: 2px solid var(--cyan);
+        outline-offset: 3px;
+      }
+
+      .calculate-button {
+        min-height: 48px;
+        padding: 12px 19px;
+        color: #101522;
+        background: var(--orange);
+        border: 1px solid var(--orange);
+        border-radius: 2px;
+        font: 800 11px var(--mono);
+        cursor: pointer;
+        transition:
+          background 180ms ease,
+          transform 180ms ease;
+      }
+
+      .calculate-button:hover {
+        background: #ff895f;
+        transform: translateY(-1px);
+      }
+
+      .result-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .result-card {
+        min-width: 0;
+        padding: 18px;
+        background: #07101f;
+        border: 1px solid var(--stats-border);
+      }
+
+      .result-card small {
+        display: block;
+        color: var(--muted);
+        font: 9px var(--mono);
+        letter-spacing: 0.08em;
+      }
+
+      .result-card strong {
+        display: block;
+        margin-top: 12px;
+        font: 800 clamp(27px, 4vw, 42px) / 1 var(--display);
+        overflow-wrap: anywhere;
+      }
+
+      .result-card:first-child strong {
+        color: var(--orange);
+      }
+
+      .calculator-status {
+        min-height: 24px;
+        margin: 18px 0 0;
+        color: var(--cyan);
+        font: 10px/1.8 var(--mono);
+      }
+
+      .method-note {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.8;
+      }
+
+      .innings-section {
+        padding: 12px 0 80px;
+      }
+
+      .innings-summary {
+        max-width: 360px;
+        color: var(--muted);
+        font: 10px/1.8 var(--mono);
+        text-align: right;
+      }
+
+      .match-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .match-card {
+        padding: clamp(17px, 3vw, 24px);
+        background: linear-gradient(115deg, #0d1a2c, #0a1524);
+        border: 1px solid var(--stats-border);
+        transition: border-color 180ms ease;
+      }
+
+      .match-card:hover {
+        border-color: rgba(124, 229, 242, 0.35);
+      }
+
+      .match-card-head {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .match-card h3 {
+        margin: 0;
+        font: 700 clamp(21px, 3vw, 29px) / 1.1 var(--display);
+      }
+
+      .match-date {
+        flex-shrink: 0;
+        color: var(--cyan);
+        font: 10px var(--mono);
+      }
+
+      .match-meta {
+        margin-top: 7px;
+        color: var(--muted);
+        font: 9px/1.8 var(--mono);
+      }
+
+      .over-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .over-chip {
+        min-width: 104px;
+        padding: 10px 12px;
+        background: #07101f;
+        border: 1px solid var(--stats-border);
+        color: #b9c6d8;
+        font: 10px/1.7 var(--mono);
+      }
+
+      .over-chip b {
+        display: block;
+        color: var(--orange);
+        font-size: 15px;
+      }
+
+      .over-chip span {
+        color: var(--muted);
+        font-size: 9px;
+      }
+
+      .empty-state {
+        padding: 35px 20px;
+        color: var(--muted);
+        background: #0d1a2c;
+        border: 1px dashed var(--stats-border);
+        font-size: 12px;
+        line-height: 1.8;
+        text-align: center;
+      }
+
+      .back-link {
+        white-space: nowrap;
+      }
+
+      @media (max-width: 850px) {
+        .page-shell {
+          width: 88vw;
+        }
+        .stats-hero {
+          padding-right: 6vw;
+          padding-left: 6vw;
+        }
+        .snapshot-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .section-head {
+          align-items: start;
+          flex-direction: column;
+        }
+        .innings-summary {
+          text-align: left;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .stats-hero {
+          padding-top: 55px;
+          padding-bottom: 40px;
+        }
+        .stats-hero h1 {
+          font-size: clamp(52px, 15vw, 78px);
+        }
+        .page-shell {
+          width: 88vw;
+        }
+        .stats-section {
+          padding: 43px 0;
+        }
+        .calculator-controls {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+        }
+        .calculator-controls label {
+          min-width: 0;
+          font-size: 9px;
+          letter-spacing: 0.04em;
+          gap: 6px;
+        }
+        .calculator-controls select {
+          min-width: 0;
+          min-height: 44px;
+          padding: 10px 8px;
+          font-size: 10px;
+          text-overflow: ellipsis;
+        }
+        .calculate-button {
+          grid-column: 1 / -1;
+          width: 100%;
+        }
+        .result-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .refresh-strip {
+          grid-template-columns: 1fr;
+        }
+        .refresh-item {
+          padding: 14px 16px;
+        }
+        .match-card-head {
+          flex-direction: column;
+          gap: 8px;
+        }
+        .over-chip {
+          flex: 1 1 105px;
+        }
+        .back-link {
+          font-size: 10px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="../"
+        ><span class="brand-mark">72</span><span>TILAK VARMA <small>FAN CLUB</small></span></a
+      ><button
+        class="menu-toggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="death-nav"
+      >
+        ☰
+      </button>
+      <nav id="death-nav">
+        <a href="../#profile">Profile</a><a href="../#stats">Stats</a
+        ><a href="../#records">Records</a><a href="../#innings">Matches</a
+        ><a href="../#fan-zone">Fan Zone</a><a href="../#moments">Photos &amp; News</a
+        ><a href="./" aria-current="page">Death-overs</a><a href="../#about">About</a
+        ><a href="../#settings">Settings</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="stats-hero">
+        <div class="eyebrow"><span class="live-dot"></span> THE 72 CLUB · STATS CENTRE</div>
+        <h1>NUMBERS<br /><em>BEHIND THE GAME.</em></h1>
+        <p>
+          Explore Tilak Varma's available T20 International ball-by-ball data, compare over ranges
+          and track the batting numbers as the dataset refreshes.
+        </p>
+        <div class="hero-tags" aria-label="Stats features">
+          <span class="hero-tag"><strong>01</strong> OVER RANGE ANALYSER</span>
+          <span class="hero-tag"><strong>02</strong> INNINGS LOG</span>
+          <span class="hero-tag"><strong>03</strong> AUTO-REFRESH STATUS</span>
         </div>
+      </section>
 
-        <div class="snapshot-grid" aria-live="polite">
-          <article class="snapshot-card">
-            <small>RUNS IN DATASET</small>
-            <strong id="total-runs">—</strong>
-            <span>Recorded batter runs</span>
-          </article>
-          <article class="snapshot-card">
-            <small>INNINGS FOUND</small>
-            <strong id="total-innings">—</strong>
-            <span>Tilak batting innings in the feed</span>
-          </article>
-          <article class="snapshot-card">
-            <small>BALLS FACED</small>
-            <strong id="total-balls">—</strong>
-            <span>Wides excluded</span>
-          </article>
-          <article class="snapshot-card">
-            <small>OVERALL STRIKE RATE</small>
-            <strong id="overall-sr">—</strong>
-            <span>Runs per 100 balls faced</span>
-          </article>
-        </div>
-
-        <div id="latest-match-panel" class="latest-match-panel" hidden></div>
-
-        <div class="refresh-strip" aria-label="Refresh status">
-          <div class="refresh-item">
-            <small>FEED STATUS</small>
-            <strong><span class="status-dot"></span><span id="feed-status">CONNECTING</span></strong>
-          </div>
-          <div class="refresh-item">
-            <small>LAST DATA UPDATE</small>
-            <strong id="last-refresh">Last update: Checking…</strong>
-          </div>
-          <div class="refresh-item">
-            <small>NEXT SCHEDULED REFRESH</small>
-            <strong id="next-refresh">12-hour cycle</strong>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="stats-section" style="padding-top: 0;">
-      <div class="page-shell">
-        <div class="section-head">
-          <div>
-            <div class="section-kicker">INTERACTIVE TOOL</div>
-            <h2 class="section-title">OVER RANGE <em>ANALYSER.</em></h2>
-          </div>
-          <p class="section-copy">Select a competition/format, then choose any over range to analyse Tilak Varma's recorded batting deliveries.</p>
-        </div>
-
-        <div class="calculator-card">
-          <div class="calculator-controls">
-            <label for="data-format">FORMAT / COMPETITION
-              <select id="data-format"></select>
-            </label>
-            <label for="year-filter">YEAR / SEASON
-              <select id="year-filter"><option value="all">ALL YEARS</option></select>
-            </label>
-            <label for="first-over">FIRST OVER
-              <select id="first-over"></select>
-            </label>
-            <label for="last-over">LAST OVER
-              <select id="last-over"></select>
-            </label>
-            <button class="calculate-button" id="calculate" type="button">CALCULATE RANGE ↗</button>
+      <section class="stats-section">
+        <div class="page-shell">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker"><span class="live-dot"></span> DATA SNAPSHOT</div>
+              <h2 class="section-title">CAREER <em>AT A GLANCE.</em></h2>
+            </div>
+            <p class="section-copy">
+              Calculated from the innings currently available to this page.
+            </p>
           </div>
 
-          <div class="result-grid" aria-live="polite">
-            <article class="result-card">
-              <small>TOTAL RUNS</small>
-              <strong id="runs">—</strong>
+          <div class="snapshot-grid" aria-live="polite">
+            <article class="snapshot-card">
+              <small>RUNS IN DATASET</small>
+              <strong id="total-runs">—</strong>
+              <span>Recorded batter runs</span>
             </article>
-            <article class="result-card">
+            <article class="snapshot-card">
+              <small>INNINGS FOUND</small>
+              <strong id="total-innings">—</strong>
+              <span>Tilak batting innings in the feed</span>
+            </article>
+            <article class="snapshot-card">
               <small>BALLS FACED</small>
-              <strong id="balls">—</strong>
+              <strong id="total-balls">—</strong>
+              <span>Wides excluded</span>
             </article>
-            <article class="result-card">
-              <small>FOURS / SIXES</small>
-              <strong id="boundaries">—</strong>
-            </article>
-            <article class="result-card">
-              <small>STRIKE RATE</small>
-              <strong id="sr">—</strong>
+            <article class="snapshot-card">
+              <small>OVERALL STRIKE RATE</small>
+              <strong id="overall-sr">—</strong>
+              <span>Runs per 100 balls faced</span>
             </article>
           </div>
 
-          <p class="calculator-status" id="status" role="status">Loading stats…</p>
-          <p class="method-note">
-            Calculation uses recorded deliveries where Tilak is the striker. Wides are excluded from balls faced.
-            If the data feed is empty, the page shows a waiting message instead of treating missing stats as zero.
-          </p>
-        </div>
-      </div>
-    </section>
+          <div id="latest-match-panel" class="latest-match-panel" hidden></div>
 
-    <section class="innings-section">
-      <div class="page-shell">
-        <div class="section-head">
-          <div>
-            <div class="section-kicker">MATCH LOG</div>
-            <h2 class="section-title">RECENT <em>INNINGS.</em></h2>
+          <div class="refresh-strip" aria-label="Refresh status">
+            <div class="refresh-item">
+              <small>FEED STATUS</small>
+              <strong
+                ><span class="status-dot"></span><span id="feed-status">CONNECTING</span></strong
+              >
+            </div>
+            <div class="refresh-item">
+              <small>LAST DATA UPDATE</small>
+              <strong id="last-refresh">Last update: Checking…</strong>
+            </div>
+            <div class="refresh-item">
+              <small>NEXT SCHEDULED REFRESH</small>
+              <strong id="next-refresh">12-hour cycle</strong>
+            </div>
           </div>
-          <p class="innings-summary" id="match-summary">Loading available innings…</p>
         </div>
-        <div class="match-list" id="matches">
-          <div class="empty-state">Connecting to the stats feed…</div>
+      </section>
+
+      <section class="stats-section" style="padding-top: 0">
+        <div class="page-shell">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">INTERACTIVE TOOL</div>
+              <h2 class="section-title">OVER RANGE <em>ANALYSER.</em></h2>
+            </div>
+            <p class="section-copy">
+              Select a competition/format, then choose any over range to analyse Tilak Varma's
+              recorded batting deliveries.
+            </p>
+          </div>
+
+          <div class="calculator-card">
+            <div class="calculator-controls">
+              <label for="data-format"
+                >FORMAT / COMPETITION
+                <select id="data-format"></select>
+              </label>
+              <label for="year-filter"
+                >YEAR / SEASON
+                <select id="year-filter">
+                  <option value="all">ALL YEARS</option>
+                </select>
+              </label>
+              <label for="first-over"
+                >FIRST OVER
+                <select id="first-over"></select>
+              </label>
+              <label for="last-over"
+                >LAST OVER
+                <select id="last-over"></select>
+              </label>
+              <button class="calculate-button" id="calculate" type="button">
+                CALCULATE RANGE ↗
+              </button>
+            </div>
+
+            <div class="result-grid" aria-live="polite">
+              <article class="result-card">
+                <small>TOTAL RUNS</small>
+                <strong id="runs">—</strong>
+              </article>
+              <article class="result-card">
+                <small>BALLS FACED</small>
+                <strong id="balls">—</strong>
+              </article>
+              <article class="result-card">
+                <small>FOURS / SIXES</small>
+                <strong id="boundaries">—</strong>
+              </article>
+              <article class="result-card">
+                <small>STRIKE RATE</small>
+                <strong id="sr">—</strong>
+              </article>
+            </div>
+
+            <p class="calculator-status" id="status" role="status">Loading stats…</p>
+            <p class="method-note">
+              Calculation uses recorded deliveries where Tilak is the striker. Wides are excluded
+              from balls faced. If the data feed is empty, the page shows a waiting message instead
+              of treating missing stats as zero.
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <footer>
-    <a class="brand" href="../">
-      <span class="brand-mark">72</span>
-      <span>TILAK VARMA <small>FAN CLUB</small></span>
-    </a>
-    <span>INDEPENDENT FAN PROJECT</span>
-    <span>THE 72 CLUB</span>
-  </footer>
+      <section class="innings-section">
+        <div class="page-shell">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">MATCH LOG</div>
+              <h2 class="section-title">RECENT <em>INNINGS.</em></h2>
+            </div>
+            <p class="innings-summary" id="match-summary">Loading available innings…</p>
+          </div>
+          <div class="match-list" id="matches">
+            <div class="empty-state">Connecting to the stats feed…</div>
+          </div>
+        </div>
+      </section>
+    </main>
 
-  <script>
-(()=>{"use strict";
-const URL_DATA="../data/death-overs.json",REFRESH=12*60*60*1000;
-const fs=document.querySelector("#data-format"),year=document.querySelector("#year-filter"),first=document.querySelector("#first-over"),last=document.querySelector("#last-over"),button=document.querySelector("#calculate");
-let root=null,active="t20i",timer=null;
-const names={ipl:"IPL",t20i:"T20 INTERNATIONALS",t20:"OTHER MEN'S T20",overall_t20:"OVERALL T20 · IPL + INTERNATIONAL + DOMESTIC",hyderabad:"HYDERABAD · DOMESTIC T20",odi:"ODI",test:"TEST (AVAILABLE ARCHIVE)"},fmt=n=>Number(n||0).toLocaleString("en-IN");
-function rawData(){return root?.formats?.[active]||(active===root?.defaultFormat?root:null)}
-function data(){const d=rawData();if(!d)return null;const y=year?.value||"all";const innings=(d.innings||[]).filter(i=>y==="all"||String(i.date||"").slice(0,4)===y);return {...d,innings,inningsFound:innings.length,matchesFound:new Set(innings.map(i=>i.matchId||i.date+"|"+i.teams)).size}}
-function options(max=20){const a=Number(first.value)||(max===20?16:Math.max(1,max-4)),b=Number(last.value)||max;first.replaceChildren();last.replaceChildren();for(let n=1;n<=max;n++){first.add(new Option(n,n));last.add(new Option(n,n))}first.value=Math.min(a,max);last.value=Math.min(b,max);if(+first.value>+last.value)last.value=first.value}
-function yearOptions(){const d=rawData(),selected=year.value||"all",years=[...new Set((d?.innings||[]).map(i=>String(i.date||"").slice(0,4)).filter(y=>/^\d{4}$/.test(y)))].sort().reverse();year.replaceChildren(new Option("ALL YEARS","all"));years.forEach(y=>year.add(new Option(y,y)));year.value=years.includes(selected)?selected:"all"}
-function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function unavailable(msg){["runs","balls","boundaries","sr","total-runs","total-innings","total-balls","overall-sr"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent="—"});document.getElementById("status").textContent=msg;document.getElementById("feed-status").textContent="WAITING FOR DATA";document.getElementById("matches").innerHTML='<div class="empty-state">No delivery-level innings available for this format/year.</div>';document.getElementById("match-summary").textContent="No innings data available"}
-function calculate(){const d=data();if(!d?.innings?.length){unavailable("No published Tilak Varma delivery data for "+(names[active]||active)+" · "+(year.value==="all"?"all years":year.value)+".");return}let a=+first.value,b=+last.value;if(a>b){[a,b]=[b,a];first.value=a;last.value=b}const selected=d.innings.flatMap(i=>(i.overs||[]).filter(o=>+o.over>=a&&+o.over<=b));const t=selected.reduce((s,o)=>{for(const k of ["runs","balls","fours","sixes"])s[k]+=+(o[k]||0);return s},{runs:0,balls:0,fours:0,sixes:0});document.getElementById("runs").textContent=fmt(t.runs);document.getElementById("balls").textContent=fmt(t.balls);document.getElementById("boundaries").textContent=fmt(t.fours)+" / "+fmt(t.sixes);document.getElementById("sr").textContent=t.balls?(t.runs*100/t.balls).toFixed(2):"—";document.getElementById("status").textContent="FORMAT "+(d.label||names[active])+" · YEAR "+(year.value==="all"?"ALL":year.value)+" · OVERS "+a+"–"+b+" · "+fmt(d.matchesFound)+" MATCHES · UPDATED "+(root.updatedAt||"TIME UNKNOWN")}
-function snapshot(){const d=data(),innings=d?.innings||[],overs=innings.flatMap(i=>i.overs||[]),t=overs.reduce((s,o)=>({runs:s.runs+(+o.runs||0),balls:s.balls+(+o.balls||0)}),{runs:0,balls:0});document.getElementById("total-runs").textContent=fmt(t.runs);document.getElementById("total-innings").textContent=fmt(d?.inningsFound||innings.length);document.getElementById("total-balls").textContent=fmt(t.balls);document.getElementById("overall-sr").textContent=t.balls?(t.runs*100/t.balls).toFixed(2):"—";document.getElementById("feed-status").textContent=innings.length?"STATS LOADED":"NO DATA FOR FORMAT/YEAR";document.getElementById("last-refresh").textContent=root.updatedAt||"Timestamp unavailable";if(timer)clearInterval(timer);const stamp=Date.parse(String(root.updatedAt||"").replace(" UTC","Z").replace(" ","T"));function tick(){if(!Number.isFinite(stamp)){document.getElementById("next-refresh").textContent="Every 12 hours";return}const ms=Math.max(0,stamp+REFRESH-Date.now());document.getElementById("next-refresh").textContent=ms===0?"Refresh window reached":Math.floor(ms/3600000)+"h "+Math.floor(ms%3600000/60000)+"m remaining"}tick();timer=setInterval(tick,60000)}
-function matches(){const d=data(),box=document.getElementById("matches"),rows=d?.innings||[];document.getElementById("match-summary").textContent=fmt(d?.inningsFound||rows.length)+" innings · "+(d?.label||names[active])+" · "+(year.value==="all"?"All years":year.value)+" · Updated "+(root.updatedAt||"time unavailable");if(!rows.length){box.innerHTML='<div class="empty-state">No delivery-level innings are available for this format/year.</div>';return}box.innerHTML=rows.slice(0,15).map(m=>'<article class="match-card"><div class="match-card-head"><div><h3>'+esc(m.opposition||"Match")+'</h3><div class="match-meta">'+esc(m.teams||"")+(m.venue?" · "+esc(m.venue):"")+" · Innings "+(+m.innings||1)+'</div></div><span class="match-date">'+esc(m.date||"Date unavailable")+'</span></div><div class="over-chips">'+(m.overs||[]).map(o=>'<div class="over-chip">OVER '+(+o.over)+'<b>'+fmt(o.runs)+' RUNS</b><span>'+fmt(o.balls)+' balls · '+fmt(o.fours)+' fours · '+fmt(o.sixes)+' sixes</span></div>').join("")+'</div></article>').join("")}
-function featured(){const p=document.getElementById("latest-match-panel"),m=root?.featuredMatch;if(!p||!m)return;p.hidden=false;p.innerHTML='<div class="latest-top"><span>FEATURED SCORECARD</span><span>'+esc(m.date)+' · '+esc(m.format)+'</span></div><div class="latest-main"><div><h3>'+esc(m.teams)+'</h3><p>'+esc(m.venue)+' · '+esc(m.result)+'</p><p>Over analyser below uses the selected format archive.</p></div><div class="latest-runs">'+esc(m.playerRuns)+'*<small>FROM '+esc(m.playerBalls)+' BALLS</small></div></div><a class="latest-source" href="'+esc(m.source)+'" target="_blank" rel="noreferrer">Open full scorecard ↗</a>'}
-function change(){active=fs.value;yearOptions();options(active==="odi"?50:active==="test"?90:20);snapshot();matches();calculate();document.querySelector(".section-copy").textContent="Selected: "+(rawData()?.label||names[active])+". Choose a year and over range to analyse Tilak Varma's recorded batting deliveries."}
-async function load(){document.getElementById("feed-status").textContent="CONNECTING";try{const r=await fetch(URL_DATA,{cache:"no-store"});if(!r.ok)throw Error("HTTP "+r.status);root=await r.json();fs.replaceChildren();Object.entries(root.formats||{}).forEach(([k,v])=>{if(v&&Array.isArray(v.innings)&&v.innings.length)fs.add(new Option(names[k]||v.label||k.toUpperCase(),k))});active=root.formats?.[root.defaultFormat]?.innings?.length?root.defaultFormat:(fs.options[0]?.value||"t20i");fs.value=active;yearOptions();featured();change()}catch(e){unavailable("Could not load stats. Refresh the page or check the published data feed.");document.getElementById("feed-status").textContent="FEED UNAVAILABLE";document.getElementById("last-refresh").textContent="Not connected";document.getElementById("next-refresh").textContent="Every 12 hours";console.error(e)}}
-options();fs.addEventListener("change",change);year.addEventListener("change",()=>{snapshot();matches();calculate()});button.addEventListener("click",calculate);first.addEventListener("change",calculate);last.addEventListener("change",calculate);load();
-})();
-</script>
-<script>const dm=document.querySelector(".menu-toggle"),dn=document.querySelector("#death-nav");dm?.addEventListener("click",()=>{const open=dn.classList.toggle("open");dm.setAttribute("aria-expanded",String(open))});dn?.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>dn.classList.remove("open")));</script>
-  <script src="../assets/custom-selects.js?v=20261010-label-fix"></script>
-</body>
+    <footer>
+      <a class="brand" href="../">
+        <span class="brand-mark">72</span>
+        <span>TILAK VARMA <small>FAN CLUB</small></span>
+      </a>
+      <span>INDEPENDENT FAN PROJECT</span>
+      <span>THE 72 CLUB</span>
+    </footer>
+
+    <script>
+      (() => {
+        "use strict";
+        const URL_DATA = "../data/death-overs.json",
+          REFRESH = 12 * 60 * 60 * 1000;
+        const fs = document.querySelector("#data-format"),
+          year = document.querySelector("#year-filter"),
+          first = document.querySelector("#first-over"),
+          last = document.querySelector("#last-over"),
+          button = document.querySelector("#calculate");
+        let root = null,
+          active = "t20i",
+          timer = null;
+        const names = {
+            ipl: "IPL",
+            t20i: "T20 INTERNATIONALS",
+            t20: "OTHER MEN'S T20",
+            overall_t20: "OVERALL T20 · IPL + INTERNATIONAL + DOMESTIC",
+            hyderabad: "HYDERABAD · DOMESTIC T20",
+            odi: "ODI",
+            test: "TEST (AVAILABLE ARCHIVE)",
+          },
+          fmt = (n) => Number(n || 0).toLocaleString("en-IN");
+        function rawData() {
+          return root?.formats?.[active] || (active === root?.defaultFormat ? root : null);
+        }
+        function data() {
+          const d = rawData();
+          if (!d) return null;
+          const y = year?.value || "all";
+          const innings = (d.innings || []).filter(
+            (i) => y === "all" || String(i.date || "").slice(0, 4) === y,
+          );
+          return {
+            ...d,
+            innings,
+            inningsFound: innings.length,
+            matchesFound: new Set(innings.map((i) => i.matchId || i.date + "|" + i.teams)).size,
+          };
+        }
+        function options(max = 20) {
+          const a = Number(first.value) || (max === 20 ? 16 : Math.max(1, max - 4)),
+            b = Number(last.value) || max;
+          first.replaceChildren();
+          last.replaceChildren();
+          for (let n = 1; n <= max; n++) {
+            first.add(new Option(n, n));
+            last.add(new Option(n, n));
+          }
+          first.value = Math.min(a, max);
+          last.value = Math.min(b, max);
+          if (+first.value > +last.value) last.value = first.value;
+        }
+        function yearOptions() {
+          const d = rawData(),
+            selected = year.value || "all",
+            years = [
+              ...new Set(
+                (d?.innings || [])
+                  .map((i) => String(i.date || "").slice(0, 4))
+                  .filter((y) => /^\d{4}$/.test(y)),
+              ),
+            ]
+              .sort()
+              .reverse();
+          year.replaceChildren(new Option("ALL YEARS", "all"));
+          years.forEach((y) => year.add(new Option(y, y)));
+          year.value = years.includes(selected) ? selected : "all";
+        }
+        function esc(v) {
+          return String(v ?? "").replace(
+            /[&<>"']/g,
+            (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+          );
+        }
+        function unavailable(msg) {
+          [
+            "runs",
+            "balls",
+            "boundaries",
+            "sr",
+            "total-runs",
+            "total-innings",
+            "total-balls",
+            "overall-sr",
+          ].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = "—";
+          });
+          document.getElementById("status").textContent = msg;
+          document.getElementById("feed-status").textContent = "WAITING FOR DATA";
+          document.getElementById("matches").innerHTML =
+            '<div class="empty-state">No delivery-level innings available for this format/year.</div>';
+          document.getElementById("match-summary").textContent = "No innings data available";
+        }
+        function calculate() {
+          const d = data();
+          if (!d?.innings?.length) {
+            unavailable(
+              "No published Tilak Varma delivery data for " +
+                (names[active] || active) +
+                " · " +
+                (year.value === "all" ? "all years" : year.value) +
+                ".",
+            );
+            return;
+          }
+          let a = +first.value,
+            b = +last.value;
+          if (a > b) {
+            [a, b] = [b, a];
+            first.value = a;
+            last.value = b;
+          }
+          const selected = d.innings.flatMap((i) =>
+            (i.overs || []).filter((o) => +o.over >= a && +o.over <= b),
+          );
+          const t = selected.reduce(
+            (s, o) => {
+              for (const k of ["runs", "balls", "fours", "sixes"]) s[k] += +(o[k] || 0);
+              return s;
+            },
+            { runs: 0, balls: 0, fours: 0, sixes: 0 },
+          );
+          document.getElementById("runs").textContent = fmt(t.runs);
+          document.getElementById("balls").textContent = fmt(t.balls);
+          document.getElementById("boundaries").textContent = fmt(t.fours) + " / " + fmt(t.sixes);
+          document.getElementById("sr").textContent = t.balls
+            ? ((t.runs * 100) / t.balls).toFixed(2)
+            : "—";
+          document.getElementById("status").textContent =
+            "FORMAT " +
+            (d.label || names[active]) +
+            " · YEAR " +
+            (year.value === "all" ? "ALL" : year.value) +
+            " · OVERS " +
+            a +
+            "–" +
+            b +
+            " · " +
+            fmt(d.matchesFound) +
+            " MATCHES · UPDATED " +
+            (root.updatedAt || "TIME UNKNOWN");
+        }
+        function snapshot() {
+          const d = data(),
+            innings = d?.innings || [],
+            overs = innings.flatMap((i) => i.overs || []),
+            t = overs.reduce(
+              (s, o) => ({ runs: s.runs + (+o.runs || 0), balls: s.balls + (+o.balls || 0) }),
+              { runs: 0, balls: 0 },
+            );
+          document.getElementById("total-runs").textContent = fmt(t.runs);
+          document.getElementById("total-innings").textContent = fmt(
+            d?.inningsFound || innings.length,
+          );
+          document.getElementById("total-balls").textContent = fmt(t.balls);
+          document.getElementById("overall-sr").textContent = t.balls
+            ? ((t.runs * 100) / t.balls).toFixed(2)
+            : "—";
+          document.getElementById("feed-status").textContent = innings.length
+            ? "STATS LOADED"
+            : "NO DATA FOR FORMAT/YEAR";
+          document.getElementById("last-refresh").textContent =
+            root.updatedAt || "Timestamp unavailable";
+          if (timer) clearInterval(timer);
+          const stamp = Date.parse(
+            String(root.updatedAt || "")
+              .replace(" UTC", "Z")
+              .replace(" ", "T"),
+          );
+          function tick() {
+            if (!Number.isFinite(stamp)) {
+              document.getElementById("next-refresh").textContent = "Every 12 hours";
+              return;
+            }
+            const ms = Math.max(0, stamp + REFRESH - Date.now());
+            document.getElementById("next-refresh").textContent =
+              ms === 0
+                ? "Refresh window reached"
+                : Math.floor(ms / 3600000) +
+                  "h " +
+                  Math.floor((ms % 3600000) / 60000) +
+                  "m remaining";
+          }
+          tick();
+          timer = setInterval(tick, 60000);
+        }
+        function matches() {
+          const d = data(),
+            box = document.getElementById("matches"),
+            rows = d?.innings || [];
+          document.getElementById("match-summary").textContent =
+            fmt(d?.inningsFound || rows.length) +
+            " innings · " +
+            (d?.label || names[active]) +
+            " · " +
+            (year.value === "all" ? "All years" : year.value) +
+            " · Updated " +
+            (root.updatedAt || "time unavailable");
+          if (!rows.length) {
+            box.innerHTML =
+              '<div class="empty-state">No delivery-level innings are available for this format/year.</div>';
+            return;
+          }
+          box.innerHTML = rows
+            .slice(0, 15)
+            .map(
+              (m) =>
+                '<article class="match-card"><div class="match-card-head"><div><h3>' +
+                esc(m.opposition || "Match") +
+                '</h3><div class="match-meta">' +
+                esc(m.teams || "") +
+                (m.venue ? " · " + esc(m.venue) : "") +
+                " · Innings " +
+                (+m.innings || 1) +
+                '</div></div><span class="match-date">' +
+                esc(m.date || "Date unavailable") +
+                '</span></div><div class="over-chips">' +
+                (m.overs || [])
+                  .map(
+                    (o) =>
+                      '<div class="over-chip">OVER ' +
+                      +o.over +
+                      "<b>" +
+                      fmt(o.runs) +
+                      " RUNS</b><span>" +
+                      fmt(o.balls) +
+                      " balls · " +
+                      fmt(o.fours) +
+                      " fours · " +
+                      fmt(o.sixes) +
+                      " sixes</span></div>",
+                  )
+                  .join("") +
+                "</div></article>",
+            )
+            .join("");
+        }
+        function featured() {
+          const p = document.getElementById("latest-match-panel"),
+            m = root?.featuredMatch;
+          if (!p || !m) return;
+          p.hidden = false;
+          p.innerHTML =
+            '<div class="latest-top"><span>FEATURED SCORECARD</span><span>' +
+            esc(m.date) +
+            " · " +
+            esc(m.format) +
+            '</span></div><div class="latest-main"><div><h3>' +
+            esc(m.teams) +
+            "</h3><p>" +
+            esc(m.venue) +
+            " · " +
+            esc(m.result) +
+            '</p><p>Over analyser below uses the selected format archive.</p></div><div class="latest-runs">' +
+            esc(m.playerRuns) +
+            "*<small>FROM " +
+            esc(m.playerBalls) +
+            ' BALLS</small></div></div><a class="latest-source" href="' +
+            esc(m.source) +
+            '" target="_blank" rel="noreferrer">Open full scorecard ↗</a>';
+        }
+        function change() {
+          active = fs.value;
+          yearOptions();
+          options(active === "odi" ? 50 : active === "test" ? 90 : 20);
+          snapshot();
+          matches();
+          calculate();
+          document.querySelector(".section-copy").textContent =
+            "Selected: " +
+            (rawData()?.label || names[active]) +
+            ". Choose a year and over range to analyse Tilak Varma's recorded batting deliveries.";
+        }
+        async function load() {
+          document.getElementById("feed-status").textContent = "CONNECTING";
+          try {
+            const r = await fetch(URL_DATA, { cache: "no-store" });
+            if (!r.ok) throw Error("HTTP " + r.status);
+            root = await r.json();
+            fs.replaceChildren();
+            Object.entries(root.formats || {}).forEach(([k, v]) => {
+              if (v && Array.isArray(v.innings) && v.innings.length)
+                fs.add(new Option(names[k] || v.label || k.toUpperCase(), k));
+            });
+            active = root.formats?.[root.defaultFormat]?.innings?.length
+              ? root.defaultFormat
+              : fs.options[0]?.value || "t20i";
+            fs.value = active;
+            yearOptions();
+            featured();
+            change();
+          } catch (e) {
+            unavailable("Could not load stats. Refresh the page or check the published data feed.");
+            document.getElementById("feed-status").textContent = "FEED UNAVAILABLE";
+            document.getElementById("last-refresh").textContent = "Not connected";
+            document.getElementById("next-refresh").textContent = "Every 12 hours";
+            console.error(e);
+          }
+        }
+        options();
+        fs.addEventListener("change", change);
+        year.addEventListener("change", () => {
+          snapshot();
+          matches();
+          calculate();
+        });
+        button.addEventListener("click", calculate);
+        first.addEventListener("change", calculate);
+        last.addEventListener("change", calculate);
+        load();
+      })();
+    </script>
+    <script>
+      const dm = document.querySelector(".menu-toggle"),
+        dn = document.querySelector("#death-nav");
+      dm?.addEventListener("click", () => {
+        const open = dn.classList.toggle("open");
+        dm.setAttribute("aria-expanded", String(open));
+      });
+      dn?.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => dn.classList.remove("open")),
+      );
+    </script>
+    <script src="../assets/custom-selects.js?v=20261010-label-fix"></script>
+  </body>
 </html>

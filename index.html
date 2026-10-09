@@ -1,101 +1,681 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#07101f"><meta name="description" content="Tilak Varma fan club — career snapshot, recent innings, match moments and fan gallery.">
-<title>Tilak Varma FC | The 72 Club</title><link rel="stylesheet" href="assets/style.css?v=20261010-audit3">
-</head>
-<body>
-<header class="topbar"><a class="brand" href="#profile"><span class="brand-mark">72</span><span>TILAK VARMA <small>FAN CLUB</small></span></a><button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">☰</button><nav id="main-nav"><a href="#profile">Profile</a><a href="#stats">Stats</a><a href="#records">Records</a><a href="#innings">Matches</a><a href="#fan-zone">Fan Zone</a><a href="#moments">Photos & News</a><a href="death-overs/">Death-overs</a><a href="#about">About</a><a href="#settings">Settings</a></nav></header>
-<main>
-<section id="profile" class="section profile-section"><div class="profile-photo-wrap"><img id="tilak-photo" src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="Tilak Varma in India jersey — official ICC player profile" loading="eager" decoding="async" referrerpolicy="no-referrer"><div class="photo-fallback">TV <span>72</span></div></div><div class="profile-copy"><div class="eyebrow">PLAYER PROFILE / INDIA · MI</div><h2>TILAK <em>VARMA</em></h2><p class="profile-intro">A left-handed batter from Hyderabad, known for composure under pressure and bold strokeplay.</p><div class="profile-facts"><div><small>JERSEY</small><strong>72</strong></div><div><small>BORN</small><strong>8 Nov 2002</strong></div><div><small>BATTING</small><strong>Left-hand</strong></div><div><small>BOWLING</small><strong>Off-break</strong></div></div><div class="icc-ranking-card"><div><span class="eyebrow">ICC PLAYER RANKING</span><strong id="icc-ranking-t20i">T20I #9</strong><small id="icc-ranking-updated">Official ranking snapshot</small></div><div><strong id="icc-ranking-odi">ODI #338</strong><small>Men’s batting</small></div></div><p class="profile-teams"><b>TEAMS</b> India · Mumbai Indians · Hyderabad · India A · India U19 · Medak Falcons</p><div class="profile-quick-actions"><a class="button primary" href="#stats">Career stats ↘</a><a class="button outline" href="death-overs/">Death-overs tool ↗</a></div></div></section>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#07101f" />
+    <meta
+      name="description"
+      content="Tilak Varma fan club — career snapshot, recent innings, match moments and fan gallery."
+    />
+    <title>Tilak Varma FC | The 72 Club</title>
+    <link rel="stylesheet" href="assets/style.css?v=20261010-audit3" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#profile"
+        ><span class="brand-mark">72</span><span>TILAK VARMA <small>FAN CLUB</small></span></a
+      ><button
+        class="menu-toggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        ☰
+      </button>
+      <nav id="main-nav">
+        <a href="#profile">Profile</a><a href="#stats">Stats</a><a href="#records">Records</a
+        ><a href="#innings">Matches</a><a href="#fan-zone">Fan Zone</a
+        ><a href="#moments">Photos & News</a><a href="death-overs/">Death-overs</a
+        ><a href="#about">About</a><a href="#settings">Settings</a>
+      </nav>
+    </header>
+    <main>
+      <section id="profile" class="section profile-section">
+        <div class="profile-photo-wrap">
+          <img
+            id="tilak-photo"
+            src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+            alt="Tilak Varma in India jersey — official ICC player profile"
+            loading="eager"
+            decoding="async"
+            referrerpolicy="no-referrer"
+          />
+          <div class="photo-fallback">TV <span>72</span></div>
+        </div>
+        <div class="profile-copy">
+          <div class="eyebrow">PLAYER PROFILE / INDIA · MI</div>
+          <h2>TILAK <em>VARMA</em></h2>
+          <p class="profile-intro">
+            A left-handed batter from Hyderabad, known for composure under pressure and bold
+            strokeplay.
+          </p>
+          <div class="profile-facts">
+            <div><small>JERSEY</small><strong>72</strong></div>
+            <div><small>BORN</small><strong>8 Nov 2002</strong></div>
+            <div><small>BATTING</small><strong>Left-hand</strong></div>
+            <div><small>BOWLING</small><strong>Off-break</strong></div>
+          </div>
+          <div class="icc-ranking-card">
+            <div>
+              <span class="eyebrow">ICC PLAYER RANKING</span
+              ><strong id="icc-ranking-t20i">T20I #9</strong
+              ><small id="icc-ranking-updated">Official ranking snapshot</small>
+            </div>
+            <div><strong id="icc-ranking-odi">ODI #338</strong><small>Men’s batting</small></div>
+          </div>
+          <p class="profile-teams">
+            <b>TEAMS</b> India · Mumbai Indians · Hyderabad · India A · India U19 · Medak Falcons
+          </p>
+          <div class="profile-quick-actions">
+            <a class="button primary" href="#stats">Career stats ↘</a
+            ><a class="button outline" href="death-overs/">Death-overs tool ↗</a>
+          </div>
+        </div>
+      </section>
 
-<section id="home-snapshot" class="section home-snapshot-section">
-  <div class="home-snapshot-heading"><div><div class="eyebrow">QUICK CAREER SNAPSHOT</div><h2>THE NUMBERS <em>SO FAR</em></h2></div><div class="home-heading-actions"><a class="button outline home-all-stats" href="#stats">All career stats ↗</a></div></div>
-  <div id="home-quick-stats" class="home-quick-stats"><div class="home-mini-stat"><span>T20I RUNS</span><strong>—</strong></div><div class="home-mini-stat"><span>HIGHEST SCORE</span><strong>—</strong></div><div class="home-mini-stat"><span>AVERAGE</span><strong>—</strong></div><div class="home-mini-stat"><span>STRIKE RATE</span><strong>—</strong></div></div>
-  <div class="home-bowling-card" aria-labelledby="home-bowling-title"><div class="home-bowling-heading"><div><div class="eyebrow">BOWLING SNAPSHOT</div><h3 id="home-bowling-title">WITH THE <em>BALL</em></h3></div><a class="button outline" href="#stats" data-open-stats-view="stats-bowling">All bowling stats ↗</a></div><div id="home-bowling-stats" class="home-bowling-stats"><p class="activity-empty">Loading verified bowling data…</p></div><p class="home-bowling-updated" id="home-bowling-updated">ESPNcricinfo · checking latest snapshot</p></div>
-  <div class="home-format-heading"><div class="eyebrow">FORMAT-WISE CAREER</div></div>
-  <div id="home-format-stats" class="home-format-stats"><p class="activity-empty">Loading format stats…</p></div>
-  <div class="home-snapshot-columns">
-    <div class="home-snapshot-block"><div class="home-snapshot-blockhead"><div><div class="eyebrow">RECENT INNINGS</div><h3>Last performances</h3></div><a href="#stats" data-open-stats-view="statsguru">Explore ↗</a></div><div id="home-recent-innings" class="home-recent-innings"><p class="activity-empty">Loading recent innings…</p></div></div>
-    <div class="home-snapshot-block"><div class="home-snapshot-blockhead"><div><div class="eyebrow">LATEST STORIES</div><h3>Tilak in the news</h3></div><a href="#moments">All news ↗</a></div><div id="home-latest-news" class="home-latest-news"><p class="activity-empty">Loading latest stories…</p></div></div>
-  </div>
-  <div class="home-snapshot-foot"><span><i class="live-dot"></i> CAREER SNAPSHOT · <b id="home-data-updated">Checking update time…</b></span><a href="#stats" data-open-stats-view="statsguru">Open Explore analysis ↗</a></div>
-</section>
+      <section id="home-snapshot" class="section home-snapshot-section">
+        <div class="home-snapshot-heading">
+          <div>
+            <div class="eyebrow">QUICK CAREER SNAPSHOT</div>
+            <h2>THE NUMBERS <em>SO FAR</em></h2>
+          </div>
+          <div class="home-heading-actions">
+            <a class="button outline home-all-stats" href="#stats">All career stats ↗</a>
+          </div>
+        </div>
+        <div id="home-quick-stats" class="home-quick-stats">
+          <div class="home-mini-stat"><span>T20I RUNS</span><strong>—</strong></div>
+          <div class="home-mini-stat"><span>HIGHEST SCORE</span><strong>—</strong></div>
+          <div class="home-mini-stat"><span>AVERAGE</span><strong>—</strong></div>
+          <div class="home-mini-stat"><span>STRIKE RATE</span><strong>—</strong></div>
+        </div>
+        <div class="home-bowling-card" aria-labelledby="home-bowling-title">
+          <div class="home-bowling-heading">
+            <div>
+              <div class="eyebrow">BOWLING SNAPSHOT</div>
+              <h3 id="home-bowling-title">WITH THE <em>BALL</em></h3>
+            </div>
+            <a class="button outline" href="#stats" data-open-stats-view="stats-bowling"
+              >All bowling stats ↗</a
+            >
+          </div>
+          <div id="home-bowling-stats" class="home-bowling-stats">
+            <p class="activity-empty">Loading verified bowling data…</p>
+          </div>
+          <p class="home-bowling-updated" id="home-bowling-updated">
+            ESPNcricinfo · checking latest snapshot
+          </p>
+        </div>
+        <div class="home-format-heading"><div class="eyebrow">FORMAT-WISE CAREER</div></div>
+        <div id="home-format-stats" class="home-format-stats">
+          <p class="activity-empty">Loading format stats…</p>
+        </div>
+        <div class="home-snapshot-columns">
+          <div class="home-snapshot-block">
+            <div class="home-snapshot-blockhead">
+              <div>
+                <div class="eyebrow">RECENT INNINGS</div>
+                <h3>Last performances</h3>
+              </div>
+              <a href="#stats" data-open-stats-view="statsguru">Explore ↗</a>
+            </div>
+            <div id="home-recent-innings" class="home-recent-innings">
+              <p class="activity-empty">Loading recent innings…</p>
+            </div>
+          </div>
+          <div class="home-snapshot-block">
+            <div class="home-snapshot-blockhead">
+              <div>
+                <div class="eyebrow">LATEST STORIES</div>
+                <h3>Tilak in the news</h3>
+              </div>
+              <a href="#moments">All news ↗</a>
+            </div>
+            <div id="home-latest-news" class="home-latest-news">
+              <p class="activity-empty">Loading latest stories…</p>
+            </div>
+          </div>
+        </div>
+        <div class="home-snapshot-foot">
+          <span
+            ><i class="live-dot"></i> CAREER SNAPSHOT ·
+            <b id="home-data-updated">Checking update time…</b></span
+          ><a href="#stats" data-open-stats-view="statsguru">Open Explore analysis ↗</a>
+        </div>
+      </section>
 
-<section id="stats" class="section stats-section">
-  <div class="section-heading"><div><div class="eyebrow">TILAK VARMA · STATS CENTRE</div><h2><em>STATS</em></h2></div></div>
-  <div class="stats-subnav" role="tablist" aria-label="Stats sections">
-    <button type="button" class="active" role="tab" aria-selected="true" data-stats-tab="stats-overview">Batting</button>
-    <button type="button" role="tab" aria-selected="false" data-stats-tab="stats-bowling">Bowling</button>
-    <button type="button" role="tab" aria-selected="false" data-stats-tab="statsguru">Explore</button>
-  </div>
-  <div id="stats-overview" class="stats-subview">
-<div class="section-heading"><div><div class="eyebrow">CAREER STATS</div><h2>LET THE BAT <em>TALK</em></h2></div><p>Latest saved T20I career snapshot. Scheduled data checks run every 12 hours; this page does not display a live score feed.</p></div>
-<div class="stats-grid">
- <article class="stat-card stat-feature"><span class="stat-label">T20I RUNS</span><strong data-stat="t20iRuns">1,763</strong><span class="stat-note">Career snapshot</span><span class="stat-watermark">72</span></article>
- <article class="stat-card"><span class="stat-label">HIGHEST SCORE</span><strong data-stat="highestScore">120*</strong><span class="stat-note">T20 International</span></article>
- <article class="stat-card"><span class="stat-label">BATTING AVERAGE</span><strong data-stat="average">45.20</strong><span class="stat-note">T20 International</span></article>
- <article class="stat-card"><span class="stat-label">STRIKE RATE</span><strong data-stat="strikeRate">146.55</strong><span class="stat-note">T20 International</span></article>
- <article class="stat-card"><span class="stat-label">FIFTIES</span><strong data-stat="fifties">6</strong><span class="stat-note">Career snapshot</span></article>
- <article class="stat-card"><span class="stat-label">HUNDREDS</span><strong data-stat="hundreds">2</strong><span class="stat-note">Career snapshot</span></article>
-</div><div class="section-heading format-heading"><div><div class="eyebrow">FORMAT-WISE CAREER</div><h2>EVERY <em>FORMAT</em></h2></div><p>India internationals, IPL and domestic career snapshots. </p></div><div id="career-formats" class="stats-grid career-formats"></div><div class="data-line"><span><i class="live-dot"></i> DATA STATUS: <b id="data-status">Loading</b></span><span id="career-updated">Snapshot timestamp: —</span></div>
-  </div>
-<div id="statsguru" class="stats-subview section statsguru-section">
-  <div class="section-heading explore-heading"><div><div class="eyebrow">EXPLORE · PLAYER ANALYSIS</div><h2>EXPLORE THE <em>NUMBERS</em></h2><span class="explore-accent-pill">FILTER · COMPARE · DISCOVER</span></div><p>Explore Tilak Varma’s career with format-wise summaries, innings and powerful player-analysis filters.</p></div>
-  <div class="statsguru-sourcebar"><span><i class="live-dot"></i> EXPLORE SNAPSHOT · <b id="statsguru-updated">Checking update…</b></span><span>Auto-updates every 24 hours</span></div>
-  <div class="statsguru-format-tabs" role="group" aria-label="Match format"><button class="active" data-sg-format="T20I">T20I</button><button data-sg-format="ODI">ODI</button><button data-sg-format="T20">T20 · all competitions</button><button data-sg-format="All">All formats</button></div>
-  <details class="player-analysis-filter">
-    <summary class="player-analysis-toggle"><span><span class="eyebrow">EXPLORE · ESPNCRICINFO</span><strong>Player Analysis Menu / Filter</strong><small>Tap to open filters and date range</small></span><span class="player-analysis-toggle-icon" aria-hidden="true">+</span></summary>
-    <div class="player-analysis-content">
-    <div class="player-analysis-head"><div><div class="eyebrow">ADVANCED FILTERS</div><h3 id="player-analysis-title">Player analysis <em>menu / filter</em></h3></div><span class="player-analysis-badge">LIVE FILTER CONTROLS</span></div>
-    <div class="player-analysis-grid">
-      <label>Filter category<select id="sg-filter-type"><option value="all">All-round / general</option><option value="opposition">Opposition</option><option value="home-away">Home or away</option><option value="country">Host country / region</option><option value="ground">Ground</option><option value="year">Year</option><option value="season">Season</option><option value="result">Match result</option><option value="position">Batting position</option><option value="innings">Match innings</option><option value="daynight">Day / night</option><option value="series">Series / tournament</option></select></label>
-      <label>Filter value<select id="sg-filter-value"><option value="all">All available values</option></select></label>
-      <label>Starting date<input id="sg-date-from" type="date"></label>
-      <label>Ending date<input id="sg-date-to" type="date"></label>
-    </div>
-    <div class="player-analysis-actions"><button type="button" class="button primary" id="sg-apply-filter">Apply filter ↗</button><button type="button" class="button" id="sg-reset-filter">Reset filter ↻</button><span id="sg-filter-status" aria-live="polite">Choose a category and apply a filter.</span></div>
-    <p class="player-analysis-help">Explore uses verified ESPNcricinfo career breakdowns and match-by-match data. Options vary by format; unavailable fields are not guessed.</p>
-    </div>
-  </details>
-  <div class="statsguru-category-grid" role="group" aria-label="Explore statistics category">
-    <button class="active" data-sg-category="batting">Batting career summary</button>
-    <button data-sg-category="matchlist">T20I match list</button>
-    <button data-sg-category="innings">Batting innings list</button>
-    <button data-sg-category="highscores">High scores</button>
-    <button data-sg-category="battingseries">Batting series averages</button>
-    <button data-sg-category="bowling">Bowling career summary</button>
-    <button data-sg-category="bowlinginnings">Bowling innings list</button>
-    <button data-sg-category="bowlingmatches">Bowling match list</button>
-    <button data-sg-category="bestinningsbowling">Best innings bowling</button>
-    <button data-sg-category="bestmatchbowling">Best match bowling</button>
-    <button data-sg-category="bowlingseries">Bowling series averages</button>
-    <button data-sg-category="fielding">Fielding career summary</button>
-    <button data-sg-category="fieldinginnings">Fielding innings list</button>
-    <button data-sg-category="mostcatches">Most catches in an innings</button>
-    <button data-sg-category="fieldingseries">Fielding series statistics</button>
-  </div>
-  <div class="statsguru-panel"><div class="statsguru-panel-head"><div><div class="eyebrow" id="statsguru-eyebrow">CAREER OVERVIEW</div><h3 id="statsguru-title">Batting career summary</h3></div><span class="statsguru-format-pill" id="statsguru-format-label">T20I</span></div><div id="statsguru-summary" class="statsguru-summary"></div><div class="table-wrap"><table><thead id="statsguru-thead"><tr><th>DATE</th><th>OPPOSITION</th><th>RUNS</th><th>BALLS</th><th>STRIKE RATE</th></tr></thead><tbody id="statsguru-tbody"><tr><td colspan="5" class="empty">Loading available data…</td></tr></tbody></table></div><p id="statsguru-note" class="statsguru-note">Stats reflect saved site data. Historical bowling, fielding and series details appear only when a verified dataset is available.</p></div>
-</div>
-  <div id="stats-bowling" class="stats-subview bowling-stats-view" hidden aria-hidden="true">
-    <div class="section-heading"><div><div class="eyebrow">ESPNCRICINFO · BOWLING</div><h2>MAKE IT <em>COUNT</em></h2></div><p>Verified bowling figures, career averages, economy, strike rate and match-by-match spells. Values appear only when available in the source.</p></div>
-    <div class="bowling-sourcebar"><span><i class="live-dot"></i> BOWLING DATA · <b id="bowling-updated">Checking update…</b></span><span>Scheduled refresh every 24 hours</span></div>
-    <div class="bowling-format-tabs" role="group" aria-label="Bowling format"><button type="button" class="active" data-bowling-format="T20I">T20I</button><button type="button" data-bowling-format="ODI">ODI</button><button type="button" data-bowling-format="List A">List A</button><button type="button" data-bowling-format="FC">First-class</button><button type="button" data-bowling-format="T20">T20 · all competitions</button></div>
-    <div id="bowling-summary" class="bowling-summary"><p class="activity-empty">Loading verified bowling figures…</p></div>
-    <div class="bowling-breakdown-wrap"><div class="bowling-subheading"><div><div class="eyebrow">CAREER BREAKDOWN</div><h3>FORMAT <em>DETAILS</em></h3></div></div><div class="table-wrap"><table><thead><tr><th>BREAKDOWN</th><th>MATCHES</th><th>INNINGS</th><th>OVERS</th><th>MAIDENS</th><th>RUNS</th><th>WICKETS</th><th>AVERAGE</th><th>ECONOMY</th><th>STRIKE RATE</th><th>BEST</th></tr></thead><tbody id="bowling-breakdown"><tr><td colspan="11" class="empty">Loading breakdown…</td></tr></tbody></table></div></div>
-    <div class="bowling-innings-wrap"><div class="bowling-subheading"><div><div class="eyebrow">MATCH BY MATCH</div><h3>EVERY <em>SPELL</em></h3></div><span id="bowling-innings-count">Loading innings…</span></div><div class="table-wrap"><table><thead><tr><th>DATE</th><th>OPPOSITION</th><th>OVERS</th><th>MAIDENS</th><th>RUNS</th><th>WICKETS</th><th>ECONOMY</th><th>GROUND</th><th>SCORECARD</th></tr></thead><tbody id="bowling-innings"><tr><td colspan="9" class="empty">Loading bowling innings…</td></tr></tbody></table></div></div>
-    <p class="bowling-data-note">Source: ESPNcricinfo Statsguru. Bowling data is refreshed from the source; missing figures are not estimated.</p>
-  </div>
-</section>
+      <section id="stats" class="section stats-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">TILAK VARMA · STATS CENTRE</div>
+            <h2><em>STATS</em></h2>
+          </div>
+        </div>
+        <div class="stats-subnav" role="tablist" aria-label="Stats sections">
+          <button
+            type="button"
+            class="active"
+            role="tab"
+            aria-selected="true"
+            data-stats-tab="stats-overview"
+          >
+            Batting
+          </button>
+          <button type="button" role="tab" aria-selected="false" data-stats-tab="stats-bowling">
+            Bowling
+          </button>
+          <button type="button" role="tab" aria-selected="false" data-stats-tab="statsguru">
+            Explore
+          </button>
+        </div>
+        <div id="stats-overview" class="stats-subview">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">CAREER STATS</div>
+              <h2>LET THE BAT <em>TALK</em></h2>
+            </div>
+            <p>
+              Latest saved T20I career snapshot. Scheduled data checks run every 12 hours; this page
+              does not display a live score feed.
+            </p>
+          </div>
+          <div class="stats-grid">
+            <article class="stat-card stat-feature">
+              <span class="stat-label">T20I RUNS</span><strong data-stat="t20iRuns">1,763</strong
+              ><span class="stat-note">Career snapshot</span><span class="stat-watermark">72</span>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">HIGHEST SCORE</span
+              ><strong data-stat="highestScore">120*</strong
+              ><span class="stat-note">T20 International</span>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">BATTING AVERAGE</span
+              ><strong data-stat="average">45.20</strong
+              ><span class="stat-note">T20 International</span>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">STRIKE RATE</span
+              ><strong data-stat="strikeRate">146.55</strong
+              ><span class="stat-note">T20 International</span>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">FIFTIES</span><strong data-stat="fifties">6</strong
+              ><span class="stat-note">Career snapshot</span>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">HUNDREDS</span><strong data-stat="hundreds">2</strong
+              ><span class="stat-note">Career snapshot</span>
+            </article>
+          </div>
+          <div class="section-heading format-heading">
+            <div>
+              <div class="eyebrow">FORMAT-WISE CAREER</div>
+              <h2>EVERY <em>FORMAT</em></h2>
+            </div>
+            <p>India internationals, IPL and domestic career snapshots.</p>
+          </div>
+          <div id="career-formats" class="stats-grid career-formats"></div>
+          <div class="data-line">
+            <span><i class="live-dot"></i> DATA STATUS: <b id="data-status">Loading</b></span
+            ><span id="career-updated">Snapshot timestamp: —</span>
+          </div>
+        </div>
+        <div id="statsguru" class="stats-subview section statsguru-section">
+          <div class="section-heading explore-heading">
+            <div>
+              <div class="eyebrow">EXPLORE · PLAYER ANALYSIS</div>
+              <h2>EXPLORE THE <em>NUMBERS</em></h2>
+              <span class="explore-accent-pill">FILTER · COMPARE · DISCOVER</span>
+            </div>
+            <p>
+              Explore Tilak Varma’s career with format-wise summaries, innings and powerful
+              player-analysis filters.
+            </p>
+          </div>
+          <div class="statsguru-sourcebar">
+            <span
+              ><i class="live-dot"></i> EXPLORE SNAPSHOT ·
+              <b id="statsguru-updated">Checking update…</b></span
+            ><span>Auto-updates every 24 hours</span>
+          </div>
+          <div class="statsguru-format-tabs" role="group" aria-label="Match format">
+            <button class="active" data-sg-format="T20I">T20I</button
+            ><button data-sg-format="ODI">ODI</button
+            ><button data-sg-format="T20">T20 · all competitions</button
+            ><button data-sg-format="All">All formats</button>
+          </div>
+          <details class="player-analysis-filter">
+            <summary class="player-analysis-toggle">
+              <span
+                ><span class="eyebrow">EXPLORE · ESPNCRICINFO</span
+                ><strong>Player Analysis Menu / Filter</strong
+                ><small>Tap to open filters and date range</small></span
+              ><span class="player-analysis-toggle-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="player-analysis-content">
+              <div class="player-analysis-head">
+                <div>
+                  <div class="eyebrow">ADVANCED FILTERS</div>
+                  <h3 id="player-analysis-title">Player analysis <em>menu / filter</em></h3>
+                </div>
+                <span class="player-analysis-badge">LIVE FILTER CONTROLS</span>
+              </div>
+              <div class="player-analysis-grid">
+                <label
+                  >Filter category<select id="sg-filter-type">
+                    <option value="all">All-round / general</option>
+                    <option value="opposition">Opposition</option>
+                    <option value="home-away">Home or away</option>
+                    <option value="country">Host country / region</option>
+                    <option value="ground">Ground</option>
+                    <option value="year">Year</option>
+                    <option value="season">Season</option>
+                    <option value="result">Match result</option>
+                    <option value="position">Batting position</option>
+                    <option value="innings">Match innings</option>
+                    <option value="daynight">Day / night</option>
+                    <option value="series">Series / tournament</option>
+                  </select></label
+                >
+                <label
+                  >Filter value<select id="sg-filter-value">
+                    <option value="all">All available values</option>
+                  </select></label
+                >
+                <label>Starting date<input id="sg-date-from" type="date" /></label>
+                <label>Ending date<input id="sg-date-to" type="date" /></label>
+              </div>
+              <div class="player-analysis-actions">
+                <button type="button" class="button primary" id="sg-apply-filter">
+                  Apply filter ↗</button
+                ><button type="button" class="button" id="sg-reset-filter">Reset filter ↻</button
+                ><span id="sg-filter-status" aria-live="polite"
+                  >Choose a category and apply a filter.</span
+                >
+              </div>
+              <p class="player-analysis-help">
+                Explore uses verified ESPNcricinfo career breakdowns and match-by-match data.
+                Options vary by format; unavailable fields are not guessed.
+              </p>
+            </div>
+          </details>
+          <div
+            class="statsguru-category-grid"
+            role="group"
+            aria-label="Explore statistics category"
+          >
+            <button class="active" data-sg-category="batting">Batting career summary</button>
+            <button data-sg-category="matchlist">T20I match list</button>
+            <button data-sg-category="innings">Batting innings list</button>
+            <button data-sg-category="highscores">High scores</button>
+            <button data-sg-category="battingseries">Batting series averages</button>
+            <button data-sg-category="bowling">Bowling career summary</button>
+            <button data-sg-category="bowlinginnings">Bowling innings list</button>
+            <button data-sg-category="bowlingmatches">Bowling match list</button>
+            <button data-sg-category="bestinningsbowling">Best innings bowling</button>
+            <button data-sg-category="bestmatchbowling">Best match bowling</button>
+            <button data-sg-category="bowlingseries">Bowling series averages</button>
+            <button data-sg-category="fielding">Fielding career summary</button>
+            <button data-sg-category="fieldinginnings">Fielding innings list</button>
+            <button data-sg-category="mostcatches">Most catches in an innings</button>
+            <button data-sg-category="fieldingseries">Fielding series statistics</button>
+          </div>
+          <div class="statsguru-panel">
+            <div class="statsguru-panel-head">
+              <div>
+                <div class="eyebrow" id="statsguru-eyebrow">CAREER OVERVIEW</div>
+                <h3 id="statsguru-title">Batting career summary</h3>
+              </div>
+              <span class="statsguru-format-pill" id="statsguru-format-label">T20I</span>
+            </div>
+            <div id="statsguru-summary" class="statsguru-summary"></div>
+            <div class="table-wrap">
+              <table>
+                <thead id="statsguru-thead">
+                  <tr>
+                    <th>DATE</th>
+                    <th>OPPOSITION</th>
+                    <th>RUNS</th>
+                    <th>BALLS</th>
+                    <th>STRIKE RATE</th>
+                  </tr>
+                </thead>
+                <tbody id="statsguru-tbody">
+                  <tr>
+                    <td colspan="5" class="empty">Loading available data…</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p id="statsguru-note" class="statsguru-note">
+              Stats reflect saved site data. Historical bowling, fielding and series details appear
+              only when a verified dataset is available.
+            </p>
+          </div>
+        </div>
+        <div id="stats-bowling" class="stats-subview bowling-stats-view" hidden aria-hidden="true">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">ESPNCRICINFO · BOWLING</div>
+              <h2>MAKE IT <em>COUNT</em></h2>
+            </div>
+            <p>
+              Verified bowling figures, career averages, economy, strike rate and match-by-match
+              spells. Values appear only when available in the source.
+            </p>
+          </div>
+          <div class="bowling-sourcebar">
+            <span
+              ><i class="live-dot"></i> BOWLING DATA ·
+              <b id="bowling-updated">Checking update…</b></span
+            ><span>Scheduled refresh every 24 hours</span>
+          </div>
+          <div class="bowling-format-tabs" role="group" aria-label="Bowling format">
+            <button type="button" class="active" data-bowling-format="T20I">T20I</button
+            ><button type="button" data-bowling-format="ODI">ODI</button
+            ><button type="button" data-bowling-format="List A">List A</button
+            ><button type="button" data-bowling-format="FC">First-class</button
+            ><button type="button" data-bowling-format="T20">T20 · all competitions</button>
+          </div>
+          <div id="bowling-summary" class="bowling-summary">
+            <p class="activity-empty">Loading verified bowling figures…</p>
+          </div>
+          <div class="bowling-breakdown-wrap">
+            <div class="bowling-subheading">
+              <div>
+                <div class="eyebrow">CAREER BREAKDOWN</div>
+                <h3>FORMAT <em>DETAILS</em></h3>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>BREAKDOWN</th>
+                    <th>MATCHES</th>
+                    <th>INNINGS</th>
+                    <th>OVERS</th>
+                    <th>MAIDENS</th>
+                    <th>RUNS</th>
+                    <th>WICKETS</th>
+                    <th>AVERAGE</th>
+                    <th>ECONOMY</th>
+                    <th>STRIKE RATE</th>
+                    <th>BEST</th>
+                  </tr>
+                </thead>
+                <tbody id="bowling-breakdown">
+                  <tr>
+                    <td colspan="11" class="empty">Loading breakdown…</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="bowling-innings-wrap">
+            <div class="bowling-subheading">
+              <div>
+                <div class="eyebrow">MATCH BY MATCH</div>
+                <h3>EVERY <em>SPELL</em></h3>
+              </div>
+              <span id="bowling-innings-count">Loading innings…</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>DATE</th>
+                    <th>OPPOSITION</th>
+                    <th>OVERS</th>
+                    <th>MAIDENS</th>
+                    <th>RUNS</th>
+                    <th>WICKETS</th>
+                    <th>ECONOMY</th>
+                    <th>GROUND</th>
+                    <th>SCORECARD</th>
+                  </tr>
+                </thead>
+                <tbody id="bowling-innings">
+                  <tr>
+                    <td colspan="9" class="empty">Loading bowling innings…</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="bowling-data-note">
+            Source: ESPNcricinfo Statsguru. Bowling data is refreshed from the source; missing
+            figures are not estimated.
+          </p>
+        </div>
+      </section>
 
-<section id="records" class="section records-section"><div class="section-heading"><div><div class="eyebrow">RECORDS & MILESTONES</div><h2>CHASE THE <em>NEXT ONE</em></h2></div><p>Milestone progress is calculated from the latest stored career snapshot. These are arithmetic targets, not predictions.</p></div><div class="official-records-head"><div><div class="eyebrow">RECORD BOOK</div><h3>ON THE <em>RECORD BOOKS</em></h3></div><span id="icc-records-updated">Checking official records…</span></div><div id="icc-record-highlights" class="official-records-grid"><p class="activity-empty">Loading ICC record highlights…</p></div><div id="milestone-grid" class="milestone-grid"><div class="activity-empty">Loading career data…</div></div><div class="analytics-head"><div><div class="eyebrow">PERFORMANCE ANALYTICS</div><h3>RECENT INNINGS <em>AT A GLANCE</em></h3></div><span id="analytics-count">Waiting for data</span></div><div id="analytics-grid" class="analytics-grid"></div><div id="analytics-chart" class="analytics-chart"></div><p class="feature-note">Analytics use listed innings only. Not-out, DNB and incomplete scorecard rows are handled separately; missing values are not guessed.</p></section>
-<section id="fan-zone" class="section fan-zone-section"><div class="section-heading"><div><div class="eyebrow">FAN ZONE</div><h2>YOUR PICK. <em>YOUR PLAYER</em></h2></div><p>Take the fan poll, try a quick Tilak quiz, and follow official team updates.</p></div><div class="fan-zone-grid"><article class="fan-card"><div class="feature-eyebrow">COMMUNITY POLL</div><h3 id="poll-question">Loading poll…</h3><form id="fan-poll-form"><div id="poll-options" class="poll-options"></div><button class="button primary" type="submit">CAST MY VOTE ↗</button></form><div id="poll-results" class="poll-results" aria-live="polite"></div><p class="feature-note">Votes are saved only in this browser. This is not a site-wide live tally.</p></article><article class="fan-card fan-quiz-card"><div class="feature-eyebrow">QUICK FAN QUIZ</div><h3 id="quiz-question">Quick Tilak quiz</h3><form id="fan-quiz-form"><div id="quiz-options" class="poll-options"></div><button class="button primary" type="submit">CHECK ANSWER ↗</button></form><p id="quiz-feedback" class="quiz-feedback" aria-live="polite">One question at a time. Play for fun.</p><small id="fan-zone-updated" class="fan-zone-updated">Fan Zone data checked when the page loads.</small></article></div></section>
+      <section id="records" class="section records-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">RECORDS & MILESTONES</div>
+            <h2>CHASE THE <em>NEXT ONE</em></h2>
+          </div>
+          <p>
+            Milestone progress is calculated from the latest stored career snapshot. These are
+            arithmetic targets, not predictions.
+          </p>
+        </div>
+        <div class="official-records-head">
+          <div>
+            <div class="eyebrow">RECORD BOOK</div>
+            <h3>ON THE <em>RECORD BOOKS</em></h3>
+          </div>
+          <span id="icc-records-updated">Checking official records…</span>
+        </div>
+        <div id="icc-record-highlights" class="official-records-grid">
+          <p class="activity-empty">Loading ICC record highlights…</p>
+        </div>
+        <div id="milestone-grid" class="milestone-grid">
+          <div class="activity-empty">Loading career data…</div>
+        </div>
+        <div class="analytics-head">
+          <div>
+            <div class="eyebrow">PERFORMANCE ANALYTICS</div>
+            <h3>RECENT INNINGS <em>AT A GLANCE</em></h3>
+          </div>
+          <span id="analytics-count">Waiting for data</span>
+        </div>
+        <div id="analytics-grid" class="analytics-grid"></div>
+        <div id="analytics-chart" class="analytics-chart"></div>
+        <p class="feature-note">
+          Analytics use listed innings only. Not-out, DNB and incomplete scorecard rows are handled
+          separately; missing values are not guessed.
+        </p>
+      </section>
+      <section id="fan-zone" class="section fan-zone-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">FAN ZONE</div>
+            <h2>YOUR PICK. <em>YOUR PLAYER</em></h2>
+          </div>
+          <p>Take the fan poll, try a quick Tilak quiz, and follow official team updates.</p>
+        </div>
+        <div class="fan-zone-grid">
+          <article class="fan-card">
+            <div class="feature-eyebrow">COMMUNITY POLL</div>
+            <h3 id="poll-question">Loading poll…</h3>
+            <form id="fan-poll-form">
+              <div id="poll-options" class="poll-options"></div>
+              <button class="button primary" type="submit">CAST MY VOTE ↗</button>
+            </form>
+            <div id="poll-results" class="poll-results" aria-live="polite"></div>
+            <p class="feature-note">
+              Votes are saved only in this browser. This is not a site-wide live tally.
+            </p>
+          </article>
+          <article class="fan-card fan-quiz-card">
+            <div class="feature-eyebrow">QUICK FAN QUIZ</div>
+            <h3 id="quiz-question">Quick Tilak quiz</h3>
+            <form id="fan-quiz-form">
+              <div id="quiz-options" class="poll-options"></div>
+              <button class="button primary" type="submit">CHECK ANSWER ↗</button>
+            </form>
+            <p id="quiz-feedback" class="quiz-feedback" aria-live="polite">
+              One question at a time. Play for fun.
+            </p>
+            <small id="fan-zone-updated" class="fan-zone-updated"
+              >Fan Zone data checked when the page loads.</small
+            >
+          </article>
+        </div>
+      </section>
 
-<section id="innings" class="section innings-section"><div class="section-heading"><div><div class="eyebrow">RECENT FORM</div><h2>INNINGS THAT <em>MATTER</em></h2></div><p>Recent innings refresh when the scheduled job finds newer verified scorecard data.</p></div><div class="table-wrap"><table><thead><tr><th>DATE</th><th>OPPOSITION</th><th>RUNS</th><th>BALLS</th><th>4s</th><th>6s</th><th>STRIKE RATE</th></tr></thead><tbody id="recent-table"><tr><td colspan="7" class="empty">Loading innings data…</td></tr></tbody></table></div><div class="table-foot"><span><b id="recent-count">0</b> INNINGS LOADED</span><span>RUNS IN TABLE: <b id="recent-runs">0</b></span><span>LAST REFRESH: <b id="recent-updated">—</b></span></div></section>
-<section id="moments" class="section tilak-news-section"><div class="section-heading"><div><div class="eyebrow">TILAK VARMA · NEWS & PHOTOS</div><h2>THE LATEST <em>FROM THE 72</em></h2></div><p>Fresh cricket stories and a growing photo gallery, all in a clean, mobile-first layout.</p></div><section class="cricinfo-gallery" aria-labelledby="cricinfo-gallery-title"><div class="gallery-heading"><div><div class="eyebrow">PHOTO GALLERY</div><h3 id="cricinfo-gallery-title">TILAK <em>IN FRAME</em></h3></div><span id="cricinfo-gallery-updated">Updating gallery…</span></div><div id="cricinfo-photo-grid" class="cricinfo-photo-grid"><p class="activity-empty">Loading Tilak Varma photos…</p></div><p class="gallery-attribution">ESPNCRICINFO GALLERY · checked every 24 hours</p></section><div class="tilak-news-layout"><figure class="tilak-feature-photo-wrap"><img id="tilak-feature-photo" src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="Tilak Varma profile photo" loading="lazy" decoding="async"><figcaption>PLAYER PROFILE</figcaption></figure><div class="tilak-news-content"><div id="tilak-news-grid" class="tilak-news-grid"><p class="activity-empty">Loading latest Tilak Varma stories…</p></div><p id="tilak-news-meta" class="tilak-news-meta" aria-live="polite">Latest stories</p></div></div></section>
-<section id="settings" class="section settings-section"><div class="section-heading"><div><div class="eyebrow">PERSONALISE YOUR EXPERIENCE</div><h2>DISPLAY <em>SETTINGS</em></h2></div><p>Choose how the whole website looks. Text, cards, tables, menus and controls adapt together for readable contrast.</p></div><div class="settings-card"><div class="settings-card-copy"><span class="settings-icon" aria-hidden="true">◐</span><div><h3>Appearance theme</h3><p>Light for a bright page, Dark for the original cricket look, or System to follow your device setting.</p></div></div><div class="settings-theme-options" role="group" aria-label="Website appearance theme"><button type="button" data-theme-choice="light" aria-pressed="false"><span aria-hidden="true">☀</span><strong>Light</strong><small>Bright & clear</small></button><button type="button" data-theme-choice="dark" aria-pressed="false"><span aria-hidden="true">☾</span><strong>Dark</strong><small>Night viewing</small></button><button type="button" data-theme-choice="system" aria-pressed="true"><span aria-hidden="true">◉</span><strong>System</strong><small>Device setting</small></button></div><p class="settings-status" id="theme-status" aria-live="polite">Theme preference is saved on this device.</p></div></section>
-<section id="about" class="section about-section"><div><div class="eyebrow">ABOUT THIS PAGE</div><h2>MADE BY FANS.<br><em>FOR THE GAME</em></h2></div><div class="about-copy"><p>This independent fan project celebrates Tilak Varma and Indian cricket. It is not affiliated with Tilak Varma, BCCI, IPL, or any team. Statistics are snapshots and may lag behind live records.</p><p>Career snapshots are refreshed automatically. Explore and the photo gallery update daily; the latest saved data stays available if a feed is temporarily unavailable.</p></div></section>
-</main><footer><a class="brand" href="#"><span class="brand-mark">72</span><span>TILAK VARMA <small>FAN CLUB</small></span></a><span>INDEPENDENT FAN PROJECT · <span id="year"></span></span><span>RESPECT THE GAME. BACK THE PLAYER.</span></footer><script src="assets/app.js?v=20261010-audit3"></script><script src="assets/features.js"></script><script src="assets/upgrade.js"></script><script src="assets/news.js?v=20261010-lastupdate1"></script><script src="assets/gallery.js?v=20261010-lastupdate1"></script><script src="assets/statsguru.js?v=20261010-lastupdate1"></script><script src="assets/home-snapshot.js?v=20261010-audit3"></script><script src="assets/section-tabs.js"></script><script src="assets/bowling.js?v=20261010-audit3"></script>
-<script src="assets/custom-selects.js"></script>
-<script src="assets/theme.js?v=20261014"></script></body></html>
+      <section id="innings" class="section innings-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">RECENT FORM</div>
+            <h2>INNINGS THAT <em>MATTER</em></h2>
+          </div>
+          <p>Recent innings refresh when the scheduled job finds newer verified scorecard data.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>DATE</th>
+                <th>OPPOSITION</th>
+                <th>RUNS</th>
+                <th>BALLS</th>
+                <th>4s</th>
+                <th>6s</th>
+                <th>STRIKE RATE</th>
+              </tr>
+            </thead>
+            <tbody id="recent-table">
+              <tr>
+                <td colspan="7" class="empty">Loading innings data…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-foot">
+          <span><b id="recent-count">0</b> INNINGS LOADED</span
+          ><span>RUNS IN TABLE: <b id="recent-runs">0</b></span
+          ><span>LAST REFRESH: <b id="recent-updated">—</b></span>
+        </div>
+      </section>
+      <section id="moments" class="section tilak-news-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">TILAK VARMA · NEWS & PHOTOS</div>
+            <h2>THE LATEST <em>FROM THE 72</em></h2>
+          </div>
+          <p>
+            Fresh cricket stories and a growing photo gallery, all in a clean, mobile-first layout.
+          </p>
+        </div>
+        <section class="cricinfo-gallery" aria-labelledby="cricinfo-gallery-title">
+          <div class="gallery-heading">
+            <div>
+              <div class="eyebrow">PHOTO GALLERY</div>
+              <h3 id="cricinfo-gallery-title">TILAK <em>IN FRAME</em></h3>
+            </div>
+            <span id="cricinfo-gallery-updated">Updating gallery…</span>
+          </div>
+          <div id="cricinfo-photo-grid" class="cricinfo-photo-grid">
+            <p class="activity-empty">Loading Tilak Varma photos…</p>
+          </div>
+          <p class="gallery-attribution">ESPNCRICINFO GALLERY · checked every 24 hours</p>
+        </section>
+        <div class="tilak-news-layout">
+          <figure class="tilak-feature-photo-wrap">
+            <img
+              id="tilak-feature-photo"
+              src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+              alt="Tilak Varma profile photo"
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>PLAYER PROFILE</figcaption>
+          </figure>
+          <div class="tilak-news-content">
+            <div id="tilak-news-grid" class="tilak-news-grid">
+              <p class="activity-empty">Loading latest Tilak Varma stories…</p>
+            </div>
+            <p id="tilak-news-meta" class="tilak-news-meta" aria-live="polite">Latest stories</p>
+          </div>
+        </div>
+      </section>
+      <section id="settings" class="section settings-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">PERSONALISE YOUR EXPERIENCE</div>
+            <h2>DISPLAY <em>SETTINGS</em></h2>
+          </div>
+          <p>
+            Choose how the whole website looks. Text, cards, tables, menus and controls adapt
+            together for readable contrast.
+          </p>
+        </div>
+        <div class="settings-card">
+          <div class="settings-card-copy">
+            <span class="settings-icon" aria-hidden="true">◐</span>
+            <div>
+              <h3>Appearance theme</h3>
+              <p>
+                Light for a bright page, Dark for the original cricket look, or System to follow
+                your device setting.
+              </p>
+            </div>
+          </div>
+          <div class="settings-theme-options" role="group" aria-label="Website appearance theme">
+            <button type="button" data-theme-choice="light" aria-pressed="false">
+              <span aria-hidden="true">☀</span><strong>Light</strong
+              ><small>Bright & clear</small></button
+            ><button type="button" data-theme-choice="dark" aria-pressed="false">
+              <span aria-hidden="true">☾</span><strong>Dark</strong
+              ><small>Night viewing</small></button
+            ><button type="button" data-theme-choice="system" aria-pressed="true">
+              <span aria-hidden="true">◉</span><strong>System</strong><small>Device setting</small>
+            </button>
+          </div>
+          <p class="settings-status" id="theme-status" aria-live="polite">
+            Theme preference is saved on this device.
+          </p>
+        </div>
+      </section>
+      <section id="about" class="section about-section">
+        <div>
+          <div class="eyebrow">ABOUT THIS PAGE</div>
+          <h2>MADE BY FANS.<br /><em>FOR THE GAME</em></h2>
+        </div>
+        <div class="about-copy">
+          <p>
+            This independent fan project celebrates Tilak Varma and Indian cricket. It is not
+            affiliated with Tilak Varma, BCCI, IPL, or any team. Statistics are snapshots and may
+            lag behind live records.
+          </p>
+          <p>
+            Career snapshots are refreshed automatically. Explore and the photo gallery update
+            daily; the latest saved data stays available if a feed is temporarily unavailable.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <a class="brand" href="#"
+        ><span class="brand-mark">72</span><span>TILAK VARMA <small>FAN CLUB</small></span></a
+      ><span>INDEPENDENT FAN PROJECT · <span id="year"></span></span
+      ><span>RESPECT THE GAME. BACK THE PLAYER.</span>
+    </footer>
+    <script src="assets/app.js?v=20261010-audit3"></script>
+    <script src="assets/features.js"></script>
+    <script src="assets/upgrade.js"></script>
+    <script src="assets/news.js?v=20261010-lastupdate1"></script>
+    <script src="assets/gallery.js?v=20261010-lastupdate1"></script>
+    <script src="assets/statsguru.js?v=20261010-lastupdate1"></script>
+    <script src="assets/home-snapshot.js?v=20261010-audit3"></script>
+    <script src="assets/section-tabs.js"></script>
+    <script src="assets/bowling.js?v=20261010-audit3"></script>
+    <script src="assets/custom-selects.js"></script>
+    <script src="assets/theme.js?v=20261014"></script>
+  </body>
+</html>

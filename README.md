@@ -3,28 +3,31 @@
 A responsive static fan website celebrating Tilak Varma, built with HTML, CSS and vanilla JavaScript for Cloudflare Pages.
 
 ## Included
+
 - Responsive landing page and stats dashboard
 - Recent innings table backed by `data/site-data.json`
 - Scheduled GitHub Actions refresh for recent innings from Cricsheet
 - Automated, source-verified data refresh through GitHub Actions
 
 ## Run locally
+
 Serve the repository root with any static HTTP server, for example `python -m http.server 8000`.
 
 ## Deployment
+
 See [DEPLOYMENT.md](DEPLOYMENT.md). Configure Cloudflare Pages with branch `main`, no build command, and repository root as output.
 
 ## Data accuracy
+
 Career totals and Statsguru breakdowns are sourced from ESPNcricinfo where the public data is available. ICC is used for official rankings/records and profile metadata; recent innings refresh from match-level Cricsheet data when newer verified deliveries are available. Saved snapshots can lag behind live scorecards; missing values are not guessed. Recent innings update only when the scheduled source refresh succeeds and matching player records are present.
 
 ## Disclaimer
+
 Independent fan-made project; not affiliated with Tilak Varma, BCCI, IPL, or any team.
 
 ## Match data and activity feed
 
 The homepage shows a verified latest-match card and the editable `activityLog` from `data/site-data.json`. Data changes are made in the relevant JSON file and committed to the repository. The latest 9 October 2026 India–West Indies scorecard (Tilak Varma 44 not out from 18 balls) is also shown on the Stats Centre. That match summary is deliberately excluded from over-range calculations until player-specific delivery data can be verified; do not infer over-level numbers from the innings total.
-
-
 
 ## India-theme feature modules
 

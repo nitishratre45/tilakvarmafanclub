@@ -11,13 +11,14 @@
     const label = select.labels && select.labels[0];
     if (label) {
       const clone = label.cloneNode(true);
-      clone.querySelectorAll("select, option, script, style").forEach(node => node.remove());
+      clone.querySelectorAll("select, option, script, style").forEach((node) => node.remove());
       const text = clone.textContent.replace(/\\s+/g, " ").trim();
       if (text) return text;
     }
     return select.id.replace(/[-_]/g, " ") || "Choose an option";
   };
-  const selectedOption = (select) => select.options[select.selectedIndex] || select.options[0] || null;
+  const selectedOption = (select) =>
+    select.options[select.selectedIndex] || select.options[0] || null;
 
   function closeMenu() {
     if (!overlay) return;
@@ -35,7 +36,10 @@
     const option = selectedOption(control.select);
     control.buttonText.textContent = option ? option.textContent.trim() : "Choose…";
     control.button.disabled = control.select.disabled || control.select.options.length === 0;
-    control.button.setAttribute("aria-label", labelFor(control.select) + ": " + control.buttonText.textContent);
+    control.button.setAttribute(
+      "aria-label",
+      labelFor(control.select) + ": " + control.buttonText.textContent,
+    );
     control.button.classList.toggle("has-value", !!option);
     if (overlay && openControl === control) renderOptions(control);
   }
@@ -78,7 +82,10 @@
 
   function openMenu(control) {
     if (control.select.disabled || !control.select.options.length) return;
-    if (openControl === control) { closeMenu(); return; }
+    if (openControl === control) {
+      closeMenu();
+      return;
+    }
     closeMenu();
     openControl = control;
     control.button.setAttribute("aria-expanded", "true");
@@ -86,10 +93,13 @@
 
     overlay = document.createElement("div");
     overlay.className = "cs-overlay";
-    overlay.innerHTML = '<div class="cs-dialog" role="dialog" aria-modal="true"><div class="cs-dialog-head"><div><span class="cs-kicker">SELECT OPTION</span><strong class="cs-dialog-title"></strong></div><button type="button" class="cs-close" aria-label="Close options">×</button></div><div class="cs-options" role="listbox"></div></div>';
+    overlay.innerHTML =
+      '<div class="cs-dialog" role="dialog" aria-modal="true"><div class="cs-dialog-head"><div><span class="cs-kicker">SELECT OPTION</span><strong class="cs-dialog-title"></strong></div><button type="button" class="cs-close" aria-label="Close options">×</button></div><div class="cs-options" role="listbox"></div></div>';
     overlay.querySelector(".cs-dialog-title").textContent = labelFor(control.select);
     overlay.querySelector(".cs-close").addEventListener("click", closeMenu);
-    overlay.addEventListener("click", (event) => { if (event.target === overlay) closeMenu(); });
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) closeMenu();
+    });
     document.body.append(overlay);
     renderOptions(control);
 
@@ -99,12 +109,22 @@
       const rect = control.button.getBoundingClientRect();
       const dialog = overlay.querySelector(".cs-dialog");
       const maxHeight = Math.min(window.innerHeight * 0.68, 420);
-      dialog.style.left = Math.max(12, Math.min(rect.left, window.innerWidth - Math.min(Math.max(rect.width, 260), window.innerWidth - 24) - 12)) + "px";
+      dialog.style.left =
+        Math.max(
+          12,
+          Math.min(
+            rect.left,
+            window.innerWidth - Math.min(Math.max(rect.width, 260), window.innerWidth - 24) - 12,
+          ),
+        ) + "px";
       dialog.style.width = Math.min(Math.max(rect.width, 260), window.innerWidth - 24) + "px";
       dialog.style.maxHeight = maxHeight + "px";
       const estimated = Math.min(control.select.options.length * 52 + 76, maxHeight);
       const below = window.innerHeight - rect.bottom;
-      dialog.style.top = (below >= estimated || below > rect.top ? rect.bottom + 8 : Math.max(12, rect.top - estimated - 8)) + "px";
+      dialog.style.top =
+        (below >= estimated || below > rect.top
+          ? rect.bottom + 8
+          : Math.max(12, rect.top - estimated - 8)) + "px";
     }
     const current = overlay.querySelector('[aria-selected="true"]');
     if (current) current.focus({ preventScroll: true });
@@ -147,17 +167,24 @@
 
   document.querySelectorAll(SELECTOR).forEach(enhance);
   const pageObserver = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => mutation.addedNodes.forEach((node) => {
-      if (node.nodeType !== 1) return;
-      if (node.matches && node.matches(SELECTOR)) enhance(node);
-      node.querySelectorAll?.(SELECTOR).forEach(enhance);
-    }));
+    mutations.forEach((mutation) =>
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeType !== 1) return;
+        if (node.matches && node.matches(SELECTOR)) enhance(node);
+        node.querySelectorAll?.(SELECTOR).forEach(enhance);
+      }),
+    );
   });
   pageObserver.observe(document.documentElement, { childList: true, subtree: true });
 
   document.addEventListener("keydown", (event) => {
     if (!overlay) return;
-    if (event.key === "Escape") { event.preventDefault(); closeMenu(); openControl?.button.focus(); return; }
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeMenu();
+      openControl?.button.focus();
+      return;
+    }
     const items = Array.from(overlay.querySelectorAll(".cs-option:not(:disabled)"));
     const index = items.indexOf(document.activeElement);
     let next = index;
@@ -169,6 +196,14 @@
     event.preventDefault();
     items[next]?.focus();
   });
-  window.addEventListener("resize", () => { if (overlay) closeMenu(); });
-  window.addEventListener("scroll", () => { if (overlay && !isMobile()) closeMenu(); }, true);
+  window.addEventListener("resize", () => {
+    if (overlay) closeMenu();
+  });
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (overlay && !isMobile()) closeMenu();
+    },
+    true,
+  );
 })();
