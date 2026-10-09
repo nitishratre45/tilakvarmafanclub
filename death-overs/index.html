@@ -227,7 +227,7 @@
 
     .calculator-controls {
       display: grid;
-      grid-template-columns: 1fr 1fr auto;
+      grid-template-columns: minmax(170px, 1.2fr) minmax(110px, 1fr) minmax(110px, 1fr) auto;
       gap: 12px;
       align-items: end;
       margin-top: 24px;
@@ -518,7 +518,10 @@
 
         <div class="calculator-card">
           <div class="calculator-controls">
-            <label for="data-format">FORMAT / COMPETITION\n              <select id="data-format"></select>\n            </label>\n            <label for="first-over">FIRST OVER
+            <label for="data-format">FORMAT / COMPETITION\n              <select id="data-format"></select>\n            </label>\n            <label for="data-format">FORMAT / COMPETITION
+              <select id="data-format"></select>
+            </label>
+            <label for="first-over">FIRST OVER
               <select id="first-over"></select>
             </label>
             <label for="last-over">LAST OVER
