@@ -8,7 +8,7 @@
   function rowsTable(rows,headers,render){
     const head=$("statsguru-thead"),body=$("statsguru-tbody");
     head.innerHTML="<tr>"+headers.map(h=>"<th>"+esc(h)+"</th>").join("")+"</tr>";
-    body.innerHTML=rows.length?rows.map(render).join(""):'<tr><td colspan="'+headers.length+'" class="empty">No verified '+esc(["bowling","bowlinglist","bestbowling","bestmatchbowling","bowlingmatches","bowlingseries"].includes(selectedCategory)?"bowling":["fielding","fieldinglist","catches","fieldingseries"].includes(selectedCategory)?"fielding":"innings")+' records are stored for this filter yet. Open the source links above for the full scorecard/history.</td></tr>';
+    body.innerHTML=rows.length?rows.map(render).join(""):'<tr><td colspan="'+headers.length+'" class="empty">No verified '+esc(["bowling","bowlinglist","bestbowling","bestmatchbowling","bowlingmatches","bowlingseries"].includes(selectedCategory)?"bowling":["fielding","fieldinglist","catches","fieldingseries"].includes(selectedCategory)?"fielding":"innings")+' records are stored for this filter yet. Check the original scorecard records when available.</td></tr>';
   }
   function render(){
     if(!data)return;
@@ -49,9 +49,9 @@
     }
     const note=$("statsguru-note");
     if(["bowling","bowlinglist","bestbowling","bestmatchbowling","bowlingmatches","bowlingseries","fielding","fieldinglist","catches","fieldingseries"].includes(selectedCategory)){
-      note.textContent="This repository's current scheduled data snapshot contains batting innings and career summaries, but not a complete verified bowling/fielding/series dataset. No figures are fabricated. Use ESPNcricinfo Statsguru and Cricbuzz links to inspect the original records.";
+      note.textContent="This repository's current scheduled data snapshot contains batting innings and career summaries, but not a complete verified bowling/fielding/series dataset. No figures are fabricated. Historical records remain unavailable until a verified dataset is stored.";
     }else{
-      note.textContent="Figures come from the site's saved data snapshot; recent innings are filtered locally. The existing repository automation refreshes its source data on a 12-hour schedule when upstream sources are available. Source links open ESPNcricinfo and Cricbuzz for verification.";
+      note.textContent="Figures come from the site's saved data snapshot; recent innings are filtered locally. The existing repository automation refreshes its source data on a 12-hour schedule when upstream sources are available. Saved source data is checked automatically; unavailable source values are not guessed.";
     }
   }
   document.querySelectorAll("[data-sg-format]").forEach(b=>b.addEventListener("click",()=>{selectedFormat=b.dataset.sgFormat;render();}));
