@@ -25,14 +25,7 @@ jobs:
           node-version: '22'
       - name: Check JavaScript and embedded page scripts
         run: |
-          node --check assets/app.js
-          node --check assets/features.js
-          node --check assets/upgrade.js
-          node --check assets/news.js
-          node --check assets/statsguru.js
-          node --check assets/home-snapshot.js
-          node --check assets/section-tabs.js
-          node --check assets/bowling.js
+          find assets -maxdepth 1 -type f -name '*.js' -print0 | xargs -0 -n 1 node --check
           python -m py_compile scripts/refresh_icc_records.py scripts/refresh_statsguru.py
           python - <<'PY'
           from pathlib import Path
