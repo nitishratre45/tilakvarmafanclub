@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 FILE = ROOT / "data" / "site-data.json"
 ICC_URL = "https://www.icc-cricket.com/rankings/70761/tilak-varma"
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClub/1.0; public-data-refresh)"}
+HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"}
 
 class TextParser(HTMLParser):
     def __init__(self):
@@ -51,6 +51,25 @@ def extract_rankings(text):
         return None
     return {"ODI": int(found.group(1)), "T20I": int(found.group(2))}
 
+def extract_rank_from_table(url):
+    """Fallback to the ICC's public rankings table if the profile is client-rendered."""
+    try:
+        request = urllib.request.Request(url, headers=HEADERS)
+        with urllib.request.urlopen(request, timeout=45) as response:
+            raw = response.read().decode("utf-8", "replace")
+        for row_html in re.findall(r"<tr\\b[^>]*>(.*?)</tr>", raw, re.I | re.S):
+            cells = re.findall(r"<t[dh]\\b[^>]*>(.*?)</t[dh]>", row_html, re.I | re.S)
+            row_text = re.sub(r"\\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", row_html))).strip()
+            if "tilak" not in row_text.casefold() or "varma" not in row_text.casefold() or not cells:
+                continue
+            first_cell = re.sub(r"\\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", cells[0]))).strip()
+            match = re.search(r"\\b(\\d{1,3})\\b", first_cell)
+            if match:
+                return int(match.group(1))
+    except Exception as exc:
+        print("ICC rankings table unavailable:", url, exc)
+    return None
+
 def extract_records(text):
     specs = [
         ("T20I Matches", "Fastest players to score 1,000 runs in T20 cricket",
@@ -83,6 +102,11 @@ def main():
     ranking_due = not rank_time or now - rank_time >= timedelta(hours=48)
     if ranking_due:
         ranking = extract_rankings(text)
+        if not ranking:
+            t20i_rank = extract_rank_from_table("https://www.icc-cricket.com/rankings/batting/mens/t20i")
+            odi_rank = extract_rank_from_table("https://www.icc-cricket.com/rankings/batting/mens/odi")
+            if t20i_rank is not None and odi_rank is not None:
+                ranking = {"T20I": t20i_rank, "ODI": odi_rank}
         if ranking:
             data["iccRankings"] = {
                 **ranking,
@@ -96,6 +120,7 @@ def main():
         print("ICC rankings are still within their 48-hour refresh window.")
 
     records = extract_records(text)
+    print("ICC profile text length:", len(text), "ranking section:", "ICC Rankings" in text, "records section:", "Records" in text)
     data["iccRecordsCheckedAt"] = stamp(now)
     if records:
         data["iccRecords"] = records
