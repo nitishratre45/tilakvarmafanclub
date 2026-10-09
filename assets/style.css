@@ -15,3 +15,10 @@
 .profile-teams{font-size:11px;color:var(--muted);line-height:1.9}
 .profile-teams b{display:block;color:var(--cyan);font:10px var(--mono);margin-bottom:4px}
 @media(max-width:800px){.profile-section{grid-template-columns:1fr}.profile-photo-wrap{width:min(100%,360px);min-height:330px}.profile-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.career-formats{margin:18px 0 28px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.format-card strong{font-size:clamp(30px,4vw,46px)}
+.format-detail{display:block;color:var(--muted);font:9px var(--mono);line-height:1.8;margin-top:9px}
+.format-card>a{display:inline-block;color:var(--cyan);font:9px var(--mono);margin-top:12px}
+.format-heading{margin-top:60px}
+@media(max-width:800px){.career-formats{grid-template-columns:repeat(2,minmax(0,1fr))}}
