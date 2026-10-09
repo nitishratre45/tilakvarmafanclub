@@ -1,5 +1,10 @@
 name: Refresh Tilak Varma data
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/refresh_death_overs.py'
+      - '.github/workflows/refresh-tilak-data.yml'
   workflow_dispatch:
   schedule:
     - cron: "17 */12 * * *"
