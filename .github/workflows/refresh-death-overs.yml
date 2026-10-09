@@ -71,6 +71,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Stats JSON is unchanged; nothing to commit."
           else
-            git commit -m "chore: refresh Tilak death-overs stats"
-            git push
+          git commit -m "chore: refresh Tilak death-overs stats"
+          git pull --rebase origin main
+          git push
           fi
