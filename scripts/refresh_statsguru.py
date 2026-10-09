@@ -23,7 +23,7 @@ HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
 }
-FORMATS = {"T20I": 3, "ODI": 2, "Test": 1}
+FORMATS = {"T20I": 3, "ODI": 2, "Test": 1, "T20": 6}
 
 def stamp():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
