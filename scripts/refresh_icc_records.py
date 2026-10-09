@@ -57,13 +57,13 @@ def extract_rank_from_table(url):
         request = urllib.request.Request(url, headers=HEADERS)
         with urllib.request.urlopen(request, timeout=45) as response:
             raw = response.read().decode("utf-8", "replace")
-        for row_html in re.findall(r"<tr\\b[^>]*>(.*?)</tr>", raw, re.I | re.S):
-            cells = re.findall(r"<t[dh]\\b[^>]*>(.*?)</t[dh]>", row_html, re.I | re.S)
-            row_text = re.sub(r"\\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", row_html))).strip()
+        for row_html in re.findall(r"<tr\b[^>]*>(.*?)</tr>", raw, re.I | re.S):
+            cells = re.findall(r"<t[dh]\b[^>]*>(.*?)</t[dh]>", row_html, re.I | re.S)
+            row_text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", row_html))).strip()
             if "tilak" not in row_text.casefold() or "varma" not in row_text.casefold() or not cells:
                 continue
-            first_cell = re.sub(r"\\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", cells[0]))).strip()
-            match = re.search(r"\\b(\\d{1,3})\\b", first_cell)
+            first_cell = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", cells[0]))).strip()
+            match = re.search(r"\b(\d{1,3})\b", first_cell)
             if match:
                 return int(match.group(1))
     except Exception as exc:
