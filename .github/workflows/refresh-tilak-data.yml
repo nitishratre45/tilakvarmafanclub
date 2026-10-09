@@ -6,6 +6,7 @@ on:
       - 'scripts/refresh_death_overs.py'
       - 'scripts/refresh_data.py'
       - 'scripts/refresh_career_stats.py'
+      - 'scripts/refresh_tilak_news.py'
       - '.github/workflows/refresh-tilak-data.yml'
   workflow_dispatch:
   schedule:
@@ -29,6 +30,8 @@ jobs:
         run: python scripts/refresh_data.py
       - name: Refresh ESPNcricinfo format-wise career stats
         run: python scripts/refresh_career_stats.py
+      - name: Refresh free Tilak Varma news feed
+        run: python scripts/refresh_tilak_news.py
       - name: Refresh death-overs calculator dataset
         run: python scripts/refresh_death_overs.py
       - name: Commit updated data when changed
@@ -40,8 +43,9 @@ jobs:
             git reset --hard origin/main
             python scripts/refresh_data.py
             python scripts/refresh_career_stats.py
+            python scripts/refresh_tilak_news.py
             python scripts/refresh_death_overs.py
-            git add data/site-data.json data/death-overs.json
+            git add data/site-data.json data/death-overs.json data/tilak-news.json
             if git diff --cached --quiet; then
               echo "No data changes to commit."
               exit 0
