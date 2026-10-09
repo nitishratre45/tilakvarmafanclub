@@ -55,6 +55,7 @@ jobs:
           node --check assets/statsguru.js
           node --check assets/home-snapshot.js
           node --check assets/section-tabs.js
+          python -m py_compile scripts/refresh_icc_records.py
           python - <<'PY'
           from pathlib import Path
           html = Path("death-overs/index.html").read_text(encoding="utf-8")
@@ -80,6 +81,11 @@ jobs:
           grep -q 'assets/home-snapshot.js' index.html
           grep -q 'assets/section-tabs.js' index.html
           grep -q 'id="home-snapshot"' index.html
+          grep -q 'data-stats-tab="statsguru"' index.html
+          grep -q 'id="icc-ranking-t20i"' index.html
+          grep -q 'id="icc-record-highlights"' index.html
+          grep -q 'scripts/refresh_icc_records.py' .github/workflows/refresh-icc-records.yml
+          if grep -q 'id="activity"\|href="#activity"' index.html; then echo "Updates section should be removed"; exit 1; fi
           grep -q 'tilak-news-grid' index.html
           grep -q 'scripts/refresh_tilak_news.py' .github/workflows/refresh-tilak-data.yml
           grep -q 'data/fan-zone.json' assets/features.js
