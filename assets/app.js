@@ -16,10 +16,10 @@
     });
     const formatHost = document.getElementById("career-formats");
     if (formatHost && data.careerFormats) {
-      formatHost.innerHTML = Object.entries(data.careerFormats).map(([name, s]) => `<article class="stat-card format-card"><span class="stat-label">${name.toUpperCase()}</span><strong>${Number(s.runs || 0).toLocaleString("en-IN")}</strong><span class="stat-note">${s.matches ?? "—"} matches · HS ${s.highestScore ?? "—"}</span><span class="format-detail">AVG ${s.average ?? "—"} · SR ${s.strikeRate ?? "—"} · 100s ${s.hundreds ?? "—"} · 50s ${s.fifties ?? "—"}</span><a href="${s.source || data.careerSource || "#"}" target="_blank" rel="noreferrer">Source ↗</a></article>`).join("");
+      formatHost.innerHTML = Object.entries(data.careerFormats).map(([name, s]) => `<article class="stat-card format-card"><span class="stat-label">${name.toUpperCase()}</span><strong>${Number(s.runs || 0).toLocaleString("en-IN")}</strong><span class="stat-note">${s.matches ?? "—"} matches · HS ${s.highestScore ?? "—"}</span><span class="format-detail">AVG ${s.average ?? "—"} · SR ${s.strikeRate ?? "—"} · 100s ${s.hundreds ?? "—"} · 50s ${s.fifties ?? "—"}</span></article>`).join("");
     }
     const src = $("#career-source");
-    if (src && data.careerSource) src.href = data.careerSource;
+    if (src) src.remove();
     set("career-updated", "Snapshot timestamp: " + (data.lastUpdated || "not recorded"));
     const rows = data.recentInnings || [];
     const tbody = $("#recent-table");
@@ -43,14 +43,13 @@
           <div class="featured-match-top"><span class="match-pill">LATEST VERIFIED SCORECARD</span><span class="featured-date">${esc(featured.date)} · ${esc(featured.format || "T20I")}</span></div>
           <div class="featured-match-main"><div><p class="featured-kicker">${esc(featured.venue || "")}</p><h3>${esc(featured.title || "India match")}</h3><p class="featured-result">${esc(featured.result || "")}</p><p class="featured-partnership">${esc(featured.partnership || "")}</p></div><div class="featured-score"><strong>${esc(featured.runs)}<small>${featured.notOut ? "*" : ""}</small></strong><span>RUNS · ${esc(featured.balls)} BALLS</span></div></div>
           <div class="featured-stats"><span><b>${esc(featured.fours)}</b> FOURS</span><span><b>${esc(featured.sixes)}</b> SIXES</span><span><b>${esc(featured.strikeRate)}</b> STRIKE RATE</span><span><b>${esc(featured.teamScore || "")}</b> INDIA</span></div>
-          <a class="featured-source" href="${esc(featured.source || "#")}" target="_blank" rel="noreferrer">Open source scorecard ↗</a>
         </article>`;
     }
     const activityHost = document.getElementById("activity-feed");
     const activity = Array.isArray(data.activityLog) ? data.activityLog : [];
     if (activityHost) {
       activityHost.innerHTML = activity.length ? activity.map((item, index) => `
-        <article class="activity-item"><span class="activity-index">${String(index + 1).padStart(2, "0")}</span><div class="activity-content"><div class="activity-meta"><span>${esc(item.category || "UPDATE")}</span><time>${esc(item.date || "")}</time></div><h3>${esc(item.title || "Site update")}</h3><p>${esc(item.description || "")}</p>${item.source ? `<a href="${esc(item.source)}" target="_blank" rel="noreferrer">Source / details ↗</a>` : ""}</div></article>`).join("") : '<div class="activity-empty">No updates have been logged yet.</div>';
+        <article class="activity-item"><span class="activity-index">${String(index + 1).padStart(2, "0")}</span><div class="activity-content"><div class="activity-meta"><span>${esc(item.category || "UPDATE")}</span><time>${esc(item.date || "")}</time></div><h3>${esc(item.title || "Site update")}</h3><p>${esc(item.description || "")}</p></div></article>`).join("") : '<div class="activity-empty">No updates have been logged yet.</div>';
     }
   } catch (error) {
     set("data-status", "Source unavailable");
