@@ -132,10 +132,19 @@
       status.textContent=text+" · "+(sg.updatedAt||"snapshot timestamp unavailable");
     }
     if(selectedCategory==="batting"){
-      const rowsToShow=breakdownRows(source);
-      rowsTable(rowsToShow,["GROUP / FILTER","SPAN","MATCHES","INNINGS","NOT OUT","RUNS","HIGH SCORE","AVERAGE","BALLS","STRIKE RATE","100s","50s","DUCKS","4s","6s"],r=>"<tr>"+
-        [r.group,r.span,r.matches,r.innings,r.notOuts,r.runs,r.highestScore,r.average,r.balls,r.strikeRate,r.hundreds,r.fifties,r.ducks,r.fours,r.sixes].map(v=>"<td>"+esc(fmt(v))+"</td>").join("")+"</tr>",
-        "No verified career-breakdown rows exist for this filter in the selected format.");
+      if(type==="ground"||appliedFrom||appliedTo){
+        const listed=inningsRows(source).sort((a,b)=>parseDate(b.date)-parseDate(a.date));
+        const rowRender=r=>{
+          const link=r.matchUrl&&/^https:\/\//i.test(r.matchUrl)?'<a href="'+esc(r.matchUrl)+'" target="_blank" rel="noopener noreferrer">Open ↗</a>':"—";
+          return "<tr><td>"+esc(r.date)+"</td><td>"+esc(r.score||"—")+"</td><td>"+esc(r.opposition||"—")+"</td><td>"+esc(r.ground||"—")+"</td><td>"+link+"</td></tr>";
+        };
+        rowsTable(listed,["DATE","SCORE","OPPOSITION","GROUND","SCORECARD"],rowRender,"No verified innings match this ground/date filter.");
+      }else{
+        const rowsToShow=breakdownRows(source);
+        rowsTable(rowsToShow,["GROUP / FILTER","SPAN","MATCHES","INNINGS","NOT OUT","RUNS","HIGH SCORE","AVERAGE","BALLS","STRIKE RATE","100s","50s","DUCKS","4s","6s"],r=>"<tr>"+
+          [r.group,r.span,r.matches,r.innings,r.notOuts,r.runs,r.highestScore,r.average,r.balls,r.strikeRate,r.hundreds,r.fifties,r.ducks,r.fours,r.sixes].map(v=>"<td>"+esc(fmt(v))+"</td>").join("")+"</tr>",
+          "No verified career-breakdown rows exist for this filter in the selected format.");
+      }
     }else{
       let listed=inningsRows(source);
       if(selectedCategory==="highscores")listed.sort((a,b)=>(typeof b.runs==="number"?b.runs:-1)-(typeof a.runs==="number"?a.runs:-1));
@@ -181,6 +190,9 @@
     activeBreakdownFilter=$("sg-filter-type").value;activeBreakdownValue=$("sg-filter-value").value;
     appliedFrom=$("sg-date-from").value;appliedTo=$("sg-date-to").value;
     if(appliedFrom&&appliedTo&&appliedFrom>appliedTo){$("sg-filter-status").textContent="Start date must be before the ending date.";return;}
+    if((appliedFrom||appliedTo)&&!["all","ground","opposition","year"].includes(activeBreakdownFilter)){
+      $("sg-filter-status").textContent="Date range works with All-round/general, Opposition, Ground or Year filters. Choose one of those categories or clear the dates.";return;
+    }
     render();
   });
   $("sg-reset-filter").addEventListener("click",resetFilters);
