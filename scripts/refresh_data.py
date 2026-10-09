@@ -37,18 +37,27 @@ def clean_text(value):
     return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", value))).strip()
 
 def official_profile_image():
+    """Find Tilak's current India headshot URL from his official ICC profile page."""
     try:
-        page = fetch_text(MI_URL)
-        for pattern in (
-            r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)',
-            r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']',
-            r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)',
-        ):
-            match = re.search(pattern, page, re.I)
-            if match and match.group(1).startswith(("https://", "http://")):
-                return match.group(1)
+        page = fetch_text(ICC_URL)
+        # ICC exposes its player image in page markup; look for the player ID on its CDN.
+        candidates = re.findall(
+            r"(?:https?:)?//images\.icc-cricket\.com/image/upload/[^\"'<>\s]+",
+            page,
+            re.I
+        )
+        candidates = [html.unescape(url).replace("&amp;", "&") for url in candidates]
+        player_images = [
+            url for url in candidates
+            if "70761" in url and any(term in url.lower() for term in ("player", "assets/players"))
+        ]
+        if player_images:
+            return next((url for url in player_images if "headshot" in url.lower()), player_images[0])
+        # ICC's page can omit image markup in server-rendered HTML; retain the official image path.
+        if "Tilak Varma" in page and "70761" in page:
+            return ICC_IMAGE_FALLBACK
     except Exception as exc:
-        print(f"Official profile image not refreshed: {exc}")
+        print(f"ICC profile image not refreshed: {exc}")
     return None
 
 def scrape_icc_recent():
@@ -177,10 +186,9 @@ def main():
     data["profileUpdated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     data["lastUpdated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     data["dataNote"] = (
-        "Recent form is refreshed from ICC public profile when its page layout can be parsed, "
-        "with Cricsheet international T20 data as fallback. Profile photo is read from the official Mumbai Indians "
-        "profile metadata. Career totals are preserved unless a reliable, recognizable source value "
-        "is available; verify official scorecards before publication."
+        "Recent form and the player headshot are refreshed from the ICC public profile when available, "
+        "with Cricsheet international T20 data as fallback for recent form. Career totals are preserved "
+        "unless a reliable, recognizable source value is available; verify official scorecards before publication."
     )
     # Public audit trail: show scheduled refreshes on the homepage activity feed.
     activity = data.setdefault("activityLog", [])
