@@ -15,7 +15,6 @@ import re
 import urllib.request
 import zipfile
 from datetime import datetime, timezone
-from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -37,10 +36,6 @@ def fetch(url, timeout=45):
 
 def fetch_text(url):
     return fetch(url).decode("utf-8", "replace")
-
-
-def clean_text(value):
-    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", value))).strip()
 
 
 def official_profile_image():
@@ -70,47 +65,6 @@ def official_profile_image():
     except Exception as exc:
         print(f"ICC profile image not refreshed: {exc}")
     return None
-
-
-def scrape_icc_recent():
-    """Parse ICC's recent-match table; return [] if the page layout changes."""
-    try:
-        page = fetch_text(ICC_URL)
-        # ICC page currently exposes a plain text table: date, format, opponent, runs.
-        pattern = re.compile(
-            r"(\d{1,2}[- ](?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[- ]\d{4})"
-            r".{0,180}?(T20I|ODI|Test|T20)"
-            r".{0,180}?vs\s+([A-Za-z][A-Za-z .&'-]+?)"
-            r".{0,80}?(?:\b(\d{1,3})\b|[-—])",
-            re.I | re.S,
-        )
-        rows, seen = [], set()
-        for m in pattern.finditer(page):
-            date, fmt, opposition, runs = m.groups()
-            opposition = clean_text(opposition).strip(" -|")
-            if not opposition or len(opposition) > 45:
-                continue
-            key = (date, opposition, fmt)
-            if key in seen:
-                continue
-            seen.add(key)
-            rows.append(
-                {
-                    "date": date,
-                    "opposition": opposition,
-                    "format": fmt.upper(),
-                    "runs": int(runs) if runs else "DNB",
-                    "balls": "—",
-                    "fours": "—",
-                    "sixes": "—",
-                    "strikeRate": "—",
-                    "source": ICC_URL,
-                }
-            )
-        return rows[:12]
-    except Exception as exc:
-        print(f"ICC recent-form scrape unavailable: {exc}")
-        return []
 
 
 def cricsheet_recent():
