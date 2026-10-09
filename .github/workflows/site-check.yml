@@ -116,6 +116,35 @@ jobs:
               raise SystemExit("Death Overs data is missing updatedAt")
           print("Cross-checked career snapshot, recent strike rates, bowling overs and archive timestamps.")
           PY
+      - name: Check page anchors and local asset references
+        run: |
+          python - <<'PY'
+          import re
+          from collections import Counter
+          from pathlib import Path
+          from urllib.parse import urlsplit
+
+          root = Path(".")
+          pages = (Path("index.html"), Path("death-overs/index.html"))
+          for page in pages:
+              source = page.read_text(encoding="utf-8")
+              ids = re.findall(r'\\bid=["\\']([^"\\']+)["\\']', source)
+              duplicates = sorted(value for value, count in Counter(ids).items() if count > 1)
+              if duplicates:
+                  raise SystemExit(f"{page} has duplicate IDs: {duplicates}")
+              targets = set(ids)
+              hashes = re.findall(r'\\bhref=["\\']#([^"\\']+)["\\']', source)
+              missing = sorted(set(hashes) - targets)
+              if missing:
+                  raise SystemExit(f"{page} links to missing anchors: {missing}")
+              for ref in re.findall(r'\\b(?:src|href)=["\\']([^"\\']+)["\\']', source):
+                  parsed = urlsplit(ref)
+                  if parsed.scheme or parsed.netloc or ref.startswith("#") or not parsed.path:
+                      continue
+                  if not (page.parent / parsed.path).resolve().is_file():
+                      raise SystemExit(f"{page} references missing local asset: {ref}")
+              print(f"Validated IDs, anchors and local assets in {page}.")
+          PY
       - name: Verify feature modules are linked
         run: |
           grep -q 'assets/features.js' index.html
