@@ -43,7 +43,9 @@
   <div class="section-heading"><div><div class="eyebrow">PLAYER ANALYSIS · ESPNCRICINFO</div><h2>EXPLORE THE <em>NUMBERS.</em></h2></div><p>Explore Tilak Varma’s verified ESPNcricinfo batting data with player-analysis filters. The saved source snapshot refreshes every 24 hours.</p></div>
   <div class="statsguru-sourcebar"><span><i class="live-dot"></i> SITE DATA · <b id="statsguru-updated">Checking timestamp…</b></span><span>Daily refresh · every 24 hours</span></div>
   <div class="statsguru-format-tabs" role="group" aria-label="Match format"><button class="active" data-sg-format="T20I">T20I</button><button data-sg-format="ODI">ODI</button><button data-sg-format="T20">T20 · all competitions</button><button data-sg-format="All">All formats</button></div>
-  <section class="player-analysis-filter" aria-labelledby="player-analysis-title">
+  <details class="player-analysis-filter">
+    <summary class="player-analysis-toggle"><span><span class="eyebrow">ESPNCRICINFO · STATSGURU</span><strong>Player Analysis Menu / Filter</strong><small>Tap to open filters and date range</small></span><span class="player-analysis-toggle-icon" aria-hidden="true">+</span></summary>
+    <div class="player-analysis-content">
     <div class="player-analysis-head"><div><div class="eyebrow">STATSGURU ANALYSIS</div><h3 id="player-analysis-title">Player analysis <em>menu / filter</em></h3></div><span class="player-analysis-badge">SOURCE · ESPNCRICINFO</span></div>
     <div class="player-analysis-grid">
       <label>Filter category<select id="sg-filter-type"><option value="all">All-round / general</option><option value="opposition">Opposition</option><option value="home-away">Home or away</option><option value="country">Host country / region</option><option value="ground">Ground</option><option value="year">Year</option><option value="season">Season</option><option value="result">Match result</option><option value="position">Batting position</option><option value="innings">Match innings</option><option value="daynight">Day / night</option><option value="series">Series / tournament</option></select></label>
@@ -53,7 +55,8 @@
     </div>
     <div class="player-analysis-actions"><button type="button" class="button primary" id="sg-apply-filter">Apply filter ↗</button><button type="button" class="button" id="sg-reset-filter">Reset filter ↻</button><span id="sg-filter-status" aria-live="polite">Choose a category and apply a filter.</span></div>
     <p class="player-analysis-help">Filters use verified ESPNcricinfo Statsguru career breakdowns and match rows saved in the daily snapshot. Options vary by format; unavailable fields are not guessed.</p>
-  </section>
+    </div>
+  </details>
   <div class="statsguru-category-grid" role="group" aria-label="Statistics category">
     <button class="active" data-sg-category="batting">Career summary</button><button data-sg-category="innings">Innings by innings</button><button data-sg-category="highscores">High scores</button>
   </div>
