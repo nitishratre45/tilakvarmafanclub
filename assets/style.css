@@ -879,3 +879,58 @@ option{background:#0d1a2c;color:#f4f7fb}
  .statsguru-panel .table-wrap th{padding:8px;font-size:8px}
  .statsguru-panel .table-wrap td{padding:8px;font-size:10px}
 }
+
+/* Compact home theme selector */
+.home-snapshot-heading{gap:14px}
+.home-heading-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:wrap}
+.theme-switcher{display:inline-flex;align-items:center;gap:3px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:5px}
+.theme-switcher-label{padding:0 5px;color:var(--muted);font:8px var(--mono);letter-spacing:.1em}
+.theme-switcher button{padding:6px 8px;border:1px solid transparent;border-radius:3px;background:transparent;color:var(--muted);font:700 9px var(--body);cursor:pointer}
+.theme-switcher button[aria-pressed="true"]{color:var(--bg);background:var(--orange);border-color:var(--orange)}
+.theme-switcher button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.home-all-stats{white-space:nowrap}
+@media(max-width:760px){
+ .home-snapshot-heading{align-items:flex-start;flex-direction:column;gap:10px}
+ .home-heading-actions{width:100%;justify-content:space-between;gap:8px}
+ .theme-switcher{gap:2px;padding:3px}
+ .theme-switcher-label{font-size:7px;padding:0 3px}
+ .theme-switcher button{padding:6px 7px;font-size:9px}
+ .home-all-stats{padding:9px 10px;font-size:9px;gap:6px}
+}
+/* Runs should be an accent, not a solid orange column */
+.statsguru-panel .table-wrap th.sg-head-runs{color:var(--orange);background:rgba(255,106,53,.12);border-bottom:2px solid var(--orange)}
+.statsguru-panel .table-wrap .sg-cell-runs{color:var(--orange);background:rgba(255,106,53,.12);font:800 13px var(--display);text-align:center;min-width:54px;border-left:1px solid rgba(255,106,53,.28);border-right:1px solid rgba(255,106,53,.28)}
+.statsguru-panel .table-wrap tbody tr:hover .sg-cell-runs{background:rgba(255,106,53,.22)}
+/* Light theme, including site components that previously used fixed dark fills */
+:root[data-theme="light"]{--bg:#f4f7fb;--panel:#ffffff;--panel2:#e8eef5;--white:#152235;--muted:#627186;--line:rgba(18,35,55,.16);--orange:#e85d2a;--cyan:#087e91;color-scheme:light}
+:root[data-theme="light"] body{background:var(--bg);color:var(--white)}
+:root[data-theme="light"] .topbar,:root[data-theme="light"] nav,:root[data-theme="light"] .stats-section,:root[data-theme="light"] .statsguru-section,:root[data-theme="light"] .innings-section,:root[data-theme="light"] .about-section,:root[data-theme="light"] footer{background:var(--bg);color:var(--white)}
+:root[data-theme="light"] .hero{background:radial-gradient(ellipse at 75% 45%,rgba(32,120,155,.10),transparent 48%),linear-gradient(115deg,#f4f7fb,#eaf0f7)}
+:root[data-theme="light"] .home-snapshot-section,:root[data-theme="light"] .statsguru-panel,:root[data-theme="light"] .stat-card,:root[data-theme="light"] .home-mini-stat,:root[data-theme="light"] .home-format-card,:root[data-theme="light"] .home-snapshot-block,:root[data-theme="light"] .statsguru-sourcebar,:root[data-theme="light"] .statsguru-format-tabs button,:root[data-theme="light"] .statsguru-category-grid button{background:#fff;color:var(--white)}
+:root[data-theme="light"] .profile-intro,:root[data-theme="light"] .section-heading>p,:root[data-theme="light"] .home-snapshot-block p,:root[data-theme="light"] .home-snapshot-foot,:root[data-theme="light"] .stat-note,:root[data-theme="light"] td{color:#425269}
+:root[data-theme="light"] .statsguru-panel .table-wrap th,:root[data-theme="light"] th{background:#e8eef5;color:#087e91}
+:root[data-theme="light"] .statsguru-panel .table-wrap td,:root[data-theme="light"] td{border-top-color:rgba(18,35,55,.13);color:#24354a}
+:root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-date{background:#e7f5f7;color:#203c51}
+:root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-minutes,:root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-balls{background:#edf8fa;color:#087e91}
+:root[data-theme="light"] .statsguru-panel .table-wrap th.sg-head-runs,:root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-runs{background:#fff0e8;color:#c94c20}
+:root[data-theme="light"] .statsguru-panel .table-wrap tbody tr:nth-child(even){background:#f7f9fc}
+:root[data-theme="light"] .statsguru-panel .table-wrap tbody tr:hover{background:#eaf3f8}
+:root[data-theme="light"] .statsguru-panel .table-wrap tbody tr:hover .sg-cell-runs{background:#ffe0d0}
+:root[data-theme="light"] .home-snapshot-section .button.outline,:root[data-theme="light"] .button.outline{color:var(--white);border-color:rgba(18,35,55,.3)}
+:root[data-theme="light"] .profile-section{background:#f4f7fb}
+:root[data-theme="light"] .statsguru-format-tabs button.active,:root[data-theme="light"] .statsguru-category-grid button.active{background:var(--orange);color:#fff}
+:root[data-theme="light"] .gallery-live-fallback,:root[data-theme="light"] .cricinfo-gallery,:root[data-theme="light"] .tilak-news-card{background:#fff}
+:root[data-theme="light"] .article-reader-panel,:root[data-theme="light"] .photo-lightbox-panel{background:#fff;color:#152235}
+:root[data-theme="light"] .article-reader-head{background:#edf2f8}
+:root[data-theme="light"] .article-reader-head h3,:root[data-theme="light"] .photo-lightbox-panel p{color:#152235}
+@media(prefers-color-scheme:light){
+ :root[data-theme="system"]{--bg:#f4f7fb;--panel:#fff;--panel2:#e8eef5;--white:#152235;--muted:#627186;--line:rgba(18,35,55,.16);--orange:#e85d2a;--cyan:#087e91;color-scheme:light}
+ :root[data-theme="system"] body{background:var(--bg);color:var(--white)}
+ :root[data-theme="system"] .topbar,:root[data-theme="system"] nav,:root[data-theme="system"] .stats-section,:root[data-theme="system"] .statsguru-section,:root[data-theme="system"] .innings-section,:root[data-theme="system"] footer{background:var(--bg);color:var(--white)}
+ :root[data-theme="system"] .hero{background:linear-gradient(115deg,#f4f7fb,#eaf0f7)}
+ :root[data-theme="system"] .stat-card,:root[data-theme="system"] .home-mini-stat,:root[data-theme="system"] .home-format-card,:root[data-theme="system"] .statsguru-panel,:root[data-theme="system"] .statsguru-sourcebar,:root[data-theme="system"] .statsguru-format-tabs button,:root[data-theme="system"] .statsguru-category-grid button{background:#fff;color:var(--white)}
+ :root[data-theme="system"] th{background:#e8eef5;color:#087e91}
+ :root[data-theme="system"] .statsguru-panel .table-wrap td{color:#24354a}
+ :root[data-theme="system"] .statsguru-panel .table-wrap .sg-cell-date{background:#e7f5f7;color:#203c51}
+ :root[data-theme="system"] .statsguru-panel .table-wrap .sg-cell-runs,:root[data-theme="system"] .statsguru-panel .table-wrap th.sg-head-runs{background:#fff0e8;color:#c94c20}
+}
