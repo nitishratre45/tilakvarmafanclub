@@ -21,6 +21,7 @@ async function init(){
     '<div class="tilak-news-body"><div class="tilak-news-meta">'+esc(item.publisher||"News")+' · '+esc(item.published||"Recent")+'</div><h3><a href="'+url+'" target="_blank" rel="noopener noreferrer">'+esc(item.title)+'</a></h3>'+
     (item.summary?'<p>'+esc(item.summary)+'</p>':'')+'<a class="tilak-news-source" href="'+url+'" target="_blank" rel="noopener noreferrer">Read source ↗</a></div></article>';
   }).join(""):'<p class="activity-empty">No fresh stories are available right now. Official profile links are below.</p>';
+  host.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>img.closest(".tilak-news-image")?.remove(),{once:true}));
   if(meta)meta.textContent="Free Google News RSS · checked "+(news.updatedAt||"date unavailable")+(news.status==="source-unavailable"?" · last saved stories retained":"");
  }catch(e){
   host.innerHTML='<p class="activity-empty">News feed is temporarily unavailable. Check the official Tilak Varma profiles below.</p>';
