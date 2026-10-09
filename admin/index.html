@@ -7,7 +7,7 @@
   <meta name="description" content="Private token-gated editor for Tilak Varma FC site data.">
   <title>Admin Studio | The 72 Club</title>
   <link rel="stylesheet" href="../assets/style.css">
-</head>
+<style>.admin-health-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.admin-health-grid article{padding:18px;border:1px solid var(--line);background:var(--panel)}.admin-health-grid b{color:var(--cyan);font:12px var(--mono)}.admin-health-grid p{font-size:12px;line-height:1.8;color:var(--muted)}.admin-health-grid a{color:var(--orange);font-size:12px}@media(max-width:600px){.admin-health-grid{grid-template-columns:1fr}}</style></head>
 <body class="admin-body">
   <header class="topbar">
     <a class="brand" href="../"><span class="brand-mark">72</span><span>TILAK VARMA <small>ADMIN STUDIO</small></span></a>
@@ -43,7 +43,7 @@
       </section>
       <p class="admin-footnote">Save validates JSON and updates only the selected file. Every save creates a Git commit. Avoid changing match totals or over-level data unless you have a verified scorecard/source.</p>
     </section>
-    <section class="admin-card admin-help">
+    <section class="admin-card"><div class="admin-card-head"><div><span class="admin-kicker">04 / ADMIN STUDIO PRO</span><h2>Publishing <em>health.</em></h2></div></div><div class="admin-health-grid"><article><b>JSON safety</b><p>Use FORMAT JSON before saving. The editor validates JSON syntax, but it cannot prove a cricket statistic is correct.</p></article><article><b>Refresh workflow</b><p>Open GitHub Actions to check the latest scheduled run and inspect any failed source fetch.</p><a href="https://github.com/nitishratre45/tilakvarmafanclub/actions" target="_blank" rel="noreferrer">Open workflow history ↗</a></article><article><b>Recovery & backups</b><p>Download a JSON backup before large edits. Each successful save creates a Git commit that can be reviewed or reverted.</p></article><article><b>Source verification</b><p>Use the DATA PROVENANCE panel above for source URLs. Keep source links in Admin Studio, not public stat cards.</p></article></div></section><section class="admin-card admin-help">
       <span class="admin-kicker">03 / QUICK GUIDE</span>
       <h2>What can I <em>edit?</em></h2>
       <ul><li><b>site-data.json:</b> profile, career stats, recent innings, featured match and the “What's happening” activity feed.</li><li><b>fan-zone.json:</b> edit the community poll prompt/options and source-linked fan resources. Votes remain local to each visitor browser.</li><li><b>death-overs.json:</b> verified over-by-over archive and the latest match summary panel.</li><li><b>Workflow:</b> GitHub Actions refreshes source data every 12 hours; Cloudflare deploys commits from <code>main</code>.</li></ul>
