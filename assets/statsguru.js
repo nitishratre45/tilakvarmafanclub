@@ -208,7 +208,7 @@
     if(!data)return;
     const sg=data.statsguru||{},source=sourceData(),rows=source.innings.slice();
     const stamp=sg.updatedAt||"Waiting for update";
-    $("statsguru-updated").textContent=stamp;
+    $("statsguru-updated").textContent="Last update: "+stamp;
     $("statsguru-format-label").textContent=selectedFormat==="T20"?"T20 · all competitions":selectedFormat;
     $("statsguru-title").textContent=titles[selectedCategory]||"Player analysis";
     $("statsguru-eyebrow").textContent=selectedCategory==="batting"?"CAREER OVERVIEW":selectedCategory.toUpperCase()+" · "+selectedFormat.toUpperCase();
@@ -274,7 +274,7 @@
       }
     }
     const note=$("statsguru-note");
-    note.textContent="Updated: "+(sg.updatedAt||"timestamp unavailable")+". Automatic refresh every 24 hours; last saved figures remain available if an update is delayed.";
+    note.textContent="Last update: "+(sg.updatedAt||"timestamp unavailable")+". Automatic refresh every 24 hours; last saved figures remain available if an update is delayed.";
   }
   function resetFilters(){
     $("sg-filter-type").value="all";appliedFrom="";appliedTo="";
