@@ -72,18 +72,28 @@ def extract_rank_from_table(url):
 
 def extract_records(text):
     specs = [
-        ("T20I Matches", "Fastest players to score 1,000 runs in T20 cricket",
-         r"(\d+)\s*(?:st|nd|rd|th)\s+T20I\s+Matches.{0,180}?Fastest.{0,120}?(?:1,?000)"),
-        ("T20I Matches", "Youngest player to score a T20I hundred",
-         r"(\d+)\s*(?:st|nd|rd|th)\s+T20I\s+Matches.{0,180}?Youngest.{0,120}?T20\s+Hundred"),
-        ("Youth ODI Matches", "Youngest player to score a Youth ODI hundred",
-         r"(\d+)\s*(?:st|nd|rd|th)\s+Youth\s+ODI\s+Matches.{0,180}?Youngest.{0,120}?Youth.?ODI\s+Hundred"),
+        ("T20I Matches", "Fastest players to score 1,000 runs in T20 cricket", "Fastest Players to Score 1000 In T20"),
+        ("T20I Matches", "Youngest player to score a T20I hundred", "Youngest Player to Score T20 Hundred"),
+        ("Youth ODI Matches", "Youngest player to score a Youth ODI hundred", "Youngest Player to Score YouthODI Hundred"),
     ]
     records = []
-    for category, title, pattern in specs:
-        match = re.search(pattern, text, re.I | re.S)
-        if match:
-            rank_number = int(match.group(1))
+    folded = text.casefold()
+    for category, title, needle in specs:
+        position = 0
+        rank_number = None
+        while True:
+            position = folded.find(needle.casefold(), position)
+            if position < 0:
+                break
+            snippet = text[position:position + 450]
+            rank_pos = snippet.casefold().find("rank")
+            if rank_pos >= 0:
+                rank_match = re.search(r"\D{0,24}(\d{1,3})", snippet[rank_pos + 4:rank_pos + 40])
+                if rank_match:
+                    rank_number = int(rank_match.group(1))
+                    break
+            position += len(needle)
+        if rank_number is not None:
             suffix = "th" if 10 <= rank_number % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(rank_number % 10, "th")
             records.append({"rank": str(rank_number) + suffix, "category": category, "title": title})
     return records
@@ -127,12 +137,7 @@ def main():
         data["iccRecordsUpdated"] = stamp(now)
         print("Updated ICC record highlights:", len(records))
     else:
-        at = text.casefold().find("records")
         print("Could not parse ICC record highlights; saved records retained.")
-        for needle in ("Fastest Players to Score", "Youngest Player to Score T20", "Youngest Player to Score YouthODI"):
-            pos = text.casefold().find(needle.casefold())
-            print("ICC record probe:", needle, pos,
-                  text[max(0, pos - 160):pos + 240] if pos >= 0 else "not present")
 
     FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
