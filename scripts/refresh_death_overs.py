@@ -10,14 +10,14 @@ ARCHIVES={"ipl":{"label":"IPL","url":"https://cricsheet.org/downloads/ipl_json.z
 def discover_hyderabad_archive():
  req=urllib.request.Request("https://cricsheet.org/downloads/",headers={"User-Agent":"TilakVarmaFC/1.1"})
  with urllib.request.urlopen(req,timeout=45) as r: page=r.read().decode("utf-8","replace")
- # Inspect the HTML table row that names the Hyderabad (India) club team.
  for match in re.finditer(r"<tr\b[^>]*>(.*?)</tr>",page,re.I|re.S):
   row=match.group(1)
   text=re.sub(r"<[^>]+>"," ",row)
   text=re.sub(r"\s+"," ",text).strip()
   if "Hyderabad (India)" not in text:continue
-  links=re.findall(r"<a\b[^>]*href=["']([^"']+)["'][^>]*>(.*?)</a>",row,re.I|re.S)
+  links=re.findall(r'<a\b[^>]*href=([^\s>]+)[^>]*>(.*?)</a>',row,re.I|re.S)
   for href,label in links:
+   href=href.strip(chr(34)+chr(39))
    if "json" in re.sub(r"<[^>]+>"," ",label).lower() and ".zip" in href.lower():
     return href if href.startswith("http") else "https://cricsheet.org"+href
  raise RuntimeError("Could not resolve Hyderabad (India) JSON archive link from Cricsheet downloads page")
