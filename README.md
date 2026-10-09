@@ -19,3 +19,14 @@ Career stats are a manually maintained snapshot, not a live official feed. Verif
 
 ## Disclaimer
 Independent fan-made project; not affiliated with Tilak Varma, BCCI, IPL, or any team.
+
+## Admin Studio
+
+Open `/admin/` on the deployed site. Create a GitHub fine-grained personal access token restricted to this repository and grant **Contents: Read and write**. The admin page loads and saves `data/site-data.json` and `data/death-overs.json` through the GitHub Contents API. The token is not saved to local storage; clear it and close the tab when finished. Saving commits to `main`, which should trigger a Cloudflare Pages deployment.
+
+The editor is intentionally token-gated rather than pretending that a public static page is private. Anyone can see the admin page, but writing requires a repository-scoped token. Never paste a classic broad-scope token or put secrets into JSON.
+
+## Match data and activity feed
+
+The homepage shows a verified latest-match card and the editable `activityLog` from `data/site-data.json`. Admin saves to the site data file automatically add an activity entry. The latest 9 October 2026 India–West Indies scorecard (Tilak Varma 44 not out from 18 balls) is also shown on the Stats Centre. That match summary is deliberately excluded from over-range calculations until player-specific delivery data can be verified; do not infer over-level numbers from the innings total.
+
