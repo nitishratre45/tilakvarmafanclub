@@ -181,7 +181,15 @@ def parse_career_breakdown(page):
     output = []
     seen = set()
     last_indexes = None
-    for table in parse_tables(page):
+    parsed_tables = parse_tables(page)
+    if not getattr(parse_career_breakdown, "_debugged", False):
+        parse_career_breakdown._debugged = True
+        print("DEBUG Statsguru tables:", len(parsed_tables))
+        for ti, tbl in enumerate(parsed_tables):
+            samples = [cell_text(row) for row in tbl if len(row) >= 10]
+            if samples:
+                print("DEBUG table", ti, "rows", len(tbl), "wide samples", samples[:2])
+    for table in parsed_tables:
         header_index = None
         indexes = {}
         for ri, row in enumerate(table):
