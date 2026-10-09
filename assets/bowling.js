@@ -26,7 +26,7 @@
       '<span class="home-bowling-format-detail">Best '+esc(summary.bestBowling||"—")+' · Econ '+esc(fmt(summary.economy))+'</span>'+
       '<span class="home-bowling-format-detail">Matches '+esc(fmt(summary.matches))+' · Overs '+esc(overValue(summary))+'</span></article>'
     ).join("");
-    if($("home-bowling-updated"))$("home-bowling-updated").textContent="ESPNcricinfo Statsguru · updated "+(allData.bowlingStats?.updatedAt||"timestamp unavailable");
+    if($("home-bowling-updated"))$("home-bowling-updated").textContent="ESPNcricinfo Statsguru · Last update: "+(allData.bowlingStats?.updatedAt||"timestamp unavailable");
   }
   function renderBreakdown(){
     const host=$("bowling-breakdown");if(!host)return;
@@ -47,7 +47,7 @@
     const host=$("bowling-summary");if(!host)return;
     const list=summaryFor(selected);
     host.innerHTML=list?list.map(x=>metric(x[0],x[1],"bowling-metric")).join(""):'<p class="activity-empty">No verified bowling summary has been published yet. The daily ESPNcricinfo check will populate this section when the source is available.</p>';
-    if($("bowling-updated"))$("bowling-updated").textContent=allData.bowlingStats?.updatedAt||"Waiting for verified data";
+    if($("bowling-updated"))$("bowling-updated").textContent="Last update: "+(allData.bowlingStats?.updatedAt||"Waiting for verified data");
     document.querySelectorAll("[data-bowling-format]").forEach(b=>{const active=b.dataset.bowlingFormat===selected;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active));});
     renderBreakdown();renderInnings();
   }
