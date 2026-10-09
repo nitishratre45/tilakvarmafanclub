@@ -65,7 +65,7 @@ def main():
   current_runs = int(formats.get("T20I", {}).get("runs", 0) or 0)
   incoming_runs = int(scraped.get("T20I", {}).get("runs", 0) or 0)
   # Do not let stale/cached source totals roll back a newer verified total.
-  if incoming_runs >= current_runs:
+  if incoming_runs > current_runs:
    formats.update(scraped)
    data["careerSource"]=ESPN
    data["careerStatsUpdated"]=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
