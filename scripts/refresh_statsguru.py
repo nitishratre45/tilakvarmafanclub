@@ -155,6 +155,63 @@ def find_innings_table(tables):
                 return table, i, headers
     return None, None, None
 
+def parse_career_breakdown(page):
+    """Parse the official Statsguru 'Career summary' split rows (opposition,
+    venue, year, season, home/away, captaincy, tournament, etc.)."""
+    wanted = {"span", "mat", "inns", "no", "runs", "hs", "ave", "bf", "sr", "100", "50", "0", "4s", "6s"}
+    output = []
+    seen = set()
+    for table in parse_tables(page):
+        header_index = None
+        indexes = {}
+        for ri, row in enumerate(table):
+            headers = [clean(x).casefold().replace(".", "") for x in cell_text(row)]
+            normalized = [re.sub(r"[^a-z0-9]+", "", x) for x in headers]
+            if not {"span", "mat", "runs", "hs", "ave"}.issubset(set(normalized)):
+                continue
+            header_index = ri
+            for i, h in enumerate(normalized):
+                if h in {"grouping", "group", "category"}: indexes["group"] = i
+                elif h == "span": indexes["span"] = i
+                elif h in {"mat", "matches"}: indexes["matches"] = i
+                elif h in {"inns", "innings"}: indexes["innings"] = i
+                elif h in {"no", "notout", "notouts"}: indexes["notOuts"] = i
+                elif h in {"runs", "r"}: indexes["runs"] = i
+                elif h in {"hs", "highscore"}: indexes["highestScore"] = i
+                elif h in {"ave", "avg", "batav"}: indexes["average"] = i
+                elif h in {"bf", "balls"}: indexes["balls"] = i
+                elif h in {"sr", "strikerate"}: indexes["strikeRate"] = i
+                elif h in {"100", "100s"}: indexes["hundreds"] = i
+                elif h in {"50", "50s"}: indexes["fifties"] = i
+                elif h in {"0", "ducks"}: indexes["ducks"] = i
+                elif h in {"4s", "fours"}: indexes["fours"] = i
+                elif h in {"6s", "sixes"}: indexes["sixes"] = i
+            break
+        if header_index is None:
+            continue
+        for row in table[header_index + 1:]:
+            values = cell_text(row)
+            if len(values) <= max(indexes.values(), default=0):
+                continue
+            group_index = indexes.get("group", 0)
+            group = values[group_index].strip()
+            # Ignore repeated headings and blank spacer rows.
+            if not group or re.sub(r"[^a-z0-9]+", "", group.casefold()) in wanted:
+                continue
+            item = {"group": group}
+            for key, i in indexes.items():
+                if key == "group" or i >= len(values):
+                    continue
+                val = values[i]
+                item[key] = val if key == "highestScore" else (val if key == "span" else number(val))
+            if item.get("runs") is None or item.get("matches") is None:
+                continue
+            key = (item.get("group"), item.get("span"), item.get("matches"), item.get("runs"))
+            if key not in seen:
+                seen.add(key)
+                output.append(item)
+    return output
+
 def parse_innings_page(page, fmt):
     tables = parse_tables(page)
     table, header_index, headers = find_innings_table(tables)
@@ -218,6 +275,7 @@ def scrape_format(fmt, match_class):
     first_page = fetch(stats_url(match_class, "innings", 1))
     summary = parse_career_summary(first_page)
     innings = parse_innings_page(first_page, fmt)
+    career_breakdown = parse_career_breakdown(first_page)
     for page_number in range(2, 16):
         if len(innings) < (page_number - 1) * 40:
             break
@@ -235,7 +293,7 @@ def scrape_format(fmt, match_class):
         time.sleep(0.3)
     if not summary and not innings:
         raise RuntimeError("ESPNcricinfo Statsguru returned no recognizable " + fmt + " tables")
-    return {"summary": summary, "innings": innings, "inningsCount": len(innings),
+    return {"summary": summary, "careerBreakdown": career_breakdown, "innings": innings, "inningsCount": len(innings),
             "source": "ESPNcricinfo Statsguru",
             "careerUrl": stats_url(match_class, "innings"),
             "inningsUrl": stats_url(match_class, "innings")}
@@ -259,10 +317,13 @@ def main():
                 merged = dict(previous)
                 if result.get("summary"):
                     merged["summary"] = result["summary"]
+                if result.get("careerBreakdown"):
+                    merged["careerBreakdown"] = result["careerBreakdown"]
                 merged["checkedAt"] = stamp()
                 new_formats[fmt] = merged
             success.append(fmt)
             print(fmt + ": career summary " + ("ok" if result.get("summary") else "not parsed")
+                  + "; career split rows " + str(len(result.get("careerBreakdown", [])))
                   + "; innings rows " + str(len(result.get("innings", []))))
         except Exception as exc:
             errors.append(fmt + ": " + str(exc))
