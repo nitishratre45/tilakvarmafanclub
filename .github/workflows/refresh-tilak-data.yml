@@ -13,7 +13,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: refresh-tilak-career-data
+  group: refresh-tilak-shared-site-data
   cancel-in-progress: false
 jobs:
   refresh:
