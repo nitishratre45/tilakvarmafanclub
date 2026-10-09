@@ -254,14 +254,23 @@ def parse_innings_page(page, fmt):
     indexes = {}
     for i, header in enumerate(headers):
         h = header.casefold()
-        if h in {"bat1", "batting", "score", "runs"}: indexes["score"] = i
-        elif "opposition" in h: indexes["opposition"] = i
-        elif "ground" in h: indexes["ground"] = i
-        elif "date" in h: indexes["date"] = i
-        elif h in {"wkts", "wickets"}: indexes["wickets"] = i
-        elif h in {"ct", "catches"}: indexes["catches"] = i
-        elif h in {"st", "stumpings"}: indexes["stumpings"] = i
-        elif h in {"match", "scorecard", "card"}: indexes["match"] = i
+        normalized = re.sub(r"[^a-z0-9]+", "", h)
+        if normalized in {"bat1", "batting", "score", "runs"}: indexes["score"] = i
+        elif "opposition" in normalized: indexes["opposition"] = i
+        elif "ground" in normalized: indexes["ground"] = i
+        elif "date" in normalized: indexes["date"] = i
+        elif normalized in {"mins", "min", "minutes"}: indexes["minutes"] = i
+        elif normalized in {"bf", "balls", "ballsFaced"}: indexes["balls"] = i
+        elif normalized in {"4s", "fours"}: indexes["fours"] = i
+        elif normalized in {"6s", "sixes"}: indexes["sixes"] = i
+        elif normalized in {"sr", "strikerate"}: indexes["strikeRate"] = i
+        elif normalized in {"pos", "position"}: indexes["position"] = i
+        elif normalized in {"dismissal", "howout", "dismissed"}: indexes["dismissal"] = i
+        elif normalized in {"inns", "inn", "innings"}: indexes["innings"] = i
+        elif normalized in {"wkts", "wickets"}: indexes["wickets"] = i
+        elif normalized in {"ct", "catches"}: indexes["catches"] = i
+        elif normalized in {"st", "stumpings"}: indexes["stumpings"] = i
+        elif normalized in {"match", "scorecard", "card"}: indexes["match"] = i
     required = {"score", "opposition", "ground", "date"}
     if not required.issubset(indexes):
         return []
@@ -294,6 +303,14 @@ def parse_innings_page(page, fmt):
                     break
         item = {"date": date, "format": fmt, "opposition": opposition, "ground": ground,
                 "score": raw_score or "—", "runs": runs, "notOut": not_out,
+                "minutes": values[indexes["minutes"]] if "minutes" in indexes and indexes["minutes"] < len(values) else "—",
+                "balls": number(values[indexes["balls"]]) if "balls" in indexes and indexes["balls"] < len(values) else None,
+                "fours": number(values[indexes["fours"]]) if "fours" in indexes and indexes["fours"] < len(values) else None,
+                "sixes": number(values[indexes["sixes"]]) if "sixes" in indexes and indexes["sixes"] < len(values) else None,
+                "strikeRate": number(values[indexes["strikeRate"]]) if "strikeRate" in indexes and indexes["strikeRate"] < len(values) else None,
+                "position": values[indexes["position"]] if "position" in indexes and indexes["position"] < len(values) else "—",
+                "dismissal": values[indexes["dismissal"]] if "dismissal" in indexes and indexes["dismissal"] < len(values) else "—",
+                "innings": values[indexes["innings"]] if "innings" in indexes and indexes["innings"] < len(values) else "—",
                 "wickets": values[indexes["wickets"]] if "wickets" in indexes and indexes["wickets"] < len(values) else "—",
                 "catches": values[indexes["catches"]] if "catches" in indexes and indexes["catches"] < len(values) else "—",
                 "stumpings": values[indexes["stumpings"]] if "stumpings" in indexes and indexes["stumpings"] < len(values) else "—",
