@@ -44,6 +44,52 @@ jobs:
           python -m json.tool data/death-overs.json > /dev/null
           python -m json.tool data/fan-zone.json > /dev/null
           python -m json.tool data/tilak-news.json > /dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("data/site-data.json").read_text(encoding="utf-8"))
+          career = data.get("careerStats", {})
+          t20i = data.get("statsguru", {}).get("formats", {}).get("T20I", {}).get("summary", {})
+          for key in ("t20iRuns", "highestScore", "average", "strikeRate", "fifties", "hundreds"):
+              source_key = {"t20iRuns": "runs"}.get(key, key)
+              if career.get(key) != t20i.get(source_key):
+                  raise SystemExit(
+                      f"Career snapshot mismatch: careerStats.{key}={career.get(key)!r}, "
+                      f"ESPNcricinfo Statsguru T20I {source_key}={t20i.get(source_key)!r}"
+                  )
+
+          for row in data.get("recentInnings", []):
+              runs, balls, strike_rate = row.get("runs"), row.get("balls"), row.get("strikeRate")
+              if isinstance(runs, (int, float)) and isinstance(balls, (int, float)) and balls > 0:
+                  calculated = round(runs * 100 / balls, 2)
+                  if isinstance(strike_rate, (int, float)) and abs(strike_rate - calculated) > 0.02:
+                      raise SystemExit(
+                          f"Recent innings strike-rate mismatch for {row.get('date')} vs "
+                          f"{row.get('opposition')}: saved {strike_rate}, calculated {calculated}"
+                      )
+
+          bowling = data.get("bowlingStats", {}).get("formats", {})
+          for fmt, entry in bowling.items():
+              summary = entry.get("summary")
+              if not summary:
+                  continue
+              balls, overs = summary.get("balls"), summary.get("overs")
+              if isinstance(balls, (int, float)) and isinstance(overs, (int, float)):
+                  # Cricket overs use base-6 notation: 10.3 means 10 overs and 3 balls.
+                  whole, fraction = divmod(round(overs * 10), 10)
+                  if fraction > 5 or whole * 6 + fraction != balls:
+                      raise SystemExit(
+                          f"Bowling overs/balls mismatch for {fmt}: {overs} overs, {balls} balls"
+                      )
+
+          death = json.loads(Path("data/death-overs.json").read_text(encoding="utf-8"))
+          if not isinstance(death.get("innings"), list) and not isinstance(death.get("formats"), dict):
+              raise SystemExit("Death Overs data must expose innings or format datasets")
+          if not death.get("updatedAt"):
+              raise SystemExit("Death Overs data is missing updatedAt")
+          print("Cross-checked career snapshot, recent strike rates, bowling overs and archive timestamps.")
+          PY
       - name: Verify feature modules are linked
         run: |
           grep -q 'assets/features.js' index.html
