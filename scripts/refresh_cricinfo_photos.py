@@ -180,9 +180,8 @@ def main():
         result.setdefault("source", "ESPNcricinfo")
         result.setdefault("sourceUrl", PHOTOS_URL)
         result.setdefault("items", [])
-        if not result["items"]:
-            OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
-            raise SystemExit("No previous gallery available to preserve")
+        result.setdefault("status", "source-unavailable")
+        result.setdefault("updatedAt", "")
     OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
 
 if __name__ == "__main__":
