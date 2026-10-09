@@ -20,7 +20,7 @@ jobs:
           python-version: "3.12"
       - name: Refresh recent innings from Cricsheet
         run: python scripts/refresh_data.py
-      - name: Commit updated data when changed
+      - name: Refresh death-overs calculator dataset\n        run: python scripts/refresh_death_overs.py\n      - name: Commit updated data when changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
