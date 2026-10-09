@@ -49,15 +49,26 @@ def score(value):
     return int(match.group(1)), bool(match.group(2))
 
 class TableParser(HTMLParser):
+    """Extract HTML tables while safely ignoring nested-table structure."""
     def __init__(self):
         super().__init__()
-        self.tables, self.table, self.row, self.cell = [], None, None, None
+        self.tables = []
+        self.table = None
+        self.row = None
+        self.cell = None
+        self.table_depth = 0
         self.in_anchor = False
+
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if tag == "table":
-            self.table = []
-        elif self.table is not None and tag == "tr":
+            if self.table_depth == 0:
+                self.table = []
+            self.table_depth += 1
+            return
+        if self.table_depth != 1:
+            return
+        if tag == "tr":
             self.row = []
         elif self.row is not None and tag in ("td", "th"):
             self.cell = {"text": [], "links": []}
@@ -66,23 +77,32 @@ class TableParser(HTMLParser):
             if href:
                 self.cell["links"].append(urllib.parse.urljoin("https://stats.espncricinfo.com", href))
             self.in_anchor = True
+
     def handle_data(self, data):
         if self.cell is not None:
             self.cell["text"].append(data)
+
     def handle_endtag(self, tag):
         if tag == "a":
             self.in_anchor = False
-        elif tag in ("td", "th") and self.cell is not None:
+            return
+        if tag == "table":
+            if self.table_depth > 0:
+                self.table_depth -= 1
+                if self.table_depth == 0 and self.table is not None:
+                    if self.table:
+                        self.tables.append(self.table)
+                    self.table = None
+            return
+        if self.table_depth != 1:
+            return
+        if tag in ("td", "th") and self.cell is not None:
             self.row.append({"text": clean(" ".join(self.cell["text"])), "links": self.cell["links"]})
             self.cell = None
         elif tag == "tr" and self.row is not None:
             if self.row:
                 self.table.append(self.row)
             self.row = None
-        elif tag == "table" and self.table is not None:
-            if self.table:
-                self.tables.append(self.table)
-            self.table = None
 
 def fetch(url):
     req = urllib.request.Request(url, headers=HEADERS)
