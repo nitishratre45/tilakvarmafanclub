@@ -212,16 +212,19 @@ def parse_innings_page(page, fmt):
     return rows
 
 def scrape_format(fmt, match_class):
-    summary_page = fetch(stats_url(match_class, "career"))
-    summary = parse_career_summary(summary_page)
-    innings = []
-    # Statsguru uses 50-row pages for long career lists. Continue while rows are found.
-    for page_number in range(1, 16):
+    # The legacy player page's supported view is "innings". It also includes
+    # the Career averages table above the match-by-match list.
+    first_page = fetch(stats_url(match_class, "innings", 1))
+    summary = parse_career_summary(first_page)
+    innings = parse_innings_page(first_page, fmt)
+    for page_number in range(2, 16):
+        if len(innings) < (page_number - 1) * 40:
+            break
         page = fetch(stats_url(match_class, "innings", page_number))
         batch = parse_innings_page(page, fmt)
         if not batch:
             break
-        existing = { (x["date"], x["opposition"], x["ground"], x["score"]) for x in innings }
+        existing = {(x["date"], x["opposition"], x["ground"], x["score"]) for x in innings}
         new_rows = [x for x in batch if (x["date"], x["opposition"], x["ground"], x["score"]) not in existing]
         if not new_rows:
             break
@@ -233,9 +236,8 @@ def scrape_format(fmt, match_class):
         raise RuntimeError("ESPNcricinfo Statsguru returned no recognizable " + fmt + " tables")
     return {"summary": summary, "innings": innings, "inningsCount": len(innings),
             "source": "ESPNcricinfo Statsguru",
-            "careerUrl": stats_url(match_class, "career"),
+            "careerUrl": stats_url(match_class, "innings"),
             "inningsUrl": stats_url(match_class, "innings")}
-
 def main():
     if not DATA_FILE.exists():
         raise SystemExit("Missing data/site-data.json")
