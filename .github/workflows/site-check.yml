@@ -55,6 +55,7 @@ jobs:
           node --check assets/statsguru.js
           node --check assets/home-snapshot.js
           node --check assets/section-tabs.js
+          node --check assets/bowling.js
           python -m py_compile scripts/refresh_icc_records.py scripts/refresh_statsguru.py
           python - <<'PY'
           from pathlib import Path
@@ -80,6 +81,9 @@ jobs:
           grep -q 'assets/statsguru.js' index.html
           grep -q 'assets/home-snapshot.js' index.html
           grep -q 'assets/section-tabs.js' index.html
+          grep -q 'assets/bowling.js' index.html
+          grep -q 'data-bowling-format="List A"' index.html
+          grep -q 'data-bowling-format="FC"' index.html
           grep -q 'id="home-snapshot"' index.html
           grep -q 'data-stats-tab="statsguru"' index.html
           grep -q 'id="icc-ranking-t20i"' index.html
