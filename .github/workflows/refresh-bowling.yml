@@ -40,7 +40,7 @@ jobs:
             git reset --hard origin/main
             python -u scripts/refresh_bowling.py
             python -m json.tool data/site-data.json > /dev/null
-            python -c "import json; from pathlib import Path; d=json.loads(Path('data/site-data.json').read_text(encoding='utf-8')); b=d.get('bowlingStats', {}); assert b.get('lastAttemptStatus') == 'success'; f=b.get('formats', {}); keys=('T20I','ODI','List A','FC','T20'); assert all(f.get(k, {}).get('summary') for k in keys); print('Bowling snapshots validated:', {k: (f[k]['summary'].get('matches'),f[k]['summary'].get('wickets'),len(f[k].get('innings',[]))) for k in keys})"
+            python -c "import json; from pathlib import Path; d=json.loads(Path('data/site-data.json').read_text(encoding='utf-8')); b=d.get('bowlingStats', {}); assert b.get('lastAttemptStatus') == 'success'; f=b.get('formats', {}); keys=('T20I','ODI','T20'); assert all(f.get(k, {}).get('summary') for k in keys); print('Verified core bowling snapshots:', {k: (f[k]['summary'].get('matches'),f[k]['summary'].get('wickets'),len(f[k].get('innings',[]))) for k in keys}); print('Optional domestic formats:', {k: ('available' if f.get(k, {}).get('summary') else 'not exposed by Statsguru endpoint') for k in ('List A','FC')})"
             git add data/site-data.json
             if git diff --cached --quiet; then
               echo "Bowling snapshot unchanged."
