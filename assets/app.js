@@ -64,8 +64,6 @@
         )
         .join("");
     }
-    const src = $("#career-source");
-    if (src) src.remove();
     set(
       "career-updated",
       "Last update: " +
