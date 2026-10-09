@@ -235,3 +235,18 @@ img{max-width:100%}
 .poster-preview canvas{display:block;width:100%;height:auto;aspect-ratio:4/5;background:#f7f8fc}
 @media(max-width:900px){.search-results{grid-template-columns:1fr 1fr}.milestone-grid{grid-template-columns:1fr 1fr}.explorer-summary,.analytics-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.search-top{display:block}.search-top p{margin-top:14px}.search-results{grid-template-columns:1fr}.explorer-toolbar{grid-template-columns:1fr}.explorer-summary,.analytics-grid{grid-template-columns:1fr 1fr}.bar-row{grid-template-columns:95px 1fr 28px;gap:8px}.bar-row>span{font-size:8px}.milestone-grid,.fan-zone-grid,.poster-layout{grid-template-columns:1fr}.analytics-head{align-items:flex-start;flex-direction:column}.analytics-head>span{text-align:left}.poster-controls{padding:17px}}
+
+
+/* Admin-only source provenance; source URLs are intentionally absent from public cards */
+.admin-source-map{margin-top:18px;padding:clamp(18px,3vw,28px);background:#0a1a2e;border:1px solid #263d59;color:#eef4ff}
+.admin-source-map h2{font:800 clamp(23px,3vw,34px)/1.1 var(--display);margin:10px 0}
+.admin-source-map h2 em{color:var(--orange);font-style:normal}
+.source-map-content{margin-top:16px}
+.source-map-list{display:grid;gap:8px}
+.source-map-item{display:grid;grid-template-columns:minmax(170px,.8fr) minmax(0,1.5fr);gap:12px;align-items:center;padding:14px;background:#10243c;border:1px solid #263d59}
+.source-map-item strong,.source-map-item small{display:block}
+.source-map-item strong{font-size:12px;color:#f3f7ff}
+.source-map-item small{margin-top:5px;color:#8ea7c4;font-size:10px}
+.source-map-item a{color:#9fc6ff;font:10px/1.7 var(--mono);overflow-wrap:anywhere;text-decoration:none}
+.source-map-item a:hover{text-decoration:underline}
+@media(max-width:650px){.source-map-item{grid-template-columns:1fr;gap:8px}}
