@@ -9,6 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 FILE=ROOT/"data"/"site-data.json"
 ESPN="https://www.espncricinfo.com/cricketers/tilak-varma-1170265"
 ICC="https://www.icc-cricket.com/rankings/70761/tilak-varma"
+CRICBUZZ="https://www.cricbuzz.com/profiles/14504/tilak-varma/all-matches/batting"
 HEAD={"User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36 TilakVarmaFC/1.0"}
 class Tables(HTMLParser):
  def __init__(self): super().__init__(); self.tables=[]; self.t=None; self.r=None; self.c=None
@@ -55,9 +56,42 @@ def parse(url):
     if len(vals)>i:rec[k]=vals[i]
    found[fmt]=rec
  return found
+def parse_overall_t20():
+ try: page=fetch(CRICBUZZ)
+ except Exception as e:
+  print("Cricbuzz overall T20 unavailable:",e);return None
+ p=Tables();p.feed(page);rows=[row for table in p.tables for row in table]
+ total={"matches":0,"innings":0,"notOuts":0,"runs":0,"balls":0,"hundreds":0,"fifties":0,"fours":0,"sixes":0}
+ best=-1;best_text=None;seen=set()
+ for row in rows:
+  if len(row)<3:continue
+  fmt=clean(row[2]).casefold()
+  if fmt not in {"t20","t20i","it20","international t20"}:continue
+  score=clean(row[0]).replace(",","")
+  m=re.search(r"^(\d+)(\*)?\s*\(\s*(\d+)\s*\)",score)
+  if not m:continue
+  runs,notout,balls=int(m.group(1)),bool(m.group(2)),int(m.group(3))
+  total["innings"]+=1;total["runs"]+=runs;total["balls"]+=balls
+  total["notOuts"]+=int(notout);total["hundreds"]+=int(runs>=100);total["fifties"]+=int(50<=runs<100)
+  if len(row)>6:total["fours"]+=int(number(row[6]) or 0)
+  if len(row)>7:total["sixes"]+=int(number(row[7]) or 0)
+  seen.add("|".join(row[1:5]))
+  if runs>best:best=runs;best_text=str(runs)+("*" if notout else "")
+ total["matches"]=len(seen)
+ total["average"]=round(total["runs"]/(total["innings"]-total["notOuts"]),2) if total["innings"]>total["notOuts"] else None
+ total["strikeRate"]=round(total["runs"]*100/total["balls"],2) if total["balls"] else None
+ total["highestScore"]=best_text or "—";total["source"]=CRICBUZZ
+ return total if total["innings"] else None
 def main():
  data=json.loads(FILE.read_text(encoding="utf-8"))
  formats=data.setdefault("careerFormats",{})
+ overall=parse_overall_t20()
+ if overall:
+  current=formats.get("Overall T20 (all competitions)",{})
+  if int(overall.get("runs",0)) >= int(current.get("runs",0) or 0):
+   formats["Overall T20 (all competitions)"]=overall
+   print("Updated overall T20 from Cricbuzz:",overall["runs"],"runs across",overall["innings"],"innings")
+  else: print("Keeping newer saved overall T20 total; Cricbuzz list appears incomplete/stale.")
  scraped=parse(ESPN)
  # ICC page has a format summary; merge only rows parsed as a proper table.
  # ICC international figures are preloaded in the JSON fallback; only use ESPN table parsing here.
