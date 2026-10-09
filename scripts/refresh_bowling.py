@@ -15,7 +15,7 @@ from refresh_statsguru import clean, number, parse_tables, cell_text, fetch, sta
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "data" / "site-data.json"
-FORMATS = {"T20I": 3, "ODI": 2, "T20": 6, "First-class": 4, "List A": 5}
+FORMATS = {"T20I": 3, "ODI": 2, "T20": 6}
 
 def stamp():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
