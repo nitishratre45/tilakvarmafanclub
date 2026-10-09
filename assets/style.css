@@ -106,47 +106,7 @@ img{max-width:100%}
  footer{gap:12px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
-
-
-/* Admin Studio */
-.admin-body{min-height:100vh;background:radial-gradient(ellipse at 80% 0%,#102944 0,transparent 35%),var(--bg)}
-.admin-shell{width:min(1100px,88vw);margin:0 auto;padding:55px 0 80px}
-.admin-intro{padding:20px 0 28px}
-.admin-intro h1{font:900 clamp(54px,8vw,96px)/.9 var(--display);letter-spacing:-.035em;margin:20px 0}
-.admin-intro h1 em,.admin-card h2 em{font-style:normal;color:var(--orange)}
-.admin-intro>p{max-width:760px;color:var(--muted);font-size:13px;line-height:1.9}
-.admin-warning{max-width:850px;margin-top:22px;padding:16px 18px;background:#171d29;border-left:3px solid var(--orange);color:#b8c5d6;font-size:11px;line-height:1.9}
-.admin-warning strong{color:var(--orange)}
-.admin-card{margin-top:18px;padding:clamp(20px,3.5vw,34px);background:linear-gradient(145deg,#102036,#0a1524);border:1px solid var(--line);box-shadow:0 20px 55px #0002}
-.admin-card-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:24px}
-.admin-kicker{color:var(--cyan);font:10px var(--mono);letter-spacing:.14em}
-.admin-card h2{font:800 clamp(30px,4vw,44px)/1 var(--display);margin:10px 0 0}
-.admin-lock{padding:8px 10px;border:1px solid #7ce5f244;color:var(--cyan);font:9px var(--mono);letter-spacing:.08em}
-.admin-label{display:block;margin:0 0 9px;color:#a9b8ca;font:10px var(--mono);letter-spacing:.1em;text-transform:uppercase}
-.admin-body input,.admin-body select,.admin-json{width:100%;min-width:0;border:1px solid #31445d;background:#07101f;color:var(--white);border-radius:2px;padding:13px 14px;font:12px var(--mono);outline:none}
-.admin-body input:focus,.admin-body select:focus,.admin-json:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #7ce5f214}
-.admin-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
-.admin-button{min-height:43px;padding:12px 15px;border:1px solid #52647a;background:transparent;color:var(--white);font:800 10px var(--mono);letter-spacing:.04em;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease}
-.admin-button:hover:not(:disabled){transform:translateY(-2px);border-color:var(--cyan)}
-.admin-button.primary{background:var(--orange);border-color:var(--orange);color:#101522}
-.admin-button.primary:hover:not(:disabled){background:#ff875d;border-color:#ff875d}
-.admin-button.ghost{background:#ffffff05}
-.admin-button:disabled{opacity:.45;cursor:not-allowed}
-.admin-status{margin:16px 0 0;padding:12px 14px;border:1px solid var(--line);color:var(--muted);font:11px/1.7 var(--mono);overflow-wrap:anywhere}
-.admin-status.success{color:var(--cyan);border-color:#7ce5f244}
-.admin-status.error{color:#ff9a81;border-color:#ff6a3555}
-.admin-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.admin-editor-toolbar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:18px 0 8px;color:var(--muted);font:10px var(--mono)}
-.admin-json{display:block;min-height:460px;resize:vertical;line-height:1.65;tab-size:2}
-.admin-actions-bottom{justify-content:flex-end}
-.admin-footnote,.admin-help p{color:var(--muted);font-size:11px;line-height:1.9}
-.admin-help h2{margin:10px 0 15px}
-.admin-help ul{padding-left:20px;color:#b6c4d5;font-size:12px;line-height:2}
-.admin-help li+li{margin-top:6px}
-.admin-help b{color:var(--cyan)}
-.admin-help a{display:inline-block;margin-top:6px;color:var(--orange);font:10px var(--mono)}
-.admin-body footer{margin-top:0}
-@media(max-width:600px){.admin-shell{width:90vw;padding:35px 0 55px}.admin-card-head{align-items:flex-start;flex-direction:column}.admin-fields{grid-template-columns:1fr}.admin-json{min-height:360px;font-size:11px}.admin-actions-bottom{justify-content:stretch}.admin-actions-bottom .admin-button{flex:1}.admin-intro h1{font-size:58px}.admin-body footer>span{display:none}}
+@media(max-width:600px){}
 
 
 /* India theme + interactive feature modules */
@@ -235,21 +195,7 @@ img{max-width:100%}
 .poster-preview canvas{display:block;width:100%;height:auto;aspect-ratio:4/5;background:#f7f8fc}
 @media(max-width:900px){.search-results{grid-template-columns:1fr 1fr}.milestone-grid{grid-template-columns:1fr 1fr}.explorer-summary,.analytics-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.search-top{display:block}.search-top p{margin-top:14px}.search-results{grid-template-columns:1fr}.explorer-toolbar{grid-template-columns:1fr}.explorer-summary,.analytics-grid{grid-template-columns:1fr 1fr}.bar-row{grid-template-columns:95px 1fr 28px;gap:8px}.bar-row>span{font-size:8px}.milestone-grid,.fan-zone-grid,.poster-layout{grid-template-columns:1fr}.analytics-head{align-items:flex-start;flex-direction:column}.analytics-head>span{text-align:left}.poster-controls{padding:17px}}
-
-
-/* Admin-only source provenance; source URLs are intentionally absent from public cards */
-.admin-source-map{margin-top:18px;padding:clamp(18px,3vw,28px);background:#0a1a2e;border:1px solid #263d59;color:#eef4ff}
-.admin-source-map h2{font:800 clamp(23px,3vw,34px)/1.1 var(--display);margin:10px 0}
-.admin-source-map h2 em{color:var(--orange);font-style:normal}
-.source-map-content{margin-top:16px}
-.source-map-list{display:grid;gap:8px}
-.source-map-item{display:grid;grid-template-columns:minmax(170px,.8fr) minmax(0,1.5fr);gap:12px;align-items:center;padding:14px;background:#10243c;border:1px solid #263d59}
-.source-map-item strong,.source-map-item small{display:block}
-.source-map-item strong{font-size:12px;color:#f3f7ff}
-.source-map-item small{margin-top:5px;color:#8ea7c4;font-size:10px}
-.source-map-item a{color:#9fc6ff;font:10px/1.7 var(--mono);overflow-wrap:anywhere;text-decoration:none}
-.source-map-item a:hover{text-decoration:underline}
-@media(max-width:650px){.source-map-item{grid-template-columns:1fr;gap:8px}}
+@media(max-width:650px){}
 
 
 /* Refined editorial layout: compact search, restrained labels, less template-like chrome */
@@ -272,9 +218,6 @@ img{max-width:100%}
 .section-heading>p{max-width:390px;font-size:12px;line-height:1.65}
 .profile-section{padding-top:clamp(36px,5vw,70px)!important;padding-bottom:clamp(38px,5vw,70px)!important}
 @media(max-width:700px){.search-section{padding:16px 18px!important}.search-top{display:flex;align-items:flex-start;flex-direction:column;gap:8px}.search-top h2{font-size:26px!important}.search-top p{max-width:100%}.search-box input{font-size:12px}.search-box kbd{display:none}}
-
-.source-map-notice{margin:0 0 14px;padding:13px 15px;border-left:3px solid #ff9933;background:#10243c;color:#b8c9de;font-size:11px;line-height:1.7}
-.source-map-notice strong{color:#ffb15c}
 
 
 /* Final visual system: one consistent navy canvas, warm India-orange accent */
@@ -961,7 +904,7 @@ option{background:#0d1a2c;color:#f4f7fb}
 :root[data-theme-resolved="light"] .topbar nav{background:var(--panel);color:var(--white)}
 :root[data-theme-resolved="light"] .profile-section,:root[data-theme-resolved="light"] .home-snapshot-section,:root[data-theme-resolved="light"] .stats-section,:root[data-theme-resolved="light"] .statsguru-section,:root[data-theme-resolved="light"] .records-section,:root[data-theme-resolved="light"] .fan-zone-section,:root[data-theme-resolved="light"] .innings-section,:root[data-theme-resolved="light"] .tilak-news-section,:root[data-theme-resolved="light"] .settings-section,:root[data-theme-resolved="light"] .about-section{background:var(--bg);color:var(--white)}
 :root[data-theme-resolved="light"] .hero{background:radial-gradient(ellipse at 75% 45%,rgba(32,120,155,.10),transparent 48%),linear-gradient(115deg,#f4f7fb,#eaf0f7)}
-:root[data-theme-resolved="light"] .stat-card,:root[data-theme-resolved="light"] .home-mini-stat,:root[data-theme-resolved="light"] .home-format-card,:root[data-theme-resolved="light"] .home-snapshot-block,:root[data-theme-resolved="light"] .statsguru-panel,:root[data-theme-resolved="light"] .statsguru-sourcebar,:root[data-theme-resolved="light"] .settings-card,:root[data-theme-resolved="light"] .fan-card,:root[data-theme-resolved="light"] .milestone-card,:root[data-theme-resolved="light"] .analytics-metric,:root[data-theme-resolved="light"] .search-box,:root[data-theme-resolved="light"] .search-result,:root[data-theme-resolved="light"] .poster-controls,:root[data-theme-resolved="light"] .admin-source-map,:root[data-theme-resolved="light"] .source-map-item,:root[data-theme-resolved="light"] .source-map-notice,:root[data-theme-resolved="light"] .cricinfo-gallery,:root[data-theme-resolved="light"] .cricinfo-photo-card,:root[data-theme-resolved="light"] .tilak-news-card,:root[data-theme-resolved="light"] .gallery-live-fallback{background:#fff;color:var(--white);border-color:var(--line)}
+:root[data-theme-resolved="light"] .stat-card,:root[data-theme-resolved="light"] .home-mini-stat,:root[data-theme-resolved="light"] .home-format-card,:root[data-theme-resolved="light"] .home-snapshot-block,:root[data-theme-resolved="light"] .statsguru-panel,:root[data-theme-resolved="light"] .statsguru-sourcebar,:root[data-theme-resolved="light"] .settings-card,:root[data-theme-resolved="light"] .fan-card,:root[data-theme-resolved="light"] .milestone-card,:root[data-theme-resolved="light"] .analytics-metric,:root[data-theme-resolved="light"] .search-box,:root[data-theme-resolved="light"] .search-result,:root[data-theme-resolved="light"] .poster-controls,:root[data-theme-resolved="light"] .cricinfo-gallery,:root[data-theme-resolved="light"] .cricinfo-photo-card,:root[data-theme-resolved="light"] .tilak-news-card,:root[data-theme-resolved="light"] .gallery-live-fallback{background:#fff;color:var(--white);border-color:var(--line)}
 :root[data-theme-resolved="light"] .statsguru-format-tabs button,:root[data-theme-resolved="light"] .statsguru-category-grid button,:root[data-theme-resolved="light"] .player-analysis-filter,:root[data-theme-resolved="light"] .player-analysis-toggle,:root[data-theme-resolved="light"] .player-analysis-content,:root[data-theme-resolved="light"] .poll-option,:root[data-theme-resolved="light"] .fan-link,:root[data-theme-resolved="light"] .ticker,:root[data-theme-resolved="light"] .data-line{background:var(--panel2);color:var(--white);border-color:var(--line)}
 :root[data-theme-resolved="light"] h1,:root[data-theme-resolved="light"] h2,:root[data-theme-resolved="light"] h3,:root[data-theme-resolved="light"] h4,:root[data-theme-resolved="light"] p,:root[data-theme-resolved="light"] label,:root[data-theme-resolved="light"] summary,:root[data-theme-resolved="light"] .profile-copy,:root[data-theme-resolved="light"] .home-snapshot-blockhead,:root[data-theme-resolved="light"] .home-format-heading,:root[data-theme-resolved="light"] .analytics-head,:root[data-theme-resolved="light"] .official-records-head{color:var(--white)}
 :root[data-theme-resolved="light"] .eyebrow,:root[data-theme-resolved="light"] .stat-label,:root[data-theme-resolved="light"] .stat-note,:root[data-theme-resolved="light"] .activity-empty,:root[data-theme-resolved="light"] .home-snapshot-foot,:root[data-theme-resolved="light"] .home-format-heading>span,:root[data-theme-resolved="light"] .profile-facts small,:root[data-theme-resolved="light"] .profile-teams,:root[data-theme-resolved="light"] .feature-note,:root[data-theme-resolved="light"] .gallery-attribution,:root[data-theme-resolved="light"] .gallery-heading>span,:root[data-theme-resolved="light"] .tilak-news-meta,:root[data-theme-resolved="light"] .player-analysis-help,:root[data-theme-resolved="light"] .statsguru-note{color:var(--muted)}
