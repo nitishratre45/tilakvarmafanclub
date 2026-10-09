@@ -130,9 +130,20 @@ def main():
  else: print("No parseable ESPN career table found; retaining existing stats.")
  t=formats.get("T20I",{})
  if t.get("runs") is not None:
-  data["careerStats"]={"t20iRuns":t["runs"],"highestScore":t.get("highestScore","120*"),
-   "average":t.get("average",44.08),"strikeRate":t.get("strikeRate",145.06),
-   "fifties":t.get("fifties",10),"hundreds":t.get("hundreds",2)}
+  # Do not inject hard-coded career figures when a source row omits a field.
+  # Keep the last saved verified value until ESPNcricinfo provides that field.
+  previous=data.get("careerStats",{})
+  snapshot={"t20iRuns":t["runs"]}
+  for source_key,target_key in (
+   ("highestScore","highestScore"),("average","average"),
+   ("strikeRate","strikeRate"),("fifties","fifties"),("hundreds","hundreds")
+  ):
+   value=t.get(source_key)
+   if value is not None and value != "":
+    snapshot[target_key]=value
+   elif previous.get(target_key) is not None:
+    snapshot[target_key]=previous[target_key]
+  data["careerStats"]=snapshot
 
  data.setdefault("lastChecked", datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
  FILE.write_text(json.dumps(data,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
