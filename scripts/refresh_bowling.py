@@ -72,7 +72,7 @@ def parse_summary(page):
                 result = {}
                 for key, j in cols.items():
                     value = values[j]
-                    result[key] = numeric_or_text(value) if key in {"bestBowling", "bestMatchBowling"} else number(value)
+                    result[key] = (clean(value) or None) if key in {"bestBowling", "bestMatchBowling"} else number(value)
                 if result.get("matches") is not None and result.get("wickets") is not None:
                     if result.get("balls") is None and result.get("overs") is not None:
                         result["balls"] = overs_to_balls(result["overs"])
@@ -120,7 +120,7 @@ def parse_breakdown(page):
                 item = {}
                 for name, j in cols.items():
                     val = values[j]
-                    item[name] = numeric_or_text(val) if name in {"group", "span", "bestBowling", "bestMatchBowling"} else number(val)
+                    item[name] = (clean(val) or None) if name in {"group", "span", "bestBowling", "bestMatchBowling"} else number(val)
                 if item.get("wickets") is None:
                     continue
                 seen.add(key)
@@ -169,7 +169,9 @@ def parse_innings(page, fmt):
                 if name not in cols:
                     continue
                 value = values[cols[name]]
-                item[name] = numeric_or_text(value) if name in {"overs", "figures"} else number(value)
+                item[name] = (clean(value) or None) if name == "figures" else number(value)
+            if not any(item.get(field) is not None for field in ("overs", "maidens", "runsConceded", "wickets")):
+                continue
             if item.get("overs") is not None:
                 item["balls"] = overs_to_balls(item["overs"])
             if item.get("figures") is None and item.get("wickets") is not None and item.get("runsConceded") is not None:
@@ -193,7 +195,7 @@ def scrape(fmt, match_class):
     summary = parse_summary(innings_page)
     innings = parse_innings(innings_page, fmt)
     breakdown = parse_breakdown(innings_page)
-    if not summary or (not innings and fmt != "ODI"):
+    if not summary or (not innings and fmt != "ODI") or len(breakdown) <= 1:
         summary_page = fetch(stats_url(match_class, None, 1, "bowling"))
         summary = parse_summary(summary_page) or summary
         split = parse_breakdown(summary_page)
