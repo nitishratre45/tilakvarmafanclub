@@ -87,6 +87,21 @@
     saveButton.disabled = true;
     setStatus("Valid JSON. Committing changes to GitHub…");
     try {
+      if (loaded.path === "data/site-data.json") {
+        const now = new Date();
+        const stamp = now.toISOString().replace("T", " ").slice(0, 16) + " UTC";
+        const day = now.toISOString().slice(0, 10);
+        parsed.lastUpdated = stamp;
+        parsed.activityLog = Array.isArray(parsed.activityLog) ? parsed.activityLog : [];
+        parsed.activityLog.unshift({
+          date: day,
+          category: "ADMIN",
+          title: "Site data edited",
+          description: "Profile, statistics or match-feed data was updated through Admin Studio.",
+          source: "https://github.com/" + REPO
+        });
+        parsed.activityLog = parsed.activityLog.slice(0, 12);
+      }
       // Refresh SHA just before writing so we don't overwrite a newer workflow commit.
       const latest = await api(loaded.path + "?ref=" + BRANCH);
       const message = $("commit-message").value.trim() || "chore: update Tilak Varma FC data";
