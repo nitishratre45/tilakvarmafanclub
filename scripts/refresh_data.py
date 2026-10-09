@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Refresh Tilak Varma fan-site data from public cricket sources.
 
-Primary recent-form source: ICC player profile page (HTML parsing is best-effort).
-Fallback recent-form source: Cricsheet men's T20I JSON archive.
-Profile image: Open Graph image from the official Mumbai Indians profile page.
-Career totals are updated only when recognizable labels are found; otherwise the
-last known values are preserved. Never publishes empty data over existing rows.
+Recent innings are refreshed from the Cricsheet men's T20I JSON archive when it
+contains newer player-specific deliveries. ICC is not used as a career-stat or
+recent-scorecard source here; official rankings and records have their own workflow.
+The ICC profile is used only to refresh the player's official headshot URL.
+Career totals are refreshed separately from ESPNcricinfo; saved values are kept
+when a public source is unavailable. Never publishes empty data over existing rows.
 """
 import html
 import io
@@ -155,12 +156,13 @@ def main():
     photo = official_profile_image()
     if photo:
         data["profile"]["photo"] = photo
-    rows = scrape_icc_recent()
-    if not rows:
-        try:
-            rows = cricsheet_recent()
-        except Exception as exc:
-            print(f"Cricsheet fallback failed: {exc}")
+    # Keep ICC limited to official rankings/records and profile metadata.
+    # Recent scorecard rows must come from match-level delivery data, not a ranking page.
+    rows = []
+    try:
+        rows = cricsheet_recent()
+    except Exception as exc:
+        print(f"Cricsheet recent-form refresh unavailable: {exc}")
     if rows:
         existing = data.get("recentInnings", [])
         def sortable_date(row):
@@ -187,9 +189,9 @@ def main():
     data["lastChecked"] = checked_at
     data["lastRefreshStatus"] = "available" if (rows or photo) else "source-unavailable"
     data["dataNote"] = (
-        "Recent form and the player headshot are refreshed from the ICC public profile when available, "
-        "with Cricsheet international T20 data as fallback for recent form. Career totals are preserved "
-        "unless a reliable, recognizable source value is available; verify official scorecards before publication."
+        "Recent innings use Cricsheet match-level delivery data when a newer verified row is available. "
+        "The ICC profile is used for official player-image metadata; official rankings and records are refreshed "
+        "separately. Career totals are sourced from ESPNcricinfo Statsguru and preserved when unavailable."
     )
     # Public audit trail: show scheduled refreshes on the homepage activity feed.
     activity = data.setdefault("activityLog", [])
