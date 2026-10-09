@@ -21,7 +21,7 @@ function dashboard(){
  const formatHost=$("format-snapshot"),formats=site.careerFormats||{};
  if(formatHost){const order=["Overall T20 (all competitions)","T20","T20I","ODI","IPL","First-class","List A"];formatHost.innerHTML='<div class="format-snapshot-head"><span class="feature-eyebrow">CAREER BY FORMAT</span><span>ESPNcricinfo · auto-refresh every 12 hours</span></div><div class="format-snapshot-grid">'+order.map(k=>{const f=formats[k]||{};return '<article class="format-snapshot-card"><span>'+esc(k.toUpperCase())+'</span><strong>'+esc(f.runs==null?"—":Number(f.runs).toLocaleString("en-IN"))+'</strong><small>RUNS</small><p>HS '+esc(f.highestScore??"—")+' · AVG '+esc(f.average??"—")+(f.coverage?" · "+esc(f.coverage):f.runs==null?" · AWAITING SOURCE DATA":"")+'</p></article>'}).join("")+'</div>';}
  const last=site.lastChecked||site.lastUpdated||"not recorded";const freshness=$("dashboard-freshness");
- if(freshness)freshness.textContent="Saved data checked: "+last+" · "+scored.length+" numeric innings loaded ("+sum+" runs across listed rows)";
+ if(freshness)freshness.textContent="Last update: "+last+" · "+scored.length+" numeric innings loaded ("+sum+" runs across listed rows)";
 }
 function archiveSnapshot(){
  const host=$("archive-snapshot");if(!host)return;
