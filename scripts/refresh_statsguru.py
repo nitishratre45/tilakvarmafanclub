@@ -156,11 +156,11 @@ def find_innings_table(tables):
     return None, None, None
 
 def parse_career_breakdown(page):
-    """Parse the official Statsguru 'Career summary' split rows (opposition,
-    venue, year, season, home/away, captaincy, tournament, etc.)."""
+    """Parse Statsguru career summary split rows across its adjacent tables."""
     wanted = {"span", "mat", "inns", "no", "runs", "hs", "ave", "bf", "sr", "100", "50", "0", "4s", "6s"}
     output = []
     seen = set()
+    last_indexes = None
     for table in parse_tables(page):
         header_index = None
         indexes = {}
@@ -186,24 +186,35 @@ def parse_career_breakdown(page):
                 elif h in {"0", "ducks"}: indexes["ducks"] = i
                 elif h in {"4s", "fours"}: indexes["fours"] = i
                 elif h in {"6s", "sixes"}: indexes["sixes"] = i
+            last_indexes = indexes
             break
         if header_index is None:
-            continue
-        for row in table[header_index + 1:]:
+            # Statsguru renders many split groups as separate adjacent tables
+            # without repeating their header. Reuse the official header map.
+            if last_indexes is None:
+                continue
+            indexes = last_indexes
+            data_start = 0
+        else:
+            data_start = header_index + 1
+        max_index = max(indexes.values(), default=0)
+        for row in table[data_start:]:
             values = cell_text(row)
-            if len(values) <= max(indexes.values(), default=0):
+            if len(values) <= max_index:
                 continue
             group_index = indexes.get("group", 0)
             group = values[group_index].strip()
-            # Ignore repeated headings and blank spacer rows.
             if not group or re.sub(r"[^a-z0-9]+", "", group.casefold()) in wanted:
                 continue
-            item = {"group": group}
+            span = values[indexes["span"]].strip() if indexes.get("span", 999) < len(values) else ""
+            if not re.search(r"\d{4}", span):
+                continue
+            item = {"group": group, "span": span}
             for key, i in indexes.items():
-                if key == "group" or i >= len(values):
+                if key in {"group", "span"} or i >= len(values):
                     continue
                 val = values[i]
-                item[key] = val if key == "highestScore" else (val if key == "span" else number(val))
+                item[key] = val if key == "highestScore" else number(val)
             if item.get("runs") is None or item.get("matches") is None:
                 continue
             key = (item.get("group"), item.get("span"), item.get("matches"), item.get("runs"))
