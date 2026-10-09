@@ -17,7 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "data" / "site-data.json"
 PLAYER_ID = "1170265"
-BASE = "https://stats.cricinfo.com/ci/engine/player/" + PLAYER_ID + ".html"
+BASE = "https://stats.espncricinfo.com/ci/engine/player/" + PLAYER_ID + ".html"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -90,12 +90,13 @@ def fetch(url):
         return response.read().decode("utf-8", "replace")
 
 def stats_url(match_class, view, page=1):
-    # Statsguru's legacy engine expects the semicolon-separated filters encoded
-    # as one class query value; unescaped semicolons can return HTTP 400.
-    query = str(match_class) + ";template=results;type=batting;view=" + view
+    # ESPNcricinfo's legacy Statsguru endpoint uses semicolon-separated query
+    # parameters. Encoding the whole filter string as the class value causes
+    # HTTP 400, so preserve the legacy query syntax.
+    query = "class=" + str(match_class) + ";template=results;type=batting;view=" + view
     if page > 1:
         query += ";page=" + str(page)
-    return BASE + "?class=" + urllib.parse.quote(query, safe="")
+    return BASE + "?" + query
 
 def parse_tables(page):
     parser = TableParser()
