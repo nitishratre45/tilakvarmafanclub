@@ -160,7 +160,7 @@ def main():
         # Archive feeds can lag the latest scorecard. Preserve verified newer manual rows.
         newest_existing = max((sortable_date(row) for row in existing), default=datetime.min.date())
         newest_incoming = max((sortable_date(row) for row in rows), default=datetime.min.date())
-        if newest_incoming >= newest_existing:
+        if newest_incoming > newest_existing:
             data["recentInnings"] = rows
             data["recentSource"] = rows[0].get("source", ICC_URL)
             data["recentUpdated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
