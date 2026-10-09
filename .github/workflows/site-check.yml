@@ -51,6 +51,7 @@ jobs:
           node --check assets/features.js
           node --check assets/admin.js
           node --check assets/upgrade.js
+          node --check assets/news.js
           python - <<'PY'
           from pathlib import Path
           html = Path("death-overs/index.html").read_text(encoding="utf-8")
@@ -67,7 +68,11 @@ jobs:
           python -m json.tool data/site-data.json > /dev/null
           python -m json.tool data/death-overs.json > /dev/null
           python -m json.tool data/fan-zone.json > /dev/null
+          python -m json.tool data/tilak-news.json > /dev/null
       - name: Verify feature modules are linked
         run: |
           grep -q 'assets/features.js' index.html
+          grep -q 'assets/news.js' index.html
+          grep -q 'tilak-news-grid' index.html
+          grep -q 'scripts/refresh_tilak_news.py' .github/workflows/refresh-tilak-data.yml
           grep -q 'data/fan-zone.json' assets/features.js
