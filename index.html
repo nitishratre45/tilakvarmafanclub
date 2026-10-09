@@ -23,11 +23,10 @@
 </section>
 
 <section id="stats" class="section stats-section">
-  <div class="section-heading"><div><div class="eyebrow">TILAK VARMA · STATS CENTRE</div><h2>ALL YOUR <em>NUMBERS.</em></h2></div><p>Career summaries, innings explorer and detailed Statsguru tools in one compact section.</p></div>
+  <div class="section-heading"><div><div class="eyebrow">TILAK VARMA · STATS CENTRE</div><h2>ALL YOUR <em>NUMBERS.</em></h2></div><p>Career stats and the ESPNcricinfo player-analysis explorer in one compact section.</p></div>
   <div class="stats-subnav" role="tablist" aria-label="Stats sections">
     <button type="button" class="active" role="tab" aria-selected="true" data-stats-tab="stats-overview">Career stats</button>
-    <button type="button" role="tab" aria-selected="false" data-stats-tab="stats-explorer">Explore</button>
-    <button type="button" role="tab" aria-selected="false" data-stats-tab="statsguru">Statsguru</button>
+    <button type="button" role="tab" aria-selected="false" data-stats-tab="statsguru">Explore</button>
   </div>
   <div id="stats-overview" class="stats-subview">
 <div class="section-heading"><div><div class="eyebrow">CAREER STATS</div><h2>LET THE BAT <em>TALK.</em></h2></div><p>Latest saved T20I career snapshot. Scheduled data checks run every 12 hours; this page does not display a live score feed.</p></div>
@@ -40,16 +39,23 @@
  <article class="stat-card"><span class="stat-label">HUNDREDS</span><strong data-stat="hundreds">2</strong><span class="stat-note">Career snapshot</span></article>
 </div><div class="section-heading format-heading"><div><div class="eyebrow">FORMAT-WISE CAREER</div><h2>EVERY <em>FORMAT.</em></h2></div><p>India internationals, IPL and domestic career snapshots. </p></div><div id="career-formats" class="stats-grid career-formats"></div><div class="data-line"><span><i class="live-dot"></i> DATA STATUS: <b id="data-status">Loading</b></span><span id="career-updated">Snapshot timestamp: —</span></div>
   </div>
-<div id="stats-explorer" class="stats-subview section feature-section"><div class="section-heading"><div><div class="eyebrow">STATS EXPLORER</div><h2>EXPLORE THE <em>NUMBERS.</em></h2></div><p>Filter the stored innings data and compare formats. Values are based on the data currently available on this site.</p></div>
-<div class="explorer-toolbar"><label>Format <select id="explorer-format"><option value="all">All available formats</option></select></label><label>Opponent <select id="explorer-opponent"><option value="all">All opponents</option></select></label><label>Search innings <input id="explorer-query" type="search" placeholder="Team or date"></label></div>
-<div id="explorer-summary" class="explorer-summary"></div><div id="explorer-chart" class="explorer-chart" role="img" aria-label="Recent innings runs chart"></div>
-<div class="table-wrap"><table><thead><tr><th>DATE</th><th>FORMAT</th><th>OPPOSITION</th><th>RUNS</th><th>BALLS</th><th>STRIKE RATE</th></tr></thead><tbody id="explorer-table"><tr><td colspan="6" class="empty">Loading innings…</td></tr></tbody></table></div></div>
 <div id="statsguru" class="stats-subview section statsguru-section">
-  <div class="section-heading"><div><div class="eyebrow">TILAK VARMA · STATSGURU</div><h2>EVERY INNING. <em>EVERY DETAIL.</em></h2></div><p>Official ESPNcricinfo Statsguru batting career figures and match-by-match batting records, refreshed daily.</p></div>
+  <div class="section-heading"><div><div class="eyebrow">PLAYER ANALYSIS · ESPNCRICINFO</div><h2>EXPLORE THE <em>NUMBERS.</em></h2></div><p>Explore Tilak Varma’s verified ESPNcricinfo batting data with player-analysis filters. The saved source snapshot refreshes every 24 hours.</p></div>
   <div class="statsguru-sourcebar"><span><i class="live-dot"></i> SITE DATA · <b id="statsguru-updated">Checking timestamp…</b></span><span>Daily refresh · every 24 hours</span></div>
   <div class="statsguru-format-tabs" role="group" aria-label="Match format"><button class="active" data-sg-format="T20I">T20I</button><button data-sg-format="ODI">ODI</button><button data-sg-format="T20">T20 · all competitions</button><button data-sg-format="All">All formats</button></div>
+  <section class="player-analysis-filter" aria-labelledby="player-analysis-title">
+    <div class="player-analysis-head"><div><div class="eyebrow">STATSGURU ANALYSIS</div><h3 id="player-analysis-title">Player analysis <em>menu / filter</em></h3></div><span class="player-analysis-badge">SOURCE · ESPNCRICINFO</span></div>
+    <div class="player-analysis-grid">
+      <label>Filter category<select id="sg-filter-type"><option value="all">All-round / general</option><option value="opposition">Opposition</option><option value="home-away">Home or away</option><option value="country">Host country / region</option><option value="ground">Ground</option><option value="year">Year</option><option value="season">Season</option><option value="result">Match result</option><option value="position">Batting position</option><option value="innings">Match innings</option><option value="daynight">Day / night</option><option value="series">Series / tournament</option></select></label>
+      <label>Filter value<select id="sg-filter-value"><option value="all">All available values</option></select></label>
+      <label>Starting date<input id="sg-date-from" type="date"></label>
+      <label>Ending date<input id="sg-date-to" type="date"></label>
+    </div>
+    <div class="player-analysis-actions"><button type="button" class="button primary" id="sg-apply-filter">Apply filter ↗</button><button type="button" class="button" id="sg-reset-filter">Reset filter ↻</button><span id="sg-filter-status" aria-live="polite">Choose a category and apply a filter.</span></div>
+    <p class="player-analysis-help">Filters use verified ESPNcricinfo Statsguru career breakdowns and match rows saved in the daily snapshot. Options vary by format; unavailable fields are not guessed.</p>
+  </section>
   <div class="statsguru-category-grid" role="group" aria-label="Statistics category">
-    <button class="active" data-sg-category="batting">Batting career summary</button><button data-sg-category="innings">Batting innings list</button><button data-sg-category="highscores">High scores</button>
+    <button class="active" data-sg-category="batting">Career summary</button><button data-sg-category="innings">Innings by innings</button><button data-sg-category="highscores">High scores</button>
   </div>
   <div class="statsguru-panel"><div class="statsguru-panel-head"><div><div class="eyebrow" id="statsguru-eyebrow">CAREER OVERVIEW</div><h3 id="statsguru-title">Batting career summary</h3></div><span class="statsguru-format-pill" id="statsguru-format-label">T20I</span></div><div id="statsguru-summary" class="statsguru-summary"></div><div class="table-wrap"><table><thead id="statsguru-thead"><tr><th>DATE</th><th>OPPOSITION</th><th>RUNS</th><th>BALLS</th><th>STRIKE RATE</th></tr></thead><tbody id="statsguru-tbody"><tr><td colspan="5" class="empty">Loading available data…</td></tr></tbody></table></div><p id="statsguru-note" class="statsguru-note">Stats reflect saved site data. Historical bowling, fielding and series details appear only when a verified dataset is available.</p></div>
 </div>
