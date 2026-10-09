@@ -508,9 +508,9 @@ main>section[hidden]{display:none!important}
 #main-nav a.active{color:var(--orange);font-weight:800}
 #main-nav a.active:after{content:"";display:block;height:2px;background:var(--orange);margin-top:6px}
 .profile-section .profile-teams,.profile-section .about-links{display:none!important}
-.profile-section{min-height:calc(100vh - 78px);align-content:center}
+.profile-section{min-height:0;align-content:center}
 @media(max-width:760px){
-  .profile-section{min-height:calc(100dvh - 56px);padding:26px 5vw!important;grid-template-columns:82px minmax(0,1fr)!important;gap:12px!important;align-content:start}
+  .profile-section{min-height:0;padding:26px 5vw!important;grid-template-columns:82px minmax(0,1fr)!important;gap:12px!important;align-content:start}
   .profile-photo-wrap{width:82px!important;min-height:110px!important;aspect-ratio:4/5}
   .profile-copy h2{font-size:clamp(28px,8vw,42px)!important;margin:8px 0!important}
   .profile-intro{font-size:11px!important;line-height:1.55!important}
@@ -563,3 +563,12 @@ main>section[hidden]{display:none!important}
  .home-snapshot-foot{font-size:8px;align-items:flex-start}
 }
 @media(max-width:390px){.home-snapshot-heading{display:block}.home-snapshot-heading .button{margin-top:12px}}
+
+.home-format-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0 10px}
+.home-format-heading>span{font:9px var(--mono);color:var(--muted)}
+.home-format-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.home-format-card{min-width:0;padding:13px;background:var(--panel);border:1px solid var(--line)}
+.home-format-card>span{display:block;font:9px var(--mono);letter-spacing:.08em;color:var(--cyan);text-transform:uppercase}
+.home-format-card>strong{display:block;font:800 28px/1 var(--display);margin:8px 0 5px}
+.home-format-card>small{display:block;color:var(--muted);font:9px/1.6 var(--mono)}
+@media(max-width:760px){.home-format-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.home-format-card{padding:11px}.home-format-card>strong{font-size:25px}.profile-section{padding-bottom:24px!important}}
