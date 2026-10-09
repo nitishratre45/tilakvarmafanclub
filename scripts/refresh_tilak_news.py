@@ -13,7 +13,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "tilak-news.json"
-SITE_DATA = ROOT / "data" / "site-data.json"
 FEED_URL = "https://news.google.com/rss/search?q=%22Tilak+Varma%22&hl=en-IN&gl=IN&ceid=IN:en"
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFC/1.0; +https://tilakvarmafc.pages.dev/)"}
 NS = {"media": "http://search.yahoo.com/mrss/"}
@@ -59,7 +58,8 @@ def main():
             parser=TextOnly(); parser.feed(description)
             summary=clean(" ".join(parser.parts))
             image=""
-            media=item.find("media:content",NS) or item.find("media:thumbnail",NS)
+            media=item.find("media:content",NS)
+            if media is None: media=item.find("media:thumbnail",NS)
             if media is not None:image=media.attrib.get("url","")
             if not image and parser.images:image=parser.images[0]
             if not image.startswith("https://"):image=""
