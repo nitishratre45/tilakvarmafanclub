@@ -359,6 +359,156 @@ def scrape_format(fmt, match_class):
             "source": "ESPNcricinfo Statsguru",
             "careerUrl": stats_url(match_class, "innings"),
             "inningsUrl": stats_url(match_class, "innings")}
+
+def parse_fielding_summary(page):
+    """Parse the official Statsguru fielding career total when present."""
+    for table in parse_tables(page):
+        for idx, row in enumerate(table):
+            headers = [re.sub(r"[^a-z0-9]+", "", clean(x).casefold()) for x in cell_text(row)]
+            if not ({"mat", "matches"} & set(headers)) or not ({"ct", "catches"} & set(headers)):
+                continue
+            cols = {}
+            for i, h in enumerate(headers):
+                if h in {"mat", "matches"}: cols["matches"] = i
+                elif h in {"inns", "innings"}: cols["innings"] = i
+                elif h in {"ct", "catches"}: cols["catches"] = i
+                elif h in {"st", "stumpings"}: cols["stumpings"] = i
+                elif h in {"ro", "runouts", "runout"}: cols["runOuts"] = i
+                elif h in {"dismissals", "total"}: cols["dismissals"] = i
+            for candidate in table[idx + 1:]:
+                vals = cell_text(candidate)
+                if len(vals) <= max(cols.values(), default=0):
+                    continue
+                if not any(re.search(r"\b(overall|career|total)\b", v, re.I) for v in vals):
+                    continue
+                out = {k: number(vals[i]) for k, i in cols.items()}
+                if out.get("catches") is not None:
+                    out.setdefault("stumpings", 0)
+                    out.setdefault("runOuts", 0)
+                    out["dismissals"] = out.get("dismissals") if out.get("dismissals") is not None else sum(out.get(k) or 0 for k in ("catches","stumpings","runOuts"))
+                    return out
+    return None
+
+def parse_fielding_breakdown(page):
+    """Read verified grouped fielding figures (series/year/opposition etc.)."""
+    out, seen, columns = [], set(), None
+    for table in parse_tables(page):
+        header_idx = None
+        for i, row in enumerate(table):
+            hs = [re.sub(r"[^a-z0-9]+", "", clean(x).casefold()) for x in cell_text(row)]
+            if {"span", "mat"} <= set(hs) and ({"ct", "catches"} & set(hs)):
+                header_idx, columns = i, {}
+                for j, h in enumerate(hs):
+                    if h in {"group", "grouping", "category"}: columns["group"] = j
+                    elif h == "span": columns["span"] = j
+                    elif h in {"mat", "matches"}: columns["matches"] = j
+                    elif h in {"ct", "catches"}: columns["catches"] = j
+                    elif h in {"st", "stumpings"}: columns["stumpings"] = j
+                    elif h in {"ro", "runouts", "runout"}: columns["runOuts"] = j
+                    elif h in {"dismissals", "total"}: columns["dismissals"] = j
+                break
+        if columns is None:
+            continue
+        for row in table[header_idx + 1:]:
+            vals = cell_text(row)
+            if len(vals) <= max(columns.values(), default=0): continue
+            group = vals[columns.get("group", 0)].strip()
+            span = vals[columns["span"]].strip() if "span" in columns else ""
+            if not group or not re.search(r"\d{4}", span): continue
+            item = {"group": group, "span": span}
+            for k, j in columns.items():
+                if k not in {"group", "span"} and j < len(vals): item[k] = number(vals[j])
+            if item.get("catches") is None: continue
+            item.setdefault("stumpings", 0); item.setdefault("runOuts", 0)
+            item["dismissals"] = item.get("dismissals") if item.get("dismissals") is not None else sum(item.get(k) or 0 for k in ("catches","stumpings","runOuts"))
+            key = (group, span, item.get("matches"), item.get("catches"), item.get("stumpings"), item.get("runOuts"))
+            if key not in seen: seen.add(key); out.append(item)
+    return out
+
+def parse_fielding_innings(page, fmt):
+    """Parse fielding innings list from the player-specific Statsguru response."""
+    output = []
+    for table in parse_tables(page):
+        header_idx = None
+        cols = {}
+        for i, row in enumerate(table):
+            hs = [re.sub(r"[^a-z0-9]+", "", clean(x).casefold()) for x in cell_text(row)]
+            has_date = any(h in {"startdate", "date"} for h in hs)
+            has_opp = any("opposition" in h or h == "oppo" for h in hs)
+            has_ground = any("ground" in h or "venue" in h for h in hs)
+            has_fielding = bool({"ct","catches","st","stumpings","ro","runouts","runout"} & set(hs))
+            if has_date and has_opp and has_ground and has_fielding:
+                header_idx = i
+                for j, h in enumerate(hs):
+                    if h in {"startdate","date"}: cols["date"] = j
+                    elif "opposition" in h or h == "oppo": cols["opposition"] = j
+                    elif "ground" in h or "venue" in h: cols["ground"] = j
+                    elif h in {"ct","catches"}: cols["catches"] = j
+                    elif h in {"st","stumpings"}: cols["stumpings"] = j
+                    elif h in {"ro","runouts","runout"}: cols["runOuts"] = j
+                    elif h in {"inns","inn","innings"}: cols["innings"] = j
+                    elif h in {"match","scorecard","card"}: cols["match"] = j
+                break
+        if header_idx is None: continue
+        for row in table[header_idx + 1:]:
+            vals = cell_text(row)
+            if len(vals) <= max(cols.values(), default=0): continue
+            date, opp, ground = (vals[cols[k]] for k in ("date","opposition","ground"))
+            if not date or not opp or not ground or date.casefold() in {"date","start date"}: continue
+            def field_value(key):
+                return number(vals[cols[key]]) if key in cols and cols[key] < len(vals) else 0
+            match_url = None
+            for cell in row:
+                for url in cell.get("links", []):
+                    if "engine/match" in url or "scorecard" in url or "full-scorecard" in url:
+                        match_url = url; break
+                if match_url: break
+            item = {"date":date, "format":fmt, "opposition":opp, "ground":ground,
+                    "catches":field_value("catches"), "stumpings":field_value("stumpings"),
+                    "runOuts":field_value("runOuts"), "innings":vals[cols["innings"]] if "innings" in cols and cols["innings"] < len(vals) else "—",
+                    "source":"ESPNcricinfo Statsguru"}
+            if match_url: item["matchUrl"] = match_url
+            item["dismissals"] = sum(item[k] or 0 for k in ("catches","stumpings","runOuts"))
+            output.append(item)
+    return output
+
+def scrape_fielding_format(fmt, match_class):
+    first = fetch(stats_url(match_class, "innings", 1, "fielding"))
+    summary = parse_fielding_summary(first)
+    innings = parse_fielding_innings(first, fmt)
+    breakdown = parse_fielding_breakdown(first)
+    # Career/series views are sometimes served separately from the innings view.
+    try:
+        overview = fetch(stats_url(match_class, None, 1, "fielding"))
+        summary = parse_fielding_summary(overview) or summary
+        grouped = parse_fielding_breakdown(overview)
+        if len(grouped) > len(breakdown): breakdown = grouped
+    except Exception as exc:
+        print(fmt + ": optional fielding summary view unavailable:", exc)
+    seen = {(r["date"],r["opposition"],r["ground"],r["innings"]) for r in innings}
+    for page_no in range(2, 16):
+        if len(innings) < (page_no - 1) * 40: break
+        try: page = fetch(stats_url(match_class, "innings", page_no, "fielding"))
+        except Exception as exc:
+            print(fmt + ": fielding pagination stopped:", exc); break
+        batch = parse_fielding_innings(page, fmt)
+        fresh = [r for r in batch if (r["date"],r["opposition"],r["ground"],r["innings"]) not in seen]
+        if not fresh: break
+        innings.extend(fresh)
+        seen.update((r["date"],r["opposition"],r["ground"],r["innings"]) for r in fresh)
+        if len(batch) < 40: break
+    if not summary and not innings and not breakdown:
+        raise RuntimeError("Statsguru fielding tables could not be parsed for " + fmt)
+    summary = summary or {}
+    if summary:
+        summary.setdefault("catches", sum(r.get("catches",0) or 0 for r in innings))
+        summary.setdefault("stumpings", sum(r.get("stumpings",0) or 0 for r in innings))
+        summary.setdefault("runOuts", sum(r.get("runOuts",0) or 0 for r in innings))
+        summary.setdefault("dismissals", sum(summary.get(k,0) or 0 for k in ("catches","stumpings","runOuts")))
+    return {"summary":summary,"careerBreakdown":breakdown,"innings":innings,"inningsCount":len(innings),
+            "source":"ESPNcricinfo Statsguru","careerUrl":stats_url(match_class,None,1,"fielding"),
+            "inningsUrl":stats_url(match_class,"innings",1,"fielding"),"checkedAt":stamp()}
+
 def main():
     if not DATA_FILE.exists():
         raise SystemExit("Missing data/site-data.json")
@@ -401,6 +551,41 @@ def main():
             "lastAttemptStatus": "partial" if errors else "success",
             "lastAttemptErrors": errors,
         }
+        # Refresh fielding separately from batting. A temporary source/parser failure
+        # preserves the last saved fielding snapshot and never invents numbers.
+        old_fielding = data.get("fieldingStats") if isinstance(data.get("fieldingStats"), dict) else {}
+        old_field_formats = old_fielding.get("formats") if isinstance(old_fielding.get("formats"), dict) else {}
+        new_field_formats = dict(old_field_formats)
+        field_success, field_errors = [], []
+        for fmt, match_class in FORMATS.items():
+            try:
+                fresh = scrape_fielding_format(fmt, match_class)
+                previous = old_field_formats.get(fmt, {})
+                if fresh.get("summary") or fresh.get("innings") or fresh.get("careerBreakdown"):
+                    if not fresh.get("innings") and previous.get("innings"):
+                        fresh["innings"] = previous["innings"]
+                        fresh["inningsCount"] = previous.get("inningsCount", len(fresh["innings"]))
+                    if not fresh.get("careerBreakdown") and previous.get("careerBreakdown"):
+                        fresh["careerBreakdown"] = previous["careerBreakdown"]
+                    if not fresh.get("summary") and previous.get("summary"):
+                        fresh["summary"] = previous["summary"]
+                    new_field_formats[fmt] = fresh
+                    field_success.append(fmt)
+                else:
+                    raise RuntimeError("no verified fielding rows returned")
+                print(fmt + ": fielding summary/list refreshed")
+            except Exception as exc:
+                field_errors.append(fmt + ": " + str(exc))
+                print(fmt + ": fielding refresh unavailable; keeping saved fielding snapshot:", exc)
+        if field_success or old_fielding:
+            data["fieldingStats"] = {**old_fielding,
+                "source":"ESPNcricinfo Statsguru",
+                "sourceUrl":"https://stats.espncricinfo.com/ci/engine/player/1170265.html",
+                "updatedAt":stamp() if field_success else old_fielding.get("updatedAt"),
+                "lastAttemptAt":stamp(),
+                "lastAttemptStatus":"partial" if field_errors else "success",
+                "lastAttemptErrors":field_errors,
+                "formats":new_field_formats}
         DATA_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     else:
         print("All ESPNcricinfo Statsguru requests failed; saved data was not changed.")
