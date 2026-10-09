@@ -3,7 +3,7 @@
   const esc=v=>String(v??"—").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const fmt=v=>typeof v==="number"?v.toLocaleString("en-IN",{maximumFractionDigits:2}):(v??"—");
   const titles={batting:"Batting career summary",innings:"Batting innings list",highscores:"High scores",bowling:"Bowling career summary",bowlinglist:"Bowling innings list",bestbowling:"Best innings bowling",bestmatchbowling:"Best match bowling",bowlingmatches:"Bowling match list",bowlingseries:"Bowling series averages",fielding:"Fielding career summary",fieldinglist:"Fielding innings list",catches:"Most catches in an innings",fieldingseries:"Fielding series statistics",series:"Batting series averages",matches:"T20I match list"};
-  const formatOrder=["T20I","ODI","Test","T20"];
+  const formatOrder=["T20I","ODI","T20"];
   let selectedFormat="T20I",selectedCategory="batting",data=null;
   function metric(label,value){return '<div class="statsguru-metric"><span>'+esc(label.toUpperCase())+'</span><strong>'+esc(fmt(value))+'</strong></div>';}
   function rowsTable(rows,headers,render){
@@ -14,7 +14,7 @@
     const sg=data&&data.statsguru;
     const formats=sg&&sg.formats||{};
     if(selectedFormat==="All"){
-      const all=formatOrder.flatMap(fmt=>(formats[fmt]&&Array.isArray(formats[fmt].innings)?formats[fmt].innings:[]));
+      const all=["T20","ODI"].flatMap(fmt=>(formats[fmt]&&Array.isArray(formats[fmt].innings)?formats[fmt].innings:[]));
       return {summary:null,innings:all,formats};
     }
     const entry=formats[selectedFormat]||{};
@@ -29,6 +29,8 @@
     if(!data)return;
     const sg=data.statsguru||{}, source=sourceData(), rows=source.innings.slice();
     $("statsguru-updated").textContent="ESPNcricinfo Statsguru · "+(sg.updatedAt||"waiting for first successful source refresh");
+    const sourceLink=sg.sourceUrl&&/^https:\/\//i.test(sg.sourceUrl)?' · <a href="'+esc(sg.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Open source ↗</a>':"";
+    $("statsguru-updated").innerHTML=esc("ESPNcricinfo Statsguru · "+(sg.updatedAt||"waiting for first successful source refresh"))+sourceLink;
     $("statsguru-format-label").textContent=selectedFormat==="T20"?"T20 · all competitions":selectedFormat;
     $("statsguru-title").textContent=titles[selectedCategory]||"Statsguru analysis";
     $("statsguru-eyebrow").textContent=selectedCategory==="batting"?"CAREER OVERVIEW":selectedCategory.toUpperCase()+" · "+selectedFormat.toUpperCase();
@@ -56,7 +58,7 @@
       ].join("");
       rowsTable(rows,["DATE","SCORE","OPPOSITION","GROUND","WICKETS","CT / ST","SCORECARD"],r=>{
         const match=r.matchUrl&&/^https:\/\//i.test(r.matchUrl)?'<a href="'+esc(r.matchUrl)+'" target="_blank" rel="noopener noreferrer">Open ↗</a>':"—";
-        return "<tr><td>"+esc(r.date)+"</td><td>"+esc(r.score)+(r.notOut?"*":"")+"</td><td>"+esc(r.opposition)+"</td><td>"+esc(r.ground)+"</td><td>"+esc(r.wickets)+"</td><td>"+esc((r.catches??"—")+" / "+(r.stumpings??"—"))+"</td><td>"+match+"</td></tr>";
+        return "<tr><td>"+esc(r.date)+"</td><td>"+esc(r.score)+"</td><td>"+esc(r.opposition)+"</td><td>"+esc(r.ground)+"</td><td>"+esc(r.wickets)+"</td><td>"+esc((r.catches??"—")+" / "+(r.stumpings??"—"))+"</td><td>"+match+"</td></tr>";
       });
     }else{
       summaryHost.innerHTML=[metric("SOURCE","ESPNcricinfo Statsguru"),metric("STATUS","Not loaded")].join("");
