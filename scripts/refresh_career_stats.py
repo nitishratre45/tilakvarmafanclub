@@ -39,7 +39,7 @@ def parse(url):
  try: page=fetch(url)
  except Exception as e: print("Source unavailable:",url,e);return {}
  p=Tables();p.feed(page); found={}
- aliases={"test":"Test","odi":"ODI","t20i":"T20I","first-class":"First-class","first class":"First-class","list a":"List A","ipl":"IPL","t20":"Overall T20 (all competitions)"}
+ aliases={"test":"Test","odi":"ODI","t20i":"T20I","first-class":"First-class","first class":"First-class","list a":"List A","ipl":"IPL","t20":"Overall T20 (all competitions)","t20s":"Overall T20 (all competitions)"}
  for table in p.tables:
   for row in table:
    if not row:continue
