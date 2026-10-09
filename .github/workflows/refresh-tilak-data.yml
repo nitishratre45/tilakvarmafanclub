@@ -37,17 +37,7 @@ jobs:
             python scripts/refresh_tilak_news.py
             python -m json.tool data/site-data.json > /dev/null
             python -m json.tool data/tilak-news.json > /dev/null
-            python - <<'PY'
-            import json
-            from pathlib import Path
-            site = json.loads(Path("data/site-data.json").read_text(encoding="utf-8"))
-            news = json.loads(Path("data/tilak-news.json").read_text(encoding="utf-8"))
-            if not isinstance(site, dict) or not site:
-                raise SystemExit("ERROR: site-data.json is empty or invalid")
-            if not isinstance(news, dict):
-                raise SystemExit("ERROR: tilak-news.json must contain a JSON object")
-            print("Validated profile/stats snapshot and news feed JSON.")
-            PY
+            python -c "import json; from pathlib import Path; site=json.loads(Path('data/site-data.json').read_text(encoding='utf-8')); news=json.loads(Path('data/tilak-news.json').read_text(encoding='utf-8')); assert isinstance(site, dict) and site, 'site-data.json is empty or invalid'; assert isinstance(news, dict), 'tilak-news.json must contain a JSON object'; print('Validated profile/stats snapshot and news feed JSON.')"
             git add data/site-data.json data/tilak-news.json
             if git diff --cached --quiet; then
               echo "No data changes to commit."
