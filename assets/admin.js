@@ -72,7 +72,7 @@
       });
       grouped.forEach((matches, source) => add("Recent innings · " + matches.slice(0, 3).join(", ") + (matches.length > 3 ? " +" + (matches.length - 3) + " more" : ""), source, "Per-innings source"));
     } else if (path === "data/death-overs.json") {
-      add("Ball-by-ball archive", data.source || data.archiveSource, "Underlying delivery-level dataset");
+      add("Ball-by-ball archive · default", data.source || data.archiveSource, "Underlying delivery-level dataset");\n      Object.entries(data.formats || {}).forEach(([format, values]) => {\n        add((values?.label || format.toUpperCase()) + " delivery archive", values?.source, (values?.matchesFound ?? 0) + " matches · " + (values?.inningsFound ?? 0) + " innings in the published archive");\n      });
       add("Latest match summary", data.featuredMatch?.source, "Latest scorecard; only verified summary is included");
       add("Archive methodology", data.methodologySource, "Archive and calculation notes");
     } else if (path === "data/fan-zone.json") {
