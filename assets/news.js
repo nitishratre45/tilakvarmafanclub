@@ -7,12 +7,10 @@ async function init(){
  const host=$("tilak-news-grid"),photo=$("tilak-feature-photo"),meta=$("tilak-news-meta");
  if(!host)return;
  try{
-  const [n,s]=await Promise.all([
-   fetch("data/tilak-news.json",{cache:"no-store"}),
-   fetch("data/site-data.json",{cache:"no-store"})
-  ]);
+  const n=await fetch("data/tilak-news.json",{cache:"no-store"});
   if(!n.ok)throw Error("News feed unavailable");
-  const news=await n.json(),site=s.ok?await s.json():{};
+  const news=await n.json();
+  let site={};try{const s=await fetch("data/site-data.json",{cache:"no-store"});if(s.ok)site=await s.json();}catch{}
   const profile=site.profile||{};
   const profilePhoto=safeUrl(profile.photo||"");
   if(photo&&profilePhoto){photo.src=profilePhoto;photo.alt="Tilak Varma — official player profile photo";}
