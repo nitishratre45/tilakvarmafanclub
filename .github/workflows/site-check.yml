@@ -55,7 +55,7 @@ jobs:
           from pathlib import Path
           import re
           html = Path("death-overs/index.html").read_text(encoding="utf-8")
-          scripts = re.findall(r"<script>([\\s\\S]*?)</script>", html)
+          scripts = re.findall(r"<script>([\s\S]*?)</script>", html)
           if not scripts:
               raise SystemExit("No embedded Death Overs script found")
           Path("/tmp/death-overs-inline.js").write_text(scripts[-1], encoding="utf-8")
