@@ -53,7 +53,7 @@
         '<article class="official-record-card"><strong>' + esc(record.rank || "—") + '</strong><span>' + esc(record.category || "ICC record") + '</span><h4>' + esc(record.title || "Player record") + '</h4></article>'
       ).join("") : '<p class="activity-empty">Official record data is temporarily unavailable.</p>';
     }
-    set("icc-records-updated", data.iccRecordsUpdated ? "Last checked " + data.iccRecordsUpdated : "Official record snapshot");
+    set("icc-records-updated", data.iccRecordsCheckedAt ? "Checked " + data.iccRecordsCheckedAt : (data.iccRecordsUpdated ? "Last updated " + data.iccRecordsUpdated : "Official record snapshot"));
 
 
   } catch (error) {
