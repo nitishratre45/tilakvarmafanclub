@@ -6,7 +6,7 @@ from datetime import datetime,timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; OUT=ROOT/"data"/"death-overs.json"
 ALIASES={"tilakvarma","tilakverma","tilakvardhanvarma"}
-ARCHIVES={"ipl":{"label":"IPL","url":"https://cricsheet.org/downloads/ipl_json.zip","kind":"ipl"},"t20i":{"label":"T20 Internationals","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20i"},"t20":{"label":"Other Men's T20","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20"},"overall_t20":{"label":"Overall T20 · IPL + T20I + domestic","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"overall_t20"},"odi":{"label":"ODI","url":"https://cricsheet.org/downloads/odis_male_json.zip","kind":"odi"},"test":{"label":"Test (available archive)","url":"https://cricsheet.org/downloads/tests_male_json.zip","kind":"test"}}
+ARCHIVES={"ipl":{"label":"IPL","url":"https://cricsheet.org/downloads/ipl_json.zip","kind":"ipl"},"t20i":{"label":"T20 Internationals","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20i"},"t20":{"label":"Other Men's T20","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"t20"},"overall_t20":{"label":"Overall T20 · IPL + T20I + domestic","url":"https://cricsheet.org/downloads/t20s_male_json.zip","kind":"overall_t20"},"odi":{"label":"ODI","url":"https://cricsheet.org/downloads/odis_male_json.zip","kind":"odi"},"test":{"label":"Test (available archive)","url":"https://cricsheet.org/downloads/tests_male_json.zip","kind":"test"},"hyderabad":{"label":"Hyderabad (domestic T20 archive)","url":"https://cricsheet.org/downloads/hyderabad_india_json.zip","kind":"hyderabad"}}
 def norm(v): return re.sub(r"[^a-z]","",str(v).lower())
 def target(v): return norm(v) in ALIASES
 def download(url):
@@ -24,7 +24,7 @@ def parse_match(data,filename,key,totals):
  info=data.get("info",{})
  if key=="overall_t20":
   if str(info.get("match_type","")).lower().strip() not in {"t20","t20i","it20","international t20"}:return [],None
- elif key!="ipl" and classify(info)!=key:return [],None
+ elif key not in {"ipl","overall_t20","hyderabad"} and classify(info)!=key:return [],None
  players=info.get("players",{});teams=info.get("teams",[])
  if not any(target(p) for group in players.values() for p in group):return [],None
  mid=Path(filename).stem;date=str((info.get("dates") or [""])[0]);venue=info.get("venue","");rows=[]
@@ -87,7 +87,7 @@ def main():
   overall["matchesFound"]=len(existing);overall["inningsFound"]=len(overall["innings"])
   overall["overTotals"]=[{"over":n,**totals[n],"strikeRate":round(totals[n]["runs"]*100/totals[n]["balls"],2) if totals[n]["balls"] else 0} for n in range(1,21)]
  if not formats or not any(v["innings"] for v in formats.values()):raise RuntimeError("No Tilak innings found; refusing to publish empty data.")
- default=next((k for k in ("t20i","ipl","t20","odi","test") if formats.get(k,{}).get("innings")),next(iter(formats)));d=formats[default]
+ default=next((k for k in ("t20i","ipl","t20","hyderabad","odi","test") if formats.get(k,{}).get("innings")),next(iter(formats)));d=formats[default]
  out={"updatedAt":datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),"player":"Tilak Varma","defaultFormat":default,"formats":formats,"sourceErrors":failures,"source":d["source"],"coverageNote":"Only Tilak Varma deliveries found in available Cricsheet archives are included. Coverage varies by format; Test archive data is not a complete first-class career record.","matchesFound":d["matchesFound"],"inningsFound":d["inningsFound"],"overTotals":d["overTotals"],"innings":d["innings"],"readErrors":sum(x["readErrors"] for x in formats.values())}
  if OUT.exists():
   try:
