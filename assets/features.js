@@ -68,14 +68,5 @@ function quiz(){
  render();
 }
 
-function drawPoster(){
- const c=$("poster-canvas"),ctx=c?.getContext("2d");if(!ctx)return;const pal={india:["#f7f8fc","#ff9933","#138808","#10264b"],blue:["#eaf4ff","#1765bd","#071b48","#f7fbff"],dark:["#06101f","#ff6a35","#122b49","#f5f7fb"]},p=pal[$("poster-theme").value]||pal.india,[bg,a,b,ink]=p;
- ctx.fillStyle=bg;ctx.fillRect(0,0,c.width,c.height);if($("poster-theme").value==="india"){ctx.fillStyle=a;ctx.fillRect(0,0,c.width,c.height*.23);ctx.fillStyle="#fff";ctx.fillRect(0,c.height*.23,c.width,c.height*.54);ctx.fillStyle=b;ctx.fillRect(0,c.height*.77,c.width,c.height*.23);}else{ctx.fillStyle=a;ctx.fillRect(0,0,c.width,30);ctx.fillStyle=b;ctx.fillRect(0,c.height-32,c.width,32);}
- ctx.fillStyle=$("poster-theme").value==="india"?"#07101f":ink;ctx.font="bold 38px Arial";ctx.fillText("THE 72 CLUB",74,100);ctx.globalAlpha=.12;ctx.font="900 520px Arial";ctx.fillText("72",360,800);ctx.globalAlpha=1;
- ctx.fillStyle=$("poster-theme").value==="india"?"#10264b":ink;ctx.font="900 110px Arial";const words=($("poster-title").value||"TILAK VARMA").toUpperCase().split(/\s+/);let lines=[],line="";words.forEach(w=>{const test=line?line+" "+w:w;if(ctx.measureText(test).width>900&&line){lines.push(line);line=w;}else line=test;});if(line)lines.push(line);let y=500;lines.slice(0,3).forEach(w=>{ctx.fillText(w,74,y);y+=124;});
- ctx.fillStyle=$("poster-theme").value==="india"?"#ff6a35":a;ctx.fillRect(74,y+30,180,10);ctx.fillStyle=$("poster-theme").value==="india"?"#10264b":ink;ctx.font="500 38px Arial";ctx.fillText(($("poster-subtitle").value||"TILAK VARMA · INDIA · 72").slice(0,46),74,y+112);ctx.font="bold 24px Arial";ctx.fillText("FAN-MADE TRIBUTE · NOT AN OFFICIAL TEAM POSTER",74,c.height-72);$("poster-status").textContent="Preview updated · 1080 × 1350 PNG.";
-}
-$("poster-render")?.addEventListener("click",drawPoster);["poster-title","poster-subtitle","poster-theme"].forEach(id=>$(id)?.addEventListener("input",drawPoster));
-$("poster-download")?.addEventListener("click",()=>{const c=$("poster-canvas");if(!c)return;drawPoster();const a=document.createElement("a");a.download="tilak-varma-fan-poster-1080x1350.png";a.href=c.toDataURL("image/png");a.click();});
-drawPoster();init();
+init();
 })();
