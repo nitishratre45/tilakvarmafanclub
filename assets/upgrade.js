@@ -26,7 +26,7 @@ function dashboard(){
 function archiveSnapshot(){
  const host=$("archive-snapshot");if(!host)return;
  const formats=archive.formats||{};
- const order=["ipl","t20i","odi","t20","test"].filter(k=>formats[k]);
+ const order=["ipl","t20i","odi","t20","test"].filter(k=>formats[k]&&Number(formats[k].inningsFound||0)>0);
  const cards=order.map(k=>{
   const f=formats[k],innings=Array.isArray(f.innings)?f.innings:[],overs=innings.flatMap(i=>Array.isArray(i.overs)?i.overs:[]);
   const totals=overs.reduce((s,o)=>{s.runs+=Number(o.runs||0);s.balls+=Number(o.balls||0);return s},{runs:0,balls:0});
