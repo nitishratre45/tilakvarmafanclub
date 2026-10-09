@@ -3,7 +3,7 @@
   const nav=document.getElementById("main-nav");
   const menu=document.querySelector(".menu-toggle");
   const allowed=new Set(sections.map(s=>s.id).filter(id=>id!=="home-snapshot"));
-  const legacyViews={"stats-explorer":"stats-explorer","statsguru":"statsguru"};
+  const legacyViews={"stats-explorer":"statsguru","statsguru":"statsguru"};
   function setStatsView(view){
     const views=[...document.querySelectorAll("#stats .stats-subview")];
     if(!views.some(node=>node.id===view))view="stats-overview";
