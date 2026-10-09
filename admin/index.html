@@ -1,1 +1,52 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FC Data Admin Notes</title><link rel="stylesheet" href="../assets/style.css"></head><body><header class="topbar"><a class="brand" href="../"><span class="brand-mark">72</span><span>TILAK VARMA <small>DATA ADMIN</small></span></a><a class="text-link" href="../">← Back to site</a></header><main class="section"><div class="eyebrow">PRIVATE WORKFLOW GUIDE</div><h2>DATA <em>MAINTENANCE.</em></h2><p style="max-width:680px;color:#91a0b6;line-height:1.9">This page is a public maintenance dashboard, not a password-protected admin console. Do not place secrets or access tokens in frontend files. Update <code>data/site-data.json</code> through GitHub and verify every career figure against official scorecards before publishing. The scheduled GitHub Action refreshes only the recent-innings data that it can identify from the source archive.</p><p><a class="button primary" href="https://github.com/nitishratre45/tilakvarmafanclub" target="_blank" rel="noreferrer">Open GitHub repository ↗</a></p></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07101f">
+  <meta name="description" content="Private token-gated editor for Tilak Varma FC site data.">
+  <title>Admin Studio | The 72 Club</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body class="admin-body">
+  <header class="topbar">
+    <a class="brand" href="../"><span class="brand-mark">72</span><span>TILAK VARMA <small>ADMIN STUDIO</small></span></a>
+    <a class="text-link" href="../">← Back to fan site</a>
+  </header>
+  <main class="admin-shell">
+    <section class="admin-intro">
+      <div class="eyebrow"><span class="live-dot"></span> THE 72 CLUB · CONTENT CONTROL</div>
+      <h1>ADMIN <em>STUDIO.</em></h1>
+      <p>Edit profile stats, recent innings, latest match card, activity log and stats-centre data. Saving commits the JSON file to GitHub; Cloudflare Pages deploys from the connected main branch.</p>
+      <div class="admin-warning"><strong>Security:</strong> Use a GitHub fine-grained token restricted to this repository with <b>Contents: Read and write</b>. The token is used only in this tab's memory and is never saved to local storage or included in site data. Sign out / close the tab when finished.</div>
+    </section>
+    <section class="admin-card">
+      <div class="admin-card-head"><div><span class="admin-kicker">01 / AUTHENTICATION</span><h2>Connect <em>GitHub.</em></h2></div><span class="admin-lock">TOKEN-GATED</span></div>
+      <label class="admin-label" for="github-token">Fine-grained personal access token</label>
+      <input id="github-token" type="password" autocomplete="off" placeholder="github_pat_••••••••••••" spellcheck="false">
+      <div class="admin-actions"><button id="load-data" class="admin-button primary" type="button">CONNECT & LOAD DATA ↗</button><button id="clear-token" class="admin-button ghost" type="button">CLEAR TOKEN</button></div>
+      <p id="admin-status" class="admin-status" role="status">Not connected. Enter a repository-scoped token to load editable data.</p>
+    </section>
+    <section class="admin-card">
+      <div class="admin-card-head"><div><span class="admin-kicker">02 / DATA EDITOR</span><h2>Change the <em>feed.</em></h2></div></div>
+      <div class="admin-fields">
+        <div><label class="admin-label" for="dataset">JSON dataset</label><select id="dataset"><option value="data/site-data.json">Site profile, career stats, recent innings & activity log</option><option value="data/death-overs.json">Over-by-over stats & latest match summary</option></select></div>
+        <div><label class="admin-label" for="commit-message">Commit message</label><input id="commit-message" type="text" value="chore: update Tilak Varma FC data" maxlength="120"></div>
+      </div>
+      <div class="admin-editor-toolbar"><span id="loaded-file">No file loaded</span><span>JSON · UTF-8</span></div>
+      <textarea id="json-editor" class="admin-json" spellcheck="false" placeholder="Connect GitHub and load a dataset first…" aria-label="JSON data editor"></textarea>
+      <div class="admin-actions admin-actions-bottom"><button id="format-json" class="admin-button ghost" type="button">FORMAT JSON</button><button id="download-json" class="admin-button ghost" type="button">DOWNLOAD BACKUP</button><button id="save-data" class="admin-button primary" type="button" disabled>SAVE TO GITHUB ↗</button></div>
+      <p class="admin-footnote">Save validates JSON and updates only the selected file. Every save creates a Git commit. Avoid changing match totals or over-level data unless you have a verified scorecard/source.</p>
+    </section>
+    <section class="admin-card admin-help">
+      <span class="admin-kicker">03 / QUICK GUIDE</span>
+      <h2>What can I <em>edit?</em></h2>
+      <ul><li><b>site-data.json:</b> profile, career stats, recent innings, featured match and the “What's happening” activity feed.</li><li><b>death-overs.json:</b> verified over-by-over archive and the latest match summary panel.</li><li><b>Workflow:</b> GitHub Actions refreshes source data every 12 hours; Cloudflare deploys commits from <code>main</code>.</li></ul>
+      <p>Do not put passwords, API secrets, private notes or personal information in either JSON file. This is a content editor, not an authentication system for multiple users.</p>
+      <a href="https://github.com/nitishratre45/tilakvarmafanclub/actions" target="_blank" rel="noreferrer">View refresh runs ↗</a>
+    </section>
+  </main>
+  <footer><a class="brand" href="../"><span class="brand-mark">72</span><span>TILAK VARMA <small>THE 72 CLUB</small></span></a><span>ADMIN STUDIO · REPO-WRITE ACCESS REQUIRED</span></footer>
+  <script src="../assets/admin.js"></script>
+</body>
+</html>
