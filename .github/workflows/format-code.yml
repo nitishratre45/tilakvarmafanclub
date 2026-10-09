@@ -39,7 +39,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Format HTML, CSS, JavaScript, JSON, YAML and Markdown
+      - name: Format HTML, CSS, JavaScript, JSON and Markdown
         run: |
           npx --yes prettier@3.6.2 --write index.html death-overs/index.html assets/*.js assets/*.css README.md DEPLOYMENT.md data/fan-zone.json data/tilak-news.json data/cricinfo-photos.json
       - name: Format Python scripts
@@ -65,9 +65,9 @@ jobs:
             echo "Concurrent update on attempt $attempt; retrying."
             git rebase --abort || true
             git reset --hard origin/main
-            npx --yes prettier@3.6.2 --write index.html death-overs/index.html assets/*.js assets/*.css .github/workflows/*.yml README.md DEPLOYMENT.md data/fan-zone.json data/tilak-news.json data/cricinfo-photos.json
+            npx --yes prettier@3.6.2 --write index.html death-overs/index.html assets/*.js assets/*.css README.md DEPLOYMENT.md data/fan-zone.json data/tilak-news.json data/cricinfo-photos.json
             python -m black scripts
-            git add index.html death-overs/index.html assets scripts .github/workflows README.md DEPLOYMENT.md data/fan-zone.json data/tilak-news.json data/cricinfo-photos.json .editorconfig .prettierrc.json .prettierignore
+            git add index.html death-overs/index.html assets scripts README.md DEPLOYMENT.md data/fan-zone.json data/tilak-news.json data/cricinfo-photos.json .editorconfig .prettierrc.json .prettierignore
             git diff --cached --quiet && exit 0
             git commit -m "style: format site source files consistently"
           done
