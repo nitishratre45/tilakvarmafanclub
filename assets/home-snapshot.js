@@ -38,7 +38,7 @@
           return '<article class="home-format-card"><span>' + esc(label) + '</span><strong>' + esc(number(s.runs)) + '</strong><small>' + esc(s.matches ?? "—") + ' matches · HS ' + esc(s.highestScore ?? "—") + '</small><small>AVG ' + esc(s.average ?? "—") + ' · SR ' + esc(s.strikeRate ?? "—") + '</small></article>';
         }).filter(Boolean).join("");
       }
-      if ($("home-data-updated")) $("home-data-updated").textContent = data.lastUpdated || "Timestamp unavailable";
+      if ($("home-data-updated")) $("home-data-updated").textContent = "Last update: " + (data.lastUpdated || "time unavailable");
       const rows = Array.isArray(data.recentInnings) ? data.recentInnings.slice(0, 4) : [];
       if (inningsHost) inningsHost.innerHTML = rows.length ? rows.map(row => {
         
