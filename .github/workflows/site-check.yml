@@ -6,8 +6,9 @@ on:
       - 'index.html'
       - 'admin/**'
       - 'assets/**'
-      - 'data/fan-zone.json'
-      - '.github/workflows/site-check.yml'
+      - 'data/**.json'
+      - 'scripts/**'
+      - '.github/workflows/**'
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -28,6 +29,7 @@ jobs:
           node --check assets/app.js
           node --check assets/features.js
           node --check assets/admin.js
+          python -m compileall -q scripts
       - name: Validate JSON data
         run: |
           python -m json.tool data/site-data.json > /dev/null
