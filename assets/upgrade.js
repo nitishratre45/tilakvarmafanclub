@@ -35,5 +35,14 @@ $("moment-share")?.addEventListener("click",async()=>{
  if(navigator.share){try{await navigator.share({title:"The 72 Club",text,url:location.origin+"/"});return;}catch(e){if(e.name==="AbortError")return;}}
  try{await navigator.clipboard.writeText(text);$("moment-share").textContent="LINK COPIED ✓";}catch(e){window.prompt("Copy The 72 Club link",location.origin+"/");}
 });
-start();
+function streak(){
+ const key="the72-fan-checkins-v1",count=$("fan-streak-count"),msg=$("fan-streak-message"),btn=$("fan-checkin");if(!count||!msg||!btn)return;
+ const today=new Date(),day=today.getFullYear()+"-"+String(today.getMonth()+1).padStart(2,"0")+"-"+String(today.getDate()).padStart(2,"0");
+ let state={last:"",streak:0};try{state=JSON.parse(localStorage.getItem(key)||'{"last":"","streak":0}');}catch(e){}
+ const prev=new Date(today);prev.setDate(prev.getDate()-1);const yesterday=prev.getFullYear()+"-"+String(prev.getMonth()+1).padStart(2,"0")+"-"+String(prev.getDate()).padStart(2,"0");
+ if(state.last!==day&&state.last!==yesterday)state.streak=0;
+ const draw=()=>{count.textContent=(state.streak||0)+" DAY"+(state.streak===1?"":"S");msg.textContent=state.last===day?"Checked in today. Come back tomorrow to keep the streak going.":state.streak?"You're on a roll — check in today to continue.":"Your fan streak starts with one check-in.";btn.disabled=state.last===day;btn.textContent=state.last===day?"CHECKED IN ✓":"CHECK IN TODAY ↗";};
+ btn.addEventListener("click",()=>{if(state.last===day)return;state.streak=state.last===yesterday?(state.streak||0)+1:1;state.last=day;try{localStorage.setItem(key,JSON.stringify(state));}catch(e){msg.textContent="Browser storage is unavailable; this check-in may not persist.";return;}draw();});draw();
+}
+start();streak();
 })();
