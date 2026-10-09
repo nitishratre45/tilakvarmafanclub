@@ -38,7 +38,7 @@ def parse(url):
  try: page=fetch(url)
  except Exception as e: print("Source unavailable:",url,e);return {}
  p=Tables();p.feed(page); found={}
- aliases={"test":"Test","odi":"ODI","t20i":"T20I","first-class":"First-class","first class":"First-class","list a":"List A","ipl":"IPL","t20":"T20 (domestic/franchise)"}
+ aliases={"test":"Test","odi":"ODI","t20i":"T20I","first-class":"First-class","first class":"First-class","list a":"List A","ipl":"IPL","t20":"Overall T20 (all competitions)"}
  for table in p.tables:
   for row in table:
    if not row:continue
@@ -62,15 +62,21 @@ def main():
  # ICC page has a format summary; merge only rows parsed as a proper table.
  # ICC international figures are preloaded in the JSON fallback; only use ESPN table parsing here.
  if scraped:
-  current_runs = int(formats.get("T20I", {}).get("runs", 0) or 0)
-  incoming_runs = int(scraped.get("T20I", {}).get("runs", 0) or 0)
-  # Do not let stale/cached source totals roll back a newer verified total.
-  if incoming_runs > current_runs:
-   formats.update(scraped)
+  updated=[]
+  for fmt, incoming in scraped.items():
+   current=formats.get(fmt,{})
+   current_runs=int(current.get("runs",0) or 0)
+   incoming_runs=int(incoming.get("runs",0) or 0)
+   # Keep the last-known record if ESPN returns a lower/stale total.
+   if not current or incoming_runs>=current_runs:
+    formats[fmt]=incoming
+    updated.append(fmt)
+   else:
+    print(f"Keeping newer {fmt} total ({current_runs}); ESPN response is stale ({incoming_runs}).")
+  if updated:
    data["careerSource"]=ESPN
    data["careerStatsUpdated"]=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-  else:
-   print(f"Keeping newer T20I total ({current_runs}); ESPN response is stale ({incoming_runs}).")
+  print("Updated from ESPN:", ", ".join(updated) if updated else "no newer format totals")
  else: print("No parseable career table found; retaining existing stats.")
  t=formats.get("T20I",{})
  if t.get("runs") is not None:
