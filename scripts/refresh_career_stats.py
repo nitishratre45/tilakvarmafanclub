@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Refresh Tilak Varma format-wise career stats from ESPNcricinfo.
-Cricbuzz is a fallback for all-T20 totals only; preserve verified values on source failures."""
+Cricbuzz is a fallback for all-T20 totals only; preserve verified values on source failures.
+"""
 import html, json, re, urllib.request
 from datetime import datetime, timezone
 from html.parser import HTMLParser

@@ -105,13 +105,11 @@
             lightbox().openPhoto(button.dataset.photoUrl, button.dataset.photoTitle),
           ),
         );
-      host
-        .querySelectorAll("img")
-        .forEach((img) =>
-          img.addEventListener("error", () => img.closest(".cricinfo-photo-card")?.remove(), {
-            once: true,
-          }),
-        );
+      host.querySelectorAll("img").forEach((img) =>
+        img.addEventListener("error", () => img.closest(".cricinfo-photo-card")?.remove(), {
+          once: true,
+        }),
+      );
       if (stamp)
         stamp.textContent =
           (data.updatedAt ? "Last update: " + data.updatedAt : "Last update: time unavailable") +
