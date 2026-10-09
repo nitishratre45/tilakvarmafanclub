@@ -46,34 +46,41 @@
     return body;
   }
 
-  function renderSourceMap(data) {
+  function renderSourceMap(data, path = "data/site-data.json") {
     const host = $("source-map-content");
     if (!host) return;
-    if (!data || typeof data !== "object" || !data.careerFormats) {
-      host.innerHTML = '<p class="admin-status">Select and load data/site-data.json to view source provenance.</p>';
-      return;
-    }
     const escHtml = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
     const items = [];
     const add = (dataset, source, detail) => {
-      if (!source) return;
-      items.push({dataset, source, detail});
+      if (source && typeof source === "string") items.push({dataset, source, detail});
     };
-    add("Career overview / default source", data.careerSource, "Fallback career reference");
-    add("Recent innings", data.recentSource, "Recent-form dataset / fallback feed");
-    add("Latest featured match", data.featuredMatch?.source, "Latest verified scorecard");
-    add("Player photo", data.profile?.photoSource, "Profile image provenance");
-    Object.entries(data.careerFormats).forEach(([format, values]) => add(format + " career stats", values?.source || data.careerSource, "Format-wise career snapshot"));
-    const recentSources = new Map();
-    (Array.isArray(data.recentInnings) ? data.recentInnings : []).forEach(row => {
-      if (row.source) {
-        const key = row.source;
-        if (!recentSources.has(key)) recentSources.set(key, []);
-        recentSources.get(key).push(row.date + " " + row.opposition);
-      }
-    });
-    recentSources.forEach((matches, source) => add("Recent innings · " + matches.slice(0,3).join(", ") + (matches.length>3 ? " +" + (matches.length-3) + " more" : ""), source, "Per-row scorecard/profile source"));
-    host.innerHTML = items.length ? '<div class="source-map-list">' + items.map(item => '<article class="source-map-item"><div><strong>'+escHtml(item.dataset)+'</strong><small>'+escHtml(item.detail)+'</small></div><a href="'+escHtml(item.source)+'" target="_blank" rel="noopener noreferrer">'+escHtml(item.source)+' ↗</a></article>').join("") + '</div>' : '<p class="admin-status">No source URLs are recorded in this dataset.</p>';
+    if (!data || typeof data !== "object") {
+      host.innerHTML = '<p class="admin-status">Connect GitHub and load a dataset to inspect its recorded data sources. Automatic refreshes run through GitHub Actions.</p>';
+      return;
+    }
+    if (path === "data/site-data.json") {
+      add("Career stats · fallback source", data.careerSource, "Used when a format-specific source is not recorded");
+      add("Recent innings · source", data.recentSource, "Source for recent-form refreshes");
+      add("Latest featured match", data.featuredMatch?.source, "Match scorecard");
+      add("Player profile photo", data.profile?.photoSource, "Profile image source");
+      Object.entries(data.careerFormats || {}).forEach(([format, values]) => add(format + " career snapshot", values?.source || data.careerSource, "Format career data"));
+      const grouped = new Map();
+      (Array.isArray(data.recentInnings) ? data.recentInnings : []).forEach(row => {
+        if (!row.source) return;
+        if (!grouped.has(row.source)) grouped.set(row.source, []);
+        grouped.get(row.source).push([row.date, row.opposition].filter(Boolean).join(" · "));
+      });
+      grouped.forEach((matches, source) => add("Recent innings · " + matches.slice(0, 3).join(", ") + (matches.length > 3 ? " +" + (matches.length - 3) + " more" : ""), source, "Per-innings source"));
+    } else if (path === "data/death-overs.json") {
+      add("Ball-by-ball archive", data.source || data.archiveSource, "Underlying delivery-level dataset");
+      add("Latest match summary", data.featuredMatch?.source, "Latest scorecard; only verified summary is included");
+      add("Archive methodology", data.methodologySource, "Archive and calculation notes");
+    } else if (path === "data/fan-zone.json") {
+      (Array.isArray(data.gallery) ? data.gallery : []).forEach(item => add(item.title || "Fan resource", item.url, item.description || item.type || "Resource link"));
+      if (!items.length) host.innerHTML = '<p class="admin-status">The Fan Zone poll is site-authored content. No external data feed is recorded for the poll itself.</p>';
+    }
+    const notice = '<div class="source-map-notice"><strong>Automatic data:</strong> scheduled workflows refresh the datasets where a public source is configured. Source URLs below are references, not editable score values. Use the JSON editor for text/content changes only when needed.</div>';
+    host.innerHTML = items.length ? notice + '<div class="source-map-list">' + items.map(item => '<article class="source-map-item"><div><strong>'+escHtml(item.dataset)+'</strong><small>'+escHtml(item.detail)+'</small></div><a href="'+escHtml(item.source)+'" target="_blank" rel="noopener noreferrer">'+escHtml(item.source)+' ↗</a></article>').join("") + '</div>' : (path === "data/fan-zone.json" ? host.innerHTML : notice + '<p class="admin-status">No source URL is recorded in this dataset. This does not necessarily mean the content is missing; it may be manually maintained.</p>');
   }
 
   async function loadFile() {
@@ -89,7 +96,7 @@
       const text = decodeUtf8(result.content);
       const parsed = JSON.parse(text);
       loaded = { path, sha: result.sha, text };
-      renderSourceMap(path === "data/site-data.json" ? parsed : null);
+      renderSourceMap(parsed, path);
       editor.value = JSON.stringify(JSON.parse(text), null, 2);
       $("loaded-file").textContent = path + " · loaded";
       saveButton.disabled = false;
@@ -167,7 +174,7 @@
     token = "";
     tokenInput.value = "";
     loaded = null;
-    renderSourceMap(null);
+    renderSourceMap(null, datasetSelect.value);
     editor.value = "";
     saveButton.disabled = true;
     $("loaded-file").textContent = "No file loaded";
