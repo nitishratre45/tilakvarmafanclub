@@ -8586,3 +8586,68 @@ html.death-embed,html.death-embed body{height:auto!important;min-height:0!import
 html.death-embed main{height:auto!important;overflow:visible!important}
 html.death-embed main>section{overflow:visible!important}
 html.death-embed footer{display:none!important}
+
+
+/* Compact playback quality control over the Shaka video surface. */
+.bcci-player-screen {
+  position: relative;
+  isolation: isolate;
+}
+.bcci-player-options {
+  position: absolute;
+  z-index: 5;
+  left: 14px;
+  bottom: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  max-width: calc(100% - 28px);
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 10px;
+  background: rgba(5,12,25,.82);
+  color: #fff;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.bcci-player-options label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  color: #f4f7fb;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.bcci-player-options select {
+  min-width: 126px;
+  width: auto;
+  padding: 8px 30px 8px 10px;
+  border: 1px solid rgba(255,255,255,.24);
+  border-radius: 7px;
+  background: #122544;
+  color: #fff;
+  font: 600 12px var(--body);
+}
+#bcci-player-error {
+  display: none;
+}
+@media (max-width: 640px) {
+  .bcci-player-options {
+    left: 8px;
+    bottom: 48px;
+    max-width: calc(100% - 16px);
+    padding: 6px 8px;
+    gap: 6px;
+  }
+  .bcci-player-options label {
+    gap: 6px;
+    font-size: 10px;
+  }
+  .bcci-player-options select {
+    min-width: 112px;
+    font-size: 11px;
+  }
+}
