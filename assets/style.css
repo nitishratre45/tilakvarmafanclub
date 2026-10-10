@@ -6046,3 +6046,53 @@ option {
   .stat-note {
   color: #5d6d82 !important;
 }
+
+
+/* Explore category menu: wrap onto new rows instead of requiring horizontal scrolling. */
+.statsguru-category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: visible;
+  scroll-snap-type: none;
+  gap: 8px;
+  padding: 5px 2px 10px;
+}
+.statsguru-category-grid button {
+  flex: 0 1 auto;
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .statsguru-category-grid {
+    overflow: visible;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    gap: 6px;
+  }
+  .statsguru-category-grid button {
+    flex: 0 1 auto;
+    max-width: 100%;
+    white-space: normal;
+    padding: 9px 10px;
+    font-size: 10px;
+  }
+}
+
+/* Make every Statsguru table header cell clearly highlighted, including on mobile. */
+.stats-section .statsguru-panel .table-wrap th {
+  background: color-mix(in srgb, var(--stats-accent) 16%, var(--panel2));
+  color: #d8f7fb;
+  box-shadow: inset 0 -3px 0 var(--stats-accent);
+  border-bottom-color: var(--stats-accent);
+  font-weight: 800;
+}
+:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th {
+  background: #dff5f8;
+  color: #16394b;
+  box-shadow: inset 0 -3px 0 #168da0;
+  border-bottom-color: #168da0;
+}
