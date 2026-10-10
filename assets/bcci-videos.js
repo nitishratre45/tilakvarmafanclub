@@ -14,7 +14,6 @@
   const settingsButton = document.getElementById("bcci-player-settings-button");
   const settingsMenu = document.getElementById("bcci-player-settings-menu");
   const qualityCurrent = document.getElementById("bcci-quality-current");
-  const downloadButton = document.getElementById("bcci-video-download-button");
   const closeSettingsMenu = () => {
     if (!settingsButton || !settingsMenu) return;
     settingsMenu.hidden = true;
