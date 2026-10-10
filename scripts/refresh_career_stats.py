@@ -180,7 +180,6 @@ def parse_overall_t20():
     return total if total["innings"] else None
 
 
-
 def update_last_updated(data):
     """Use successful section snapshot timestamps, not failed refresh attempts."""
     values = [

@@ -132,7 +132,6 @@ def cricsheet_recent():
     return rows[:12]
 
 
-
 def update_last_updated(data):
     """Use successful section snapshot timestamps, not failed refresh attempts."""
     values = [
@@ -243,14 +242,20 @@ def main():
     }
     event_key = (event["date"], event["category"], event["title"])
     activity = [
-        row for row in activity
+        row
+        for row in activity
         if (row.get("date"), row.get("category"), row.get("title")) != event_key
     ]
     activity.insert(0, event)
     seen_events = set()
     unique_activity = []
     for row in activity:
-        key = (row.get("date"), row.get("category"), row.get("title"), row.get("description"))
+        key = (
+            row.get("date"),
+            row.get("category"),
+            row.get("title"),
+            row.get("description"),
+        )
         if key in seen_events:
             continue
         seen_events.add(key)
