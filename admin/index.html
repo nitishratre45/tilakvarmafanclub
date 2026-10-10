@@ -2281,7 +2281,8 @@
                 parsed.pathname === "/api/bff/cms/videos" ||
                 parsed.pathname === "/api/bff/cms/videos/latest" ||
                 /^\/api\/bff\/cms\/videos\/[a-z0-9-]+\/up-next$/i.test(parsed.pathname) ||
-                /^\/matches\/[0-9a-f-]+\/[a-z0-9-]+\/video$/i.test(parsed.pathname)
+                /^\/matches\/[0-9a-f-]+\/[a-z0-9-]+\/video$/i.test(parsed.pathname) ||
+                /^\/videos\/[a-z0-9-]+$/i.test(parsed.pathname)
               ) ||
               parsed.username ||
               parsed.password ||
@@ -2289,7 +2290,7 @@
             ) {
               status(
                 "video-status",
-                "Safety check: use an official BCCI video API, video up-next endpoint, or match video page URL.",
+                "Safety check: use an official BCCI video API, up-next endpoint, match video page, or video detail URL.",
                 true,
               );
               btn.disabled = false;
