@@ -5,6 +5,11 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'admin/**'
+      - 'functions/**'
+      - 'ADMIN_SETUP.md'
+      - 'data/admin-media.json'
+      - 'data/video-config.json'
       - 'death-overs/**'
       - 'assets/**'
       - 'scripts/**'
@@ -65,9 +70,9 @@ jobs:
             echo "Concurrent update on attempt $attempt; retrying."
             git rebase --abort || true
             git reset --hard origin/main
-            npx --yes prettier@3.6.2 --write index.html death-overs/index.html assets/*.js assets/*.css README.md DEPLOYMENT.md data/fan-zone.json data/tilak-news.json data/cricinfo-photos.json
+            npx --yes prettier@3.6.2 --write index.html admin/index.html death-overs/index.html assets/*.js assets/*.css functions/_lib/*.js functions/api/admin/*.js README.md ADMIN_SETUP.md DEPLOYMENT.md data/admin-media.json data/video-config.json data/fan-zone.json data/tilak-news.json data/cricinfo-photos.json
             python -m black scripts
-            git add index.html death-overs/index.html assets scripts README.md DEPLOYMENT.md data/fan-zone.json data/tilak-news.json data/cricinfo-photos.json .editorconfig .prettierrc.json .prettierignore
+            git add index.html admin functions death-overs/index.html assets scripts README.md ADMIN_SETUP.md DEPLOYMENT.md data/admin-media.json data/video-config.json data/fan-zone.json data/tilak-news.json data/cricinfo-photos.json .editorconfig .prettierrc.json .prettierignore
             git diff --cached --quiet && exit 0
             git commit -m "style: format site source files consistently"
           done
