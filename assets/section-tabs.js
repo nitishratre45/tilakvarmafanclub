@@ -4,13 +4,17 @@
   const nav = document.getElementById("main-nav");
   const menu = document.querySelector(".menu-toggle");
   const sections = [...(main?.querySelectorAll(":scope > section[id]") || [])];
-  const allowed = new Set(sections.map((section) => section.id).filter((id) => id !== "home-snapshot"));
+  const allowed = new Set(
+    sections.map((section) => section.id).filter((id) => id !== "home-snapshot"),
+  );
   const legacy = { "stats-explorer": "statsguru", statsguru: "statsguru" };
 
   function setStatsView(view) {
     const views = [...document.querySelectorAll("#stats .stats-subview")];
     if (!views.some((node) => node.id === view)) view = "stats-overview";
-    try { sessionStorage.setItem("tilak-stats-view", view); } catch (_) {}
+    try {
+      sessionStorage.setItem("tilak-stats-view", view);
+    } catch (_) {}
     views.forEach((node) => {
       node.hidden = node.id !== view;
       node.setAttribute("aria-hidden", String(node.hidden));
@@ -23,7 +27,10 @@
   }
 
   function show(id, push = false, view) {
-    if (legacy[id]) { view = legacy[id]; id = "stats"; }
+    if (legacy[id]) {
+      view = legacy[id];
+      id = "stats";
+    }
     if (!allowed.has(id)) id = "profile";
     sections.forEach((section) => {
       const active = section.id === id || (id === "profile" && section.id === "home-snapshot");
@@ -45,19 +52,23 @@
     window.scrollTo(0, 0);
   }
 
-  document.addEventListener("click", (event) => {
-    const link = event.target.closest('a[href^="#"]');
-    if (!link || link.hasAttribute("data-stats-tab")) return;
-    if (link.hasAttribute("data-open-stats-view")) {
+  document.addEventListener(
+    "click",
+    (event) => {
+      const link = event.target.closest('a[href^="#"]');
+      if (!link || link.hasAttribute("data-stats-tab")) return;
+      if (link.hasAttribute("data-open-stats-view")) {
+        event.preventDefault();
+        show("stats", true, link.dataset.openStatsView);
+        return;
+      }
+      const id = link.hash.slice(1);
+      if (!allowed.has(id)) return;
       event.preventDefault();
-      show("stats", true, link.dataset.openStatsView);
-      return;
-    }
-    const id = link.hash.slice(1);
-    if (!allowed.has(id)) return;
-    event.preventDefault();
-    show(id, true);
-  }, true);
+      show(id, true);
+    },
+    true,
+  );
 
   document.querySelectorAll("[data-stats-tab]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -71,7 +82,9 @@
   window.addEventListener("popstate", (event) => {
     const hash = location.hash.slice(1) || "profile";
     let saved = null;
-    try { saved = sessionStorage.getItem("tilak-stats-view"); } catch (_) {}
+    try {
+      saved = sessionStorage.getItem("tilak-stats-view");
+    } catch (_) {}
     show(hash, false, event.state?.statsView || legacy[hash] || (hash === "stats" ? saved : null));
   });
   window.addEventListener("hashchange", () => {
@@ -80,7 +93,9 @@
   });
 
   let saved = null;
-  try { saved = sessionStorage.getItem("tilak-stats-view"); } catch (_) {}
+  try {
+    saved = sessionStorage.getItem("tilak-stats-view");
+  } catch (_) {}
   const initial = location.hash.slice(1) || "profile";
   show(initial, false, legacy[initial] || (initial === "stats" ? saved : null));
 })();
