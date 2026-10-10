@@ -46,8 +46,36 @@ export async function onRequestPost({ request, env }) {
     data.updatedAt = new Date().toISOString();
   } else {
     const feedUrl = typeof data?.feedUrl === "string" ? data.feedUrl.trim() : "";
-    if (feedUrl && (!/^https:\/\//i.test(feedUrl) || feedUrl.length > 1500))
-      return json({ error: "Video feed must be an HTTPS URL." }, 400);
+    if (feedUrl) {
+      let parsed;
+      try {
+        parsed = new URL(feedUrl);
+      } catch {
+        return json({ error: "Enter a valid official BCCI video API URL." }, 400);
+      }
+      const allowedHosts = new Set(["www.bcci.tv", "bcci.tv"]);
+      const allowedPaths = new Set([
+        "/api/bff/cms/videos",
+        "/api/bff/cms/videos/latest",
+      ]);
+      if (
+        parsed.protocol !== "https:" ||
+        !allowedHosts.has(parsed.hostname) ||
+        !allowedPaths.has(parsed.pathname) ||
+        parsed.username ||
+        parsed.password ||
+        parsed.hash ||
+        feedUrl.length > 1500
+      ) {
+        return json(
+          {
+            error:
+              "Only the official BCCI videos API endpoint is allowed. Player/profile URLs or other websites are rejected.",
+          },
+          400,
+        );
+      }
+    }
     data = { feedUrl, updatedAt: new Date().toISOString() };
   }
   try {
