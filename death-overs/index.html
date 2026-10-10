@@ -9,7 +9,7 @@
       content="Tilak Varma T20I over-by-over batting stats and death-overs calculator."
     />
     <title>Tilak Varma Stats Centre | The 72 Club</title>
-    <link rel="stylesheet" href="../assets/style.css?v=20261010-native-dropdowns2" />
+    <link rel="stylesheet" href="../assets/style.css?v=20261010-deathovers-responsive3" />
     <style>
       /* Keep the stats-centre navigation visible while scrolling this standalone page. */
       .death-topbar {
@@ -715,6 +715,137 @@
       html.death-embed main { padding-top: 0 !important; margin-top: 0 !important; }
       html.death-embed .stats-section { padding-top: 0 !important; }
       html.death-embed .stats-section > .container { max-width: none !important; width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; }
+
+      /* Death-overs analyser: responsive, polished controls for desktop and mobile. */
+      .calculator-card {
+        width: 100%;
+        min-width: 0;
+        padding: clamp(16px, 2.4vw, 30px);
+        border: 1px solid rgba(124,229,242,.18);
+        border-radius: 16px;
+        background: linear-gradient(145deg, rgba(19,38,59,.96), rgba(8,19,34,.98));
+        box-shadow: 0 18px 48px rgba(0,0,0,.18);
+      }
+      .calculator-controls {
+        display: grid;
+        grid-template-columns: minmax(0,1.35fr) repeat(3,minmax(0,.8fr)) auto;
+        gap: 12px;
+        align-items: end;
+      }
+      .calculator-controls label {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        min-width: 0;
+        color: #a8bdd5;
+        font: 600 10px/1.4 var(--mono);
+        letter-spacing: .08em;
+      }
+      .calculator-controls select {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        min-height: 50px;
+        padding: 0 36px 0 13px;
+        border: 1px solid #3b526d;
+        border-radius: 8px;
+        outline: none;
+        background-color: #0a1728;
+        color: #f4f7fb;
+        font: 600 12px/1.3 var(--mono);
+        color-scheme: dark;
+        cursor: pointer;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+      }
+      .calculator-controls select:hover { border-color: #ff9b35; }
+      .calculator-controls select:focus-visible {
+        border-color: #ff9b35;
+        box-shadow: 0 0 0 3px rgba(255,155,53,.16);
+      }
+      .calculator-controls select option {
+        background: #0a1728;
+        color: #f4f7fb;
+      }
+      .calculate-button {
+        min-height: 50px;
+        padding: 0 18px;
+        border-radius: 8px;
+        white-space: nowrap;
+        font: 800 11px/1.2 var(--mono);
+      }
+      .result-grid { gap: 12px; margin-top: 20px; }
+      .result-card {
+        min-width: 0;
+        padding: clamp(15px, 1.7vw, 22px);
+        border: 1px solid rgba(255,255,255,.1);
+        border-radius: 10px;
+        background: rgba(5,14,27,.78);
+      }
+      .result-card strong {
+        display: block;
+        margin-top: 10px;
+        font-size: clamp(28px, 3vw, 42px);
+        line-height: 1.05;
+        overflow-wrap: anywhere;
+      }
+      .calculator-status, .method-note { line-height: 1.7; }
+      @media (max-width: 980px) {
+        .calculator-controls {
+          grid-template-columns: repeat(2,minmax(0,1fr));
+          gap: 14px;
+        }
+        .calculate-button { width: 100%; grid-column: 1 / -1; }
+      }
+      @media (max-width: 560px) {
+        .calculator-card {
+          padding: 14px;
+          border-radius: 12px;
+        }
+        .calculator-controls {
+          grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+          gap: 12px 10px;
+        }
+        .calculator-controls label {
+          gap: 7px;
+          font-size: 9px;
+          letter-spacing: .035em;
+        }
+        .calculator-controls select {
+          min-height: 48px;
+          padding: 0 28px 0 10px;
+          font-size: 11px;
+          border-radius: 7px;
+        }
+        .calculate-button {
+          min-height: 48px;
+          font-size: 11px;
+        }
+        .result-grid {
+          grid-template-columns: repeat(2,minmax(0,1fr));
+          gap: 9px;
+          margin-top: 16px;
+        }
+        .result-card { padding: 13px 12px; border-radius: 9px; }
+        .result-card small { font-size: 9px; letter-spacing: .04em; }
+        .result-card strong { margin-top: 8px; font-size: clamp(25px, 8vw, 34px); }
+        .calculator-status { font-size: 11px; }
+        .method-note { font-size: 10px; }
+        .stats-section .page-shell, .innings-section .page-shell {
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+        .section-head { gap: 10px; }
+        .section-title { font-size: clamp(28px, 8vw, 40px); line-height: 1.05; }
+        .section-copy { font-size: 12px; line-height: 1.65; }
+      }
+      @media (max-width: 360px) {
+        .calculator-card { padding: 11px; }
+        .calculator-controls { gap: 10px 8px; }
+        .calculator-controls select { padding-left: 8px; font-size: 10px; }
+        .result-card { padding: 11px 9px; }
+        .result-card strong { font-size: 25px; }
+      }
+
     </style>
   </head>
   <body>
@@ -1244,6 +1375,6 @@
         setTimeout(sendEmbeddedHeight, 1200);
       }
     </script>
-    <script src="../assets/custom-selects.js?v=20261010-native-dropdowns2"></script>
+    <script src="../assets/custom-selects.js?v=20261010-deathovers-responsive3"></script>
   </body>
 </html>
