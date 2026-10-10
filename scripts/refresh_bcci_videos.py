@@ -298,7 +298,8 @@ def main() -> int:
             ]
         )
 
-    # Extra official domestic feeds requested for broader catalogue coverage.
+    # Extra official BCCI catalogue feeds. BCCI exposes category, season and
+    # format filters as query parameters rather than one documented master feed.
     api_queries.extend(
         [
             ("latest domestic videos", {"tag": "domestic"}),
@@ -315,6 +316,40 @@ def main() -> int:
             ),
         ]
     )
+
+    # Scan BCCI's visible category/filter combinations for men's videos, by
+    # season and format. The Tilak-only normalizer below removes unrelated clips.
+    categories = ("highlights", "features-and-interviews", "press-conferences")
+    environments = ("international,men", "domestic,men")
+    formats = ("t20", "odi", "test")
+    for environment in environments:
+        for season in range(2018, datetime.now(timezone.utc).year + 1):
+            api_queries.append(
+                (
+                    f"{environment} season {season}",
+                    {"tags": f"{environment},season:{season}"},
+                )
+            )
+            for category in categories:
+                api_queries.append(
+                    (
+                        f"{environment} {category} season {season}",
+                        {
+                            "category": category,
+                            "tags": f"{environment},season:{season}",
+                        },
+                    )
+                )
+                for match_format in formats:
+                    api_queries.append(
+                        (
+                            f"{environment} {category} season {season} {match_format}",
+                            {
+                                "category": category,
+                                "tags": f"{environment},season:{season},{match_format}",
+                            },
+                        )
+                    )
 
     # BCCI features/interviews category feed for international T20 clips.
     api_queries.append(
