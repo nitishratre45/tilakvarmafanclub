@@ -187,15 +187,25 @@ function getInfo(def, data) {
             average: s.average ?? null,
             strikeRate: s.strikeRate ?? null,
             detailedInnings: Array.isArray(f.innings) ? f.innings.length : 0,
-            updatedAt: isStatsguru ? (live.checkedAt || sg.updatedAt || null) : (fallback.updatedAt || null),
-            source: isStatsguru ? (live.source || sg.source || "ESPNcricinfo Statsguru") : (fallback.source || null),
-            sourceUrl: isStatsguru ? (live.sourceUrl || sg.sourceUrl || null) : (fallback.sourceUrl || null),
-            detailStatus: isStatsguru ? (live.detailStatus || null) : (fallback.detailStatus || "saved summary; refresh timestamp unavailable"),
+            updatedAt: isStatsguru
+              ? live.checkedAt || sg.updatedAt || null
+              : fallback.updatedAt || null,
+            source: isStatsguru
+              ? live.source || sg.source || "ESPNcricinfo Statsguru"
+              : fallback.source || null,
+            sourceUrl: isStatsguru
+              ? live.sourceUrl || sg.sourceUrl || null
+              : fallback.sourceUrl || null,
+            detailStatus: isStatsguru
+              ? live.detailStatus || null
+              : fallback.detailStatus || "saved summary; refresh timestamp unavailable",
           },
         ];
       }),
     );
-    const timestamps = Object.values(fmt).map((entry) => entry.updatedAt).filter(Boolean);
+    const timestamps = Object.values(fmt)
+      .map((entry) => entry.updatedAt)
+      .filter(Boolean);
     return {
       updatedAt: timestamps.length ? latestTimestamp(...timestamps) : null,
       attemptAt: sg.lastAttemptAt,
