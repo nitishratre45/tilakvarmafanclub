@@ -59,7 +59,9 @@
     activeBreakdownFilter = "all",
     activeBreakdownValue = "all",
     appliedFrom = "",
-    appliedTo = "";
+    appliedTo = "",
+    requestedScope = "all",
+    requestedView = "batting";
 
   function metric(label, value) {
     return (
@@ -720,6 +722,22 @@
     const type = activeBreakdownFilter,
       value = activeBreakdownValue,
       group = selectedGroup(source);
+    const unsupportedViews = {
+      cumulative: "Cumulative averages",
+      results: "Match results",
+      reverse: "Reverse cumulative",
+      awards: "Match awards",
+      seriesawards: "Series awards",
+      ground: "Ground averages",
+    };
+    if (unsupportedViews[requestedView]) {
+      $("statsguru-summary").innerHTML = metric("VIEW", unsupportedViews[requestedView]);
+      rowsTable([], ["STATUS"], () => "", "This ESPNcricinfo view is selected, but a verified saved table for it is not currently available. Other supported views continue to use the saved source data.");
+      $("statsguru-note").textContent = "No figures have been estimated. The selected format and filters remain available; this view will populate when the source returns verified rows.";
+      const status = $("sg-filter-status");
+      if (status) status.textContent = unsupportedViews[requestedView] + " · verified source rows not available";
+      return;
+    }
     if (renderAdditional(source)) {
       const status = $("sg-filter-status");
       if (status)
@@ -1062,6 +1080,31 @@
     render();
   });
   $("sg-reset-filter").addEventListener("click", resetFilters);
+  const viewCategory = () => {
+    const maps = {
+      all: { batting: "batting", innings: "innings", matchlist: "matchlist", series: "battingseries" },
+      batting: { batting: "batting", innings: "innings", matchlist: "matchlist", series: "battingseries" },
+      bowling: { batting: "bowling", innings: "bowlinginnings", matchlist: "bowlingmatches", series: "bowlingseries" },
+      fielding: { batting: "fielding", innings: "fieldinginnings", matchlist: "fieldinginnings", series: "fieldingseries" },
+    };
+    return maps[requestedScope]?.[requestedView] || "batting";
+  };
+  document.querySelectorAll('input[name="sg-analysis-scope"]').forEach((radio) => {
+    radio.addEventListener("change", () => {
+      if (!radio.checked) return;
+      requestedScope = radio.value;
+      selectedCategory = viewCategory();
+      render();
+    });
+  });
+  document.querySelectorAll('input[name="sg-analysis-view"]').forEach((radio) => {
+    radio.addEventListener("change", () => {
+      if (!radio.checked) return;
+      requestedView = radio.value;
+      selectedCategory = viewCategory();
+      render();
+    });
+  });
   fetch("data/site-data.json", { cache: "no-store" })
     .then((r) => {
       if (!r.ok) throw new Error("site data unavailable");
