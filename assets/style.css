@@ -6973,3 +6973,25 @@ option {
     font-size: 24px;
   }
 }
+
+
+/* Official BCCI Tilak Varma video hub */
+.tilak-video-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 18px}
+.tilak-video-source{display:inline-flex;align-items:center;gap:9px;font:700 11px var(--mono);letter-spacing:.09em;color:var(--muted)}
+.tilak-video-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tilak-video-card{display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:var(--panel);color:var(--white);text-decoration:none;transition:transform .2s ease,border-color .2s ease}
+.tilak-video-card:hover{transform:translateY(-3px);border-color:var(--orange)}
+.tilak-video-art{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;overflow:hidden;padding:18px;background:radial-gradient(circle at 80% 20%,rgba(255,106,53,.38),transparent 38%),linear-gradient(135deg,#07101f,#0c5b46 68%,#c45b2a)}
+.tilak-video-art:after{content:"";position:absolute;inset:12px;border:1px solid rgba(255,255,255,.18);border-radius:10px}
+.tilak-video-number{position:absolute;left:18px;bottom:-18px;font:900 clamp(76px,10vw,120px)/1 var(--display);letter-spacing:-.08em;color:rgba(255,255,255,.12)}
+.tilak-video-play{position:relative;z-index:1;display:grid;place-items:center;width:54px;height:54px;border-radius:50%;background:#fff;color:#07101f;font-size:21px;box-shadow:0 8px 24px #0004}
+.tilak-video-duration{position:absolute;z-index:2;right:22px;bottom:22px;padding:5px 8px;border-radius:5px;background:#07101fdd;color:#fff;font:600 11px var(--mono)}
+.tilak-video-copy{display:flex;flex:1;flex-direction:column;gap:9px;padding:16px}
+.tilak-video-type{font:700 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--orange)}
+.tilak-video-title{font-size:16px;line-height:1.35;font-weight:800}
+.tilak-video-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:5px;color:var(--muted);font-size:11px}
+.tilak-video-watch{color:var(--white);font-weight:800}
+.tilak-video-note{margin-top:14px;color:var(--muted);font-size:12px;line-height:1.6}
+@media(max-width:900px){.tilak-video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.tilak-video-grid{grid-template-columns:1fr;gap:12px}.tilak-video-card{display:grid;grid-template-columns:42% minmax(0,1fr)}.tilak-video-art{height:100%;min-height:145px;aspect-ratio:auto;padding:8px}.tilak-video-art:after{inset:7px}.tilak-video-play{width:42px;height:42px;font-size:17px}.tilak-video-number{left:8px;font-size:70px}.tilak-video-duration{right:10px;bottom:10px;font-size:10px}.tilak-video-copy{padding:12px;gap:7px}.tilak-video-title{font-size:14px}.tilak-video-meta{align-items:flex-start;flex-direction:column;gap:4px}}
+@media(prefers-reduced-motion:reduce){.tilak-video-card{transition:none}.tilak-video-card:hover{transform:none}}
