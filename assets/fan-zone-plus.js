@@ -32,7 +32,7 @@
       const nick = text(name.value) || "YOUR NAME";
       preview.innerHTML = '<span>THE 72 CLUB</span><strong>' + esc(nick) + '</strong><small>FAN MEMBER · ' + esc(format.value.toUpperCase()) + ' · JERSEY 72</small>';
     };
-    name.addEventListener("input", render);
+    name.addEventListener("input", () => { name.setCustomValidity(""); render(); });
     format.addEventListener("change", render);
     form.addEventListener("submit", (e) => {
       e.preventDefault();
