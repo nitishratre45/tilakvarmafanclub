@@ -80,12 +80,18 @@
                 : "Time TBA";
             const scores =
               m.score1 || m.score2
-                ? '<div class="mc-live-scores"><strong>' +
+                ? '<div class="mc-live-scoreboard ' + (m.status === "Live" ? "is-live" : "") + '">' +
+                  '<div class="mc-scoreboard-heading"><span>' + (m.status === "Live" ? '<i class="mc-live-dot"></i> LIVE SCOREBOARD' : "SCOREBOARD") + '</span><small>' + esc(m.format || "CRICKET") + '</small></div>' +
+                  '<div class="mc-live-scores"><strong>' +
                   esc(m.score1 || "Yet to bat") +
                   "</strong><span>VS</span><strong>" +
                   esc(m.score2 || "Yet to bat") +
-                  "</strong></div>"
-                : "";
+                  "</strong></div>" +
+                  (m.status === "Live" ? '<div class="mc-live-progress"><span></span></div><small class="mc-scoreboard-note">Live feed · updates automatically</small>' : "") +
+                  "</div>"
+                : m.status === "Live"
+                  ? '<div class="mc-live-scoreboard is-live"><div class="mc-scoreboard-heading"><span><i class="mc-live-dot"></i> LIVE MATCH</span></div><p class="mc-scoreboard-note">Live score is not available from the feed yet.</p></div>'
+                  : "";
             return (
               '<article class="match-center-card">' +
               '<div class="mc-card-top"><span class="mc-date">' +
@@ -138,7 +144,7 @@
   }
   async function refresh() {
     const status = document.getElementById("mc-provider-status");
-    if (status) status.textContent = "Updating fixtures and scores…";
+    if (status) status.textContent = "Refreshing live scoreboards…";
     try {
       const response = await fetch("/api/matches?view=" + encodeURIComponent(view), {
         headers: { Accept: "application/json" },
@@ -200,5 +206,5 @@
     .filter(Boolean)
     .forEach((el) => el.addEventListener(el.tagName === "INPUT" ? "input" : "change", render));
   refresh();
-  window.setInterval(refresh, 60000);
+  window.setInterval(refresh, 30000);
 })();
