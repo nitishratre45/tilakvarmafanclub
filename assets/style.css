@@ -7471,3 +7471,18 @@ body.bcci-player-open {
     font-size: 14px;
   }
 }
+
+/* Single official BCCI player photo: remove the previous multi-image gallery layout. */
+.cricinfo-photo-grid { display:grid; grid-template-columns:minmax(0,420px); justify-content:start; gap:0; }
+.bcci-profile-photo-card { overflow:hidden; border:1px solid var(--line); border-radius:14px; background:var(--panel); }
+.bcci-profile-photo-open { display:block; position:relative; background:#07101f; aspect-ratio:4/5; overflow:hidden; }
+.bcci-profile-photo-open img { display:block; width:100%; height:100%; object-fit:cover; object-position:top center; }
+.bcci-profile-photo-open > span { position:absolute; left:12px; bottom:12px; padding:7px 10px; border-radius:5px; background:#07101fdd; color:#fff; font:700 9px var(--mono); letter-spacing:.08em; }
+.bcci-profile-photo-caption { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding:14px; }
+.bcci-profile-photo-caption strong { color:var(--white); font-size:14px; }
+.bcci-profile-photo-caption a,.bcci-photo-empty a { color:var(--cyan); font-size:10px; font-weight:800; }
+.bcci-photo-empty { display:flex; align-items:center; gap:16px; padding:22px; border:1px solid var(--line); border-radius:12px; background:var(--panel); }
+.bcci-photo-mark { display:grid; place-items:center; flex:0 0 58px; width:58px; height:58px; border-radius:50%; background:#ff6a3520; color:var(--orange); font:900 28px var(--display); }
+.bcci-photo-empty strong { display:block; margin-bottom:6px; }
+.bcci-photo-empty p { color:var(--muted); font-size:12px; line-height:1.6; }
+@media(max-width:560px){.cricinfo-photo-grid{grid-template-columns:minmax(0,1fr)}.bcci-profile-photo-card{max-width:100%}.bcci-profile-photo-open{max-height:520px}}
