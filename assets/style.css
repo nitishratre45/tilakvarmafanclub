@@ -9049,3 +9049,35 @@ html.death-embed footer{display:none!important}
     padding: 14px;
   }
 }
+
+
+/* Fix custom option picker scrolling on desktop and touch devices. */
+.cs-dialog {
+  min-height: 0;
+  max-height: min(68vh, 420px);
+}
+.cs-dialog-head {
+  flex: 0 0 auto;
+}
+.cs-options {
+  display: block;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  scrollbar-gutter: stable;
+}
+.cs-option {
+  flex: 0 0 auto;
+}
+.cs-overlay.is-mobile .cs-dialog {
+  max-height: min(72dvh, 620px);
+}
+.cs-overlay.is-mobile .cs-options {
+  min-height: 0;
+  max-height: calc(min(72dvh, 620px) - 76px);
+}
