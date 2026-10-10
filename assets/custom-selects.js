@@ -127,22 +127,33 @@
       const rect = control.button.getBoundingClientRect();
       const dialog = overlay.querySelector(".cs-dialog");
       const maxHeight = Math.min(window.innerHeight * 0.68, 420);
-      dialog.style.left =
-        Math.max(
-          12,
-          Math.min(
-            rect.left,
-            window.innerWidth - Math.min(Math.max(rect.width, 260), window.innerWidth - 24) - 12,
-          ),
-        ) + "px";
-      dialog.style.width = Math.min(Math.max(rect.width, 260), window.innerWidth - 24) + "px";
-      dialog.style.maxHeight = maxHeight + "px";
+      const width = Math.min(Math.max(rect.width, 260), window.innerWidth - 24);
       const estimated = Math.min(control.select.options.length * 52 + 76, maxHeight);
       const below = window.innerHeight - rect.bottom;
-      dialog.style.top =
-        (below >= estimated || below > rect.top
-          ? rect.bottom + 8
-          : Math.max(12, rect.top - estimated - 8)) + "px";
+      const top = below >= estimated || below > rect.top
+        ? Math.min(window.innerHeight - estimated - 12, rect.bottom + 8)
+        : Math.max(12, rect.top - estimated - 8);
+      Object.assign(overlay.style, {
+        position: "fixed", inset: "0", zIndex: "2147483000",
+        display: "block", overflow: "visible", background: "transparent",
+        pointerEvents: "auto"
+      });
+      Object.assign(dialog.style, {
+        position: "fixed", display: "flex", flexDirection: "column",
+        left: Math.max(12, Math.min(rect.left, window.innerWidth - width - 12)) + "px",
+        top: Math.max(12, top) + "px",
+        width: width + "px", minWidth: "0",
+        maxHeight: maxHeight + "px", height: "auto",
+        visibility: "visible", opacity: "1", zIndex: "2147483001",
+        pointerEvents: "auto"
+      });
+      const options = dialog.querySelector(".cs-options");
+      if (options) Object.assign(options.style, {
+        display: "block", flex: "1 1 auto", minHeight: "0",
+        maxHeight: Math.max(100, maxHeight - dialog.querySelector(".cs-dialog-head").offsetHeight) + "px",
+        overflowY: "auto", overscrollBehavior: "contain",
+        pointerEvents: "auto", touchAction: "pan-y"
+      });
     }
     const current = overlay.querySelector('[aria-selected="true"]');
     if (current) current.focus({ preventScroll: true });
