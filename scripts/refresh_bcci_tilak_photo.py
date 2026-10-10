@@ -160,7 +160,7 @@ def main():
         parser = ProfileImageParser()
         parser.feed(html)
         found.extend(parser.images)
-        for raw in re.findall(r'https?:\\?/\\?/[^"\\s<>]+', html):
+        for raw in re.findall(r'https?://[^"\\s<>]+', html):
             url = clean_url(raw)
             if url and ("tilak" in url.lower() or "993" in url):
                 found.append(url)
