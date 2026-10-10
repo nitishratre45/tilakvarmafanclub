@@ -539,6 +539,33 @@ def main() -> int:
                 f"BCCI {label}: {found_on_query} Tilak clips; {len(collected)} unique total"
             )
 
+    # Preserve previously published clips so a partial or narrower BCCI response
+    # can never wipe the site's video history. Newly fetched records take priority
+    # (they may carry refreshed signed playback URLs); old IDs are appended only
+    # when they are absent from the current collection.
+    previous_count = 0
+    try:
+        previous_payload = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
+        previous_videos = previous_payload.get("videos", []) if isinstance(previous_payload, dict) else []
+        if isinstance(previous_videos, list):
+            for previous in previous_videos:
+                if not isinstance(previous, dict):
+                    continue
+                video_id = first_text(previous.get("id"))
+                title = first_text(previous.get("title"))
+                playback = first_text(previous.get("playbackUrl"))
+                if not video_id or not title or not is_valid_playback_url(playback):
+                    continue
+                if video_id not in collected:
+                    collected[video_id] = previous
+                    previous_count += 1
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"Could not read prior video history; using newly collected clips only: {exc}", file=sys.stderr)
+
+    print(
+        f"Video history retention: preserved {previous_count} previously published clips not returned by this refresh."
+    )
+
     videos = sorted(
         collected.values(),
         key=lambda video: (
