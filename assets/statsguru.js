@@ -106,7 +106,7 @@
   function sourceData() {
     const formats = data?.statsguru?.formats || {};
     if (selectedFormat === "All") {
-      const parts = ["T20", "ODI"].map((f) => formats[f]).filter(Boolean);
+      const parts = ["T20", "ODI", "FC", "List A"].map((f) => formats[f]).filter(Boolean);
       const all = parts.flatMap((f) => (Array.isArray(f.innings) ? f.innings : []));
       const summaries = parts.map((f) => f.summary).filter(Boolean);
       const sum = (k) => summaries.reduce((n, s) => n + (typeof s[k] === "number" ? s[k] : 0), 0);
