@@ -59,7 +59,7 @@
         opposition = r.opposition || "",
         ground = r.ground || r.venue || "";
       if (!date || !opposition) continue;
-      const key = [fmt, date, opposition, ground].join("|").toLowerCase();
+      const key = [fmt, dateValue(date) || date, opposition, ground].join("|").toLowerCase();
       unique.set(key, { ...(unique.get(key) || {}), ...r, format: fmt, ground });
     }
     const matches = Array.from(unique.values()).sort(
@@ -109,7 +109,7 @@
     const bowlMap = new Map();
     for (const [fmt, entry] of Object.entries(data.bowlingStats?.formats || {}))
       for (const b of Array.isArray(entry?.innings) ? entry.innings : []) {
-        const key = [fmt, b.date || "", b.opposition || "", b.ground || ""].join("|").toLowerCase();
+        const key = [fmt, dateValue(b.date) || b.date || "", b.opposition || "", b.ground || ""].join("|").toLowerCase();
         bowlMap.set(key, b.figures || (b.wickets ?? "—") + "/" + (b.runsConceded ?? "—"));
       }
     const selector = $("player-match-format"),
