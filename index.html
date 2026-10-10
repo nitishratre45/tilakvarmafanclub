@@ -24,8 +24,7 @@
         ☰
       </button>
       <nav id="main-nav">
-        <a href="#profile">Profile</a><a href="#match-center">Match Center</a
-        ><a href="#stats">Stats</a><a href="death-overs/">Death-overs</a
+        <a href="#profile">Profile</a><a href="#stats">Stats</a
         ><a href="#innings">Matches</a><a href="#records">Records</a
         ><a href="#moments">Photos & News</a><a href="#tilak-videos">Videos</a
         ><a href="#fan-zone">Fan Zone</a><a href="#about">About</a><a href="#settings">Settings</a>
@@ -70,7 +69,7 @@
           </p>
           <div class="profile-quick-actions">
             <a class="button primary" href="#stats">Career stats ↘</a
-            ><a class="button outline" href="death-overs/">Death-overs tool ↗</a>
+
           </div>
         </div>
       </section>
@@ -112,6 +111,14 @@
             ESPNcricinfo · checking latest snapshot
           </p>
         </div>
+        <div class="home-debut-history">
+          <div class="home-snapshot-blockhead"><div><div class="eyebrow">PLAYER MILESTONES</div><h3>DEBUT &amp; LAST MATCHES</h3></div></div>
+          <div class="match-history-summary">
+          <div class="eyebrow">DEBUT / LAST MATCHES · ALL FORMATS</div>
+          <div id="player-match-milestones" class="player-match-milestones">
+            <p class="activity-empty">Loading verified match history…</p>
+          </div>
+        </div>
         <div class="home-snapshot-columns">
           <div class="home-snapshot-block">
             <div class="home-snapshot-blockhead">
@@ -146,61 +153,7 @@
         </div>
       </section>
 
-      <section id="match-center" class="section match-center-section">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">CRICAPI · INDIA MATCHES</div>
-            <h2>MATCH <em>CENTER</em></h2>
-          </div>
-          <p>
-            India men’s and women’s international fixtures, live scores and results from CricAPI.
-            Upcoming fixtures are collected from India-related series schedules and refreshed
-            automatically.
-          </p>
-        </div>
-        <div class="mc-official-scorecard">
-          <div>
-            <span class="mc-official-scorecard-kicker">OFFICIAL BCCI SCORECARD</span>
-            <strong>Full scorecard · batting, bowling &amp; match details</strong>
-            <p>Open the official BCCI Stats scorecard for this match.</p>
-          </div>
-          <a
-            href="https://stats.bcci.tv/match/45bb3d07-d4bc-4372-9b63-30bebd91b76c/scorecard"
-            target="_blank"
-            rel="noopener noreferrer"
-            >View scorecard ↗</a
-          >
-        </div>
-        <div class="match-center-toolbar">
-          <label
-            >Search matches
-            <input id="mc-search" type="search" placeholder="Team, series or venue…"
-          /></label>
-          <label
-            >Format
-            <select id="mc-format">
-              <option value="all">All formats</option>
-              <option value="T20I">T20I</option>
-              <option value="ODI">ODI</option>
-              <option value="List A">List A / One-day</option>
-              <option value="FC">First-class</option>
-            </select>
-          </label>
-          <label
-            >Teams
-            <select id="mc-team">
-              <option value="all">All teams</option>
-              <option value="india-men">India men</option>
-              <option value="india-a">India A</option>
-              <option value="women">Women's cricket</option>
-            </select>
-          </label>
-        </div>
-        <div class="match-center-summary">
-          <span><i class="live-dot"></i> <b id="mc-count">0</b> INDIA MATCHES</span>
-        </div>
-        <div id="match-center-grid" class="match-center-grid" aria-live="polite"></div>
-      </section>
+
 
       <section id="stats" class="section stats-section">
         <div class="section-heading">
@@ -224,6 +177,9 @@
           </button>
           <button type="button" role="tab" aria-selected="false" data-stats-tab="statsguru">
             Explore
+          </button>
+          <button type="button" role="tab" aria-selected="false" data-stats-tab="stats-death-overs">
+            Death-overs
           </button>
         </div>
         <div id="stats-overview" class="stats-subview">
@@ -568,6 +524,15 @@
             Source: ESPNcricinfo Statsguru. Bowling data is refreshed from the source; missing
             figures are not estimated.
           </p>
+        <div id="stats-death-overs" class="stats-subview stats-death-overs-view" hidden aria-hidden="true">
+          <div class="section-heading">
+            <div><div class="eyebrow">TILAK VARMA · OVER-BY-OVER</div><h2>DEATH-OVERS <em>ANALYSIS</em></h2></div>
+            <p>Overs 16–20 batting analysis and detailed death-overs data.</p>
+          </div>
+          <div class="death-overs-embed">
+            <iframe src="death-overs/" title="Tilak Varma death-overs statistics" loading="lazy"></iframe>
+          </div>
+        </div>
         </div>
       </section>
 
@@ -764,16 +729,57 @@
       </section>
 
       <section id="innings" class="section innings-section">
+        <div class="section-heading"><div><div class="eyebrow">MATCH CENTRE &amp; PLAYER HISTORY</div><h2>THE <em>MATCHES</em></h2></div><p>Live and upcoming cricket fixtures, plus Tilak Varma’s verified match history.</p></div>
+      <section id="match-center" class="match-center-section embedded-match-center">
         <div class="section-heading">
           <div>
-            <div class="eyebrow">MATCH HISTORY</div>
-            <h2>DEBUT &amp; RECENT <em>MATCHES</em></h2>
+            <div class="eyebrow">CRICAPI · INDIA MATCHES</div>
+            <h2>MATCH <em>CENTER</em></h2>
           </div>
           <p>
-            Debut, last match and recent player records across T20I, ODI, FC, List A and T20.
-            Verified match data refreshes automatically every 24 hours.
+            India men’s and women’s international fixtures, live scores and results from CricAPI.
+            Upcoming fixtures are collected from India-related series schedules and refreshed
+            automatically.
           </p>
         </div>
+
+          <a
+            href="https://stats.bcci.tv/match/45bb3d07-d4bc-4372-9b63-30bebd91b76c/scorecard"
+            target="_blank"
+            rel="noopener noreferrer"
+            >View scorecard ↗</a
+          >
+        </div>
+        <div class="match-center-toolbar">
+          <label
+            >Search matches
+            <input id="mc-search" type="search" placeholder="Team, series or venue…"
+          /></label>
+          <label
+            >Format
+            <select id="mc-format">
+              <option value="all">All formats</option>
+              <option value="T20I">T20I</option>
+              <option value="ODI">ODI</option>
+              <option value="List A">List A / One-day</option>
+              <option value="FC">First-class</option>
+            </select>
+          </label>
+          <label
+            >Teams
+            <select id="mc-team">
+              <option value="all">All teams</option>
+              <option value="india-men">India men</option>
+              <option value="india-a">India A</option>
+              <option value="women">Women's cricket</option>
+            </select>
+          </label>
+        </div>
+        <div class="match-center-summary">
+          <span><i class="live-dot"></i> <b id="mc-count">0</b> INDIA MATCHES</span>
+        </div>
+        <div id="match-center-grid" class="match-center-grid" aria-live="polite"></div>
+      </section>
         <div class="upcoming-matches-panel" aria-labelledby="upcoming-matches-title">
           <div class="upcoming-matches-heading">
             <div>
@@ -796,11 +802,7 @@
             Fixture and squad details: BCCI official announcement.
           </p>
         </div>
-        <div class="match-history-summary">
-          <div class="eyebrow">DEBUT / LAST MATCHES · ALL FORMATS</div>
-          <div id="player-match-milestones" class="player-match-milestones">
-            <p class="activity-empty">Loading verified match history…</p>
-          </div>
+
           <p id="player-match-source" class="home-bowling-updated">
             ESPNcricinfo Statsguru · checking latest snapshot
           </p>
