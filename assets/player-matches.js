@@ -52,19 +52,59 @@
     }
     for (const r of Array.isArray(data.recentInnings) ? data.recentInnings : [])
       all.push({ ...r, ground: r.ground || r.venue, format: r.format || "T20I" });
-    const unique = new Map();
-    for (const r of all) {
-      const fmt = r.format || "T20I",
-        date = r.date || "",
-        opposition = r.opposition || "",
-        ground = r.ground || r.venue || "";
+    // Normalize the same match when feeds label the opponent differently
+    // ("India vs West Indies", "v West Indies", "West Indies") or use
+    // ISO vs human-readable dates. T20I is preferred over the overlapping T20 feed.
+    const normalizeText = (value) =>
+      String(value || "")
+        .toLowerCase()
+        .replace(/\bindia\s+vs\s+/g, "")
+        .replace(/^\s*v\s+/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    const dayValue = (value) => {
+      const ts = dateValue(value);
+      return ts ? Math.floor(ts / 86400000) : 0;
+    };
+    const rowQuality = (row) =>
+      (row.matchUrl ? 8 : 0) +
+      (row.source === "ESPNcricinfo Statsguru" ? 4 : 0) +
+      (Number.isFinite(Number(row.balls)) && Number(row.balls) > 0 ? 3 : 0) +
+      (row.score && row.score !== "—" ? 2 : 0) +
+      (row.result ? 1 : 0);
+    const matches = [];
+    for (const row of all) {
+      const fmt = row.format || "T20I";
+      const date = row.date || "";
+      const opposition = row.opposition || "";
+      const ground = row.ground || row.venue || "";
       if (!date || !opposition) continue;
-      const key = [fmt, dateValue(date) || date, opposition, ground].join("|").toLowerCase();
-      unique.set(key, { ...(unique.get(key) || {}), ...r, format: fmt, ground });
+      const normalizedOpposition = normalizeText(opposition);
+      const normalizedGround = normalizeText(ground);
+      const day = dayValue(date);
+      const existingIndex = matches.findIndex((item) => {
+        const sameOpposition = normalizeText(item.opposition) === normalizedOpposition;
+        const sameGround =
+          !normalizedGround ||
+          !normalizeText(item.ground || item.venue) ||
+          normalizeText(item.ground || item.venue) === normalizedGround;
+        const dateDistance = Math.abs(day - dayValue(item.date));
+        return sameOpposition && sameGround && dateDistance <= 1;
+      });
+      if (existingIndex < 0) {
+        matches.push({ ...row, format: fmt, ground });
+        continue;
+      }
+      const previous = matches[existingIndex];
+      const preferred = rowQuality(row) > rowQuality(previous) ? row : previous;
+      const merged = { ...previous, ...row, ...preferred };
+      // Keep the canonical T20I label when the same international innings is
+      // also present in the all-competitions T20 dataset.
+      merged.format = previous.format === "T20I" || fmt === "T20I" ? "T20I" : fmt;
+      merged.ground = preferred.ground || preferred.venue || ground || previous.ground;
+      matches[existingIndex] = merged;
     }
-    const matches = Array.from(unique.values()).sort(
-      (a, b) => dateValue(b.date) - dateValue(a.date),
-    );
+    matches.sort((a, b) => dateValue(b.date) - dateValue(a.date));
     const milestones = $("player-match-milestones");
     if (milestones) {
       milestones.innerHTML =
