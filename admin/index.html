@@ -530,21 +530,95 @@
         font-size: 10px;
         font-weight: 800;
       }
-      .monitor-toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
-      .monitor-meta { color:var(--muted); font-size:11px; }
-      .run-list { display:grid; gap:12px; margin-top:16px; }
-      .run-card { min-width:0; padding:14px; border:1px solid var(--line); border-radius:12px; background:#071626; }
-      .run-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
-      .run-title { font-weight:850; overflow-wrap:anywhere; }
-      .run-detail { color:var(--muted); font-size:11px; margin-top:5px; overflow-wrap:anywhere; }
-      .run-state { flex:0 0 auto; padding:4px 8px; border:1px solid #2f4c60; border-radius:999px; font-size:10px; font-weight:900; text-transform:uppercase; }
-      .run-state.success { color:var(--green); border-color:#28694f; }
-      .run-state.failure { color:var(--red); border-color:#78413f; }
-      .run-state.in_progress, .run-state.queued { color:var(--orange); border-color:#77502d; }
-      .run-errors { margin-top:12px; padding:10px 12px; border-radius:9px; border:1px solid #633c3c; background:#2a171d; color:#ffd5d3; font-size:11px; overflow-wrap:anywhere; }
-      .run-errors ul { margin:6px 0 0; padding-left:18px; }
-      .run-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
-      .monitor-help { margin-top:14px; padding:12px; border:1px solid var(--line); border-radius:10px; color:var(--muted); font-size:11px; }
+      .monitor-toolbar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .monitor-meta {
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .run-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 16px;
+      }
+      .run-card {
+        min-width: 0;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #071626;
+      }
+      .run-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .run-title {
+        font-weight: 850;
+        overflow-wrap: anywhere;
+      }
+      .run-detail {
+        color: var(--muted);
+        font-size: 11px;
+        margin-top: 5px;
+        overflow-wrap: anywhere;
+      }
+      .run-state {
+        flex: 0 0 auto;
+        padding: 4px 8px;
+        border: 1px solid #2f4c60;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+      .run-state.success {
+        color: var(--green);
+        border-color: #28694f;
+      }
+      .run-state.failure {
+        color: var(--red);
+        border-color: #78413f;
+      }
+      .run-state.in_progress,
+      .run-state.queued {
+        color: var(--orange);
+        border-color: #77502d;
+      }
+      .run-errors {
+        margin-top: 12px;
+        padding: 10px 12px;
+        border-radius: 9px;
+        border: 1px solid #633c3c;
+        background: #2a171d;
+        color: #ffd5d3;
+        font-size: 11px;
+        overflow-wrap: anywhere;
+      }
+      .run-errors ul {
+        margin: 6px 0 0;
+        padding-left: 18px;
+      }
+      .run-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .monitor-help {
+        margin-top: 14px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        color: var(--muted);
+        font-size: 11px;
+      }
       .login-wrap {
         width: min(470px, calc(100% - 32px));
         margin: 9vh auto;
@@ -958,7 +1032,11 @@
             <div>
               <div class="eyebrow">AUTOMATION · ERROR DETECTION</div>
               <h2>Data refresh & error monitor</h2>
-              <p>Live GitHub Actions status: see which refresh is running, what failed, the exact failed step, and open the original run logs. Python diagnostics check JSON, Python/JavaScript syntax and duplicate HTML IDs.</p>
+              <p>
+                Live GitHub Actions status: see which refresh is running, what failed, the exact
+                failed step, and open the original run logs. Python diagnostics check JSON,
+                Python/JavaScript syntax and duplicate HTML IDs.
+              </p>
             </div>
             <span class="pill">LIVE CHECKS</span>
           </div>
@@ -967,14 +1045,22 @@
               <span id="monitor-checked" class="monitor-meta">Loading workflow activity…</span>
               <div class="actions">
                 <button id="monitor-refresh" class="btn" type="button">↻ Refresh status</button>
-                <button id="monitor-diagnose" class="btn primary" type="button">Run Python diagnostics</button>
+                <button id="monitor-diagnose" class="btn primary" type="button">
+                  Run Python diagnostics
+                </button>
               </div>
             </div>
             <div id="monitor-status" class="status" role="status" aria-live="polite"></div>
             <div id="monitor-runs" class="run-list">
               <div class="empty">Loading recent refresh activity…</div>
             </div>
-            <div class="monitor-help">Auto-repair is deliberately limited to safe recovery: this panel can re-run failed/cancelled workflow jobs after the root cause is fixed. Python diagnostics are read-only and pinpoint errors; they never rewrite player statistics or delete data. If a button returns GitHub permission errors, update the Cloudflare <code>GITHUB_TOKEN</code> with Actions read/write permission.</div>
+            <div class="monitor-help">
+              Auto-repair is deliberately limited to safe recovery: this panel can re-run
+              failed/cancelled workflow jobs after the root cause is fixed. Python diagnostics are
+              read-only and pinpoint errors; they never rewrite player statistics or delete data. If
+              a button returns GitHub permission errors, update the Cloudflare
+              <code>GITHUB_TOKEN</code> with Actions read/write permission.
+            </div>
           </div>
         </section>
         <section id="services" class="section">
@@ -1141,35 +1227,81 @@
         }
         function renderMonitor(data) {
           const host = $("monitor-runs");
-          $("monitor-checked").textContent = "Last checked: " + formatTime(data.checkedAt) + " · " + (data.repository || "repository");
+          $("monitor-checked").textContent =
+            "Last checked: " +
+            formatTime(data.checkedAt) +
+            " · " +
+            (data.repository || "repository");
           const runs = Array.isArray(data.runs) ? data.runs : [];
           if (!runs.length) {
             host.innerHTML = '<div class="empty">No recent GitHub Actions runs found.</div>';
             return;
           }
-          host.innerHTML = runs.map((run) => {
-            const stateName = run.status === "completed" ? (run.conclusion || "completed") : (run.status || "unknown");
-            const failed = run.conclusion === "failure";
-            const jobs = Array.isArray(run.failedJobs) ? run.failedJobs : [];
-            const issues = failed ? jobs.map((job) => {
-              const steps = (job.steps || []).map((step) =>
-                "<li><strong>" + escapeHtml(step.name || "Failed step") + "</strong> · " + escapeHtml(step.conclusion || "error") + "</li>"
-              ).join("");
-              return "<div><strong>" + escapeHtml(job.name || "Job") + "</strong>" +
-                (steps ? "<ul>" + steps + "</ul>" : "") + "</div>";
-            }).join("") : "";
-            return '<article class="run-card"><div class="run-head"><div><div class="run-title">' +
-              escapeHtml(run.name || run.title || "GitHub Actions") + '</div><div class="run-detail">' +
-              escapeHtml(run.title || "") + " · #" + escapeHtml(run.id) + " · branch " +
-              escapeHtml(run.branch || "main") + '</div><div class="run-detail">Started: ' +
-              escapeHtml(formatTime(run.createdAt)) + (run.updatedAt ? " · Updated: " + escapeHtml(formatTime(run.updatedAt)) : "") +
-              '</div></div><span class="run-state ' + escapeHtml(stateName) + '">' + escapeHtml(stateName.replaceAll("_", " ")) +
-              '</span></div>' + (issues ? '<div class="run-errors"><strong>Detected failure / failed step</strong>' + issues + '</div>' : "") +
-              '<div class="run-actions"><a class="btn small" href="' + safeMediaUrl(run.url) +
-              '" target="_blank" rel="noopener noreferrer">Open full logs ↗</a>' +
-              (failed || run.conclusion === "cancelled" ? '<button class="btn small" type="button" data-rerun="' + escapeHtml(run.id) + '">Re-run failed jobs</button>' : "") +
-              '</div></article>';
-          }).join("");
+          host.innerHTML = runs
+            .map((run) => {
+              const stateName =
+                run.status === "completed"
+                  ? run.conclusion || "completed"
+                  : run.status || "unknown";
+              const failed = run.conclusion === "failure";
+              const jobs = Array.isArray(run.failedJobs) ? run.failedJobs : [];
+              const issues = failed
+                ? jobs
+                    .map((job) => {
+                      const steps = (job.steps || [])
+                        .map(
+                          (step) =>
+                            "<li><strong>" +
+                            escapeHtml(step.name || "Failed step") +
+                            "</strong> · " +
+                            escapeHtml(step.conclusion || "error") +
+                            "</li>",
+                        )
+                        .join("");
+                      return (
+                        "<div><strong>" +
+                        escapeHtml(job.name || "Job") +
+                        "</strong>" +
+                        (steps ? "<ul>" + steps + "</ul>" : "") +
+                        "</div>"
+                      );
+                    })
+                    .join("")
+                : "";
+              return (
+                '<article class="run-card"><div class="run-head"><div><div class="run-title">' +
+                escapeHtml(run.name || run.title || "GitHub Actions") +
+                '</div><div class="run-detail">' +
+                escapeHtml(run.title || "") +
+                " · #" +
+                escapeHtml(run.id) +
+                " · branch " +
+                escapeHtml(run.branch || "main") +
+                '</div><div class="run-detail">Started: ' +
+                escapeHtml(formatTime(run.createdAt)) +
+                (run.updatedAt ? " · Updated: " + escapeHtml(formatTime(run.updatedAt)) : "") +
+                '</div></div><span class="run-state ' +
+                escapeHtml(stateName) +
+                '">' +
+                escapeHtml(stateName.replaceAll("_", " ")) +
+                "</span></div>" +
+                (issues
+                  ? '<div class="run-errors"><strong>Detected failure / failed step</strong>' +
+                    issues +
+                    "</div>"
+                  : "") +
+                '<div class="run-actions"><a class="btn small" href="' +
+                safeMediaUrl(run.url) +
+                '" target="_blank" rel="noopener noreferrer">Open full logs ↗</a>' +
+                (failed || run.conclusion === "cancelled"
+                  ? '<button class="btn small" type="button" data-rerun="' +
+                    escapeHtml(run.id) +
+                    '">Re-run failed jobs</button>'
+                  : "") +
+                "</div></article>"
+              );
+            })
+            .join("");
         }
         async function loadMonitor() {
           const button = $("monitor-refresh");
@@ -1179,10 +1311,17 @@
             const data = await api("/api/admin/monitor");
             renderMonitor(data);
             const failures = (data.runs || []).filter((run) => run.conclusion === "failure").length;
-            status("monitor-status", failures ? failures + " failed run(s) in the latest 20 runs. Open a failed step or rerun after fixing the cause." : "No failed runs in the latest 20 runs.");
+            status(
+              "monitor-status",
+              failures
+                ? failures +
+                    " failed run(s) in the latest 20 runs. Open a failed step or rerun after fixing the cause."
+                : "No failed runs in the latest 20 runs.",
+            );
           } catch (err) {
             status("monitor-status", err.message, true);
-            $("monitor-runs").innerHTML = '<div class="empty">Could not load workflow status. Check GITHUB_TOKEN Actions read permission and sign-in status.</div>';
+            $("monitor-runs").innerHTML =
+              '<div class="empty">Could not load workflow status. Check GITHUB_TOKEN Actions read permission and sign-in status.</div>';
           } finally {
             if (button) button.disabled = false;
           }
@@ -1193,7 +1332,10 @@
           button.disabled = true;
           status("monitor-status", "Requesting Python diagnostics workflow…");
           try {
-            const result = await api("/api/admin/monitor", { method: "POST", body: JSON.stringify({ action: "diagnostics" }) });
+            const result = await api("/api/admin/monitor", {
+              method: "POST",
+              body: JSON.stringify({ action: "diagnostics" }),
+            });
             status("monitor-status", result.message || "Python diagnostics queued.");
             window.setTimeout(loadMonitor, 2500);
           } catch (err) {
@@ -1206,7 +1348,12 @@
           const button = event.target.closest("[data-rerun]");
           if (!button) return;
           const runId = button.dataset.rerun;
-          if (!confirm("Re-run the failed jobs for this workflow? This will start a new GitHub Actions run.")) return;
+          if (
+            !confirm(
+              "Re-run the failed jobs for this workflow? This will start a new GitHub Actions run.",
+            )
+          )
+            return;
           button.disabled = true;
           status("monitor-status", "Queueing failed jobs for re-run…");
           try {
