@@ -127,7 +127,13 @@
       : '<p class="activity-empty">' +
         (hasLiveData
           ? "No matches found for this category or filters."
-          : (view === "upcoming" ? "No upcoming India fixtures returned by CricAPI yet." : view === "live" ? "No India matches are live right now." : view === "results" ? "No recent India results returned right now." : "No India matches returned right now.")) +
+          : view === "upcoming"
+            ? "No upcoming India fixtures returned by CricAPI yet."
+            : view === "live"
+              ? "No India matches are live right now."
+              : view === "results"
+                ? "No recent India results returned right now."
+                : "No India matches returned right now.") +
         "</p>";
   }
   async function refresh() {
@@ -166,12 +172,8 @@
       }
       if (status)
         status.textContent =
-          (data.providerOk
-            ? "CricAPI connected"
-            : "CricAPI unavailable") +
-          (data.providerOk
-            ? " · " + data.total + " matches · Refreshed "
-            : " · Refreshed ") +
+          (data.providerOk ? "CricAPI connected" : "CricAPI unavailable") +
+          (data.providerOk ? " · " + data.total + " matches · Refreshed " : " · Refreshed ") +
           new Date(data.updatedAt).toLocaleTimeString("en-IN", {
             hour: "2-digit",
             minute: "2-digit",
