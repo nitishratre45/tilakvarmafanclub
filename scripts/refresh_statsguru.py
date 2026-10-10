@@ -1022,12 +1022,12 @@ def main():
             raw_date = clean(row.get("date"))
             day = date_sort_key(raw_date)
             opposition = normalize_match_text(row.get("opposition"))
-            ground = normalize_match_text(row.get("ground") or row.get("venue"))
-            if not raw_date or not opposition or not ground:
+            if not raw_date or not opposition:
                 return None
-            # First-class/Test matches can contain multiple innings on one date.
+            # Venue names vary between feeds (city vs stadium); date + opposition
+            # is the stable identity. Preserve separate FC/Test innings explicitly.
             innings = clean(row.get("innings")) if fmt in {"FC", "Test"} else ""
-            return (fmt, day or raw_date.casefold(), opposition, ground, innings)
+            return (fmt, day or raw_date.casefold(), opposition, innings)
 
         def merge_match(existing, incoming, fmt):
             merged = dict(existing or {})
