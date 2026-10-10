@@ -226,16 +226,14 @@ function getInfo(def, data) {
     return {
       updatedAt: data.recentUpdated,
       count: Array.isArray(data.recentInnings) ? data.recentInnings.length : 0,
-      summary: (data.recentInnings || [])
-        .slice(0, 5)
-        .map((x) => ({
-          date: x.date,
-          opposition: x.opposition,
-          format: x.format,
-          runs: x.runs,
-          balls: x.balls,
-          result: x.result,
-        })),
+      summary: (data.recentInnings || []).slice(0, 5).map((x) => ({
+        date: x.date,
+        opposition: x.opposition,
+        format: x.format,
+        runs: x.runs,
+        balls: x.balls,
+        result: x.result,
+      })),
       source: "Saved match-level records",
     };
   if (def.id === "icc") {
@@ -333,7 +331,10 @@ export async function onRequest({ request, env }) {
         method: "POST",
         body: JSON.stringify({ ref: "main" }),
       });
-      return json({ ok: true, message: "Refresh workflow queued. Re-check in 30–60 seconds.", workflow }, 202);
+      return json(
+        { ok: true, message: "Refresh workflow queued. Re-check in 30–60 seconds.", workflow },
+        202,
+      );
     } catch (error) {
       return json({ error: error.message }, 502);
     }
