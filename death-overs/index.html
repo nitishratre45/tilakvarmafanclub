@@ -1055,6 +1055,57 @@
           line-height: 1.5;
         }
       }
+
+      /* Final override: the mobile Death Overs menu must be an opaque layer. */
+      @media (max-width: 800px) {
+        header.topbar.death-topbar {
+          position: sticky !important;
+          top: 0 !important;
+          z-index: 99999 !important;
+          overflow: visible !important;
+          isolation: isolate !important;
+        }
+        header.topbar.death-topbar nav#death-nav {
+          position: absolute !important;
+          top: 100% !important;
+          left: 0 !important;
+          right: 0 !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+          z-index: 100000 !important;
+          background: #07101f !important;
+          background-color: #07101f !important;
+          opacity: 1 !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          mix-blend-mode: normal !important;
+          isolation: isolate !important;
+          border: 1px solid #26364c !important;
+          box-shadow: 0 20px 44px rgba(0,0,0,.88) !important;
+        }
+        header.topbar.death-topbar nav#death-nav.open {
+          display: grid !important;
+          background: #07101f !important;
+          background-color: #07101f !important;
+        }
+        header.topbar.death-topbar nav#death-nav::before {
+          content: "" !important;
+          position: absolute !important;
+          inset: 0 !important;
+          z-index: -1 !important;
+          background: #07101f !important;
+          opacity: 1 !important;
+          pointer-events: none !important;
+        }
+        header.topbar.death-topbar nav#death-nav a {
+          position: relative !important;
+          z-index: 1 !important;
+          background: #122238 !important;
+          color: #edf4ff !important;
+          opacity: 1 !important;
+        }
+      }
+
     </style>
   </head>
   <body>
