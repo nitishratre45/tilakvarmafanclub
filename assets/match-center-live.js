@@ -159,8 +159,12 @@
       }
       if (status)
         status.textContent =
-          (data.providerOk && data.total > 0 ? "ESPNcricinfo data connected" : "Live feed unavailable · showing saved BCCI fixtures") +
-          (data.providerOk && data.total > 0 ? " · " + data.total + " matches · Refreshed " : " · Refreshed ") +
+          (data.providerOk && data.total > 0
+            ? "ESPNcricinfo data connected"
+            : "Live feed unavailable · showing saved BCCI fixtures") +
+          (data.providerOk && data.total > 0
+            ? " · " + data.total + " matches · Refreshed "
+            : " · Refreshed ") +
           new Date(data.updatedAt).toLocaleTimeString("en-IN", {
             hour: "2-digit",
             minute: "2-digit",
@@ -169,8 +173,7 @@
           " IST";
     } catch (_) {
       hasLiveData = false;
-      if (status)
-        status.textContent = "Live feed unavailable · showing saved BCCI fixtures";
+      if (status) status.textContent = "Live feed unavailable · showing saved BCCI fixtures";
       host.innerHTML = fallbackHTML;
       if (count) count.textContent = fallbackCount;
     }
