@@ -20,6 +20,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "data" / "site-data.json"
 ICC_URL = "https://www.icc-cricket.com/rankings/70761/tilak-varma"
+BCCI_URL = "https://www.bcci.tv/international/men/players/tilak-varma/993"
 MI_URL = "https://www.mumbaiindians.com/players/70761------------profile"
 CRICSHEET_URL = "https://cricsheet.org/downloads/t20s_male_json.zip"
 PLAYER = "Tilak Varma"
@@ -39,33 +40,64 @@ def fetch_text(url):
 
 
 def official_profile_image():
-    """Find Tilak's current India headshot URL from his official ICC profile page."""
-    try:
-        page = fetch_text(ICC_URL)
-        # ICC exposes its player image in page markup; look for the player ID on its CDN.
-        candidates = re.findall(
-            r"(?:https?:)?//images\.icc-cricket\.com/image/upload/[^\"'<>\s]+",
-            page,
-            re.I,
-        )
-        candidates = [html.unescape(url).replace("&amp;", "&") for url in candidates]
-        player_images = [
-            url
-            for url in candidates
-            if "70761" in url
-            and any(term in url.lower() for term in ("player", "assets/players"))
-        ]
-        if player_images:
-            return next(
-                (url for url in player_images if "headshot" in url.lower()),
-                player_images[0],
-            )
-        # ICC can omit the player image from server-rendered HTML.
-        # Return None rather than inventing a fallback URL; keep the last saved photo.
-    except Exception as exc:
-        print(f"ICC profile image not refreshed: {exc}")
-    return None
+    """Refresh Tilak's photo from BCCI at most once every 30 days.
 
+    BCCI page markup can vary, so try its Open Graph image, player-specific
+    image markup and JSON-LD first. If the page does not expose an image,
+    return None and preserve the last known photo rather than guessing.
+    """
+    try:
+        page = fetch_text(BCCI_URL)
+        candidates = []
+        # Open Graph / Twitter cards are often the most stable profile image source.
+        candidates.extend(
+            re.findall(
+                r'<meta[^>]+(?:property|name)=["\'](?:og:image|twitter:image)["\'][^>]+content=["\']([^"\']+)',
+                page,
+                re.I,
+            )
+        )
+        # Search image tags associated with the player or player-specific asset URLs.
+        for tag in re.findall(r'<img\b[^>]*>', page, re.I):
+            if re.search(r'tilak|993|player', tag, re.I):
+                match = re.search(r'\b(?:src|data-src|data-lazy-src)=["\']([^"\']+)', tag, re.I)
+                if match:
+                    candidates.append(match.group(1))
+                srcset = re.search(r'\bsrcset=["\']([^"\']+)', tag, re.I)
+                if srcset:
+                    candidates.append(srcset.group(1).split(",")[0].strip().split(" ")[0])
+        # BCCI can expose the profile image in JSON-LD or page-state data.
+        candidates.extend(
+            re.findall(
+                r'["\'](?:image|imageUrl|profileImage|playerImage)["\']\s*:\s*["\']([^"\']+)["\']',
+                page,
+                re.I,
+            )
+        )
+        normalized = []
+        for url in candidates:
+            url = html.unescape(url).replace("\\/", "/").replace("&amp;", "&").strip()
+            if url.startswith("//"):
+                url = "https:" + url
+            if url.startswith("http") and not any(
+                bad in url.lower() for bad in ("logo", "placeholder", "flag", "banner")
+            ):
+                normalized.append(url)
+        # Prefer BCCI-hosted image URLs and larger player/profile variants.
+        normalized.sort(
+            key=lambda url: (
+                "bcci" in url.lower() or "epicon" in url.lower(),
+                "player" in url.lower() or "tilak" in url.lower(),
+                len(url),
+            ),
+            reverse=True,
+        )
+        if normalized:
+            return normalized[0]
+        print("BCCI profile image not found in page markup; retaining the saved photo.")
+    except Exception as exc:
+        print(f"BCCI profile image not refreshed: {exc}")
+    return None
 
 def cricsheet_recent():
     req = urllib.request.Request(CRICSHEET_URL, headers=HEADERS)
@@ -178,12 +210,31 @@ def main():
                 "Medak Falcons",
             ],
             "officialProfile": MI_URL,
-            "iccProfile": ICC_URL,
+            "iccProfile": ICC_URL,\n            "bcciProfile": BCCI_URL,
         }
     )
-    photo = official_profile_image()
-    if photo:
-        data["profile"]["photo"] = photo
+    # Do not repeatedly replace the profile image: check BCCI at most every
+    # 30 days. A successful refresh updates the cache-busting date so browsers
+    # pick up a new image even when BCCI reuses the same image URL.
+    photo_checked = data["profile"].get("photoUpdated")
+    photo_due = True
+    try:
+        checked_date = datetime.strptime(str(photo_checked), "%Y-%m-%d").date()
+        photo_due = (datetime.now(timezone.utc).date() - checked_date).days >= 30
+    except (TypeError, ValueError):
+        photo_due = True
+    if photo_due:
+        photo = official_profile_image()
+        if photo:
+            data["profile"]["photo"] = photo
+            data["profile"]["photoSource"] = BCCI_URL
+            data["profile"]["photoUpdated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+            data["profile"]["photoRefreshStatus"] = "updated"
+        else:
+            # Keep the last good image and retry on the next scheduled workflow.
+            data["profile"]["photoRefreshStatus"] = "source-unavailable"
+    else:
+        print(f"Photo refresh skipped; last successful check was {photo_checked}.")
     # Keep ICC limited to official rankings/records and profile metadata.
     # Recent scorecard rows must come from match-level delivery data, not a ranking page.
     rows = []
