@@ -154,6 +154,8 @@ def main():
     if items:
         result = {
             "updatedAt": checked,
+            "lastAttemptAt": checked,
+            "lastAttemptStatus": "success" if not errors else "partial",
             "status": "available" if not errors else "partial",
             "source": [url for _, url in FEEDS],
             "sources": [label for label, _ in FEEDS],
@@ -165,7 +167,11 @@ def main():
         print("No new stories were fetched; preserving the previous good feed.")
         result = {
             **old,
-            "updatedAt": checked,
+            # Keep the timestamp of the last good content; this run only records
+            # the failed attempt and must not make stale stories look newly updated.
+            "updatedAt": old.get("updatedAt"),
+            "lastAttemptAt": checked,
+            "lastAttemptStatus": "source-unavailable",
             "status": "source-unavailable",
             "source": [url for _, url in FEEDS],
             "errors": errors or ["No usable BCCI or ESPNcricinfo stories returned."],
