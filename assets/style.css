@@ -5994,7 +5994,6 @@ option {
   color: inherit;
 }
 
-
 /* Main Batting career summary: Runs card matches the neutral stat cards. */
 .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature,
 .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature:hover {
@@ -6010,17 +6009,40 @@ option {
 .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature strong {
   color: var(--white) !important;
 }
-:root[data-theme-resolved="light"] .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature,
-:root[data-theme-resolved="light"] .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature:hover {
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature,
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature:hover {
   background: #fff !important;
   color: #152235;
   border-color: rgba(18, 35, 55, 0.16) !important;
   border-top-color: #7ce5f2 !important;
 }
-:root[data-theme-resolved="light"] .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature strong {
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature
+  strong {
   color: #152235 !important;
 }
-:root[data-theme-resolved="light"] .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature .stat-label,
-:root[data-theme-resolved="light"] .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature .stat-note {
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature
+  .stat-label,
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature
+  .stat-note {
   color: #5d6d82 !important;
 }
