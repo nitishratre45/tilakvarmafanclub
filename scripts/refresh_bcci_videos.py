@@ -91,6 +91,23 @@ def first_text(*values: object) -> str:
     return ""
 
 
+def is_valid_playback_url(value: str) -> bool:
+    """Accept only direct HTTPS media URLs, never a page/profile URL."""
+    if not value or any(character.isspace() for character in value):
+        return False
+    try:
+        parsed = urllib.parse.urlparse(value)
+    except ValueError:
+        return False
+    return (
+        parsed.scheme == "https"
+        and bool(parsed.hostname)
+        and not parsed.username
+        and not parsed.password
+        and parsed.path.lower().endswith((".m3u8", ".mpd", ".mp4"))
+    )
+
+
 def infer_format(item: dict) -> str:
     parts = []
     for key in ("format", "matchFormat", "videoType", "category", "title", "slug"):
@@ -132,8 +149,21 @@ def normalize(item: dict) -> dict | None:
         return None
 
     playback = first_text(
-        item.get("playbackUrl"), item.get("playback_url"), item.get("streamUrl")
+        item.get("playbackUrl"),
+        item.get("playback_url"),
+        item.get("playUrl"),
+        item.get("play_url"),
+        item.get("streamUrl"),
+        item.get("stream_url"),
+        item.get("videoUrl"),
+        item.get("video_url"),
     )
+    # A Tilak-labelled object without a direct HTTPS media URL must never be
+    # published to the public feed. This also makes the Admin URL a true
+    # validate-before-publish input rather than trusting metadata alone.
+    if not is_valid_playback_url(playback):
+        return None
+
     thumbnail_set = (
         item.get("thumbnailUrlSet")
         if isinstance(item.get("thumbnailUrlSet"), dict)
