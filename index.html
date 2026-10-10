@@ -946,22 +946,7 @@
                 ><span class="bcci-player-brand-mark">72</span> TILAK VARMA · VIDEO HUB</span
               >
               <div class="bcci-player-head-actions">
-                <button type="button" class="bcci-quality-head-button" id="bcci-player-settings-button" aria-label="Quality settings" aria-expanded="false" aria-controls="bcci-player-settings-menu" title="Playback quality">
-                  <span>Quality</span>
-                </button>
                 <button type="button" data-bcci-close aria-label="Close video">✕</button>
-                <div class="bcci-player-settings-menu" id="bcci-player-settings-menu" hidden>
-                    <label for="bcci-playback-quality">Playback quality
-                      <select id="bcci-playback-quality">
-                        <option value="auto">Auto quality</option>
-                        <option value="1080">1080p max</option>
-                        <option value="720">720p max</option>
-                        <option value="480">480p max</option>
-                        <option value="360">360p max</option>
-                      </select>
-                    </label>
-                    <span id="bcci-player-error" role="status">Choose a video to start playback.</span>
-                  </div>
               </div>
             </div>
             <div class="bcci-player-page-content">
@@ -977,9 +962,23 @@
                   <div class="bcci-player-screen-overlay" aria-hidden="true">
                     BCCI · OFFICIAL VIDEO
                   </div>
-                <div class="bcci-player-options">
-
-                </div>
+                  <div class="bcci-player-quality-control">
+                    <button type="button" class="bcci-quality-head-button" id="bcci-player-settings-button" aria-label="Playback quality settings" aria-expanded="false" aria-controls="bcci-player-settings-menu" title="Playback quality">
+                      <span>⚙</span><span id="bcci-quality-current">Auto</span>
+                    </button>
+                    <div class="bcci-player-settings-menu" id="bcci-player-settings-menu" hidden>
+                      <label for="bcci-playback-quality">Quality
+                        <select id="bcci-playback-quality">
+                          <option value="auto">Auto</option>
+                          <option value="1080">1080p</option>
+                          <option value="720">720p</option>
+                          <option value="480">480p</option>
+                          <option value="360">360p</option>
+                        </select>
+                      </label>
+                      <span id="bcci-player-error" role="status">Choose a video to start playback.</span>
+                    </div>
+                  </div>
                 </div>
                 <div class="bcci-player-title-block">
                   <h2 id="bcci-playing-title">Tilak Varma · Official BCCI Video</h2>
