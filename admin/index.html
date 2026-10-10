@@ -437,6 +437,61 @@
       .nav a {
         white-space: nowrap;
       }
+      .source-registry {
+        margin-top: 28px;
+        padding-top: 22px;
+        border-top: 1px solid var(--line);
+      }
+      .source-registry-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 16px;
+      }
+      .source-registry-head h3 {
+        margin: 5px 0;
+        font-size: 19px;
+      }
+      .source-registry-head p { max-width: 680px; margin: 6px 0 0; }
+      .source-summary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .source-stat {
+        min-width: 0;
+        padding: 13px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #0a192a;
+      }
+      .source-stat span { display: block; color: var(--muted); font-size: 11px; }
+      .source-stat strong { display: block; margin-top: 5px; overflow-wrap: anywhere; font-size: 13px; }
+      .source-list { display: grid; gap: 10px; }
+      .source-card {
+        min-width: 0;
+        padding: 15px;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        background: rgba(7, 22, 38, .7);
+      }
+      .source-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+      .source-card h4 { margin: 0; font-size: 13px; }
+      .source-card p { margin: 6px 0; color: var(--muted); font-size: 12px; }
+      .source-url { display: block; margin-top: 8px; color: var(--cyan); font-size: 11px; overflow-wrap: anywhere; }
+      .source-query-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+      .source-query-groups > div { display: grid; gap: 5px; padding: 11px; border: 1px solid var(--line); border-radius: 9px; }
+      .source-query-groups strong { font-size: 11px; }
+      .source-query-groups span { color: var(--muted); font-size: 11px; overflow-wrap: anywhere; }
+      .source-details { margin-top: 14px; padding: 13px; border: 1px solid var(--line); border-radius: 10px; }
+      .source-details summary { cursor: pointer; font-weight: 800; }
+      @media (max-width: 720px) {
+        .source-summary { grid-template-columns: 1fr; }
+        .source-query-groups { grid-template-columns: 1fr; }
+        .source-registry-head { align-items: stretch; flex-direction: column; }
+      }
       @media (max-width: 720px) {
         .sidebar {
           flex-wrap: wrap;
@@ -1214,6 +1269,38 @@
               </div>
             </form>
             <div id="video-status" class="status" role="status"></div>
+            <div class="source-registry">
+              <div class="source-registry-head">
+                <div>
+                  <div class="eyebrow">CONNECTED VIDEO SOURCES</div>
+                  <h3>Public Videos API inventory</h3>
+                  <p class="hint">All source endpoints used to collect, cache, thumbnail and play videos in the public Videos section. Source URLs stay in Admin Studio.</p>
+                </div>
+                <button id="video-sources-refresh" class="btn small" type="button">↻ Check sources</button>
+              </div>
+              <div class="source-summary" id="video-source-summary">
+                <div class="source-stat"><span>Saved videos</span><strong id="video-source-count">Checking…</strong></div>
+                <div class="source-stat"><span>Last feed update</span><strong id="video-source-updated">Checking…</strong></div>
+                <div class="source-stat"><span>Custom feed override</span><strong id="video-source-override">Checking…</strong></div>
+              </div>
+              <div id="video-source-list" class="source-list">
+                <div class="empty">Checking video source endpoints…</div>
+              </div>
+              <details class="source-details">
+                <summary>Full BCCI query coverage</summary>
+                <p class="hint">The scheduled collector queries the official CMS API with these filters. It deduplicates results by video ID and keeps only clips whose metadata identifies Tilak Varma.</p>
+                <div class="source-query-groups">
+                  <div><strong>Pagination</strong><span>page=1–6, pageNumber=1–6, pageNo=1–6, offset=0–100 with limit=20</span></div>
+                  <div><strong>International seasons</strong><span>2020–current season, plus 2026, 2025 and 2024 season-specific feeds</span></div>
+                  <div><strong>Domestic seasons</strong><span>2018–current season, including latest domestic and domestic feature/interview feeds</span></div>
+                  <div><strong>Categories</strong><span>highlights · features-and-interviews · press-conferences</span></div>
+                  <div><strong>Formats</strong><span>T20 · ODI · Test</span></div>
+                  <div><strong>Player-specific queries</strong><span>playerId=993 · player=993 · players=993 · tags=tilak-varma · search=Tilak Varma · term=Tilak Varma</span></div>
+                </div>
+              </details>
+              <p id="video-source-status" class="status" role="status" aria-live="polite">Source status has not been checked yet.</p>
+              <p class="hint">Automatic refresh: daily at 00:00 IST via GitHub Actions. BCCI playback URLs are signed and may expire; the scheduled job refreshes them. A successful refresh depends on BCCI responding successfully.</p>
+            </div>
           </div>
         </section>
         <section id="monitor" class="section">
@@ -1761,6 +1848,98 @@
             button.disabled = false;
           }
         });
+        const videoSourceInventory = [
+          {
+            title: "Official BCCI CMS video API",
+            role: "Primary collection API · international and domestic videos, season/category/format filters, pagination and player-specific searches.",
+            url: "https://www.bcci.tv/api/bff/cms/videos",
+            detail: "Collector queries page, pageNumber, pageNo and offset pagination; categories include highlights, features/interviews and press conferences; formats include T20, ODI and Test."
+          },
+          {
+            title: "Official BCCI latest domestic feed",
+            role: "Additional domestic-video collection endpoint.",
+            url: "https://www.bcci.tv/api/bff/cms/videos/latest?tag=domestic",
+            detail: "Also queried with domestic features/interviews and season tags to catch clips outside the main international pages."
+          },
+          {
+            title: "Official BCCI player archive",
+            role: "Browser-captured catalogue and Load More pagination fallback.",
+            url: "https://live-bccitv.epicon.in/videos/player/993?platform=international&type=men",
+            detail: "Player ID 993 · responses from the official archive are collected to discover additional/older pages."
+          },
+          {
+            title: "Saved public video feed",
+            role: "JSON file actually loaded by the public Videos section when no custom feed override is configured.",
+            url: "../assets/bcci-videos.json",
+            local: true,
+            detail: "Stores normalized video metadata, thumbnails, publication date, format and signed playback URLs."
+          },
+          {
+            title: "Optional custom feed override",
+            role: "If configured above, the public Videos section loads this HTTPS JSON feed instead of the saved BCCI catalogue.",
+            url: "../data/video-config.json",
+            config: true,
+            detail: "Currently configured feed URL is read from this repository JSON file; blank means use the saved BCCI catalogue."
+          },
+          {
+            title: "Video playback streams",
+            role: "Playback URLs returned by BCCI catalogue metadata.",
+            url: "https://stream.mux.com/",
+            detail: "HLS .m3u8 playback URLs are opened with Shaka Player. Signed playback tokens can expire and are refreshed by the scheduled collector."
+          },
+          {
+            title: "Video thumbnails",
+            role: "Thumbnail image CDN returned by BCCI video metadata.",
+            url: "https://video-images-cdn.staylive.tv/",
+            detail: "Small, medium, large and xlarge thumbnail variants are used by the public video cards and player queue."
+          }
+        ];
+        function renderVideoSourceCards(config, feedData, errorMessages = []) {
+          const host = $("video-source-list");
+          const override = typeof config?.feedUrl === "string" ? config.feedUrl.trim() : "";
+          const sources = videoSourceInventory.map((source) => {
+            const active = source.config ? (override ? "ACTIVE · override saved" : "INACTIVE · no override") :
+              source.local ? "PUBLIC CACHE" :
+              source.title === "Official BCCI CMS video API" || source.title === "Official BCCI latest domestic feed" || source.title === "Official BCCI player archive" ? "COLLECTOR SOURCE" :
+              source.title === "Video playback streams" ? "PLAYER SOURCE" : "MEDIA SOURCE";
+            const url = source.config && override ? override : source.url;
+            return '<article class="source-card"><div class="source-card-top"><h4>' + escapeHtml(source.title) + '</h4><span class="pill">' + escapeHtml(active) + '</span></div><p>' + escapeHtml(source.role) + '</p><a class="source-url" href="' + escapeHtml(safeMediaUrl(url) || source.url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(url) + '</a><p>' + escapeHtml(source.detail) + '</p></article>';
+          });
+          host.innerHTML = sources.join("");
+          const count = Array.isArray(feedData?.videos) ? feedData.videos.length : Number(feedData?.count || 0);
+          $("video-source-count").textContent = feedData ? String(count) : "Unavailable";
+          $("video-source-updated").textContent = feedData?.updatedAt ? formatTime(feedData.updatedAt) : "Timestamp unavailable";
+          $("video-source-override").textContent = override ? "Enabled" : "Off · using BCCI cache";
+          const statusMessage = errorMessages.length
+            ? "Some source checks failed: " + errorMessages.join(" · ")
+            : "Source check complete. Public feed uses " + (override ? "the configured custom feed override." : "assets/bcci-videos.json, refreshed by the BCCI collector.");
+          status("video-source-status", statusMessage, errorMessages.length > 0);
+        }
+        async function loadVideoSourceStatus() {
+          const refreshButton = $("video-sources-refresh");
+          if (refreshButton) refreshButton.disabled = true;
+          status("video-source-status", "Checking saved feed and override configuration…");
+          const errors = [];
+          let config = { feedUrl: "" };
+          let feedData = null;
+          const [configResult, feedResult] = await Promise.allSettled([
+            fetch("../data/video-config.json?v=" + Date.now(), { cache: "no-store" }).then((r) => {
+              if (!r.ok) throw Error("video-config.json HTTP " + r.status);
+              return r.json();
+            }),
+            fetch("../assets/bcci-videos.json?v=" + Date.now(), { cache: "no-store" }).then((r) => {
+              if (!r.ok) throw Error("bcci-videos.json HTTP " + r.status);
+              return r.json();
+            })
+          ]);
+          if (configResult.status === "fulfilled") config = configResult.value;
+          else errors.push(configResult.reason?.message || "Config unavailable");
+          if (feedResult.status === "fulfilled") feedData = feedResult.value;
+          else errors.push(feedResult.reason?.message || "Saved feed unavailable");
+          renderVideoSourceCards(config, feedData, errors);
+          if (refreshButton) refreshButton.disabled = false;
+        }
+        $("video-sources-refresh").addEventListener("click", loadVideoSourceStatus);
         async function loadStudio() {
           const [m, v] = await Promise.all([
             api("/api/admin/content?kind=media"),
@@ -1773,6 +1952,7 @@
           $("admin-app").classList.remove("hidden");
           $("logout").classList.remove("hidden");
           renderItems();
+          loadVideoSourceStatus();
           loadMonitor();
           loadDatasets();
           status(
