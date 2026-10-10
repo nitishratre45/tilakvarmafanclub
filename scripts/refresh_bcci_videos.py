@@ -417,7 +417,10 @@ def main() -> int:
             ("IPL all videos", {"tags": "ipl"}),
             ("IPL men's videos", {"tags": "ipl,men"}),
             ("IPL highlights", {"category": "highlights", "tags": "ipl"}),
-            ("IPL features/interviews", {"category": "features-and-interviews", "tags": "ipl"}),
+            (
+                "IPL features/interviews",
+                {"category": "features-and-interviews", "tags": "ipl"},
+            ),
         ]
     )
     for season in range(2022, datetime.now(timezone.utc).year + 1):
