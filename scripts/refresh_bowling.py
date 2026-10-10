@@ -465,8 +465,9 @@ def main():
         "updatedAt": stamp(),
         "formats": new_formats,
         "lastAttemptAt": stamp(),
-        "lastAttemptStatus": "partial" if attempt_errors else "success",
-        "lastAttemptErrors": attempt_errors,
+        "lastAttemptStatus": "success",
+        "lastAttemptErrors": [],
+        "lastAttemptWarnings": attempt_errors,
     }
     update_last_updated(data)
     DATA_FILE.write_text(
