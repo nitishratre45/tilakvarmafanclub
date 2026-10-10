@@ -1002,7 +1002,9 @@ def main():
                             + ": refreshed verified domestic summary from secondary profile feed; innings not fabricated"
                         )
                 except Exception as fallback_exc:
-                    optional_warnings.append(fmt + " summary fallback: " + str(fallback_exc))
+                    optional_warnings.append(
+                        fmt + " summary fallback: " + str(fallback_exc)
+                    )
                     print(
                         fmt
                         + ": secondary summary fallback unavailable; preserving saved data:",
