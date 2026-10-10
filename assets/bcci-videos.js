@@ -11,6 +11,26 @@
   const titleElement = document.getElementById("bcci-playing-title");
   const errorElement = document.getElementById("bcci-player-error");
   const playbackQuality = document.getElementById("bcci-playback-quality");
+  const settingsButton = document.getElementById("bcci-player-settings-button");
+  const settingsMenu = document.getElementById("bcci-player-settings-menu");
+  const closeSettingsMenu = () => {
+    if (!settingsButton || !settingsMenu) return;
+    settingsMenu.hidden = true;
+    settingsButton.setAttribute("aria-expanded", "false");
+  };
+  if (settingsButton && settingsMenu) {
+    settingsButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const willOpen = settingsMenu.hidden;
+      settingsMenu.hidden = !willOpen;
+      settingsButton.setAttribute("aria-expanded", String(willOpen));
+    });
+    settingsMenu.addEventListener("click", (event) => event.stopPropagation());
+    document.addEventListener("click", closeSettingsMenu);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeSettingsMenu();
+    });
+  }
   const playingDate = document.getElementById("bcci-playing-date");
   const upNextList = document.getElementById("bcci-up-next-list");
   const shareButton = document.getElementById("bcci-share-video");
