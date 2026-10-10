@@ -215,7 +215,7 @@ function getInfo(def, data) {
   }
   if (def.id === "profile-career")
     return {
-      updatedAt: data.careerStatsUpdated || data.profileUpdated || data.lastUpdated,
+      updatedAt: data.careerStatsUpdated || data.profileUpdated,
       attemptStatus: "see workflow",
       count: data.careerStats ? Object.keys(data.careerStats).length : 0,
       summary: data.careerStats || {},
@@ -397,21 +397,15 @@ export async function onRequest({ request, env }) {
       const isStale = hoursSinceData === null || hoursSinceData > def.intervalHours;
       let status = "current";
       if (entry.error) status = "unavailable";
+      else if (latestRun && ["queued", "in_progress"].includes(latestRun.status)) status = "refreshing";
+      else if (latestFailure && (!latestSuccess || latestFailure.createdAt > latestSuccess.createdAt)) status = "error";
       else if (
         info.attemptStatus === "source-unavailable" ||
         info.attemptStatus === "failed" ||
         info.attemptStatus === "error"
-      )
-        status = "error";
-      else if (info.attemptStatus === "partial" || (info.errors || []).length) status = "partial";
+      ) status = "error";
+      else if (info.attemptStatus === "partial" || info.attemptStatus === "core-ok-optional-formats-partial" || (info.errors || []).length) status = "partial";
       else if (isStale) status = "stale";
-      else if (latestRun && ["queued", "in_progress"].includes(latestRun.status))
-        status = "refreshing";
-      else if (
-        latestFailure &&
-        (!latestSuccess || latestFailure.createdAt > latestSuccess.createdAt)
-      )
-        status = "error";
       return {
         id: def.id,
         name: def.name,
