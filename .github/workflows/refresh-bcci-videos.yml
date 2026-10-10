@@ -15,12 +15,13 @@ permissions:
   contents: write
 
 concurrency:
-  group: refresh-bcci-tilak-videos
-  cancel-in-progress: false
+  group: refresh-bcci-tilak-videos-v2
+  cancel-in-progress: true
 
 jobs:
   refresh-videos:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
