@@ -167,14 +167,19 @@ function getInfo(def, data) {
     const sg = data.statsguru || {};
     const formats = sg.formats || {};
     const names = def.id === "t20i-batting" ? ["T20I"] : ["ODI", "T20", "FC", "List A"];
+    const careerFormats = data.careerFormats || {};
+    const fallbackNames = { FC: "First-class", "List A": "List A" };
     const fmt = Object.fromEntries(
       names.map((n) => {
-        const f = formats[n] || {};
-        const s = f.summary || {};
+        const live = formats[n] || {};
+        const fallback = careerFormats[fallbackNames[n]] || {};
+        const f = live.summary ? live : fallback;
+        const s = f.summary || f;
+        const isStatsguru = Boolean(live.summary);
         return [
           n,
           {
-            available: Boolean(f.summary),
+            available: Boolean(live.summary || fallback.runs !== undefined),
             matches: s.matches ?? null,
             innings: s.innings ?? (Array.isArray(f.innings) ? f.innings.length : null),
             runs: s.runs ?? null,
@@ -182,12 +187,17 @@ function getInfo(def, data) {
             average: s.average ?? null,
             strikeRate: s.strikeRate ?? null,
             detailedInnings: Array.isArray(f.innings) ? f.innings.length : 0,
+            updatedAt: isStatsguru ? (live.checkedAt || sg.updatedAt || null) : (fallback.updatedAt || null),
+            source: isStatsguru ? (live.source || sg.source || "ESPNcricinfo Statsguru") : (fallback.source || null),
+            sourceUrl: isStatsguru ? (live.sourceUrl || sg.sourceUrl || null) : (fallback.sourceUrl || fallback.source || null),
+            detailStatus: isStatsguru ? (live.detailStatus || null) : (fallback.detailStatus || "saved summary; refresh timestamp unavailable"),
           },
         ];
       }),
     );
+    const timestamps = Object.values(fmt).map((entry) => entry.updatedAt).filter(Boolean);
     return {
-      updatedAt: sg.updatedAt,
+      updatedAt: timestamps.length ? latestTimestamp(...timestamps) : null,
       attemptAt: sg.lastAttemptAt,
       attemptStatus: sg.lastAttemptStatus,
       errors: compactErrors(sg.lastAttemptErrors),
