@@ -1084,6 +1084,62 @@ def main():
             "lastAttemptStatus": "partial" if errors else "success",
             "lastAttemptErrors": errors,
         }
+        # Keep the public career cards in sync with the verified Statsguru
+        # summaries. Preserve formats that the current source did not return.
+        career_formats = data.get("careerFormats")
+        if not isinstance(career_formats, dict):
+            career_formats = {}
+        format_targets = {
+            "T20I": "T20I",
+            "ODI": "ODI",
+            "T20": "Overall T20 (all competitions)",
+            "FC": "First-class",
+            "List A": "List A",
+        }
+        field_map = {
+            "matches": "matches",
+            "innings": "innings",
+            "notOuts": "notOuts",
+            "runs": "runs",
+            "highestScore": "highestScore",
+            "average": "average",
+            "strikeRate": "strikeRate",
+            "hundreds": "hundreds",
+            "fifties": "fifties",
+            "fours": "fours",
+            "sixes": "sixes",
+            "balls": "balls",
+        }
+        for fmt, target in format_targets.items():
+            summary = (new_formats.get(fmt) or {}).get("summary")
+            if not isinstance(summary, dict) or not summary:
+                continue
+            merged = dict(career_formats.get(target) or {})
+            for source_key, target_key in field_map.items():
+                if source_key in summary and summary[source_key] is not None:
+                    merged[target_key] = summary[source_key]
+            merged["source"] = (new_formats.get(fmt) or {}).get("source", "ESPNcricinfo Statsguru")
+            merged["updatedAt"] = (new_formats.get(fmt) or {}).get("checkedAt") or stamp()
+            career_formats[target] = merged
+        data["careerFormats"] = career_formats
+        t20i_summary = (new_formats.get("T20I") or {}).get("summary")
+        if isinstance(t20i_summary, dict):
+            career_stats = data.get("careerStats")
+            if not isinstance(career_stats, dict):
+                career_stats = {}
+            for source_key, target_key in {
+                "runs": "t20iRuns",
+                "highestScore": "highestScore",
+                "average": "average",
+                "strikeRate": "strikeRate",
+                "fifties": "fifties",
+                "hundreds": "hundreds",
+            }.items():
+                if t20i_summary.get(source_key) is not None:
+                    career_stats[target_key] = t20i_summary[source_key]
+            data["careerStats"] = career_stats
+            data["careerStatsUpdated"] = stamp()
+
         # Refresh fielding separately from batting. A temporary source/parser failure
         # preserves the last saved fielding snapshot and never invents numbers.
         old_fielding = (
