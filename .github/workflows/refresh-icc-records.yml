@@ -3,7 +3,8 @@ name: Refresh ICC rankings and record highlights
 on:
   workflow_dispatch:
   schedule:
-    - cron: "37 2 * * *"
+    # Every 48 hours; GitHub Actions cron is UTC.
+    - cron: "37 2 */2 * *"
   push:
     branches: [main]
     paths:
