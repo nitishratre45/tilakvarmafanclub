@@ -30,16 +30,28 @@
           (Number.isFinite(runs) ? runs.toLocaleString("en-IN") : "—") +
           '</strong><span class="format-runs-caption">RUNS</span></div>' +
           '<div class="format-batting-facts">' +
-          '<div class="format-fact"><span>4s</span><strong>' + escapeHTML(s.fours ?? "—") + '</strong></div>' +
-          '<div class="format-fact"><span>6s</span><strong>' + escapeHTML(s.sixes ?? "—") + '</strong></div>' +
-          '<div class="format-fact"><span>50s</span><strong>' + escapeHTML(s.fifties ?? "—") + '</strong></div>' +
-          '<div class="format-fact"><span>100s</span><strong>' + escapeHTML(s.hundreds ?? "—") + '</strong></div>' +
-          '</div></div>' +
-          '<div class="format-meta-row"><span>' + escapeHTML(s.matches ?? "—") +
-          ' MATCHES</span><span>HS ' + escapeHTML(s.highestScore ?? "—") +
-          '</span><span>AVG ' + escapeHTML(s.average ?? "—") +
-          '</span><span>SR ' + escapeHTML(s.strikeRate ?? "—") +
-          '</span></div></article>'
+          '<div class="format-fact"><span>4s</span><strong>' +
+          escapeHTML(s.fours ?? "—") +
+          "</strong></div>" +
+          '<div class="format-fact"><span>6s</span><strong>' +
+          escapeHTML(s.sixes ?? "—") +
+          "</strong></div>" +
+          '<div class="format-fact"><span>50s</span><strong>' +
+          escapeHTML(s.fifties ?? "—") +
+          "</strong></div>" +
+          '<div class="format-fact"><span>100s</span><strong>' +
+          escapeHTML(s.hundreds ?? "—") +
+          "</strong></div>" +
+          "</div></div>" +
+          '<div class="format-meta-row"><span>' +
+          escapeHTML(s.matches ?? "—") +
+          " MATCHES</span><span>HS " +
+          escapeHTML(s.highestScore ?? "—") +
+          "</span><span>AVG " +
+          escapeHTML(s.average ?? "—") +
+          "</span><span>SR " +
+          escapeHTML(s.strikeRate ?? "—") +
+          "</span></div></article>"
         );
       })
       .join("");
