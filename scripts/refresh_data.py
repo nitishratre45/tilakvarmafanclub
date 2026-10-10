@@ -4,7 +4,7 @@
 Recent innings are refreshed from the Cricsheet men's T20I JSON archive when it
 contains newer player-specific deliveries. ICC is not used as a career-stat or
 recent-scorecard source here; official rankings and records have their own workflow.
-The ICC profile is used only to refresh the player's official headshot URL.
+The BCCI profile is used only to refresh the player's official headshot URL.
 Career totals are refreshed separately from ESPNcricinfo; saved values are kept
 when a public source is unavailable. Never publishes empty data over existing rows.
 """
@@ -210,7 +210,8 @@ def main():
                 "Medak Falcons",
             ],
             "officialProfile": MI_URL,
-            "iccProfile": ICC_URL,\n            "bcciProfile": BCCI_URL,
+            "iccProfile": ICC_URL,
+            "bcciProfile": BCCI_URL,
         }
     )
     # Do not repeatedly replace the profile image: check BCCI at most every
@@ -225,6 +226,7 @@ def main():
         ).days >= 30
     except (TypeError, ValueError):
         photo_due = True
+    photo = None
     if photo_due:
         photo = official_profile_image()
         if photo:
