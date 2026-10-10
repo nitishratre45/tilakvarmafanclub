@@ -8188,5 +8188,76 @@ body.mc-scoreboard-open {
   }
 }
 
-
-.mc-scorecard-loading{padding:14px;border:1px solid var(--line,rgba(255,255,255,.12));border-radius:10px;color:var(--muted,#91a0b6);font-size:13px;line-height:1.6}.mc-innings-card{margin-top:16px;padding:14px;border:1px solid var(--line,rgba(255,255,255,.12));border-radius:14px;min-width:0}.mc-innings-card>header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.mc-innings-card>header h3{margin:0;font-size:16px}.mc-innings-card>header strong{color:var(--cyan,#7ce5f2);font:700 12px var(--mono,monospace)}.mc-innings-card h4{margin:16px 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted,#91a0b6)}.mc-score-table-wrap{overflow-x:auto;max-width:100%}.mc-score-table{width:100%;border-collapse:collapse;font-size:12px;white-space:nowrap}.mc-score-table th,.mc-score-table td{padding:9px 8px;text-align:right;border-bottom:1px solid var(--line,rgba(255,255,255,.1))}.mc-score-table th:first-child,.mc-score-table td:first-child{text-align:left;min-width:125px}.mc-score-table th{color:var(--muted,#91a0b6);font:700 10px var(--mono,monospace)}.mc-score-table td strong{display:block}.mc-score-table td small{display:block;max-width:190px;white-space:normal;color:var(--muted,#91a0b6);font-size:10px;margin-top:3px}
+.mc-scorecard-loading {
+  padding: 14px;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.12));
+  border-radius: 10px;
+  color: var(--muted, #91a0b6);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.mc-innings-card {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.12));
+  border-radius: 14px;
+  min-width: 0;
+}
+.mc-innings-card > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.mc-innings-card > header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+.mc-innings-card > header strong {
+  color: var(--cyan, #7ce5f2);
+  font: 700 12px var(--mono, monospace);
+}
+.mc-innings-card h4 {
+  margin: 16px 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted, #91a0b6);
+}
+.mc-score-table-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.mc-score-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.mc-score-table th,
+.mc-score-table td {
+  padding: 9px 8px;
+  text-align: right;
+  border-bottom: 1px solid var(--line, rgba(255, 255, 255, 0.1));
+}
+.mc-score-table th:first-child,
+.mc-score-table td:first-child {
+  text-align: left;
+  min-width: 125px;
+}
+.mc-score-table th {
+  color: var(--muted, #91a0b6);
+  font: 700 10px var(--mono, monospace);
+}
+.mc-score-table td strong {
+  display: block;
+}
+.mc-score-table td small {
+  display: block;
+  max-width: 190px;
+  white-space: normal;
+  color: var(--muted, #91a0b6);
+  font-size: 10px;
+  margin-top: 3px;
+}
