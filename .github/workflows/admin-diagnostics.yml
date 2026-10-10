@@ -1,0 +1,43 @@
+name: Admin Python diagnostics
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/admin_diagnostics.py"
+      - ".github/workflows/admin-diagnostics.yml"
+      - "functions/**"
+      - "assets/**"
+      - "data/*.json"
+      - "index.html"
+      - "admin/index.html"
+      - "death-overs/index.html"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: admin-python-diagnostics
+  cancel-in-progress: true
+
+jobs:
+  diagnose:
+    name: Python code and data diagnostics
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Locate errors with Python
+        run: python scripts/admin_diagnostics.py
