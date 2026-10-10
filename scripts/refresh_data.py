@@ -84,7 +84,15 @@ def official_profile_image():
             if url.startswith("//"):
                 url = "https:" + url
             if url.startswith("http") and not any(
-                bad in url.lower() for bad in ("logo", "placeholder", "flag", "banner", "og_image", "og-image")
+                bad in url.lower()
+                for bad in (
+                    "logo",
+                    "placeholder",
+                    "flag",
+                    "banner",
+                    "og_image",
+                    "og-image",
+                )
             ):
                 normalized.append(url)
         # Prefer BCCI-hosted image URLs and larger player/profile variants.
