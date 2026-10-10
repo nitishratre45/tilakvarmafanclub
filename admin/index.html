@@ -2067,19 +2067,20 @@
               ),
             ),
           ).length;
-          const feedIssues = feedData && (playableCount !== count || thumbnailCount !== count)
-            ? [
-                "Feed health check: " +
-                  playableCount +
-                  "/" +
-                  count +
-                  " direct playback URLs and " +
-                  thumbnailCount +
-                  "/" +
-                  count +
-                  " thumbnails.",
-              ]
-            : [];
+          const feedIssues =
+            feedData && (playableCount !== count || thumbnailCount !== count)
+              ? [
+                  "Feed health check: " +
+                    playableCount +
+                    "/" +
+                    count +
+                    " direct playback URLs and " +
+                    thumbnailCount +
+                    "/" +
+                    count +
+                    " thumbnails.",
+                ]
+              : [];
           $("video-source-count").textContent = feedData ? String(count) : "Unavailable";
           $("video-source-updated").textContent = feedData?.updatedAt
             ? formatTime(feedData.updatedAt)
