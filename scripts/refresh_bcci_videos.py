@@ -8,6 +8,7 @@ are refreshed nightly; no video files are mirrored.
 from __future__ import annotations
 
 import hashlib
+import html
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
@@ -43,19 +44,88 @@ def fetch_json(params: dict[str, str]) -> object:
         return json.loads(response.read().decode("utf-8"))
 
 
+def parse_custom_response(body: bytes, content_type: str = "") -> object:
+    """Parse JSON API responses and JSON payloads embedded in BCCI HTML pages."""
+    text = body.decode("utf-8", errors="replace").lstrip("\\ufeff")
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+
+    if "html" not in content_type.lower() and not re.search(
+        r"<!doctype\\s+html|<html\\b|<script\\b", text, re.I
+    ):
+        raise ValueError("BCCI source response was neither valid JSON nor an HTML page.")
+
+    # Some official BCCI video/match pages are rendered as HTML. Extract only
+    # script payloads that are valid JSON; do not evaluate JavaScript from the page.
+    payloads: list[object] = []
+    for match in re.finditer(r"<script\\b([^>]*)>(.*?)</script\\s*>", text, re.I | re.S):
+        attributes, raw = match.groups()
+        attrs = {
+            key.lower(): html.unescape(value or "")
+            for key, _, value in re.findall(
+                r"""([a-zA-Z_:][\\w:.-]*)\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))""",
+                attributes,
+                re.S,
+            )
+        }
+        # Prefer structured data and framework bootstrap payloads, but safely
+        # inspect other scripts too because BCCI may embed its CMS JSON inline.
+        script_text = html.unescape(raw.strip())
+        if not script_text or script_text.startswith("<!--"):
+            continue
+        script_id = attrs.get("id", "").lower()
+        script_type = attrs.get("type", "").lower()
+        likely_data = (
+            "json" in script_type
+            or script_id in {"__next_data__", "__nuxt_data__", "__initial_state__"}
+            or "initialstate" in script_id
+            or "initial-state" in script_id
+        )
+        candidates = [script_text]
+        if not likely_data:
+            # Support assignments such as window.__INITIAL_STATE__ = {...};
+            candidates = re.findall(
+                r"(?:__INITIAL_STATE__|__NEXT_DATA__|__APOLLO_STATE__|initialState)\\s*=\\s*({.*?})(?:;|</script)",
+                script_text,
+                re.I | re.S,
+            )
+        for candidate in candidates:
+            candidate = candidate.strip().rstrip(";")
+            try:
+                parsed = json.loads(candidate)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(parsed, (dict, list)):
+                payloads.append(parsed)
+
+    if payloads:
+        return {"embeddedPayloads": payloads}
+    raise ValueError(
+        "BCCI returned an HTML page but no readable JSON video payload was embedded. "
+        "The collector will continue with the built-in official BCCI catalogue."
+    )
+
+
 def fetch_custom_url(url: str) -> object:
-    """Fetch the URL saved in Admin as an input source for this Python collector."""
+    """Fetch a saved BCCI API URL or page without assuming every URL returns JSON."""
     parsed = urllib.parse.urlparse(url)
     allowed_hosts = {"www.bcci.tv", "bcci.tv", "live-bccitv.epicon.in"}
     if parsed.scheme != "https" or parsed.hostname not in allowed_hosts:
         raise ValueError(
             "Admin video source must be an HTTPS URL on an official BCCI host."
         )
-    request = urllib.request.Request(url, headers=HEADERS)
+    headers = {
+        **HEADERS,
+        "Accept": "application/json, text/html;q=0.9, */*;q=0.5",
+    }
+    request = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(request, timeout=45) as response:
         if response.status != 200:
             raise RuntimeError(f"Admin BCCI URL returned HTTP {response.status}")
-        return json.loads(response.read().decode("utf-8"))
+        content_type = response.headers.get("Content-Type", "")
+        return parse_custom_response(response.read(), content_type)
 
 
 def walk_video_objects(node: object):
