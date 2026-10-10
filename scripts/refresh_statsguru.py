@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Refresh Tilak Varma batting Statsguru data from ESPNcricinfo every 24 hours.
 
-Only ESPNcricinfo Statsguru is used for these tables. If a source is blocked or its
-markup changes, the last successfully saved snapshot is preserved; no values are invented.
+ESPNcricinfo Statsguru supplies these tables for T20I, ODI, T20, FC and List A.
+Optional formats may be blocked; if a source is unavailable or markup changes, the last
+successfully saved snapshot is preserved and no values are invented.
 """
 import html
 import json
