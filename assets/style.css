@@ -9134,3 +9134,83 @@ html.death-embed footer{display:none!important}
 .cs-overlay.is-mobile .cs-options {
   max-height: calc(min(72dvh, 620px) - 76px) !important;
 }
+
+
+/* Readability pass: consistent contrast, line lengths, and uploaded media cards. */
+:root {
+  --text-primary: #f3f6fc;
+  --text-secondary: #b4c2d5;
+  --text-muted: #91a2ba;
+  --text-accent: #ffad55;
+}
+body {
+  color: var(--text-primary);
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+}
+p, li, .section-copy, .section-heading > p, .profile-intro {
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+small, .stat-note, .match-meta, .tilak-news-meta, .bcci-video-card-meta {
+  color: var(--text-muted);
+}
+h1, h2, h3, h4, .section-title, .section-heading h2 {
+  color: var(--text-primary);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+h2 em, h3 em, .section-title em { color: var(--text-accent); }
+button, input, select, textarea { font: inherit; }
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--cyan, #7ce5f2);
+  outline-offset: 3px;
+}
+.tilak-news-card, .stat-card, .record-card, .milestone-card,
+.bcci-video-card, .match-card, .snapshot-card {
+  min-width: 0;
+}
+.tilak-news-card p, .record-card p, .milestone-card p {
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+.tilak-news-card h3, .bcci-video-card h3 {
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.admin-gallery-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line, #2b4059);
+  background: linear-gradient(145deg, #122238, #0a1626);
+}
+.admin-gallery-card video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  background: #030812;
+}
+.admin-gallery-card .bcci-profile-photo-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 12px;
+}
+.admin-gallery-card .bcci-profile-photo-caption strong {
+  color: var(--text-primary);
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+.admin-gallery-card .bcci-profile-photo-caption span {
+  color: var(--cyan, #7ce5f2);
+  font: 10px var(--mono, monospace);
+  letter-spacing: .08em;
+}
+@media (max-width: 600px) {
+  body { font-size: 14px; }
+  p, li, .section-copy, .section-heading > p { line-height: 1.72; }
+  .admin-gallery-card .bcci-profile-photo-caption { padding: 10px; }
+}
