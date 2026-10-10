@@ -33,6 +33,30 @@ def stamp(value=None):
     return (value or utc_now()).strftime("%Y-%m-%d %H:%M UTC")
 
 
+
+def update_last_updated(data):
+    """Use successful section snapshot timestamps, not failed refresh attempts."""
+    values = [
+        data.get("profileUpdated"),
+        data.get("careerStatsUpdated"),
+        data.get("recentUpdated"),
+        (data.get("iccRankings") or {}).get("updatedAt"),
+        data.get("iccRecordsUpdated"),
+        (data.get("statsguru") or {}).get("updatedAt"),
+        (data.get("bowlingStats") or {}).get("updatedAt"),
+        (data.get("fieldingStats") or {}).get("updatedAt"),
+    ]
+    valid = []
+    for value in values:
+        try:
+            parsed = datetime.strptime(value, "%Y-%m-%d %H:%M UTC")
+            valid.append((parsed, value))
+        except (TypeError, ValueError):
+            continue
+    if valid:
+        data["lastUpdated"] = max(valid)[1]
+
+
 def parse_stamp(value):
     if not value:
         return None
@@ -196,6 +220,7 @@ def main():
     else:
         print("Could not parse ICC record highlights; saved records retained.")
 
+    update_last_updated(data)
     FILE.write_text(
         json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
