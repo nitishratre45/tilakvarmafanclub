@@ -6614,7 +6614,6 @@ option {
   }
 }
 
-
 /* Squad-confirmed upcoming fixtures in the Matches section. */
 .upcoming-matches-panel {
   margin: 0 0 28px;
@@ -6711,10 +6710,26 @@ option {
   font-size: 10px;
 }
 @media (max-width: 650px) {
-  .upcoming-matches-panel { padding: 14px; border-radius: 14px; margin-bottom: 20px; }
-  .upcoming-matches-heading { flex-direction: column; gap: 10px; }
-  .upcoming-matches-heading p { font-size: 11px; }
-  .upcoming-matches-grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  .upcoming-match-card { padding: 12px; }
-  .upcoming-match-teams { font-size: 16px; }
+  .upcoming-matches-panel {
+    padding: 14px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+  }
+  .upcoming-matches-heading {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .upcoming-matches-heading p {
+    font-size: 11px;
+  }
+  .upcoming-matches-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .upcoming-match-card {
+    padding: 12px;
+  }
+  .upcoming-match-teams {
+    font-size: 16px;
+  }
 }
