@@ -36,7 +36,7 @@ const DATASETS = [
     file: "data/site-data.json",
     section: "fieldingStats",
     intervalHours: 24,
-    workflow: "refresh-tilak-data.yml",
+    workflow: "refresh-statsguru.yml",
     required: false,
   },
   {
