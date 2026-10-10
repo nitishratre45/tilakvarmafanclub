@@ -2324,3 +2324,86 @@ body {
     font-size: 10px;
   }
 }
+
+
+/* MOBILE CAREER CARDS — prevent labels and multi-digit values breaking across lines */
+@media (max-width: 760px) {
+  #career-formats .format-card {
+    padding: 20px 18px !important;
+    gap: 15px !important;
+  }
+  #career-formats .format-main-row {
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr) !important;
+    align-items: center;
+    gap: 16px !important;
+  }
+  #career-formats .format-runs > strong {
+    font-size: clamp(38px, 9vw, 48px) !important;
+    line-height: 1.05 !important;
+    white-space: nowrap;
+  }
+  #career-formats .format-batting-facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+  #career-formats .format-fact {
+    min-width: 0;
+    min-height: 78px;
+    padding: 10px 8px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    border-radius: 12px !important;
+  }
+  #career-formats .format-fact span {
+    display: block;
+    max-width: 100%;
+    white-space: nowrap !important;
+    overflow-wrap: normal !important;
+    word-break: keep-all !important;
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+  }
+  #career-formats .format-fact strong {
+    display: block;
+    max-width: 100%;
+    white-space: nowrap !important;
+    overflow-wrap: normal !important;
+    word-break: keep-all !important;
+    font-size: 18px !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em;
+  }
+  #career-formats .format-meta-row {
+    gap: 7px 12px !important;
+    font-size: 11px !important;
+    line-height: 1.55 !important;
+  }
+}
+@media (max-width: 390px) {
+  #career-formats .format-main-row {
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr) !important;
+    gap: 10px !important;
+  }
+  #career-formats .format-card {
+    padding: 17px 13px !important;
+  }
+  #career-formats .format-batting-facts {
+    gap: 6px !important;
+  }
+  #career-formats .format-fact {
+    min-height: 70px;
+    padding: 8px 6px !important;
+  }
+  #career-formats .format-fact span {
+    font-size: 9px !important;
+  }
+  #career-formats .format-fact strong {
+    font-size: 16px !important;
+  }
+  #career-formats .format-meta-row {
+    gap: 6px 10px !important;
+    font-size: 10px !important;
+  }
+}
