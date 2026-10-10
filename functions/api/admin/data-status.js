@@ -146,11 +146,13 @@ function iso(value) {
   return value ? value.toISOString() : null;
 }
 function latestTimestamp(...values) {
-  return values
-    .filter(Boolean)
-    .map((value) => ({ value, date: parseDate(value) }))
-    .filter((item) => item.date)
-    .sort((a, b) => b.date - a.date)[0]?.value || null;
+  return (
+    values
+      .filter(Boolean)
+      .map((value) => ({ value, date: parseDate(value) }))
+      .filter((item) => item.date)
+      .sort((a, b) => b.date - a.date)[0]?.value || null
+  );
 }
 function ageHours(date, now) {
   return date ? Math.max(0, (now - date) / 3600000) : null;
