@@ -9706,26 +9706,65 @@ textarea {
 }
 
 /* Custom picker emergency fix: keep the dialog visible above blurred backdrop. */
-body > .cs-overlay { position:fixed!important; inset:0!important; z-index:2147483000!important; }
-body > .cs-overlay .cs-dialog {
-  display:flex!important; flex-direction:column!important; visibility:visible!important;
-  opacity:1!important; transform:none!important; filter:none!important;
-  color:#f4f7fb!important; background:#0a1525!important;
-  border:1px solid rgba(124,229,242,.42)!important;
-  box-shadow:0 24px 70px rgba(0,0,0,.72)!important;
-  pointer-events:auto!important;
+body > .cs-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483000 !important;
 }
-body > .cs-overlay .cs-dialog-head { flex:0 0 auto!important; visibility:visible!important; opacity:1!important; }
-body > .cs-overlay .cs-options { flex:1 1 auto!important; min-height:0!important; visibility:visible!important; opacity:1!important; }
-body > .cs-overlay .cs-option { display:flex!important; visibility:visible!important; opacity:1!important; color:#e6eef8!important; }
-body > .cs-overlay .cs-dialog-title, body > .cs-overlay .cs-kicker { visibility:visible!important; opacity:1!important; }
-@media(max-width:760px),(pointer:coarse) and (max-width:899px) {
- body > .cs-overlay.is-mobile { display:flex!important; align-items:flex-end!important; justify-content:center!important; }
- body > .cs-overlay.is-mobile .cs-dialog {
-  width:100%!important; max-width:560px!important; min-width:0!important;
-  height:min(72dvh,620px)!important; max-height:min(72dvh,620px)!important;
-  margin:0 auto!important; border-radius:20px 20px 14px 14px!important;
-  overflow:hidden!important; background:linear-gradient(160deg,#10243a,#081321)!important;
- }
- body > .cs-overlay.is-mobile .cs-options { overflow-y:auto!important; -webkit-overflow-scrolling:touch!important; }
+body > .cs-overlay .cs-dialog {
+  display: flex !important;
+  flex-direction: column !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  color: #f4f7fb !important;
+  background: #0a1525 !important;
+  border: 1px solid rgba(124, 229, 242, 0.42) !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.72) !important;
+  pointer-events: auto !important;
+}
+body > .cs-overlay .cs-dialog-head {
+  flex: 0 0 auto !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+body > .cs-overlay .cs-options {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+body > .cs-overlay .cs-option {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: #e6eef8 !important;
+}
+body > .cs-overlay .cs-dialog-title,
+body > .cs-overlay .cs-kicker {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+@media (max-width: 760px), (pointer: coarse) and (max-width: 899px) {
+  body > .cs-overlay.is-mobile {
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+  }
+  body > .cs-overlay.is-mobile .cs-dialog {
+    width: 100% !important;
+    max-width: 560px !important;
+    min-width: 0 !important;
+    height: min(72dvh, 620px) !important;
+    max-height: min(72dvh, 620px) !important;
+    margin: 0 auto !important;
+    border-radius: 20px 20px 14px 14px !important;
+    overflow: hidden !important;
+    background: linear-gradient(160deg, #10243a, #081321) !important;
+  }
+  body > .cs-overlay.is-mobile .cs-options {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
 }
