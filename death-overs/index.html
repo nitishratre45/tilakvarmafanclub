@@ -704,9 +704,21 @@
           transition-duration: 0.01ms !important;
         }
       }
+
+      /* Embedded Stats tab: render only the death-overs tool, not a second full website. */
+      html.death-embed, html.death-embed body { min-height: 0 !important; height: auto !important; overflow-x: hidden !important; }
+      html.death-embed body { margin: 0 !important; }
+      html.death-embed .death-topbar,
+      html.death-embed .stats-hero,
+      html.death-embed footer,
+      html.death-embed .site-footer { display: none !important; }
+      html.death-embed main { padding-top: 0 !important; margin-top: 0 !important; }
+      html.death-embed .stats-section { padding-top: 0 !important; }
+      html.death-embed .stats-section > .container { max-width: none !important; width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; }
     </style>
   </head>
   <body>
+    <script>if (new URLSearchParams(location.search).get("embed") === "1") document.documentElement.classList.add("death-embed");</script>
     <header class="topbar death-topbar">
       <a class="brand" href="../"
         ><span class="brand-mark">72</span><span>TILAK VARMA <small>FAN CLUB</small></span></a
