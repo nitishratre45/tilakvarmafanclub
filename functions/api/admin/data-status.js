@@ -189,7 +189,7 @@ function getInfo(def, data) {
             detailedInnings: Array.isArray(f.innings) ? f.innings.length : 0,
             updatedAt: isStatsguru ? (live.checkedAt || sg.updatedAt || null) : (fallback.updatedAt || null),
             source: isStatsguru ? (live.source || sg.source || "ESPNcricinfo Statsguru") : (fallback.source || null),
-            sourceUrl: isStatsguru ? (live.sourceUrl || sg.sourceUrl || null) : (fallback.sourceUrl || fallback.source || null),
+            sourceUrl: isStatsguru ? (live.sourceUrl || sg.sourceUrl || null) : (fallback.sourceUrl || null),
             detailStatus: isStatsguru ? (live.detailStatus || null) : (fallback.detailStatus || "saved summary; refresh timestamp unavailable"),
           },
         ];
