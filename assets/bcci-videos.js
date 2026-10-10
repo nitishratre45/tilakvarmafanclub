@@ -168,22 +168,43 @@
     const queue = [
       ...playable.slice(currentIndex >= 0 ? currentIndex + 1 : 0),
       ...playable.slice(0, currentIndex >= 0 ? currentIndex : 0),
-    ].filter((video) => String(video.id) !== String(current.id)).slice(0, 8);
+    ]
+      .filter((video) => String(video.id) !== String(current.id))
+      .slice(0, 8);
     if (!queue.length) {
-      upNextList.innerHTML = '<p class="bcci-up-next-empty">No more Tilak Varma videos in the current feed.</p>';
+      upNextList.innerHTML =
+        '<p class="bcci-up-next-empty">No more Tilak Varma videos in the current feed.</p>';
       return;
     }
-    upNextList.innerHTML = queue.map((video) => {
-      const thumb = thumbFor(video);
-      const date = video.publishedDate
-        ? new Date(video.publishedDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
-        : "BCCI";
-      return '<button type="button" class="bcci-up-next-item" data-bcci-next="' + esc(video.id) + '">' +
-        '<span class="bcci-up-next-thumb">' +
-        (thumb ? '<img src="' + esc(thumb) + '" alt="" loading="lazy" decoding="async">' : '<span>72</span>') +
-        (video.duration ? '<span class="bcci-up-next-duration">' + esc(video.duration) + '</span>' : '') +
-        '</span><span class="bcci-up-next-copy"><strong>' + esc(video.title) + '</strong><small>' + esc(date) + '</small></span></button>';
-    }).join("");
+    upNextList.innerHTML = queue
+      .map((video) => {
+        const thumb = thumbFor(video);
+        const date = video.publishedDate
+          ? new Date(video.publishedDate).toLocaleDateString("en-IN", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+            })
+          : "BCCI";
+        return (
+          '<button type="button" class="bcci-up-next-item" data-bcci-next="' +
+          esc(video.id) +
+          '">' +
+          '<span class="bcci-up-next-thumb">' +
+          (thumb
+            ? '<img src="' + esc(thumb) + '" alt="" loading="lazy" decoding="async">'
+            : "<span>72</span>") +
+          (video.duration
+            ? '<span class="bcci-up-next-duration">' + esc(video.duration) + "</span>"
+            : "") +
+          '</span><span class="bcci-up-next-copy"><strong>' +
+          esc(video.title) +
+          "</strong><small>" +
+          esc(date) +
+          "</small></span></button>"
+        );
+      })
+      .join("");
   };
   const openPlayer = async (item) => {
     if (!item || !validHttps(item.playbackUrl)) return;
@@ -192,7 +213,11 @@
     document.body.classList.add("bcci-player-open");
     titleElement.textContent = item.title;
     playingDate.textContent = item.publishedDate
-      ? new Date(item.publishedDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) + " · BCCI.TV"
+      ? new Date(item.publishedDate).toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }) + " · BCCI.TV"
       : "Official BCCI video";
     renderUpNext(item);
     errorElement.textContent = "Loading official stream…";
@@ -265,7 +290,9 @@
       else if (navigator.clipboard) {
         await navigator.clipboard.writeText(shareData.url);
         shareButton.textContent = "✓ Link copied";
-        setTimeout(() => { shareButton.textContent = "↗ Share"; }, 1800);
+        setTimeout(() => {
+          shareButton.textContent = "↗ Share";
+        }, 1800);
       }
     } catch (_) {}
   });
