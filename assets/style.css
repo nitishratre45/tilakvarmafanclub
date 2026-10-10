@@ -7568,3 +7568,29 @@ body.bcci-player-open {
     max-height: 520px;
   }
 }
+
+
+/* BCCI Stats Match Center */
+.match-center-section { background: linear-gradient(145deg, #07101f, #0d1c30 70%, #111f31); border-bottom: 1px solid var(--line); }
+.match-center-toolbar { display:grid; grid-template-columns: 2fr 1fr 1fr; gap:12px; margin: 0 0 20px; }
+.match-center-toolbar label { display:grid; gap:8px; color:var(--muted); font:10px var(--mono); letter-spacing:.06em; }
+.match-center-toolbar input, .match-center-toolbar select { width:100%; min-width:0; background:var(--panel); color:var(--white); border:1px solid var(--line); padding:13px 12px; border-radius:4px; font:12px var(--body); }
+.match-center-summary { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:22px; color:var(--muted); font:10px var(--mono); }
+.match-center-summary .button { margin-top:0; }
+.match-center-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.match-center-card { min-width:0; padding:20px; border:1px solid var(--line); background:linear-gradient(145deg,var(--panel),rgba(18,34,56,.75)); border-radius:8px; display:flex; flex-direction:column; gap:12px; }
+.mc-card-top { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.mc-date,.mc-status { font:10px var(--mono); color:var(--cyan); }
+.mc-status { color:var(--orange); text-transform:uppercase; }
+.mc-series { color:var(--muted); font-size:10px; line-height:1.5; min-height:30px; }
+.mc-teams { display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:8px; align-items:center; }
+.mc-teams strong { font:700 22px/1.05 var(--display); overflow-wrap:anywhere; }
+.mc-teams strong:last-child { text-align:right; }
+.mc-teams span { font:10px var(--mono); color:var(--orange); }
+.match-center-card h3 { margin:0; font-size:12px; color:var(--white); }
+.mc-meta { display:grid; gap:8px; color:var(--muted); font-size:10px; line-height:1.6; }
+.match-center-card > a { display:inline-flex; align-self:flex-start; margin-top:auto; padding-top:8px; color:var(--cyan); font:10px var(--mono); }
+.match-center-card > a:hover { color:var(--orange); }
+.match-center-foot { margin:20px 0 0; color:var(--muted); font-size:10px; line-height:1.7; }
+@media (max-width: 900px) { .match-center-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width: 600px) { .match-center-section { padding:64px 5vw; } .match-center-toolbar { grid-template-columns:1fr 1fr; } .match-center-toolbar label:first-child { grid-column:1 / -1; } .match-center-grid { grid-template-columns:1fr; gap:10px; } .match-center-card { padding:16px; } .mc-teams strong { font-size:25px; } }
