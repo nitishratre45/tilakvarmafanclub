@@ -5966,3 +5966,31 @@ option {
     font-size: 8px;
   }
 }
+
+
+/* Runs column now follows the same neutral table styling as every other column. */
+.stats-section .statsguru-panel .table-wrap th.sg-head-runs {
+  background: var(--panel2);
+  color: #b9cce6;
+  box-shadow: inset 0 -2px 0 rgba(124, 229, 242, 0.55);
+}
+.stats-section .statsguru-panel .table-wrap .sg-cell-runs {
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  text-align: inherit;
+  min-width: 0;
+}
+.stats-section .statsguru-panel .table-wrap tbody tr:hover td.sg-cell-runs {
+  background: rgba(124, 229, 242, 0.065);
+}
+:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th.sg-head-runs {
+  background: #edf3f9;
+  color: #34465c;
+  box-shadow: inset 0 -2px 0 rgba(8, 126, 145, 0.4);
+}
+:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap .sg-cell-runs {
+  background: transparent;
+  color: inherit;
+}
