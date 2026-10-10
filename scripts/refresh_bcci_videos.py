@@ -590,18 +590,26 @@ def main() -> int:
     unique_videos: list[dict] = []
     seen_video_keys: set[str] = set()
     for video in videos:
-        title_key = re.sub(r"[^a-z0-9]+", " ", first_text(video.get("title")).lower()).strip()
-        slug_key = re.sub(r"[^a-z0-9]+", "-", first_text(video.get("slug")).lower()).strip("-")
+        title_key = re.sub(
+            r"[^a-z0-9]+", " ", first_text(video.get("title")).lower()
+        ).strip()
+        slug_key = re.sub(
+            r"[^a-z0-9]+", "-", first_text(video.get("slug")).lower()
+        ).strip("-")
         playback = first_text(video.get("playbackUrl"))
         try:
             parsed_playback = urllib.parse.urlparse(playback)
-            playback_key = (parsed_playback.hostname or "").lower() + parsed_playback.path.lower()
+            playback_key = (
+                parsed_playback.hostname or ""
+            ).lower() + parsed_playback.path.lower()
         except ValueError:
             playback_key = playback.lower().split("?", 1)[0]
         # A title is the best cross-ID key for repeated catalogue entries.
         # Use media path as a fallback when title metadata differs.
-        identity = "title:" + title_key if title_key else (
-            "slug:" + slug_key if slug_key else "media:" + playback_key
+        identity = (
+            "title:" + title_key
+            if title_key
+            else ("slug:" + slug_key if slug_key else "media:" + playback_key)
         )
         keys = [identity]
         if slug_key:
