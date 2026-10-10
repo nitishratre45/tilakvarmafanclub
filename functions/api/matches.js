@@ -160,7 +160,15 @@ export async function onRequestGet({ request, env }) {
         return { ...s, _start: Number.isFinite(date) ? date : null };
       })
       .filter((s) => s._start == null || s._start >= today.getTime() - 60 * 86400000)
-      .sort((a, b) => (a._start ?? Number.MAX_SAFE_INTEGER) - (b._start ?? Number.MAX_SAFE_INTEGER))
+      .sort((a, b) => {
+        const now = Date.now();
+        const aFuture = a._start != null && a._start >= now;
+        const bFuture = b._start != null && b._start >= now;
+        if (aFuture !== bFuture) return aFuture ? -1 : 1;
+        if (a._start == null && b._start != null) return 1;
+        if (b._start == null && a._start != null) return -1;
+        return (a._start ?? Number.MAX_SAFE_INTEGER) - (b._start ?? Number.MAX_SAFE_INTEGER);
+      })
       .slice(0, 12);
     const detailResults = await Promise.allSettled(upcomingSeries.map((s) => {
       const id = s.id || s.seriesId || s.unique_id;
