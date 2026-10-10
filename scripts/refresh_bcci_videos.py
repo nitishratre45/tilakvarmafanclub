@@ -31,7 +31,9 @@ HEADERS = {
 
 
 def fetch_json(params: dict[str, str]) -> object:
-    url = API_BASE + "?" + urllib.parse.urlencode(params)
+    # The latest domestic feed uses a separate /latest route and singular tag.
+    endpoint = API_BASE + "/latest" if "tag" in params else API_BASE
+    url = endpoint + "?" + urllib.parse.urlencode(params)
     request = urllib.request.Request(url, headers=HEADERS)
     with urllib.request.urlopen(request, timeout=45) as response:
         if response.status != 200:
@@ -296,6 +298,21 @@ def main() -> int:
             ]
         )
 
+    # Extra official domestic feeds requested for broader catalogue coverage.
+    api_queries.extend(
+        [
+            ("latest domestic videos", {"tag": "domestic"}),
+            (
+                "domestic features/interviews season 2025",
+                {"category": "features-and-interviews", "tags": "domestic,season:2025"},
+            ),
+            (
+                "domestic men features/interviews season 2024",
+                {"category": "features-and-interviews", "tags": "domestic,men,season:2024"},
+            ),
+        ]
+    )
+
     # BCCI features/interviews category feed for international T20 clips.
     api_queries.append(
         (
@@ -317,7 +334,8 @@ def main() -> int:
 
     queried_signatures: set[str] = set()
     for label, params in api_queries:
-        url = API_BASE + "?" + urllib.parse.urlencode(params)
+        endpoint = API_BASE + "/latest" if "tag" in params else API_BASE
+        url = endpoint + "?" + urllib.parse.urlencode(params)
         sources_tried.append(url)
         try:
             payload = fetch_json(params)
