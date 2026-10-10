@@ -3540,26 +3540,80 @@ main > section[id][hidden],
 
 /* Keep touch devices compact even when Android Chrome requests Desktop site. */
 @media (pointer: coarse) and (hover: none), (max-width: 760px) {
-  .topbar { position: sticky !important; top: 0 !important; z-index: 7000 !important; }
-  .topbar .menu-toggle { display: grid !important; place-items: center !important; flex: 0 0 48px !important; width: 48px !important; min-height: 48px !important; }
-  .topbar nav:not(.open) { display: none !important; }
-  .topbar nav.open {
-    display: grid !important; position: absolute !important; top: calc(100% + 1px) !important;
-    left: 10px !important; right: 10px !important; width: auto !important;
-    max-height: calc(100dvh - 90px) !important; overflow-x: hidden !important; overflow-y: auto !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 7px !important;
-    padding: 12px !important; margin: 0 !important; z-index: 7001 !important;
-    background: #081525 !important; border: 1px solid rgba(130,178,220,.28) !important;
-    border-radius: 14px !important; box-shadow: 0 18px 42px rgba(0,0,0,.55) !important;
+  .topbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 7000 !important;
   }
-  .topbar nav.open a { display: flex !important; align-items: center !important; min-width: 0 !important; min-height: 42px !important; padding: 10px !important; white-space: normal !important; font-size: 12px !important; }
-  .stats-subnav { position: relative !important; top: auto !important; }
-  #career-formats.career-formats { grid-template-columns: minmax(0, 1fr) !important; }
-  #career-formats .format-main-row { grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr) !important; }
-  #career-formats .format-batting-facts { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
-  #career-formats .format-fact { min-width: 0 !important; padding: 8px 5px !important; }
-  #career-formats .format-fact span, #career-formats .format-fact strong { white-space: nowrap !important; word-break: normal !important; }
-  #profile.profile-section { grid-template-columns: minmax(0, 1fr) !important; gap: 13px !important; }
-  #profile .profile-photo-wrap { width: min(100%, 280px) !important; height: clamp(205px, 55vw, 270px) !important; max-height: 270px !important; margin: 0 auto !important; }
+  .topbar .menu-toggle {
+    display: grid !important;
+    place-items: center !important;
+    flex: 0 0 48px !important;
+    width: 48px !important;
+    min-height: 48px !important;
+  }
+  .topbar nav:not(.open) {
+    display: none !important;
+  }
+  .topbar nav.open {
+    display: grid !important;
+    position: absolute !important;
+    top: calc(100% + 1px) !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-height: calc(100dvh - 90px) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    padding: 12px !important;
+    margin: 0 !important;
+    z-index: 7001 !important;
+    background: #081525 !important;
+    border: 1px solid rgba(130, 178, 220, 0.28) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.55) !important;
+  }
+  .topbar nav.open a {
+    display: flex !important;
+    align-items: center !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    padding: 10px !important;
+    white-space: normal !important;
+    font-size: 12px !important;
+  }
+  .stats-subnav {
+    position: relative !important;
+    top: auto !important;
+  }
+  #career-formats.career-formats {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  #career-formats .format-main-row {
+    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr) !important;
+  }
+  #career-formats .format-batting-facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  #career-formats .format-fact {
+    min-width: 0 !important;
+    padding: 8px 5px !important;
+  }
+  #career-formats .format-fact span,
+  #career-formats .format-fact strong {
+    white-space: nowrap !important;
+    word-break: normal !important;
+  }
+  #profile.profile-section {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 13px !important;
+  }
+  #profile .profile-photo-wrap {
+    width: min(100%, 280px) !important;
+    height: clamp(205px, 55vw, 270px) !important;
+    max-height: 270px !important;
+    margin: 0 auto !important;
+  }
 }
-
