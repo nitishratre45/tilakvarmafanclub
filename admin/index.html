@@ -1306,8 +1306,9 @@
               <div class="eyebrow">VIDEO HUB</div>
               <h2>Video feed settings</h2>
               <p>
-                Connect an HTTPS JSON feed for the public Videos section. Keep the source URL
-                private if it contains a token—use a public, read-only feed URL instead.
+                Paste an official BCCI API URL for the Python collector. On save, GitHub Actions
+                runs Python to fetch the raw response, extract Tilak Varma clips, and normalize
+                metadata, thumbnail qualities and playback URLs for the public Videos section.
               </p>
             </div>
             <span class="pill">HTTPS ONLY</span>
@@ -1315,7 +1316,7 @@
           <div class="section-body">
             <form id="video-form">
               <div class="field">
-                <label for="video-url">Video feed API URL</label
+                <label for="video-url">BCCI API source URL (Python input)</label
                 ><input
                   id="video-url"
                   type="url"
@@ -1323,9 +1324,9 @@
                   placeholder="https://example.com/api/videos"
                   autocomplete="url"
                 /><span class="hint"
-                  >Expected JSON:
-                  {"videos":[{"id":"…","title":"…","playbackUrl":"https://…","thumbnailUrl":"https://…"}]}.
-                  The source must allow browser CORS.</span
+                  >Python fetches this raw API response, extracts Tilak Varma clips, and saves the
+                  normalized result to assets/bcci-videos.json. The public website reads that
+                  normalized file, so the source does not need browser CORS.</span
                 >
               </div>
               <div class="actions">
@@ -1356,7 +1357,7 @@
                   <span>Last feed update</span><strong id="video-source-updated">Checking…</strong>
                 </div>
                 <div class="source-stat">
-                  <span>Custom feed override</span
+                  <span>Python source URL</span
                   ><strong id="video-source-override">Checking…</strong>
                 </div>
               </div>
@@ -1982,19 +1983,19 @@
           },
           {
             title: "Saved public video feed",
-            role: "JSON file actually loaded by the public Videos section when no custom feed override is configured.",
+            role: "Normalized JSON file loaded by the public Videos section after the Python collector processes BCCI responses.",
             url: "../assets/bcci-videos.json",
             local: true,
             detail:
               "Stores normalized video metadata, thumbnails, publication date, format and signed playback URLs.",
           },
           {
-            title: "Optional custom feed override",
-            role: "If configured above, the public Videos section loads this HTTPS JSON feed instead of the saved BCCI catalogue.",
+            title: "Admin Python source URL",
+            role: "The URL saved here is fetched by the Python collector; the public website never loads this raw response directly.",
             url: "../data/video-config.json",
             config: true,
             detail:
-              "Currently configured feed URL is read from this repository JSON file; blank means use the saved BCCI catalogue.",
+              "On save, GitHub Actions runs scripts/refresh_bcci_videos.py. Python extracts Tilak videos and writes the normalized public cache.",
           },
           {
             title: "Video playback streams",
@@ -2017,8 +2018,8 @@
           const sources = videoSourceInventory.map((source) => {
             const active = source.config
               ? override
-                ? "ACTIVE · override saved"
-                : "INACTIVE · no override"
+                ? "PYTHON INPUT · saved"
+                : "NO CUSTOM INPUT"
               : source.local
                 ? "PUBLIC CACHE"
                 : source.title === "Official BCCI CMS video API" ||
@@ -2053,13 +2054,13 @@
           $("video-source-updated").textContent = feedData?.updatedAt
             ? formatTime(feedData.updatedAt)
             : "Timestamp unavailable";
-          $("video-source-override").textContent = override ? "Enabled" : "Off · using BCCI cache";
+          $("video-source-override").textContent = override ? "Saved for Python" : "Default BCCI searches";
           const statusMessage = errorMessages.length
             ? "Some source checks failed: " + errorMessages.join(" · ")
-            : "Source check complete. Public feed uses " +
+            : "Source check complete. Public Videos always reads assets/bcci-videos.json; " +
               (override
-                ? "the configured custom feed override."
-                : "assets/bcci-videos.json, refreshed by the BCCI collector.");
+                ? "the saved BCCI URL is a Python collector input."
+                : "Python is using its built-in BCCI catalogue searches.");
           status("video-source-status", statusMessage, errorMessages.length > 0);
         }
         async function loadVideoSourceStatus() {
@@ -2229,7 +2230,10 @@
               body: JSON.stringify({ kind: "video", data: { feedUrl } }),
             });
             state.video.feedUrl = feedUrl;
-            status("video-status", "Video feed settings saved to the repository.");
+            status(
+              "video-status",
+              "BCCI source URL saved. GitHub Actions will run Python to fetch it, extract Tilak videos, and refresh the normalized public feed.",
+            );
           } catch (err) {
             status("video-status", err.message, true);
           } finally {
