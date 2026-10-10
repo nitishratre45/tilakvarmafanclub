@@ -251,7 +251,7 @@
     .then((payload) => {
       const apiVideos = collectVideoObjects(payload).map(normalizeApiVideo).filter(Boolean);
       const slugOf = (url) => {
-        try { return new URL(url).pathname.toLowerCase().replace(/\\/$/, ""); } catch { return ""; }
+        try { return new URL(url).pathname.toLowerCase().replace(/\/$/, ""); } catch { return ""; }
       };
       // Prefer official BCCI thumbnails for existing cards when the API returns matching videos.
       videos = videos.map((video) => {
