@@ -180,6 +180,30 @@ def parse_overall_t20():
     return total if total["innings"] else None
 
 
+
+def update_last_updated(data):
+    """Use successful section snapshot timestamps, not failed refresh attempts."""
+    values = [
+        data.get("profileUpdated"),
+        data.get("careerStatsUpdated"),
+        data.get("recentUpdated"),
+        (data.get("iccRankings") or {}).get("updatedAt"),
+        data.get("iccRecordsUpdated"),
+        (data.get("statsguru") or {}).get("updatedAt"),
+        (data.get("bowlingStats") or {}).get("updatedAt"),
+        (data.get("fieldingStats") or {}).get("updatedAt"),
+    ]
+    valid = []
+    for value in values:
+        try:
+            parsed = datetime.strptime(value, "%Y-%m-%d %H:%M UTC")
+            valid.append((parsed, value))
+        except (TypeError, ValueError):
+            continue
+    if valid:
+        data["lastUpdated"] = max(valid)[1]
+
+
 def main():
     data = json.loads(FILE.read_text(encoding="utf-8"))
     formats = data.setdefault("careerFormats", {})
@@ -304,6 +328,7 @@ def main():
     data.setdefault(
         "lastChecked", datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     )
+    update_last_updated(data)
     FILE.write_text(
         json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
