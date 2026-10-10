@@ -4,7 +4,7 @@
   let openControl = null;
   let overlay = null;
 
-  const isMobile = () => window.matchMedia("(max-width: 640px)").matches;
+  const isMobile = () => window.matchMedia("(max-width: 760px)").matches || (window.matchMedia("(pointer: coarse)").matches && window.innerWidth < 900);
   const labelFor = (select) => {
     const ariaLabel = select.getAttribute("aria-label");
     if (ariaLabel && ariaLabel.trim()) return ariaLabel.trim();
@@ -26,6 +26,7 @@
     overlay.remove();
     overlay = null;
     openControl = null;
+    document.documentElement.style.overscrollBehavior = "";
     if (old) {
       old.button.setAttribute("aria-expanded", "false");
       old.wrapper.classList.remove("is-open");
@@ -101,6 +102,23 @@
       if (event.target === overlay) closeMenu();
     });
     document.body.append(overlay);
+    if (isMobile()) {
+      document.documentElement.style.overscrollBehavior = "none";
+      Object.assign(overlay.style, {
+        position: "fixed", inset: "0", zIndex: "2147483000", display: "flex",
+        alignItems: "flex-end", justifyContent: "center",
+        padding: "12px 12px max(12px, env(safe-area-inset-bottom))",
+        overflow: "hidden", background: "rgba(2, 7, 15, .72)",
+        pointerEvents: "auto", touchAction: "pan-y"
+      });
+      const mobileDialog = overlay.querySelector(".cs-dialog");
+      Object.assign(mobileDialog.style, {
+        position: "relative", inset: "auto", left: "auto", top: "auto",
+        width: "100%", minWidth: "0", maxWidth: "560px",
+        maxHeight: "min(72dvh, 620px)", margin: "0 auto",
+        flex: "0 1 auto", pointerEvents: "auto"
+      });
+    }
     renderOptions(control);
 
     if (isMobile()) {
