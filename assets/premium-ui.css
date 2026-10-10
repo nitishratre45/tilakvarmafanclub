@@ -3803,3 +3803,49 @@ main > section[id][hidden],
     padding-inline: 9px !important;
   }
 }
+
+
+/* 72 CLUB — colourful motion polish (progressive, non-destructive) */
+:root {
+  --club-violet: #9b7bff;
+  --club-pink: #ff6b9d;
+  --club-lime: #c7f36b;
+  --club-blue: #62c8ff;
+  --club-glass: rgba(17, 29, 48, .78);
+}
+body { isolation: isolate; }
+.topbar { border-image: linear-gradient(90deg, var(--club-blue), var(--club-violet), var(--club-pink)) 1; }
+.brand-mark-photo { transition: transform .35s ease, box-shadow .35s ease; }
+.brand:hover .brand-mark-photo { transform: rotate(-5deg) scale(1.06); box-shadow: 0 0 0 5px rgba(155,123,255,.14), 0 0 28px rgba(98,200,255,.22); }
+.section-heading h2 em, .profile-copy h2 em { background: linear-gradient(100deg, var(--orange), var(--club-pink) 48%, var(--club-violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.stat-card, .home-mini-stat, .home-snapshot-block, .home-bowling-card, .settings-card, .cricinfo-gallery, .tilak-news-grid > *, .bcci-video-grid > *, .profile-teams-panel {
+  transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease, background-color .24s ease;
+}
+.stat-card { position: relative; overflow: hidden; border-color: rgba(155,123,255,.22); }
+.stat-card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: linear-gradient(180deg,var(--club-blue),var(--club-violet),var(--club-pink)); opacity: .85; }
+.stat-card:hover, .home-mini-stat:hover, .home-snapshot-block:hover, .home-bowling-card:hover, .settings-card:hover, .cricinfo-gallery:hover, .profile-teams-panel:hover { transform: translateY(-3px); border-color: rgba(98,200,255,.42); box-shadow: 0 16px 38px rgba(0,0,0,.2), 0 0 24px rgba(155,123,255,.07); }
+.button, button, .stats-subnav button, .statsguru-format-tabs button { transition: transform .18s ease, filter .18s ease, border-color .18s ease, box-shadow .18s ease; }
+.button:hover, button:hover:not(:disabled) { filter: brightness(1.08); }
+.button:active, button:active:not(:disabled) { transform: translateY(1px) scale(.985); }
+.button.primary { background-image: linear-gradient(115deg, #ff6a35, #ff6b9d 52%, #9b7bff); border-color: transparent; box-shadow: 0 8px 22px rgba(255,106,53,.17); }
+nav a.active { color: #fff; }
+nav a.active::after { right: 0; background: linear-gradient(90deg,var(--club-blue),var(--club-pink)); }
+.profile-photo-wrap img { transition: transform .55s cubic-bezier(.2,.7,.2,1), filter .35s ease; }
+.profile-photo-wrap:hover img { transform: scale(1.035); filter: saturate(1.08); }
+.profile-team-chip { transition: transform .18s ease, border-color .18s ease, background .18s ease; }
+.profile-team-chip:hover { transform: translateY(-2px); border-color: rgba(98,200,255,.6); background: rgba(98,200,255,.1); }
+.activity-empty, .empty { color: var(--text-secondary, #c1ccdc); }
+:where(input,select,textarea,button,a,[tabindex]):focus-visible { outline: 2px solid var(--club-blue); outline-offset: 3px; }
+@keyframes clubRiseIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes clubGlow { 0%,100% { box-shadow: 0 0 0 rgba(98,200,255,0); } 50% { box-shadow: 0 0 24px rgba(98,200,255,.12); } }
+main > section:not([hidden]) { animation: clubRiseIn .32s ease both; }
+.stat-card, .home-mini-stat { animation: clubRiseIn .42s ease both; }
+.live-dot { box-shadow: 0 0 0 4px rgba(115,224,174,.09); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+@media (max-width: 720px) {
+  .topbar { border-image: none; }
+  .stat-card:hover, .home-mini-stat:hover, .home-snapshot-block:hover, .home-bowling-card:hover, .settings-card:hover, .cricinfo-gallery:hover, .profile-teams-panel:hover { transform: none; }
+  .button, button { min-height: 42px; }
+}
