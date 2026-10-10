@@ -32,7 +32,7 @@
       </button>
       <nav id="main-nav">
         <a href="#profile">Profile</a><a href="#stats">Stats</a
-        ><a href="death-overs/">Death-overs</a><a href="#innings">Matches</a
+        ><a href="#death-overs">Death-overs</a><a href="#innings">Matches</a
         ><a href="#records">Records</a><a href="#photos">Photos</a><a href="#news">News</a
         ><a href="#tilak-videos">Videos</a><a href="#fan-zone">Fan Zone</a><a href="#about">About</a
         ><a href="#settings">Settings</a>
@@ -535,6 +535,26 @@
             Source: ESPNcricinfo Statsguru. Bowling data is refreshed from the source; missing
             figures are not estimated.
           </p>
+        </div>
+      </section>
+
+      <section id="death-overs" class="section death-overs-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">THE 72 CLUB · BALL-BY-BALL ANALYSIS</div>
+            <h2>DEATH-OVERS <em>ANALYSER</em></h2>
+          </div>
+          <p>Explore over ranges, compare seasons and review the available innings — all within the main Stats Centre.</p>
+        </div>
+        <div class="death-overs-embed-wrap">
+          <iframe
+            id="death-overs-embed"
+            title="Tilak Varma death-overs stats analyser"
+            src="death-overs/?embed=1"
+            loading="lazy"
+            scrolling="no"
+            height="1100"
+          ></iframe>
         </div>
       </section>
 
@@ -1106,6 +1126,19 @@
     <script src="assets/home-snapshot.js?v=20261011-home-format-facts2"></script>
     <script src="assets/section-tabs.js"></script>
     <script src="assets/bowling.js?v=20261010-restore-fc-la-summary"></script>
+    <script>
+      (() => {
+        const frame = document.getElementById("death-overs-embed");
+        if (!frame) return;
+        window.addEventListener("message", (event) => {
+          if (event.source !== frame.contentWindow || event.data?.type !== "death-overs-height") return;
+          const height = Number(event.data.height);
+          if (Number.isFinite(height) && height > 300 && height < 30000) {
+            frame.style.height = Math.ceil(height) + "px";
+          }
+        });
+      })();
+    </script>
     <script src="assets/custom-selects.js?v=20261011-native-mobile-all-selects1"></script>
     <script src="assets/theme.js?v=20261014"></script>
     <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.12.6/dist/shaka-player.compiled.js"></script>
