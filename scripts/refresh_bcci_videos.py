@@ -408,6 +408,29 @@ def main() -> int:
         )
     )
 
+    # Tilak's IPL archive is not always included in the international player feed.
+    # Search IPL separately from 2022 onward (his IPL seasons), across broad feeds
+    # and the official highlights/features categories. The normalizer still keeps
+    # only clips whose title or metadata identifies Tilak Varma.
+    api_queries.extend(
+        [
+            ("IPL all videos", {"tags": "ipl"}),
+            ("IPL men's videos", {"tags": "ipl,men"}),
+            ("IPL highlights", {"category": "highlights", "tags": "ipl"}),
+            ("IPL features/interviews", {"category": "features-and-interviews", "tags": "ipl"}),
+        ]
+    )
+    for season in range(2022, datetime.now(timezone.utc).year + 1):
+        for tags in (f"ipl,season:{season}", f"ipl,men,season:{season}"):
+            api_queries.append((f"IPL season {season} ({tags})", {"tags": tags}))
+        for category in categories:
+            api_queries.append(
+                (
+                    f"IPL {category} season {season}",
+                    {"category": category, "tags": f"ipl,season:{season}"},
+                )
+            )
+
     api_queries.extend(
         [
             ("player ID", {"playerId": PLAYER_ID}),
