@@ -150,24 +150,34 @@ def main() -> int:
     collected: dict[str, dict] = {}
     sources_tried: list[str] = []
 
-    # Walk through the latest international feed. If the API ignores the page
-    # parameter, stop after repeated pages with no new Tilak entries.
-    empty_pages = 0
-    for page in range(1, 31):
-        params = {"tags": "international", "page": str(page)}
-        sources_tried.append(API_BASE + "?" + urllib.parse.urlencode(params))
-        payload = fetch_json(params)
-        before = len(collected)
-        for item in walk_video_objects(payload):
-            video = normalize(item)
-            if video:
-                collected[video["id"]] = video
-        if len(collected) == before:
-            empty_pages += 1
-        else:
-            empty_pages = 0
-        if empty_pages >= 2:
-            break
+    # BCCI's feed is paginated, but the pagination parameter name can vary
+    # between CMS deployments. Try common pagination forms and stop when the
+    # response repeats, rather than stopping just because one page lacks Tilak.
+    pagination_modes = (
+        ("page", lambda page: {"tags": "international", "page": str(page)}),
+        ("pageNumber", lambda page: {"tags": "international", "pageNumber": str(page)}),
+        ("pageNo", lambda page: {"tags": "international", "pageNo": str(page)}),
+        ("offset", lambda page: {"tags": "international", "offset": str((page - 1) * 20), "limit": "20"}),
+        ("skip", lambda page: {"tags": "international", "skip": str((page - 1) * 20), "limit": "20"}),
+    )
+    for mode_name, build_params in pagination_modes:
+        previous_signature = None
+        for page in range(1, 16):
+            params = build_params(page)
+            sources_tried.append(API_BASE + "?" + urllib.parse.urlencode(params))
+            try:
+                payload = fetch_json(params)
+            except Exception as exc:
+                print(f"Skipping {mode_name} pagination: {exc}", file=sys.stderr)
+                break
+            signature = json.dumps(payload, sort_keys=True, ensure_ascii=False)
+            if signature == previous_signature:
+                break
+            previous_signature = signature
+            for item in walk_video_objects(payload):
+                video = normalize(item)
+                if video:
+                    collected[video["id"]] = video
 
     # The BCCI player page exposes a player-specific video catalogue. Try common
     # public filter names; unsupported filters safely fall back to deduped results.
