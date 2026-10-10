@@ -31,7 +31,7 @@
       if (item.type === "video") {
         return '<article class="admin-gallery-card"><a href="' + item.safe + '" target="_blank" rel="noopener noreferrer"><video src="' + item.safe + '" controls preload="metadata" playsinline></video></a><div class="bcci-profile-photo-caption"><strong>' + title + '</strong><span>FAN CLUB VIDEO</span></div></article>';
       }
-      return '<article class="admin-gallery-card"><a class="bcci-profile-photo-open" href="' + item.safe + '" target="_blank" rel="noopener noreferrer"><img src="' + item.safe + '" alt="' + title + '" loading="lazy" decoding="async"><span>FAN CLUB PHOTO · 72</span></a><div class="bcci-profile-photo-caption"><strong>' + title + '</strong><span>FAN CLUB GALLERY</span></div></article>';
+      return '<article class="admin-gallery-card"><a class="bcci-profile-photo-open" href="' + item.safe + '" target="_blank" rel="noopener noreferrer"><img src="' + item.safe + '" alt="' + title + '" loading="lazy" decoding="async"></a><div class="bcci-profile-photo-caption"><strong>' + title + '</strong><span>FAN CLUB GALLERY</span></div></article>';
     }).join("");
     if (stamp) stamp.textContent = "Fan Club uploads" + (updatedAt ? " · Updated " + updatedAt : "");
   }
