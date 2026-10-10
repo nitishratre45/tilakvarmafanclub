@@ -114,9 +114,18 @@
       const mobileDialog = overlay.querySelector(".cs-dialog");
       Object.assign(mobileDialog.style, {
         position: "relative", inset: "auto", left: "auto", top: "auto",
+        display: "flex", flexDirection: "column",
         width: "100%", minWidth: "0", maxWidth: "560px",
-        maxHeight: "min(72dvh, 620px)", margin: "0 auto",
-        flex: "0 1 auto", pointerEvents: "auto"
+        height: "min(72dvh, 620px)", maxHeight: "min(72dvh, 620px)",
+        margin: "0 auto", flex: "0 1 auto", pointerEvents: "auto",
+        overflow: "hidden"
+      });
+      const mobileOptions = mobileDialog.querySelector(".cs-options");
+      if (mobileOptions) Object.assign(mobileOptions.style, {
+        display: "block", flex: "1 1 auto", minHeight: "0",
+        height: "auto", maxHeight: "none", overflowY: "auto",
+        WebkitOverflowScrolling: "touch", overscrollBehavior: "contain",
+        touchAction: "pan-y", pointerEvents: "auto"
       });
     }
     renderOptions(control);
@@ -157,8 +166,12 @@
     }
     overlay.dataset.positioned = "true";
     const current = overlay.querySelector('[aria-selected="true"]');
-    if (current) current.focus({ preventScroll: true });
-    else overlay.querySelector(".cs-option")?.focus({ preventScroll: true });
+    // Avoid stealing focus on touch devices; focusing buttons can dismiss or
+    // reposition mobile browser overlays before the user can interact.
+    if (!isMobile()) {
+      if (current) current.focus({ preventScroll: true });
+      else overlay.querySelector(".cs-option")?.focus({ preventScroll: true });
+    }
   }
 
   function enhance(select) {
