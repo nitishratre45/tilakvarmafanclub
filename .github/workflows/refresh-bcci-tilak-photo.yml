@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     # Every 30 days, at 09:00 IST
-    - cron: "30 3 1,31 * *"
+    - cron: "30 3 1 * *"
   push:
     branches: [main]
     paths:
