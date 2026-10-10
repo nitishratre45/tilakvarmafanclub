@@ -132,10 +132,10 @@
               "</span></div>" +
               '<div class="mc-card-links">' +
               link(
-                m.scorecardUrl || m.matchUrl || "https://www.espncricinfo.com/live-cricket-score",
+                m.scorecardUrl || m.bcciScorecardUrl || m.bcciUrl || "https://stats.bcci.tv/matches",
                 "Scorecard",
               ) +
-              link(m.bcciUrl || "https://www.bcci.tv/matches", "BCCI details") +
+              link(m.bcciUrl || "https://www.bcci.tv/matches", "BCCI fixtures") +
               "</div></article>"
             );
           })
