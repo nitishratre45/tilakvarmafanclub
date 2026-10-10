@@ -2445,3 +2445,109 @@ body {
     min-height: 1000px;
   }
 }
+
+
+/* ACCESSIBLE TEXT COLOURS — stronger contrast and consistent hierarchy across the site */
+:root {
+  --white: #f8fbff;
+  --text-primary: #f8fbff;
+  --text-secondary: #d4deec;
+  --text-muted: #aabbd0;
+  --muted: #aabbd0;
+  --cyan: #80e8ff;
+  --orange: #ff8152;
+}
+body {
+  color: #f0f5fc;
+}
+p,
+.section-copy,
+.profile-intro,
+.section-heading > p,
+.method-note,
+.calculator-status,
+.innings-summary,
+.home-bowling-updated,
+.fan-zone-privacy {
+  color: #b9c7d9;
+}
+small,
+.caption,
+.match-meta,
+.stat-note,
+.home-snapshot-foot,
+.format-meta-row {
+  color: #aebed2;
+}
+.eyebrow,
+.section-kicker,
+.section-heading .eyebrow,
+.home-snapshot-blockhead a {
+  color: #80e8ff;
+}
+label,
+label > span {
+  color: #d3dfed;
+}
+input,
+select,
+textarea,
+input::placeholder,
+textarea::placeholder {
+  color: #f4f8ff;
+}
+input::placeholder,
+textarea::placeholder {
+  color: #9fb1c8;
+  opacity: 1;
+}
+button,
+.button,
+a {
+  -webkit-tap-highlight-color: rgba(128, 232, 255, 0.12);
+}
+nav a,
+footer,
+footer .brand small {
+  color: #d4deec;
+}
+.stats-subnav button,
+.statsguru-format-tabs button {
+  color: #cbd7e7;
+}
+.stats-subnav button.active,
+.statsguru-format-tabs button.active {
+  color: #ffffff;
+}
+.home-format-card .home-format-fact span,
+#career-formats .format-fact span {
+  color: #b8c9dd;
+}
+.home-format-card .home-format-fact strong,
+#career-formats .format-fact strong {
+  color: #f5f9ff;
+}
+.home-format-card > small {
+  color: #b5c5d9;
+}
+.death-overs-section .section-heading > p {
+  color: #b9c7d9;
+}
+#death-overs-embed {
+  color-scheme: dark;
+}
+:focus-visible {
+  outline: 2px solid #80e8ff;
+  outline-offset: 3px;
+}
+@media (prefers-contrast: more) {
+  body,
+  p,
+  small,
+  label,
+  .section-copy,
+  .stat-note,
+  .format-meta-row {
+    color: #f4f8ff !important;
+  }
+}
