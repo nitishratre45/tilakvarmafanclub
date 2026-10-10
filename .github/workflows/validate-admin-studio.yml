@@ -8,6 +8,10 @@ on:
       - "admin/**"
       - "data/admin-media.json"
       - "data/video-config.json"
+      - "assets/bcci-videos.js"
+      - "assets/bcci-videos.json"
+      - "scripts/refresh_bcci_videos.py"
+      - ".github/workflows/refresh-bcci-videos.yml"
       - "scripts/refresh_statsguru.py"
       - ".github/workflows/validate-admin-studio.yml"
   workflow_dispatch:
@@ -53,8 +57,33 @@ jobs:
           python -m json.tool data/admin-media.json > /dev/null
           python -m json.tool data/video-config.json > /dev/null
           python -m json.tool data/site-data.json > /dev/null
+          python -m json.tool assets/bcci-videos.json > /dev/null
+          python - <<'PY'
+          import json
+          import re
+          from pathlib import Path
+          from urllib.parse import urlparse
+
+          feed = json.loads(Path("assets/bcci-videos.json").read_text(encoding="utf-8"))
+          videos = feed.get("videos", [])
+          if not videos:
+              raise SystemExit("BCCI video feed is empty")
+          invalid = []
+          for item in videos:
+              url = urlparse(str(item.get("playbackUrl", "")))
+              if url.scheme != "https" or not url.hostname or not url.path.lower().endswith((".m3u8", ".mpd", ".mp4")):
+                  invalid.append(str(item.get("id") or item.get("title") or "unknown"))
+          if invalid:
+              raise SystemExit("Published videos without direct HTTPS playback URLs: " + ", ".join(invalid[:10]))
+          admin = Path("admin/index.html").read_text(encoding="utf-8")
+          if ".sidebar .nav-label,\\n        .sidebar-bottom" not in admin:
+              raise SystemExit("Mobile Admin nav should remain visible in the horizontal scroll menu")
+          if ".sidebar .nav-label,\\n        .sidebar .nav,\\n        .sidebar-bottom" in admin:
+              raise SystemExit("Mobile Admin nav is hidden by the responsive CSS")
+          print(f"Validated {len(videos)} BCCI videos and mobile Admin navigation.")
+          PY
       - name: Compile refresh script
-        run: python -m py_compile scripts/refresh_statsguru.py
+        run: python -m py_compile scripts/refresh_statsguru.py scripts/refresh_bcci_videos.py
       - name: Ensure admin password is not hard-coded in public files
         run: |
           if grep -R -n --exclude='ADMIN_SETUP.md' --exclude-dir='.git' 'nitish7272' admin assets index.html functions data; then
