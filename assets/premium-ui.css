@@ -1902,3 +1902,46 @@ footer {
 :root[data-theme-resolved="light"] #career-formats .format-card .format-detail {
   color: #5d6b7e;
 }
+
+
+/* MOBILE NAV FIX — fully opaque menu surface, above page content, scroll-safe. */
+@media (max-width: 800px) {
+  .topbar,
+  .death-topbar {
+    position: sticky;
+    z-index: 5000 !important;
+    isolation: isolate;
+  }
+  #main-nav,
+  .topbar nav,
+  .death-topbar nav {
+    background: #0a1220 !important;
+    background-color: #0a1220 !important;
+    opacity: 1 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    isolation: isolate;
+    z-index: 5001 !important;
+    box-shadow: 0 18px 38px rgba(0,0,0,.72) !important;
+    border: 1px solid #26364c !important;
+    border-top: 1px solid #26364c !important;
+  }
+  #main-nav.open,
+  .topbar nav.open,
+  .death-topbar nav.open {
+    display: grid !important;
+    background: #0a1220 !important;
+    background-color: #0a1220 !important;
+  }
+  #main-nav a,
+  .topbar nav a,
+  .death-topbar nav a {
+    background: #111f33 !important;
+    opacity: 1 !important;
+    color: #e5edf8;
+  }
+  #main-nav a[aria-current="page"],
+  .death-topbar nav a[aria-current="page"] {
+    color: var(--orange) !important;
+  }
+}
