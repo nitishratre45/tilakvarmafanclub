@@ -15,6 +15,7 @@ HEADERS = {
     "Accept-Language": "en-US,en;q=0.9",
 }
 
+
 def safe_url(value):
     if not isinstance(value, str):
         return ""
@@ -23,19 +24,34 @@ def safe_url(value):
         value = "https:" + value
     return value if value.startswith("https://") else ""
 
+
 def walk(value, found):
     if isinstance(value, dict):
-        name = " ".join(str(value.get(k, "")) for k in ("name", "title", "fullName", "playerName")).lower()
+        name = " ".join(
+            str(value.get(k, "")) for k in ("name", "title", "fullName", "playerName")
+        ).lower()
         if "tilak" in name and "varma" in name:
             for key, item in value.items():
-                if any(token in key.lower() for token in ("image", "photo", "headshot", "portrait", "profilepic", "playerpic")):
+                if any(
+                    token in key.lower()
+                    for token in (
+                        "image",
+                        "photo",
+                        "headshot",
+                        "portrait",
+                        "profilepic",
+                        "playerpic",
+                    )
+                ):
                     if isinstance(item, str):
                         url = safe_url(item)
                         if url:
                             found.append((url, key))
                     elif isinstance(item, dict):
                         for subkey, subvalue in item.items():
-                            if isinstance(subvalue, str) and any(t in subkey.lower() for t in ("url", "src", "image")):
+                            if isinstance(subvalue, str) and any(
+                                t in subkey.lower() for t in ("url", "src", "image")
+                            ):
                                 url = safe_url(subvalue)
                                 if url:
                                     found.append((url, subkey))
@@ -45,21 +61,29 @@ def walk(value, found):
         for child in value:
             walk(child, found)
 
+
 class ImageParser(HTMLParser):
     def __init__(self):
         super().__init__()
         self.images = []
+
     def handle_starttag(self, tag, attrs):
         if tag.lower() != "img":
             return
         a = dict(attrs)
         alt = (a.get("alt") or a.get("title") or "").lower()
-        candidates = [a.get("src"), a.get("data-src"), a.get("data-lazy-src"), a.get("srcset", "").split(",")[0].strip().split(" ")[0]]
+        candidates = [
+            a.get("src"),
+            a.get("data-src"),
+            a.get("data-lazy-src"),
+            a.get("srcset", "").split(",")[0].strip().split(" ")[0],
+        ]
         for raw in candidates:
             url = safe_url(raw or "")
             if url and ("tilak" in alt or "varma" in alt):
                 self.images.append((url, "profile image alt text"))
                 break
+
 
 def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -74,9 +98,11 @@ def main():
     errors = []
     try:
         from playwright.sync_api import sync_playwright
+
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             page = browser.new_page()
+
             def response_handler(response):
                 if "/api/" not in response.url or "bcci.tv" not in response.url:
                     return
@@ -85,6 +111,7 @@ def main():
                     walk(payload, found)
                 except Exception:
                     pass
+
             page.on("response", response_handler)
             page.goto(PROFILE_URL, wait_until="domcontentloaded", timeout=45000)
             page.wait_for_timeout(4000)
@@ -93,7 +120,11 @@ def main():
             parser.feed(html)
             found.extend(parser.images)
             # Also inspect JSON-LD and embedded JSON on the official page.
-            for match in re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', html, re.I | re.S):
+            for match in re.findall(
+                r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',
+                html,
+                re.I | re.S,
+            ):
                 try:
                     walk(json.loads(match), found)
                 except Exception:
@@ -110,7 +141,11 @@ def main():
             found.extend(parser.images)
             for raw in re.findall(r'https?:\\?/\\?/[^"\\s<>]+', html):
                 url = safe_url(raw)
-                if url and any(host in url.lower() for host in ("bcci", "epicon")) and any(t in url.lower() for t in ("tilak", "993", "player")):
+                if (
+                    url
+                    and any(host in url.lower() for host in ("bcci", "epicon"))
+                    and any(t in url.lower() for t in ("tilak", "993", "player"))
+                ):
                     found.append((url, "embedded BCCI image URL"))
         except Exception as fallback_exc:
             errors.append(str(fallback_exc))
@@ -119,12 +154,17 @@ def main():
     for url, hint in found:
         url = safe_url(url)
         host = url.split("/")[2].lower() if url else ""
-        if not url or not (host == "bcci.tv" or host.endswith(".bcci.tv") or host.endswith("epicon.in")):
+        if not url or not (
+            host == "bcci.tv" or host.endswith(".bcci.tv") or host.endswith("epicon.in")
+        ):
             continue
         if any(word in url.lower() for word in ("logo", "icon", "flag", "placeholder")):
             continue
         score = 0
-        if any(word in hint.lower() for word in ("image", "photo", "headshot", "portrait", "profile")):
+        if any(
+            word in hint.lower()
+            for word in ("image", "photo", "headshot", "portrait", "profile")
+        ):
             score += 5
         if any(word in url.lower() for word in ("tilak", "993", "player")):
             score += 3
@@ -147,18 +187,24 @@ def main():
         print("Saved official BCCI Tilak Varma profile image.")
     else:
         result = dict(old)
-        result.update({
-            "source": "BCCI",
-            "sourceUrl": PROFILE_URL,
-            "checkedAt": checked,
-            "lastAttemptStatus": "source-unavailable",
-            "lastAttemptError": "; ".join(errors) or "No official BCCI player image found in API/page payloads",
-        })
+        result.update(
+            {
+                "source": "BCCI",
+                "sourceUrl": PROFILE_URL,
+                "checkedAt": checked,
+                "lastAttemptStatus": "source-unavailable",
+                "lastAttemptError": "; ".join(errors)
+                or "No official BCCI player image found in API/page payloads",
+            }
+        )
         result.setdefault("status", "source-unavailable")
         result.setdefault("image", "")
         result.setdefault("updatedAt", "")
         print("No BCCI profile image found; preserving last working image.")
-    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(
+        json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+
 
 if __name__ == "__main__":
     main()
