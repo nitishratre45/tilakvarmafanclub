@@ -145,6 +145,13 @@ function parseDate(value) {
 function iso(value) {
   return value ? value.toISOString() : null;
 }
+function latestTimestamp(...values) {
+  return values
+    .filter(Boolean)
+    .map((value) => ({ value, date: parseDate(value) }))
+    .filter((item) => item.date)
+    .sort((a, b) => b.date - a.date)[0]?.value || null;
+}
 function ageHours(date, now) {
   return date ? Math.max(0, (now - date) / 3600000) : null;
 }
@@ -219,7 +226,7 @@ function getInfo(def, data) {
   }
   if (def.id === "profile-career")
     return {
-      updatedAt: data.careerStatsUpdated || data.profileUpdated,
+      updatedAt: latestTimestamp(data.careerStatsUpdated, data.profileUpdated),
       attemptStatus: "see workflow",
       count: data.careerStats ? Object.keys(data.careerStats).length : 0,
       summary: data.careerStats || {},
@@ -243,7 +250,8 @@ function getInfo(def, data) {
   if (def.id === "icc") {
     const section = data.iccRankings || {};
     return {
-      updatedAt: section.updatedAt || data.iccRecordsUpdated,
+      updatedAt: latestTimestamp(section.updatedAt, data.iccRecordsUpdated),
+      attemptAt: data.iccRecordsCheckedAt || section.lastAttemptAt,
       attemptStatus: section.lastAttemptStatus,
       errors: compactErrors(section.lastAttemptErrors),
       count:
