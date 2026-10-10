@@ -20,8 +20,8 @@
   // Preserve the BCCI snapshot rendered by match-center.js before trying the live API.
   const snapshotCards = Array.from(host.querySelectorAll(".match-center-card")).filter((card) => {
     const text = card.querySelector(".mc-teams")?.innerText || "";
-    const teams = text.split(/\\s+VS\\s+/i).map((s) => s.trim());
-    return teams.some((name) => /^India(?:\\s+(?:Women|Men))?$/i.test(name));
+    const teams = text.split(/\s+VS\s+/i).map((s) => s.trim());
+    return teams.some((name) => /^India(?:\s+(?:Women|Men))?$/i.test(name));
   });
   const fallbackHTML = snapshotCards.length
     ? snapshotCards.map((card) => card.outerHTML).join("")
