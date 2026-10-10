@@ -590,22 +590,30 @@ def main() -> int:
     unique_videos: list[dict] = []
     seen_video_keys: set[str] = set()
     for video in videos:
-        slug_key = re.sub(r"[^a-z0-9]+", "-", first_text(video.get("slug")).lower()).strip("-")
+        slug_key = re.sub(
+            r"[^a-z0-9]+", "-", first_text(video.get("slug")).lower()
+        ).strip("-")
         playback = first_text(video.get("playbackUrl"))
         try:
             parsed_playback = urllib.parse.urlparse(playback)
             # Ignore signed query parameters so refreshed tokens don't make a
             # previously seen media file look like a new video.
-            playback_key = (parsed_playback.hostname or "").lower() + parsed_playback.path.lower()
+            playback_key = (
+                parsed_playback.hostname or ""
+            ).lower() + parsed_playback.path.lower()
         except ValueError:
             playback_key = playback.lower().split("?", 1)[0]
-        title_key = re.sub(r"[^a-z0-9]+", " ", first_text(video.get("title")).lower()).strip()
+        title_key = re.sub(
+            r"[^a-z0-9]+", " ", first_text(video.get("title")).lower()
+        ).strip()
         published_key = first_text(video.get("publishedDate"))
         thumbnail_key = first_text(
             video.get("thumbnailUrl"),
-            (video.get("thumbnailUrlSet") or {}).get("large")
-            if isinstance(video.get("thumbnailUrlSet"), dict)
-            else "",
+            (
+                (video.get("thumbnailUrlSet") or {}).get("large")
+                if isinstance(video.get("thumbnailUrlSet"), dict)
+                else ""
+            ),
         )
         # Stable slug or canonical media path is strong duplicate evidence.
         # If neither exists, use a composite fingerprint, never title alone.
@@ -621,7 +629,9 @@ def main() -> int:
         unique_videos.append(video)
     removed_duplicates = len(videos) - len(unique_videos)
     videos = unique_videos
-    print(f"Duplicate cleanup: removed {removed_duplicates} confirmed repeated entries.")
+    print(
+        f"Duplicate cleanup: removed {removed_duplicates} confirmed repeated entries."
+    )
 
     if not videos:
         raise RuntimeError(
