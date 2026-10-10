@@ -54,10 +54,7 @@ export async function onRequestPost({ request, env }) {
         return json({ error: "Enter a valid official BCCI video API URL." }, 400);
       }
       const allowedHosts = new Set(["www.bcci.tv", "bcci.tv"]);
-      const allowedPaths = new Set([
-        "/api/bff/cms/videos",
-        "/api/bff/cms/videos/latest",
-      ]);
+      const allowedPaths = new Set(["/api/bff/cms/videos", "/api/bff/cms/videos/latest"]);
       if (
         parsed.protocol !== "https:" ||
         !allowedHosts.has(parsed.hostname) ||

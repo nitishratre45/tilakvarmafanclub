@@ -288,7 +288,10 @@ def main() -> int:
         except Exception as exc:
             # A custom source is an explicit override. If it is wrong, do not
             # silently run unrelated searches or publish a refreshed feed.
-            print(f"Admin-saved BCCI URL rejected; existing feed preserved: {exc}", file=sys.stderr)
+            print(
+                f"Admin-saved BCCI URL rejected; existing feed preserved: {exc}",
+                file=sys.stderr,
+            )
             return 1
 
     # Prefer the complete official player archive and its native Load More flow.
