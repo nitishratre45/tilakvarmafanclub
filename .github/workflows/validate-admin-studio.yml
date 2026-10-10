@@ -1,0 +1,49 @@
+name: Validate Admin Studio and Site Data
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "functions/**"
+      - "admin/**"
+      - "data/admin-media.json"
+      - "data/video-config.json"
+      - "scripts/refresh_statsguru.py"
+      - ".github/workflows/validate-admin-studio.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check Cloudflare Pages Function syntax
+        run: |
+          node --check functions/_lib/admin.js
+          node --check functions/api/admin/login.js
+          node --check functions/api/admin/sign-upload.js
+          node --check functions/api/admin/content.js
+          node --check functions/api/admin/session.js
+      - name: Check data JSON
+        run: |
+          python -m json.tool data/admin-media.json > /dev/null
+          python -m json.tool data/video-config.json > /dev/null
+          python -m json.tool data/site-data.json > /dev/null
+      - name: Compile refresh script
+        run: python -m py_compile scripts/refresh_statsguru.py
+      - name: Ensure admin password is not hard-coded in public files
+        run: |
+          if grep -R -n --exclude='ADMIN_SETUP.md' --exclude-dir='.git' 'nitish7272' admin assets index.html functions data; then
+            echo "Admin password must not be committed to public source."
+            exit 1
+          fi
