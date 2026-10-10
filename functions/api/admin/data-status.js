@@ -316,8 +316,30 @@ function getInfo(def, data) {
 export async function onRequest({ request, env }) {
   if (!(await requireAdmin(request, env)))
     return json({ error: "Admin session expired. Sign in again." }, 401);
+  if (request.method === "POST") {
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return json({ error: "Invalid JSON request." }, 400);
+    }
+    if (body.action !== "refresh" || typeof body.workflow !== "string")
+      return json({ error: "Unsupported action." }, 400);
+    const workflow = body.workflow;
+    if (!DATASETS.some((item) => item.workflow === workflow))
+      return json({ error: "Workflow is not in the approved dataset refresh list." }, 400);
+    try {
+      await github(env, "/actions/workflows/" + workflow + "/dispatches", {
+        method: "POST",
+        body: JSON.stringify({ ref: "main" }),
+      });
+      return json({ ok: true, message: "Refresh workflow queued. Re-check in 30–60 seconds.", workflow }, 202);
+    } catch (error) {
+      return json({ error: error.message }, 502);
+    }
+  }
   if (request.method !== "GET")
-    return json({ error: "Method not allowed." }, 405, { allow: "GET" });
+    return json({ error: "Method not allowed." }, 405, { allow: "GET, POST" });
   try {
     const now = new Date();
     const paths = [...new Set(DATASETS.map((d) => d.file))];
