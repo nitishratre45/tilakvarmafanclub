@@ -583,6 +583,39 @@ def main() -> int:
         ),
         reverse=True,
     )
+
+    # Deduplicate across different BCCI IDs/slugs and across the saved history.
+    # Prefer stable identity (slug/title) and canonical playback path without
+    # signed query parameters, which can change every refresh.
+    unique_videos: list[dict] = []
+    seen_video_keys: set[str] = set()
+    for video in videos:
+        title_key = re.sub(r"[^a-z0-9]+", " ", first_text(video.get("title")).lower()).strip()
+        slug_key = re.sub(r"[^a-z0-9]+", "-", first_text(video.get("slug")).lower()).strip("-")
+        playback = first_text(video.get("playbackUrl"))
+        try:
+            parsed_playback = urllib.parse.urlparse(playback)
+            playback_key = (parsed_playback.hostname or "").lower() + parsed_playback.path.lower()
+        except ValueError:
+            playback_key = playback.lower().split("?", 1)[0]
+        # A title is the best cross-ID key for repeated catalogue entries.
+        # Use media path as a fallback when title metadata differs.
+        identity = "title:" + title_key if title_key else (
+            "slug:" + slug_key if slug_key else "media:" + playback_key
+        )
+        keys = [identity]
+        if slug_key:
+            keys.append("slug:" + slug_key)
+        if playback_key:
+            keys.append("media:" + playback_key)
+        if any(key in seen_video_keys for key in keys):
+            continue
+        seen_video_keys.update(keys)
+        unique_videos.append(video)
+    removed_duplicates = len(videos) - len(unique_videos)
+    videos = unique_videos
+    print(f"Duplicate cleanup: removed {removed_duplicates} repeated video entries.")
+
     if not videos:
         raise RuntimeError(
             "BCCI API returned no Tilak Varma videos; refusing to overwrite the existing feed."
