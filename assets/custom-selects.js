@@ -4,9 +4,13 @@
   let openControl = null;
   let overlay = null;
 
+  // Android browsers can report a wide layout viewport inside embedded pages.
+  // Detect touch/coarse-pointer devices independently of innerWidth so the
+  // popup uses the bottom-sheet layout instead of being positioned off-screen.
   const isMobile = () =>
     window.matchMedia("(max-width: 760px)").matches ||
-    (window.matchMedia("(pointer: coarse)").matches && window.innerWidth < 900);
+    window.matchMedia("(pointer: coarse)").matches ||
+    (window.navigator.maxTouchPoints > 0 && window.innerWidth < 1100);
   const labelFor = (select) => {
     const ariaLabel = select.getAttribute("aria-label");
     if (ariaLabel && ariaLabel.trim()) return ariaLabel.trim();
