@@ -59,7 +59,19 @@ def fetch_custom_url(url: str) -> object:
 
 def walk_video_objects(node: object):
     if isinstance(node, dict):
-        if any(k in node for k in ("playbackUrl", "thumbnailUrl", "slug")):
+        video_keys = (
+            "playbackUrl",
+            "playback_url",
+            "playUrl",
+            "play_url",
+            "streamUrl",
+            "stream_url",
+            "videoUrl",
+            "video_url",
+            "thumbnailUrl",
+            "slug",
+        )
+        if any(key in node for key in video_keys):
             yield node
         for value in node.values():
             yield from walk_video_objects(value)
