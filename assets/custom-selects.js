@@ -99,6 +99,7 @@
     overlay.querySelector(".cs-dialog-title").textContent = labelFor(control.select);
     overlay.querySelector(".cs-close").addEventListener("click", closeMenu);
     overlay.addEventListener("click", (event) => {
+      event.stopPropagation();
       if (event.target === overlay) closeMenu();
     });
     document.body.append(overlay);
@@ -205,7 +206,13 @@
     wrapper.append(button);
 
     const control = { select, wrapper, button, buttonText };
-    button.addEventListener("click", () => openMenu(control));
+    button.addEventListener("click", (event) => {
+      // Keep the opening tap from reaching page-level outside-click handlers,
+      // which can immediately dismiss the mobile bottom sheet.
+      event.preventDefault();
+      event.stopPropagation();
+      openMenu(control);
+    });
     select.addEventListener("change", () => sync(control));
     const observer = new MutationObserver(() => sync(control));
     observer.observe(select, { childList: true, subtree: true, attributes: true });
