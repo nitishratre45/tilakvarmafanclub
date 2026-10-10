@@ -9,7 +9,7 @@
       content="Tilak Varma T20I over-by-over batting stats and death-overs calculator."
     />
     <title>Tilak Varma Stats Centre | The 72 Club</title>
-    <link rel="stylesheet" href="../assets/style.css?v=20261010-deathmenu3" />
+    <link rel="stylesheet" href="../assets/style.css?v=20261010-deathmenu4" />
     <style>
       /* Keep the stats-centre navigation visible while scrolling this standalone page. */
       .death-topbar {
@@ -23,20 +23,14 @@
       .death-topbar nav {
         flex-wrap: nowrap;
       }
-      /* Highlight the current page in the standalone nav just like the homepage tabs. */
+      /* Keep the current Death-overs link styled like every other navigation item. */
       .death-topbar nav a[aria-current="page"] {
-        color: var(--orange);
-        font-weight: 800;
-        position: relative;
+        color: inherit;
+        font-weight: inherit;
       }
       .death-topbar nav a[aria-current="page"]::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -8px;
-        height: 2px;
-        background: var(--orange);
+        content: none;
+        display: none;
       }
       @media (max-width: 800px) {
         .death-topbar {
