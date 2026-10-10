@@ -2,6 +2,7 @@ name: Refresh BCCI Tilak Videos
 
 on:
   push:
+    branches: [main]
     paths:
       - 'scripts/refresh_bcci_videos.py'
       - '.github/workflows/refresh-bcci-videos.yml'
@@ -20,6 +21,8 @@ concurrency:
 
 jobs:
   refresh-videos:
+    # This job publishes the refreshed feed to main; never run it from a review branch.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
