@@ -46,25 +46,25 @@ def fetch_json(params: dict[str, str]) -> object:
 
 def parse_custom_response(body: bytes, content_type: str = "") -> object:
     """Parse JSON API responses and JSON payloads embedded in BCCI HTML pages."""
-    text = body.decode("utf-8", errors="replace").lstrip("\\ufeff")
+    text = body.decode("utf-8", errors="replace").lstrip("\ufeff")
     try:
         return json.loads(text)
     except json.JSONDecodeError:
         pass
 
     if "html" not in content_type.lower() and not re.search(
-        r"<!doctype\\s+html|<html\\b|<script\\b", text, re.I
+        r"<!doctype\s+html|<html\b|<script\b", text, re.I
     ):
         raise ValueError("BCCI source response was neither valid JSON nor an HTML page.")
 
     # Some official BCCI video/match pages are rendered as HTML. Extract only
     # script payloads that are valid JSON; do not evaluate JavaScript from the page.
     payloads: list[object] = []
-    for match in re.finditer(r"<script\\b([^>]*)>(.*?)</script\\s*>", text, re.I | re.S):
+    for match in re.finditer(r"<script\b([^>]*)>(.*?)</script\s*>", text, re.I | re.S):
         attributes, raw = match.groups()
         attrs = {}
         for key, double_quoted, single_quoted, unquoted in re.findall(
-            r"""([a-zA-Z_:][\\w:.-]*)\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))""",
+            r"""([a-zA-Z_:][\w:.-]*)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))""",
             attributes,
             re.S,
         ):
@@ -88,7 +88,7 @@ def parse_custom_response(body: bytes, content_type: str = "") -> object:
         if not likely_data:
             # Support assignments such as window.__INITIAL_STATE__ = {...};
             candidates = re.findall(
-                r"(?:__INITIAL_STATE__|__NEXT_DATA__|__APOLLO_STATE__|initialState)\\s*=\\s*({.*?})(?:;|</script)",
+                r"(?:__INITIAL_STATE__|__NEXT_DATA__|__APOLLO_STATE__|initialState)\s*=\s*({.*?})(?:;|</script)",
                 script_text,
                 re.I | re.S,
             )
