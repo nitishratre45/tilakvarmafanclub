@@ -15,7 +15,7 @@
 <body>
 <div id="login-view" class="login-wrap">
   <div class="login-card">
-    <div class="login-brand"><span class="mark">72</span><span><strong>TILAK VARMA</strong><small>FAN CLUB · PRIVATE ADMIN</small></span></div>
+    <div class="login-brand"><span class="mark mark-photo"><img data-tilak-logo src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" aria-hidden="true"></span><span><strong>TILAK VARMA</strong><small>FAN CLUB · PRIVATE ADMIN</small></span></div>
     <div class="eyebrow">SECURE CONTENT MANAGEMENT</div>
     <h1>Welcome <span style="color:var(--orange)">back.</span></h1>
     <p>Sign in to manage your photo gallery and video feed. Your password is verified on the server and is never stored in this page.</p>
@@ -26,7 +26,7 @@
 </div>
 <div id="admin-app" class="app hidden">
   <aside class="sidebar">
-    <a class="brand" href="../"><span class="mark">72</span><span>TILAK VARMA<small>FAN CLUB · ADMIN</small></span></a>
+    <a class="brand" href="../"><span class="mark mark-photo"><img data-tilak-logo src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" aria-hidden="true"></span><span>TILAK VARMA<small>FAN CLUB · ADMIN</small></span></a>
     <div class="nav-label">WORKSPACE</div>
     <nav class="nav" aria-label="Admin navigation">
       <a class="active" href="#dashboard"><span class="nav-icon">⌂</span>Dashboard</a>
@@ -97,5 +97,14 @@ $("admin-app").querySelectorAll(".nav a").forEach(a=>a.addEventListener("click",
 api("/api/admin/session").then(async d=>{if(d.authenticated)try{await loadStudio()}catch(err){status("login-status",err.message,true)}}).catch(()=>{});
 })();
 </script>
-</body>
+<script>
+(() => {
+ const img=document.querySelector("[data-tilak-logo]");
+ if(!img)return;
+ fetch("../data/site-data.json?v=monthly-logo",{cache:"no-store"})
+  .then(r=>r.ok?r.json():Promise.reject())
+  .then(data=>{const photo=data?.profile?.photo;if(typeof photo==="string"&&/^https:\/\//i.test(photo))img.src=photo})
+  .catch(()=>{});
+})();
+</script></body>
 </html>
