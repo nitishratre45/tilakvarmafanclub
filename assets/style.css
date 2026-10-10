@@ -6266,7 +6266,6 @@ option {
   }
 }
 
-
 /* Compact phone profile: keep the player portrait prominent without letting copy dominate. */
 @media (max-width: 650px) {
   .profile-section {
@@ -6283,8 +6282,7 @@ option {
     overflow: hidden;
     border: 1px solid rgba(124, 229, 242, 0.38);
     background:
-      radial-gradient(ellipse at 50% 25%, rgba(36, 111, 153, 0.35), transparent 70%),
-      var(--panel);
+      radial-gradient(ellipse at 50% 25%, rgba(36, 111, 153, 0.35), transparent 70%), var(--panel);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   }
   .profile-photo-wrap img {
@@ -6300,14 +6298,14 @@ option {
   .profile-copy > .eyebrow {
     font-size: 9px;
     line-height: 1.45;
-    letter-spacing: .08em;
+    letter-spacing: 0.08em;
     margin: 1px 0 6px;
   }
   .profile-copy h2 {
     margin: 0 0 7px;
     font-size: clamp(23px, 6.2vw, 29px) !important;
     line-height: 1.03;
-    letter-spacing: -.035em;
+    letter-spacing: -0.035em;
   }
   .profile-intro {
     margin: 0 0 10px;
@@ -6326,7 +6324,7 @@ option {
     display: block;
     margin-bottom: 4px;
     font-size: 8px;
-    letter-spacing: .07em;
+    letter-spacing: 0.07em;
   }
   .profile-facts strong {
     font-size: 11px;
@@ -6386,13 +6384,13 @@ option {
   }
   .home-snapshot-heading .eyebrow {
     font-size: 9px;
-    letter-spacing: .1em;
+    letter-spacing: 0.1em;
   }
   .home-snapshot-heading h2 {
     margin: 5px 0 0;
     font-size: clamp(25px, 7vw, 31px) !important;
     line-height: 1.05;
-    letter-spacing: -.03em;
+    letter-spacing: -0.03em;
   }
   .home-all-stats {
     min-height: 34px;
@@ -6409,7 +6407,7 @@ option {
   }
   .home-mini-stat span {
     font-size: 8px;
-    letter-spacing: .07em;
+    letter-spacing: 0.07em;
   }
   .home-mini-stat strong {
     margin-top: 5px;
