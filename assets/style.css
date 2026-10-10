@@ -6613,3 +6613,108 @@ option {
     min-height: 166px !important;
   }
 }
+
+
+/* Squad-confirmed upcoming fixtures in the Matches section. */
+.upcoming-matches-panel {
+  margin: 0 0 28px;
+  padding: clamp(16px, 2.4vw, 24px);
+  border: 1px solid var(--line, rgba(126, 166, 205, 0.24));
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(18, 43, 69, 0.96), rgba(9, 22, 39, 0.94));
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16);
+}
+.upcoming-matches-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.upcoming-matches-heading h3 {
+  margin: 5px 0 7px;
+  font-size: clamp(21px, 3vw, 30px);
+  letter-spacing: -0.035em;
+}
+.upcoming-matches-heading p,
+.upcoming-matches-foot {
+  margin: 0;
+  color: var(--muted, #aab9ca);
+  font-size: 12px;
+  line-height: 1.55;
+}
+.upcoming-matches-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.upcoming-match-card {
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid rgba(145, 177, 210, 0.2);
+  border-radius: 13px;
+  background: rgba(5, 16, 29, 0.56);
+}
+.upcoming-match-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+.upcoming-match-date {
+  color: #f5f8fc;
+  font-size: 12px;
+  font-weight: 800;
+}
+.upcoming-squad-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 8px;
+  border: 1px solid rgba(69, 211, 150, 0.3);
+  border-radius: 999px;
+  color: #8af0c0;
+  background: rgba(31, 146, 100, 0.12);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.upcoming-match-teams {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 10px;
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 850;
+  line-height: 1.3;
+}
+.upcoming-match-teams .versus {
+  color: #f5a623;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+.upcoming-match-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  color: var(--muted, #aab9ca);
+  font-size: 11px;
+}
+.upcoming-match-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.upcoming-matches-foot {
+  margin-top: 13px;
+  font-size: 10px;
+}
+@media (max-width: 650px) {
+  .upcoming-matches-panel { padding: 14px; border-radius: 14px; margin-bottom: 20px; }
+  .upcoming-matches-heading { flex-direction: column; gap: 10px; }
+  .upcoming-matches-heading p { font-size: 11px; }
+  .upcoming-matches-grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .upcoming-match-card { padding: 12px; }
+  .upcoming-match-teams { font-size: 16px; }
+}
