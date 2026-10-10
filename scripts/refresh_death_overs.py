@@ -222,20 +222,49 @@ def build(payload, key):
 def main():
     formats = {}
     failures = {}
+    fresh_formats = set()
     cache = {}
+    previous = {}
+    if OUT.exists():
+        try:
+            previous = json.loads(OUT.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            print("WARNING: saved death-overs snapshot could not be read:", exc)
+
+    previous_formats = previous.get("formats", {})
     for key, cfg in ARCHIVES.items():
         try:
             url = cfg["url"] or discover_hyderabad_archive()
             if url not in cache:
                 cache[url] = download(url)
             cfg["url"] = url
-            formats[key] = build(cache[url], cfg["kind"])
-            print(
-                f'{cfg["label"]}: {formats[key]["matchesFound"]} matches, {formats[key]["inningsFound"]} innings'
-            )
+            candidate = build(cache[url], cfg["kind"])
+            old_format = previous_formats.get(key, {})
+            # Do not replace a verified archive with an empty or partially unreadable
+            # parse. Keep the previous format snapshot and report the failed attempt.
+            if old_format.get("innings") and (
+                not candidate.get("innings") or candidate.get("readErrors", 0) > 0
+            ):
+                reason = (
+                    "Archive returned no Tilak innings"
+                    if not candidate.get("innings")
+                    else "Archive contained unreadable match files"
+                )
+                failures[key] = reason + "; retained the previous verified snapshot."
+                formats[key] = old_format
+                print(f"WARNING {key}: {failures[key]}")
+            else:
+                formats[key] = candidate
+                fresh_formats.add(key)
+                print(
+                    f'{cfg["label"]}: {candidate["matchesFound"]} matches, {candidate["inningsFound"]} innings'
+                )
         except Exception as e:
             failures[key] = str(e)
-            print(f"WARNING {key}: {e}")
+            if previous_formats.get(key, {}).get("innings"):
+                formats[key] = previous_formats[key]
+                failures[key] += "; retained the previous verified snapshot."
+            print(f"WARNING {key}: {failures[key]}")
         # Overall T20 combines the broad men's T20 archive with IPL deliveries.
     # Always merge the separate IPL/Hyderabad archives, even if the broad
     # men's T20 archive failed or returned no Tilak innings.
@@ -285,7 +314,11 @@ def main():
             }
             for n in range(1, 21)
         ]
-    if not formats or not any(v["innings"] for v in formats.values()):
+    if not fresh_formats:
+        raise RuntimeError(
+            "No archive refresh succeeded; existing death-overs JSON was left unchanged."
+        )
+    if not formats or not any(v.get("innings") for v in formats.values()):
         raise RuntimeError("No Tilak innings found; refusing to publish empty data.")
     default = next(
         (
@@ -296,8 +329,12 @@ def main():
         next(iter(formats)),
     )
     d = formats[default]
+    attempted_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     out = {
-        "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+        "updatedAt": attempted_at,
+        "lastAttemptAt": attempted_at,
+        "lastAttemptStatus": "partial" if failures else "success",
+        "lastAttemptError": failures,
         "player": "Tilak Varma",
         "defaultFormat": default,
         "formats": formats,
