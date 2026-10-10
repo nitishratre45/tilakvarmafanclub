@@ -131,7 +131,9 @@
               esc(m.format || "Cricket") +
               "</span></div>" +
               '<div class="mc-card-links">' +
-              '<button type="button" class="mc-open-scoreboard" data-scoreboard-id="' + esc(m.id) + '">Scoreboard ↗</button>' +
+              '<button type="button" class="mc-open-scoreboard" data-scoreboard-id="' +
+              esc(m.id) +
+              '">Scoreboard ↗</button>' +
               link(m.bcciUrl || "https://www.bcci.tv/matches", "BCCI fixtures") +
               "</div></article>"
             );
@@ -155,7 +157,8 @@
     modal.id = "mc-scoreboard-modal";
     modal.className = "mc-scoreboard-modal";
     modal.hidden = true;
-    modal.innerHTML = '<div class="mc-scoreboard-backdrop" data-scoreboard-close></div><section class="mc-scoreboard-dialog" role="dialog" aria-modal="true" aria-labelledby="mc-scoreboard-title"><header class="mc-scoreboard-modal-head"><div><span class="mc-scoreboard-kicker">TILAK VARMA FAN CLUB · MATCH CENTER</span><h2 id="mc-scoreboard-title">MATCH SCOREBOARD</h2></div><button type="button" class="mc-scoreboard-close" data-scoreboard-close aria-label="Close scoreboard">✕</button></header><div id="mc-scoreboard-content"></div></section>';
+    modal.innerHTML =
+      '<div class="mc-scoreboard-backdrop" data-scoreboard-close></div><section class="mc-scoreboard-dialog" role="dialog" aria-modal="true" aria-labelledby="mc-scoreboard-title"><header class="mc-scoreboard-modal-head"><div><span class="mc-scoreboard-kicker">TILAK VARMA FAN CLUB · MATCH CENTER</span><h2 id="mc-scoreboard-title">MATCH SCOREBOARD</h2></div><button type="button" class="mc-scoreboard-close" data-scoreboard-close aria-label="Close scoreboard">✕</button></header><div id="mc-scoreboard-content"></div></section>';
     document.body.appendChild(modal);
     modal.addEventListener("click", (event) => {
       if (event.target.closest("[data-scoreboard-close]")) {
@@ -177,10 +180,49 @@
     const modal = document.getElementById("mc-scoreboard-modal");
     const content = document.getElementById("mc-scoreboard-content");
     const d = m.startTime ? new Date(m.startTime) : null;
-    const date = d && !Number.isNaN(d.getTime()) ? d.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" }) + " IST" : "Date / time TBA";
+    const date =
+      d && !Number.isNaN(d.getTime())
+        ? d.toLocaleString("en-IN", {
+            dateStyle: "medium",
+            timeStyle: "short",
+            timeZone: "Asia/Kolkata",
+          }) + " IST"
+        : "Date / time TBA";
     const isLive = m.status === "Live";
-    const score = (value) => value ? esc(value) : '<span class="mc-score-yet">Yet to bat</span>';
-    content.innerHTML = '<div class="mc-scoreboard-match-meta"><span class="' + (isLive ? "is-live" : "") + '">' + (isLive ? '<i class="mc-live-dot"></i> LIVE' : esc(m.status || "Scheduled")) + '</span><span>' + esc(m.format || "Cricket") + '</span><span>' + esc(date) + '</span></div><div class="mc-scoreboard-teams"><article><span class="mc-score-team-label">TEAM 1</span><h3>' + esc(m.team1 || "Team 1") + '</h3><strong>' + score(m.score1) + '</strong></article><div class="mc-scoreboard-vs">VS</div><article><span class="mc-score-team-label">TEAM 2</span><h3>' + esc(m.team2 || "Team 2") + '</h3><strong>' + score(m.score2) + '</strong></article></div><div class="mc-scoreboard-result">' + esc(m.result || (isLive ? "Match in progress — score refreshes automatically." : m.status === "Result" ? "Match completed." : "Match has not started yet.")) + '</div><div class="mc-scoreboard-details"><div><small>SERIES</small><strong>' + esc(m.series || "International cricket") + '</strong></div><div><small>VENUE</small><strong>' + esc(m.venue || "Venue to be confirmed") + '</strong></div><div><small>DATA SOURCE</small><strong>CricAPI live match feed</strong></div></div><p class="mc-scoreboard-disclaimer">This in-site scoreboard displays the score and match details supplied by the available feed. Ball-by-ball commentary and full batting/bowling scorecards appear only when the provider supplies them.</p><div class="mc-scoreboard-actions">' + link(m.bcciUrl || "https://www.bcci.tv/matches", "Official BCCI match centre") + '<button type="button" data-scoreboard-close>Close scoreboard</button></div>';
+    const score = (value) => (value ? esc(value) : '<span class="mc-score-yet">Yet to bat</span>');
+    content.innerHTML =
+      '<div class="mc-scoreboard-match-meta"><span class="' +
+      (isLive ? "is-live" : "") +
+      '">' +
+      (isLive ? '<i class="mc-live-dot"></i> LIVE' : esc(m.status || "Scheduled")) +
+      "</span><span>" +
+      esc(m.format || "Cricket") +
+      "</span><span>" +
+      esc(date) +
+      '</span></div><div class="mc-scoreboard-teams"><article><span class="mc-score-team-label">TEAM 1</span><h3>' +
+      esc(m.team1 || "Team 1") +
+      "</h3><strong>" +
+      score(m.score1) +
+      '</strong></article><div class="mc-scoreboard-vs">VS</div><article><span class="mc-score-team-label">TEAM 2</span><h3>' +
+      esc(m.team2 || "Team 2") +
+      "</h3><strong>" +
+      score(m.score2) +
+      '</strong></article></div><div class="mc-scoreboard-result">' +
+      esc(
+        m.result ||
+          (isLive
+            ? "Match in progress — score refreshes automatically."
+            : m.status === "Result"
+              ? "Match completed."
+              : "Match has not started yet."),
+      ) +
+      '</div><div class="mc-scoreboard-details"><div><small>SERIES</small><strong>' +
+      esc(m.series || "International cricket") +
+      "</strong></div><div><small>VENUE</small><strong>" +
+      esc(m.venue || "Venue to be confirmed") +
+      '</strong></div><div><small>DATA SOURCE</small><strong>CricAPI live match feed</strong></div></div><p class="mc-scoreboard-disclaimer">This in-site scoreboard displays the score and match details supplied by the available feed. Ball-by-ball commentary and full batting/bowling scorecards appear only when the provider supplies them.</p><div class="mc-scoreboard-actions">' +
+      link(m.bcciUrl || "https://www.bcci.tv/matches", "Official BCCI match centre") +
+      '<button type="button" data-scoreboard-close>Close scoreboard</button></div>';
     modal.hidden = false;
     document.body.classList.add("mc-scoreboard-open");
   }
