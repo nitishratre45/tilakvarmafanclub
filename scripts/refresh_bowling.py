@@ -400,6 +400,11 @@ def main():
                 )
             if not result.get("careerBreakdown") and previous.get("careerBreakdown"):
                 result["careerBreakdown"] = previous["careerBreakdown"]
+            if fmt in {"FC", "List A"} and not result.get("careerBreakdown") and not result.get("innings"):
+                result["unavailableReason"] = (
+                    "Career summary is available, but ESPNcricinfo Statsguru did not return "
+                    "verified match-by-match bowling rows for this format."
+                )
             new_formats[fmt] = result
             print(
                 fmt
@@ -437,6 +442,16 @@ def main():
             "Bowling refresh incomplete; saved snapshot not updated: "
             + "; ".join(errors)
         )
+    unavailable_details = [
+        fmt for fmt in ("FC", "List A")
+        if fmt in new_formats
+        and not new_formats[fmt].get("careerBreakdown")
+        and not new_formats[fmt].get("innings")
+    ]
+    attempt_errors = [
+        fmt + ": summary available, but verified detailed bowling rows were not returned by Statsguru."
+        for fmt in unavailable_details
+    ]
     data["bowlingStats"] = {
         **old,
         "source": "ESPNcricinfo Statsguru",
@@ -444,8 +459,8 @@ def main():
         "updatedAt": stamp(),
         "formats": new_formats,
         "lastAttemptAt": stamp(),
-        "lastAttemptStatus": "success",
-        "lastAttemptErrors": [],
+        "lastAttemptStatus": "partial" if attempt_errors else "success",
+        "lastAttemptErrors": attempt_errors,
     }
     update_last_updated(data)
     DATA_FILE.write_text(
