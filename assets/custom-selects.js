@@ -217,10 +217,9 @@
   }
 
   function enhance(select) {
-    // Native mobile selects are more reliable than a custom overlay across Android
-    // browsers. Keep the browser's own option popup on every phone/tablet control.
-    // Desktop retains the branded custom picker.
-    if (isMobile()) return;
+    // Use the same branded picker on mobile and desktop. Native Android option sheets
+    // ignore the site's dark theme and show a bright system popup; the accessible
+    // custom dialog below keeps colours and selection styling consistent everywhere.
     if (
       select.dataset.customSelectReady === "true" ||
       select.multiple ||
