@@ -214,7 +214,10 @@ function getInfo(def, data) {
       updatedAt: timestamps.length ? latestTimestamp(...timestamps) : null,
       attemptAt: sg.lastAttemptAt,
       attemptStatus: sg.lastAttemptStatus,
-      errors: compactErrors(sg.lastAttemptErrors),
+      errors: [
+        ...compactErrors(sg.lastAttemptErrors),
+        ...compactErrors(sg.lastAttemptWarnings),
+      ],
       count: Object.values(fmt).filter((x) => x.available).length,
       total: names.length,
       summary: fmt,
@@ -242,7 +245,10 @@ function getInfo(def, data) {
       updatedAt: section.updatedAt,
       attemptAt: section.lastAttemptAt,
       attemptStatus: section.lastAttemptStatus,
-      errors: compactErrors(section.lastAttemptErrors),
+      errors: [
+        ...compactErrors(section.lastAttemptErrors),
+        ...compactErrors(section.lastAttemptWarnings),
+      ],
       count: Object.values(summary).filter((x) => x.available).length,
       total: Object.keys(summary).length,
       summary,
@@ -282,7 +288,10 @@ function getInfo(def, data) {
       updatedAt: latestTimestamp(section.updatedAt, data.iccRecordsUpdated),
       attemptAt: data.iccRecordsCheckedAt || section.lastAttemptAt,
       attemptStatus: section.lastAttemptStatus,
-      errors: compactErrors(section.lastAttemptErrors),
+      errors: [
+        ...compactErrors(section.lastAttemptErrors),
+        ...compactErrors(section.lastAttemptWarnings),
+      ],
       count:
         Object.keys(section).length + (data.iccRecords ? Object.keys(data.iccRecords).length : 0),
       summary: { rankings: section, recordsUpdated: data.iccRecordsUpdated || null },
