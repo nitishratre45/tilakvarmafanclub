@@ -24,7 +24,7 @@
       .sort((a, b) => b.time - a.time)[0]?.value || "time unavailable";
   set("year", new Date().getFullYear());
   const menuButton = $(".menu-toggle"),
-    nav = $("nav");
+    nav = $("#main-nav");
   menuButton?.setAttribute("aria-expanded", "false");
   menuButton?.addEventListener("click", () => {
     const open = nav?.classList.toggle("open") || false;
