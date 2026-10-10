@@ -6,6 +6,8 @@
   if (!host) return;
   const profileUrl = "https://www.bcci.tv/domestic/men/players/tilak-varma/993";
   const fallbackImage = "https://documents.bcci.tv/resizedimageskirti/11088_compress.png";
+  let adminMedia = [];
+  let currentPhotoData = { image: fallbackImage };
   const esc = (value) =>
     String(value ?? "").replace(
       /[&<>"']/g,
@@ -27,6 +29,8 @@
     }
   };
   const render = (data) => {
+    currentPhotoData = data || currentPhotoData;
+    data = currentPhotoData;
     const image = safeUrl(data.image) || fallbackImage;
     if (!image) {
       host.innerHTML =
@@ -47,6 +51,18 @@
       '" alt="Tilak Varma · Official BCCI player photo" loading="eager" decoding="async" referrerpolicy="strict-origin-when-cross-origin"><span>OFFICIAL BCCI PHOTO · 72</span></a><div class="bcci-profile-photo-caption"><strong>TILAK VARMA</strong><a href="' +
       profileUrl +
       '" target="_blank" rel="noopener noreferrer">BCCI PLAYER PROFILE ↗</a></div></article>';
+    if (adminMedia.length) {
+      const uploaded = adminMedia.map((item) => {
+        const url = safeUrl(item.url);
+        if (!url) return "";
+        const title = esc(item.title || "Tilak Varma · Fan Club upload");
+        if (item.type === "video") {
+          return '<article class="admin-gallery-card"><a href="' + url + '" target="_blank" rel="noopener noreferrer"><video src="' + url + '" controls preload="metadata" playsinline></video></a><div class="bcci-profile-photo-caption"><strong>' + title + '</strong><span>FAN CLUB VIDEO</span></div></article>';
+        }
+        return '<article class="admin-gallery-card"><a class="bcci-profile-photo-open" href="' + url + '" target="_blank" rel="noopener noreferrer"><img src="' + url + '" alt="' + title + '" loading="lazy" decoding="async"><span>FAN CLUB PHOTO · 72</span></a><div class="bcci-profile-photo-caption"><strong>' + title + '</strong><span>CLOUDINARY</span></div></article>';
+      }).join("");
+      host.insertAdjacentHTML("beforeend", uploaded);
+    }
     const img = host.querySelector("img");
     img.addEventListener(
       "error",
@@ -63,6 +79,10 @@
         (data.updatedAt ? "BCCI photo updated " + data.updatedAt : "BCCI photo saved") +
         (data.lastAttemptStatus === "source-unavailable" ? " · previous photo kept" : "");
   };
+  fetch("data/admin-media.json?v=20261010-adminmedia1", { cache: "no-store" })
+    .then((response) => response.ok ? response.json() : { items: [] })
+    .then((data) => { adminMedia = Array.isArray(data.items) ? data.items : []; render(currentPhotoData); })
+    .catch(() => {});
   fetch("data/bcci-tilak-photo.json?v=20261010-fix1", { cache: "no-cache" })
     .then((response) => {
       if (!response.ok) throw new Error("Photo feed HTTP " + response.status);
