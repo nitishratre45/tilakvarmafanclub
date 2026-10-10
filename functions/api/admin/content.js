@@ -58,10 +58,13 @@ export async function onRequestPost({ request, env }) {
       const isVideoUpNextEndpoint = /^\/api\/bff\/cms\/videos\/[a-z0-9-]+\/up-next$/i.test(
         parsed.pathname,
       );
+      const isMatchVideoPage = /^\/matches\/[0-9a-f-]+\/[a-z0-9-]+\/video$/i.test(
+        parsed.pathname,
+      );
       if (
         parsed.protocol !== "https:" ||
         !allowedHosts.has(parsed.hostname) ||
-        (!allowedPaths.has(parsed.pathname) && !isVideoUpNextEndpoint) ||
+        (!allowedPaths.has(parsed.pathname) && !isVideoUpNextEndpoint && !isMatchVideoPage) ||
         parsed.username ||
         parsed.password ||
         parsed.hash ||
@@ -70,7 +73,7 @@ export async function onRequestPost({ request, env }) {
         return json(
           {
             error:
-              "Only the official BCCI videos API endpoint is allowed. Player/profile URLs or other websites are rejected.",
+              "Only official BCCI videos API, up-next, or match video page URLs are allowed. Other websites are rejected.",
           },
           400,
         );
