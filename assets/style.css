@@ -5844,7 +5844,6 @@ option {
   }
 }
 
-
 /* Consistent restrained colour accents for tables and cards across every stats section. */
 :root {
   --stats-accent: #7ce5f2;
@@ -5908,7 +5907,7 @@ option {
   box-shadow: inset 0 -2px 0 #ff8a5b;
 }
 .stats-section .statsguru-panel .table-wrap .sg-cell-runs {
-  background: rgba(255, 138, 91, 0.10);
+  background: rgba(255, 138, 91, 0.1);
   color: #ff9a70;
   font-weight: 800;
 }
@@ -5930,12 +5929,34 @@ option {
   color: #34465c;
   box-shadow: inset 0 -2px 0 rgba(8, 126, 145, 0.4);
 }
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap tbody tr:nth-child(even),
-:root[data-theme-resolved="light"] .stats-section .bowling-stats-view .table-wrap tbody tr:nth-child(even) {
+:root[data-theme-resolved="light"]
+  .stats-section
+  .statsguru-panel
+  .table-wrap
+  tbody
+  tr:nth-child(even),
+:root[data-theme-resolved="light"]
+  .stats-section
+  .bowling-stats-view
+  .table-wrap
+  tbody
+  tr:nth-child(even) {
   background: #f7fafc;
 }
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap tbody tr:hover td:not(.sg-cell-runs),
-:root[data-theme-resolved="light"] .stats-section .bowling-stats-view .table-wrap tbody tr:hover td {
+:root[data-theme-resolved="light"]
+  .stats-section
+  .statsguru-panel
+  .table-wrap
+  tbody
+  tr:hover
+  td:not(.sg-cell-runs),
+:root[data-theme-resolved="light"]
+  .stats-section
+  .bowling-stats-view
+  .table-wrap
+  tbody
+  tr:hover
+  td {
   background: #eaf5f8;
 }
 @media (max-width: 600px) {
