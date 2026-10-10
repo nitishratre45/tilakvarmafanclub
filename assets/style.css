@@ -7221,3 +7221,68 @@ body.bcci-player-open {
     padding: 10px;
   }
 }
+
+
+/* Full-page style BCCI/Shaka experience with a Tilak-only Up Next queue */
+.bcci-video-panel {
+  width: min(1240px, 100%);
+  max-height: calc(100dvh - 24px);
+  overflow: auto;
+  padding: 0;
+  border: 1px solid #1c2d56;
+  border-radius: 16px;
+  background: #06143e;
+  box-shadow: 0 28px 100px #000b;
+}
+.bcci-video-player-head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  padding: 12px 16px;
+  margin: 0;
+  background: #214e9c;
+  color: #fff;
+}
+.bcci-player-brand { display:flex; align-items:center; gap:10px; letter-spacing:.06em; font-size:11px; }
+.bcci-player-brand-mark { display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:#ff9d35; color:#06143e; font-weight:900; }
+.bcci-video-player-head button { flex:0 0 38px; background:#102c62; }
+.bcci-player-page-content { display:grid; grid-template-columns:minmax(0,1.65fr) minmax(280px,.8fr); align-items:stretch; }
+.bcci-player-main { min-width:0; background:#071846; }
+.bcci-player-screen { position:relative; background:#000; }
+#bcci-shaka-player { width:100%; max-height:none; aspect-ratio:16/9; object-fit:contain; }
+.bcci-player-screen-overlay { position:absolute; left:12px; top:12px; pointer-events:none; padding:5px 8px; border-radius:5px; background:#0008; color:#fff; font:700 9px var(--mono); letter-spacing:.08em; }
+.bcci-player-title-block { padding:20px 22px 18px; background:#07194f; }
+.bcci-player-title-block h2 { margin:0 0 14px; color:#fff; font-size:clamp(20px,2.6vw,30px); line-height:1.2; }
+.bcci-player-title-meta { display:flex; flex-wrap:wrap; align-items:center; gap:12px; color:#a9bee9; font-size:13px; }
+.bcci-share-video { border:0; border-radius:24px; padding:9px 16px; background:#243c7a; color:#fff; font-weight:700; cursor:pointer; }
+.bcci-player-options { padding:0 22px 18px; margin:0; background:#07194f; align-items:center; }
+.bcci-player-options label { color:#c0cceb; }
+.bcci-player-options select { background:#0a2459; color:#fff; border-color:#2b477e; }
+#bcci-player-error { color:#c0cceb; }
+.bcci-up-next-panel { min-width:0; padding:20px 16px; background:#061239; border-left:1px solid #1c2d56; }
+.bcci-up-next-heading { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:18px; }
+.bcci-up-next-heading h3 { margin:0; color:#fff; font-size:21px; }
+.bcci-up-next-heading span { color:#7da9ff; font:700 8px var(--mono); letter-spacing:.05em; }
+.bcci-up-next-list { display:flex; flex-direction:column; }
+.bcci-up-next-item { display:grid; grid-template-columns:minmax(95px,38%) minmax(0,1fr); gap:10px; width:100%; padding:13px 0; text-align:left; border:0; border-bottom:1px solid #20305a; background:transparent; color:#fff; cursor:pointer; }
+.bcci-up-next-item:first-child { padding-top:0; }
+.bcci-up-next-item:hover .bcci-up-next-copy strong { color:#8fd8ff; }
+.bcci-up-next-thumb { position:relative; display:block; aspect-ratio:16/9; overflow:hidden; border-radius:8px; background:#10234c; }
+.bcci-up-next-thumb img { width:100%; height:100%; display:block; object-fit:cover; }
+.bcci-up-next-thumb > span:not(.bcci-up-next-duration) { display:grid; place-items:center; height:100%; color:#ff9d35; font-weight:900; }
+.bcci-up-next-duration { position:absolute; right:4px; bottom:4px; padding:3px 5px; border-radius:4px; background:#000c; color:#fff; font:700 9px var(--mono); }
+.bcci-up-next-copy { display:flex; flex-direction:column; gap:7px; min-width:0; }
+.bcci-up-next-copy strong { color:#fff; font-size:12px; line-height:1.35; }
+.bcci-up-next-copy small { color:#9eafd3; font-size:10px; }
+.bcci-up-next-empty { color:#a9bee9; font-size:13px; }
+@media (max-width:760px) {
+  .bcci-video-modal { padding:0; place-items:stretch; }
+  .bcci-video-panel { width:100%; max-height:100dvh; height:100dvh; border-radius:0; border:0; }
+  .bcci-video-player-head { padding:10px 12px; }
+  .bcci-player-page-content { grid-template-columns:1fr; }
+  .bcci-player-title-block { padding:18px 16px; }
+  .bcci-player-options { padding:0 16px 18px; }
+  .bcci-up-next-panel { border-left:0; border-top:1px solid #1c2d56; padding:18px 16px 30px; }
+  .bcci-up-next-item { grid-template-columns:minmax(120px,38%) minmax(0,1fr); padding:14px 0; }
+  .bcci-up-next-copy strong { font-size:14px; }
+}
