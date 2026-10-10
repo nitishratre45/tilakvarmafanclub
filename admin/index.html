@@ -2054,7 +2054,9 @@
           $("video-source-updated").textContent = feedData?.updatedAt
             ? formatTime(feedData.updatedAt)
             : "Timestamp unavailable";
-          $("video-source-override").textContent = override ? "Saved for Python" : "Default BCCI searches";
+          $("video-source-override").textContent = override
+            ? "Saved for Python"
+            : "Default BCCI searches";
           const statusMessage = errorMessages.length
             ? "Some source checks failed: " + errorMessages.join(" · ")
             : "Source check complete. Public Videos always reads assets/bcci-videos.json; " +
