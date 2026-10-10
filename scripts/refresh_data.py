@@ -238,10 +238,13 @@ def main():
     # Keep ICC limited to official rankings/records and profile metadata.
     # Recent scorecard rows must come from match-level delivery data, not a ranking page.
     rows = []
+    recent_error = None
     try:
         rows = cricsheet_recent()
     except Exception as exc:
+        recent_error = str(exc)
         print(f"Cricsheet recent-form refresh unavailable: {exc}")
+    recent_data_updated = False
     if rows:
         existing = data.get("recentInnings", [])
 
@@ -267,6 +270,7 @@ def main():
             data["recentUpdated"] = datetime.now(timezone.utc).strftime(
                 "%Y-%m-%d %H:%M UTC"
             )
+            recent_data_updated = True
         else:
             print(
                 "Incoming archive is older than current recent scorecards; preserving current rows."
@@ -274,6 +278,15 @@ def main():
     else:
         print("No new recent-form rows found; preserving existing recentInnings.")
     checked_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    data["recentCheckedAt"] = checked_at
+    data["recentAttemptStatus"] = (
+        "source-unavailable"
+        if recent_error or not rows
+        else "updated"
+        if recent_data_updated
+        else "checked-no-newer-data"
+    )
+    data["recentAttemptError"] = recent_error
     data["profileUpdated"] = checked_at
     data["lastChecked"] = checked_at
     data["lastRefreshStatus"] = "available" if rows else "source-unavailable"
