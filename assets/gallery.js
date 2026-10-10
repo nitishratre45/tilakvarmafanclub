@@ -44,7 +44,7 @@
       profileUrl +
       '" target="_blank" rel="noopener noreferrer" aria-label="Open Tilak Varma official BCCI profile"><img src="' +
       esc(image) +
-      '" alt="Tilak Varma · Official BCCI player photo" loading="eager" decoding="async" referrerpolicy="no-referrer"><span>OFFICIAL BCCI PHOTO · 72</span></a><div class="bcci-profile-photo-caption"><strong>TILAK VARMA</strong><a href="' +
+      '" alt="Tilak Varma · Official BCCI player photo" loading="eager" decoding="async" referrerpolicy="strict-origin-when-cross-origin"><span>OFFICIAL BCCI PHOTO · 72</span></a><div class="bcci-profile-photo-caption"><strong>TILAK VARMA</strong><a href="' +
       profileUrl +
       '" target="_blank" rel="noopener noreferrer">BCCI PLAYER PROFILE ↗</a></div></article>';
     const img = host.querySelector("img");
