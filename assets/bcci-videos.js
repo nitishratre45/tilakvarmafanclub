@@ -323,9 +323,6 @@
     select.addEventListener("change", render),
   );
   playbackQuality.addEventListener("change", applyPlaybackQuality);
-  playbackQuality.addEventListener("change", () => {
-    if (qualityCurrent) qualityCurrent.textContent = playbackQuality.value === "auto" ? "Auto" : playbackQuality.value + "p max";
-  });
 
   modal
     .querySelectorAll("[data-bcci-close]")
