@@ -62,14 +62,15 @@ def parse_custom_response(body: bytes, content_type: str = "") -> object:
     payloads: list[object] = []
     for match in re.finditer(r"<script\\b([^>]*)>(.*?)</script\\s*>", text, re.I | re.S):
         attributes, raw = match.groups()
-        attrs = {
-            key.lower(): html.unescape(value or "")
-            for key, _, value in re.findall(
-                r"""([a-zA-Z_:][\\w:.-]*)\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))""",
-                attributes,
-                re.S,
+        attrs = {}
+        for key, double_quoted, single_quoted, unquoted in re.findall(
+            r"""([a-zA-Z_:][\\w:.-]*)\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))""",
+            attributes,
+            re.S,
+        ):
+            attrs[key.lower()] = html.unescape(
+                double_quoted or single_quoted or unquoted or ""
             )
-        }
         # Prefer structured data and framework bootstrap payloads, but safely
         # inspect other scripts too because BCCI may embed its CMS JSON inline.
         script_text = html.unescape(raw.strip())
