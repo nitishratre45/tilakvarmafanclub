@@ -15,6 +15,11 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
+try:
+    from playwright.sync_api import sync_playwright
+except ImportError:
+    sync_playwright = None
+
 API_BASE = "https://www.bcci.tv/api/bff/cms/videos"
 PLAYER_ID = "993"  # Tilak Varma's BCCI player page
 OUT = Path("assets/bcci-videos.json")
@@ -146,9 +151,78 @@ def normalize(item: dict) -> dict | None:
     }
 
 
+def fetch_browser_payloads() -> list[object]:
+    """Use the official player page's own Load More control to discover all pages.
+
+    Capturing the site's network responses avoids guessing private pagination
+    parameters and follows the same public catalogue the BCCI page displays.
+    """
+    if sync_playwright is None:
+        print("Playwright unavailable; using API fallback.", file=sys.stderr)
+        return []
+    payloads: list[object] = []
+    seen_responses: set[str] = set()
+    page_url = "https://live-bccitv.epicon.in/videos/player/993?platform=international&type=men"
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        page = browser.new_page(viewport={"width": 1440, "height": 1000})
+        def capture(response):
+            url = response.url
+            if "/api/" not in url and "application/json" not in response.headers.get("content-type", ""):
+                return
+            if url in seen_responses:
+                return
+            try:
+                if "json" not in response.headers.get("content-type", "").lower():
+                    return
+                data = response.json()
+            except Exception:
+                return
+            seen_responses.add(url)
+            payloads.append(data)
+            print(f"Captured BCCI catalogue response: {url[:180]}")
+        page.on("response", capture)
+        page.goto(page_url, wait_until="domcontentloaded", timeout=90000)
+        page.wait_for_timeout(2500)
+        for click_number in range(100):
+            # Capture links/items already rendered and trigger the official
+            # pagination button. Stop only when the button is absent/disabled.
+            button = page.get_by_role("button", name=re.compile(r"load more", re.I))
+            if button.count() == 0:
+                button = page.get_by_text(re.compile(r"^load more$", re.I))
+            if button.count() == 0:
+                break
+            try:
+                if not button.first.is_visible() or button.first.is_disabled():
+                    break
+                before = len(seen_responses)
+                button.first.click(timeout=5000)
+                page.wait_for_timeout(1200)
+                if len(seen_responses) == before and click_number > 0:
+                    # Let slow responses finish once before deciding the list is done.
+                    page.wait_for_timeout(2500)
+                    if len(seen_responses) == before:
+                        break
+            except Exception as exc:
+                print(f"Load More stopped at page {click_number + 1}: {exc}", file=sys.stderr)
+                break
+        browser.close()
+    print(f"Captured {len(payloads)} unique BCCI JSON responses from player archive.")
+    return payloads
+
+
 def main() -> int:
     collected: dict[str, dict] = {}
     sources_tried: list[str] = []
+
+    # Prefer the complete official player archive and its native Load More flow.
+    # This is how we discover older pages without assuming undocumented params.
+    for payload in fetch_browser_payloads():
+        for item in walk_video_objects(payload):
+            video = normalize(item)
+            if video:
+                collected[video["id"]] = video
 
     # BCCI's feed is paginated, but the pagination parameter name can vary
     # between CMS deployments. Try common pagination forms and stop when the
