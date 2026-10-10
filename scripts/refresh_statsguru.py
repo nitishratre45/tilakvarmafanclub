@@ -493,7 +493,11 @@ def date_sort_key(value):
     match = re.search(r"(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})", value)
     if match:
         try:
-            return datetime.strptime(" ".join(match.groups()), "%d %b %Y").date().toordinal()
+            return (
+                datetime.strptime(" ".join(match.groups()), "%d %b %Y")
+                .date()
+                .toordinal()
+            )
         except ValueError:
             pass
     return 0
@@ -555,8 +559,12 @@ def scrape_format(fmt, match_class):
         "careerUrl": stats_url(match_class, "innings"),
         "inningsUrl": stats_url(match_class, "innings"),
         "matchListUrl": stats_url(match_class, "match"),
-        "debut": min(innings, key=lambda row: date_sort_key(row.get("date")), default=None),
-        "lastMatch": max(innings, key=lambda row: date_sort_key(row.get("date")), default=None),
+        "debut": min(
+            innings, key=lambda row: date_sort_key(row.get("date")), default=None
+        ),
+        "lastMatch": max(
+            innings, key=lambda row: date_sort_key(row.get("date")), default=None
+        ),
     }
 
 
@@ -877,17 +885,37 @@ def main():
         indexed = {}
         for fmt, entry in new_formats.items():
             for row in entry.get("innings", []) if isinstance(entry, dict) else []:
-                key = (fmt, clean(row.get("date")), clean(row.get("opposition")), clean(row.get("ground")))
+                key = (
+                    fmt,
+                    clean(row.get("date")),
+                    clean(row.get("opposition")),
+                    clean(row.get("ground")),
+                )
                 if all(key[1:]):
-                    indexed[key] = {**row, "format": fmt, "source": "ESPNcricinfo Statsguru"}
+                    indexed[key] = {
+                        **row,
+                        "format": fmt,
+                        "source": "ESPNcricinfo Statsguru",
+                    }
         for row in recent_rows:
             fmt = clean(row.get("format") or "T20I")
-            key = (fmt, clean(row.get("date")), clean(row.get("opposition")), clean(row.get("venue") or row.get("ground")))
+            key = (
+                fmt,
+                clean(row.get("date")),
+                clean(row.get("opposition")),
+                clean(row.get("venue") or row.get("ground")),
+            )
             if all(key[1:]):
                 indexed[key] = {**indexed.get(key, {}), **row, "format": fmt}
-        data["playerMatches"] = sorted(indexed.values(), key=lambda row: date_sort_key(row.get("date")), reverse=True)[:250]
+        data["playerMatches"] = sorted(
+            indexed.values(),
+            key=lambda row: date_sort_key(row.get("date")),
+            reverse=True,
+        )[:250]
         data["playerMatchesUpdatedAt"] = stamp()
-        data["playerMatchesSource"] = "ESPNcricinfo Statsguru + saved verified recent scorecards"
+        data["playerMatchesSource"] = (
+            "ESPNcricinfo Statsguru + saved verified recent scorecards"
+        )
         data["statsguru"] = {
             **saved,
             "source": "ESPNcricinfo Statsguru",
