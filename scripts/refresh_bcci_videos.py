@@ -213,7 +213,7 @@ def fetch_browser_payloads() -> list[object]:
                 if len(payloads) == before and click_number > 0:
                     # Let slow responses finish once before deciding the list is done.
                     page.wait_for_timeout(2500)
-                    if len(seen_responses) == before:
+                    if len(payloads) == before:
                         break
             except Exception as exc:
                 print(
