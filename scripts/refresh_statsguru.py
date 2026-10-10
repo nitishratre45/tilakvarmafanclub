@@ -1131,7 +1131,9 @@ def main():
             "updatedAt": stamp(),
             "formats": new_formats,
             "lastAttemptAt": stamp(),
-            "lastAttemptStatus": "partial" if errors or optional_warnings else "success",
+            "lastAttemptStatus": (
+                "partial" if errors or optional_warnings else "success"
+            ),
             "lastAttemptErrors": errors,
             "lastAttemptWarnings": optional_warnings,
         }
@@ -1254,7 +1256,9 @@ def main():
                     stamp() if field_success else old_fielding.get("updatedAt")
                 ),
                 "lastAttemptAt": stamp(),
-                "lastAttemptStatus": "partial" if field_errors or field_warnings else "success",
+                "lastAttemptStatus": (
+                    "partial" if field_errors or field_warnings else "success"
+                ),
                 "lastAttemptErrors": field_errors,
                 "lastAttemptWarnings": field_warnings,
                 "formats": new_field_formats,

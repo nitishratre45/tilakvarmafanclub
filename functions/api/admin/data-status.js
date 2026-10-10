@@ -214,10 +214,7 @@ function getInfo(def, data) {
       updatedAt: timestamps.length ? latestTimestamp(...timestamps) : null,
       attemptAt: sg.lastAttemptAt,
       attemptStatus: sg.lastAttemptStatus,
-      errors: [
-        ...compactErrors(sg.lastAttemptErrors),
-        ...compactErrors(sg.lastAttemptWarnings),
-      ],
+      errors: [...compactErrors(sg.lastAttemptErrors), ...compactErrors(sg.lastAttemptWarnings)],
       count: Object.values(fmt).filter((x) => x.available).length,
       total: names.length,
       summary: fmt,
