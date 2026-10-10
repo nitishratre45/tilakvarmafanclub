@@ -297,10 +297,12 @@ def main() -> int:
         )
 
     # BCCI features/interviews category feed for international T20 clips.
-    api_queries.append((
-        "features and interviews (international T20)",
-        {"category": "features-and-interviews", "tags": "international,t20"},
-    ))
+    api_queries.append(
+        (
+            "features and interviews (international T20)",
+            {"category": "features-and-interviews", "tags": "international,t20"},
+        )
+    )
 
     api_queries.extend(
         [
