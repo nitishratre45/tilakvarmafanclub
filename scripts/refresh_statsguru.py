@@ -595,6 +595,82 @@ def scrape_format(fmt, match_class):
     }
 
 
+
+def scrape_domestic_profile_summary(fmt):
+    """Fallback for domestic career totals when legacy Statsguru omits FC/List A.
+
+    Only summary rows are imported from the public profile stats table. We
+    deliberately do not invent match-by-match innings when they are absent.
+    """
+    url = "https://dujseks5cqq0r.cloudfront.net/player/tilak-varma/stats"
+    page = fetch(url)
+    wanted = "listas" if fmt == "List A" else "firstclass"
+
+    def norm(value):
+        return re.sub(r"[^a-z0-9]+", "", clean(value).casefold())
+
+    for table in parse_tables(page):
+        for index, row in enumerate(table):
+            headers = [norm(value) for value in cell_text(row)]
+            if not ({"mat", "matches"} & set(headers)) or not ({"r", "runs"} & set(headers)):
+                continue
+            columns = {}
+            for i, header in enumerate(headers):
+                if header in {"game", "gametype", "format", "type"}:
+                    columns["format"] = i
+                elif header in {"mat", "matches"}:
+                    columns["matches"] = i
+                elif header in {"inn", "inns", "innings"}:
+                    columns["innings"] = i
+                elif header in {"r", "runs"}:
+                    columns["runs"] = i
+                elif header in {"bf", "balls", "balls_faced"}:
+                    columns["balls"] = i
+                elif header in {"no", "notout", "notouts"}:
+                    columns["notOuts"] = i
+                elif header in {"avg", "average"}:
+                    columns["average"] = i
+                elif header in {"sr", "strikerate"}:
+                    columns["strikeRate"] = i
+                elif header in {"100", "100s", "hundreds"}:
+                    columns["hundreds"] = i
+                elif header in {"50", "50s", "fifties"}:
+                    columns["fifties"] = i
+                elif header in {"h", "hs", "highscore"}:
+                    columns["highestScore"] = i
+                elif header in {"4s", "fours"}:
+                    columns["fours"] = i
+                elif header in {"6s", "sixes"}:
+                    columns["sixes"] = i
+            if not {"matches", "innings", "runs", "highestScore", "format"}.issubset(columns):
+                continue
+            for candidate in table[index + 1:]:
+                values = cell_text(candidate)
+                if len(values) <= max(columns.values()):
+                    continue
+                if wanted not in norm(values[columns["format"]]):
+                    continue
+                summary = {}
+                for key, column in columns.items():
+                    if key == "format":
+                        continue
+                    raw = values[column]
+                    summary[key] = raw if key == "highestScore" else number(raw)
+                if summary.get("runs") is None or summary.get("matches") is None:
+                    continue
+                return {
+                    "summary": summary,
+                    "careerBreakdown": [],
+                    "innings": [],
+                    "inningsCount": summary.get("matches") or 0,
+                    "source": "Secondary public player profile stats (summary only)",
+                    "sourceUrl": url,
+                    "detailStatus": "summary-only",
+                    "detailNote": "Legacy ESPNcricinfo Statsguru did not provide domestic innings rows; match-by-match data is not fabricated.",
+                    "checkedAt": stamp(),
+                }
+    raise RuntimeError("No recognizable " + fmt + " summary row in the fallback profile feed")
+
 def parse_fielding_summary(page):
     """Parse the official Statsguru fielding career total when present."""
     for table in parse_tables(page):
@@ -902,7 +978,18 @@ def main():
             )
         except Exception as exc:
             errors.append(fmt + ": " + str(exc))
-            print("Could not refresh " + fmt + "; keeping saved data:", exc)
+            print("Could not refresh " + fmt + " from ESPNcricinfo Statsguru:", exc)
+            if fmt in {"FC", "List A"}:
+                try:
+                    fallback = scrape_domestic_profile_summary(fmt)
+                    if fallback.get("summary"):
+                        new_formats[fmt] = fallback
+                        success.append(fmt + " summary fallback")
+                        print(fmt + ": refreshed verified domestic summary from secondary profile feed; innings not fabricated")
+                except Exception as fallback_exc:
+                    print(fmt + ": secondary summary fallback unavailable; preserving saved data:", fallback_exc)
+                    if old_formats.get(fmt):
+                        new_formats[fmt] = old_formats[fmt]
     if success:
         # Cross-format match index for the Matches section. Preserve recent verified
         # scorecards (including DNB rows) and enrich with Statsguru batting rows.
