@@ -10032,3 +10032,43 @@ body > .cs-overlay .cs-kicker {
     margin-top: 5px !important;
   }
 }
+
+
+/* Compact BCCI identity badge; informational fan-profile marker, not an endorsement. */
+.profile-eyebrow-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:8px;
+}
+.profile-eyebrow-row > .eyebrow { margin:0 !important; }
+.bcci-profile-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  flex:0 0 auto;
+  padding:5px 9px 5px 6px;
+  border:1px solid rgba(111,164,219,.3);
+  border-radius:999px;
+  background:rgba(10,23,40,.7);
+  color:#dbe9fa;
+  font:800 9px/1 var(--mono);
+  letter-spacing:.1em;
+  transition:border-color .18s ease, background .18s ease;
+}
+.bcci-profile-badge:hover {
+  border-color:rgba(124,229,242,.6);
+  background:rgba(22,51,78,.85);
+}
+.bcci-profile-badge img {
+  display:block;
+  width:23px;
+  height:23px;
+  object-fit:contain;
+}
+@media (max-width:800px) {
+ .profile-eyebrow-row { margin-bottom:6px; gap:8px; }
+ .bcci-profile-badge { padding:4px 7px 4px 5px; font-size:8px; }
+ .bcci-profile-badge img { width:20px; height:20px; }
+}
