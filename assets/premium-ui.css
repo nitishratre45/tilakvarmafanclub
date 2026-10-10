@@ -6,13 +6,13 @@
   --panel2: #111d30;
   --white: #f7f9ff;
   --muted: #a3b0c4;
-  --orange: #ff5364;
+  --orange: #ff6a35;
   --cyan: #75e3ff;
   --line: rgba(169, 194, 229, 0.15);
   --text-primary: #f7f9ff;
   --text-secondary: #c1ccdc;
   --text-muted: #93a3ba;
-  --text-accent: #ff6877;
+  --text-accent: #ff8a52;
   --ui-radius: 18px;
 }
 html {
@@ -182,13 +182,13 @@ nav a:focus-visible::after {
 }
 .primary,
 .button.primary {
-  background: linear-gradient(135deg, #ff6371, #ef4057);
+  background: linear-gradient(135deg, #ff7c45, #e94f2f);
   color: #180910;
   box-shadow: 0 8px 24px rgba(255, 83, 100, 0.16);
 }
 .primary:hover,
 .button.primary:hover {
-  background: linear-gradient(135deg, #ff7c88, #ff5364);
+  background: linear-gradient(135deg, #ff7c88, #ff6a35);
   box-shadow: 0 12px 30px rgba(255, 83, 100, 0.24);
 }
 .outline {
@@ -249,7 +249,7 @@ nav a:focus-visible::after {
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
 }
 .stats-grid:not(.career-formats) .stat-feature {
-  background: linear-gradient(135deg, #ff6977 0%, #ef4057 100%);
+  background: linear-gradient(135deg, #ff6977 0%, #e94f2f 100%);
   border-color: transparent;
   border-radius: 18px;
   box-shadow: 0 18px 42px rgba(255, 83, 100, 0.16);
@@ -550,4 +550,234 @@ img {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+
+/* SECTION FINISHING PASS — stronger hierarchy, cleaner grids, and consistent orange accents. */
+:root {
+  --orange: #ff6a35;
+  --cyan: #7ce5f2;
+  --text-accent: #ff6a35;
+  --section-edge: rgba(124, 229, 242, .14);
+}
+.section:not(.profile-section) {
+  position: relative;
+  border-top: 1px solid rgba(255,255,255,.035);
+}
+.section:not(.profile-section)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 92% 0%, rgba(124,229,242,.035), transparent 36rem);
+}
+.section-heading h2 { max-width: 100%; }
+.section-heading > div { min-width: 0; }
+.section-heading > p { line-height: 1.85; }
+.records-section, .fan-zone-section, .tilak-photos-section, .tilak-news-section,
+.tilak-videos-section, .settings-section {
+  background: linear-gradient(180deg, rgba(13,26,44,.52), rgba(7,11,20,.18));
+}
+.records-section .record-card,
+.records-section .milestone-card,
+.records-section .analytics-card,
+.fan-zone-section > *,
+.settings-section > *,
+.about-section > * {
+  min-width: 0;
+}
+.records-section .record-card strong,
+.records-section .milestone-card strong,
+.records-section .analytics-card strong {
+  color: var(--orange);
+}
+.records-section .record-card,
+.records-section .milestone-card,
+.records-section .analytics-card {
+  padding: clamp(16px, 2vw, 24px);
+}
+.tilak-photos-section .cricinfo-photo-grid,
+.cricinfo-photo-grid {
+  gap: 14px;
+}
+.cricinfo-photo-grid img,
+.tilak-photos-section img {
+  border-radius: 14px;
+}
+.tilak-photos-section .cricinfo-photo-grid > *,
+.cricinfo-gallery .cricinfo-photo-grid > * {
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+.tilak-news-grid,
+.bcci-video-grid {
+  align-items: stretch;
+}
+.tilak-news-card,
+.bcci-video-card {
+  overflow: hidden;
+}
+.tilak-news-card img,
+.bcci-video-card img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+.tilak-news-card h3,
+.bcci-video-card h3,
+.home-snapshot-block h3 {
+  line-height: 1.35;
+  text-wrap: balance;
+}
+.tilak-news-card p,
+.bcci-video-card p {
+  line-height: 1.75;
+}
+.fan-zone-section .button,
+.fan-zone-section button,
+.settings-section button {
+  min-height: 44px;
+}
+.fan-zone-section input,
+.fan-zone-section select,
+.fan-zone-section textarea,
+.settings-section input,
+.settings-section select {
+  width: 100%;
+  max-width: 100%;
+}
+.settings-section .settings-card {
+  padding: clamp(18px, 2.4vw, 28px);
+  background: linear-gradient(145deg, rgba(17,29,48,.96), rgba(9,16,28,.96));
+}
+.settings-theme-options button[aria-pressed="true"],
+.settings-theme-options button.active {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 2px rgba(255,106,53,.14);
+}
+.about-section {
+  align-items: start;
+}
+.about-section p {
+  color: var(--text-secondary);
+  line-height: 1.9;
+}
+.match-center-section {
+  padding: clamp(44px, 6vw, 80px) clamp(18px, 7.5vw, 120px);
+}
+.match-center-section .section-heading {
+  margin-bottom: 26px;
+}
+.home-snapshot-section .home-mini-stat strong,
+.home-format-card strong,
+.home-bowling-stats strong {
+  font-variant-numeric: tabular-nums;
+}
+.home-mini-stat span,
+.home-format-card .stat-label,
+.home-bowling-stats .stat-label {
+  letter-spacing: .09em;
+}
+.home-bowling-card {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(124,229,242,.075), transparent 22rem),
+    linear-gradient(145deg, #101d30, #0a111d);
+  box-shadow: 0 18px 48px rgba(0,0,0,.16);
+}
+.home-snapshot-foot,
+.data-line,
+.statsguru-sourcebar {
+  line-height: 1.7;
+}
+.stats-subnav {
+  position: sticky;
+  top: 82px;
+  z-index: 8;
+  background: rgba(8,14,25,.92);
+  border: 1px solid var(--line);
+  padding: 6px;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+.stats-subnav button[aria-selected="true"],
+.stats-subnav button.active,
+.statsguru-format-tabs button.active {
+  background: linear-gradient(135deg, #ff7c45, #e94f2f);
+  color: #180d09;
+  border-color: transparent;
+  font-weight: 900;
+}
+.statsguru-format-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.statsguru-format-tabs button {
+  min-height: 40px;
+  padding: 10px 14px;
+}
+.table-wrap {
+  max-width: 100%;
+  overscroll-behavior-x: contain;
+  scrollbar-color: #38516d #0a1422;
+}
+.table-wrap table {
+  min-width: 650px;
+}
+.table-wrap th,
+.table-wrap td {
+  white-space: nowrap;
+}
+.button:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+@media (max-width: 760px) {
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .section-heading > p { max-width: 62ch; }
+  .stats-subnav {
+    top: 68px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: thin;
+  }
+  .stats-subnav button { flex: 0 0 auto; }
+  .statsguru-sourcebar,
+  .data-line {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .home-snapshot-foot {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .tilak-photos-section .cricinfo-photo-grid,
+  .cricinfo-photo-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+  .fan-zone-section .button,
+  .settings-section .button {
+    width: 100%;
+  }
+}
+@media (max-width: 420px) {
+  .section h2 { overflow-wrap: anywhere; }
+  .home-quick-stats { gap: 9px; }
+  .home-mini-stat { padding: 14px; }
+  .home-mini-stat strong { font-size: clamp(25px, 8vw, 34px); }
+  .statsguru-format-tabs button { padding: 9px 11px; font-size: 11px; }
 }
