@@ -1717,3 +1717,87 @@ footer {
     transition: none !important;
   }
 }
+
+/* Keep the existing Light/System appearance switch fully supported after the new visual layer. */
+:root[data-theme-resolved="light"] .records-section,
+:root[data-theme-resolved="light"] .fan-zone-section,
+:root[data-theme-resolved="light"] .tilak-photos-section,
+:root[data-theme-resolved="light"] .tilak-news-section,
+:root[data-theme-resolved="light"] .tilak-videos-section,
+:root[data-theme-resolved="light"] .settings-section,
+:root[data-theme-resolved="light"] .about-section,
+:root[data-theme-resolved="light"] .innings-section,
+:root[data-theme-resolved="light"] .stats-section {
+  background: var(--bg) !important;
+  color: var(--white);
+}
+:root[data-theme-resolved="light"] .fan-card,
+:root[data-theme-resolved="light"] .official-records-grid>*,
+:root[data-theme-resolved="light"] .milestone-grid>*,
+:root[data-theme-resolved="light"] .analytics-grid>*,
+:root[data-theme-resolved="light"] .match-center-grid>*,
+:root[data-theme-resolved="light"] .upcoming-matches-grid>*,
+:root[data-theme-resolved="light"] .bcci-video-grid>*,
+:root[data-theme-resolved="light"] .home-bowling-card,
+:root[data-theme-resolved="light"] .match-center-toolbar,
+:root[data-theme-resolved="light"] .bcci-video-controls,
+:root[data-theme-resolved="light"] .analytics-chart,
+:root[data-theme-resolved="light"] .settings-card,
+:root[data-theme-resolved="light"] .upcoming-matches-panel,
+:root[data-theme-resolved="light"] .cricinfo-gallery {
+  background: #fff !important;
+  color: #152235;
+  border-color: rgba(18,35,55,.16);
+  box-shadow: 0 8px 24px rgba(25,45,70,.06);
+}
+:root[data-theme-resolved="light"] .home-snapshot-block,
+:root[data-theme-resolved="light"] .match-history-summary,
+:root[data-theme-resolved="light"] .statsguru-panel,
+:root[data-theme-resolved="light"] .player-analysis-content {
+  background: #fff;
+  color: #152235;
+  border-color: rgba(18,35,55,.16);
+}
+:root[data-theme-resolved="light"] .fan-card h3,
+:root[data-theme-resolved="light"] .home-snapshot-block h3,
+:root[data-theme-resolved="light"] .official-records-head h3,
+:root[data-theme-resolved="light"] .analytics-head h3,
+:root[data-theme-resolved="light"] .upcoming-matches-heading h3,
+:root[data-theme-resolved="light"] .home-bowling-heading h3 {
+  color: #152235;
+}
+:root[data-theme-resolved="light"] .feature-eyebrow,
+:root[data-theme-resolved="light"] .home-snapshot-block a,
+:root[data-theme-resolved="light"] .tilak-news-card a {
+  color: #087e91;
+}
+:root[data-theme-resolved="light"] .poll-options label,
+:root[data-theme-resolved="light"] .fan-ritual-list label {
+  background: #f5f8fc;
+  color: #152235;
+  border-color: rgba(18,35,55,.14);
+}
+:root[data-theme-resolved="light"] .fan-badge-preview {
+  background: linear-gradient(135deg,#fff3eb,#fff);
+  color: #152235;
+}
+:root[data-theme-resolved="light"] .match-center-summary,
+:root[data-theme-resolved="light"] .data-line,
+:root[data-theme-resolved="light"] .stats-subnav {
+  background: #edf3f8;
+  color: #152235;
+  border-color: rgba(18,35,55,.14);
+}
+:root[data-theme-resolved="light"] .stats-subnav button[aria-selected="true"],
+:root[data-theme-resolved="light"] .stats-subnav button.active,
+:root[data-theme-resolved="light"] .statsguru-format-tabs button.active {
+  color: #fff;
+}
+:root[data-theme-resolved="light"] .bcci-video-player-head {
+  background: #edf3f8;
+  color: #152235;
+}
+:root[data-theme-resolved="light"] .bcci-video-panel {
+  background: #fff;
+  color: #152235;
+}
