@@ -3453,38 +3453,69 @@ footer .brand small {
 /* Mobile navigation recovery: handle Android Chrome's "Desktop site" viewport. */
 @media (pointer: coarse) and (hover: none) {
   main > section[hidden],
-  .stats-subview[hidden] { display: none !important; }
+  .stats-subview[hidden] {
+    display: none !important;
+  }
 
   .topbar {
-    position: sticky !important; top: 0 !important; display: flex !important;
-    align-items: center !important; justify-content: space-between !important;
-    gap: 10px !important; min-height: 68px !important; height: auto !important;
-    padding: 9px 14px !important; z-index: 7000 !important;
+    position: sticky !important;
+    top: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    min-height: 68px !important;
+    height: auto !important;
+    padding: 9px 14px !important;
+    z-index: 7000 !important;
   }
-  .topbar .brand { min-width: 0; flex: 1 1 auto; }
+  .topbar .brand {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
   .topbar .menu-toggle {
-    display: grid !important; place-items: center !important;
-    flex: 0 0 48px !important; width: 48px !important; min-height: 48px !important;
-    position: relative !important; z-index: 7002 !important;
-    cursor: pointer !important; touch-action: manipulation;
+    display: grid !important;
+    place-items: center !important;
+    flex: 0 0 48px !important;
+    width: 48px !important;
+    min-height: 48px !important;
+    position: relative !important;
+    z-index: 7002 !important;
+    cursor: pointer !important;
+    touch-action: manipulation;
   }
-  .topbar nav:not(.open) { display: none !important; }
+  .topbar nav:not(.open) {
+    display: none !important;
+  }
   .topbar nav.open {
-    display: grid !important; position: absolute !important;
-    top: calc(100% + 1px) !important; left: 10px !important; right: 10px !important;
-    width: auto !important; max-height: calc(100dvh - 90px) !important;
-    overflow-x: hidden !important; overflow-y: auto !important;
+    display: grid !important;
+    position: absolute !important;
+    top: calc(100% + 1px) !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-height: calc(100dvh - 90px) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 7px !important; padding: 12px !important; margin: 0 !important;
-    z-index: 7001 !important; background: #081525 !important;
+    gap: 7px !important;
+    padding: 12px !important;
+    margin: 0 !important;
+    z-index: 7001 !important;
+    background: #081525 !important;
     border: 1px solid rgba(130, 178, 220, 0.28) !important;
-    border-radius: 14px !important; box-shadow: 0 18px 42px rgba(0,0,0,.55) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.55) !important;
   }
   .topbar nav.open a {
-    display: flex !important; align-items: center !important; min-width: 0 !important;
-    min-height: 42px !important; padding: 10px !important;
-    white-space: normal !important; font-size: 12px !important;
-    border-radius: 9px !important; touch-action: manipulation;
+    display: flex !important;
+    align-items: center !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    padding: 10px !important;
+    white-space: normal !important;
+    font-size: 12px !important;
+    border-radius: 9px !important;
+    touch-action: manipulation;
   }
 }
-
