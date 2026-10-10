@@ -220,7 +220,6 @@
       "</strong></div><div><small>VENUE</small><strong>" +
       esc(m.venue || "Venue TBA") +
       '</strong></div></div><div id="mc-scoreboard-details-live"><p class="mc-scorecard-loading">Loading full batting &amp; bowling scorecard…</p></div><p class="mc-scoreboard-disclaimer">Detailed innings appear when CricAPI provides them for this match.</p><div class="mc-scoreboard-actions">' +
-      link(m.bcciUrl || "https://www.bcci.tv/matches", "Official BCCI match centre") +
       '<button type="button" data-scoreboard-close>Close scoreboard</button></div>';
     modal.hidden = false;
     document.body.classList.add("mc-scoreboard-open");
