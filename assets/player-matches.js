@@ -84,12 +84,11 @@
       const day = dayValue(date);
       const existingIndex = matches.findIndex((item) => {
         const sameOpposition = normalizeText(item.opposition) === normalizedOpposition;
-        const sameGround =
-          !normalizedGround ||
-          !normalizeText(item.ground || item.venue) ||
-          normalizeText(item.ground || item.venue) === normalizedGround;
         const dateDistance = Math.abs(day - dayValue(item.date));
-        return sameOpposition && sameGround && dateDistance <= 1;
+        // Venue labels vary between feeds (city, ground, or stadium name).
+        // One player cannot play two matches against the same opponent on the
+        // same day, so opponent + date is the stable cross-feed identity.
+        return sameOpposition && dateDistance <= 1;
       });
       if (existingIndex < 0) {
         matches.push({ ...row, format: fmt, ground });
@@ -141,8 +140,7 @@
     const sourceLabel = $("player-match-source");
     if (sourceLabel)
       sourceLabel.textContent =
-        (data.playerMatchesSource || "ESPNcricinfo Statsguru + saved verified scorecards") +
-        " · Last update: " +
+        "Last updated: " +
         (data.playerMatchesUpdatedAt ||
           data.statsguru?.updatedAt ||
           "waiting for scheduled refresh");
