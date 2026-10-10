@@ -77,8 +77,8 @@
       });
       list.append(item);
     });
-    const current = list.querySelector('[aria-selected="true"]');
-    if (current) current.scrollIntoView({ block: "nearest" });
+    // Do not call scrollIntoView here: the global capture-phase scroll handler
+    // closes the popup before desktop positioning has completed.
   }
 
   function openMenu(control) {
@@ -155,13 +155,19 @@
         pointerEvents: "auto", touchAction: "pan-y"
       });
     }
+    overlay.dataset.positioned = "true";
     const current = overlay.querySelector('[aria-selected="true"]');
     if (current) current.focus({ preventScroll: true });
     else overlay.querySelector(".cs-option")?.focus({ preventScroll: true });
   }
 
   function enhance(select) {
-    if (select.dataset.customSelectReady === "true" || select.multiple || select.size > 1) return;
+    if (
+      select.dataset.customSelectReady === "true" ||
+      select.multiple ||
+      select.size > 1 ||
+      select.id === "bcci-playback-quality"
+    ) return;
     select.dataset.customSelectReady = "true";
     const wrapper = document.createElement("div");
     wrapper.className = "custom-select";
@@ -231,7 +237,10 @@
   window.addEventListener(
     "scroll",
     () => {
-      if (overlay && !isMobile()) closeMenu();
+      if (!overlay || isMobile()) return;
+      // Ignore layout/scroll events while the popup is being opened; close only
+      // when the user scrolls the page after it is already positioned.
+      if (overlay.dataset.positioned === "true") closeMenu();
     },
     true,
   );
