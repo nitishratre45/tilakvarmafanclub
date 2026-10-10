@@ -2236,12 +2236,18 @@ body {
   color: #152235;
 }
 
-
 /* NAVBAR BLUE FINISH — mobile-first, consistent with The 72 Club navy/cyan palette */
 .topbar {
-  background: linear-gradient(110deg, rgba(7, 27, 52, 0.97), rgba(9, 44, 78, 0.96) 58%, rgba(8, 30, 55, 0.97)) !important;
+  background: linear-gradient(
+    110deg,
+    rgba(7, 27, 52, 0.97),
+    rgba(9, 44, 78, 0.96) 58%,
+    rgba(8, 30, 55, 0.97)
+  ) !important;
   border-bottom: 1px solid rgba(87, 190, 255, 0.34) !important;
-  box-shadow: 0 10px 32px rgba(0, 70, 140, 0.18), 0 1px 0 rgba(117, 227, 255, 0.06) !important;
+  box-shadow:
+    0 10px 32px rgba(0, 70, 140, 0.18),
+    0 1px 0 rgba(117, 227, 255, 0.06) !important;
 }
 .topbar .brand,
 .topbar nav a {
@@ -2291,7 +2297,7 @@ body {
   display: block;
   color: #8daac5;
   font: 8px/1.35 var(--mono);
-  letter-spacing: .04em;
+  letter-spacing: 0.04em;
 }
 .home-format-card .home-format-fact strong {
   display: block;
