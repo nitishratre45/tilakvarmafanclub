@@ -713,7 +713,11 @@ def saved_domestic_summary(fmt, data):
     if not summary.get("runs"):
         return None
 
-    previous = data.get("statsguru", {}).get("formats", {}).get(fmt, {})
+    stats_data = data.get("statsguru")
+    previous_formats = (
+        stats_data.get("formats", {}) if isinstance(stats_data, dict) else {}
+    )
+    previous = previous_formats.get(fmt, {}) if isinstance(previous_formats, dict) else {}
     innings_rows = previous.get("innings", []) if isinstance(previous, dict) else []
     if not isinstance(innings_rows, list):
         innings_rows = []
@@ -725,7 +729,7 @@ def saved_domestic_summary(fmt, data):
         "innings": innings_rows,
         "inningsCount": len(innings_rows),
         "source": entry.get("source") or "Previously saved sourced career summary",
-        "sourceUrl": entry.get("sourceUrl") or entry.get("source"),
+        "sourceUrl": entry.get("sourceUrl"),
         "checkedAt": stamp(),
         "summaryUpdatedAt": entry.get("updatedAt"),
         "detailStatus": "summary-only",
