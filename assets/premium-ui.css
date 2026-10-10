@@ -3112,3 +3112,118 @@ footer .brand small {
     padding: 7px 8px;
   }
 }
+
+
+/* PROFILE COMPACT PASS — remove dead space at tablet/mobile widths and balance desktop columns. */
+#profile.profile-section {
+  align-items: start;
+  gap: clamp(22px, 3vw, 38px);
+  padding-block: clamp(26px, 3.4vw, 44px);
+}
+#profile .profile-photo-wrap {
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 4 / 5;
+  align-self: start;
+}
+#profile .profile-copy {
+  align-self: start;
+}
+#profile .profile-copy > .eyebrow { margin-bottom: 8px; }
+#profile .profile-copy h2 { margin-bottom: 9px; }
+#profile .profile-intro { margin-bottom: 14px; }
+#profile .profile-facts { gap: 8px; margin-bottom: 12px; }
+#profile .icc-ranking-card { gap: 8px; margin-bottom: 12px; }
+#profile .profile-teams-panel { margin-top: 0; padding: 15px; }
+#profile .profile-teams-heading {
+  display: block;
+  margin-bottom: 10px;
+}
+#profile .profile-teams-heading h3 { margin-top: 5px; }
+#profile .profile-team-chips { gap: 7px; }
+#profile .profile-team-chip { min-height: 32px; padding: 7px 10px; }
+#profile .profile-teams-note { margin-top: 9px; }
+#profile .profile-quick-actions { margin-top: 12px; }
+
+@media (max-width: 800px) {
+  #profile.profile-section {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 18px;
+    padding: 18px 16px 24px;
+  }
+  #profile .profile-photo-wrap {
+    width: min(100%, 360px);
+    height: clamp(280px, 54vw, 360px);
+    max-width: none;
+    aspect-ratio: auto;
+    margin: 0 auto;
+    border-radius: 20px;
+  }
+  #profile .profile-photo-wrap img {
+    object-position: 34% 15%;
+    transform: scale(1.08);
+    transform-origin: 38% 20%;
+  }
+  #profile .profile-copy {
+    width: 100%;
+    max-width: none;
+  }
+  #profile .profile-copy > .eyebrow {
+    font-size: 10px;
+    letter-spacing: .12em;
+    margin-bottom: 8px;
+  }
+  #profile .profile-copy h2 {
+    font-size: clamp(32px, 6vw, 46px);
+    margin-bottom: 8px;
+  }
+  #profile .profile-intro {
+    font-size: 14px;
+    line-height: 1.55;
+    margin-bottom: 13px;
+  }
+  #profile .profile-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  #profile .profile-facts > div { padding: 11px 12px; }
+  #profile .profile-facts small { font-size: 9px; margin-bottom: 5px; }
+  #profile .profile-facts strong { font-size: 14px; }
+  #profile .icc-ranking-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  #profile .icc-ranking-card > div { padding: 11px 12px; }
+  #profile .icc-ranking-card .eyebrow,
+  #profile .icc-ranking-card span { font-size: 8px; }
+  #profile .icc-ranking-card strong { font-size: clamp(19px, 4vw, 25px); margin: 5px 0 3px; }
+  #profile .icc-ranking-card small { font-size: 10px; }
+  #profile .profile-teams-panel { padding: 13px; }
+  #profile .profile-teams-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  #profile .profile-teams-heading h3 { margin: 0; font-size: 17px; }
+  #profile .profile-team-chips { gap: 7px; }
+  #profile .profile-team-chip { min-height: 33px; padding: 8px 10px; font-size: 10px; }
+  #profile .profile-teams-note { font-size: 10px; }
+  #profile .profile-quick-actions { margin-top: 12px; }
+  #profile .profile-quick-actions .button {
+    min-height: 42px;
+    padding: 10px 15px;
+    font-size: 13px;
+  }
+}
+@media (max-width: 380px) {
+  #profile.profile-section { padding-inline: 12px; gap: 15px; }
+  #profile .profile-photo-wrap { height: 285px; }
+  #profile .profile-team-chip { font-size: 9px; padding: 7px 8px; }
+  #profile .profile-teams-heading .eyebrow { font-size: 9px; }
+}
