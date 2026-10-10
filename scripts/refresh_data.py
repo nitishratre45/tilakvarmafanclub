@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "data" / "site-data.json"
 ICC_URL = "https://www.icc-cricket.com/rankings/70761/tilak-varma"
 BCCI_URL = "https://www.bcci.tv/international/men/players/tilak-varma/993"
+ICC_PHOTO_URL = "https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
 MI_URL = "https://www.mumbaiindians.com/players/70761------------profile"
 CRICSHEET_URL = "https://cricsheet.org/downloads/t20s_male_json.zip"
 PLAYER = "Tilak Varma"
@@ -227,38 +228,12 @@ def main():
             "bcciProfile": BCCI_URL,
         }
     )
-    # Do not repeatedly replace the profile image: check BCCI at most every
-    # 30 days. A successful refresh updates the cache-busting date so browsers
-    # pick up a new image even when BCCI reuses the same image URL.
-    photo_checked = data["profile"].get("photoCheckedAt") or data["profile"].get(
-        "photoUpdated"
-    )
-    photo_due = True
-    try:
-        checked_date = datetime.strptime(str(photo_checked), "%Y-%m-%d").date()
-        photo_due = (datetime.now(timezone.utc).date() - checked_date).days >= 30
-    except (TypeError, ValueError):
-        photo_due = True
-    photo = None
-    if photo_due:
-        photo = official_profile_image()
-        checked_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        # Record every check, including source failures, to enforce the 30-day cadence.
-        data["profile"]["photoCheckedAt"] = checked_date
-        if photo:
-            # Add a monthly cache key while retaining the original BCCI image URL.
-            separator = "&" if "?" in photo else "?"
-            data["profile"]["photo"] = (
-                photo + separator + "tvfc=" + checked_date.replace("-", "")
-            )
-            data["profile"]["photoSource"] = BCCI_URL
-            data["profile"]["photoUpdated"] = checked_date
-            data["profile"]["photoRefreshStatus"] = "updated"
-        else:
-            # Keep the last good image and retry after the 30-day interval.
-            data["profile"]["photoRefreshStatus"] = "source-unavailable"
-    else:
-        print(f"Photo refresh skipped; last successful check was {photo_checked}.")
+    # Keep the main profile image sourced from ICC. The BCCI video/album
+    # image endpoint can return landscape thumbnails, so it must not replace
+    # the ICC player portrait on the profile page.
+    data["profile"]["photo"] = ICC_PHOTO_URL
+    data["profile"]["photoSource"] = ICC_URL
+    data["profile"]["photoRefreshStatus"] = "icc-profile-image"
     # Keep ICC limited to official rankings/records and profile metadata.
     # Recent scorecard rows must come from match-level delivery data, not a ranking page.
     rows = []
