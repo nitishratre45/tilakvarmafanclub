@@ -26,7 +26,8 @@
       venue: "Holkar Stadium, Indore",
       series: "India v West Indies T20I Series 2026",
       status: "Forthcoming",
-      url: "https://stats.bcci.tv/match/fixtures/",
+      url: "https://stats.bcci.tv/match/ab23950b-c1ef-4feb-84ca-5d89f460492d/scorecard",
+      detailsUrl: "https://www.bcci.tv/matches/ab23950b-c1ef-4feb-84ca-5d89f460492d/india-vs-west-indies/match-details",
     },
     {
       date: "2026-10-14",
@@ -216,6 +217,7 @@
               '<a href="' +
               esc(f.url) +
               '" target="_blank" rel="noopener noreferrer">Open Match Center ↗</a>' +
+              (f.detailsUrl ? '<a class="mc-details-link" href="' + esc(f.detailsUrl) + '" target="_blank" rel="noopener noreferrer">Official BCCI match details ↗</a>' : '') +
               "</article>"
             );
           })
