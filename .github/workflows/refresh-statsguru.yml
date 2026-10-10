@@ -39,7 +39,7 @@ jobs:
             git reset --hard origin/main
             python -u scripts/refresh_statsguru.py
             python -m json.tool data/site-data.json > /dev/null
-            python -c "import json; from pathlib import Path; d=json.loads(Path('data/site-data.json').read_text(encoding='utf-8')); s=d.get('statsguru', {}); assert s.get('lastAttemptStatus') == 'success', 'Statsguru refresh partial: '+repr(s.get('lastAttemptErrors', [])); formats=s.get('formats', {}); assert all(formats.get(f, {}).get('summary') and formats.get(f, {}).get('innings') for f in ('T20I','ODI','T20')), 'One or more Statsguru formats are missing verified data'; print('Validated all three Statsguru formats; timestamp:', s.get('updatedAt'))"
+            python -c "import json; from pathlib import Path; d=json.loads(Path('data/site-data.json').read_text(encoding='utf-8')); s=d.get('statsguru', {}); assert s.get('lastAttemptStatus') in ('success', 'partial'), 'Statsguru refresh failed: '+repr(s.get('lastAttemptErrors', [])); formats=s.get('formats', {}); assert all(formats.get(f, {}).get('summary') and formats.get(f, {}).get('innings') for f in ('T20I','ODI','T20')), 'One or more core Statsguru formats are missing verified data'; print('Validated core Statsguru formats; optional FC/List A may remain partial; timestamp:', s.get('updatedAt'))"
             git add data/site-data.json
             if git diff --cached --quiet; then
               echo "No Statsguru data changes to commit."
