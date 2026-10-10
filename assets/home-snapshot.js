@@ -149,7 +149,7 @@
                   " · " +
                   esc(item.published || "Latest") +
                   "</span><h4>" +
-                  '<a href="#moments" aria-label="Open all Tilak Varma news">' +
+                  '<a href="#news" aria-label="Open all Tilak Varma news">' +
                   esc(item.title) +
                   "</a>" +
                   "</h4><p>" +
