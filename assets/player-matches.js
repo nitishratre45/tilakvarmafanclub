@@ -73,9 +73,10 @@
             const rows = matches
               .filter((r) => r.format === fmt)
               .sort((a, b) => dateValue(a.date) - dateValue(b.date));
-            if (!rows.length) return "";
-            const first = rows[0],
-              last = rows[rows.length - 1];
+            const saved = data.playerMatchMilestones?.[fmt];
+            const first = saved?.debut || rows[0];
+            const last = saved?.last || rows[rows.length - 1];
+            if (!first || !last) return "";
             return (
               '<article class="player-match-milestone"><b>' +
               esc(fmt) +
