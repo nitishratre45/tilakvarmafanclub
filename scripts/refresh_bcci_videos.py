@@ -23,6 +23,7 @@ except ImportError:
 
 API_BASE = "https://www.bcci.tv/api/bff/cms/videos"
 PLAYER_ID = "993"  # Tilak Varma's BCCI player page
+CONFIG = Path("data/video-config.json")
 OUT = Path("assets/bcci-videos.json")
 HEADERS = {
     "Accept": "application/json",
@@ -38,6 +39,19 @@ def fetch_json(params: dict[str, str]) -> object:
     with urllib.request.urlopen(request, timeout=45) as response:
         if response.status != 200:
             raise RuntimeError(f"BCCI API returned HTTP {response.status} for {url}")
+        return json.loads(response.read().decode("utf-8"))
+
+
+def fetch_custom_url(url: str) -> object:
+    """Fetch the URL saved in Admin as an input source for this Python collector."""
+    parsed = urllib.parse.urlparse(url)
+    allowed_hosts = {"www.bcci.tv", "bcci.tv", "live-bccitv.epicon.in"}
+    if parsed.scheme != "https" or parsed.hostname not in allowed_hosts:
+        raise ValueError("Admin video source must be an HTTPS URL on an official BCCI host.")
+    request = urllib.request.Request(url, headers=HEADERS)
+    with urllib.request.urlopen(request, timeout=45) as response:
+        if response.status != 200:
+            raise RuntimeError(f"Admin BCCI URL returned HTTP {response.status}")
         return json.loads(response.read().decode("utf-8"))
 
 
@@ -238,6 +252,37 @@ def fetch_browser_payloads() -> list[object]:
 def main() -> int:
     collected: dict[str, dict] = {}
     sources_tried: list[str] = []
+
+    # First consume the exact URL saved in Admin. Python fetches the raw BCCI
+    # response, extracts Tilak clips, and normalizes them into the public schema.
+    try:
+        config = json.loads(CONFIG.read_text(encoding="utf-8")) if CONFIG.exists() else {}
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"Could not read Admin video config: {exc}", file=sys.stderr)
+        config = {}
+    custom_url = config.get("feedUrl", "").strip() if isinstance(config, dict) else ""
+    if custom_url:
+        sources_tried.append(custom_url)
+        try:
+            payload = fetch_custom_url(custom_url)
+            custom_found = 0
+            for item in walk_video_objects(payload):
+                video = normalize(item)
+                if video:
+                    collected[video["id"]] = video
+                    custom_found += 1
+            print(
+                f"Admin-saved BCCI URL: extracted {custom_found} Tilak clips; "
+                f"{len(collected)} unique total so far."
+            )
+            if custom_found == 0:
+                print(
+                    "Admin-saved URL returned no directly identifiable Tilak clips; "
+                    "continuing with the full official BCCI catalogue search.",
+                    file=sys.stderr,
+                )
+        except Exception as exc:
+            print(f"Admin-saved BCCI URL failed: {exc}", file=sys.stderr)
 
     # Prefer the complete official player archive and its native Load More flow.
     # This is how we discover older pages without assuming undocumented params.
