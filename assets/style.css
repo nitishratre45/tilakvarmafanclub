@@ -8797,3 +8797,33 @@ html.death-embed footer{display:none!important}
   .bcci-player-head-actions .bcci-player-settings-menu { top:calc(100% + 8px); right:42px; }
 }
 
+
+
+/* Center the quality control in the video header; keep close at the far right. */
+.bcci-video-player-head { position:relative; }
+.bcci-player-head-actions { position:static; }
+.bcci-player-head-actions .bcci-quality-head-button {
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  z-index:2;
+  white-space:nowrap;
+}
+.bcci-player-head-actions .bcci-quality-head-button[aria-expanded="true"] { transform:translate(-50%,-50%); }
+.bcci-player-head-actions [data-bcci-close] { position:relative; z-index:3; }
+.bcci-player-head-actions .bcci-player-settings-menu {
+  position:absolute;
+  z-index:30;
+  top:calc(100% + 8px);
+  left:50%;
+  right:auto;
+  bottom:auto;
+  transform:translateX(-50%);
+  width:min(260px,calc(100vw - 34px));
+}
+@media(max-width:640px) {
+  .bcci-player-head-actions .bcci-quality-head-button { min-height:32px; padding:5px 8px; gap:5px; font-size:10px; }
+  .bcci-player-head-actions .bcci-quality-head-button svg { width:16px; height:16px; }
+  .bcci-player-head-actions .bcci-player-settings-menu { top:calc(100% + 6px); left:50%; right:auto; }
+}
