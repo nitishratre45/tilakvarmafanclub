@@ -9906,3 +9906,41 @@ body > .cs-overlay .cs-kicker {
     padding: 7px 8px !important;
   }
 }
+
+
+/* COMPACT PROFILE HERO v4 — smaller portrait, tighter team panel, subtle India-blue background. */
+#profile.profile-section {
+  background: radial-gradient(ellipse at 50% 0%, rgba(20,104,180,.17), transparent 48%), radial-gradient(ellipse at 100% 100%, rgba(255,128,80,.045), transparent 35%), linear-gradient(145deg,#0c1c2c 0%,#081422 65%,#091625 100%) !important;
+}
+#profile.profile-section:before { border-color: rgba(116,190,235,.075) !important; }
+@media (max-width: 800px) {
+ html body main #profile.profile-section { gap:13px !important; padding:13px 13px 18px !important; background:radial-gradient(ellipse at 50% 0%,rgba(21,105,183,.16),transparent 45%),linear-gradient(150deg,#0b1b2b,#091523 72%,#0a1725) !important; }
+ html body main #profile .profile-photo-wrap { width:min(100%,300px) !important; height:clamp(215px,65vw,275px) !important; margin:0 auto !important; border-radius:17px !important; box-shadow:0 10px 24px rgba(0,0,0,.22),0 0 0 5px rgba(103,175,223,.025) !important; }
+ html body main #profile .profile-photo-wrap img { object-position:34% 15% !important; transform:scale(1.04) !important; }
+ html body main #profile .profile-copy > .eyebrow { margin-bottom:6px !important; }
+ html body main #profile .profile-copy h2 { font-size:clamp(29px,7vw,38px) !important; margin-bottom:6px !important; }
+ html body main #profile .profile-intro { font-size:13px !important; line-height:1.45 !important; margin-bottom:10px !important; }
+ html body main #profile .profile-facts { gap:7px !important; margin-bottom:8px !important; }
+ html body main #profile .profile-facts > div { padding:9px 11px !important; }
+ html body main #profile .profile-facts small { font-size:8px !important; margin-bottom:4px !important; }
+ html body main #profile .profile-facts strong { font-size:13px !important; }
+ html body main #profile .icc-ranking-card { gap:7px !important; margin-bottom:8px !important; }
+ html body main #profile .icc-ranking-card > div { padding:9px 11px !important; }
+ html body main #profile .icc-ranking-card strong { font-size:20px !important; }
+ html body main #profile .icc-ranking-card small { font-size:9px !important; }
+ html body main #profile .profile-teams-panel { padding:11px !important; border-radius:15px !important; background:radial-gradient(ellipse at 100% 0%,rgba(255,128,80,.06),transparent 45%),linear-gradient(145deg,rgba(15,31,49,.94),rgba(8,19,32,.97)) !important; }
+ html body main #profile .profile-teams-heading { margin-bottom:8px !important; gap:5px !important; }
+ html body main #profile .profile-teams-heading h3 { font-size:15px !important; }
+ html body main #profile .profile-teams-heading .eyebrow { font-size:9px !important; }
+ html body main #profile .profile-team-chips { gap:6px !important; }
+ html body main #profile .profile-team-chip { min-height:29px !important; padding:6px 8px !important; font-size:9px !important; border-radius:8px !important; }
+ html body main #profile .profile-teams-note { margin-top:7px !important; font-size:9px !important; }
+ html body main #profile .profile-quick-actions { margin-top:9px !important; }
+ html body main #profile .profile-quick-actions .button { min-height:38px !important; padding:9px 13px !important; font-size:12px !important; }
+}
+@media (min-width: 801px) {
+ html body main #profile.profile-section { grid-template-columns:minmax(260px,.85fr) minmax(0,1.15fr) !important; gap:clamp(22px,3vw,42px) !important; padding:clamp(26px,3.4vw,46px) clamp(24px,4vw,60px) !important; }
+ html body main #profile .profile-photo-wrap { max-width:410px !important; }
+ html body main #profile .profile-teams-heading { display:block !important; }
+ html body main #profile .profile-teams-heading h3 { margin-top:5px !important; }
+}
