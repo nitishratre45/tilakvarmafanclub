@@ -2046,9 +2046,40 @@
             );
           });
           host.innerHTML = sources.join("");
-          const count = Array.isArray(feedData?.videos)
-            ? feedData.videos.length
-            : Number(feedData?.count || 0);
+          const videos = Array.isArray(feedData?.videos) ? feedData.videos : [];
+          const count = feedData ? videos.length : Number(feedData?.count || 0);
+          const playableCount = videos.filter((item) => {
+            const url = safeMediaUrl(item.playbackUrl);
+            if (!url) return false;
+            try {
+              return /\\.(m3u8|mpd|mp4)$/i.test(new URL(url).pathname);
+            } catch {
+              return false;
+            }
+          }).length;
+          const thumbnailCount = videos.filter((item) =>
+            Boolean(
+              safeMediaUrl(
+                item.thumbnailUrl ||
+                  item.thumbnailUrlSet?.large ||
+                  item.thumbnailUrlSet?.medium ||
+                  item.thumbnailUrlSet?.small,
+              ),
+            ),
+          ).length;
+          const feedIssues = feedData && (playableCount !== count || thumbnailCount !== count)
+            ? [
+                "Feed health check: " +
+                  playableCount +
+                  "/" +
+                  count +
+                  " direct playback URLs and " +
+                  thumbnailCount +
+                  "/" +
+                  count +
+                  " thumbnails.",
+              ]
+            : [];
           $("video-source-count").textContent = feedData ? String(count) : "Unavailable";
           $("video-source-updated").textContent = feedData?.updatedAt
             ? formatTime(feedData.updatedAt)
@@ -2056,13 +2087,26 @@
           $("video-source-override").textContent = override
             ? "Saved for Python"
             : "Default BCCI searches";
-          const statusMessage = errorMessages.length
-            ? "Some source checks failed: " + errorMessages.join(" · ")
+          const issues = [...errorMessages, ...feedIssues];
+          const healthSummary = feedData
+            ? " Feed health: " +
+              playableCount +
+              "/" +
+              count +
+              " playable URLs · " +
+              thumbnailCount +
+              "/" +
+              count +
+              " thumbnails."
+            : "";
+          const statusMessage = issues.length
+            ? "Video source check needs attention: " + issues.join(" · ") + healthSummary
             : "Source check complete. Public Videos always reads assets/bcci-videos.json; " +
               (override
                 ? "the saved BCCI URL is a Python collector input."
-                : "Python is using its built-in BCCI catalogue searches.");
-          status("video-source-status", statusMessage, errorMessages.length > 0);
+                : "Python is using its built-in BCCI catalogue searches.") +
+              healthSummary;
+          status("video-source-status", statusMessage, issues.length > 0);
         }
         async function loadVideoSourceStatus() {
           const refreshButton = $("video-sources-refresh");
