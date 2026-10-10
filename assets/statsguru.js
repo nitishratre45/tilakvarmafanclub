@@ -106,7 +106,12 @@
   function sourceData() {
     const formats = data?.statsguru?.formats || {};
     if (selectedFormat === "All") {
-      const parts = ["T20", "ODI", "FC", "List A"].map((f) => formats[f]).filter(Boolean);
+      const parts = ["T20", "ODI", "FC", "List A"].map((f) => {
+        if (formats[f]) return formats[f];
+        if (f === "FC" && data?.careerFormats?.["First-class"]) return { summary: data.careerFormats["First-class"], innings: [], careerBreakdown: [] };
+        if (f === "List A" && data?.careerFormats?.["List A"]) return { summary: data.careerFormats["List A"], innings: [], careerBreakdown: [] };
+        return null;
+      }).filter(Boolean);
       const all = parts.flatMap((f) => (Array.isArray(f.innings) ? f.innings : []));
       const summaries = parts.map((f) => f.summary).filter(Boolean);
       const sum = (k) => summaries.reduce((n, s) => n + (typeof s[k] === "number" ? s[k] : 0), 0);
@@ -146,8 +151,11 @@
       };
     }
     const entry = formats[selectedFormat] || {};
+    const fallbackSummary =
+      selectedFormat === "FC" ? data?.careerFormats?.["First-class"] :
+      selectedFormat === "List A" ? data?.careerFormats?.["List A"] : null;
     return {
-      summary: entry.summary || null,
+      summary: entry.summary || fallbackSummary || null,
       innings: Array.isArray(entry.innings) ? entry.innings : [],
       breakdown: Array.isArray(entry.careerBreakdown) ? entry.careerBreakdown : [],
       formats,
@@ -1029,10 +1037,14 @@
       }
     }
     const note = $("statsguru-note");
-    note.textContent =
-      "Last update: " +
-      (sg.updatedAt || "timestamp unavailable") +
-      ". Automatic refresh every 24 hours; last saved figures remain available if an update is delayed.";
+    const domesticSummaryOnly =
+      (selectedFormat === "FC" && !sg.formats?.FC?.summary) ||
+      (selectedFormat === "List A" && !sg.formats?.["List A"]?.summary);
+    note.textContent = domesticSummaryOnly
+      ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. Snapshot refresh runs every 24 hours."
+      : "Last update: " +
+        (sg.updatedAt || "timestamp unavailable") +
+        ". Automatic refresh every 24 hours; last saved figures remain available if an update is delayed.";
   }
   function resetFilters() {
     $("sg-filter-type").value = "all";
