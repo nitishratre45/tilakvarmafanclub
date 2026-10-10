@@ -10,7 +10,7 @@ function json(data, status = 200) {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
-      "cache-control": "public, max-age=60, s-maxage=180",
+      "cache-control": "public, max-age=30, s-maxage=120",
     },
   });
 }
@@ -19,6 +19,7 @@ function getList(payload) {
   if (Array.isArray(payload?.data)) return payload.data;
   if (Array.isArray(payload?.data?.matchList)) return payload.data.matchList;
   if (Array.isArray(payload?.data?.matches)) return payload.data.matches;
+  if (Array.isArray(payload?.data?.match)) return payload.data.match;
   if (Array.isArray(payload?.matchList)) return payload.matchList;
   if (Array.isArray(payload?.matches)) return payload.matches;
   return [];
@@ -48,7 +49,7 @@ function isIndiaMatch(match) {
 }
 
 function parseDate(match) {
-  const value = match?.dateTimeGMT || match?.date || match?.startDate || null;
+  const value = match?.dateTimeGMT || match?.date || match?.startDate || match?.startTime || null;
   if (!value) return null;
   const d = new Date(value);
   return Number.isNaN(d.getTime()) ? null : d;
@@ -87,9 +88,9 @@ function normalize(match) {
     status,
     format: match?.matchType || match?.format || "Cricket",
     venue: match?.venue || "",
-    startTime: date ? date.toISOString() : match?.dateTimeGMT || match?.date || null,
+    startTime: date ? date.toISOString() : null,
     result: match?.status || "",
-    scorecardUrl: id ? "https://cricketdata.org/" : "https://www.bcci.tv/matches",
+    scorecardUrl: id ? "https://www.espncricinfo.com/live-cricket-score" : "https://www.bcci.tv/matches",
     matchUrl: "https://www.bcci.tv/matches",
     bcciUrl: "https://www.bcci.tv/matches",
     source: "CricAPI",
@@ -115,7 +116,9 @@ async function fetchApi(path, key) {
 function seriesList(payload) {
   return getList(payload).filter((s) => {
     const name = String(s?.name || s?.seriesName || "");
-    return /\bindia\b/i.test(name) && Number(s?.matches || s?.matchCount || 0) > 0;
+    const count = s?.matches ?? s?.matchCount ?? s?.totalMatches;
+    // CricAPI responses may omit the match count. Only reject an explicit zero.
+    return /\bindia\b/i.test(name) && (count == null || Number(count) > 0);
   });
 }
 
@@ -130,7 +133,6 @@ export async function onRequestGet({ request, env }) {
   const errors = [];
   let providerOk = false;
 
-  // These endpoints provide current/recent matches; the series fixtures fill the upcoming gap.
   const [currentResult, matchResult, seriesResult] = await Promise.allSettled([
     fetchApi("/currentMatches", key),
     fetchApi("/matches", key),
@@ -153,10 +155,13 @@ export async function onRequestGet({ request, env }) {
   if (seriesResult.status === "fulfilled") {
     providerOk = true;
     const upcomingSeries = seriesList(seriesResult.value)
-      .map((s) => ({ ...s, _start: new Date(s.startDate || s.date || 0).getTime() }))
-      .filter((s) => !Number.isFinite(s._start) || s._start >= today.getTime() - 45 * 86400000)
-      .sort((a, b) => (a._start || 0) - (b._start || 0))
-      .slice(0, 6);
+      .map((s) => {
+        const date = new Date(s.startDate || s.startDateTime || s.date || 0).getTime();
+        return { ...s, _start: Number.isFinite(date) ? date : null };
+      })
+      .filter((s) => s._start == null || s._start >= today.getTime() - 60 * 86400000)
+      .sort((a, b) => (a._start ?? Number.MAX_SAFE_INTEGER) - (b._start ?? Number.MAX_SAFE_INTEGER))
+      .slice(0, 12);
     const detailResults = await Promise.allSettled(upcomingSeries.map((s) => {
       const id = s.id || s.seriesId || s.unique_id;
       return id ? fetchApi("/series_info?id=" + encodeURIComponent(id), key) : Promise.resolve(null);
@@ -179,7 +184,7 @@ export async function onRequestGet({ request, env }) {
 
   const matches = [...byId.values()].map((m) => {
     const d = parseDate(m);
-    if (m.status !== "Live" && m.status !== "Result" && d && d.getTime() < Date.now() - 5 * 60 * 1000) {
+    if (m.status === "Scheduled" && d && d.getTime() < Date.now() - 5 * 60 * 1000) {
       return { ...m, status: "Result" };
     }
     return m;
