@@ -14,7 +14,13 @@
   <body>
     <header class="topbar">
       <a class="brand" href="#profile"
-        ><span class="brand-mark brand-mark-photo"><img data-tilak-logo src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" aria-hidden="true"></span><span>TILAK VARMA <small>FAN CLUB</small></span></a
+        ><span class="brand-mark brand-mark-photo"
+          ><img
+            data-tilak-logo
+            src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+            alt=""
+            aria-hidden="true" /></span
+        ><span>TILAK VARMA <small>FAN CLUB</small></span></a
       ><button
         class="menu-toggle"
         aria-label="Toggle menu"
@@ -25,9 +31,10 @@
       </button>
       <nav id="main-nav">
         <a href="#profile">Profile</a><a href="#stats">Stats</a
-        ><a href="death-overs/">Death-overs</a><a href="#innings">Matches</a><a href="#records">Records</a
-        ><a href="#photos">Photos</a><a href="#news">News</a><a href="#tilak-videos">Videos</a
-        ><a href="#fan-zone">Fan Zone</a><a href="#about">About</a><a href="#settings">Settings</a>
+        ><a href="death-overs/">Death-overs</a><a href="#innings">Matches</a
+        ><a href="#records">Records</a><a href="#photos">Photos</a><a href="#news">News</a
+        ><a href="#tilak-videos">Videos</a><a href="#fan-zone">Fan Zone</a><a href="#about">About</a
+        ><a href="#settings">Settings</a>
       </nav>
     </header>
     <main>
@@ -69,7 +76,6 @@
           </p>
           <div class="profile-quick-actions">
             <a class="button primary" href="#stats">Career stats ↘</a>
-
           </div>
         </div>
       </section>
@@ -113,14 +119,19 @@
         </div>
         <div class="home-debut-history">
           <div class="home-snapshot-blockhead">
-            <div><div class="eyebrow">PLAYER MILESTONES</div><h3>DEBUT &amp; LAST MATCHES</h3></div>
+            <div>
+              <div class="eyebrow">PLAYER MILESTONES</div>
+              <h3>DEBUT &amp; LAST MATCHES</h3>
+            </div>
           </div>
           <div class="match-history-summary">
             <div class="eyebrow">DEBUT / LAST MATCHES · ALL FORMATS</div>
             <div id="player-match-milestones" class="player-match-milestones">
               <p class="activity-empty">Loading verified match history…</p>
             </div>
-            <p id="player-match-source" class="home-bowling-updated">ESPNcricinfo Statsguru · checking latest snapshot</p>
+            <p id="player-match-source" class="home-bowling-updated">
+              ESPNcricinfo Statsguru · checking latest snapshot
+            </p>
           </div>
         </div>
         <div class="home-snapshot-columns">
@@ -156,8 +167,6 @@
           ><a href="#stats" data-open-stats-view="statsguru">Open Explore analysis ↗</a>
         </div>
       </section>
-
-
 
       <section id="stats" class="section stats-section">
         <div class="section-heading">
@@ -691,7 +700,8 @@
               href="https://www.icc-cricket.com/rankings/70761/tilak-varma"
               target="_blank"
               rel="noopener noreferrer"
-            >OPEN ICC PROFILE ↗</a>
+              >OPEN ICC PROFILE ↗</a
+            >
             <p id="fan-zone-action-status" class="fan-action-status" aria-live="polite"></p>
           </article>
         </div>
@@ -702,50 +712,56 @@
       </section>
 
       <section id="innings" class="section innings-section">
-        <div class="section-heading"><div><div class="eyebrow">MATCH CENTRE &amp; PLAYER HISTORY</div><h2>THE <em>MATCHES</em></h2></div><p>Live and upcoming cricket fixtures, plus Tilak Varma’s verified match history.</p></div>
-      <section id="match-center" class="match-center-section embedded-match-center">
         <div class="section-heading">
           <div>
-            <div class="eyebrow">CRICAPI · INDIA MATCHES</div>
-            <h2>MATCH <em>CENTER</em></h2>
+            <div class="eyebrow">MATCH CENTRE &amp; PLAYER HISTORY</div>
+            <h2>THE <em>MATCHES</em></h2>
           </div>
-          <p>
-            India men’s and women’s international fixtures, live scores and results from CricAPI.
-            Upcoming fixtures are collected from India-related series schedules and refreshed
-            automatically.
-          </p>
+          <p>Live and upcoming cricket fixtures, plus Tilak Varma’s verified match history.</p>
         </div>
+        <section id="match-center" class="match-center-section embedded-match-center">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">CRICAPI · INDIA MATCHES</div>
+              <h2>MATCH <em>CENTER</em></h2>
+            </div>
+            <p>
+              India men’s and women’s international fixtures, live scores and results from CricAPI.
+              Upcoming fixtures are collected from India-related series schedules and refreshed
+              automatically.
+            </p>
+          </div>
 
-        <div class="match-center-toolbar">
-          <label
-            >Search matches
-            <input id="mc-search" type="search" placeholder="Team, series or venue…"
-          /></label>
-          <label
-            >Format
-            <select id="mc-format">
-              <option value="all">All formats</option>
-              <option value="T20I">T20I</option>
-              <option value="ODI">ODI</option>
-              <option value="List A">List A / One-day</option>
-              <option value="FC">First-class</option>
-            </select>
-          </label>
-          <label
-            >Teams
-            <select id="mc-team">
-              <option value="all">All teams</option>
-              <option value="india-men">India men</option>
-              <option value="india-a">India A</option>
-              <option value="women">Women's cricket</option>
-            </select>
-          </label>
-        </div>
-        <div class="match-center-summary">
-          <span><i class="live-dot"></i> <b id="mc-count">0</b> INDIA MATCHES</span>
-        </div>
-        <div id="match-center-grid" class="match-center-grid" aria-live="polite"></div>
-      </section>
+          <div class="match-center-toolbar">
+            <label
+              >Search matches
+              <input id="mc-search" type="search" placeholder="Team, series or venue…"
+            /></label>
+            <label
+              >Format
+              <select id="mc-format">
+                <option value="all">All formats</option>
+                <option value="T20I">T20I</option>
+                <option value="ODI">ODI</option>
+                <option value="List A">List A / One-day</option>
+                <option value="FC">First-class</option>
+              </select>
+            </label>
+            <label
+              >Teams
+              <select id="mc-team">
+                <option value="all">All teams</option>
+                <option value="india-men">India men</option>
+                <option value="india-a">India A</option>
+                <option value="women">Women's cricket</option>
+              </select>
+            </label>
+          </div>
+          <div class="match-center-summary">
+            <span><i class="live-dot"></i> <b id="mc-count">0</b> INDIA MATCHES</span>
+          </div>
+          <div id="match-center-grid" class="match-center-grid" aria-live="polite"></div>
+        </section>
         <div class="upcoming-matches-panel" aria-labelledby="upcoming-matches-title">
           <div class="upcoming-matches-heading">
             <div>
@@ -928,11 +944,21 @@
                 ><span class="bcci-player-brand-mark">72</span> TILAK VARMA · VIDEO HUB</span
               >
               <div class="bcci-player-head-actions">
-                <button type="button" class="bcci-quality-head-button" id="bcci-player-settings-button" aria-label="Playback quality settings" aria-expanded="false" aria-controls="bcci-player-settings-menu" title="Playback quality">
-                  <span>Quality</span><span id="bcci-quality-current" class="bcci-quality-current">Auto</span>
+                <button
+                  type="button"
+                  class="bcci-quality-head-button"
+                  id="bcci-player-settings-button"
+                  aria-label="Playback quality settings"
+                  aria-expanded="false"
+                  aria-controls="bcci-player-settings-menu"
+                  title="Playback quality"
+                >
+                  <span>Quality</span
+                  ><span id="bcci-quality-current" class="bcci-quality-current">Auto</span>
                 </button>
                 <div class="bcci-player-settings-menu" id="bcci-player-settings-menu" hidden>
-                  <label for="bcci-playback-quality">Quality
+                  <label for="bcci-playback-quality"
+                    >Quality
                     <select id="bcci-playback-quality">
                       <option value="auto">Auto</option>
                       <option value="1080">1080p</option>
@@ -941,7 +967,9 @@
                       <option value="360">360p</option>
                     </select>
                   </label>
-                  <span id="bcci-player-error" role="status">Choose a video to start playback.</span>
+                  <span id="bcci-player-error" role="status"
+                    >Choose a video to start playback.</span
+                  >
                 </div>
                 <button type="button" data-bcci-close aria-label="Close video">✕</button>
               </div>
@@ -956,8 +984,6 @@
                     autoplay
                     preload="metadata"
                   ></video>
-
-
                 </div>
                 <div class="bcci-player-title-block">
                   <h2 id="bcci-playing-title">Tilak Varma · Official BCCI Video</h2>
@@ -968,7 +994,6 @@
                     <span id="bcci-playing-date">Official BCCI video</span>
                   </div>
                 </div>
-
               </div>
               <aside class="bcci-up-next-panel" aria-label="Up next Tilak Varma videos">
                 <div class="bcci-up-next-heading">
@@ -1041,7 +1066,13 @@
     </main>
     <footer>
       <a class="brand" href="#"
-        ><span class="brand-mark brand-mark-photo"><img data-tilak-logo src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" aria-hidden="true"></span><span>TILAK VARMA <small>FAN CLUB</small></span></a
+        ><span class="brand-mark brand-mark-photo"
+          ><img
+            data-tilak-logo
+            src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+            alt=""
+            aria-hidden="true" /></span
+        ><span>TILAK VARMA <small>FAN CLUB</small></span></a
       ><span>INDEPENDENT FAN PROJECT · <span id="year"></span></span
       ><span>RESPECT THE GAME. BACK THE PLAYER.</span>
     </footer>
@@ -1050,7 +1081,7 @@
         const img = document.querySelector("[data-tilak-logo]");
         if (!img) return;
         fetch("data/site-data.json?v=monthly-logo", { cache: "no-store" })
-          .then((r) => r.ok ? r.json() : Promise.reject())
+          .then((r) => (r.ok ? r.json() : Promise.reject()))
           .then((data) => {
             const photo = data?.profile?.photo;
             if (typeof photo === "string" && /^https:\/\//i.test(photo)) img.src = photo;

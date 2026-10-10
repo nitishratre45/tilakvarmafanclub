@@ -6,16 +6,38 @@ async function sha1Hex(value) {
 }
 
 export async function onRequestPost({ request, env }) {
-  if (!(await requireAdmin(request, env))) return json({ error: "Admin session expired. Sign in again." }, 401);
+  if (!(await requireAdmin(request, env)))
+    return json({ error: "Admin session expired. Sign in again." }, 401);
   if (!env.CLOUDINARY_CLOUD_NAME || !env.CLOUDINARY_API_KEY || !env.CLOUDINARY_API_SECRET) {
-    return json({ error: "Cloudinary is not configured. Add CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET in Cloudflare Pages secrets." }, 503);
+    return json(
+      {
+        error:
+          "Cloudinary is not configured. Add CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET in Cloudflare Pages secrets.",
+      },
+      503,
+    );
   }
   let body;
-  try { body = await request.json(); } catch { return json({ error: "Invalid request." }, 400); }
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: "Invalid request." }, 400);
+  }
   const resourceType = body.resourceType === "video" ? "video" : "image";
   const folder = resourceType === "video" ? "tilakvarmafanclub/videos" : "tilakvarmafanclub/photos";
   const timestamp = Math.floor(Date.now() / 1000);
   const params = { folder, timestamp };
-  const toSign = Object.keys(params).sort().map((key) => key + "=" + params[key]).join("&") + env.CLOUDINARY_API_SECRET;
-  return json({ cloudName: env.CLOUDINARY_CLOUD_NAME, apiKey: env.CLOUDINARY_API_KEY, timestamp, folder, signature: await sha1Hex(toSign), resourceType });
+  const toSign =
+    Object.keys(params)
+      .sort()
+      .map((key) => key + "=" + params[key])
+      .join("&") + env.CLOUDINARY_API_SECRET;
+  return json({
+    cloudName: env.CLOUDINARY_CLOUD_NAME,
+    apiKey: env.CLOUDINARY_API_KEY,
+    timestamp,
+    folder,
+    signature: await sha1Hex(toSign),
+    resourceType,
+  });
 }

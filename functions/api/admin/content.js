@@ -6,11 +6,18 @@ const PATHS = {
 };
 
 export async function onRequestGet({ request, env }) {
-  if (!(await requireAdmin(request, env))) return json({ error: "Admin session expired. Sign in again." }, 401);
+  if (!(await requireAdmin(request, env)))
+    return json({ error: "Admin session expired. Sign in again." }, 401);
   const kind = new URL(request.url).searchParams.get("kind") || "media";
   const path = PATHS[kind];
   if (!path) return json({ error: "Unknown content type." }, 400);
-  const url = "https://raw.githubusercontent.com/" + (env.GITHUB_REPOSITORY || "nitishratre45/tilakvarmafanclub") + "/" + (env.GITHUB_BRANCH || "main") + "/" + path;
+  const url =
+    "https://raw.githubusercontent.com/" +
+    (env.GITHUB_REPOSITORY || "nitishratre45/tilakvarmafanclub") +
+    "/" +
+    (env.GITHUB_BRANCH || "main") +
+    "/" +
+    path;
   const response = await fetch(url, { headers: { "cache-control": "no-cache" } });
   if (response.status === 404) return json(kind === "media" ? { items: [] } : { feedUrl: "" });
   if (!response.ok) return json({ error: "Could not load saved content." }, 502);
@@ -18,20 +25,29 @@ export async function onRequestGet({ request, env }) {
 }
 
 export async function onRequestPost({ request, env }) {
-  if (!(await requireAdmin(request, env))) return json({ error: "Admin session expired. Sign in again." }, 401);
+  if (!(await requireAdmin(request, env)))
+    return json({ error: "Admin session expired. Sign in again." }, 401);
   let body;
-  try { body = await request.json(); } catch { return json({ error: "Invalid request." }, 400); }
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: "Invalid request." }, 400);
+  }
   const kind = body.kind;
   const path = PATHS[kind];
   if (!path) return json({ error: "Unknown content type." }, 400);
   let data = body.data;
   if (kind === "media") {
-    if (!data || !Array.isArray(data.items) || data.items.length > 300) return json({ error: "Invalid photo/video list." }, 400);
-    data.items = data.items.filter((item) => item && typeof item.url === "string" && /^https:\/\//i.test(item.url)).slice(0, 300);
+    if (!data || !Array.isArray(data.items) || data.items.length > 300)
+      return json({ error: "Invalid photo/video list." }, 400);
+    data.items = data.items
+      .filter((item) => item && typeof item.url === "string" && /^https:\/\//i.test(item.url))
+      .slice(0, 300);
     data.updatedAt = new Date().toISOString();
   } else {
     const feedUrl = typeof data?.feedUrl === "string" ? data.feedUrl.trim() : "";
-    if (feedUrl && (!/^https:\/\//i.test(feedUrl) || feedUrl.length > 1500)) return json({ error: "Video feed must be an HTTPS URL." }, 400);
+    if (feedUrl && (!/^https:\/\//i.test(feedUrl) || feedUrl.length > 1500))
+      return json({ error: "Video feed must be an HTTPS URL." }, 400);
     data = { feedUrl, updatedAt: new Date().toISOString() };
   }
   try {

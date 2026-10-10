@@ -595,7 +595,6 @@ def scrape_format(fmt, match_class):
     }
 
 
-
 def scrape_domestic_profile_summary(fmt):
     """Fallback for domestic career totals when legacy Statsguru omits FC/List A.
 
@@ -612,7 +611,9 @@ def scrape_domestic_profile_summary(fmt):
     for table in parse_tables(page):
         for index, row in enumerate(table):
             headers = [norm(value) for value in cell_text(row)]
-            if not ({"mat", "matches"} & set(headers)) or not ({"r", "runs"} & set(headers)):
+            if not ({"mat", "matches"} & set(headers)) or not (
+                {"r", "runs"} & set(headers)
+            ):
                 continue
             columns = {}
             for i, header in enumerate(headers):
@@ -642,9 +643,11 @@ def scrape_domestic_profile_summary(fmt):
                     columns["fours"] = i
                 elif header in {"6s", "sixes"}:
                     columns["sixes"] = i
-            if not {"matches", "innings", "runs", "highestScore", "format"}.issubset(columns):
+            if not {"matches", "innings", "runs", "highestScore", "format"}.issubset(
+                columns
+            ):
                 continue
-            for candidate in table[index + 1:]:
+            for candidate in table[index + 1 :]:
                 values = cell_text(candidate)
                 if len(values) <= max(columns.values()):
                     continue
@@ -669,7 +672,10 @@ def scrape_domestic_profile_summary(fmt):
                     "detailNote": "Legacy ESPNcricinfo Statsguru did not provide domestic innings rows; match-by-match data is not fabricated.",
                     "checkedAt": stamp(),
                 }
-    raise RuntimeError("No recognizable " + fmt + " summary row in the fallback profile feed")
+    raise RuntimeError(
+        "No recognizable " + fmt + " summary row in the fallback profile feed"
+    )
+
 
 def parse_fielding_summary(page):
     """Parse the official Statsguru fielding career total when present."""
@@ -985,9 +991,16 @@ def main():
                     if fallback.get("summary"):
                         new_formats[fmt] = fallback
                         success.append(fmt + " summary fallback")
-                        print(fmt + ": refreshed verified domestic summary from secondary profile feed; innings not fabricated")
+                        print(
+                            fmt
+                            + ": refreshed verified domestic summary from secondary profile feed; innings not fabricated"
+                        )
                 except Exception as fallback_exc:
-                    print(fmt + ": secondary summary fallback unavailable; preserving saved data:", fallback_exc)
+                    print(
+                        fmt
+                        + ": secondary summary fallback unavailable; preserving saved data:",
+                        fallback_exc,
+                    )
                     if old_formats.get(fmt):
                         new_formats[fmt] = old_formats[fmt]
     if success:
@@ -1118,8 +1131,12 @@ def main():
             for source_key, target_key in field_map.items():
                 if source_key in summary and summary[source_key] is not None:
                     merged[target_key] = summary[source_key]
-            merged["source"] = (new_formats.get(fmt) or {}).get("source", "ESPNcricinfo Statsguru")
-            merged["updatedAt"] = (new_formats.get(fmt) or {}).get("checkedAt") or stamp()
+            merged["source"] = (new_formats.get(fmt) or {}).get(
+                "source", "ESPNcricinfo Statsguru"
+            )
+            merged["updatedAt"] = (new_formats.get(fmt) or {}).get(
+                "checkedAt"
+            ) or stamp()
             career_formats[target] = merged
         data["careerFormats"] = career_formats
         t20i_summary = (new_formats.get("T20I") or {}).get("summary")

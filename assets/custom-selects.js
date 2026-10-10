@@ -4,7 +4,9 @@
   let openControl = null;
   let overlay = null;
 
-  const isMobile = () => window.matchMedia("(max-width: 760px)").matches || (window.matchMedia("(pointer: coarse)").matches && window.innerWidth < 900);
+  const isMobile = () =>
+    window.matchMedia("(max-width: 760px)").matches ||
+    (window.matchMedia("(pointer: coarse)").matches && window.innerWidth < 900);
   const labelFor = (select) => {
     const ariaLabel = select.getAttribute("aria-label");
     if (ariaLabel && ariaLabel.trim()) return ariaLabel.trim();
@@ -106,28 +108,50 @@
     if (isMobile()) {
       document.documentElement.style.overscrollBehavior = "none";
       Object.assign(overlay.style, {
-        position: "fixed", inset: "0", zIndex: "2147483000", display: "flex",
-        alignItems: "flex-end", justifyContent: "center",
+        position: "fixed",
+        inset: "0",
+        zIndex: "2147483000",
+        display: "flex",
+        alignItems: "flex-end",
+        justifyContent: "center",
         padding: "12px 12px max(12px, env(safe-area-inset-bottom))",
-        overflow: "hidden", background: "rgba(2, 7, 15, .72)",
-        pointerEvents: "auto", touchAction: "pan-y"
+        overflow: "hidden",
+        background: "rgba(2, 7, 15, .72)",
+        pointerEvents: "auto",
+        touchAction: "pan-y",
       });
       const mobileDialog = overlay.querySelector(".cs-dialog");
       Object.assign(mobileDialog.style, {
-        position: "relative", inset: "auto", left: "auto", top: "auto",
-        display: "flex", flexDirection: "column",
-        width: "100%", minWidth: "0", maxWidth: "560px",
-        height: "min(72dvh, 620px)", maxHeight: "min(72dvh, 620px)",
-        margin: "0 auto", flex: "0 1 auto", pointerEvents: "auto",
-        overflow: "hidden"
+        position: "relative",
+        inset: "auto",
+        left: "auto",
+        top: "auto",
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        minWidth: "0",
+        maxWidth: "560px",
+        height: "min(72dvh, 620px)",
+        maxHeight: "min(72dvh, 620px)",
+        margin: "0 auto",
+        flex: "0 1 auto",
+        pointerEvents: "auto",
+        overflow: "hidden",
       });
       const mobileOptions = mobileDialog.querySelector(".cs-options");
-      if (mobileOptions) Object.assign(mobileOptions.style, {
-        display: "block", flex: "1 1 auto", minHeight: "0",
-        height: "auto", maxHeight: "none", overflowY: "auto",
-        WebkitOverflowScrolling: "touch", overscrollBehavior: "contain",
-        touchAction: "pan-y", pointerEvents: "auto"
-      });
+      if (mobileOptions)
+        Object.assign(mobileOptions.style, {
+          display: "block",
+          flex: "1 1 auto",
+          minHeight: "0",
+          height: "auto",
+          maxHeight: "none",
+          overflowY: "auto",
+          WebkitOverflowScrolling: "touch",
+          overscrollBehavior: "contain",
+          touchAction: "pan-y",
+          pointerEvents: "auto",
+        });
     }
     renderOptions(control);
 
@@ -140,30 +164,47 @@
       const width = Math.min(Math.max(rect.width, 260), window.innerWidth - 24);
       const estimated = Math.min(control.select.options.length * 52 + 76, maxHeight);
       const below = window.innerHeight - rect.bottom;
-      const top = below >= estimated || below > rect.top
-        ? Math.min(window.innerHeight - estimated - 12, rect.bottom + 8)
-        : Math.max(12, rect.top - estimated - 8);
+      const top =
+        below >= estimated || below > rect.top
+          ? Math.min(window.innerHeight - estimated - 12, rect.bottom + 8)
+          : Math.max(12, rect.top - estimated - 8);
       Object.assign(overlay.style, {
-        position: "fixed", inset: "0", zIndex: "2147483000",
-        display: "block", overflow: "visible", background: "transparent",
-        pointerEvents: "auto"
+        position: "fixed",
+        inset: "0",
+        zIndex: "2147483000",
+        display: "block",
+        overflow: "visible",
+        background: "transparent",
+        pointerEvents: "auto",
       });
       Object.assign(dialog.style, {
-        position: "fixed", display: "flex", flexDirection: "column",
+        position: "fixed",
+        display: "flex",
+        flexDirection: "column",
         left: Math.max(12, Math.min(rect.left, window.innerWidth - width - 12)) + "px",
         top: Math.max(12, top) + "px",
-        width: width + "px", minWidth: "0",
-        maxHeight: maxHeight + "px", height: "auto",
-        visibility: "visible", opacity: "1", zIndex: "2147483001",
-        pointerEvents: "auto"
+        width: width + "px",
+        minWidth: "0",
+        maxHeight: maxHeight + "px",
+        height: "auto",
+        visibility: "visible",
+        opacity: "1",
+        zIndex: "2147483001",
+        pointerEvents: "auto",
       });
       const options = dialog.querySelector(".cs-options");
-      if (options) Object.assign(options.style, {
-        display: "block", flex: "1 1 auto", minHeight: "0",
-        maxHeight: Math.max(100, maxHeight - dialog.querySelector(".cs-dialog-head").offsetHeight) + "px",
-        overflowY: "auto", overscrollBehavior: "contain",
-        pointerEvents: "auto", touchAction: "pan-y"
-      });
+      if (options)
+        Object.assign(options.style, {
+          display: "block",
+          flex: "1 1 auto",
+          minHeight: "0",
+          maxHeight:
+            Math.max(100, maxHeight - dialog.querySelector(".cs-dialog-head").offsetHeight) + "px",
+          overflowY: "auto",
+          overscrollBehavior: "contain",
+          pointerEvents: "auto",
+          touchAction: "pan-y",
+        });
     }
     overlay.dataset.positioned = "true";
     const current = overlay.querySelector('[aria-selected="true"]');
@@ -185,7 +226,8 @@
       select.multiple ||
       select.size > 1 ||
       select.id === "bcci-playback-quality"
-    ) return;
+    )
+      return;
     select.dataset.customSelectReady = "true";
     const wrapper = document.createElement("div");
     wrapper.className = "custom-select";

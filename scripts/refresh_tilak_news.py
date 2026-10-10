@@ -171,7 +171,9 @@ def main():
             "errors": errors or ["No usable BCCI or ESPNcricinfo stories returned."],
         }
         result.setdefault("items", [])
-    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(
+        json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
 
 
 if __name__ == "__main__":

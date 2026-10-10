@@ -8584,16 +8584,45 @@ body.mc-scoreboard-open {
   }
 }
 
-
 /* Reorganized site sections: Match Center lives inside Matches; death-overs lives in Stats. */
-.embedded-match-center{margin:22px 0 30px;padding:22px;border:1px solid var(--line,rgba(255,255,255,.12));border-radius:16px;background:var(--panel,rgba(13,26,44,.55))}
-.embedded-match-center>.section-heading{margin-bottom:18px}
-.embedded-match-center .mc-official-scorecard{display:none!important}
-.home-debut-history{margin:24px 0;padding:20px;border:1px solid var(--line,rgba(255,255,255,.12));border-radius:14px;background:var(--panel,rgba(13,26,44,.45))}
-.home-debut-history .match-history-summary{margin-top:12px}
-.home-debut-history .player-match-milestones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:10px}
-@media(max-width:700px){.embedded-match-center{padding:14px;margin:16px 0 22px}.home-debut-history{padding:14px;margin:18px 0}}
-
+.embedded-match-center {
+  margin: 22px 0 30px;
+  padding: 22px;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.12));
+  border-radius: 16px;
+  background: var(--panel, rgba(13, 26, 44, 0.55));
+}
+.embedded-match-center > .section-heading {
+  margin-bottom: 18px;
+}
+.embedded-match-center .mc-official-scorecard {
+  display: none !important;
+}
+.home-debut-history {
+  margin: 24px 0;
+  padding: 20px;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.12));
+  border-radius: 14px;
+  background: var(--panel, rgba(13, 26, 44, 0.45));
+}
+.home-debut-history .match-history-summary {
+  margin-top: 12px;
+}
+.home-debut-history .player-match-milestones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: 10px;
+}
+@media (max-width: 700px) {
+  .embedded-match-center {
+    padding: 14px;
+    margin: 16px 0 22px;
+  }
+  .home-debut-history {
+    padding: 14px;
+    margin: 18px 0;
+  }
+}
 
 /* Compact playback quality control over the Shaka video surface. */
 .bcci-player-screen {
@@ -8612,9 +8641,9 @@ body.mc-scoreboard-open {
   max-width: calc(100% - 28px);
   margin: 0;
   padding: 8px 10px;
-  border: 1px solid rgba(255,255,255,.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
-  background: rgba(5,12,25,.82);
+  background: rgba(5, 12, 25, 0.82);
   color: #fff;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -8632,7 +8661,7 @@ body.mc-scoreboard-open {
   min-width: 126px;
   width: auto;
   padding: 8px 30px 8px 10px;
-  border: 1px solid rgba(255,255,255,.24);
+  border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 7px;
   background: #122544;
   color: #fff;
@@ -8659,7 +8688,6 @@ body.mc-scoreboard-open {
   }
 }
 
-
 /* Player settings: compact gear button; quality menu opens on demand. */
 .bcci-player-options {
   position: absolute;
@@ -8685,24 +8713,29 @@ body.mc-scoreboard-open {
   width: 42px;
   height: 42px;
   padding: 10px;
-  border: 1px solid rgba(255,255,255,.28);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 50%;
   color: #fff;
-  background: rgba(5,12,25,.78);
-  box-shadow: 0 4px 18px rgba(0,0,0,.28);
+  background: rgba(5, 12, 25, 0.78);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
   cursor: pointer;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
 }
 .bcci-player-settings-button:hover,
 .bcci-player-settings-button:focus-visible,
 .bcci-player-settings-button[aria-expanded="true"] {
   border-color: #ff9b35;
-  background: rgba(19,37,62,.96);
+  background: rgba(19, 37, 62, 0.96);
   outline: none;
 }
-.bcci-player-settings-button[aria-expanded="true"] { transform: rotate(25deg); }
+.bcci-player-settings-button[aria-expanded="true"] {
+  transform: rotate(25deg);
+}
 .bcci-player-settings-button svg {
   display: block;
   width: 22px;
@@ -8719,15 +8752,17 @@ body.mc-scoreboard-open {
   bottom: 50px;
   width: min(250px, calc(100vw - 40px));
   padding: 14px;
-  border: 1px solid rgba(255,255,255,.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 12px;
-  background: rgba(7,17,33,.97);
+  background: rgba(7, 17, 33, 0.97);
   color: #f4f7fb;
-  box-shadow: 0 14px 38px rgba(0,0,0,.45);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
-.bcci-player-settings-menu[hidden] { display: none !important; }
+.bcci-player-settings-menu[hidden] {
+  display: none !important;
+}
 .bcci-player-settings-menu label {
   display: flex;
   flex-direction: column;
@@ -8755,100 +8790,219 @@ body.mc-scoreboard-open {
   line-height: 1.45;
 }
 @media (max-width: 640px) {
-  .bcci-player-options { right: 9px; bottom: 46px; }
-  .bcci-player-settings-button { width: 38px; height: 38px; padding: 9px; }
-  .bcci-player-settings-button svg { width: 20px; height: 20px; }
-  .bcci-player-settings-menu { bottom: 46px; padding: 12px; }
+  .bcci-player-options {
+    right: 9px;
+    bottom: 46px;
+  }
+  .bcci-player-settings-button {
+    width: 38px;
+    height: 38px;
+    padding: 9px;
+  }
+  .bcci-player-settings-button svg {
+    width: 20px;
+    height: 20px;
+  }
+  .bcci-player-settings-menu {
+    bottom: 46px;
+    padding: 12px;
+  }
 }
-
-
 
 /* Keep video settings in the top player bar, away from the playing picture. */
-.bcci-player-head-actions { display:flex; align-items:center; gap:9px; flex-shrink:0; }
-.bcci-player-head-actions [data-bcci-close] { flex-shrink:0; }
+.bcci-player-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+}
+.bcci-player-head-actions [data-bcci-close] {
+  flex-shrink: 0;
+}
 .bcci-quality-head-button {
-  display:flex; align-items:center; gap:8px; min-height:38px; padding:7px 11px;
-  border:1px solid rgba(255,255,255,.2); border-radius:10px; background:rgba(6,18,36,.25);
-  color:#fff; cursor:pointer; font:600 12px/1 var(--body);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(6, 18, 36, 0.25);
+  color: #fff;
+  cursor: pointer;
+  font: 600 12px/1 var(--body);
 }
-.bcci-quality-head-button svg { width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
-.bcci-quality-head-button:hover,.bcci-quality-head-button[aria-expanded="true"] { border-color:#ff9b35; background:rgba(255,155,53,.12); }
-.bcci-quality-current { color:#ffb15d; font-size:11px; white-space:nowrap; }
-.bcci-player-options { position:absolute; z-index:12; top:12px; right:12px; bottom:auto; left:auto; width:auto; margin:0; padding:0; border:0; background:transparent; box-shadow:none; }
-.bcci-player-settings-menu { position:absolute; top:0; right:0; bottom:auto; width:min(250px,calc(100vw - 32px)); }
+.bcci-quality-head-button svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.bcci-quality-head-button:hover,
+.bcci-quality-head-button[aria-expanded="true"] {
+  border-color: #ff9b35;
+  background: rgba(255, 155, 53, 0.12);
+}
+.bcci-quality-current {
+  color: #ffb15d;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.bcci-player-options {
+  position: absolute;
+  z-index: 12;
+  top: 12px;
+  right: 12px;
+  bottom: auto;
+  left: auto;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.bcci-player-settings-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  width: min(250px, calc(100vw - 32px));
+}
 .bcci-video-download-button {
-  display:block; width:100%; min-height:40px; margin-top:12px; padding:9px 11px;
-  border:1px solid rgba(255,155,53,.45); border-radius:8px; background:rgba(255,155,53,.12);
-  color:#ffbd76; text-align:left; font:700 12px/1.3 var(--body); cursor:pointer;
+  display: block;
+  width: 100%;
+  min-height: 40px;
+  margin-top: 12px;
+  padding: 9px 11px;
+  border: 1px solid rgba(255, 155, 53, 0.45);
+  border-radius: 8px;
+  background: rgba(255, 155, 53, 0.12);
+  color: #ffbd76;
+  text-align: left;
+  font: 700 12px/1.3 var(--body);
+  cursor: pointer;
 }
-.bcci-video-download-button:hover { background:rgba(255,155,53,.2); }
-.bcci-video-download-button:disabled { opacity:.6; cursor:wait; }
-@media(max-width:640px) {
- .bcci-player-head-actions { gap:6px; }
- .bcci-quality-head-button { min-height:34px; padding:6px 8px; gap:6px; font-size:11px; }
- .bcci-quality-head-button svg { width:17px; height:17px; }
- .bcci-quality-current { font-size:10px; }
- .bcci-player-options { top:8px; right:8px; }
+.bcci-video-download-button:hover {
+  background: rgba(255, 155, 53, 0.2);
 }
-
-
+.bcci-video-download-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+@media (max-width: 640px) {
+  .bcci-player-head-actions {
+    gap: 6px;
+  }
+  .bcci-quality-head-button {
+    min-height: 34px;
+    padding: 6px 8px;
+    gap: 6px;
+    font-size: 11px;
+  }
+  .bcci-quality-head-button svg {
+    width: 17px;
+    height: 17px;
+  }
+  .bcci-quality-current {
+    font-size: 10px;
+  }
+  .bcci-player-options {
+    top: 8px;
+    right: 8px;
+  }
+}
 
 /* Settings popover is anchored to the header, never over the playing picture. */
-.bcci-player-head-actions { position:relative; }
+.bcci-player-head-actions {
+  position: relative;
+}
 .bcci-player-head-actions .bcci-player-settings-menu {
-  position:absolute; z-index:30; top:calc(100% + 10px); right:48px; bottom:auto;
-  width:min(260px,calc(100vw - 34px));
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 10px);
+  right: 48px;
+  bottom: auto;
+  width: min(260px, calc(100vw - 34px));
 }
-.bcci-player-options { display:none !important; }
-@media(max-width:640px) {
-  .bcci-player-head-actions .bcci-player-settings-menu { top:calc(100% + 8px); right:42px; }
+.bcci-player-options {
+  display: none !important;
 }
-
-
+@media (max-width: 640px) {
+  .bcci-player-head-actions .bcci-player-settings-menu {
+    top: calc(100% + 8px);
+    right: 42px;
+  }
+}
 
 /* Center the quality control in the video header; keep close at the far right. */
-.bcci-video-player-head { position:relative; }
-.bcci-player-head-actions { position:static; }
+.bcci-video-player-head {
+  position: relative;
+}
+.bcci-player-head-actions {
+  position: static;
+}
 .bcci-player-head-actions .bcci-quality-head-button {
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  z-index:2;
-  white-space:nowrap;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  white-space: nowrap;
 }
-.bcci-player-head-actions .bcci-quality-head-button[aria-expanded="true"] { transform:translate(-50%,-50%); }
-.bcci-player-head-actions [data-bcci-close] { position:relative; z-index:3; }
+.bcci-player-head-actions .bcci-quality-head-button[aria-expanded="true"] {
+  transform: translate(-50%, -50%);
+}
+.bcci-player-head-actions [data-bcci-close] {
+  position: relative;
+  z-index: 3;
+}
 .bcci-player-head-actions .bcci-player-settings-menu {
-  position:absolute;
-  z-index:30;
-  top:calc(100% + 8px);
-  left:50%;
-  right:auto;
-  bottom:auto;
-  transform:translateX(-50%);
-  width:min(260px,calc(100vw - 34px));
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 8px);
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translateX(-50%);
+  width: min(260px, calc(100vw - 34px));
 }
-@media(max-width:640px) {
-  .bcci-player-head-actions .bcci-quality-head-button { min-height:32px; padding:5px 8px; gap:5px; font-size:10px; }
-  .bcci-player-head-actions .bcci-quality-head-button svg { width:16px; height:16px; }
-  .bcci-player-head-actions .bcci-player-settings-menu { top:calc(100% + 6px); left:50%; right:auto; }
+@media (max-width: 640px) {
+  .bcci-player-head-actions .bcci-quality-head-button {
+    min-height: 32px;
+    padding: 5px 8px;
+    gap: 5px;
+    font-size: 10px;
+  }
+  .bcci-player-head-actions .bcci-quality-head-button svg {
+    width: 16px;
+    height: 16px;
+  }
+  .bcci-player-head-actions .bcci-player-settings-menu {
+    top: calc(100% + 6px);
+    left: 50%;
+    right: auto;
+  }
 }
-
 
 /* Video hub quality popover: tidy, readable and anchored below the centered header control. */
 .bcci-player-head-actions .bcci-player-settings-menu {
   display: grid;
   gap: 12px;
   padding: 16px;
-  border: 1px solid rgba(117, 158, 208, .34);
+  border: 1px solid rgba(117, 158, 208, 0.34);
   border-radius: 14px;
   background: #0b1729;
   color: #f4f7fb;
-  box-shadow: 0 18px 44px rgba(0,0,0,.52);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.52);
   text-align: left;
 }
-.bcci-player-settings-menu[hidden] { display: none !important; }
+.bcci-player-settings-menu[hidden] {
+  display: none !important;
+}
 .bcci-player-settings-menu label {
   display: grid;
   gap: 8px;
@@ -8861,7 +9015,7 @@ body.mc-scoreboard-open {
   content: "PLAYBACK";
   color: #91a8c5;
   font: 700 10px/1.2 var(--mono, monospace);
-  letter-spacing: .12em;
+  letter-spacing: 0.12em;
 }
 .bcci-player-head-actions .bcci-player-settings-menu select {
   display: block;
@@ -8886,7 +9040,7 @@ body.mc-scoreboard-open {
   min-height: 42px;
   margin: 0;
   padding: 10px 12px;
-  border: 1px solid rgba(255,155,53,.52);
+  border: 1px solid rgba(255, 155, 53, 0.52);
   border-radius: 9px;
   background: #ff9b35;
   color: #101827;
@@ -8904,13 +9058,18 @@ body.mc-scoreboard-open {
   font-size: 15px;
   line-height: 1;
 }
-.bcci-player-head-actions .bcci-video-download-button:hover { background: #ffb15d; }
-.bcci-player-head-actions .bcci-video-download-button:disabled { opacity: .65; cursor: wait; }
+.bcci-player-head-actions .bcci-video-download-button:hover {
+  background: #ffb15d;
+}
+.bcci-player-head-actions .bcci-video-download-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
 .bcci-player-head-actions .bcci-player-settings-menu #bcci-player-error {
   display: block;
   margin: 0;
   padding-top: 9px;
-  border-top: 1px solid rgba(145,168,197,.18);
+  border-top: 1px solid rgba(145, 168, 197, 0.18);
   color: #91a8c5;
   font-size: 11px;
   line-height: 1.45;
@@ -8922,9 +9081,12 @@ body.mc-scoreboard-open {
   padding: 8px 12px;
   border-radius: 999px;
   background: #10213a;
-  box-shadow: 0 4px 14px rgba(0,0,0,.18);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
 }
-.bcci-player-head-actions .bcci-quality-head-button svg { width: 17px; height: 17px; }
+.bcci-player-head-actions .bcci-quality-head-button svg {
+  width: 17px;
+  height: 17px;
+}
 @media (max-width: 640px) {
   .bcci-player-head-actions .bcci-player-settings-menu {
     top: calc(100% + 8px);
@@ -8941,42 +9103,94 @@ body.mc-scoreboard-open {
   }
 }
 
-
 /* Video Hub quality menu: clean compact dropdown anchored to the top bar */
-.bcci-player-head-actions { position:relative; display:flex; align-items:center; gap:10px; }
+.bcci-player-head-actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .bcci-player-head-actions .bcci-quality-head-button {
-  position:static !important; transform:none !important; min-height:38px; padding:8px 12px;
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  border:1px solid rgba(255,255,255,.22); border-radius:999px; background:#17396f;
-  color:#fff; box-shadow:none; white-space:nowrap;
+  position: static !important;
+  transform: none !important;
+  min-height: 38px;
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: #17396f;
+  color: #fff;
+  box-shadow: none;
+  white-space: nowrap;
 }
-.bcci-player-head-actions .bcci-quality-head-button svg { width:17px; height:17px; flex:0 0 auto; }
+.bcci-player-head-actions .bcci-quality-head-button svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+}
 .bcci-player-head-actions .bcci-player-settings-menu {
-  position:absolute !important; top:calc(100% + 10px) !important; left:auto !important;
-  right:48px !important; bottom:auto !important; z-index:10050; width:260px;
-  max-width:calc(100vw - 28px); padding:16px; border:1px solid #29405d;
-  border-radius:14px; background:#081426; color:#edf4ff;
-  box-shadow:0 16px 42px rgba(0,0,0,.42);
+  position: absolute !important;
+  top: calc(100% + 10px) !important;
+  left: auto !important;
+  right: 48px !important;
+  bottom: auto !important;
+  z-index: 10050;
+  width: 260px;
+  max-width: calc(100vw - 28px);
+  padding: 16px;
+  border: 1px solid #29405d;
+  border-radius: 14px;
+  background: #081426;
+  color: #edf4ff;
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.42);
 }
-.bcci-player-head-actions .bcci-player-settings-menu[hidden] { display:none !important; }
+.bcci-player-head-actions .bcci-player-settings-menu[hidden] {
+  display: none !important;
+}
 .bcci-player-head-actions .bcci-player-settings-menu label {
-  display:flex; flex-direction:column; gap:10px; color:#eaf1ff; font-size:13px; font-weight:700;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #eaf1ff;
+  font-size: 13px;
+  font-weight: 700;
 }
 .bcci-player-head-actions .bcci-player-settings-menu select {
-  width:100%; min-height:42px; padding:0 12px; border:1px solid #344a68;
-  border-radius:9px; background:#101f34; color:#fff; font:inherit; cursor:pointer;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid #344a68;
+  border-radius: 9px;
+  background: #101f34;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
 }
 .bcci-player-head-actions .bcci-player-settings-menu #bcci-player-error {
-  display:block; margin-top:12px; color:#9db1cc; font-size:12px; line-height:1.45;
+  display: block;
+  margin-top: 12px;
+  color: #9db1cc;
+  font-size: 12px;
+  line-height: 1.45;
 }
-@media (max-width:600px) {
-  .bcci-player-head-actions { gap:7px; }
-  .bcci-player-head-actions .bcci-quality-head-button { min-height:36px; padding:7px 10px; font-size:12px; }
+@media (max-width: 600px) {
+  .bcci-player-head-actions {
+    gap: 7px;
+  }
+  .bcci-player-head-actions .bcci-quality-head-button {
+    min-height: 36px;
+    padding: 7px 10px;
+    font-size: 12px;
+  }
   .bcci-player-head-actions .bcci-player-settings-menu {
-    top:calc(100% + 8px) !important; right:0 !important; width:250px;
+    top: calc(100% + 8px) !important;
+    right: 0 !important;
+    width: 250px;
   }
 }
-
 
 /* Video quality control: compact, readable, and anchored to the player header. */
 .bcci-player-head-actions .bcci-quality-head-button {
@@ -8986,9 +9200,9 @@ body.mc-scoreboard-open {
   gap: 8px;
   min-height: 38px;
   padding: 8px 13px;
-  border: 1px solid rgba(255, 155, 53, .48);
+  border: 1px solid rgba(255, 155, 53, 0.48);
   border-radius: 999px;
-  background: rgba(7, 16, 31, .34);
+  background: rgba(7, 16, 31, 0.34);
   color: #f5f8ff;
   font: 600 13px/1.2 inherit;
   white-space: nowrap;
@@ -9023,7 +9237,7 @@ body.mc-scoreboard-open {
   border-radius: 14px;
   background: #0b1729;
   color: #f5f8ff;
-  box-shadow: 0 18px 45px rgba(0, 0, 0, .42);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.42);
 }
 .bcci-player-head-actions .bcci-player-settings-menu label {
   display: grid;
@@ -9057,7 +9271,6 @@ body.mc-scoreboard-open {
   }
 }
 
-
 /* Fix custom option picker scrolling on desktop and touch devices. */
 .cs-dialog {
   min-height: 0;
@@ -9089,7 +9302,6 @@ body.mc-scoreboard-open {
   max-height: calc(min(72dvh, 620px) - 76px);
 }
 
-
 /* Video Hub: keep the quality control on the left and show only its label. */
 .bcci-player-head-actions {
   margin-left: auto;
@@ -9109,7 +9321,6 @@ body.mc-scoreboard-open {
     width: min(250px, calc(100vw - 28px));
   }
 }
-
 
 /* Emergency hardening: keep custom option dialogs above every section and fully scrollable. */
 .cs-overlay {
@@ -9142,7 +9353,6 @@ body.mc-scoreboard-open {
   max-height: calc(min(72dvh, 620px) - 76px) !important;
 }
 
-
 /* Readability pass: consistent contrast, line lengths, and uploaded media cards. */
 :root {
   --text-primary: #f3f6fc;
@@ -9155,33 +9365,63 @@ body {
   line-height: 1.65;
   text-rendering: optimizeLegibility;
 }
-p, li, .section-copy, .section-heading > p, .profile-intro {
+p,
+li,
+.section-copy,
+.section-heading > p,
+.profile-intro {
   color: var(--text-secondary);
   line-height: 1.8;
 }
-small, .stat-note, .match-meta, .tilak-news-meta, .bcci-video-card-meta {
+small,
+.stat-note,
+.match-meta,
+.tilak-news-meta,
+.bcci-video-card-meta {
   color: var(--text-muted);
 }
-h1, h2, h3, h4, .section-title, .section-heading h2 {
+h1,
+h2,
+h3,
+h4,
+.section-title,
+.section-heading h2 {
   color: var(--text-primary);
   line-height: 1.08;
   text-wrap: balance;
 }
-h2 em, h3 em, .section-title em { color: var(--text-accent); }
-button, input, select, textarea { font: inherit; }
+h2 em,
+h3 em,
+.section-title em {
+  color: var(--text-accent);
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
 :where(a, button, input, select, textarea):focus-visible {
   outline: 2px solid var(--cyan, #7ce5f2);
   outline-offset: 3px;
 }
-.tilak-news-card, .stat-card, .record-card, .milestone-card,
-.bcci-video-card, .match-card, .snapshot-card {
+.tilak-news-card,
+.stat-card,
+.record-card,
+.milestone-card,
+.bcci-video-card,
+.match-card,
+.snapshot-card {
   min-width: 0;
 }
-.tilak-news-card p, .record-card p, .milestone-card p {
+.tilak-news-card p,
+.record-card p,
+.milestone-card p {
   color: var(--text-secondary);
   line-height: 1.75;
 }
-.tilak-news-card h3, .bcci-video-card h3 {
+.tilak-news-card h3,
+.bcci-video-card h3 {
   line-height: 1.25;
   overflow-wrap: anywhere;
 }
@@ -9214,14 +9454,22 @@ button, input, select, textarea { font: inherit; }
 .admin-gallery-card .bcci-profile-photo-caption span {
   color: var(--cyan, #7ce5f2);
   font: 10px var(--mono, monospace);
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
 }
 @media (max-width: 600px) {
-  body { font-size: 14px; }
-  p, li, .section-copy, .section-heading > p { line-height: 1.72; }
-  .admin-gallery-card .bcci-profile-photo-caption { padding: 10px; }
+  body {
+    font-size: 14px;
+  }
+  p,
+  li,
+  .section-copy,
+  .section-heading > p {
+    line-height: 1.72;
+  }
+  .admin-gallery-card .bcci-profile-photo-caption {
+    padding: 10px;
+  }
 }
-
 
 /* Records and milestones: clearer hierarchy and responsive cards. */
 .records-section .official-records-head,
@@ -9240,36 +9488,46 @@ button, input, select, textarea { font: inherit; }
   font-size: clamp(22px, 3.2vw, 34px);
   line-height: 1.08;
 }
-#icc-records-updated, #analytics-count {
+#icc-records-updated,
+#analytics-count {
   max-width: 100%;
   color: var(--text-muted, #91a2ba);
   font: 11px/1.6 var(--mono, monospace);
   overflow-wrap: anywhere;
 }
-.official-records-grid, .milestone-grid, .analytics-grid {
+.official-records-grid,
+.milestone-grid,
+.analytics-grid {
   align-items: stretch;
   gap: 12px;
 }
-.official-records-grid > *, .milestone-grid > *, .analytics-grid > * {
+.official-records-grid > *,
+.milestone-grid > *,
+.analytics-grid > * {
   min-width: 0;
 }
-.official-records-grid article, .milestone-grid article, .analytics-grid article {
-  border-color: rgba(145, 162, 186, .22);
-  background: linear-gradient(145deg, rgba(18, 34, 56, .98), rgba(8, 20, 35, .98));
+.official-records-grid article,
+.milestone-grid article,
+.analytics-grid article {
+  border-color: rgba(145, 162, 186, 0.22);
+  background: linear-gradient(145deg, rgba(18, 34, 56, 0.98), rgba(8, 20, 35, 0.98));
 }
 .records-section .feature-note {
   max-width: 820px;
   color: var(--text-muted, #91a2ba);
   line-height: 1.75;
 }
-.home-news-item { cursor: pointer; }
+.home-news-item {
+  cursor: pointer;
+}
 .home-news-item h4 a {
   color: var(--text-primary, #f3f6fc);
-  text-decoration-color: rgba(255, 173, 85, .5);
+  text-decoration-color: rgba(255, 173, 85, 0.5);
   text-underline-offset: 4px;
 }
-.home-news-item h4 a:hover { color: var(--text-accent, #ffad55); }
-
+.home-news-item h4 a:hover {
+  color: var(--text-accent, #ffad55);
+}
 
 /* Player quality control: compact gear menu over the video, like the BCCI player. */
 .bcci-player-head-actions {
@@ -9300,7 +9558,7 @@ button, input, select, textarea { font: inherit; }
   padding: 0 12px;
   border: 1px solid #ffffff26;
   border-radius: 24px;
-  background: #080d18eF;
+  background: #080d18ef;
   color: #fff;
   box-shadow: 0 3px 14px #0007;
   font: 700 12px var(--body);
@@ -9389,7 +9647,6 @@ button, input, select, textarea { font: inherit; }
     padding-bottom: max(24px, env(safe-area-inset-bottom));
   }
 }
-
 
 /* Replace the jersey-number brand tile with Tilak's auto-refreshed profile PNG. */
 .brand-mark-photo {

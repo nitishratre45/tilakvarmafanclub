@@ -106,12 +106,16 @@
   function sourceData() {
     const formats = data?.statsguru?.formats || {};
     if (selectedFormat === "All") {
-      const parts = ["T20", "ODI", "FC", "List A"].map((f) => {
-        if (formats[f]) return formats[f];
-        if (f === "FC" && data?.careerFormats?.["First-class"]) return { summary: data.careerFormats["First-class"], innings: [], careerBreakdown: [] };
-        if (f === "List A" && data?.careerFormats?.["List A"]) return { summary: data.careerFormats["List A"], innings: [], careerBreakdown: [] };
-        return null;
-      }).filter(Boolean);
+      const parts = ["T20", "ODI", "FC", "List A"]
+        .map((f) => {
+          if (formats[f]) return formats[f];
+          if (f === "FC" && data?.careerFormats?.["First-class"])
+            return { summary: data.careerFormats["First-class"], innings: [], careerBreakdown: [] };
+          if (f === "List A" && data?.careerFormats?.["List A"])
+            return { summary: data.careerFormats["List A"], innings: [], careerBreakdown: [] };
+          return null;
+        })
+        .filter(Boolean);
       const all = parts.flatMap((f) => (Array.isArray(f.innings) ? f.innings : []));
       const summaries = parts.map((f) => f.summary).filter(Boolean);
       const sum = (k) => summaries.reduce((n, s) => n + (typeof s[k] === "number" ? s[k] : 0), 0);
@@ -152,8 +156,11 @@
     }
     const entry = formats[selectedFormat] || {};
     const fallbackSummary =
-      selectedFormat === "FC" ? data?.careerFormats?.["First-class"] :
-      selectedFormat === "List A" ? data?.careerFormats?.["List A"] : null;
+      selectedFormat === "FC"
+        ? data?.careerFormats?.["First-class"]
+        : selectedFormat === "List A"
+          ? data?.careerFormats?.["List A"]
+          : null;
     return {
       summary: entry.summary || fallbackSummary || null,
       innings: Array.isArray(entry.innings) ? entry.innings : [],
