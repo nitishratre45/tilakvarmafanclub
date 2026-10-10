@@ -64,9 +64,9 @@ def article_image(url):
             page = response.read(700_000).decode("utf-8", "replace")
             page_url = response.geturl()
         patterns = [
-            r'<meta[^>]+property=["\\']og:image["\\'][^>]+content=["\\']([^"\\']+)',
-            r'<meta[^>]+content=["\\']([^"\\']+)["\\'][^>]+property=["\\']og:image["\\']',
-            r'<meta[^>]+name=["\\']twitter:image["\\'][^>]+content=["\\']([^"\\']+)',
+            r"""<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)""",
+            r"""<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']""",
+            r"""<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)""",
         ]
         for pattern in patterns:
             match = re.search(pattern, page, re.I)
