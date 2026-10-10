@@ -14,7 +14,9 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SUMMARY = Path(__import__("os").environ.get("GITHUB_STEP_SUMMARY", "/tmp/admin-health-summary.md"))
+SUMMARY = Path(
+    __import__("os").environ.get("GITHUB_STEP_SUMMARY", "/tmp/admin-health-summary.md")
+)
 issues: list[str] = []
 checks: list[str] = []
 
@@ -39,7 +41,9 @@ def check_json() -> None:
             json.loads(path.read_text(encoding="utf-8"))
             passed(f"{path.relative_to(ROOT)}: valid JSON")
         except json.JSONDecodeError as exc:
-            failed(f"{path.relative_to(ROOT)}:{exc.lineno}:{exc.colno}: invalid JSON: {exc.msg}")
+            failed(
+                f"{path.relative_to(ROOT)}:{exc.lineno}:{exc.colno}: invalid JSON: {exc.msg}"
+            )
         except OSError as exc:
             failed(f"{path.relative_to(ROOT)}: cannot read file: {exc}")
 
@@ -52,10 +56,14 @@ def check_python() -> None:
     for path in files:
         result = subprocess.run(
             [sys.executable, "-m", "py_compile", str(path)],
-            cwd=ROOT, text=True, capture_output=True,
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
         )
         if result.returncode:
-            detail = (result.stderr or result.stdout).strip().replace(str(ROOT) + "/", "")
+            detail = (
+                (result.stderr or result.stdout).strip().replace(str(ROOT) + "/", "")
+            )
             failed(f"{path.relative_to(ROOT)}: Python syntax/compile error: {detail}")
         else:
             passed(f"{path.relative_to(ROOT)}: Python syntax OK")
@@ -71,11 +79,16 @@ def check_javascript() -> None:
         # Function files use ES modules; stdin mode avoids depending on package.json.
         command = ["node", "--input-type=module", "--check", "-"]
         result = subprocess.run(
-            command, input=path.read_text(encoding="utf-8"), cwd=ROOT,
-            text=True, capture_output=True,
+            command,
+            input=path.read_text(encoding="utf-8"),
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
         )
         if result.returncode:
-            detail = (result.stderr or result.stdout).strip().replace(str(ROOT) + "/", "")
+            detail = (
+                (result.stderr or result.stdout).strip().replace(str(ROOT) + "/", "")
+            )
             failed(f"{path.relative_to(ROOT)}: JavaScript syntax error: {detail}")
         else:
             passed(f"{path.relative_to(ROOT)}: JavaScript syntax OK")
@@ -93,7 +106,11 @@ class IdParser(HTMLParser):
 
 
 def check_html_ids() -> None:
-    pages = [ROOT / "index.html", ROOT / "admin" / "index.html", ROOT / "death-overs" / "index.html"]
+    pages = [
+        ROOT / "index.html",
+        ROOT / "admin" / "index.html",
+        ROOT / "death-overs" / "index.html",
+    ]
     for path in pages:
         if not path.exists():
             failed(f"{path.relative_to(ROOT)}: required HTML page missing")
@@ -106,7 +123,9 @@ def check_html_ids() -> None:
             continue
         duplicates = sorted(k for k, n in Counter(parser.ids).items() if n > 1)
         if duplicates:
-            failed(f"{path.relative_to(ROOT)}: duplicate element IDs: {', '.join(duplicates)}")
+            failed(
+                f"{path.relative_to(ROOT)}: duplicate element IDs: {', '.join(duplicates)}"
+            )
         else:
             passed(f"{path.relative_to(ROOT)}: no duplicate IDs")
 
@@ -116,8 +135,14 @@ def main() -> int:
     check_python()
     check_javascript()
     check_html_ids()
-    result = ["# Admin Studio · Python diagnostics", "", f"- Result: **{'PASS' if not issues else 'FAIL'}**",
-              f"- Checks passed: **{len(checks)}**", f"- Issues found: **{len(issues)}**", ""]
+    result = [
+        "# Admin Studio · Python diagnostics",
+        "",
+        f"- Result: **{'PASS' if not issues else 'FAIL'}**",
+        f"- Checks passed: **{len(checks)}**",
+        f"- Issues found: **{len(issues)}**",
+        "",
+    ]
     if issues:
         result += ["## Errors", *[f"- {item}" for item in issues], ""]
     result += ["## Successful checks", *[f"- {item}" for item in checks], ""]
