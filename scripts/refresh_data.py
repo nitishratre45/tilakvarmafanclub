@@ -58,14 +58,18 @@ def official_profile_image():
             )
         )
         # Search image tags associated with the player or player-specific asset URLs.
-        for tag in re.findall(r'<img\b[^>]*>', page, re.I):
-            if re.search(r'tilak|993|player', tag, re.I):
-                match = re.search(r'\b(?:src|data-src|data-lazy-src)=["\']([^"\']+)', tag, re.I)
+        for tag in re.findall(r"<img\b[^>]*>", page, re.I):
+            if re.search(r"tilak|993|player", tag, re.I):
+                match = re.search(
+                    r'\b(?:src|data-src|data-lazy-src)=["\']([^"\']+)', tag, re.I
+                )
                 if match:
                     candidates.append(match.group(1))
                 srcset = re.search(r'\bsrcset=["\']([^"\']+)', tag, re.I)
                 if srcset:
-                    candidates.append(srcset.group(1).split(",")[0].strip().split(" ")[0])
+                    candidates.append(
+                        srcset.group(1).split(",")[0].strip().split(" ")[0]
+                    )
         # BCCI can expose the profile image in JSON-LD or page-state data.
         candidates.extend(
             re.findall(
@@ -98,6 +102,7 @@ def official_profile_image():
     except Exception as exc:
         print(f"BCCI profile image not refreshed: {exc}")
     return None
+
 
 def cricsheet_recent():
     req = urllib.request.Request(CRICSHEET_URL, headers=HEADERS)
@@ -221,9 +226,9 @@ def main():
     photo_due = data["profile"].get("photoSource") != BCCI_URL
     try:
         checked_date = datetime.strptime(str(photo_checked), "%Y-%m-%d").date()
-        photo_due = photo_due or (
-            datetime.now(timezone.utc).date() - checked_date
-        ).days >= 30
+        photo_due = (
+            photo_due or (datetime.now(timezone.utc).date() - checked_date).days >= 30
+        )
     except (TypeError, ValueError):
         photo_due = True
     photo = None
@@ -233,7 +238,9 @@ def main():
             refreshed_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
             # Add a monthly cache key while retaining the original BCCI image URL.
             separator = "&" if "?" in photo else "?"
-            data["profile"]["photo"] = photo + separator + "tvfc=" + refreshed_date.replace("-", "")
+            data["profile"]["photo"] = (
+                photo + separator + "tvfc=" + refreshed_date.replace("-", "")
+            )
             data["profile"]["photoSource"] = BCCI_URL
             data["profile"]["photoUpdated"] = refreshed_date
             data["profile"]["photoRefreshStatus"] = "updated"
