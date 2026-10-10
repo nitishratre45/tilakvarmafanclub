@@ -9,7 +9,7 @@
       content="Tilak Varma T20I over-by-over batting stats and death-overs calculator."
     />
     <title>Tilak Varma Stats Centre | The 72 Club</title>
-    <link rel="stylesheet" href="../assets/style.css?v=20261010-lastupdate1" />
+    <link rel="stylesheet" href="../assets/style.css?v=20261010-navfix1" />
     <style>
       .latest-match-panel {
         margin: 18px 0 0;
@@ -1085,11 +1085,14 @@
       const dm = document.querySelector(".menu-toggle"),
         dn = document.querySelector("#death-nav");
       dm?.addEventListener("click", () => {
-        const open = dn.classList.toggle("open");
+        const open = dn?.classList.toggle("open") || false;
         dm.setAttribute("aria-expanded", String(open));
       });
       dn?.querySelectorAll("a").forEach((a) =>
-        a.addEventListener("click", () => dn.classList.remove("open")),
+        a.addEventListener("click", () => {
+          dn.classList.remove("open");
+          dm?.setAttribute("aria-expanded", "false");
+        }),
       );
     </script>
     <script src="../assets/custom-selects.js?v=20261010-label-fix"></script>
