@@ -1146,18 +1146,18 @@
           border-color: rgba(255, 106, 53, 0.6) !important;
         }
       }
-    
+
       /* Refined analyser palette: cool blue surfaces, crisp cyan labels, confident orange action. */
       .stats-section[style] .section-head {
         margin-bottom: clamp(18px, 2.5vw, 28px);
       }
       .stats-section[style] .section-kicker {
         color: #70e3f5;
-        letter-spacing: .16em;
+        letter-spacing: 0.16em;
       }
       .stats-section[style] .section-title {
         color: #f4f8ff;
-        text-shadow: 0 3px 24px rgba(35, 118, 190, .12);
+        text-shadow: 0 3px 24px rgba(35, 118, 190, 0.12);
       }
       .stats-section[style] .section-title em {
         color: #ff9252;
@@ -1166,11 +1166,13 @@
         color: #b8c8dc;
       }
       .calculator-card {
-        border-color: rgba(91, 180, 230, .3) !important;
+        border-color: rgba(91, 180, 230, 0.3) !important;
         background:
-          radial-gradient(ellipse at 100% 0%, rgba(74, 166, 224, .13), transparent 48%),
+          radial-gradient(ellipse at 100% 0%, rgba(74, 166, 224, 0.13), transparent 48%),
           linear-gradient(145deg, #10243a 0%, #0a1728 72%, #091321 100%) !important;
-        box-shadow: 0 22px 54px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255,255,255,.035) !important;
+        box-shadow:
+          0 22px 54px rgba(0, 0, 0, 0.28),
+          inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
       }
       .calculator-controls label {
         color: #b6cbe1 !important;
@@ -1178,7 +1180,7 @@
       .calculator-controls select {
         border-color: #365777 !important;
         background-color: #071525 !important;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.035) !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
       }
       .calculator-controls select:hover {
         border-color: #69d7ef !important;
@@ -1187,24 +1189,24 @@
         outline: 2px solid #6de0f5 !important;
         outline-offset: 2px !important;
         border-color: #6de0f5 !important;
-        box-shadow: 0 0 0 4px rgba(109,224,245,.12) !important;
+        box-shadow: 0 0 0 4px rgba(109, 224, 245, 0.12) !important;
       }
       .calculate-button {
         background: linear-gradient(100deg, #ff9e36 0%, #ff843f 100%) !important;
         color: #111827 !important;
-        box-shadow: 0 9px 22px rgba(255, 132, 63, .18) !important;
+        box-shadow: 0 9px 22px rgba(255, 132, 63, 0.18) !important;
       }
       .calculate-button:hover {
         filter: brightness(1.08) saturate(1.05);
-        box-shadow: 0 12px 28px rgba(255, 132, 63, .24) !important;
+        box-shadow: 0 12px 28px rgba(255, 132, 63, 0.24) !important;
       }
       .result-card {
-        border-color: rgba(111, 160, 205, .22) !important;
+        border-color: rgba(111, 160, 205, 0.22) !important;
         background: linear-gradient(145deg, #09182a, #071321) !important;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
       }
       .result-card:first-child {
-        border-color: rgba(255, 158, 54, .28) !important;
+        border-color: rgba(255, 158, 54, 0.28) !important;
       }
       .result-card:first-child strong {
         color: #ff9e36 !important;
@@ -1217,13 +1219,12 @@
       }
       @media (max-width: 560px) {
         .calculator-card {
-          box-shadow: 0 12px 32px rgba(0,0,0,.24) !important;
+          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24) !important;
         }
         .result-card {
           min-height: 104px;
         }
       }
-
     </style>
   </head>
   <body>
