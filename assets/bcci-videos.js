@@ -326,44 +326,6 @@
   playbackQuality.addEventListener("change", () => {
     if (qualityCurrent) qualityCurrent.textContent = playbackQuality.value === "auto" ? "Auto" : playbackQuality.value + "p max";
   });
-  if (downloadButton) {
-    downloadButton.addEventListener("click", async () => {
-      if (!activeVideo || !validHttps(activeVideo.playbackUrl)) {
-        errorElement.textContent = "Choose a video first.";
-        return;
-      }
-      const source = validHttps(activeVideo.playbackUrl);
-      const urlLooksLikeFile = /\.mp4(?:$|[?#])/i.test(source);
-      if (!urlLooksLikeFile) {
-        errorElement.textContent = "This official stream is adaptive (HLS/DASH), not a downloadable video file. BCCI has not provided a direct MP4 download.";
-        return;
-      }
-      const original = downloadButton.textContent;
-      downloadButton.disabled = true;
-      downloadButton.textContent = "Preparing download…";
-      try {
-        const response = await fetch(source);
-        if (!response.ok) throw new Error("Download request failed (" + response.status + ").");
-        const type = response.headers.get("content-type") || "";
-        if (!type.includes("video/") && !type.includes("octet-stream")) throw new Error("The source did not return a video file.");
-        const blob = await response.blob();
-        const objectUrl = URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
-        anchor.href = objectUrl;
-        anchor.download = (activeVideo.title || "tilak-varma-video").replace(/[^a-z0-9_-]+/gi, "-") + ".mp4";
-        document.body.appendChild(anchor);
-        anchor.click();
-        anchor.remove();
-        setTimeout(() => URL.revokeObjectURL(objectUrl), 60000);
-        errorElement.textContent = "Download started.";
-      } catch (error) {
-        errorElement.textContent = error.message || "Download is unavailable for this source.";
-      } finally {
-        downloadButton.disabled = false;
-        downloadButton.textContent = original;
-      }
-    });
-  }
 
   modal
     .querySelectorAll("[data-bcci-close]")
