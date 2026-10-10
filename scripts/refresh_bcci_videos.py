@@ -181,7 +181,11 @@ def fetch_browser_payloads() -> list[object]:
                 data = response.json()
             except Exception:
                 return
-            signature = hashlib.sha256(json.dumps(data, sort_keys=True, ensure_ascii=False, default=str).encode("utf-8")).hexdigest()
+            signature = hashlib.sha256(
+                json.dumps(
+                    data, sort_keys=True, ensure_ascii=False, default=str
+                ).encode("utf-8")
+            ).hexdigest()
             if signature in seen_payloads:
                 return
             seen_payloads.add(signature)
@@ -192,7 +196,10 @@ def fetch_browser_payloads() -> list[object]:
         try:
             page.goto(page_url, wait_until="domcontentloaded", timeout=45000)
         except Exception as exc:
-            print(f"Official player page unavailable; continuing with public BCCI API: {exc}", file=sys.stderr)
+            print(
+                f"Official player page unavailable; continuing with public BCCI API: {exc}",
+                file=sys.stderr,
+            )
             browser.close()
             return []
         page.wait_for_timeout(2500)
@@ -242,9 +249,12 @@ def main() -> int:
     # requested pages even when one page contains no Tilak Varma clips.
     api_queries: list[tuple[str, dict[str, str]]] = []
     for page_number in range(1, 7):
-        api_queries.append((f"international page {page_number}", {
-            "page": str(page_number), "tags": "international"
-        }))
+        api_queries.append(
+            (
+                f"international page {page_number}",
+                {"page": str(page_number), "tags": "international"},
+            )
+        )
 
     season_queries = (
         {"tags": "international,season:2026"},
@@ -259,24 +269,43 @@ def main() -> int:
         {"tags": "international,men,season:2021,t20"},
         {"tags": "international,men,season:2020,t20"},
     )
-    api_queries.extend((f"season query {params['tags']}", params) for params in season_queries)
+    api_queries.extend(
+        (f"season query {params['tags']}", params) for params in season_queries
+    )
 
     # Additional common pagination parameter spellings and offset pages.
     for page_number in range(1, 7):
-        api_queries.extend([
-            (f"pageNumber {page_number}", {"tags": "international", "pageNumber": str(page_number)}),
-            (f"pageNo {page_number}", {"tags": "international", "pageNo": str(page_number)}),
-            (f"offset {page_number}", {"tags": "international", "offset": str((page_number - 1) * 20), "limit": "20"}),
-        ])
+        api_queries.extend(
+            [
+                (
+                    f"pageNumber {page_number}",
+                    {"tags": "international", "pageNumber": str(page_number)},
+                ),
+                (
+                    f"pageNo {page_number}",
+                    {"tags": "international", "pageNo": str(page_number)},
+                ),
+                (
+                    f"offset {page_number}",
+                    {
+                        "tags": "international",
+                        "offset": str((page_number - 1) * 20),
+                        "limit": "20",
+                    },
+                ),
+            ]
+        )
 
-    api_queries.extend([
-        ("player ID", {"playerId": PLAYER_ID}),
-        ("player", {"player": PLAYER_ID}),
-        ("players", {"players": PLAYER_ID}),
-        ("Tilak Varma tag", {"tags": "tilak-varma"}),
-        ("Tilak Varma search", {"tags": "international", "search": "Tilak Varma"}),
-        ("Tilak Varma term", {"tags": "international", "term": "Tilak Varma"}),
-    ])
+    api_queries.extend(
+        [
+            ("player ID", {"playerId": PLAYER_ID}),
+            ("player", {"player": PLAYER_ID}),
+            ("players", {"players": PLAYER_ID}),
+            ("Tilak Varma tag", {"tags": "tilak-varma"}),
+            ("Tilak Varma search", {"tags": "international", "search": "Tilak Varma"}),
+            ("Tilak Varma term", {"tags": "international", "term": "Tilak Varma"}),
+        ]
+    )
 
     queried_signatures: set[str] = set()
     for label, params in api_queries:
@@ -288,7 +317,9 @@ def main() -> int:
             print(f"Skipping BCCI {label}: {exc}", file=sys.stderr)
             continue
         signature = hashlib.sha256(
-            json.dumps(payload, sort_keys=True, ensure_ascii=False, default=str).encode("utf-8")
+            json.dumps(payload, sort_keys=True, ensure_ascii=False, default=str).encode(
+                "utf-8"
+            )
         ).hexdigest()
         if signature in queried_signatures:
             continue
@@ -299,7 +330,9 @@ def main() -> int:
             if video:
                 collected[video["id"]] = video
                 found_on_query += 1
-        print(f"BCCI {label}: {found_on_query} Tilak clips; {len(collected)} unique total")
+        print(
+            f"BCCI {label}: {found_on_query} Tilak clips; {len(collected)} unique total"
+        )
 
     videos = sorted(
         collected.values(),
