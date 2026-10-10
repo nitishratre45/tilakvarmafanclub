@@ -26,23 +26,20 @@
           '<span class="stat-label">' +
           escapeHTML(label) +
           "</span>" +
-          "<strong>" +
+          '<div class="format-main-row"><div class="format-runs"><strong>' +
           (Number.isFinite(runs) ? runs.toLocaleString("en-IN") : "—") +
-          "</strong>" +
-          '<span class="stat-note">' +
-          escapeHTML(s.matches ?? "—") +
-          " matches · HS " +
-          escapeHTML(s.highestScore ?? "—") +
-          "</span>" +
-          '<span class="format-detail">AVG ' +
-          escapeHTML(s.average ?? "—") +
-          " · SR " +
-          escapeHTML(s.strikeRate ?? "—") +
-          " · 100s " +
-          escapeHTML(s.hundreds ?? "—") +
-          " · 50s " +
-          escapeHTML(s.fifties ?? "—") +
-          "</span></article>"
+          '</strong><span class="format-runs-caption">RUNS</span></div>' +
+          '<div class="format-batting-facts">' +
+          '<div class="format-fact"><span>4s</span><strong>' + escapeHTML(s.fours ?? "—") + '</strong></div>' +
+          '<div class="format-fact"><span>6s</span><strong>' + escapeHTML(s.sixes ?? "—") + '</strong></div>' +
+          '<div class="format-fact"><span>50s</span><strong>' + escapeHTML(s.fifties ?? "—") + '</strong></div>' +
+          '<div class="format-fact"><span>100s</span><strong>' + escapeHTML(s.hundreds ?? "—") + '</strong></div>' +
+          '</div></div>' +
+          '<div class="format-meta-row"><span>' + escapeHTML(s.matches ?? "—") +
+          ' MATCHES</span><span>HS ' + escapeHTML(s.highestScore ?? "—") +
+          '</span><span>AVG ' + escapeHTML(s.average ?? "—") +
+          '</span><span>SR ' + escapeHTML(s.strikeRate ?? "—") +
+          '</span></div></article>'
         );
       })
       .join("");
