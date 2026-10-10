@@ -74,12 +74,6 @@
             ? "Stale · last check overdue"
             : "Available · auto-refresh enabled",
     );
-    set(
-      "recent-updated",
-      "Last update: " +
-        latestTimestamp(data.recentUpdated, data.statsguru?.updatedAt, data.lastUpdated),
-    );
-
     const rankings = data.iccRankings || {};
     set("icc-ranking-t20i", rankings.T20I ? "T20I #" + rankings.T20I : "T20I ranking unavailable");
     set("icc-ranking-odi", rankings.ODI ? "ODI #" + rankings.ODI : "ODI ranking unavailable");
