@@ -79,8 +79,18 @@
       const value = obj && obj[key];
       if (typeof value === "string" && value.trim()) return value.trim();
       if (value && typeof value === "object") {
-        for (const nested of ["url", "src", "href", "path", "original", "large", "medium", "small"]) {
-          if (typeof value[nested] === "string" && value[nested].trim()) return value[nested].trim();
+        for (const nested of [
+          "url",
+          "src",
+          "href",
+          "path",
+          "original",
+          "large",
+          "medium",
+          "small",
+        ]) {
+          if (typeof value[nested] === "string" && value[nested].trim())
+            return value[nested].trim();
         }
       }
     }
@@ -96,16 +106,39 @@
       return "";
     }
     const imageKeys = [
-      "thumbnailUrl", "thumbnailURL", "thumbnail", "thumbnailImage",
-      "imageUrl", "imageURL", "image", "poster", "posterUrl", "posterURL",
-      "coverImage", "cover_image", "bannerImage", "thumb", "featuredImage",
-      "landscapeImage", "videoThumbnail", "mediaImage"
+      "thumbnailUrl",
+      "thumbnailURL",
+      "thumbnail",
+      "thumbnailImage",
+      "imageUrl",
+      "imageURL",
+      "image",
+      "poster",
+      "posterUrl",
+      "posterURL",
+      "coverImage",
+      "cover_image",
+      "bannerImage",
+      "thumb",
+      "featuredImage",
+      "landscapeImage",
+      "videoThumbnail",
+      "mediaImage",
     ];
     for (const key of imageKeys) {
       const value = node[key];
       if (typeof value === "string" && value.trim()) return value.trim();
       if (value && typeof value === "object") {
-        const direct = firstText(value, ["url", "src", "href", "path", "original", "large", "medium", "small"]);
+        const direct = firstText(value, [
+          "url",
+          "src",
+          "href",
+          "path",
+          "original",
+          "large",
+          "medium",
+          "small",
+        ]);
         if (direct) return direct;
         const nested = findThumbnail(value, depth + 1);
         if (nested) return nested;
@@ -130,7 +163,15 @@
       }
       if (typeof node !== "object") return;
       const title = firstText(node, ["title", "videoTitle", "name", "headline", "label"]);
-      const link = firstText(node, ["webUrl", "videoUrl", "permalink", "slug", "href", "link", "url"]);
+      const link = firstText(node, [
+        "webUrl",
+        "videoUrl",
+        "permalink",
+        "slug",
+        "href",
+        "link",
+        "url",
+      ]);
       const thumbnail = findThumbnail(node);
       if (title && (link || node.id || node.videoId || thumbnail)) {
         const key = (title + "|" + link).toLowerCase();
@@ -251,17 +292,29 @@
     .then((payload) => {
       const apiVideos = collectVideoObjects(payload).map(normalizeApiVideo).filter(Boolean);
       const slugOf = (url) => {
-        try { return new URL(url).pathname.toLowerCase().replace(/\/$/, ""); } catch { return ""; }
+        try {
+          return new URL(url).pathname.toLowerCase().replace(/\/$/, "");
+        } catch {
+          return "";
+        }
       };
       // Prefer official BCCI thumbnails for existing cards when the API returns matching videos.
       videos = videos.map((video) => {
-        const match = apiVideos.find((item) =>
-          item.title.toLowerCase() === video.title.toLowerCase() ||
-          slugOf(item.url) === slugOf(video.url) ||
-          (item.title.toLowerCase().includes("tilak") && video.title.toLowerCase().includes("tilak") &&
-           item.title.toLowerCase().slice(0, 18) === video.title.toLowerCase().slice(0, 18))
+        const match = apiVideos.find(
+          (item) =>
+            item.title.toLowerCase() === video.title.toLowerCase() ||
+            slugOf(item.url) === slugOf(video.url) ||
+            (item.title.toLowerCase().includes("tilak") &&
+              video.title.toLowerCase().includes("tilak") &&
+              item.title.toLowerCase().slice(0, 18) === video.title.toLowerCase().slice(0, 18)),
         );
-        return match ? { ...video, thumbnail: match.thumbnail || video.thumbnail, duration: match.duration || video.duration } : video;
+        return match
+          ? {
+              ...video,
+              thumbnail: match.thumbnail || video.thumbnail,
+              duration: match.duration || video.duration,
+            }
+          : video;
       });
       const known = new Set(videos.map((v) => v.title.toLowerCase()));
       apiVideos.forEach((video) => {
