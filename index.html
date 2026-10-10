@@ -9,7 +9,7 @@
       content="Tilak Varma fan club — career snapshot, recent innings, match moments and fan gallery."
     />
     <title>Tilak Varma FC | The 72 Club</title>
-    <link rel="stylesheet" href="assets/style.css?v=20261010-deathovers-embed2" />
+    <link rel="stylesheet" href="assets/style.css?v=20261010-deathovers-fluid3" />
   </head>
   <body>
     <header class="topbar">
@@ -537,6 +537,18 @@
           <div class="death-overs-embed">
             <iframe src="death-overs/?embed=1" title="Tilak Varma death-overs statistics" loading="lazy"></iframe>
           </div>
+          <script>
+            (() => {
+              const frame = document.querySelector('.death-overs-embed iframe');
+              if (!frame) return;
+              window.addEventListener('message', (event) => {
+                if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
+                if (event.data?.type !== 'tilak-death-overs-height') return;
+                const height = Number(event.data.height);
+                if (Number.isFinite(height) && height > 0) frame.style.height = Math.min(height + 8, 30000) + 'px';
+              });
+            })();
+          </script>
         </div>
       </section>
 
