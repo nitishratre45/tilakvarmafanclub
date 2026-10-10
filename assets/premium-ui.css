@@ -806,17 +806,38 @@ textarea:focus-visible {
   }
 }
 
-
 /* Distinct, coordinated stat accents — Runs remains the hero metric. */
-.stats-grid:not(.career-formats) .stat-card:not(.stat-feature) { border-top: 2px solid rgba(124,229,242,.55); }
-.stats-grid:not(.career-formats) .stat-card:nth-child(3) { border-top-color: rgba(167,139,250,.8); }
-.stats-grid:not(.career-formats) .stat-card:nth-child(4) { border-top-color: rgba(124,229,242,.8); }
-.stats-grid:not(.career-formats) .stat-card:nth-child(5) { border-top-color: rgba(163,230,53,.75); }
-.stats-grid:not(.career-formats) .stat-card:nth-child(6) { border-top-color: rgba(251,191,36,.8); }
+.stats-grid:not(.career-formats) .stat-card:not(.stat-feature) {
+  border-top: 2px solid rgba(124, 229, 242, 0.55);
+}
+.stats-grid:not(.career-formats) .stat-card:nth-child(3) {
+  border-top-color: rgba(167, 139, 250, 0.8);
+}
+.stats-grid:not(.career-formats) .stat-card:nth-child(4) {
+  border-top-color: rgba(124, 229, 242, 0.8);
+}
+.stats-grid:not(.career-formats) .stat-card:nth-child(5) {
+  border-top-color: rgba(163, 230, 53, 0.75);
+}
+.stats-grid:not(.career-formats) .stat-card:nth-child(6) {
+  border-top-color: rgba(251, 191, 36, 0.8);
+}
 .career-formats .stat-card,
-.home-format-card { border-left: 2px solid rgba(124,229,242,.55); }
-.career-formats .stat-card:nth-child(2n) { border-left-color: rgba(255,106,53,.72); }
-.career-formats .stat-card:nth-child(3n) { border-left-color: rgba(167,139,250,.75); }
-.records-section .record-card:nth-child(3n+1) { border-top: 2px solid rgba(255,106,53,.65); }
-.records-section .record-card:nth-child(3n+2) { border-top: 2px solid rgba(124,229,242,.65); }
-.records-section .record-card:nth-child(3n) { border-top: 2px solid rgba(167,139,250,.65); }
+.home-format-card {
+  border-left: 2px solid rgba(124, 229, 242, 0.55);
+}
+.career-formats .stat-card:nth-child(2n) {
+  border-left-color: rgba(255, 106, 53, 0.72);
+}
+.career-formats .stat-card:nth-child(3n) {
+  border-left-color: rgba(167, 139, 250, 0.75);
+}
+.records-section .record-card:nth-child(3n + 1) {
+  border-top: 2px solid rgba(255, 106, 53, 0.65);
+}
+.records-section .record-card:nth-child(3n + 2) {
+  border-top: 2px solid rgba(124, 229, 242, 0.65);
+}
+.records-section .record-card:nth-child(3n) {
+  border-top: 2px solid rgba(167, 139, 250, 0.65);
+}
