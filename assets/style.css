@@ -6759,3 +6759,12 @@ option {
     padding-top: 14px;
   }
 }
+
+
+/* Debut/last-match cards sit below, not inside, the upcoming fixtures panel. */
+.innings-section > .match-history-summary {
+  margin-top: 18px;
+}
+.innings-section > .upcoming-matches-panel .match-history-summary-nested {
+  display: none;
+}
