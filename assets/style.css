@@ -8651,3 +8651,106 @@ html.death-embed footer{display:none!important}
     font-size: 11px;
   }
 }
+
+
+/* Player settings: compact gear button; quality menu opens on demand. */
+.bcci-player-options {
+  position: absolute;
+  z-index: 8;
+  right: 14px;
+  bottom: 52px;
+  left: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  max-width: calc(100% - 24px);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.bcci-player-settings-button {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(5,12,25,.78);
+  box-shadow: 0 4px 18px rgba(0,0,0,.28);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.bcci-player-settings-button:hover,
+.bcci-player-settings-button:focus-visible,
+.bcci-player-settings-button[aria-expanded="true"] {
+  border-color: #ff9b35;
+  background: rgba(19,37,62,.96);
+  outline: none;
+}
+.bcci-player-settings-button[aria-expanded="true"] { transform: rotate(25deg); }
+.bcci-player-settings-button svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.bcci-player-settings-menu {
+  position: absolute;
+  right: 0;
+  bottom: 50px;
+  width: min(250px, calc(100vw - 40px));
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 12px;
+  background: rgba(7,17,33,.97);
+  color: #f4f7fb;
+  box-shadow: 0 14px 38px rgba(0,0,0,.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.bcci-player-settings-menu[hidden] { display: none !important; }
+.bcci-player-settings-menu label {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  color: #cbd7e8;
+  font-size: 12px;
+  font-weight: 700;
+}
+.bcci-player-settings-menu select {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 32px 9px 10px;
+  border: 1px solid #3b526d;
+  border-radius: 8px;
+  background: #122544;
+  color: #fff;
+  font: 600 12px var(--body);
+  color-scheme: dark;
+}
+.bcci-player-settings-menu #bcci-player-error {
+  display: block;
+  margin-top: 8px;
+  color: #91a8c5;
+  font-size: 11px;
+  line-height: 1.45;
+}
+@media (max-width: 640px) {
+  .bcci-player-options { right: 9px; bottom: 46px; }
+  .bcci-player-settings-button { width: 38px; height: 38px; padding: 9px; }
+  .bcci-player-settings-button svg { width: 20px; height: 20px; }
+  .bcci-player-settings-menu { bottom: 46px; padding: 12px; }
+}
+
