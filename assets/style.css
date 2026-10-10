@@ -8933,3 +8933,39 @@ html.death-embed footer{display:none!important}
     font-size: 11px;
   }
 }
+
+
+/* Video Hub quality menu: clean compact dropdown anchored to the top bar */
+.bcci-player-head-actions { position:relative; display:flex; align-items:center; gap:10px; }
+.bcci-player-head-actions .bcci-quality-head-button {
+  position:static !important; transform:none !important; min-height:38px; padding:8px 12px;
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  border:1px solid rgba(255,255,255,.22); border-radius:999px; background:#17396f;
+  color:#fff; box-shadow:none; white-space:nowrap;
+}
+.bcci-player-head-actions .bcci-quality-head-button svg { width:17px; height:17px; flex:0 0 auto; }
+.bcci-player-head-actions .bcci-player-settings-menu {
+  position:absolute !important; top:calc(100% + 10px) !important; left:auto !important;
+  right:48px !important; bottom:auto !important; z-index:10050; width:260px;
+  max-width:calc(100vw - 28px); padding:16px; border:1px solid #29405d;
+  border-radius:14px; background:#081426; color:#edf4ff;
+  box-shadow:0 16px 42px rgba(0,0,0,.42);
+}
+.bcci-player-head-actions .bcci-player-settings-menu[hidden] { display:none !important; }
+.bcci-player-head-actions .bcci-player-settings-menu label {
+  display:flex; flex-direction:column; gap:10px; color:#eaf1ff; font-size:13px; font-weight:700;
+}
+.bcci-player-head-actions .bcci-player-settings-menu select {
+  width:100%; min-height:42px; padding:0 12px; border:1px solid #344a68;
+  border-radius:9px; background:#101f34; color:#fff; font:inherit; cursor:pointer;
+}
+.bcci-player-head-actions .bcci-player-settings-menu #bcci-player-error {
+  display:block; margin-top:12px; color:#9db1cc; font-size:12px; line-height:1.45;
+}
+@media (max-width:600px) {
+  .bcci-player-head-actions { gap:7px; }
+  .bcci-player-head-actions .bcci-quality-head-button { min-height:36px; padding:7px 10px; font-size:12px; }
+  .bcci-player-head-actions .bcci-player-settings-menu {
+    top:calc(100% + 8px) !important; right:0 !important; width:250px;
+  }
+}
