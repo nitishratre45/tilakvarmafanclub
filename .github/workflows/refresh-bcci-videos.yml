@@ -37,7 +37,10 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp assets/bcci-videos.json /tmp/bcci-videos.json
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/bcci-videos.json assets/bcci-videos.json
           git add assets/bcci-videos.json
           git commit -m "Refresh official BCCI Tilak video feed"
-          git pull --rebase origin main
           git push
