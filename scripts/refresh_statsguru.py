@@ -995,11 +995,24 @@ def main():
                 try:
                     fallback = scrape_domestic_profile_summary(fmt)
                     if fallback.get("summary"):
-                        new_formats[fmt] = fallback
+                        # A summary-only fallback must never erase previously verified
+                        # match-by-match innings or career breakdown rows.
+                        previous = old_formats.get(fmt, {})
+                        if isinstance(previous, dict):
+                            merged = dict(previous)
+                            merged.update(fallback)
+                            if not fallback.get("innings") and previous.get("innings"):
+                                merged["innings"] = previous["innings"]
+                                merged["inningsCount"] = len(previous["innings"])
+                            if not fallback.get("careerBreakdown") and previous.get("careerBreakdown"):
+                                merged["careerBreakdown"] = previous["careerBreakdown"]
+                            new_formats[fmt] = merged
+                        else:
+                            new_formats[fmt] = fallback
                         success.append(fmt + " summary fallback")
                         print(
                             fmt
-                            + ": refreshed verified domestic summary from secondary profile feed; innings not fabricated"
+                            + ": refreshed verified domestic summary from secondary profile feed; preserved any existing detailed innings"
                         )
                 except Exception as fallback_exc:
                     optional_warnings.append(
