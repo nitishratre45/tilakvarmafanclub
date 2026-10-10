@@ -28,8 +28,27 @@ HEADERS = {
     "Referer": "https://www.bcci.tv/",
     "Accept-Language": "en-US,en;q=0.9",
 }
-IMAGE_KEYS = ("image", "photo", "thumbnail", "picture", "portrait", "headshot", "media", "asset")
-URL_KEYS = ("url", "src", "image", "original", "large", "medium", "desktop", "path", "href")
+IMAGE_KEYS = (
+    "image",
+    "photo",
+    "thumbnail",
+    "picture",
+    "portrait",
+    "headshot",
+    "media",
+    "asset",
+)
+URL_KEYS = (
+    "url",
+    "src",
+    "image",
+    "original",
+    "large",
+    "medium",
+    "desktop",
+    "path",
+    "href",
+)
 
 
 def clean_url(value):
@@ -40,13 +59,20 @@ def clean_url(value):
         value = "https:" + value
     if not value.startswith("https://"):
         return ""
-    if any(word in value.lower() for word in ("logo", "icon", "flag", "placeholder", "default-avatar")):
+    if any(
+        word in value.lower()
+        for word in ("logo", "icon", "flag", "placeholder", "default-avatar")
+    ):
         return ""
     return value
 
 
 def text_fields(obj):
-    return " ".join(str(v) for k, v in obj.items() if isinstance(v, (str, int)) and not isinstance(v, bool)).lower()
+    return " ".join(
+        str(v)
+        for k, v in obj.items()
+        if isinstance(v, (str, int)) and not isinstance(v, bool)
+    ).lower()
 
 
 def image_urls(obj, inside_match=False):
@@ -54,7 +80,9 @@ def image_urls(obj, inside_match=False):
     if isinstance(obj, dict):
         for key, value in obj.items():
             k = key.lower()
-            if isinstance(value, str) and any(token in k for token in URL_KEYS + IMAGE_KEYS):
+            if isinstance(value, str) and any(
+                token in k for token in URL_KEYS + IMAGE_KEYS
+            ):
                 url = clean_url(value)
                 if url:
                     urls.append(url)
@@ -144,11 +172,20 @@ def main():
         if url and url not in seen:
             seen.add(url)
             unique.append(url)
-    unique.sort(key=lambda url: (
-        0 if any(word in url.lower() for word in ("tilak", "varma", "993")) else 1,
-        0 if any(word in url.lower() for word in ("portrait", "player", "profile", "headshot")) else 1,
-        len(url),
-    ))
+    unique.sort(
+        key=lambda url: (
+            0 if any(word in url.lower() for word in ("tilak", "varma", "993")) else 1,
+            (
+                0
+                if any(
+                    word in url.lower()
+                    for word in ("portrait", "player", "profile", "headshot")
+                )
+                else 1
+            ),
+            len(url),
+        )
+    )
 
     if unique:
         result = {
@@ -163,18 +200,25 @@ def main():
         print("Saved one BCCI image explicitly matched to Tilak Varma.")
     else:
         result = dict(old)
-        result.update({
-            "source": "BCCI",
-            "sourceUrl": PROFILE_URL,
-            "checkedAt": checked,
-            "lastAttemptStatus": "source-unavailable",
-            "lastAttemptError": "; ".join(errors) or "BCCI album/profile payloads contained no image explicitly matched to Tilak Varma",
-        })
+        result.update(
+            {
+                "source": "BCCI",
+                "sourceUrl": PROFILE_URL,
+                "checkedAt": checked,
+                "lastAttemptStatus": "source-unavailable",
+                "lastAttemptError": "; ".join(errors)
+                or "BCCI album/profile payloads contained no image explicitly matched to Tilak Varma",
+            }
+        )
         result.setdefault("status", "source-unavailable")
         result.setdefault("image", "")
         result.setdefault("updatedAt", "")
-        print("No explicit Tilak Varma photo found; preserved the previous working photo.")
-    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(
+            "No explicit Tilak Varma photo found; preserved the previous working photo."
+        )
+    OUT.write_text(
+        json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
 
 
 if __name__ == "__main__":
