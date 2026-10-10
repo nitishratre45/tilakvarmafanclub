@@ -334,7 +334,7 @@
   // Admin's BCCI URL is an input to the Python collector, not a browser feed.
   // The public page only consumes the collector's normalized cache so raw API
   // response shapes and CORS restrictions cannot break the Videos section.
-  fetch("assets/bcci-videos.json?v=20261010", { cache: "no-store" })
+  fetch("assets/bcci-videos.json?refresh=" + Date.now(), { cache: "no-store" })
     .then((response) => {
       if (!response.ok) throw new Error("Feed HTTP " + response.status);
       return response.json();
