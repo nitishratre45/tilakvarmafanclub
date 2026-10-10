@@ -10,7 +10,7 @@
     />
     <title>Tilak Varma Stats Centre | The 72 Club</title>
     <link rel="stylesheet" href="../assets/style.css?v=20261010-cleanup3" />
-    <link rel="stylesheet" href="../assets/premium-ui.css?v=20261011-contrasttext2" />
+    <link rel="stylesheet" href="../assets/premium-ui.css?v=20261011-embedfix3" />
     <style>
       /* Keep the stats-centre navigation visible while scrolling this standalone page. */
       .death-topbar {
@@ -1150,8 +1150,42 @@
   </head>
   <body>
     <script>
-      if (new URLSearchParams(location.search).get("embed") === "1")
+      if (new URLSearchParams(location.search).get("embed") === "1") {
         document.documentElement.classList.add("death-embed");
+        // Fail-safe embed mode: prevent a nested site header/snapshot inside the main page.
+        const embedStyle = document.createElement("style");
+        embedStyle.textContent = `
+          html.death-embed .death-topbar,
+          html.death-embed .stats-hero,
+          html.death-embed main > section.stats-section:not([style]),
+          html.death-embed body > footer,
+          html.death-embed body > .site-footer {
+            display: none !important;
+          }
+          html.death-embed,
+          html.death-embed body {
+            margin: 0 !important;
+            min-height: 0 !important;
+            height: auto !important;
+            overflow-x: hidden !important;
+            background: #070b14 !important;
+          }
+          html.death-embed main {
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          html.death-embed main > section.stats-section[style] {
+            padding: 16px 0 28px !important;
+          }
+          html.death-embed .page-shell {
+            width: 100% !important;
+            max-width: none !important;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+          }
+        `;
+        document.head.appendChild(embedStyle);
+      }
     </script>
     <header class="topbar death-topbar">
       <a class="brand" href="../"
