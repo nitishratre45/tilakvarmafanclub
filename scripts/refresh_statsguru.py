@@ -485,6 +485,19 @@ def parse_innings_page(page, fmt):
 def date_sort_key(value):
     """Sort Statsguru dates safely; unknown date formats remain at the bottom."""
     value = clean(value)
+    # Range labels such as "06–10 Sep 2026" and "30 Dec 2018 - 02 Jan 2019".
+    range_end = re.search(r"\d{1,2}\s+[A-Za-z]{3,}\s+\d{4}\s*[-–]\s*(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})", value)
+    if range_end:
+        try:
+            return datetime.strptime(" ".join(range_end.groups()), "%d %b %Y").date().toordinal()
+        except ValueError:
+            pass
+    same_month_range = re.search(r"\d{1,2}\s*[-–]\s*(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})", value)
+    if same_month_range:
+        try:
+            return datetime.strptime(" ".join(same_month_range.groups()), "%d %b %Y").date().toordinal()
+        except ValueError:
+            pass
     for pattern in ("%d %b %Y", "%d-%b-%Y", "%d %B %Y", "%Y-%m-%d"):
         try:
             return datetime.strptime(value, pattern).date().toordinal()
