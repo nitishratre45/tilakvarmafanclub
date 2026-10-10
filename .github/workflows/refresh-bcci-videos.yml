@@ -5,6 +5,7 @@ on:
     paths:
       - 'scripts/refresh_bcci_videos.py'
       - '.github/workflows/refresh-bcci-videos.yml'
+      - 'data/video-config.json'
   schedule:
     # 00:00 India Standard Time (18:30 UTC on the previous day)
     - cron: "30 18 * * *"
