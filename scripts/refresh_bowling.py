@@ -22,6 +22,30 @@ def stamp():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
 
+
+def update_last_updated(data):
+    """Use successful section snapshot timestamps, not failed refresh attempts."""
+    values = [
+        data.get("profileUpdated"),
+        data.get("careerStatsUpdated"),
+        data.get("recentUpdated"),
+        (data.get("iccRankings") or {}).get("updatedAt"),
+        data.get("iccRecordsUpdated"),
+        (data.get("statsguru") or {}).get("updatedAt"),
+        (data.get("bowlingStats") or {}).get("updatedAt"),
+        (data.get("fieldingStats") or {}).get("updatedAt"),
+    ]
+    valid = []
+    for value in values:
+        try:
+            parsed = datetime.strptime(value, "%Y-%m-%d %H:%M UTC")
+            valid.append((parsed, value))
+        except (TypeError, ValueError):
+            continue
+    if valid:
+        data["lastUpdated"] = max(valid)[1]
+
+
 def norm(value):
     return re.sub(r"[^a-z0-9]+", "", clean(value).casefold())
 
@@ -424,6 +448,7 @@ def main():
         "lastAttemptStatus": "success",
         "lastAttemptErrors": [],
     }
+    update_last_updated(data)
     DATA_FILE.write_text(
         json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
