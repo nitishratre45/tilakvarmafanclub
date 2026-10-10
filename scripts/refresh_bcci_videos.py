@@ -167,9 +167,12 @@ def fetch_browser_payloads() -> list[object]:
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
         page = browser.new_page(viewport={"width": 1440, "height": 1000})
+
         def capture(response):
             url = response.url
-            if "/api/" not in url and "application/json" not in response.headers.get("content-type", ""):
+            if "/api/" not in url and "application/json" not in response.headers.get(
+                "content-type", ""
+            ):
                 return
             if url in seen_responses:
                 return
@@ -182,6 +185,7 @@ def fetch_browser_payloads() -> list[object]:
             seen_responses.add(url)
             payloads.append(data)
             print(f"Captured BCCI catalogue response: {url[:180]}")
+
         page.on("response", capture)
         page.goto(page_url, wait_until="domcontentloaded", timeout=90000)
         page.wait_for_timeout(2500)
@@ -205,7 +209,10 @@ def fetch_browser_payloads() -> list[object]:
                     if len(seen_responses) == before:
                         break
             except Exception as exc:
-                print(f"Load More stopped at page {click_number + 1}: {exc}", file=sys.stderr)
+                print(
+                    f"Load More stopped at page {click_number + 1}: {exc}",
+                    file=sys.stderr,
+                )
                 break
         browser.close()
     print(f"Captured {len(payloads)} unique BCCI JSON responses from player archive.")
