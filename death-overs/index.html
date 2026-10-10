@@ -18,6 +18,10 @@
         z-index: 1000;
         flex-shrink: 0;
       }
+      /* Keep desktop nav items in one stable row; the shared mobile menu takes over on phones. */
+      .death-topbar nav {
+        flex-wrap: nowrap;
+      }
       .latest-match-panel {
         margin: 18px 0 0;
         padding: 22px;
@@ -1096,7 +1100,8 @@
         dm.setAttribute("aria-expanded", String(open));
       });
       dn?.querySelectorAll("a").forEach((a) =>
-        a.addEventListener("click", () => {
+        a.addEventListener("click", (event) => {
+          if (a.getAttribute("aria-current") === "page") event.preventDefault();
           dn.classList.remove("open");
           dm?.setAttribute("aria-expanded", "false");
         }),
