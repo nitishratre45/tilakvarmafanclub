@@ -8473,30 +8473,94 @@ body.mc-scoreboard-open {
   }
 }
 
-
 /* Compact innings scorecards: one clean scroll, no nested table scrollbars */
-#mc-scoreboard-details-live{align-items:start;gap:12px}
-.mc-innings-card{overflow:hidden;min-width:0;padding:12px}
-.mc-score-table-wrap{overflow:visible!important;max-width:100%;overscroll-behavior:initial}
-.mc-score-table{width:100%;table-layout:fixed;white-space:normal;font-size:11px}
-.mc-score-table th,.mc-score-table td{padding:7px 5px;overflow-wrap:anywhere}
-.mc-score-table th:first-child,.mc-score-table td:first-child{width:42%;min-width:0}
-.mc-score-table th:not(:first-child),.mc-score-table td:not(:first-child){width:auto}
-.mc-score-table td small{max-width:none}
-.mc-scoreboard-dialog{overflow:hidden}
-#mc-scoreboard-content{overflow-y:auto;overflow-x:hidden}
-@media(max-width:760px){
- .mc-scoreboard-modal{padding:0}
- .mc-scoreboard-dialog{width:100%;height:100dvh;max-height:100dvh;padding:12px 10px;border-radius:0}
- #mc-scoreboard-details-live{grid-template-columns:1fr;gap:10px}
- .mc-innings-card{padding:10px}
- .mc-score-table{font-size:11px;table-layout:fixed}
- .mc-score-table th:first-child,.mc-score-table td:first-child{width:38%;min-width:0}
- .mc-score-table th,.mc-score-table td{padding:7px 4px}
- .mc-score-table td small{font-size:9px}
- .mc-scoreboard-details{grid-template-columns:1fr 1fr}
+#mc-scoreboard-details-live {
+  align-items: start;
+  gap: 12px;
 }
-@media(min-width:761px){
- #mc-scoreboard-details-live{grid-template-columns:repeat(2,minmax(0,1fr))}
- .mc-score-table{table-layout:fixed}
+.mc-innings-card {
+  overflow: hidden;
+  min-width: 0;
+  padding: 12px;
+}
+.mc-score-table-wrap {
+  overflow: visible !important;
+  max-width: 100%;
+  overscroll-behavior: initial;
+}
+.mc-score-table {
+  width: 100%;
+  table-layout: fixed;
+  white-space: normal;
+  font-size: 11px;
+}
+.mc-score-table th,
+.mc-score-table td {
+  padding: 7px 5px;
+  overflow-wrap: anywhere;
+}
+.mc-score-table th:first-child,
+.mc-score-table td:first-child {
+  width: 42%;
+  min-width: 0;
+}
+.mc-score-table th:not(:first-child),
+.mc-score-table td:not(:first-child) {
+  width: auto;
+}
+.mc-score-table td small {
+  max-width: none;
+}
+.mc-scoreboard-dialog {
+  overflow: hidden;
+}
+#mc-scoreboard-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+@media (max-width: 760px) {
+  .mc-scoreboard-modal {
+    padding: 0;
+  }
+  .mc-scoreboard-dialog {
+    width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    padding: 12px 10px;
+    border-radius: 0;
+  }
+  #mc-scoreboard-details-live {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .mc-innings-card {
+    padding: 10px;
+  }
+  .mc-score-table {
+    font-size: 11px;
+    table-layout: fixed;
+  }
+  .mc-score-table th:first-child,
+  .mc-score-table td:first-child {
+    width: 38%;
+    min-width: 0;
+  }
+  .mc-score-table th,
+  .mc-score-table td {
+    padding: 7px 4px;
+  }
+  .mc-score-table td small {
+    font-size: 9px;
+  }
+  .mc-scoreboard-details {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 761px) {
+  #mc-scoreboard-details-live {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .mc-score-table {
+    table-layout: fixed;
+  }
 }
