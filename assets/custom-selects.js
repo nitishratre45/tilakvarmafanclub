@@ -217,10 +217,10 @@
   }
 
   function enhance(select) {
-    // The custom bottom-sheet picker is unreliable on some mobile browsers
-    // inside the standalone Death Overs calculator. Keep these four controls
-    // as real native selects on touch-sized screens; desktop keeps the custom UI.
-    if (isMobile() && select.closest(".calculator-controls")) return;
+    // Native mobile selects are more reliable than a custom overlay across Android
+    // browsers. Keep the browser's own option popup on every phone/tablet control.
+    // Desktop retains the branded custom picker.
+    if (isMobile()) return;
     if (
       select.dataset.customSelectReady === "true" ||
       select.multiple ||
