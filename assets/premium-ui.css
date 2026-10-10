@@ -1944,3 +1944,58 @@ footer {
     color: var(--orange) !important;
   }
 }
+
+
+/* RESPONSIVE POLISH PASS — unified rhythm, safer mobile spacing and accessible controls. */
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--cyan, #7ce5f2);
+  outline-offset: 3px;
+}
+img, video, canvas, svg { max-width: 100%; }
+body { overflow-wrap: break-word; }
+.section, .section > *, .section-heading, .profile-section > *, .stats-grid > *,
+.career-formats > *, .records-section > *, .match-center-grid > *,
+.upcoming-matches-grid > *, .tilak-news-grid > *, .bcci-video-grid > * { min-width: 0; }
+.stat-card, .record-card, .milestone-card, .analytics-card, .match-card,
+.home-format-card, .home-mini-stat, .tilak-news-card, .bcci-video-card { overflow-wrap: anywhere; }
+.table-wrap, .statsguru-table-wrap, .match-history-table-wrap {
+  max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+@media (min-width: 1100px) {
+  .section { padding-inline: clamp(48px, 7.5vw, 120px); }
+  .section-heading { max-width: 1440px; margin-inline: auto; }
+  .profile-section { padding-inline: clamp(48px, 7.5vw, 120px); }
+}
+@media (max-width: 800px) {
+  html { scroll-padding-top: 82px; }
+  .section { padding: 48px 18px; }
+  .section-heading { gap: 12px; margin-bottom: 22px; }
+  .section-heading > p { margin-top: 12px; line-height: 1.7; }
+  .topbar, .death-topbar { min-height: 70px; }
+  .menu-toggle { min-width: 44px; min-height: 44px; }
+  #main-nav, #death-nav {
+    max-height: min(68dvh, 540px); overflow-y: auto; overscroll-behavior: contain;
+    padding: 12px; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  #main-nav a, #death-nav a {
+    min-height: 44px; padding: 11px 12px; border-radius: 10px; line-height: 1.35;
+  }
+  .profile-facts, .home-quick-stats { gap: 8px; }
+  .stat-card, .home-mini-stat, .home-format-card { min-width: 0; }
+  .match-center-toolbar, .bcci-video-controls { flex-wrap: wrap; }
+  .match-center-toolbar > *, .bcci-video-controls > * { min-width: 0; max-width: 100%; }
+}
+@media (max-width: 480px) {
+  .section { padding: 42px 15px; }
+  .section h2 { overflow-wrap: anywhere; }
+  .stats-grid, .career-formats, .home-quick-stats { gap: 9px; }
+  .stat-card { padding: 13px; border-radius: 14px; }
+  .stat-card strong { overflow-wrap: anywhere; }
+  .table-wrap { border-radius: 12px; }
+  .calculator-card, .settings-card, .upcoming-matches-panel,
+  .match-center-toolbar, .bcci-video-controls { padding: 14px; }
+  .bcci-player-page-content { gap: 14px; }
+  footer { gap: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
