@@ -132,6 +132,30 @@ def cricsheet_recent():
     return rows[:12]
 
 
+
+def update_last_updated(data):
+    """Use successful section snapshot timestamps, not failed refresh attempts."""
+    values = [
+        data.get("profileUpdated"),
+        data.get("careerStatsUpdated"),
+        data.get("recentUpdated"),
+        (data.get("iccRankings") or {}).get("updatedAt"),
+        data.get("iccRecordsUpdated"),
+        (data.get("statsguru") or {}).get("updatedAt"),
+        (data.get("bowlingStats") or {}).get("updatedAt"),
+        (data.get("fieldingStats") or {}).get("updatedAt"),
+    ]
+    valid = []
+    for value in values:
+        try:
+            parsed = datetime.strptime(value, "%Y-%m-%d %H:%M UTC")
+            valid.append((parsed, value))
+        except (TypeError, ValueError):
+            continue
+    if valid:
+        data["lastUpdated"] = max(valid)[1]
+
+
 def main():
     if not DATA_FILE.exists():
         raise SystemExit("Expected data/site-data.json was not found")
@@ -210,17 +234,29 @@ def main():
     )
     # Public audit trail: show scheduled refreshes on the homepage activity feed.
     activity = data.setdefault("activityLog", [])
-    activity.insert(
-        0,
-        {
-            "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-            "category": "AUTOMATION",
-            "title": "Scheduled Python refresh completed",
-            "description": "Public profile and match feeds were checked. Existing verified rows are retained when a source is blocked or returns stale data.",
-            "source": "https://github.com/nitishratre45/tilakvarmafanclub/actions",
-        },
-    )
-    data["activityLog"] = activity[:12]
+    event = {
+        "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "category": "AUTOMATION",
+        "title": "Scheduled Python refresh completed",
+        "description": "Public profile and match feeds were checked. Existing verified rows are retained when a source is blocked or returns stale data.",
+        "source": "https://github.com/nitishratre45/tilakvarmafanclub/actions",
+    }
+    event_key = (event["date"], event["category"], event["title"])
+    activity = [
+        row for row in activity
+        if (row.get("date"), row.get("category"), row.get("title")) != event_key
+    ]
+    activity.insert(0, event)
+    seen_events = set()
+    unique_activity = []
+    for row in activity:
+        key = (row.get("date"), row.get("category"), row.get("title"), row.get("description"))
+        if key in seen_events:
+            continue
+        seen_events.add(key)
+        unique_activity.append(row)
+    data["activityLog"] = unique_activity[:12]
+    update_last_updated(data)
     DATA_FILE.write_text(
         json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
