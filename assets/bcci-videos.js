@@ -334,7 +334,7 @@
         return;
       }
       const source = validHttps(activeVideo.playbackUrl);
-      const urlLooksLikeFile = /\\.mp4(?:$|[?#])/i.test(source);
+      const urlLooksLikeFile = /\.mp4(?:$|[?#])/i.test(source);
       if (!urlLooksLikeFile) {
         errorElement.textContent = "This official stream is adaptive (HLS/DASH), not a downloadable video file. BCCI has not provided a direct MP4 download.";
         return;
