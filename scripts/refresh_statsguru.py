@@ -924,6 +924,32 @@ def main():
             key=lambda row: date_sort_key(row.get("date")),
             reverse=True,
         )[:250]
+        # Preserve the known debut and advance the last-match record only when a
+        # newer verified row is available for that format.
+        milestones = data.get("playerMatchMilestones", {})
+        if not isinstance(milestones, dict):
+            milestones = {}
+        for fmt in FORMATS:
+            rows = [row for row in data["playerMatches"] if clean(row.get("format")) == fmt]
+            if not rows:
+                continue
+            ordered = sorted(rows, key=lambda row: date_sort_key(row.get("date")))
+            previous = milestones.get(fmt, {}) if isinstance(milestones.get(fmt), dict) else {}
+            debut = previous.get("debut") or {
+                "opposition": ordered[0].get("opposition"),
+                "ground": ordered[0].get("ground") or ordered[0].get("venue"),
+                "date": ordered[0].get("date"),
+            }
+            latest = {
+                "opposition": ordered[-1].get("opposition"),
+                "ground": ordered[-1].get("ground") or ordered[-1].get("venue"),
+                "date": ordered[-1].get("date"),
+            }
+            previous_last = previous.get("last")
+            if isinstance(previous_last, dict) and date_sort_key(previous_last.get("date")) > date_sort_key(latest.get("date")):
+                latest = previous_last
+            milestones[fmt] = {"debut": debut, "last": latest}
+        data["playerMatchMilestones"] = milestones
         data["playerMatchesUpdatedAt"] = stamp()
         data["playerMatchesSource"] = (
             "ESPNcricinfo Statsguru + saved verified recent scorecards"
