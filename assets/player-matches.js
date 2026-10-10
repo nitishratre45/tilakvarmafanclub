@@ -109,7 +109,9 @@
     const bowlMap = new Map();
     for (const [fmt, entry] of Object.entries(data.bowlingStats?.formats || {}))
       for (const b of Array.isArray(entry?.innings) ? entry.innings : []) {
-        const key = [fmt, dateValue(b.date) || b.date || "", b.opposition || "", b.ground || ""].join("|").toLowerCase();
+        const key = [fmt, dateValue(b.date) || b.date || "", b.opposition || "", b.ground || ""]
+          .join("|")
+          .toLowerCase();
         bowlMap.set(key, b.figures || (b.wickets ?? "—") + "/" + (b.runsConceded ?? "—"));
       }
     const selector = $("player-match-format"),
