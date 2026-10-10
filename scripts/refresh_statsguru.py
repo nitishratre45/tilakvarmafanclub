@@ -1004,7 +1004,9 @@ def main():
                             if not fallback.get("innings") and previous.get("innings"):
                                 merged["innings"] = previous["innings"]
                                 merged["inningsCount"] = len(previous["innings"])
-                            if not fallback.get("careerBreakdown") and previous.get("careerBreakdown"):
+                            if not fallback.get("careerBreakdown") and previous.get(
+                                "careerBreakdown"
+                            ):
                                 merged["careerBreakdown"] = previous["careerBreakdown"]
                             new_formats[fmt] = merged
                         else:
