@@ -854,6 +854,42 @@
 
       <section id="tilak-videos" class="section tilak-videos-section" aria-label="Videos"></section>
 
+      <section id="tilak-videos" class="section tilak-videos-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">OFFICIAL BCCI VIDEO FEED</div>
+            <h2>TILAK <em>VIDEO HUB</em></h2>
+          </div>
+          <p>Official BCCI thumbnails and playback links. Feed refreshes nightly at 12:00 AM IST.</p>
+        </div>
+        <div class="bcci-video-controls">
+          <label>Year <select id="bcci-video-year"><option value="all">All years</option></select></label>
+          <label>Format <select id="bcci-video-format">
+            <option value="all">All formats</option>
+            <option value="T20I">T20I</option>
+            <option value="ODI">ODI</option>
+            <option value="Test">Test</option>
+            <option value="International">International / other</option>
+          </select></label>
+          <label>Thumbnail <select id="bcci-thumb-quality">
+            <option value="small">Small · 384px</option>
+            <option value="medium">Medium · 720px</option>
+            <option value="large" selected>Large · 960px</option>
+            <option value="xlarge">XL · 1280px</option>
+          </select></label>
+        </div>
+        <p id="bcci-video-status" class="bcci-video-status" aria-live="polite">Loading official BCCI videos…</p>
+        <div id="bcci-video-grid" class="bcci-video-grid" aria-live="polite"></div>
+        <p class="bcci-video-attribution">SOURCE: BCCI.TV · Videos are played from official playback URLs; no video files are re-hosted.</p>
+        <div id="bcci-video-player-modal" class="bcci-video-modal" hidden>
+          <div class="bcci-video-backdrop" data-bcci-close></div>
+          <div class="bcci-video-panel" role="dialog" aria-modal="true" aria-label="BCCI video player">
+            <div class="bcci-video-player-head"><span id="bcci-playing-title">SOURCE: BCCI</span><button type="button" data-bcci-close aria-label="Close video">✕</button></div>
+            <video id="bcci-shaka-player" controls playsinline autoplay></video>
+            <div class="bcci-player-options"><label>Playback quality <select id="bcci-playback-quality"><option value="auto">Auto</option><option value="1080">1080p max</option><option value="720">720p max</option><option value="480">480p max</option><option value="360">360p max</option></select></label><span id="bcci-player-error" role="status"></span></div>
+          </div>
+        </div>
+      </section>
       <section id="settings" class="section settings-section">
         <div class="section-heading">
           <div>
@@ -934,5 +970,7 @@
     <script src="assets/bowling.js?v=20261010-restore-fc-la-summary"></script>
     <script src="assets/custom-selects.js"></script>
     <script src="assets/theme.js?v=20261014"></script>
+    <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.12.6/dist/shaka-player.compiled.js"></script>
+    <script src="assets/bcci-videos.js?v=20261010-1"></script>
   </body>
 </html>
