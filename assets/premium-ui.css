@@ -552,17 +552,16 @@ img {
   }
 }
 
-
 /* SECTION FINISHING PASS — stronger hierarchy, cleaner grids, and consistent orange accents. */
 :root {
   --orange: #ff6a35;
   --cyan: #7ce5f2;
   --text-accent: #ff6a35;
-  --section-edge: rgba(124, 229, 242, .14);
+  --section-edge: rgba(124, 229, 242, 0.14);
 }
 .section:not(.profile-section) {
   position: relative;
-  border-top: 1px solid rgba(255,255,255,.035);
+  border-top: 1px solid rgba(255, 255, 255, 0.035);
 }
 .section:not(.profile-section)::before {
   content: "";
@@ -570,14 +569,24 @@ img {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(ellipse at 92% 0%, rgba(124,229,242,.035), transparent 36rem);
+  background: radial-gradient(ellipse at 92% 0%, rgba(124, 229, 242, 0.035), transparent 36rem);
 }
-.section-heading h2 { max-width: 100%; }
-.section-heading > div { min-width: 0; }
-.section-heading > p { line-height: 1.85; }
-.records-section, .fan-zone-section, .tilak-photos-section, .tilak-news-section,
-.tilak-videos-section, .settings-section {
-  background: linear-gradient(180deg, rgba(13,26,44,.52), rgba(7,11,20,.18));
+.section-heading h2 {
+  max-width: 100%;
+}
+.section-heading > div {
+  min-width: 0;
+}
+.section-heading > p {
+  line-height: 1.85;
+}
+.records-section,
+.fan-zone-section,
+.tilak-photos-section,
+.tilak-news-section,
+.tilak-videos-section,
+.settings-section {
+  background: linear-gradient(180deg, rgba(13, 26, 44, 0.52), rgba(7, 11, 20, 0.18));
 }
 .records-section .record-card,
 .records-section .milestone-card,
@@ -651,12 +660,12 @@ img {
 }
 .settings-section .settings-card {
   padding: clamp(18px, 2.4vw, 28px);
-  background: linear-gradient(145deg, rgba(17,29,48,.96), rgba(9,16,28,.96));
+  background: linear-gradient(145deg, rgba(17, 29, 48, 0.96), rgba(9, 16, 28, 0.96));
 }
 .settings-theme-options button[aria-pressed="true"],
 .settings-theme-options button.active {
   border-color: var(--orange);
-  box-shadow: 0 0 0 2px rgba(255,106,53,.14);
+  box-shadow: 0 0 0 2px rgba(255, 106, 53, 0.14);
 }
 .about-section {
   align-items: start;
@@ -679,13 +688,13 @@ img {
 .home-mini-stat span,
 .home-format-card .stat-label,
 .home-bowling-stats .stat-label {
-  letter-spacing: .09em;
+  letter-spacing: 0.09em;
 }
 .home-bowling-card {
   background:
-    radial-gradient(ellipse at 100% 0%, rgba(124,229,242,.075), transparent 22rem),
+    radial-gradient(ellipse at 100% 0%, rgba(124, 229, 242, 0.075), transparent 22rem),
     linear-gradient(145deg, #101d30, #0a111d);
-  box-shadow: 0 18px 48px rgba(0,0,0,.16);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.16);
 }
 .home-snapshot-foot,
 .data-line,
@@ -696,7 +705,7 @@ img {
   position: sticky;
   top: 82px;
   z-index: 8;
-  background: rgba(8,14,25,.92);
+  background: rgba(8, 14, 25, 0.92);
   border: 1px solid var(--line);
   padding: 6px;
   -webkit-backdrop-filter: blur(18px);
@@ -746,14 +755,18 @@ textarea:focus-visible {
     flex-direction: column;
     gap: 12px;
   }
-  .section-heading > p { max-width: 62ch; }
+  .section-heading > p {
+    max-width: 62ch;
+  }
   .stats-subnav {
     top: 68px;
     overflow-x: auto;
     white-space: nowrap;
     scrollbar-width: thin;
   }
-  .stats-subnav button { flex: 0 0 auto; }
+  .stats-subnav button {
+    flex: 0 0 auto;
+  }
   .statsguru-sourcebar,
   .data-line {
     align-items: flex-start;
@@ -767,7 +780,7 @@ textarea:focus-visible {
   }
   .tilak-photos-section .cricinfo-photo-grid,
   .cricinfo-photo-grid {
-    grid-template-columns: repeat(2, minmax(0,1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .fan-zone-section .button,
   .settings-section .button {
@@ -775,9 +788,20 @@ textarea:focus-visible {
   }
 }
 @media (max-width: 420px) {
-  .section h2 { overflow-wrap: anywhere; }
-  .home-quick-stats { gap: 9px; }
-  .home-mini-stat { padding: 14px; }
-  .home-mini-stat strong { font-size: clamp(25px, 8vw, 34px); }
-  .statsguru-format-tabs button { padding: 9px 11px; font-size: 11px; }
+  .section h2 {
+    overflow-wrap: anywhere;
+  }
+  .home-quick-stats {
+    gap: 9px;
+  }
+  .home-mini-stat {
+    padding: 14px;
+  }
+  .home-mini-stat strong {
+    font-size: clamp(25px, 8vw, 34px);
+  }
+  .statsguru-format-tabs button {
+    padding: 9px 11px;
+    font-size: 11px;
+  }
 }
