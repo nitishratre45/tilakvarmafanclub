@@ -131,9 +131,12 @@ async function github(env, path, options = {}) {
 async function readData(env, path) {
   const repo = repoName(env);
   const branch = env.GITHUB_BRANCH || "main";
-  const response = await fetch("https://raw.githubusercontent.com/" + repo + "/" + branch + "/" + path, {
-    cache: "no-store",
-  });
+  const response = await fetch(
+    "https://raw.githubusercontent.com/" + repo + "/" + branch + "/" + path,
+    {
+      cache: "no-store",
+    },
+  );
   if (!response.ok) throw new Error(path + " could not be read (" + response.status + ")");
   return response.json();
 }
