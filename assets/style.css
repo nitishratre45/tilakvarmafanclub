@@ -5967,31 +5967,31 @@ option {
   }
 }
 
-/* Runs column now follows the same neutral table styling as every other column. */
+/* Runs must stay highlighted after the global Stats table theme rules. */
 .stats-section .statsguru-panel .table-wrap th.sg-head-runs {
-  background: var(--panel2);
-  color: #b9cce6;
-  box-shadow: inset 0 -2px 0 rgba(124, 229, 242, 0.55);
+  background: color-mix(in srgb, #ff8a5b 18%, var(--panel2)) !important;
+  color: #ffad8b !important;
+  box-shadow: inset 0 -3px 0 #ff8a5b !important;
+  border-bottom-color: #ff8a5b !important;
 }
-.stats-section .statsguru-panel .table-wrap .sg-cell-runs {
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  font-weight: inherit;
-  text-align: inherit;
-  min-width: 0;
+.stats-section .statsguru-panel .table-wrap td.sg-cell-runs {
+  background: rgba(255, 138, 91, 0.12) !important;
+  color: #ffad8b !important;
+  font-weight: 800 !important;
+  font-variant-numeric: tabular-nums;
 }
 .stats-section .statsguru-panel .table-wrap tbody tr:hover td.sg-cell-runs {
-  background: rgba(124, 229, 242, 0.065);
+  background: rgba(255, 138, 91, 0.22) !important;
 }
 :root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th.sg-head-runs {
-  background: #edf3f9;
-  color: #34465c;
-  box-shadow: inset 0 -2px 0 rgba(8, 126, 145, 0.4);
+  background: #ffeadf !important;
+  color: #9c3516 !important;
+  box-shadow: inset 0 -3px 0 #d95d30 !important;
+  border-bottom-color: #d95d30 !important;
 }
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap .sg-cell-runs {
-  background: transparent;
-  color: inherit;
+:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap td.sg-cell-runs {
+  background: #fff0e8 !important;
+  color: #a43d1b !important;
 }
 
 /* Main Batting career summary: Runs card matches the neutral stat cards. */
