@@ -101,9 +101,10 @@ export async function onRequest({ request, env }) {
         const run = await github(env, "/actions/runs/" + id);
         if (!["failure", "cancelled"].includes(run.conclusion))
           return json({ error: "Only failed or cancelled runs can be re-run." }, 409);
-        const rerunPath = run.conclusion === "failure"
-          ? "/actions/runs/" + id + "/rerun-failed-jobs"
-          : "/actions/runs/" + id + "/rerun";
+        const rerunPath =
+          run.conclusion === "failure"
+            ? "/actions/runs/" + id + "/rerun-failed-jobs"
+            : "/actions/runs/" + id + "/rerun";
         await github(env, rerunPath, { method: "POST" });
         return json({ ok: true, message: "Workflow re-run queued.", runId: id }, 202);
       }
