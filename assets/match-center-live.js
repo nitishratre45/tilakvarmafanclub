@@ -127,7 +127,7 @@
       : '<p class="activity-empty">' +
         (hasLiveData
           ? "No matches found for this category or filters."
-          : "No match data is available right now. Please try again shortly.") +
+          : (view === "upcoming" ? "No upcoming India fixtures returned by CricAPI yet." : view === "live" ? "No India matches are live right now." : view === "results" ? "No recent India results returned right now." : "No India matches returned right now.")) +
         "</p>";
   }
   async function refresh() {
@@ -155,8 +155,8 @@
                   : m.format || "Other",
         });
       });
-      hasLiveData = Boolean(data.providerOk && matches.length);
-      if (!data.providerOk || matches.length === 0) {
+      hasLiveData = Boolean(data.providerOk);
+      if (!data.providerOk) {
         // Do not replace known fixtures with an empty screen when the external feed fails.
         matches = [];
         host.innerHTML = fallbackHTML;
@@ -166,10 +166,10 @@
       }
       if (status)
         status.textContent =
-          (data.providerOk && data.total > 0
+          (data.providerOk
             ? "CricAPI connected"
-            : "CricAPI unavailable · showing saved India fixtures") +
-          (data.providerOk && data.total > 0
+            : "CricAPI unavailable") +
+          (data.providerOk
             ? " · " + data.total + " matches · Refreshed "
             : " · Refreshed ") +
           new Date(data.updatedAt).toLocaleTimeString("en-IN", {
@@ -180,7 +180,7 @@
           " IST";
     } catch (_) {
       hasLiveData = false;
-      if (status) status.textContent = "CricAPI unavailable · showing saved India fixtures";
+      if (status) status.textContent = "CricAPI unavailable · retrying automatically";
       host.innerHTML = fallbackHTML;
       if (count) count.textContent = fallbackCount;
     }
