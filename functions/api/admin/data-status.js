@@ -138,7 +138,10 @@ async function readData(env, path) {
 }
 function parseDate(value) {
   if (!value || typeof value !== "string") return null;
-  const d = new Date(value.replace(/ UTC$/, "Z"));
+  const normalized = value.includes(" UTC")
+    ? value.replace(" ", "T").replace(/ UTC$/, "Z")
+    : value;
+  const d = new Date(normalized);
   return Number.isNaN(d.getTime()) ? null : d;
 }
 function iso(value) {
