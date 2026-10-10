@@ -34,6 +34,18 @@ jobs:
           node --input-type=module --check < functions/api/admin/sign-upload.js
           node --input-type=module --check < functions/api/admin/content.js
           node --input-type=module --check < functions/api/admin/session.js
+      - name: Check inline Admin Studio JavaScript
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          html = Path("admin/index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r"<script>(.*?)</script>", html, flags=re.S)
+          if not scripts:
+              raise SystemExit("No inline Admin Studio script found")
+          Path("/tmp/admin-inline.js").write_text("\n".join(scripts), encoding="utf-8")
+          PY
+          node --check /tmp/admin-inline.js
       - name: Check data JSON
         run: |
           python -m json.tool data/admin-media.json > /dev/null
