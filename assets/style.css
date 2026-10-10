@@ -5782,12 +5782,24 @@ option {
 .statsguru-summary .statsguru-metric strong {
   color: var(--stat-accent, var(--white));
 }
-.statsguru-summary .statsguru-metric:nth-child(6n + 1) { --stat-accent: #7ce5f2; }
-.statsguru-summary .statsguru-metric:nth-child(6n + 2) { --stat-accent: #a9a0ff; }
-.statsguru-summary .statsguru-metric:nth-child(6n + 3) { --stat-accent: #72dfac; }
-.statsguru-summary .statsguru-metric:nth-child(6n + 4) { --stat-accent: #ff8a5b; }
-.statsguru-summary .statsguru-metric:nth-child(6n + 5) { --stat-accent: #ffd166; }
-.statsguru-summary .statsguru-metric:nth-child(6n) { --stat-accent: #78aaff; }
+.statsguru-summary .statsguru-metric:nth-child(6n + 1) {
+  --stat-accent: #7ce5f2;
+}
+.statsguru-summary .statsguru-metric:nth-child(6n + 2) {
+  --stat-accent: #a9a0ff;
+}
+.statsguru-summary .statsguru-metric:nth-child(6n + 3) {
+  --stat-accent: #72dfac;
+}
+.statsguru-summary .statsguru-metric:nth-child(6n + 4) {
+  --stat-accent: #ff8a5b;
+}
+.statsguru-summary .statsguru-metric:nth-child(6n + 5) {
+  --stat-accent: #ffd166;
+}
+.statsguru-summary .statsguru-metric:nth-child(6n) {
+  --stat-accent: #78aaff;
+}
 
 /* Color-coded columns remain consistent as the table's visible columns scroll. */
 .statsguru-panel .table-wrap th,
@@ -5795,23 +5807,41 @@ option {
   border-bottom-color: color-mix(in srgb, var(--line) 78%, transparent);
 }
 .statsguru-panel .table-wrap th:nth-child(1),
-.statsguru-panel .table-wrap td:nth-child(1) { --column-accent: #7ce5f2; }
+.statsguru-panel .table-wrap td:nth-child(1) {
+  --column-accent: #7ce5f2;
+}
 .statsguru-panel .table-wrap th:nth-child(2),
-.statsguru-panel .table-wrap td:nth-child(2) { --column-accent: #a9a0ff; }
+.statsguru-panel .table-wrap td:nth-child(2) {
+  --column-accent: #a9a0ff;
+}
 .statsguru-panel .table-wrap th:nth-child(3),
-.statsguru-panel .table-wrap td:nth-child(3) { --column-accent: #72dfac; }
+.statsguru-panel .table-wrap td:nth-child(3) {
+  --column-accent: #72dfac;
+}
 .statsguru-panel .table-wrap th:nth-child(4),
-.statsguru-panel .table-wrap td:nth-child(4) { --column-accent: #78aaff; }
+.statsguru-panel .table-wrap td:nth-child(4) {
+  --column-accent: #78aaff;
+}
 .statsguru-panel .table-wrap th:nth-child(5),
-.statsguru-panel .table-wrap td:nth-child(5) { --column-accent: #ffd166; }
+.statsguru-panel .table-wrap td:nth-child(5) {
+  --column-accent: #ffd166;
+}
 .statsguru-panel .table-wrap th:nth-child(6),
-.statsguru-panel .table-wrap td:nth-child(6) { --column-accent: #ff8a5b; }
+.statsguru-panel .table-wrap td:nth-child(6) {
+  --column-accent: #ff8a5b;
+}
 .statsguru-panel .table-wrap th:nth-child(7),
-.statsguru-panel .table-wrap td:nth-child(7) { --column-accent: #e99adf; }
+.statsguru-panel .table-wrap td:nth-child(7) {
+  --column-accent: #e99adf;
+}
 .statsguru-panel .table-wrap th:nth-child(8),
-.statsguru-panel .table-wrap td:nth-child(8) { --column-accent: #80d6c3; }
+.statsguru-panel .table-wrap td:nth-child(8) {
+  --column-accent: #80d6c3;
+}
 .statsguru-panel .table-wrap th:nth-child(9),
-.statsguru-panel .table-wrap td:nth-child(9) { --column-accent: #f19a9a; }
+.statsguru-panel .table-wrap td:nth-child(9) {
+  --column-accent: #f19a9a;
+}
 .statsguru-panel .table-wrap th:not(.sg-head-runs) {
   box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--column-accent, var(--cyan)) 70%, transparent);
 }
@@ -5854,4 +5884,3 @@ option {
     font-size: clamp(18px, 5vw, 24px);
   }
 }
-
