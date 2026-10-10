@@ -55,7 +55,9 @@ export async function onRequestPost({ request, env }) {
       }
       const allowedHosts = new Set(["www.bcci.tv", "bcci.tv"]);
       const allowedPaths = new Set(["/api/bff/cms/videos", "/api/bff/cms/videos/latest"]);
-      const isVideoUpNextEndpoint = /^\/api\/bff\/cms\/videos\/[a-z0-9-]+\/up-next$/i.test(parsed.pathname);
+      const isVideoUpNextEndpoint = /^\/api\/bff\/cms\/videos\/[a-z0-9-]+\/up-next$/i.test(
+        parsed.pathname,
+      );
       if (
         parsed.protocol !== "https:" ||
         !allowedHosts.has(parsed.hostname) ||
