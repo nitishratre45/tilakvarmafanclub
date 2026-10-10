@@ -9,12 +9,12 @@
       content="Tilak Varma fan club — career snapshot, recent innings, match moments and fan gallery."
     />
     <title>Tilak Varma FC | The 72 Club</title>
-    <link rel="stylesheet" href="assets/style.css?v=20261010-photo-grid2" />
+    <link rel="stylesheet" href="assets/style.css?v=20261010-monthly-logo1" />
   </head>
   <body>
     <header class="topbar">
       <a class="brand" href="#profile"
-        ><span class="brand-mark">72</span><span>TILAK VARMA <small>FAN CLUB</small></span></a
+        ><span class="brand-mark brand-mark-photo"><img data-tilak-logo src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" aria-hidden="true"></span><span>TILAK VARMA <small>FAN CLUB</small></span></a
       ><button
         class="menu-toggle"
         aria-label="Toggle menu"
@@ -1071,6 +1071,19 @@
       ><span>INDEPENDENT FAN PROJECT · <span id="year"></span></span
       ><span>RESPECT THE GAME. BACK THE PLAYER.</span>
     </footer>
+    <script>
+      (() => {
+        const img = document.querySelector("[data-tilak-logo]");
+        if (!img) return;
+        fetch("data/site-data.json?v=monthly-logo", { cache: "no-store" })
+          .then((r) => r.ok ? r.json() : Promise.reject())
+          .then((data) => {
+            const photo = data?.profile?.photo;
+            if (typeof photo === "string" && /^https:\/\//i.test(photo)) img.src = photo;
+          })
+          .catch(() => {});
+      })();
+    </script>
     <script src="assets/app.js?v=20261010-audit4"></script>
     <script src="assets/records-matches.js?v=20261010-recovery1"></script>
     <script src="assets/player-matches.js?v=20261010-deduplicate1"></script>
