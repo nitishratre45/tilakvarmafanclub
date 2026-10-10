@@ -63,7 +63,10 @@ export async function onRequestPost({ request, env }) {
       if (
         parsed.protocol !== "https:" ||
         !allowedHosts.has(parsed.hostname) ||
-        (!allowedPaths.has(parsed.pathname) && !isVideoUpNextEndpoint && !isMatchVideoPage && !isVideoDetailPage) ||
+        (!allowedPaths.has(parsed.pathname) &&
+          !isVideoUpNextEndpoint &&
+          !isMatchVideoPage &&
+          !isVideoDetailPage) ||
         parsed.username ||
         parsed.password ||
         parsed.hash ||
