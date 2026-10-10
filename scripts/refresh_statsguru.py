@@ -957,6 +957,8 @@ def main():
     new_formats = dict(old_formats)
     success = []
     errors = []
+    optional_warnings = []
+    optional_formats = {"FC", "List A"}
     for fmt, match_class in FORMATS.items():
         try:
             result = scrape_format(fmt, match_class)
@@ -983,7 +985,11 @@ def main():
                 + str(len(result.get("innings", [])))
             )
         except Exception as exc:
-            errors.append(fmt + ": " + str(exc))
+            message = fmt + ": " + str(exc)
+            if fmt in optional_formats:
+                optional_warnings.append(message)
+            else:
+                errors.append(message)
             print("Could not refresh " + fmt + " from ESPNcricinfo Statsguru:", exc)
             if fmt in {"FC", "List A"}:
                 try:
@@ -996,6 +1002,7 @@ def main():
                             + ": refreshed verified domestic summary from secondary profile feed; innings not fabricated"
                         )
                 except Exception as fallback_exc:
+                    optional_warnings.append(fmt + " summary fallback: " + str(fallback_exc))
                     print(
                         fmt
                         + ": secondary summary fallback unavailable; preserving saved data:",
@@ -1109,6 +1116,7 @@ def main():
             "lastAttemptAt": stamp(),
             "lastAttemptStatus": "partial" if errors else "success",
             "lastAttemptErrors": errors,
+            "lastAttemptWarnings": optional_warnings,
         }
         # Keep the public career cards in sync with the verified Statsguru
         # summaries. Preserve formats that the current source did not return.
@@ -1183,7 +1191,7 @@ def main():
             else {}
         )
         new_field_formats = dict(old_field_formats)
-        field_success, field_errors = [], []
+        field_success, field_errors, field_warnings = [], [], []
         for fmt, match_class in FORMATS.items():
             try:
                 fresh = scrape_fielding_format(fmt, match_class)
@@ -1210,7 +1218,11 @@ def main():
                     raise RuntimeError("no verified fielding rows returned")
                 print(fmt + ": fielding summary/list refreshed")
             except Exception as exc:
-                field_errors.append(fmt + ": " + str(exc))
+                message = fmt + ": " + str(exc)
+                if fmt in optional_formats:
+                    field_warnings.append(message)
+                else:
+                    field_errors.append(message)
                 print(
                     fmt
                     + ": fielding refresh unavailable; keeping saved fielding snapshot:",
@@ -1227,6 +1239,7 @@ def main():
                 "lastAttemptAt": stamp(),
                 "lastAttemptStatus": "partial" if field_errors else "success",
                 "lastAttemptErrors": field_errors,
+                "lastAttemptWarnings": field_warnings,
                 "formats": new_field_formats,
             }
         DATA_FILE.write_text(
