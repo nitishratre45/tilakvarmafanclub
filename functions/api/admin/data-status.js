@@ -397,14 +397,25 @@ export async function onRequest({ request, env }) {
       const isStale = hoursSinceData === null || hoursSinceData > def.intervalHours;
       let status = "current";
       if (entry.error) status = "unavailable";
-      else if (latestRun && ["queued", "in_progress"].includes(latestRun.status)) status = "refreshing";
-      else if (latestFailure && (!latestSuccess || latestFailure.createdAt > latestSuccess.createdAt)) status = "error";
+      else if (latestRun && ["queued", "in_progress"].includes(latestRun.status))
+        status = "refreshing";
+      else if (
+        latestFailure &&
+        (!latestSuccess || latestFailure.createdAt > latestSuccess.createdAt)
+      )
+        status = "error";
       else if (
         info.attemptStatus === "source-unavailable" ||
         info.attemptStatus === "failed" ||
         info.attemptStatus === "error"
-      ) status = "error";
-      else if (info.attemptStatus === "partial" || info.attemptStatus === "core-ok-optional-formats-partial" || (info.errors || []).length) status = "partial";
+      )
+        status = "error";
+      else if (
+        info.attemptStatus === "partial" ||
+        info.attemptStatus === "core-ok-optional-formats-partial" ||
+        (info.errors || []).length
+      )
+        status = "partial";
       else if (isStale) status = "stale";
       return {
         id: def.id,
