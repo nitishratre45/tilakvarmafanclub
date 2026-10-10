@@ -6265,3 +6265,187 @@ option {
     flex: 1;
   }
 }
+
+
+/* Compact phone profile: keep the player portrait prominent without letting copy dominate. */
+@media (max-width: 650px) {
+  .profile-section {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 18px 4vw 22px !important;
+  }
+  .profile-photo-wrap {
+    width: 104px !important;
+    height: 146px !important;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid rgba(124, 229, 242, 0.38);
+    background:
+      radial-gradient(ellipse at 50% 25%, rgba(36, 111, 153, 0.35), transparent 70%),
+      var(--panel);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  .profile-photo-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 18%;
+  }
+  .profile-copy {
+    min-width: 0;
+  }
+  .profile-copy > .eyebrow {
+    font-size: 9px;
+    line-height: 1.45;
+    letter-spacing: .08em;
+    margin: 1px 0 6px;
+  }
+  .profile-copy h2 {
+    margin: 0 0 7px;
+    font-size: clamp(23px, 6.2vw, 29px) !important;
+    line-height: 1.03;
+    letter-spacing: -.035em;
+  }
+  .profile-intro {
+    margin: 0 0 10px;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  .profile-facts {
+    gap: 5px !important;
+    margin-top: 8px;
+  }
+  .profile-facts > div {
+    min-width: 0;
+    padding: 7px 8px !important;
+  }
+  .profile-facts small {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 8px;
+    letter-spacing: .07em;
+  }
+  .profile-facts strong {
+    font-size: 11px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+  .icc-ranking-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .icc-ranking-card > div {
+    min-width: 0;
+    padding: 9px 8px;
+  }
+  .icc-ranking-card .eyebrow,
+  .icc-ranking-card span {
+    font-size: 8px;
+    line-height: 1.35;
+  }
+  .icc-ranking-card strong {
+    display: block;
+    margin: 5px 0 3px;
+    font-size: clamp(17px, 4.8vw, 22px) !important;
+    line-height: 1.05;
+  }
+  .icc-ranking-card small {
+    font-size: 8px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .profile-teams {
+    grid-column: 1 / -1;
+    margin: 9px 0 0;
+    font-size: 9px;
+    line-height: 1.5;
+  }
+  .profile-quick-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 10px;
+  }
+  .profile-quick-actions .button {
+    min-height: 36px;
+    padding: 8px 10px !important;
+    font-size: 10px;
+    line-height: 1.25;
+  }
+  .home-snapshot-section {
+    padding: 22px 4vw !important;
+  }
+  .home-snapshot-heading {
+    gap: 8px;
+    margin-bottom: 13px;
+  }
+  .home-snapshot-heading .eyebrow {
+    font-size: 9px;
+    letter-spacing: .1em;
+  }
+  .home-snapshot-heading h2 {
+    margin: 5px 0 0;
+    font-size: clamp(25px, 7vw, 31px) !important;
+    line-height: 1.05;
+    letter-spacing: -.03em;
+  }
+  .home-all-stats {
+    min-height: 34px;
+    padding: 8px 10px;
+    font-size: 9px;
+  }
+  .home-quick-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+  .home-mini-stat {
+    min-width: 0;
+    padding: 10px;
+  }
+  .home-mini-stat span {
+    font-size: 8px;
+    letter-spacing: .07em;
+  }
+  .home-mini-stat strong {
+    margin-top: 5px;
+    font-size: clamp(23px, 6.5vw, 30px);
+    line-height: 1.05;
+  }
+}
+@media (max-width: 390px) {
+  .profile-section {
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 10px;
+  }
+  .profile-photo-wrap {
+    width: 92px !important;
+    height: 132px !important;
+  }
+  .profile-copy h2 {
+    font-size: 22px !important;
+  }
+  .profile-intro {
+    font-size: 10px;
+  }
+  .profile-facts > div {
+    padding: 6px !important;
+  }
+  .icc-ranking-card > div {
+    padding: 8px 6px;
+  }
+  .icc-ranking-card strong {
+    font-size: 17px !important;
+  }
+  .profile-quick-actions .button {
+    font-size: 9px;
+    padding: 8px !important;
+  }
+  .home-snapshot-heading h2 {
+    font-size: 25px !important;
+  }
+}
