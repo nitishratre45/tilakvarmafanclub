@@ -11,6 +11,9 @@
   const titleElement = document.getElementById("bcci-playing-title");
   const errorElement = document.getElementById("bcci-player-error");
   const playbackQuality = document.getElementById("bcci-playback-quality");
+  const playingDate = document.getElementById("bcci-playing-date");
+  const upNextList = document.getElementById("bcci-up-next-list");
+  const shareButton = document.getElementById("bcci-share-video");
   let allVideos = [];
   let player = null;
   let activeVideo = null;
@@ -158,12 +161,40 @@
     player.selectVariantTrack(best, true);
     errorElement.textContent = best.height + "p";
   };
+  const renderUpNext = (current) => {
+    if (!upNextList) return;
+    const playable = allVideos.filter((video) => validHttps(video.playbackUrl));
+    const currentIndex = playable.findIndex((video) => String(video.id) === String(current.id));
+    const queue = [
+      ...playable.slice(currentIndex >= 0 ? currentIndex + 1 : 0),
+      ...playable.slice(0, currentIndex >= 0 ? currentIndex : 0),
+    ].filter((video) => String(video.id) !== String(current.id)).slice(0, 8);
+    if (!queue.length) {
+      upNextList.innerHTML = '<p class="bcci-up-next-empty">No more Tilak Varma videos in the current feed.</p>';
+      return;
+    }
+    upNextList.innerHTML = queue.map((video) => {
+      const thumb = thumbFor(video);
+      const date = video.publishedDate
+        ? new Date(video.publishedDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
+        : "BCCI";
+      return '<button type="button" class="bcci-up-next-item" data-bcci-next="' + esc(video.id) + '">' +
+        '<span class="bcci-up-next-thumb">' +
+        (thumb ? '<img src="' + esc(thumb) + '" alt="" loading="lazy" decoding="async">' : '<span>72</span>') +
+        (video.duration ? '<span class="bcci-up-next-duration">' + esc(video.duration) + '</span>' : '') +
+        '</span><span class="bcci-up-next-copy"><strong>' + esc(video.title) + '</strong><small>' + esc(date) + '</small></span></button>';
+    }).join("");
+  };
   const openPlayer = async (item) => {
     if (!item || !validHttps(item.playbackUrl)) return;
     activeVideo = item;
     modal.hidden = false;
     document.body.classList.add("bcci-player-open");
-    titleElement.textContent = item.title + " · SOURCE: BCCI";
+    titleElement.textContent = item.title;
+    playingDate.textContent = item.publishedDate
+      ? new Date(item.publishedDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) + " · BCCI.TV"
+      : "Official BCCI video";
+    renderUpNext(item);
     errorElement.textContent = "Loading official stream…";
     try {
       if (!window.shaka || !window.shaka.Player.isBrowserSupported()) {
@@ -215,6 +246,28 @@
     const button = event.target.closest("[data-bcci-video]");
     if (!button || button.disabled) return;
     openPlayer(allVideos.find((item) => String(item.id) === button.dataset.bcciVideo));
+  });
+  upNextList.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-bcci-next]");
+    if (!button) return;
+    const next = allVideos.find((item) => String(item.id) === button.dataset.bcciNext);
+    if (next) openPlayer(next);
+  });
+  shareButton.addEventListener("click", async () => {
+    if (!activeVideo) return;
+    const shareData = {
+      title: activeVideo.title,
+      text: activeVideo.title + " · Official BCCI video on Tilak Varma Fan Club",
+      url: window.location.href.split("#")[0] + "#tilak-videos",
+    };
+    try {
+      if (navigator.share) await navigator.share(shareData);
+      else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(shareData.url);
+        shareButton.textContent = "✓ Link copied";
+        setTimeout(() => { shareButton.textContent = "↗ Share"; }, 1800);
+      }
+    } catch (_) {}
   });
   [yearSelect, formatSelect, thumbSelect].forEach((select) =>
     select.addEventListener("change", render),
