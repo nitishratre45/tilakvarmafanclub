@@ -79,10 +79,42 @@
       const value = obj && obj[key];
       if (typeof value === "string" && value.trim()) return value.trim();
       if (value && typeof value === "object") {
-        for (const nested of ["url", "src", "href", "path"]) {
-          if (typeof value[nested] === "string" && value[nested].trim())
-            return value[nested].trim();
+        for (const nested of ["url", "src", "href", "path", "original", "large", "medium", "small"]) {
+          if (typeof value[nested] === "string" && value[nested].trim()) return value[nested].trim();
         }
+      }
+    }
+    return "";
+  };
+  const findThumbnail = (node, depth = 0) => {
+    if (!node || typeof node !== "object" || depth > 6) return "";
+    if (Array.isArray(node)) {
+      for (const item of node) {
+        const found = findThumbnail(item, depth + 1);
+        if (found) return found;
+      }
+      return "";
+    }
+    const imageKeys = [
+      "thumbnailUrl", "thumbnailURL", "thumbnail", "thumbnailImage",
+      "imageUrl", "imageURL", "image", "poster", "posterUrl", "posterURL",
+      "coverImage", "cover_image", "bannerImage", "thumb", "featuredImage",
+      "landscapeImage", "videoThumbnail", "mediaImage"
+    ];
+    for (const key of imageKeys) {
+      const value = node[key];
+      if (typeof value === "string" && value.trim()) return value.trim();
+      if (value && typeof value === "object") {
+        const direct = firstText(value, ["url", "src", "href", "path", "original", "large", "medium", "small"]);
+        if (direct) return direct;
+        const nested = findThumbnail(value, depth + 1);
+        if (nested) return nested;
+      }
+    }
+    for (const [key, value] of Object.entries(node)) {
+      if (/image|thumb|poster|media|asset|picture|banner/i.test(key)) {
+        const found = findThumbnail(value, depth + 1);
+        if (found) return found;
       }
     }
     return "";
@@ -91,34 +123,16 @@
     const found = [];
     const seen = new Set();
     const walk = (node, depth) => {
-      if (!node || depth > 7) return;
+      if (!node || depth > 8) return;
       if (Array.isArray(node)) {
         node.forEach((item) => walk(item, depth + 1));
         return;
       }
       if (typeof node !== "object") return;
       const title = firstText(node, ["title", "videoTitle", "name", "headline", "label"]);
-      const link = firstText(node, [
-        "url",
-        "webUrl",
-        "videoUrl",
-        "permalink",
-        "slug",
-        "href",
-        "link",
-      ]);
-      if (title && (link || node.id || node.videoId)) {
-        const thumbnail = firstText(node, [
-          "thumbnailUrl",
-          "thumbnail",
-          "imageUrl",
-          "image",
-          "poster",
-          "posterUrl",
-          "coverImage",
-          "bannerImage",
-          "thumb",
-        ]);
+      const link = firstText(node, ["webUrl", "videoUrl", "permalink", "slug", "href", "link", "url"]);
+      const thumbnail = findThumbnail(node);
+      if (title && (link || node.id || node.videoId || thumbnail)) {
         const key = (title + "|" + link).toLowerCase();
         if (!seen.has(key)) {
           seen.add(key);
@@ -146,9 +160,15 @@
     url = safeUrl(url);
     if (!url) return null;
     let thumbnail = item.thumbnail;
-    if (thumbnail && !/^https:\/\//i.test(thumbnail))
+    if (thumbnail && !/^https:\/\//i.test(thumbnail)) {
       thumbnail = "https://www.bcci.tv" + (thumbnail.startsWith("/") ? "" : "/") + thumbnail;
-    if (thumbnail && !/^https:\/\//i.test(thumbnail)) thumbnail = "";
+    }
+    try {
+      const imageUrl = new URL(thumbnail || "");
+      if (imageUrl.protocol !== "https:") thumbnail = "";
+    } catch {
+      thumbnail = "";
+    }
     return {
       title: item.title,
       category: item.category || "BCCI video",
@@ -230,11 +250,24 @@
     })
     .then((payload) => {
       const apiVideos = collectVideoObjects(payload).map(normalizeApiVideo).filter(Boolean);
+      const slugOf = (url) => {
+        try { return new URL(url).pathname.toLowerCase().replace(/\\/$/, ""); } catch { return ""; }
+      };
+      // Prefer official BCCI thumbnails for existing cards when the API returns matching videos.
+      videos = videos.map((video) => {
+        const match = apiVideos.find((item) =>
+          item.title.toLowerCase() === video.title.toLowerCase() ||
+          slugOf(item.url) === slugOf(video.url) ||
+          (item.title.toLowerCase().includes("tilak") && video.title.toLowerCase().includes("tilak") &&
+           item.title.toLowerCase().slice(0, 18) === video.title.toLowerCase().slice(0, 18))
+        );
+        return match ? { ...video, thumbnail: match.thumbnail || video.thumbnail, duration: match.duration || video.duration } : video;
+      });
       const known = new Set(videos.map((v) => v.title.toLowerCase()));
-      apiVideos.forEach((v) => {
-        if (!known.has(v.title.toLowerCase())) {
-          videos.push(v);
-          known.add(v.title.toLowerCase());
+      apiVideos.forEach((video) => {
+        if (!known.has(video.title.toLowerCase())) {
+          videos.push(video);
+          known.add(video.title.toLowerCase());
         }
       });
       if (apiVideos.length) render();
