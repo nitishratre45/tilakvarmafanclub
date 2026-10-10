@@ -38,6 +38,8 @@
       const active = section.id === id || (id === "profile" && section.id === "home-snapshot");
       section.hidden = !active;
       section.setAttribute("aria-hidden", String(!active));
+      if (active) section.style.removeProperty("display");
+      else section.style.setProperty("display", "none", "important");
     });
 
     if (id === "stats") setStatsView(view || "stats-overview");
