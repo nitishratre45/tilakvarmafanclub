@@ -4,6 +4,7 @@ import json
 import unittest
 
 import refresh_bcci_videos as videos
+import refresh_statsguru as statsguru
 
 
 class CustomResponseTests(unittest.TestCase):
@@ -50,6 +51,33 @@ class CustomResponseTests(unittest.TestCase):
     def test_non_json_non_html_response_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "neither valid JSON nor an HTML page"):
             videos.parse_custom_response(b"upstream error", "text/plain")
+
+    def test_saved_domestic_summary_fallback_preserves_source_and_no_fake_innings(self):
+        data = {
+            "careerFormats": {
+                "First-class": {
+                    "matches": 25,
+                    "innings": 42,
+                    "runs": 1828,
+                    "highestScore": "121",
+                    "average": 44.58,
+                    "source": "NDTV career statistics",
+                    "updatedAt": "2026-09-01",
+                }
+            },
+            "statsguru": {"formats": {"FC": {"innings": []}}},
+        }
+        result = statsguru.saved_domestic_summary("FC", data)
+        self.assertIsNotNone(result)
+        self.assertEqual(result["summary"]["runs"], 1828)
+        self.assertEqual(result["summary"]["highestScore"], "121")
+        self.assertEqual(result["source"], "NDTV career statistics")
+        self.assertEqual(result["summaryUpdatedAt"], "2026-09-01")
+        self.assertEqual(result["innings"], [])
+        self.assertEqual(result["detailStatus"], "summary-only")
+
+    def test_missing_saved_domestic_summary_stays_optional(self):
+        self.assertIsNone(statsguru.saved_domestic_summary("List A", {"careerFormats": {}}))
 
 
 if __name__ == "__main__":
