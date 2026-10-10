@@ -246,7 +246,9 @@
           ? data.innings
           : Array.isArray(data.scorecards)
             ? data.scorecards
-            : [];
+            : Array.isArray(data.batting) || Array.isArray(data.bowling)
+              ? [data]
+              : [];
       const rows = (items, type) =>
         (Array.isArray(items) ? items : [])
           .map((p) => {
