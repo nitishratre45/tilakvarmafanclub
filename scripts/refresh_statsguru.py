@@ -887,7 +887,12 @@ def main():
         if isinstance(saved_match_rows, list):
             for row in saved_match_rows:
                 fmt = clean(row.get("format") or "T20I")
-                key = (fmt, clean(row.get("date")), clean(row.get("opposition")), clean(row.get("ground") or row.get("venue")))
+                key = (
+                    fmt,
+                    clean(row.get("date")),
+                    clean(row.get("opposition")),
+                    clean(row.get("ground") or row.get("venue")),
+                )
                 if all(key[1:]):
                     indexed[key] = dict(row)
         for fmt, entry in new_formats.items():
