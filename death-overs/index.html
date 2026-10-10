@@ -716,6 +716,18 @@
       html.death-embed body {
         margin: 0 !important;
       }
+      html.death-embed body {
+        background: #070b14 !important;
+      }
+      html.death-embed .stats-section,
+      html.death-embed .innings-section {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+      html.death-embed .page-shell {
+        width: 100% !important;
+        max-width: none !important;
+      }
       html.death-embed .death-topbar,
       html.death-embed .stats-hero,
       html.death-embed footer,
@@ -1639,6 +1651,23 @@
         first.addEventListener("change", calculate);
         last.addEventListener("change", calculate);
         load();
+        if (new URLSearchParams(location.search).get("embed") === "1") {
+          const sendHeight = () => {
+            const height = Math.max(
+              document.documentElement.scrollHeight,
+              document.body?.scrollHeight || 0,
+            );
+            parent.postMessage({ type: "death-overs-height", height }, "*");
+          };
+          window.addEventListener("load", sendHeight);
+          window.addEventListener("resize", sendHeight);
+          if ("ResizeObserver" in window) {
+            new ResizeObserver(sendHeight).observe(document.body);
+          }
+          setTimeout(sendHeight, 80);
+          setTimeout(sendHeight, 500);
+          setTimeout(sendHeight, 1400);
+        }
       })();
     </script>
     <script>
