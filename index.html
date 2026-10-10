@@ -544,7 +544,10 @@
             <div class="eyebrow">THE 72 CLUB · BALL-BY-BALL ANALYSIS</div>
             <h2>DEATH-OVERS <em>ANALYSER</em></h2>
           </div>
-          <p>Explore over ranges, compare seasons and review the available innings — all within the main Stats Centre.</p>
+          <p>
+            Explore over ranges, compare seasons and review the available innings — all within the
+            main Stats Centre.
+          </p>
         </div>
         <div class="death-overs-embed-wrap">
           <iframe
@@ -1131,7 +1134,8 @@
         const frame = document.getElementById("death-overs-embed");
         if (!frame) return;
         window.addEventListener("message", (event) => {
-          if (event.source !== frame.contentWindow || event.data?.type !== "death-overs-height") return;
+          if (event.source !== frame.contentWindow || event.data?.type !== "death-overs-height")
+            return;
           const height = Number(event.data.height);
           if (Number.isFinite(height) && height > 300 && height < 30000) {
             frame.style.height = Math.ceil(height) + "px";
