@@ -9,7 +9,7 @@
       content="Tilak Varma T20I over-by-over batting stats and death-overs calculator."
     />
     <title>Tilak Varma Stats Centre | The 72 Club</title>
-    <link rel="stylesheet" href="../assets/style.css?v=20261010-deathovers-responsive3" />
+    <link rel="stylesheet" href="../assets/style.css?v=20261010-deathovers-polish4" />
     <style>
       /* Keep the stats-centre navigation visible while scrolling this standalone page. */
       .death-topbar {
@@ -846,6 +846,99 @@
         .result-card strong { font-size: 25px; }
       }
 
+
+      /* Death-overs UI polish — scoped to this tool only. Keep native browser selects
+         so the OS/mobile browser opens its familiar option picker. */
+      .calculator-card {
+        padding: clamp(18px, 2.2vw, 28px);
+        border: 1px solid rgba(111, 165, 205, .2);
+        border-radius: 18px;
+        background: linear-gradient(145deg, #102238 0%, #0b1728 78%);
+        box-shadow: 0 16px 42px rgba(0, 0, 0, .18);
+      }
+      .calculator-controls { gap: 13px; }
+      .calculator-controls label {
+        gap: 8px;
+        color: #a9bdd4;
+        font-size: 10px;
+        letter-spacing: .07em;
+      }
+      .calculator-controls select {
+        appearance: auto;
+        -webkit-appearance: menulist;
+        width: 100%;
+        min-height: 48px;
+        padding: 0 12px;
+        border: 1px solid #354d68;
+        border-radius: 9px;
+        background: #091525;
+        color: #f5f8ff;
+        font: 600 12px/1.3 var(--mono);
+        color-scheme: dark;
+        box-shadow: none;
+      }
+      .calculator-controls select option {
+        background: #fff;
+        color: #111827;
+      }
+      .calculator-controls select:focus-visible {
+        outline: 2px solid #ff9b35;
+        outline-offset: 2px;
+        border-color: #ff9b35;
+        box-shadow: none;
+      }
+      .calculate-button {
+        min-height: 48px;
+        border: 0;
+        border-radius: 9px;
+        background: #ff9b35;
+        color: #111827;
+        box-shadow: 0 5px 14px rgba(255, 155, 53, .14);
+      }
+      .calculate-button:hover { filter: brightness(1.06); transform: translateY(-1px); }
+      .result-grid { gap: 12px; }
+      .result-card {
+        border: 1px solid rgba(139, 167, 199, .18);
+        border-radius: 12px;
+        background: #081424;
+      }
+      .result-card small {
+        color: #9fb5ce;
+        font: 600 10px/1.4 var(--mono);
+        letter-spacing: .08em;
+      }
+      .result-card strong {
+        color: #f4f7fc;
+        font-weight: 850;
+        letter-spacing: -.035em;
+      }
+      .result-card:first-child strong { color: #ff9b35; }
+      .calculator-status { color: #b8c8dc; font-size: 11px; }
+      .method-note { color: #8298b2; font-size: 10px; }
+      .section-head { align-items: end; }
+      .section-title { letter-spacing: -.035em; }
+      @media (max-width: 560px) {
+        .calculator-card { padding: 14px; border-radius: 14px; }
+        .calculator-controls { gap: 11px 9px; }
+        .calculator-controls label { gap: 6px; font-size: 9px; }
+        .calculator-controls select {
+          min-height: 44px;
+          padding: 0 8px;
+          border-radius: 8px;
+          font-size: 11px;
+        }
+        .calculate-button { min-height: 44px; }
+        .result-grid { gap: 8px; }
+        .result-card { padding: 13px 11px; border-radius: 10px; }
+        .result-card small { font-size: 9px; letter-spacing: .025em; }
+        .result-card strong { font-size: clamp(24px, 7.2vw, 32px); }
+        .section-head { align-items: start; }
+        .section-title { font-size: clamp(29px, 8vw, 38px); line-height: 1.02; }
+        .section-copy { margin-top: 5px; font-size: 11px; line-height: 1.5; }
+        .calculator-status { font-size: 10px; line-height: 1.5; }
+        .method-note { font-size: 9px; line-height: 1.5; }
+      }
+
     </style>
   </head>
   <body>
@@ -946,11 +1039,10 @@
           <div class="section-head">
             <div>
               <div class="section-kicker">INTERACTIVE TOOL</div>
-              <h2 class="section-title">OVER RANGE <em>ANALYSER.</em></h2>
+              <h2 class="section-title">DEATH-OVERS <em>ANALYSER.</em></h2>
             </div>
             <p class="section-copy">
-              Select a competition/format, then choose any over range to analyse Tilak Varma's
-              recorded batting deliveries.
+              Choose a format, season and over range.
             </p>
           </div>
 
