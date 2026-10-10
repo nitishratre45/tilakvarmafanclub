@@ -156,7 +156,8 @@ export async function onRequestGet({ request, env }) {
     providerOk = true;
     const upcomingSeries = seriesList(seriesResult.value)
       .map((s) => {
-        const date = new Date(s.startDate || s.startDateTime || s.date || 0).getTime();
+        const dateValue = s.startDate || s.startDateTime || s.date;
+        const date = dateValue ? new Date(dateValue).getTime() : null;
         return { ...s, _start: Number.isFinite(date) ? date : null };
       })
       .filter((s) => s._start == null || s._start >= today.getTime() - 60 * 86400000)
