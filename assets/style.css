@@ -6973,3 +6973,35 @@ option {
     font-size: 24px;
   }
 }
+
+/* Official BCCI video hub */
+.bcci-video-controls{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0;align-items:end}
+.bcci-video-controls label,.bcci-player-options label{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:12px;font-weight:700}
+.bcci-video-controls select,.bcci-player-options select{min-width:150px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--white)}
+.bcci-video-status{min-height:22px;margin:12px 0;color:var(--muted);font-size:13px}
+.bcci-video-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.bcci-video-card{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.bcci-video-art{position:relative;display:block;width:100%;aspect-ratio:16/9;padding:0;overflow:hidden;border:0;background:#07101f;cursor:pointer;color:#fff}
+.bcci-video-art:disabled{cursor:not-allowed;opacity:.75}
+.bcci-video-art img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s ease}
+.bcci-video-art:hover img{transform:scale(1.035)}
+.bcci-video-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;min-width:48px;height:48px;padding:0 10px;border:1px solid #ffffffaa;border-radius:50%;background:#07101fbb;color:#fff;font-size:18px}
+.bcci-video-duration{position:absolute;right:10px;bottom:10px;padding:4px 6px;border-radius:4px;background:#000b;color:white;font:700 11px var(--mono)}
+.bcci-video-no-thumb{display:grid;place-items:center;height:100%;color:var(--muted);font:800 20px var(--display)}
+.bcci-video-card-copy{padding:14px}
+.bcci-video-tag{color:var(--orange);font:700 10px var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.bcci-video-card h3{margin:8px 0 14px;font-size:16px;line-height:1.4;color:var(--white)}
+.bcci-video-card-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:10px}
+.bcci-video-attribution{margin-top:16px;color:var(--muted);font:700 10px var(--mono);letter-spacing:.06em}
+.bcci-video-modal[hidden]{display:none!important}
+.bcci-video-modal{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:18px}
+.bcci-video-backdrop{position:absolute;inset:0;background:#000d;backdrop-filter:blur(8px)}
+.bcci-video-panel{position:relative;width:min(1000px,100%);padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--white)}
+.bcci-video-player-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;font-weight:700;font-size:13px}
+.bcci-video-player-head button{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--white);cursor:pointer}
+#bcci-shaka-player{display:block;width:100%;max-height:72vh;aspect-ratio:16/9;background:#000}
+.bcci-player-options{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:12px}
+#bcci-player-error{color:var(--muted);font-size:12px}
+body.bcci-player-open{overflow:hidden}
+@media(max-width:900px){.bcci-video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.bcci-video-grid{grid-template-columns:1fr;gap:12px}.bcci-video-card{display:grid;grid-template-columns:42% minmax(0,1fr)}.bcci-video-art{height:100%;min-height:125px;aspect-ratio:auto}.bcci-video-play{min-width:38px;height:38px;font-size:14px}.bcci-video-card-copy{padding:11px}.bcci-video-card h3{font-size:13px;margin:6px 0 10px}.bcci-video-card-meta{flex-direction:column}.bcci-video-controls label{flex:1;min-width:calc(50% - 8px)}.bcci-video-controls select{min-width:0;width:100%}.bcci-video-modal{padding:8px}.bcci-video-panel{padding:10px}}
