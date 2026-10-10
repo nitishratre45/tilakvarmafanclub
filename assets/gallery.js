@@ -4,7 +4,8 @@
   const host = $("cricinfo-photo-grid");
   const stamp = $("cricinfo-gallery-updated");
   if (!host) return;
-  const profileUrl = "https://www.bcci.tv/international/men/players/tilak-varma/993";
+  const profileUrl = "https://www.bcci.tv/domestic/men/players/tilak-varma/993";
+  const fallbackImage = "https://documents.bcci.tv/resizedimageskirti/11088_compress.png";
   const esc = (value) =>
     String(value ?? "").replace(
       /[&<>"']/g,
@@ -26,7 +27,7 @@
     }
   };
   const render = (data) => {
-    const image = safeUrl(data.image);
+    const image = safeUrl(data.image) || fallbackImage;
     if (!image) {
       host.innerHTML =
         '<div class="bcci-photo-empty"><span class="bcci-photo-mark">72</span><div><strong>Tilak Varma · Official BCCI Photo</strong><p>Photo feed is waiting for the first successful BCCI refresh.</p><a href="' +
@@ -62,11 +63,11 @@
         (data.updatedAt ? "BCCI photo updated " + data.updatedAt : "BCCI photo saved") +
         (data.lastAttemptStatus === "source-unavailable" ? " · previous photo kept" : "");
   };
-  fetch("data/bcci-tilak-photo.json?v=20261010", { cache: "no-cache" })
+  fetch("data/bcci-tilak-photo.json?v=20261010-fix1", { cache: "no-cache" })
     .then((response) => {
       if (!response.ok) throw new Error("Photo feed HTTP " + response.status);
       return response.json();
     })
     .then(render)
-    .catch(() => render({}));
+    .catch(() => render({ image: fallbackImage, status: "fallback" }));
 })();
