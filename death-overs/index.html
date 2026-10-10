@@ -1454,18 +1454,6 @@
         }),
       );
 
-      if (new URLSearchParams(location.search).get("embed") === "1") {
-        const sendEmbeddedHeight = () => {
-          document.documentElement.style.height = "auto";
-          document.body.style.height = "auto";
-          parent.postMessage({ type: "tilak-death-overs-height", height: Math.ceil(Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)) }, location.origin);
-        };
-        window.addEventListener("load", sendEmbeddedHeight);
-        window.addEventListener("resize", sendEmbeddedHeight);
-        if ("ResizeObserver" in window) new ResizeObserver(sendEmbeddedHeight).observe(document.body);
-        setTimeout(sendEmbeddedHeight, 300);
-        setTimeout(sendEmbeddedHeight, 1200);
-      }
     </script>
     <script src="../assets/custom-selects.js?v=20261010-native-mobile-selects4"></script>
   </body>
