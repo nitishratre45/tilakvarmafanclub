@@ -6577,3 +6577,38 @@ option {
     padding: 6px !important;
   }
 }
+
+
+/* Restore a large, prominent Tilak portrait on mobile while keeping text compact. */
+@media (max-width: 650px) {
+  main #profile.profile-section {
+    grid-template-columns: minmax(118px, 34%) minmax(0, 1fr) !important;
+    gap: 12px !important;
+    padding: 16px 3.5vw 19px !important;
+    align-items: start !important;
+  }
+  #profile .profile-photo-wrap {
+    width: 100% !important;
+    height: clamp(178px, 52vw, 228px) !important;
+    min-height: 178px !important;
+    max-height: 228px !important;
+    align-self: start !important;
+    overflow: hidden !important;
+  }
+  #profile .profile-photo-wrap img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 18% !important;
+  }
+}
+@media (max-width: 390px) {
+  main #profile.profile-section {
+    grid-template-columns: minmax(108px, 34%) minmax(0, 1fr) !important;
+    gap: 9px !important;
+  }
+  #profile .profile-photo-wrap {
+    height: clamp(166px, 50vw, 200px) !important;
+    min-height: 166px !important;
+  }
+}
