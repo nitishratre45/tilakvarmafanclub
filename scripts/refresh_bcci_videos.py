@@ -323,19 +323,20 @@ def main() -> int:
                 f"{len(collected)} unique total so far."
             )
             if custom_found == 0:
-                raise RuntimeError(
-                    "Safety stop: the Admin URL did not contain any identifiable "
-                    "Tilak Varma videos. The existing public feed was left unchanged. "
-                    "Clear the custom URL to use the built-in Tilak-only BCCI search."
+                print(
+                    "Admin-saved BCCI URL returned no playable Tilak clips; "
+                    "continuing with the built-in official BCCI searches.",
+                    file=sys.stderr,
                 )
         except Exception as exc:
-            # A custom source is an explicit override. If it is wrong, do not
-            # silently run unrelated searches or publish a refreshed feed.
+            # The custom source is optional. Reject unsafe/unavailable inputs,
+            # then continue with the fixed official BCCI catalogue searches.
+            # The normalizer still publishes only verified Tilak clips with
+            # direct HTTPS media URLs, so fallback cannot publish unrelated items.
             print(
-                f"Admin-saved BCCI URL rejected; existing feed preserved: {exc}",
+                f"Admin-saved BCCI URL unavailable; continuing with built-in official searches: {exc}",
                 file=sys.stderr,
             )
-            return 1
 
     # Prefer the complete official player archive and its native Load More flow.
     # This is how we discover older pages without assuming undocumented params.
