@@ -677,6 +677,64 @@ def scrape_domestic_profile_summary(fmt):
     )
 
 
+
+def saved_domestic_summary(fmt, data):
+    """Reuse an existing sourced FC/List A career summary if live feeds are unavailable.
+
+    This is a summary-only fallback: it never fabricates domestic innings rows or
+    claims the old career totals were refreshed just now.
+    """
+    targets = {"FC": "First-class", "List A": "List A"}
+    target = targets.get(fmt)
+    career_formats = data.get("careerFormats")
+    entry = career_formats.get(target) if isinstance(career_formats, dict) else None
+    if not isinstance(entry, dict) or entry.get("runs") is None:
+        return None
+
+    field_map = {
+        "matches": "matches",
+        "innings": "innings",
+        "notOuts": "notOuts",
+        "runs": "runs",
+        "highestScore": "highestScore",
+        "average": "average",
+        "strikeRate": "strikeRate",
+        "hundreds": "hundreds",
+        "fifties": "fifties",
+        "fours": "fours",
+        "sixes": "sixes",
+        "balls": "balls",
+    }
+    summary = {
+        key: entry[source_key]
+        for key, source_key in field_map.items()
+        if entry.get(source_key) is not None
+    }
+    if not summary.get("runs"):
+        return None
+
+    previous = data.get("statsguru", {}).get("formats", {}).get(fmt, {})
+    innings_rows = previous.get("innings", []) if isinstance(previous, dict) else []
+    if not isinstance(innings_rows, list):
+        innings_rows = []
+    return {
+        "summary": summary,
+        "careerBreakdown": previous.get("careerBreakdown", [])
+        if isinstance(previous, dict)
+        else [],
+        "innings": innings_rows,
+        "inningsCount": len(innings_rows),
+        "source": entry.get("source") or "Previously saved sourced career summary",
+        "sourceUrl": entry.get("sourceUrl") or entry.get("source"),
+        "checkedAt": stamp(),
+        "summaryUpdatedAt": entry.get("updatedAt"),
+        "detailStatus": "summary-only",
+        "detailNote": (
+            "The live domestic feed was unavailable. This previously saved sourced "
+            "career summary is shown without inventing match-by-match innings."
+        ),
+    }
+
 def parse_fielding_summary(page):
     """Parse the official Statsguru fielding career total when present."""
     for table in parse_tables(page):
@@ -1010,7 +1068,16 @@ def main():
                         + ": secondary summary fallback unavailable; preserving saved data:",
                         fallback_exc,
                     )
-                    if old_formats.get(fmt):
+                    saved_fallback = saved_domestic_summary(fmt, data)
+                    if saved_fallback:
+                        new_formats[fmt] = saved_fallback
+                        success.append(fmt + " saved career summary fallback")
+                        print(
+                            fmt
+                            + ": preserved previously saved sourced career totals; "
+                            + "no match-by-match innings fabricated"
+                        )
+                    elif old_formats.get(fmt):
                         new_formats[fmt] = old_formats[fmt]
     if success:
         # Cross-format match index for the Matches section. Preserve recent verified
@@ -1157,9 +1224,11 @@ def main():
             merged["source"] = (new_formats.get(fmt) or {}).get(
                 "source", "ESPNcricinfo Statsguru"
             )
-            merged["updatedAt"] = (new_formats.get(fmt) or {}).get(
-                "checkedAt"
-            ) or stamp()
+            merged["updatedAt"] = (
+                (new_formats.get(fmt) or {}).get("summaryUpdatedAt")
+                or (new_formats.get(fmt) or {}).get("checkedAt")
+                or stamp()
+            )
             career_formats[target] = merged
         data["careerFormats"] = career_formats
         t20i_summary = (new_formats.get("T20I") or {}).get("summary")
