@@ -24,7 +24,7 @@ HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
 }
-FORMATS = {"T20I": 3, "ODI": 2, "FC": 1, "List A": 5, "T20": 6}
+FORMATS = {"T20I": 3, "ODI": 2, "FC": 4, "List A": 5, "T20": 6}
 
 
 def stamp():
