@@ -400,7 +400,11 @@ def main():
                 )
             if not result.get("careerBreakdown") and previous.get("careerBreakdown"):
                 result["careerBreakdown"] = previous["careerBreakdown"]
-            if fmt in {"FC", "List A"} and not result.get("careerBreakdown") and not result.get("innings"):
+            if (
+                fmt in {"FC", "List A"}
+                and not result.get("careerBreakdown")
+                and not result.get("innings")
+            ):
                 result["unavailableReason"] = (
                     "Career summary is available, but ESPNcricinfo Statsguru did not return "
                     "verified match-by-match bowling rows for this format."
@@ -443,13 +447,15 @@ def main():
             + "; ".join(errors)
         )
     unavailable_details = [
-        fmt for fmt in ("FC", "List A")
+        fmt
+        for fmt in ("FC", "List A")
         if fmt in new_formats
         and not new_formats[fmt].get("careerBreakdown")
         and not new_formats[fmt].get("innings")
     ]
     attempt_errors = [
-        fmt + ": summary available, but verified detailed bowling rows were not returned by Statsguru."
+        fmt
+        + ": summary available, but verified detailed bowling rows were not returned by Statsguru."
         for fmt in unavailable_details
     ]
     data["bowlingStats"] = {
