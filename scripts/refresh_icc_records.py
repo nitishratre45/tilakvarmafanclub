@@ -33,7 +33,6 @@ def stamp(value=None):
     return (value or utc_now()).strftime("%Y-%m-%d %H:%M UTC")
 
 
-
 def update_last_updated(data):
     """Use successful section snapshot timestamps, not failed refresh attempts."""
     values = [
