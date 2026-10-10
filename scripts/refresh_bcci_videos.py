@@ -51,7 +51,16 @@ def first_text(*values: object) -> str:
         if isinstance(value, (int, float)):
             return str(value)
         if isinstance(value, dict):
-            for key in ("url", "src", "href", "path", "large", "xlarge", "medium", "small"):
+            for key in (
+                "url",
+                "src",
+                "href",
+                "path",
+                "large",
+                "xlarge",
+                "medium",
+                "small",
+            ):
                 candidate = value.get(key)
                 if isinstance(candidate, str) and candidate.strip():
                     return candidate.strip()
@@ -98,11 +107,27 @@ def normalize(item: dict) -> dict | None:
     if "tilak" not in searchable or "varma" not in searchable:
         return None
 
-    playback = first_text(item.get("playbackUrl"), item.get("playback_url"), item.get("streamUrl"))
-    thumbnail_set = item.get("thumbnailUrlSet") if isinstance(item.get("thumbnailUrlSet"), dict) else {}
-    thumbnails = {size: first_text(thumbnail_set.get(size)) for size in ("small", "medium", "large", "xlarge")}
-    default_thumb = first_text(item.get("thumbnailUrl"), item.get("thumbnail"), thumbnails.get("large"), thumbnails.get("xlarge"))
-    published = first_text(item.get("publishedDate"), item.get("publishedAt"), item.get("createdAt"))
+    playback = first_text(
+        item.get("playbackUrl"), item.get("playback_url"), item.get("streamUrl")
+    )
+    thumbnail_set = (
+        item.get("thumbnailUrlSet")
+        if isinstance(item.get("thumbnailUrlSet"), dict)
+        else {}
+    )
+    thumbnails = {
+        size: first_text(thumbnail_set.get(size))
+        for size in ("small", "medium", "large", "xlarge")
+    }
+    default_thumb = first_text(
+        item.get("thumbnailUrl"),
+        item.get("thumbnail"),
+        thumbnails.get("large"),
+        thumbnails.get("xlarge"),
+    )
+    published = first_text(
+        item.get("publishedDate"), item.get("publishedAt"), item.get("createdAt")
+    )
     year = published[:4] if re.match(r"^\d{4}", published) else ""
     slug = first_text(item.get("slug"))
     video_id = first_text(item.get("id"), item.get("externalId"))
@@ -167,11 +192,16 @@ def main() -> int:
 
     videos = sorted(
         collected.values(),
-        key=lambda video: (video.get("publishedDate", ""), video.get("title", "").lower()),
+        key=lambda video: (
+            video.get("publishedDate", ""),
+            video.get("title", "").lower(),
+        ),
         reverse=True,
     )
     if not videos:
-        raise RuntimeError("BCCI API returned no Tilak Varma videos; refusing to overwrite the existing feed.")
+        raise RuntimeError(
+            "BCCI API returned no Tilak Varma videos; refusing to overwrite the existing feed."
+        )
 
     output = {
         "source": "BCCI official video API and player catalogue",
@@ -180,9 +210,13 @@ def main() -> int:
         "videos": videos,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(
+        json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     print(f"Saved {len(videos)} unique Tilak Varma videos to {OUT}, newest first.")
-    print(f"Dates covered: {videos[-1].get('publishedDate', 'unknown')} to {videos[0].get('publishedDate', 'unknown')}")
+    print(
+        f"Dates covered: {videos[-1].get('publishedDate', 'unknown')} to {videos[0].get('publishedDate', 'unknown')}"
+    )
     return 0
 
 
