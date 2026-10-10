@@ -28,6 +28,8 @@ jobs:
         run: |
           find assets -maxdepth 1 -type f -name '*.js' -print0 | xargs -0 -n 1 node --check
           python -m py_compile scripts/refresh_icc_records.py scripts/refresh_statsguru.py
+          node --input-type=module --check < functions/api/matches.js
+          node --input-type=module --check < functions/api/scoreboard.js
           python - <<'PY'
           from pathlib import Path
           html = Path("death-overs/index.html").read_text(encoding="utf-8")
@@ -41,11 +43,10 @@ jobs:
           python -m compileall -q scripts
       - name: Validate JSON data
         run: |
-          python -m json.tool data/site-data.json > /dev/null
-          python -m json.tool data/death-overs.json > /dev/null
-          python -m json.tool data/fan-zone.json > /dev/null
-          python -m json.tool data/tilak-news.json > /dev/null
-          python -m json.tool data/cricinfo-photos.json > /dev/null
+          find . -type f -name '*.json' -not -path './.git/*' -print0 | while IFS= read -r -d '' file; do
+            echo "Validating $file"
+            python -m json.tool "$file" > /dev/null || exit 1
+          done
           python - <<'PY'
           import json
           from pathlib import Path
