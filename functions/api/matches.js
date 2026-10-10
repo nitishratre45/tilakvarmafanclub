@@ -1,155 +1,153 @@
 /**
- * Match Center data aggregator for Cloudflare Pages Functions.
- * ESPNcricinfo's consumer endpoints are unofficial and may change.
- * Never fabricate scores: failed providers are reported in the response.
+ * India-only Match Center API for Cloudflare Pages Functions.
+ * Secret binding required: CRICAPI_KEY (set in Cloudflare Pages > Settings > Variables and Secrets).
+ * API keys must never be committed to the repository or sent to the browser.
  */
-const ESPN = "https://hs-consumer-api.espncricinfo.com/v1/pages/matches";
+const CRICAPI = "https://api.cricapi.com/v1";
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
-      "cache-control": "public, max-age=45, s-maxage=60",
+      "cache-control": "public, max-age=30, s-maxage=45",
       "access-control-allow-origin": "*",
     },
   });
 }
 
-function dateParam(date) {
-  const d = new Date(date);
-  return [String(d.getDate()).padStart(2, "0"), String(d.getMonth() + 1).padStart(2, "0"), d.getFullYear()].join("-");
-}
-
-function arrFromPayload(payload) {
-  if (Array.isArray(payload?.matches)) return payload.matches;
+function getList(payload) {
+  if (Array.isArray(payload?.data)) return payload.data;
   if (Array.isArray(payload?.data?.matches)) return payload.data.matches;
-  if (Array.isArray(payload?.data?.content?.matches)) return payload.data.content.matches;
+  if (Array.isArray(payload?.matches)) return payload.matches;
   return [];
 }
 
-function normalize(match, sourceState) {
+function teamNames(match) {
   const teams = Array.isArray(match?.teams) ? match.teams : [];
-  const t1 = teams[0] || {};
-  const t2 = teams[1] || {};
-  const teamName = (t) => t?.team?.name || t?.name || t?.teamName || "TBC";
-  const teamScore = (t) => t?.score || t?.scoreString || t?.inningScore || "";
-  const series = match?.series || {};
-  const ground = match?.ground || match?.venue || {};
-  const matchId = match?.objectId || match?.id || match?.matchId || "";
-  const seriesId = series?.objectId || series?.id || match?.seriesId || "";
-  const slug = match?.slug || "";
-  const seriesSlug = series?.slug || "";
-  const fmt = match?.format || match?.generalClassCard || match?.internationalClassCard || "";
-  const rawState = String(match?.state || match?.stage || match?.status || sourceState || "").toUpperCase();
-  let status = "Scheduled";
-  if (/LIVE|RUNNING|IN.?PROGRESS/.test(rawState)) status = "Live";
-  else if (/RESULT|COMPLETE|FINISHED|POST/.test(rawState)) status = "Result";
-  else if (/ABANDON|CANCEL/.test(rawState)) status = "Abandoned";
-  else if (/STUMP|TEA|LUNCH|RAIN|DELAY/.test(rawState)) status = "In progress";
-  const start = match?.startDate || match?.startTime || match?.date || match?.startDateTime || null;
-  const matchUrl = matchId && seriesId
-    ? "https://www.espncricinfo.com/series/" + encodeURIComponent(seriesSlug || "cricket") + "-" + seriesId + "/" + encodeURIComponent(slug || "match") + "-" + matchId + "/live-cricket-score"
-    : "https://www.espncricinfo.com/live-cricket-score";
+  const names = teams.map((team) => typeof team === "string" ? team : team?.name || team?.teamName || "");
+  if (!names.length) {
+    if (match?.team1) names.push(typeof match.team1 === "string" ? match.team1 : match.team1?.name || "");
+    if (match?.team2) names.push(typeof match.team2 === "string" ? match.team2 : match.team2?.name || "");
+  }
+  return names.filter(Boolean);
+}
+
+function isIndiaMatch(match) {
+  const names = teamNames(match);
+  // Only matches involving the senior India men's or women's national teams.
+  // Excludes India A, India U19 and domestic teams such as Mumbai/Hyderabad.
+  return names.some((name) => /^india(?:\s+(?:women|men))?$/i.test(String(name).trim()));
+}
+
+function normalize(match) {
+  const names = teamNames(match);
+  const score = Array.isArray(match?.score) ? match.score : [];
+  const scoreText = (item) => {
+    if (!item) return "";
+    if (typeof item === "string") return item;
+    const innings = [item.r != null ? item.r : item.runs, item.w != null ? item.w : item.wickets]
+      .filter((v) => v != null).join("/");
+    const overs = item.o != null ? item.o : item.overs;
+    return innings + (overs != null && overs !== "" ? " (" + overs + " ov)" : "");
+  };
+  const state = String(match?.status || match?.matchStatus || "").toLowerCase();
+  const isLive = Boolean(match?.matchStarted && !match?.matchEnded) ||
+    /live|in progress|innings break|stumps|day d+|drinks|lunch|tea/.test(state);
+  const isFinished = Boolean(match?.matchEnded) || /won|drawn|tied|no result|abandoned|completed|finished/.test(state);
+  let status = isLive ? "Live" : isFinished ? "Result" : "Scheduled";
+  const id = match?.id || match?.unique_id || match?.matchId || "";
   return {
-    id: String(matchId || [teamName(t1), teamName(t2), start].join("-")),
-    matchId: String(matchId),
-    seriesId: String(seriesId),
-    title: match?.title || match?.name || match?.description || match?.matchDescription || "",
-    series: series?.name || series?.longName || match?.seriesName || "Cricket",
-    team1: teamName(t1),
-    team2: teamName(t2),
-    score1: teamScore(t1),
-    score2: teamScore(t2),
+    id: String(id || [names.join("-"), match?.date || match?.dateTimeGMT || ""].join("-")),
+    matchId: String(id),
+    title: match?.name || match?.title || names.join(" vs "),
+    series: match?.series || match?.seriesName || "India international cricket",
+    team1: names[0] || "TBC",
+    team2: names[1] || "TBC",
+    score1: scoreText(score[0]) || match?.score1 || "",
+    score2: scoreText(score[1]) || match?.score2 || "",
     status,
-    state: rawState,
-    format: fmt,
-    venue: typeof ground === "string" ? ground : ground?.name || ground?.longName || ground?.groundName || "",
-    startTime: start,
-    result: match?.statusText || match?.status || match?.result || "",
-    matchUrl,
-    scorecardUrl: matchId && seriesId
-      ? "https://www.espncricinfo.com/series/" + encodeURIComponent(seriesSlug || "cricket") + "-" + seriesId + "/" + encodeURIComponent(slug || "match") + "-" + matchId + "/full-scorecard"
-      : matchUrl,
+    format: match?.matchType || match?.format || "Cricket",
+    venue: match?.venue || "",
+    startTime: match?.dateTimeGMT || match?.date || null,
+    result: match?.status || "",
+    matchUrl: id ? "https://cricketdata.org/" : "https://www.bcci.tv/matches",
+    scorecardUrl: id ? "https://api.cricapi.com/v1/match_scorecard?id=" + encodeURIComponent(id) : "https://www.bcci.tv/matches",
     bcciUrl: "https://www.bcci.tv/matches",
-    source: "ESPNcricinfo",
+    source: "CricAPI",
   };
 }
 
-async function fetchJson(url) {
-  const response = await fetch(url, {
-    headers: { accept: "application/json", "user-agent": "TilakVarmaFanClub-MatchCenter/1.0" },
-    cf: { cacheTtl: 45, cacheEverything: true },
+async function fetchApi(path, key) {
+  const url = new URL(CRICAPI + path);
+  url.searchParams.set("apikey", key);
+  url.searchParams.set("offset", "0");
+  const response = await fetch(url.toString(), {
+    headers: { accept: "application/json" },
+    cf: { cacheTtl: 30, cacheEverything: true },
   });
-  if (!response.ok) throw new Error("Provider returned HTTP " + response.status);
-  return response.json();
+  if (!response.ok) throw new Error("CricAPI HTTP " + response.status);
+  const payload = await response.json();
+  if (payload?.status === "failure" || payload?.error) {
+    throw new Error(String(payload?.reason || payload?.message || payload?.error || "CricAPI request failed"));
+  }
+  return payload;
 }
 
-export async function onRequestGet({ request }) {
-  const url = new URL(request.url);
-  const view = url.searchParams.get("view") || "all";
-  const today = new Date();
-  const dates = [];
-  for (let i = 0; i < 8; i++) {
-    const d = new Date(today);
-    d.setDate(today.getDate() + i);
-    dates.push(d);
+export async function onRequestGet({ request, env }) {
+  const key = env?.CRICAPI_KEY;
+  if (!key) {
+    return json({
+      provider: "CricAPI",
+      providerOk: false,
+      error: "CRICAPI_KEY is not configured in Cloudflare Pages environment variables.",
+      total: 0,
+      matches: [],
+      updatedAt: new Date().toISOString(),
+    }, 503);
   }
 
-  const jobs = [
-    fetchJson(ESPN + "/current?lang=en&latest=true").then((p) => ({ source: "live", payload: p })),
-    ...dates.slice(0, 7).map((d) =>
-      fetchJson(ESPN + "/scheduled?lang=en&filterType=DATE&filterValue=" + dateParam(d))
-        .then((p) => ({ source: "scheduled", payload: p }))
-        .catch(() => null)
-    ),
-    fetchJson(ESPN + "/result?lang=en&filterType=DATE&filterValue=" + dateParam(today))
-      .then((p) => ({ source: "result", payload: p }))
-      .catch(() => null),
-  ];
-
-  const settled = await Promise.allSettled(jobs);
+  const view = new URL(request.url).searchParams.get("view") || "all";
+  const results = await Promise.allSettled([
+    fetchApi("/currentMatches", key),
+    fetchApi("/matches", key),
+  ]);
   const byId = new Map();
-  let providerOk = false;
   const errors = [];
-  for (const item of settled) {
-    if (item.status !== "fulfilled" || !item.value) {
-      if (item.status === "rejected") errors.push(String(item.reason?.message || "ESPNcricinfo unavailable"));
+  let providerOk = false;
+
+  for (const result of results) {
+    if (result.status !== "fulfilled") {
+      errors.push(String(result.reason?.message || "CricAPI unavailable"));
       continue;
     }
     providerOk = true;
-    const { source, payload } = item.value;
-    for (const match of arrFromPayload(payload)) {
-      const normalized = normalize(match, source);
-      if (!normalized.id) continue;
-      const previous = byId.get(normalized.id);
-      if (!previous || (normalized.score1 + normalized.score2).length > (previous.score1 + previous.score2).length) {
-        byId.set(normalized.id, normalized);
+    for (const raw of getList(result.value)) {
+      if (!isIndiaMatch(raw)) continue;
+      const match = normalize(raw);
+      const previous = byId.get(match.id);
+      if (!previous || (match.score1 + match.score2).length > (previous.score1 + previous.score2).length) {
+        byId.set(match.id, match);
       }
     }
   }
 
   const matches = [...byId.values()].sort((a, b) => {
-    const order = { Live: 0, "In progress": 1, Scheduled: 2, Result: 3, Abandoned: 4 };
+    const order = { Live: 0, Scheduled: 1, Result: 2 };
     return (order[a.status] ?? 9) - (order[b.status] ?? 9) ||
       String(a.startTime || "").localeCompare(String(b.startTime || ""));
   });
-  const filtered = view === "live" ? matches.filter((m) => ["Live", "In progress"].includes(m.status))
+  const filtered = view === "live" ? matches.filter((m) => m.status === "Live")
     : view === "upcoming" ? matches.filter((m) => m.status === "Scheduled")
-    : view === "results" ? matches.filter((m) => ["Result", "Abandoned"].includes(m.status))
+    : view === "results" ? matches.filter((m) => m.status === "Result")
     : matches;
 
   return json({
-    updatedAt: new Date().toISOString(),
-    provider: "ESPNcricinfo public consumer feed",
+    provider: "CricAPI",
     providerOk,
-    staleData: false,
-    errors: errors.slice(0, 3),
+    updatedAt: new Date().toISOString(),
     total: filtered.length,
     matches: filtered,
-    sources: [
-      { name: "ESPNcricinfo", url: "https://www.espncricinfo.com/live-cricket-score" },
-      { name: "BCCI", url: "https://www.bcci.tv/matches" },
-    ],
+    errors: errors.slice(0, 2),
   });
 }
