@@ -282,9 +282,7 @@ def main():
     data["recentAttemptStatus"] = (
         "source-unavailable"
         if recent_error or not rows
-        else "updated"
-        if recent_data_updated
-        else "checked-no-newer-data"
+        else "updated" if recent_data_updated else "checked-no-newer-data"
     )
     data["recentAttemptError"] = recent_error
     data["profileUpdated"] = checked_at
