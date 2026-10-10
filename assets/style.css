@@ -6733,3 +6733,30 @@ option {
     font-size: 16px;
   }
 }
+
+
+/* Keep debut/last-match cards grouped directly beneath the upcoming fixtures. */
+.upcoming-matches-panel .match-history-summary-nested {
+  margin: 22px 0 0;
+  padding: 18px 0 0;
+  border: 0;
+  border-top: 1px solid rgba(139, 174, 207, 0.24);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.upcoming-matches-panel .match-history-summary-nested > .eyebrow {
+  margin-bottom: 12px;
+}
+.upcoming-matches-panel .match-history-summary-nested .player-match-milestones {
+  margin-top: 0;
+}
+.upcoming-matches-panel .match-history-summary-nested .home-bowling-updated {
+  margin-bottom: 0;
+}
+@media (max-width: 650px) {
+  .upcoming-matches-panel .match-history-summary-nested {
+    margin-top: 16px;
+    padding-top: 14px;
+  }
+}
