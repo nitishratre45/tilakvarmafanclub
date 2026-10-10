@@ -149,17 +149,9 @@
                   " · " +
                   esc(item.published || "Latest") +
                   "</span><h4>" +
-                  (url
-                    ? '<a href="' +
-                      url +
-                      '" data-article-url="' +
-                      url +
-                      '" data-article-title="' +
-                      esc(item.title) +
-                      '">' +
-                      esc(item.title) +
-                      "</a>"
-                    : esc(item.title)) +
+                  '<a href="#moments" aria-label="Open all Tilak Varma news">' +
+                  esc(item.title) +
+                  "</a>" +
                   "</h4><p>" +
                   esc(item.summary || "") +
                   "</p></article>"
