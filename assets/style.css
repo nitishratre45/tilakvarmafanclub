@@ -8577,3 +8577,12 @@ body.mc-scoreboard-open {
 .home-debut-history .match-history-summary{margin-top:12px}
 .home-debut-history .player-match-milestones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:10px}
 @media(max-width:700px){.embedded-match-center{padding:14px;margin:16px 0 22px}.death-overs-embed{height:82vh;min-height:560px}.home-debut-history{padding:14px;margin:18px 0}}
+
+
+/* Death-overs tab should flow like a normal page, not a scrollable mini-site. */
+.death-overs-embed{height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;border:0!important;border-radius:0!important;background:transparent!important}
+.death-overs-embed iframe{display:block;width:100%;height:1200px;border:0!important;overflow:hidden;background:transparent!important}
+html.death-embed,html.death-embed body{height:auto!important;min-height:0!important;overflow:visible!important}
+html.death-embed main{height:auto!important;overflow:visible!important}
+html.death-embed main>section{overflow:visible!important}
+html.death-embed footer{display:none!important}
