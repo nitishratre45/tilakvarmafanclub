@@ -176,7 +176,7 @@ def main() -> int:
     )
     for mode_name, build_params in pagination_modes:
         previous_signature = None
-        for page in range(1, 16):
+        for page in range(1, 9):
             params = build_params(page)
             sources_tried.append(API_BASE + "?" + urllib.parse.urlencode(params))
             try:
@@ -184,11 +184,17 @@ def main() -> int:
             except Exception as exc:
                 print(f"Skipping {mode_name} pagination: {exc}", file=sys.stderr)
                 break
-            signature = json.dumps(payload, sort_keys=True, ensure_ascii=False)
+            objects = list(walk_video_objects(payload))
+            signature = json.dumps(
+                sorted(
+                    str(item.get("id") or item.get("slug") or item.get("title") or "")
+                    for item in objects
+                )
+            )
             if signature == previous_signature:
                 break
             previous_signature = signature
-            for item in walk_video_objects(payload):
+            for item in objects:
                 video = normalize(item)
                 if video:
                     collected[video["id"]] = video
