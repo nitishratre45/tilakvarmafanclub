@@ -486,16 +486,29 @@ def date_sort_key(value):
     """Sort Statsguru dates safely; unknown date formats remain at the bottom."""
     value = clean(value)
     # Range labels such as "06–10 Sep 2026" and "30 Dec 2018 - 02 Jan 2019".
-    range_end = re.search(r"\d{1,2}\s+[A-Za-z]{3,}\s+\d{4}\s*[-–]\s*(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})", value)
+    range_end = re.search(
+        r"\d{1,2}\s+[A-Za-z]{3,}\s+\d{4}\s*[-–]\s*(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})",
+        value,
+    )
     if range_end:
         try:
-            return datetime.strptime(" ".join(range_end.groups()), "%d %b %Y").date().toordinal()
+            return (
+                datetime.strptime(" ".join(range_end.groups()), "%d %b %Y")
+                .date()
+                .toordinal()
+            )
         except ValueError:
             pass
-    same_month_range = re.search(r"\d{1,2}\s*[-–]\s*(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})", value)
+    same_month_range = re.search(
+        r"\d{1,2}\s*[-–]\s*(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})", value
+    )
     if same_month_range:
         try:
-            return datetime.strptime(" ".join(same_month_range.groups()), "%d %b %Y").date().toordinal()
+            return (
+                datetime.strptime(" ".join(same_month_range.groups()), "%d %b %Y")
+                .date()
+                .toordinal()
+            )
         except ValueError:
             pass
     for pattern in ("%d %b %Y", "%d-%b-%Y", "%d %B %Y", "%Y-%m-%d"):
@@ -943,11 +956,15 @@ def main():
         if not isinstance(milestones, dict):
             milestones = {}
         for fmt in FORMATS:
-            rows = [row for row in data["playerMatches"] if clean(row.get("format")) == fmt]
+            rows = [
+                row for row in data["playerMatches"] if clean(row.get("format")) == fmt
+            ]
             if not rows:
                 continue
             ordered = sorted(rows, key=lambda row: date_sort_key(row.get("date")))
-            previous = milestones.get(fmt, {}) if isinstance(milestones.get(fmt), dict) else {}
+            previous = (
+                milestones.get(fmt, {}) if isinstance(milestones.get(fmt), dict) else {}
+            )
             debut = previous.get("debut") or {
                 "opposition": ordered[0].get("opposition"),
                 "ground": ordered[0].get("ground") or ordered[0].get("venue"),
@@ -959,7 +976,9 @@ def main():
                 "date": ordered[-1].get("date"),
             }
             previous_last = previous.get("last")
-            if isinstance(previous_last, dict) and date_sort_key(previous_last.get("date")) > date_sort_key(latest.get("date")):
+            if isinstance(previous_last, dict) and date_sort_key(
+                previous_last.get("date")
+            ) > date_sort_key(latest.get("date")):
                 latest = previous_last
             milestones[fmt] = {"debut": debut, "last": latest}
         data["playerMatchMilestones"] = milestones
