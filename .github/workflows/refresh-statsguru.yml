@@ -19,6 +19,8 @@ concurrency:
 
 jobs:
   refresh-statsguru:
+    # This job publishes shared site-data.json to main; review branches only run site checks.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

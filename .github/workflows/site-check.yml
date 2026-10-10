@@ -41,6 +41,7 @@ jobs:
           PY
           node --check /tmp/death-overs-inline.js
           python -m compileall -q scripts
+          python scripts/test_bcci_video_source.py
       - name: Validate JSON data
         run: |
           find . -type f -name '*.json' -not -path './.git/*' -print0 | while IFS= read -r -d '' file; do
