@@ -732,10 +732,18 @@
     };
     if (unsupportedViews[requestedView]) {
       $("statsguru-summary").innerHTML = metric("VIEW", unsupportedViews[requestedView]);
-      rowsTable([], ["STATUS"], () => "", "This ESPNcricinfo view is selected, but a verified saved table for it is not currently available. Other supported views continue to use the saved source data.");
-      $("statsguru-note").textContent = "No figures have been estimated. The selected format and filters remain available; this view will populate when the source returns verified rows.";
+      rowsTable(
+        [],
+        ["STATUS"],
+        () => "",
+        "This ESPNcricinfo view is selected, but a verified saved table for it is not currently available. Other supported views continue to use the saved source data.",
+      );
+      $("statsguru-note").textContent =
+        "No figures have been estimated. The selected format and filters remain available; this view will populate when the source returns verified rows.";
       const status = $("sg-filter-status");
-      if (status) status.textContent = unsupportedViews[requestedView] + " · verified source rows not available";
+      if (status)
+        status.textContent =
+          unsupportedViews[requestedView] + " · verified source rows not available";
       return;
     }
     if (renderAdditional(source)) {
@@ -1089,10 +1097,30 @@
   $("sg-reset-filter").addEventListener("click", resetFilters);
   const viewCategory = () => {
     const maps = {
-      all: { batting: "batting", innings: "innings", matchlist: "matchlist", series: "battingseries" },
-      batting: { batting: "batting", innings: "innings", matchlist: "matchlist", series: "battingseries" },
-      bowling: { batting: "bowling", innings: "bowlinginnings", matchlist: "bowlingmatches", series: "bowlingseries" },
-      fielding: { batting: "fielding", innings: "fieldinginnings", matchlist: "fieldinginnings", series: "fieldingseries" },
+      all: {
+        batting: "batting",
+        innings: "innings",
+        matchlist: "matchlist",
+        series: "battingseries",
+      },
+      batting: {
+        batting: "batting",
+        innings: "innings",
+        matchlist: "matchlist",
+        series: "battingseries",
+      },
+      bowling: {
+        batting: "bowling",
+        innings: "bowlinginnings",
+        matchlist: "bowlingmatches",
+        series: "bowlingseries",
+      },
+      fielding: {
+        batting: "fielding",
+        innings: "fieldinginnings",
+        matchlist: "fieldinginnings",
+        series: "fieldingseries",
+      },
     };
     return maps[requestedScope]?.[requestedView] || "batting";
   };
