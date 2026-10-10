@@ -27,3 +27,9 @@ Jobs that update `data/site-data.json` share one concurrency group and retry pub
 4. Confirm the deployed commit in Cloudflare Pages.
 
 This is an independent fan project and is not affiliated with the player, BCCI, IPL, or a team.
+
+## Match Centre and scoreboards
+
+The Match Centre uses the server-side Pages Functions `/api/matches` and `/api/scoreboard`. Both require the Cloudflare Pages production secret `CRICAPI_KEY`; without it, the API intentionally returns a configuration error instead of fabricated fixtures or scorecards. Add the key under **Workers & Pages → tilakvarmafc → Settings → Variables and Secrets → Production**, then redeploy. Never put the key in browser JavaScript or commit it to GitHub.
+
+The separate CricZone repository feed currently exposes live-event/channel metadata, not a licensed match-fixture and full-scorecard feed. The public CricZone Australia site states that its fixtures and scorecard data must not be scraped or reproduced as a feed. Do not add a scraper for that site; use a permitted API key or obtain explicit feed permission first. The existing Match Centre has not been replaced with an unverified scraper.
