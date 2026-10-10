@@ -9102,3 +9102,35 @@ html.death-embed footer{display:none!important}
     width: min(250px, calc(100vw - 28px));
   }
 }
+
+
+/* Emergency hardening: keep custom option dialogs above every section and fully scrollable. */
+.cs-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483000 !important;
+  display: block;
+  pointer-events: auto !important;
+}
+.cs-dialog {
+  z-index: 2147483001 !important;
+  min-height: 0 !important;
+  max-height: min(68vh, 420px) !important;
+  overflow: hidden !important;
+}
+.cs-dialog .cs-options {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  max-height: calc(min(68vh, 420px) - 76px) !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+  touch-action: pan-y !important;
+}
+.cs-overlay.is-mobile .cs-dialog {
+  max-height: min(72dvh, 620px) !important;
+}
+.cs-overlay.is-mobile .cs-options {
+  max-height: calc(min(72dvh, 620px) - 76px) !important;
+}
