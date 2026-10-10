@@ -334,7 +334,10 @@
     if (event.key === "Escape" && !modal.hidden) closePlayer();
   });
 
-  fetch("assets/bcci-videos.json?v=20261010", { cache: "no-cache" })
+  fetch("data/video-config.json?v=20261010-adminvideo1", { cache: "no-store" })
+    .catch(() => null)
+    .then((response) => response && response.ok ? response.json() : { feedUrl: "" })
+    .then((config) => fetch(validHttps(config.feedUrl) || "assets/bcci-videos.json?v=20261010", { cache: "no-store" }))
     .then((response) => {
       if (!response.ok) throw new Error("Feed HTTP " + response.status);
       return response.json();
