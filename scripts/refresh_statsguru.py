@@ -23,7 +23,7 @@ HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
 }
-FORMATS = {"T20I": 3, "ODI": 2, "T20": 6}
+FORMATS = {"T20I": 3, "ODI": 2, "FC": 1, "List A": 5, "T20": 6}
 
 
 def stamp():
@@ -482,6 +482,23 @@ def parse_innings_page(page, fmt):
     return rows
 
 
+def date_sort_key(value):
+    """Sort Statsguru dates safely; unknown date formats remain at the bottom."""
+    value = clean(value)
+    for pattern in ("%d %b %Y", "%d-%b-%Y", "%d %B %Y", "%Y-%m-%d"):
+        try:
+            return datetime.strptime(value, pattern).date().toordinal()
+        except ValueError:
+            continue
+    match = re.search(r"(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})", value)
+    if match:
+        try:
+            return datetime.strptime(" ".join(match.groups()), "%d %b %Y").date().toordinal()
+        except ValueError:
+            pass
+    return 0
+
+
 def scrape_format(fmt, match_class):
     # The legacy player page's supported view is "innings". It also includes
     # the Career averages table above the match-by-match list.
@@ -537,6 +554,9 @@ def scrape_format(fmt, match_class):
         "source": "ESPNcricinfo Statsguru",
         "careerUrl": stats_url(match_class, "innings"),
         "inningsUrl": stats_url(match_class, "innings"),
+        "matchListUrl": stats_url(match_class, "match"),
+        "debut": min(innings, key=lambda row: date_sort_key(row.get("date")), default=None),
+        "lastMatch": max(innings, key=lambda row: date_sort_key(row.get("date")), default=None),
     }
 
 
@@ -849,6 +869,25 @@ def main():
             errors.append(fmt + ": " + str(exc))
             print("Could not refresh " + fmt + "; keeping saved data:", exc)
     if success:
+        # Cross-format match index for the Matches section. Preserve recent verified
+        # scorecards (including DNB rows) and enrich with Statsguru batting rows.
+        recent_rows = data.get("recentInnings", [])
+        if not isinstance(recent_rows, list):
+            recent_rows = []
+        indexed = {}
+        for fmt, entry in new_formats.items():
+            for row in entry.get("innings", []) if isinstance(entry, dict) else []:
+                key = (fmt, clean(row.get("date")), clean(row.get("opposition")), clean(row.get("ground")))
+                if all(key[1:]):
+                    indexed[key] = {**row, "format": fmt, "source": "ESPNcricinfo Statsguru"}
+        for row in recent_rows:
+            fmt = clean(row.get("format") or "T20I")
+            key = (fmt, clean(row.get("date")), clean(row.get("opposition")), clean(row.get("venue") or row.get("ground")))
+            if all(key[1:]):
+                indexed[key] = {**indexed.get(key, {}), **row, "format": fmt}
+        data["playerMatches"] = sorted(indexed.values(), key=lambda row: date_sort_key(row.get("date")), reverse=True)[:250]
+        data["playerMatchesUpdatedAt"] = stamp()
+        data["playerMatchesSource"] = "ESPNcricinfo Statsguru + saved verified recent scorecards"
         data["statsguru"] = {
             **saved,
             "source": "ESPNcricinfo Statsguru",
