@@ -55,46 +55,12 @@
       const key = el.dataset.stat;
       if (stats[key] !== undefined) el.textContent = stats[key];
     });
-    const formatHost = document.getElementById("career-formats");
-    if (formatHost && data.careerFormats) {
-      formatHost.innerHTML = Object.entries(data.careerFormats)
-        .map(
-          ([name, s]) =>
-            `<article class="stat-card format-card"><span class="stat-label">${esc(name.toUpperCase())}</span><strong>${Number(s.runs || 0).toLocaleString("en-IN")}</strong><span class="stat-note">${esc(s.matches ?? "—")} matches · HS ${esc(s.highestScore ?? "—")}</span><span class="format-detail">AVG ${esc(s.average ?? "—")} · SR ${esc(s.strikeRate ?? "—")} · 100s ${esc(s.hundreds ?? "—")} · 50s ${esc(s.fifties ?? "—")}</span></article>`,
-        )
-        .join("");
-    }
     set(
       "career-updated",
       "Last update: " +
         latestTimestamp(data.careerStatsUpdated, data.statsguru?.updatedAt, data.lastUpdated),
     );
     const rows = data.recentInnings || [];
-    const tbody = $("#recent-table");
-    if (tbody)
-      tbody.innerHTML = rows.length
-        ? rows
-            .map((row) => {
-              const sr =
-                row.strikeRate ?? (row.balls ? ((row.runs * 100) / row.balls).toFixed(2) : "—");
-              return (
-                "<tr>" +
-                [row.date, row.opposition, row.runs, row.balls, row.fours, row.sixes, sr]
-                  .map((v) => "<td>" + esc(v) + "</td>")
-                  .join("") +
-                "</tr>"
-              );
-            })
-            .join("")
-        : '<tr><td colspan="7" class="empty">No recent innings have been loaded yet. Check back after the next data update.</td></tr>';
-    set(
-      "recent-runs",
-      rows.reduce(
-        (sum, r) => sum + (typeof r.runs === "number" && Number.isFinite(r.runs) ? r.runs : 0),
-        0,
-      ),
-    );
-    set("recent-count", rows.length);
     const lastChecked = Date.parse(data.lastChecked || data.lastUpdated || "");
     const stale = !Number.isFinite(lastChecked) || Date.now() - lastChecked > 36 * 60 * 60 * 1000;
     const refreshFailed = data.lastRefreshStatus === "source-unavailable";
@@ -114,65 +80,12 @@
         latestTimestamp(data.recentUpdated, data.statsguru?.updatedAt, data.lastUpdated),
     );
 
-    const esc = (value) =>
-      String(value ?? "").replace(
-        /[&<>"']/g,
-        (ch) =>
-          ({
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;",
-          })[ch],
-      );
     const rankings = data.iccRankings || {};
     set("icc-ranking-t20i", rankings.T20I ? "T20I #" + rankings.T20I : "T20I ranking unavailable");
     set("icc-ranking-odi", rankings.ODI ? "ODI #" + rankings.ODI : "ODI ranking unavailable");
     set(
       "icc-ranking-updated",
       rankings.updatedAt ? "Updated " + rankings.updatedAt : "Official ICC ranking snapshot",
-    );
-    const recordHost = document.getElementById("icc-record-highlights");
-    if (recordHost) {
-      const records = Array.isArray(data.iccRecords) ? data.iccRecords : [];
-      const formats = data.careerFormats || {};
-      const careerRecords = [
-        {
-          rank: formats.T20I?.highestScore,
-          category: "T20I career",
-          title: "Highest international T20 score",
-        },
-        { rank: formats.IPL?.highestScore, category: "IPL career", title: "Highest IPL score" },
-        {
-          rank: formats["List A"]?.highestScore,
-          category: "List A career",
-          title: "Highest List A score",
-        },
-      ].filter((record) => record.rank);
-      const cards = records.concat(careerRecords);
-      recordHost.innerHTML = cards.length
-        ? cards
-            .map(
-              (record) =>
-                '<article class="official-record-card"><strong>' +
-                esc(record.rank || "—") +
-                "</strong><span>" +
-                esc(record.category || "Career record") +
-                "</span><h4>" +
-                esc(record.title || "Player record") +
-                "</h4></article>",
-            )
-            .join("")
-        : '<p class="activity-empty">Record data is temporarily unavailable.</p>';
-    }
-    set(
-      "icc-records-updated",
-      data.iccRecordsCheckedAt
-        ? "Checked " + data.iccRecordsCheckedAt
-        : data.iccRecordsUpdated
-          ? "Last updated " + data.iccRecordsUpdated
-          : "Official record snapshot",
     );
   } catch (error) {
     set("data-status", "Saved snapshot unavailable");
