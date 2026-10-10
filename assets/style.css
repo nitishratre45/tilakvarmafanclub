@@ -9704,3 +9704,228 @@ textarea {
     backdrop-filter: none;
   }
 }
+
+
+/* THE 72 CLUB — cohesive visual refresh (presentation-only; keeps feature hooks intact). */
+:root {
+  --bg: #060d18;
+  --panel: #0d1a2b;
+  --panel2: #12243a;
+  --white: #f5f8ff;
+  --muted: #9eafc6;
+  --orange: #ff963f;
+  --cyan: #78e4ef;
+  --line: rgba(156, 184, 218, .18);
+  --surface-glass: rgba(10, 24, 42, .82);
+  --shadow-soft: 0 18px 48px rgba(0, 0, 0, .22);
+  --radius-card: 18px;
+}
+html { scroll-padding-top: 100px; }
+body {
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(31, 83, 124, .19), transparent 34rem),
+    radial-gradient(ellipse at 95% 22%, rgba(255, 150, 63, .055), transparent 32rem),
+    var(--bg);
+  line-height: 1.7;
+}
+::selection { background: rgba(255, 150, 63, .28); color: #fff; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
+.topbar {
+  min-height: 76px;
+  border-bottom-color: rgba(156, 184, 218, .2);
+  background: var(--surface-glass);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .24);
+}
+.brand { letter-spacing: .08em; }
+.brand-mark-photo {
+  border: 1px solid rgba(255, 150, 63, .75);
+  box-shadow: 0 0 0 4px rgba(255, 150, 63, .07);
+}
+nav a {
+  position: relative;
+  transition: color .18s ease, background .18s ease;
+}
+.topbar nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -9px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform .18s ease;
+}
+.topbar nav a:hover::after,
+.topbar nav a:focus-visible::after { transform: scaleX(1); }
+.section {
+  scroll-margin-top: 96px;
+}
+.section-heading,
+.home-snapshot-heading,
+.home-bowling-heading {
+  gap: 20px;
+}
+.section-heading h2,
+.home-snapshot-heading h2,
+.profile-copy h2 {
+  letter-spacing: -.035em;
+}
+.eyebrow {
+  letter-spacing: .15em;
+  color: var(--cyan);
+}
+.section-heading > p,
+.profile-intro,
+.about-copy p {
+  max-width: 70ch;
+}
+.stat-card,
+.home-mini-stat,
+.home-format-stats > *,
+.home-bowling-card,
+.home-snapshot-block,
+.match-history-summary,
+.match-center-card,
+.tilak-news-card,
+.bcci-video-card,
+.gallery-card,
+.settings-card,
+.records-section article,
+.milestone-card,
+.analytics-grid article {
+  border-color: var(--line);
+  border-radius: var(--radius-card);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
+}
+.stat-card,
+.home-mini-stat,
+.home-format-stats > *,
+.home-bowling-card,
+.home-snapshot-block,
+.match-history-summary,
+.match-center-card,
+.tilak-news-card,
+.bcci-video-card,
+.gallery-card,
+.settings-card {
+  background: linear-gradient(145deg, rgba(18, 36, 58, .96), rgba(8, 20, 35, .98));
+}
+.stat-card,
+.home-mini-stat,
+.home-format-stats > *,
+.match-center-card,
+.tilak-news-card,
+.bcci-video-card,
+.gallery-card,
+.records-section article,
+.milestone-card,
+.analytics-grid article {
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.stat-card:hover,
+.home-mini-stat:hover,
+.home-format-stats > *:hover,
+.match-center-card:hover,
+.tilak-news-card:hover,
+.bcci-video-card:hover,
+.gallery-card:hover,
+.records-section article:hover,
+.milestone-card:hover,
+.analytics-grid article:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 150, 63, .48);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, .22);
+}
+.button,
+button,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+.button {
+  border-radius: 11px;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+}
+.button.primary {
+  box-shadow: 0 8px 22px rgba(255, 150, 63, .15);
+}
+.button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(255, 150, 63, .22);
+}
+.button.outline:hover {
+  border-color: var(--orange);
+  background: rgba(255, 150, 63, .08);
+}
+input, select, textarea {
+  border-radius: 10px;
+  border-color: rgba(156, 184, 218, .28);
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(120, 228, 239, .1);
+  outline: none;
+}
+.stats-subnav button,
+.statsguru-format-tabs button,
+.settings-theme-options button,
+.mc-view-tabs button {
+  border-radius: 10px;
+  transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+}
+.stats-subnav button.active,
+.statsguru-format-tabs button.active,
+.settings-theme-options button[aria-pressed="true"],
+.mc-view-tabs button.is-active {
+  box-shadow: inset 0 0 0 1px rgba(255, 150, 63, .3), 0 5px 16px rgba(0, 0, 0, .12);
+}
+table { border-collapse: separate; border-spacing: 0; }
+th { color: var(--cyan); }
+td, th { border-color: var(--line); }
+footer {
+  border-top-color: var(--line);
+  background: rgba(6, 13, 24, .58);
+}
+.status, [role="status"], .data-line {
+  overflow-wrap: anywhere;
+}
+@media (min-width: 1200px) {
+  main { width: min(100% - 64px, 1440px); margin-inline: auto; }
+  .profile-section { gap: clamp(34px, 5vw, 76px); }
+}
+@media (max-width: 900px) {
+  html { scroll-padding-top: 82px; }
+  .topbar { min-height: 68px; }
+  main { width: min(100% - 32px, 760px); margin-inline: auto; }
+  .section { scroll-margin-top: 80px; }
+  .topbar nav a::after { display: none; }
+}
+@media (max-width: 600px) {
+  main { width: min(100% - 22px, 520px); }
+  .section { margin-block: 18px; }
+  .section-heading { align-items: flex-start; }
+  .stat-card,
+  .home-mini-stat,
+  .home-format-stats > *,
+  .home-bowling-card,
+  .home-snapshot-block,
+  .match-history-summary,
+  .match-center-card,
+  .tilak-news-card,
+  .bcci-video-card,
+  .gallery-card,
+  .settings-card {
+    border-radius: 14px;
+  }
+  .button { min-height: 42px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
