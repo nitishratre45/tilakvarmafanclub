@@ -9768,3 +9768,130 @@ body > .cs-overlay .cs-kicker {
     -webkit-overflow-scrolling: touch !important;
   }
 }
+
+
+/* FINAL PROFILE LAYOUT OVERRIDE — override legacy narrow-phone !important rules. */
+@media (max-width: 800px) {
+  html body main #profile.profile-section {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: 18px !important;
+    padding: 18px 16px 24px !important;
+  }
+  html body main #profile .profile-photo-wrap {
+    width: min(100%, 360px) !important;
+    max-width: none !important;
+    height: clamp(280px, 54vw, 360px) !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    margin: 0 auto !important;
+    align-self: auto !important;
+    border-radius: 20px !important;
+  }
+  html body main #profile .profile-photo-wrap img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: 34% 15% !important;
+    transform: scale(1.08) !important;
+    transform-origin: 38% 20% !important;
+  }
+  html body main #profile .profile-copy {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+  html body main #profile .profile-copy > .eyebrow {
+    margin-bottom: 8px !important;
+    font-size: 10px !important;
+    line-height: 1.5 !important;
+    letter-spacing: .12em !important;
+  }
+  html body main #profile .profile-copy h2 {
+    margin: 0 0 8px !important;
+    font-size: clamp(32px, 6vw, 46px) !important;
+    line-height: 1.02 !important;
+  }
+  html body main #profile .profile-intro {
+    margin: 0 0 13px !important;
+    font-size: 14px !important;
+    line-height: 1.55 !important;
+  }
+  html body main #profile .profile-facts {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin: 0 0 10px !important;
+  }
+  html body main #profile .profile-facts > div {
+    min-width: 0 !important;
+    padding: 11px 12px !important;
+    border-radius: 13px !important;
+  }
+  html body main #profile .profile-facts small {
+    margin-bottom: 5px !important;
+    font-size: 9px !important;
+  }
+  html body main #profile .profile-facts strong { font-size: 14px !important; }
+  html body main #profile .icc-ranking-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin: 0 0 10px !important;
+  }
+  html body main #profile .icc-ranking-card > div {
+    min-width: 0 !important;
+    padding: 11px 12px !important;
+  }
+  html body main #profile .icc-ranking-card .eyebrow,
+  html body main #profile .icc-ranking-card span { font-size: 8px !important; }
+  html body main #profile .icc-ranking-card strong {
+    margin: 5px 0 3px !important;
+    font-size: clamp(19px, 4vw, 25px) !important;
+  }
+  html body main #profile .icc-ranking-card small { font-size: 10px !important; }
+  html body main #profile .profile-teams-panel {
+    margin-top: 0 !important;
+    padding: 13px !important;
+  }
+  html body main #profile .profile-teams-heading {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+  }
+  html body main #profile .profile-teams-heading h3 { margin: 0 !important; }
+  html body main #profile .profile-team-chips { gap: 7px !important; }
+  html body main #profile .profile-team-chip {
+    min-height: 33px !important;
+    padding: 8px 10px !important;
+    font-size: 10px !important;
+  }
+  html body main #profile .profile-teams-note {
+    margin: 9px 0 0 !important;
+    font-size: 10px !important;
+  }
+  html body main #profile .profile-quick-actions {
+    margin-top: 12px !important;
+    gap: 8px !important;
+  }
+  html body main #profile .profile-quick-actions .button {
+    min-height: 42px !important;
+    padding: 10px 15px !important;
+    font-size: 13px !important;
+  }
+}
+@media (max-width: 380px) {
+  html body main #profile.profile-section {
+    padding-inline: 12px !important;
+    gap: 15px !important;
+  }
+  html body main #profile .profile-photo-wrap { height: 285px !important; }
+  html body main #profile .profile-team-chip {
+    font-size: 9px !important;
+    padding: 7px 8px !important;
+  }
+}
