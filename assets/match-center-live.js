@@ -134,7 +134,6 @@
               '<button type="button" class="mc-open-scoreboard" data-scoreboard-id="' +
               esc(m.id) +
               '">Scoreboard ↗</button>' +
-              link(m.bcciUrl || "https://www.bcci.tv/matches", "BCCI fixtures") +
               "</div></article>"
             );
           })
