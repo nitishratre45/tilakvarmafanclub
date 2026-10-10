@@ -5843,3 +5843,105 @@ option {
     font-size: clamp(18px, 5vw, 24px);
   }
 }
+
+
+/* Consistent restrained colour accents for tables and cards across every stats section. */
+:root {
+  --stats-accent: #7ce5f2;
+  --stats-accent-soft: rgba(124, 229, 242, 0.075);
+}
+.stats-section .stat-card,
+.stats-section .home-format-card,
+.stats-section .statsguru-metric,
+.stats-section .bowling-metric,
+.stats-section .bowling-breakdown-wrap,
+.stats-section .bowling-innings-wrap {
+  border-color: var(--line);
+}
+.stats-section .stat-card:not(.stat-feature),
+.stats-section .statsguru-metric,
+.stats-section .bowling-metric {
+  border-top: 2px solid var(--stats-accent);
+}
+.stats-section .stat-card:not(.stat-feature) .stat-label,
+.stats-section .statsguru-metric span,
+.stats-section .bowling-metric span {
+  color: var(--muted);
+}
+.stats-section .format-card .format-detail {
+  color: var(--muted);
+}
+.stats-section .career-formats .format-card {
+  background: var(--panel);
+  border-top: 2px solid var(--stats-accent);
+}
+.stats-section .career-formats .format-card strong {
+  color: var(--white);
+}
+.stats-section .statsguru-panel .table-wrap th,
+.stats-section .bowling-stats-view .table-wrap th {
+  background: var(--panel2);
+  color: #b9cce6;
+  border-bottom: 1px solid var(--line);
+  box-shadow: inset 0 -2px 0 rgba(124, 229, 242, 0.55);
+}
+.stats-section .statsguru-panel .table-wrap td,
+.stats-section .bowling-stats-view .table-wrap td {
+  border-bottom: 1px solid var(--line);
+}
+.stats-section .statsguru-panel .table-wrap tbody tr:nth-child(even),
+.stats-section .bowling-stats-view .table-wrap tbody tr:nth-child(even) {
+  background: rgba(124, 229, 242, 0.025);
+}
+.stats-section .statsguru-panel .table-wrap tbody tr:hover td:not(.sg-cell-runs),
+.stats-section .bowling-stats-view .table-wrap tbody tr:hover td {
+  background: rgba(124, 229, 242, 0.065);
+}
+.stats-section .bowling-stats-view .bowling-wickets-cell,
+.stats-section .bowling-stats-view .bowling-best-cell {
+  color: var(--stats-accent);
+  background: var(--stats-accent-soft);
+}
+.stats-section .statsguru-panel .table-wrap th.sg-head-runs {
+  background: var(--panel2);
+  color: #ff9a70;
+  box-shadow: inset 0 -2px 0 #ff8a5b;
+}
+.stats-section .statsguru-panel .table-wrap .sg-cell-runs {
+  background: rgba(255, 138, 91, 0.10);
+  color: #ff9a70;
+  font-weight: 800;
+}
+:root[data-theme-resolved="light"] .stats-section .career-formats .format-card,
+:root[data-theme-resolved="light"] .stats-section .statsguru-metric,
+:root[data-theme-resolved="light"] .stats-section .bowling-metric,
+:root[data-theme-resolved="light"] .stats-section .bowling-breakdown-wrap,
+:root[data-theme-resolved="light"] .stats-section .bowling-innings-wrap {
+  background: #fff;
+}
+:root[data-theme-resolved="light"] .stats-section .career-formats .format-card strong,
+:root[data-theme-resolved="light"] .stats-section .statsguru-metric strong,
+:root[data-theme-resolved="light"] .stats-section .bowling-metric strong {
+  color: #152235;
+}
+:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th,
+:root[data-theme-resolved="light"] .stats-section .bowling-stats-view .table-wrap th {
+  background: #edf3f9;
+  color: #34465c;
+  box-shadow: inset 0 -2px 0 rgba(8, 126, 145, 0.4);
+}
+:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap tbody tr:nth-child(even),
+:root[data-theme-resolved="light"] .stats-section .bowling-stats-view .table-wrap tbody tr:nth-child(even) {
+  background: #f7fafc;
+}
+:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap tbody tr:hover td:not(.sg-cell-runs),
+:root[data-theme-resolved="light"] .stats-section .bowling-stats-view .table-wrap tbody tr:hover td {
+  background: #eaf5f8;
+}
+@media (max-width: 600px) {
+  .stats-section .statsguru-panel .table-wrap th,
+  .stats-section .bowling-stats-view .table-wrap th {
+    padding: 8px 9px;
+    font-size: 8px;
+  }
+}
