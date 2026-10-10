@@ -36,16 +36,26 @@ jobs:
         run: python scripts/refresh_bcci_videos.py
       - name: Commit refreshed feed
         run: |
-          if git diff --quiet -- assets/bcci-videos.json; then
-            echo "No changes to the BCCI video feed."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          cp assets/bcci-videos.json /tmp/bcci-videos.json
-          git fetch origin main
-          git reset --hard origin/main
-          cp /tmp/bcci-videos.json assets/bcci-videos.json
-          git add assets/bcci-videos.json
-          git commit -m "Refresh official BCCI Tilak video feed"
-          git push
+          git config user.email "41898282+users.noreply.github.com"
+          snapshot="$(mktemp)"
+          cp assets/bcci-videos.json "$snapshot"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp "$snapshot" assets/bcci-videos.json
+            python -m json.tool assets/bcci-videos.json > /dev/null
+            if git diff --quiet -- assets/bcci-videos.json; then
+              echo "No changes to the BCCI video feed."
+              exit 0
+            fi
+            git add assets/bcci-videos.json
+            git commit -m "Refresh official BCCI Tilak video feed"
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Concurrent repository update on attempt $attempt; retrying."
+            sleep 2
+          done
+          echo "Unable to publish BCCI video feed after 3 attempts."
+          exit 1
