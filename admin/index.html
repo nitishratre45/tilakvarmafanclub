@@ -1129,6 +1129,94 @@
           display: none;
         }
       }
+    
+      /* THE 72 CLUB admin visual refresh — styling only; form IDs and handlers remain unchanged. */
+      :root {
+        --bg: #060d18;
+        --panel: #0c192a;
+        --panel2: #11243a;
+        --line: rgba(156, 184, 218, .2);
+        --orange: #ff963f;
+        --cyan: #78e4ef;
+        --radius: 18px;
+      }
+      body {
+        background:
+          radial-gradient(ellipse at 72% -10%, rgba(35, 91, 134, .24), transparent 42%),
+          radial-gradient(ellipse at 0% 70%, rgba(255, 150, 63, .045), transparent 35%),
+          var(--bg);
+      }
+      .sidebar {
+        background: rgba(7, 18, 32, .94);
+        border-right-color: var(--line);
+        box-shadow: 12px 0 36px rgba(0, 0, 0, .12);
+      }
+      .mark-photo {
+        border-radius: 12px;
+        border-color: rgba(255, 150, 63, .75);
+        box-shadow: 0 0 0 4px rgba(255, 150, 63, .06);
+      }
+      .nav a {
+        border: 1px solid transparent;
+        transition: background .18s ease, border-color .18s ease, transform .18s ease;
+      }
+      .nav a:hover { transform: translateX(2px); }
+      .nav a.active {
+        border-color: rgba(255, 150, 63, .2);
+        background: linear-gradient(100deg, rgba(255, 150, 63, .13), rgba(20, 43, 69, .8));
+      }
+      .topbar { border-bottom-color: var(--line); }
+      .hero-badge, .sidebar-bottom {
+        border-color: var(--line);
+        border-radius: 14px;
+      }
+      .stat, .section, .source-stat, .source-card, .source-details, .item {
+        border-color: var(--line);
+        border-radius: var(--radius);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, .12);
+      }
+      .stat {
+        background: linear-gradient(145deg, rgba(19, 41, 64, .98), rgba(8, 20, 35, .98));
+      }
+      .section {
+        background: linear-gradient(145deg, rgba(14, 29, 47, .98), rgba(7, 18, 31, .98));
+      }
+      .section-head { border-bottom-color: var(--line); }
+      input, select {
+        border-color: rgba(156, 184, 218, .3);
+        border-radius: 11px;
+        transition: border-color .18s ease, box-shadow .18s ease;
+      }
+      input:focus, select:focus {
+        border-color: var(--cyan);
+        box-shadow: 0 0 0 3px rgba(120, 228, 239, .1);
+        outline: none;
+      }
+      .btn {
+        border-radius: 11px;
+        transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+      }
+      .btn:not(:disabled):hover { box-shadow: 0 8px 20px rgba(0, 0, 0, .16); }
+      .btn.primary { box-shadow: 0 8px 20px rgba(255, 150, 63, .15); }
+      .item { overflow: hidden; }
+      .item-media { transition: transform .25s ease; }
+      .item:hover .item-media { transform: scale(1.025); }
+      .status { line-height: 1.65; }
+      @media (max-width: 720px) {
+        .sidebar { box-shadow: 0 8px 24px rgba(0, 0, 0, .18); }
+        .main { padding-inline: 14px; }
+        .section-head, .section-body { padding-inline: 16px; }
+        .hero { align-items: flex-start; flex-direction: column; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          scroll-behavior: auto !important;
+          animation-duration: .01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: .01ms !important;
+        }
+      }
+
     </style>
   </head>
   <body>
