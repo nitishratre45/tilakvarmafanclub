@@ -1306,9 +1306,9 @@
               <div class="eyebrow">VIDEO HUB</div>
               <h2>Video feed settings</h2>
               <p>
-                Paste an official BCCI API URL for the Python collector. On save, GitHub Actions
-                runs Python to fetch the raw response, extract Tilak Varma clips, and normalize
-                metadata, thumbnail qualities and playback URLs for the public Videos section.
+                Only the official BCCI videos API endpoint is accepted. Player/profile URLs and other
+                websites are rejected. If the selected API response does not contain a Tilak Varma
+                clip, Python stops and preserves the current public feed.
               </p>
             </div>
             <span class="pill">HTTPS ONLY</span>
@@ -1321,7 +1321,7 @@
                   id="video-url"
                   type="url"
                   inputmode="url"
-                  placeholder="https://example.com/api/videos"
+                  placeholder="https://www.bcci.tv/api/bff/cms/videos?tags=international"
                   autocomplete="url"
                 /><span class="hint"
                   >Python fetches this raw API response, extracts Tilak Varma clips, and saves the
@@ -2221,10 +2221,31 @@
           const btn = e.submitter;
           btn.disabled = true;
           const feedUrl = $("video-url").value.trim();
-          if (feedUrl && !/^https:\/\//i.test(feedUrl)) {
-            status("video-status", "Use an HTTPS URL.", true);
-            btn.disabled = false;
-            return;
+          if (feedUrl) {
+            let parsed;
+            try {
+              parsed = new URL(feedUrl);
+            } catch {
+              status("video-status", "Enter a valid official BCCI videos API URL.", true);
+              btn.disabled = false;
+              return;
+            }
+            if (
+              parsed.protocol !== "https:" ||
+              !["www.bcci.tv", "bcci.tv"].includes(parsed.hostname) ||
+              !["/api/bff/cms/videos", "/api/bff/cms/videos/latest"].includes(parsed.pathname) ||
+              parsed.username ||
+              parsed.password ||
+              parsed.hash
+            ) {
+              status(
+                "video-status",
+                "Safety check: only the official BCCI videos API is allowed. Other player/profile URLs are rejected.",
+                true,
+              );
+              btn.disabled = false;
+              return;
+            }
           }
           try {
             await api("/api/admin/content", {
