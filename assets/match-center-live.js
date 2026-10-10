@@ -173,58 +173,45 @@
       }
     });
   }
-  function openScoreboard(id) {
+  async function openScoreboard(id) {
     const m = matches.find((item) => String(item.id) === String(id));
     if (!m) return;
     ensureScoreboardModal();
     const modal = document.getElementById("mc-scoreboard-modal");
     const content = document.getElementById("mc-scoreboard-content");
     const d = m.startTime ? new Date(m.startTime) : null;
-    const date =
-      d && !Number.isNaN(d.getTime())
-        ? d.toLocaleString("en-IN", {
-            dateStyle: "medium",
-            timeStyle: "short",
-            timeZone: "Asia/Kolkata",
-          }) + " IST"
-        : "Date / time TBA";
+    const date = d && !Number.isNaN(d.getTime()) ? d.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" }) + " IST" : "Date / time TBA";
     const isLive = m.status === "Live";
-    const score = (value) => (value ? esc(value) : '<span class="mc-score-yet">Yet to bat</span>');
-    content.innerHTML =
-      '<div class="mc-scoreboard-match-meta"><span class="' +
-      (isLive ? "is-live" : "") +
-      '">' +
-      (isLive ? '<i class="mc-live-dot"></i> LIVE' : esc(m.status || "Scheduled")) +
-      "</span><span>" +
-      esc(m.format || "Cricket") +
-      "</span><span>" +
-      esc(date) +
-      '</span></div><div class="mc-scoreboard-teams"><article><span class="mc-score-team-label">TEAM 1</span><h3>' +
-      esc(m.team1 || "Team 1") +
-      "</h3><strong>" +
-      score(m.score1) +
-      '</strong></article><div class="mc-scoreboard-vs">VS</div><article><span class="mc-score-team-label">TEAM 2</span><h3>' +
-      esc(m.team2 || "Team 2") +
-      "</h3><strong>" +
-      score(m.score2) +
-      '</strong></article></div><div class="mc-scoreboard-result">' +
-      esc(
-        m.result ||
-          (isLive
-            ? "Match in progress — score refreshes automatically."
-            : m.status === "Result"
-              ? "Match completed."
-              : "Match has not started yet."),
-      ) +
-      '</div><div class="mc-scoreboard-details"><div><small>SERIES</small><strong>' +
-      esc(m.series || "International cricket") +
-      "</strong></div><div><small>VENUE</small><strong>" +
-      esc(m.venue || "Venue to be confirmed") +
-      '</strong></div><div><small>DATA SOURCE</small><strong>CricAPI live match feed</strong></div></div><p class="mc-scoreboard-disclaimer">This in-site scoreboard displays the score and match details supplied by the available feed. Ball-by-ball commentary and full batting/bowling scorecards appear only when the provider supplies them.</p><div class="mc-scoreboard-actions">' +
-      link(m.bcciUrl || "https://www.bcci.tv/matches", "Official BCCI match centre") +
-      '<button type="button" data-scoreboard-close>Close scoreboard</button></div>';
+    const score = (value) => value ? esc(value) : '<span class="mc-score-yet">Yet to bat</span>';
+    content.innerHTML = '<div class="mc-scoreboard-match-meta"><span class="' + (isLive ? "is-live" : "") + '">' + (isLive ? '<i class="mc-live-dot"></i> LIVE' : esc(m.status || "Scheduled")) + '</span><span>' + esc(m.format || "Cricket") + '</span><span>' + esc(date) + '</span></div><div class="mc-scoreboard-teams"><article><span class="mc-score-team-label">TEAM 1</span><h3>' + esc(m.team1 || "Team 1") + '</h3><strong>' + score(m.score1) + '</strong></article><div class="mc-scoreboard-vs">VS</div><article><span class="mc-score-team-label">TEAM 2</span><h3>' + esc(m.team2 || "Team 2") + '</h3><strong>' + score(m.score2) + '</strong></article></div><div class="mc-scoreboard-result">' + esc(m.result || (isLive ? "Match in progress" : m.status === "Result" ? "Match completed" : "Match has not started yet")) + '</div><div class="mc-scoreboard-details"><div><small>SERIES</small><strong>' + esc(m.series || "International cricket") + '</strong></div><div><small>VENUE</small><strong>' + esc(m.venue || "Venue TBA") + '</strong></div></div><div id="mc-scoreboard-details-live"><p class="mc-scorecard-loading">Loading full batting &amp; bowling scorecard…</p></div><p class="mc-scoreboard-disclaimer">Detailed innings appear when CricAPI provides them for this match.</p><div class="mc-scoreboard-actions">' + link(m.bcciUrl || "https://www.bcci.tv/matches", "Official BCCI match centre") + '<button type="button" data-scoreboard-close>Close scoreboard</button></div>';
     modal.hidden = false;
     document.body.classList.add("mc-scoreboard-open");
+    const root = document.getElementById("mc-scoreboard-details-live");
+    if (!m.matchId) { root.innerHTML = '<p class="mc-scorecard-loading">No provider match ID is available for detailed scorecard.</p>'; return; }
+    try {
+      const response = await fetch("/api/scoreboard?id=" + encodeURIComponent(m.matchId), { headers: { Accept: "application/json" }, cache: "no-store" });
+      const payload = await response.json();
+      if (!response.ok || !payload.ok) throw new Error(payload.error || "Detailed scorecard unavailable");
+      const data = payload.data || {};
+      const innings = Array.isArray(data.scorecard) ? data.scorecard : Array.isArray(data.innings) ? data.innings : Array.isArray(data.scorecards) ? data.scorecards : [];
+      const rows = (items, type) => (Array.isArray(items) ? items : []).map((p) => {
+        const name = type === "bat" ? (p.batsman?.name || p.batter?.name || p.name || p.batsman || p.batter || "Batter") : (p.bowler?.name || p.name || p.bowler || "Bowler");
+        if (type === "bat") return '<tr><td><strong>' + esc(name) + '</strong>' + ((p.dismissal || p.outDesc || p.howOut) ? '<small>' + esc(p.dismissal || p.outDesc || p.howOut) + '</small>' : '') + '</td><td>' + esc(p.r ?? p.runs ?? "—") + '</td><td>' + esc(p.b ?? p.balls ?? p.ballsFaced ?? "—") + '</td><td>' + esc(p["4s"] ?? p.fours ?? "—") + '</td><td>' + esc(p["6s"] ?? p.sixes ?? "—") + '</td><td>' + esc(p.sr ?? p.strikeRate ?? "—") + '</td></tr>';
+        return '<tr><td><strong>' + esc(name) + '</strong></td><td>' + esc(p.o ?? p.overs ?? "—") + '</td><td>' + esc(p.m ?? p.maidens ?? "—") + '</td><td>' + esc(p.r ?? p.runs ?? "—") + '</td><td>' + esc(p.w ?? p.wickets ?? "—") + '</td><td>' + esc(p.eco ?? p.economy ?? "—") + '</td></tr>';
+      }).join("");
+      const tables = innings.map((inn, i) => {
+        const batting = inn.batting || inn.batsmen || inn.battingScorecard || [];
+        const bowling = inn.bowling || inn.bowlers || inn.bowlingScorecard || [];
+        const title = inn.inning || inn.innings || inn.teamName || inn.team?.name || ("Innings " + (i + 1));
+        const total = [inn.r ?? inn.runs ?? inn.score, inn.w != null ? inn.w + " wkts" : inn.wickets != null ? inn.wickets + " wkts" : "", inn.o != null ? inn.o + " ov" : inn.overs != null ? inn.overs + " ov" : ""].filter(Boolean).join(" · ");
+        return '<section class="mc-innings-card"><header><h3>' + esc(title) + '</h3><strong>' + esc(total) + '</strong></header>' +
+          (batting.length ? '<h4>Batting</h4><div class="mc-score-table-wrap"><table class="mc-score-table"><thead><tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead><tbody>' + rows(batting, "bat") + '</tbody></table></div>' : '') +
+          (bowling.length ? '<h4>Bowling</h4><div class="mc-score-table-wrap"><table class="mc-score-table"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th></tr></thead><tbody>' + rows(bowling, "bowl") + '</tbody></table></div>' : '') + '</section>';
+      }).join("");
+      root.innerHTML = tables || '<p class="mc-scorecard-loading">CricAPI responded, but detailed batting/bowling innings were not included for this match.</p>';
+    } catch (error) {
+      root.innerHTML = '<p class="mc-scorecard-loading">' + esc(error.message || "Detailed scorecard could not be loaded.") + '</p>';
+    }
   }
   host.addEventListener("click", (event) => {
     const button = event.target.closest("[data-scoreboard-id]");
