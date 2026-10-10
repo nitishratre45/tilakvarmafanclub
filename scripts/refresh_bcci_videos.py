@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
 import sys
 import urllib.parse
@@ -36,7 +37,7 @@ def fetch_json(params: dict[str, str]) -> object:
     endpoint = API_BASE + "/latest" if "tag" in params else API_BASE
     url = endpoint + "?" + urllib.parse.urlencode(params)
     request = urllib.request.Request(url, headers=HEADERS)
-    with urllib.request.urlopen(request, timeout=45) as response:
+    with urllib.request.urlopen(request, timeout=15) as response:
         if response.status != 200:
             raise RuntimeError(f"BCCI API returned HTTP {response.status} for {url}")
         return json.loads(response.read().decode("utf-8"))
@@ -493,33 +494,49 @@ def main() -> int:
         ]
     )
 
-    queried_signatures: set[str] = set()
+    # Deduplicate identical requests, then fetch independent catalogue pages in
+    # parallel. A slow optional BCCI query must not stall the entire daily refresh.
+    unique_queries = []
+    seen_urls: set[str] = set()
     for label, params in api_queries:
         endpoint = API_BASE + "/latest" if "tag" in params else API_BASE
         url = endpoint + "?" + urllib.parse.urlencode(params)
-        sources_tried.append(url)
-        try:
-            payload = fetch_json(params)
-        except Exception as exc:
-            print(f"Skipping BCCI {label}: {exc}", file=sys.stderr)
+        if url in seen_urls:
             continue
-        signature = hashlib.sha256(
-            json.dumps(payload, sort_keys=True, ensure_ascii=False, default=str).encode(
-                "utf-8"
+        seen_urls.add(url)
+        unique_queries.append((label, params, url))
+
+    queried_signatures: set[str] = set()
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        futures = {
+            pool.submit(fetch_json, params): (label, url)
+            for label, params, url in unique_queries
+        }
+        for future in as_completed(futures):
+            label, url = futures[future]
+            sources_tried.append(url)
+            try:
+                payload = future.result()
+            except Exception as exc:
+                print(f"Skipping BCCI {label}: {exc}", file=sys.stderr)
+                continue
+            signature = hashlib.sha256(
+                json.dumps(
+                    payload, sort_keys=True, ensure_ascii=False, default=str
+                ).encode("utf-8")
+            ).hexdigest()
+            if signature in queried_signatures:
+                continue
+            queried_signatures.add(signature)
+            found_on_query = 0
+            for item in walk_video_objects(payload):
+                video = normalize(item)
+                if video:
+                    collected[video["id"]] = video
+                    found_on_query += 1
+            print(
+                f"BCCI {label}: {found_on_query} Tilak clips; {len(collected)} unique total"
             )
-        ).hexdigest()
-        if signature in queried_signatures:
-            continue
-        queried_signatures.add(signature)
-        found_on_query = 0
-        for item in walk_video_objects(payload):
-            video = normalize(item)
-            if video:
-                collected[video["id"]] = video
-                found_on_query += 1
-        print(
-            f"BCCI {label}: {found_on_query} Tilak clips; {len(collected)} unique total"
-        )
 
     videos = sorted(
         collected.values(),
