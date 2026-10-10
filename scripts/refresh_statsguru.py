@@ -1013,10 +1013,10 @@ def main():
 
         def normalize_match_text(value):
             value = clean(value).casefold()
-            value = re.sub(r"^v\\s+", "", value)
-            value = re.sub(r"^india\\s+vs\\s+", "", value)
+            value = re.sub(r"^v\s+", "", value)
+            value = re.sub(r"^india\s+vs\s+", "", value)
             value = re.sub(r"[^a-z0-9]+", " ", value)
-            return re.sub(r"\\s+", " ", value).strip()
+            return re.sub(r"\s+", " ", value).strip()
 
         def match_key(row, fmt):
             raw_date = clean(row.get("date"))
