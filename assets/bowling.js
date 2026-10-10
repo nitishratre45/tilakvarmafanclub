@@ -89,8 +89,10 @@
   }
   function renderBreakdown() {
     const host = $("bowling-breakdown");
+    const section = host?.closest(".bowling-breakdown-wrap");
     if (!host) return;
     const rows = formats()[selected]?.careerBreakdown || [];
+    if (section) section.hidden = rows.length === 0;
     host.innerHTML = rows.length
       ? rows
           .map(
@@ -124,9 +126,11 @@
   }
   function renderInnings() {
     const host = $("bowling-innings"),
+      section = host?.closest(".bowling-innings-wrap"),
       entry = formats()[selected] || {},
       rows = Array.isArray(entry.innings) ? entry.innings : [];
     if (!host) return;
+    if (section) section.hidden = rows.length === 0;
     host.innerHTML = rows.length
       ? rows
           .map((r) => {
