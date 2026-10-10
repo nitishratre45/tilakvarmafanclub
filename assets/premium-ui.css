@@ -2406,3 +2406,44 @@ body {
     font-size: 10px !important;
   }
 }
+
+
+
+/* Main-page Death Overs section: keep the analyser visually integrated with the site. */
+.death-overs-section {
+  background: linear-gradient(180deg, rgba(9, 20, 35, 0.92), rgba(7, 13, 24, 0.98));
+  border-top: 1px solid rgba(117, 227, 255, 0.12);
+  border-bottom: 1px solid rgba(117, 227, 255, 0.12);
+}
+.death-overs-section .section-heading {
+  align-items: end;
+}
+.death-overs-embed-wrap {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(117, 227, 255, 0.14);
+  border-radius: 18px;
+  background: #070b14;
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.18);
+}
+#death-overs-embed {
+  display: block;
+  width: 100%;
+  min-height: 900px;
+  height: 1100px;
+  border: 0;
+  background: #070b14;
+  overflow: hidden;
+}
+@media (max-width: 640px) {
+  .death-overs-section {
+    padding-inline: 14px !important;
+  }
+  .death-overs-embed-wrap {
+    border-radius: 14px;
+  }
+  #death-overs-embed {
+    min-height: 1000px;
+  }
+}
