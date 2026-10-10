@@ -8570,22 +8570,10 @@ body.mc-scoreboard-open {
 .embedded-match-center{margin:22px 0 30px;padding:22px;border:1px solid var(--line,rgba(255,255,255,.12));border-radius:16px;background:var(--panel,rgba(13,26,44,.55))}
 .embedded-match-center>.section-heading{margin-bottom:18px}
 .embedded-match-center .mc-official-scorecard{display:none!important}
-.stats-death-overs-view{min-width:0}
-.death-overs-embed{width:100%;height:min(1000px,85vh);min-height:650px;overflow:hidden;border:1px solid var(--line,rgba(255,255,255,.12));border-radius:14px;background:var(--panel,#0d1a2c)}
-.death-overs-embed iframe{display:block;width:100%;height:100%;border:0;background:var(--panel,#0d1a2c)}
 .home-debut-history{margin:24px 0;padding:20px;border:1px solid var(--line,rgba(255,255,255,.12));border-radius:14px;background:var(--panel,rgba(13,26,44,.45))}
 .home-debut-history .match-history-summary{margin-top:12px}
 .home-debut-history .player-match-milestones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:10px}
-@media(max-width:700px){.embedded-match-center{padding:14px;margin:16px 0 22px}.death-overs-embed{height:82vh;min-height:560px}.home-debut-history{padding:14px;margin:18px 0}}
-
-
-/* Death-overs tab should flow like a normal page, not a scrollable mini-site. */
-.death-overs-embed{height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;border:0!important;border-radius:0!important;background:transparent!important}
-.death-overs-embed iframe{display:block;width:100%;height:1200px;border:0!important;overflow:hidden;background:transparent!important}
-html.death-embed,html.death-embed body{height:auto!important;min-height:0!important;overflow:visible!important}
-html.death-embed main{height:auto!important;overflow:visible!important}
-html.death-embed main>section{overflow:visible!important}
-html.death-embed footer{display:none!important}
+@media(max-width:700px){.embedded-match-center{padding:14px;margin:16px 0 22px}.home-debut-history{padding:14px;margin:18px 0}}
 
 
 /* Compact playback quality control over the Shaka video surface. */
