@@ -841,3 +841,422 @@ textarea:focus-visible {
 .records-section .record-card:nth-child(3n) {
   border-top: 2px solid rgba(167, 139, 250, 0.65);
 }
+
+
+/* VISUAL EXPANSION 02 — bold editorial sections, depth, and matchday UI. */
+:root {
+  --club-orange: #ff6a35;
+  --club-cyan: #7ce5f2;
+  --club-purple: #a78bfa;
+  --club-green: #a3e635;
+}
+.section-heading .eyebrow,
+.home-snapshot-heading .eyebrow,
+.home-snapshot-blockhead .eyebrow {
+  text-transform: uppercase;
+}
+.section-heading h2,
+.home-snapshot-heading h2 {
+  line-height: .98;
+}
+.section-heading h2 em,
+.home-snapshot-heading h2 em {
+  text-shadow: 0 8px 36px rgba(255,106,53,.12);
+}
+.profile-section {
+  overflow: hidden;
+}
+.profile-section::after {
+  content: "72";
+  position: absolute;
+  right: -2vw;
+  bottom: -10vw;
+  z-index: -1;
+  color: rgba(255,255,255,.018);
+  font: 900 clamp(240px, 39vw, 620px)/.8 "Barlow Condensed", Impact, sans-serif;
+  letter-spacing: -.1em;
+  pointer-events: none;
+}
+.profile-copy .eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 2px;
+  background: var(--club-orange);
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 7px;
+}
+.icc-ranking-card {
+  background: linear-gradient(115deg, rgba(16,31,51,.96), rgba(10,17,29,.96));
+  box-shadow: inset 3px 0 0 rgba(124,229,242,.7);
+}
+.icc-ranking-card strong {
+  font-variant-numeric: tabular-nums;
+}
+.home-snapshot-section {
+  position: relative;
+  isolation: isolate;
+}
+.home-snapshot-section::after {
+  content: "";
+  position: absolute;
+  inset: auto 7.5vw 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124,229,242,.25), rgba(255,106,53,.25), transparent);
+  pointer-events: none;
+}
+.home-mini-stat {
+  position: relative;
+  overflow: hidden;
+}
+.home-mini-stat::after {
+  content: "";
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  right: -30px;
+  top: -30px;
+  border: 1px solid rgba(124,229,242,.14);
+  border-radius: 50%;
+  box-shadow: 0 0 0 10px rgba(124,229,242,.025), 0 0 0 20px rgba(124,229,242,.018);
+  pointer-events: none;
+}
+.home-mini-stat:nth-child(2)::after { border-color: rgba(255,106,53,.2); }
+.home-mini-stat:nth-child(3)::after { border-color: rgba(167,139,250,.2); }
+.home-mini-stat:nth-child(4)::after { border-color: rgba(163,230,53,.18); }
+.home-snapshot-block,
+.home-bowling-card,
+.match-history-summary {
+  position: relative;
+  overflow: hidden;
+}
+.home-snapshot-block::before,
+.match-history-summary::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 42px;
+  height: 2px;
+  background: var(--club-orange);
+}
+.home-snapshot-block:nth-child(2)::before { background: var(--club-cyan); }
+.home-bowling-heading h3,
+.home-snapshot-blockhead h3,
+.official-records-head h3,
+.analytics-head h3,
+.upcoming-matches-heading h3 {
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+.stats-section {
+  background:
+    radial-gradient(ellipse at 0% 25%, rgba(255,106,53,.045), transparent 28rem),
+    radial-gradient(ellipse at 100% 70%, rgba(124,229,242,.04), transparent 32rem),
+    #080e19;
+}
+.stats-grid:not(.career-formats) .stat-feature {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ff8754 0%, #ff6a35 48%, #e74d32 100%);
+}
+.stats-grid:not(.career-formats) .stat-feature::after {
+  content: "RUNS";
+  position: absolute;
+  right: 18px;
+  bottom: -10px;
+  color: rgba(28,10,6,.12);
+  font: 900 clamp(44px, 7vw, 86px)/1 "Barlow Condensed", Impact, sans-serif;
+  letter-spacing: -.04em;
+}
+.player-analysis-content,
+.statsguru-panel,
+.bowling-breakdown-wrap,
+.bowling-innings-wrap {
+  border-radius: 18px;
+  border-color: rgba(169,194,229,.16);
+  background: linear-gradient(145deg, rgba(15,27,45,.86), rgba(8,14,24,.82));
+}
+.player-analysis-grid,
+.statsguru-category-grid {
+  gap: 12px;
+}
+.player-analysis-grid > *,
+.statsguru-category-grid > * {
+  border-radius: 13px;
+}
+.records-section {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(167,139,250,.07), transparent 28rem),
+    linear-gradient(180deg, #0a1220, #080d17);
+}
+.official-records-head,
+.analytics-head,
+.match-history-head,
+.gallery-heading {
+  border-bottom: 1px solid rgba(169,194,229,.14);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+.official-records-grid,
+.milestone-grid,
+.analytics-grid {
+  gap: 14px;
+}
+.official-records-grid > *,
+.milestone-grid > *,
+.analytics-grid > * {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border-color: rgba(169,194,229,.16);
+  background: linear-gradient(145deg, rgba(17,29,48,.96), rgba(9,16,28,.98));
+}
+.milestone-grid > *::after,
+.analytics-grid > *::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 2px;
+  background: var(--club-orange);
+}
+.milestone-grid > *:nth-child(3n+2)::after { background: var(--club-cyan); }
+.milestone-grid > *:nth-child(3n)::after { background: var(--club-purple); }
+.analytics-chart {
+  border-radius: 18px;
+  border: 1px solid rgba(169,194,229,.16);
+  background: radial-gradient(ellipse at 90% 0%, rgba(124,229,242,.055), transparent 22rem), rgba(10,18,31,.7);
+  padding: clamp(14px, 2vw, 24px);
+  overflow: hidden;
+}
+.fan-zone-section {
+  background:
+    radial-gradient(ellipse at 0% 10%, rgba(255,106,53,.06), transparent 25rem),
+    radial-gradient(ellipse at 100% 90%, rgba(124,229,242,.055), transparent 28rem),
+    #080e19;
+}
+.fan-zone-grid {
+  gap: 14px;
+  align-items: stretch;
+}
+.fan-card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(169,194,229,.16);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(17,29,48,.97), rgba(9,16,28,.98));
+  box-shadow: 0 12px 32px rgba(0,0,0,.14);
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+.fan-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--club-orange), transparent 80%);
+  pointer-events: none;
+}
+.fan-quiz-card::before { background: linear-gradient(90deg, var(--club-cyan), transparent 80%); }
+.fan-club-card:nth-child(3)::before { background: linear-gradient(90deg, var(--club-purple), transparent 80%); }
+.fan-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(124,229,242,.3);
+  box-shadow: 0 18px 38px rgba(0,0,0,.22);
+}
+.fan-card h3 { line-height: 1.25; text-wrap: balance; }
+.fan-card h3 em { color: var(--club-orange); font-style: normal; }
+.feature-eyebrow {
+  color: var(--club-cyan);
+  letter-spacing: .14em;
+}
+.poll-options label,
+.fan-ritual-list label {
+  border-radius: 11px;
+  border: 1px solid rgba(169,194,229,.13);
+  background: rgba(5,11,20,.3);
+  transition: background .18s ease, border-color .18s ease;
+}
+.poll-options label:hover,
+.fan-ritual-list label:hover {
+  border-color: rgba(124,229,242,.32);
+  background: rgba(124,229,242,.045);
+}
+.fan-badge-preview {
+  border: 1px solid rgba(255,106,53,.36);
+  border-radius: 15px;
+  background: radial-gradient(ellipse at 100% 0%, rgba(255,106,53,.18), transparent 55%), #0b1422;
+}
+.innings-section {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(124,229,242,.055), transparent 30rem),
+    linear-gradient(180deg, #091321, #080d17);
+}
+.embedded-match-center {
+  background: transparent;
+}
+.match-center-toolbar {
+  border: 1px solid rgba(169,194,229,.15);
+  border-radius: 16px;
+  background: rgba(12,22,37,.7);
+  padding: 16px;
+}
+.match-center-summary {
+  border-radius: 10px;
+  background: rgba(124,229,242,.055);
+  border: 1px solid rgba(124,229,242,.12);
+  padding: 12px 14px;
+}
+.match-center-grid,
+.upcoming-matches-grid {
+  gap: 14px;
+}
+.match-center-grid > *,
+.upcoming-matches-grid > * {
+  min-width: 0;
+  border: 1px solid rgba(169,194,229,.16);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(17,29,48,.96), rgba(9,16,28,.98));
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.match-center-grid > *:hover,
+.upcoming-matches-grid > *:hover {
+  transform: translateY(-3px);
+  border-color: rgba(124,229,242,.34);
+  box-shadow: 0 14px 34px rgba(0,0,0,.2);
+}
+.upcoming-matches-panel {
+  background: radial-gradient(ellipse at 100% 0%, rgba(255,106,53,.06), transparent 24rem), rgba(10,18,31,.7);
+}
+.tilak-photos-section {
+  background: linear-gradient(180deg, #080d17, #0a1422);
+}
+.cricinfo-gallery {
+  padding: clamp(14px, 2vw, 24px);
+  background: linear-gradient(145deg, rgba(15,27,45,.8), rgba(8,14,24,.7));
+}
+.cricinfo-photo-grid > * {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+}
+.cricinfo-photo-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .35s ease, filter .35s ease;
+}
+.cricinfo-photo-grid > *:hover img {
+  transform: scale(1.045);
+  filter: saturate(1.08);
+}
+.tilak-news-section {
+  background: radial-gradient(ellipse at 0% 0%, rgba(167,139,250,.055), transparent 28rem), #090f1b;
+}
+.tilak-news-layout {
+  border-radius: 18px;
+}
+.tilak-news-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-radius: 16px;
+  border: 1px solid rgba(169,194,229,.16);
+  background: linear-gradient(145deg, rgba(17,29,48,.97), rgba(9,16,28,.98));
+}
+.tilak-news-card img {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.tilak-news-card a,
+.tilak-news-card .text-link {
+  color: var(--club-cyan);
+}
+.tilak-videos-section {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(255,106,53,.065), transparent 28rem),
+    linear-gradient(180deg, #0a1220, #080d17);
+}
+.bcci-video-controls {
+  border: 1px solid rgba(169,194,229,.16);
+  border-radius: 16px;
+  background: rgba(12,22,37,.72);
+  padding: 16px;
+}
+.bcci-video-grid > * {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(169,194,229,.16);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(17,29,48,.97), rgba(9,16,28,.98));
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+.bcci-video-grid > *:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,106,53,.42);
+  box-shadow: 0 18px 38px rgba(0,0,0,.22);
+}
+.bcci-video-modal:not([hidden]) {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.bcci-video-panel {
+  border: 1px solid rgba(124,229,242,.22);
+  border-radius: 18px;
+  box-shadow: 0 28px 90px rgba(0,0,0,.55);
+}
+.bcci-video-player-head {
+  background: rgba(7,13,23,.96);
+  border-bottom: 1px solid rgba(169,194,229,.16);
+}
+.settings-section {
+  background: linear-gradient(180deg, #090f1b, #080d17);
+}
+.settings-card {
+  border: 1px solid rgba(169,194,229,.17);
+  background: radial-gradient(ellipse at 100% 0%, rgba(124,229,242,.06), transparent 24rem), linear-gradient(145deg, rgba(17,29,48,.97), rgba(9,16,28,.98));
+}
+.settings-theme-options button {
+  border-radius: 13px;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+.settings-theme-options button:hover { transform: translateY(-2px); }
+.settings-theme-options button[aria-pressed="true"] {
+  background: rgba(255,106,53,.09);
+  border-color: var(--club-orange);
+}
+.about-section {
+  background:
+    radial-gradient(ellipse at 0% 100%, rgba(255,106,53,.06), transparent 26rem),
+    #070b14;
+}
+.about-section h2 {
+  font-size: clamp(42px, 6vw, 76px);
+}
+footer {
+  background: #060a12;
+  padding-block: 26px;
+}
+@media (min-width: 1000px) {
+  .fan-zone-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .fan-card { padding: clamp(20px, 2.2vw, 30px); }
+}
+@media (max-width: 760px) {
+  .profile-section::after { right: -12vw; bottom: -8vw; }
+  .match-center-toolbar { padding: 12px; }
+  .cricinfo-gallery { padding: 12px; }
+  .fan-card { padding: 20px; }
+  .bcci-video-controls { padding: 12px; }
+  .official-records-head,
+  .analytics-head,
+  .gallery-heading { align-items: flex-start; gap: 10px; flex-direction: column; }
+  .statsguru-section { padding-inline: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fan-card, .match-center-grid > *, .upcoming-matches-grid > *, .cricinfo-photo-grid img,
+  .bcci-video-grid > *, .settings-theme-options button { transition: none !important; }
+}
