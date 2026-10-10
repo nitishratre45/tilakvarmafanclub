@@ -30,6 +30,12 @@
           (Number.isFinite(runs) ? runs.toLocaleString("en-IN") : "—") +
           '</strong><span class="format-runs-caption">RUNS</span></div>' +
           '<div class="format-batting-facts">' +
+          '<div class="format-fact"><span>INN</span><strong>' +
+          escapeHTML(s.innings ?? "—") +
+          "</strong></div>" +
+          '<div class="format-fact"><span>NO</span><strong>' +
+          escapeHTML(s.notOuts ?? "—") +
+          "</strong></div>" +
           '<div class="format-fact"><span>4s</span><strong>' +
           escapeHTML(s.fours ?? "—") +
           "</strong></div>" +
@@ -45,7 +51,9 @@
           "</div></div>" +
           '<div class="format-meta-row"><span>' +
           escapeHTML(s.matches ?? "—") +
-          " MATCHES</span><span>HS " +
+          " MATCHES</span><span>BALLS " +
+          escapeHTML(s.balls ?? "—") +
+          "</span><span>HS " +
           escapeHTML(s.highestScore ?? "—") +
           "</span><span>AVG " +
           escapeHTML(s.average ?? "—") +
