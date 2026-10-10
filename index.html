@@ -9,7 +9,7 @@
       content="Tilak Varma fan club — career snapshot, recent innings, match moments and fan gallery."
     />
     <title>Tilak Varma FC | The 72 Club</title>
-    <link rel="stylesheet" href="assets/style.css?v=20261010-quality-menu3" />
+    <link rel="stylesheet" href="assets/style.css?v=20261010-quality-topbar4" />
   </head>
   <body>
     <header class="topbar">
@@ -969,7 +969,13 @@
               <span class="bcci-player-brand"
                 ><span class="bcci-player-brand-mark">72</span> TILAK VARMA · VIDEO HUB</span
               >
-              <button type="button" data-bcci-close aria-label="Close video">✕</button>
+              <div class="bcci-player-head-actions">
+                <button type="button" class="bcci-quality-head-button" id="bcci-player-settings-button" aria-label="Quality settings" aria-expanded="false" aria-controls="bcci-player-settings-menu" title="Playback quality">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="M19.4 13.5a7.5 7.5 0 0 0 0-3l1.5-1.1-1.5-2.6-1.8.7a7.5 7.5 0 0 0-2.6-1.5L14.7 4h-3.1l-.3 2a7.5 7.5 0 0 0-2.6 1.5l-1.8-.7-1.5 2.6 1.5 1.1a7.5 7.5 0 0 0 0 3l-1.5 1.1 1.5 2.6 1.8-.7a7.5 7.5 0 0 0 2.6 1.5l.3 2h3.1l.3-2a7.5 7.5 0 0 0 2.6-1.5l1.8.7 1.5-2.6-1.5-1.1Z"/></svg>
+                  <span>Quality</span><span class="bcci-quality-current" id="bcci-quality-current">Auto</span>
+                </button>
+                <button type="button" data-bcci-close aria-label="Close video">✕</button>
+              </div>
             </div>
             <div class="bcci-player-page-content">
               <div class="bcci-player-main">
@@ -985,9 +991,6 @@
                     BCCI · OFFICIAL VIDEO
                   </div>
                 <div class="bcci-player-options">
-                  <button type="button" class="bcci-player-settings-button" id="bcci-player-settings-button" aria-label="Playback settings" aria-expanded="false" aria-controls="bcci-player-settings-menu" title="Playback settings">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.5.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.5-.9l-1.7.7-1.4-2.4 1.4-1.1a7 7 0 0 1 0-1.8l-1.4-1.1 1.4-2.4 1.7.7a8 8 0 0 1 1.5-.9l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.5.9l1.7-.7 1.4 2.4-1.4 1.1a7 7 0 0 1 0 1.7Z" transform="translate(-1 -1) scale(1.04)"/></svg>
-                  </button>
                   <div class="bcci-player-settings-menu" id="bcci-player-settings-menu" hidden>
                     <label for="bcci-playback-quality">Playback quality
                       <select id="bcci-playback-quality">
@@ -998,6 +1001,7 @@
                         <option value="360">360p max</option>
                       </select>
                     </label>
+                    <button type="button" class="bcci-video-download-button" id="bcci-video-download-button">↓ Download video</button>
                     <span id="bcci-player-error" role="status">Choose a video to start playback.</span>
                   </div>
                 </div>
@@ -1107,7 +1111,7 @@
     <script src="assets/custom-selects.js"></script>
     <script src="assets/theme.js?v=20261014"></script>
     <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.12.6/dist/shaka-player.compiled.js"></script>
-    <script src="assets/bcci-videos.js?v=20261010-quality-menu3"></script>
+    <script src="assets/bcci-videos.js?v=20261010-quality-topbar4"></script>
     <script src="assets/match-center-live.js?v=20261010-section-reorg1"></script>
   </body>
 </html>
