@@ -51,7 +51,7 @@
     const recordsUpdated = document.getElementById("icc-records-updated");
     if (recordsUpdated)
       recordsUpdated.textContent =
-        "Updated " + stamp(data.iccRecordsCheckedAt, data.iccRecordsUpdated, data.lastUpdated);
+        "Updated " + stamp(data.iccRecordsUpdated, data.lastUpdated);
 
     const table = document.getElementById("recent-table");
     const rows = Array.isArray(data.recentInnings) ? data.recentInnings : [];
