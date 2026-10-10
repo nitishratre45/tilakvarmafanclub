@@ -132,8 +132,6 @@
   }
 
   function enhance(select) {
-    /* Keep the over-range analyser controls native: the analyser can be embedded in a nested frame, where custom fixed overlays are unreliable. */
-    if (["data-format", "year-filter", "first-over", "last-over"].includes(select.id)) return;
     if (select.dataset.customSelectReady === "true" || select.multiple || select.size > 1) return;
     select.dataset.customSelectReady = "true";
     const wrapper = document.createElement("div");
