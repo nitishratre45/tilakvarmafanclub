@@ -182,9 +182,6 @@
           <button type="button" role="tab" aria-selected="false" data-stats-tab="statsguru">
             Explore
           </button>
-          <button type="button" role="tab" aria-selected="false" data-stats-tab="stats-death-overs">
-            Death-overs
-          </button>
         </div>
         <div id="stats-overview" class="stats-subview">
           <div class="section-heading">
@@ -528,27 +525,6 @@
             Source: ESPNcricinfo Statsguru. Bowling data is refreshed from the source; missing
             figures are not estimated.
           </p>
-        </div>
-        <div id="stats-death-overs" class="stats-subview stats-death-overs-view" hidden aria-hidden="true">
-          <div class="section-heading">
-            <div><div class="eyebrow">TILAK VARMA · OVER-BY-OVER</div><h2>DEATH-OVERS <em>ANALYSIS</em></h2></div>
-            <p>Overs 16–20 batting analysis and detailed death-overs data.</p>
-          </div>
-          <div class="death-overs-embed">
-            <iframe src="death-overs/?embed=1" title="Tilak Varma death-overs statistics" loading="lazy"></iframe>
-          </div>
-          <script>
-            (() => {
-              const frame = document.querySelector('.death-overs-embed iframe');
-              if (!frame) return;
-              window.addEventListener('message', (event) => {
-                if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
-                if (event.data?.type !== 'tilak-death-overs-height') return;
-                const height = Number(event.data.height);
-                if (Number.isFinite(height) && height > 0) frame.style.height = Math.min(height + 8, 30000) + 'px';
-              });
-            })();
-          </script>
         </div>
       </section>
 
