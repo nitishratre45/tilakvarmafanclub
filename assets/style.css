@@ -6767,3 +6767,52 @@ option {
 .innings-section > .upcoming-matches-panel .match-history-summary-nested {
   display: none;
 }
+
+/* Fan Zone expansion — personal tools, one consistent dark theme */
+.fan-zone-section { background: linear-gradient(145deg, #091726, #0d1a2c); }
+.fan-zone-section .section-heading { margin-bottom: 28px; }
+.fan-zone-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
+.fan-card { min-width: 0; background: linear-gradient(150deg, #122238, #0b1728); color: var(--white); border: 1px solid var(--line); border-top: 2px solid var(--orange); }
+.fan-card:nth-child(2) { border-top-color: var(--cyan); }
+.fan-card:nth-child(3n) { border-top-color: var(--orange); }
+.fan-card h3 { color: var(--white); }
+.fan-card h3 em { color: var(--orange); font-style: normal; }
+.fan-card .feature-eyebrow { color: var(--cyan); }
+.fan-card .feature-note, .fan-card-intro { color: var(--muted); font-size: 11px; line-height: 1.8; }
+.fan-card .poll-option { background: #0b1728; border-color: #2a3d55; color: #eaf0f8; }
+.fan-card .poll-option:has(input:checked) { background: #182d43; border-color: var(--orange); }
+.fan-card .poll-option input { accent-color: var(--orange); }
+.fan-card .poll-result > div:first-child { color: #dbe6f3; }
+.fan-card .poll-result b { color: var(--orange); }
+.fan-card .poll-track { background: #ffffff15; }
+.fan-card .poll-track i { background: linear-gradient(90deg, var(--orange), var(--cyan)); }
+.fan-tool-form { display: grid; gap: 9px; margin: 18px 0; }
+.fan-tool-form label { color: var(--muted); font: 10px var(--mono); letter-spacing: .06em; }
+.fan-tool-form input, .fan-tool-form select, .fan-tool-form textarea {
+  width: 100%; min-width: 0; padding: 12px; color: var(--white); background: #07101f;
+  border: 1px solid #30445d; border-radius: 0; font: 12px var(--body);
+}
+.fan-tool-form textarea { resize: vertical; }
+.fan-tool-form .button { justify-content: center; margin-top: 5px; }
+.fan-badge-preview { display: grid; gap: 9px; padding: 20px; margin: 15px 0 10px; border: 1px solid #ff6a3570; background: linear-gradient(120deg, #172c43, #0a1525); }
+.fan-badge-preview span, .fan-badge-preview small { color: var(--cyan); font: 9px var(--mono); letter-spacing: .12em; }
+.fan-badge-preview strong { font: 800 clamp(24px, 3vw, 34px)/1 var(--display); overflow-wrap: anywhere; color: var(--orange); }
+.fan-secondary-button { margin-top: 8px !important; padding: 11px 13px !important; cursor: pointer; }
+.fan-ritual-list { display: grid; gap: 10px; margin: 20px 0; }
+.fan-ritual-list label { display: flex; align-items: flex-start; gap: 10px; padding: 12px; border: 1px solid var(--line); background: #07101f65; color: #dce6f3; font-size: 11px; line-height: 1.6; cursor: pointer; }
+.fan-ritual-list input { accent-color: var(--orange); margin-top: 2px; }
+.fan-ritual-progress { display: grid; gap: 8px; margin: 15px 0; }
+.fan-ritual-progress span { color: var(--muted); font: 10px var(--mono); }
+.fan-memory-saved { padding: 13px; border: 1px solid var(--line); background: #07101f70; color: var(--muted); font-size: 11px; line-height: 1.8; overflow-wrap: anywhere; white-space: pre-wrap; }
+.fan-memory-saved strong { display: block; margin-bottom: 6px; color: var(--cyan); }
+.fan-chant-line { padding: 18px; border-left: 3px solid var(--orange); background: #07101f; color: var(--white); font: 700 22px/1.3 var(--display); }
+.fan-action-status { min-height: 18px; color: var(--cyan); font-size: 10px; line-height: 1.6; }
+.fan-zone-privacy { margin: 18px 0 0; color: var(--muted); font: 10px/1.8 var(--mono); }
+@media (max-width: 900px) { .fan-zone-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) {
+ .fan-zone-grid { grid-template-columns: 1fr; gap: 11px; }
+ .fan-card { padding: 20px; }
+ .fan-card h3 { font-size: 29px; }
+ .fan-tool-form input, .fan-tool-form select, .fan-tool-form textarea { font-size: 16px; }
+ .fan-chant-line { font-size: 24px; }
+}
