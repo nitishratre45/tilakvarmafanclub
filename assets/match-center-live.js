@@ -17,6 +17,9 @@
   const format = document.getElementById("mc-format");
   const team = document.getElementById("mc-team");
   const count = document.getElementById("mc-count");
+  // Preserve the BCCI snapshot rendered by match-center.js before trying the live API.
+  const fallbackHTML = host.innerHTML;
+  const fallbackCount = count ? count.textContent : "0";
   let view = "all";
   let matches = [];
   let hasLiveData = false;
@@ -145,14 +148,19 @@
                   : m.format || "Other",
         });
       });
-      hasLiveData = true;
-      render();
+      hasLiveData = Boolean(data.providerOk && matches.length);
+      if (!data.providerOk || matches.length === 0) {
+        // Do not replace known fixtures with an empty screen when the external feed fails.
+        matches = [];
+        host.innerHTML = fallbackHTML;
+        if (count) count.textContent = fallbackCount;
+      } else {
+        render();
+      }
       if (status)
         status.textContent =
-          (data.providerOk ? "ESPNcricinfo data connected" : "Score feed temporarily unavailable") +
-          " · " +
-          data.total +
-          " matches · Refreshed " +
+          (data.providerOk && data.total > 0 ? "ESPNcricinfo data connected" : "Live feed unavailable · showing saved BCCI fixtures") +
+          (data.providerOk && data.total > 0 ? " · " + data.total + " matches · Refreshed " : " · Refreshed ") +
           new Date(data.updatedAt).toLocaleTimeString("en-IN", {
             hour: "2-digit",
             minute: "2-digit",
@@ -162,9 +170,9 @@
     } catch (_) {
       hasLiveData = false;
       if (status)
-        status.textContent =
-          "Live feed unavailable. The saved BCCI fixture snapshot remains accessible below.";
-      render();
+        status.textContent = "Live feed unavailable · showing saved BCCI fixtures";
+      host.innerHTML = fallbackHTML;
+      if (count) count.textContent = fallbackCount;
     }
   }
   bar.querySelectorAll("[data-view]").forEach((button) =>
