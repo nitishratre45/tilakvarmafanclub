@@ -2550,3 +2550,44 @@ footer .brand small {
     color: #f4f8ff !important;
   }
 }
+
+
+/* Death Overs section refresh: remove the duplicate intro and give the tool a cleaner premium frame. */
+.death-overs-section {
+  position: relative;
+  padding-top: clamp(18px, 2.8vw, 34px) !important;
+  padding-bottom: clamp(24px, 3vw, 42px) !important;
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(46, 140, 210, 0.12), transparent 38%),
+    radial-gradient(ellipse at 92% 100%, rgba(255, 155, 53, 0.08), transparent 34%),
+    linear-gradient(180deg, #081426 0%, #070d18 100%) !important;
+  border-top: 1px solid rgba(89, 191, 232, 0.2) !important;
+  border-bottom: 1px solid rgba(89, 191, 232, 0.16) !important;
+}
+.death-overs-section > .section-heading {
+  display: none !important;
+}
+.death-overs-embed-wrap {
+  border: 1px solid rgba(82, 159, 211, 0.28) !important;
+  border-radius: 20px !important;
+  background: #081321 !important;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgba(255, 255, 255, 0.025) inset !important;
+  overflow: hidden !important;
+}
+#death-overs-embed {
+  background: #070b14 !important;
+}
+@media (max-width: 640px) {
+  .death-overs-section {
+    padding-top: 12px !important;
+    padding-bottom: 24px !important;
+    padding-inline: 12px !important;
+  }
+  .death-overs-embed-wrap {
+    border-radius: 15px !important;
+    border-color: rgba(82, 159, 211, 0.24) !important;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.3) !important;
+  }
+}
