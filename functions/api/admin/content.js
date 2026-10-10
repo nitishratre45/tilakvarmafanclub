@@ -58,9 +58,7 @@ export async function onRequestPost({ request, env }) {
       const isVideoUpNextEndpoint = /^\/api\/bff\/cms\/videos\/[a-z0-9-]+\/up-next$/i.test(
         parsed.pathname,
       );
-      const isMatchVideoPage = /^\/matches\/[0-9a-f-]+\/[a-z0-9-]+\/video$/i.test(
-        parsed.pathname,
-      );
+      const isMatchVideoPage = /^\/matches\/[0-9a-f-]+\/[a-z0-9-]+\/video$/i.test(parsed.pathname);
       if (
         parsed.protocol !== "https:" ||
         !allowedHosts.has(parsed.hostname) ||
