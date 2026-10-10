@@ -258,6 +258,9 @@ function getInfo(def, data) {
   if (def.id === "recent-innings")
     return {
       updatedAt: data.recentUpdated,
+      attemptAt: data.recentCheckedAt || data.lastChecked,
+      attemptStatus: data.recentAttemptStatus || null,
+      errors: compactErrors(data.recentAttemptError),
       count: Array.isArray(data.recentInnings) ? data.recentInnings.length : 0,
       summary: (data.recentInnings || []).slice(0, 5).map((x) => ({
         date: x.date,
@@ -267,7 +270,7 @@ function getInfo(def, data) {
         balls: x.balls,
         result: x.result,
       })),
-      source: "Saved match-level records",
+      source: data.recentSource || "Cricsheet / saved match-level records",
     };
   if (def.id === "icc") {
     const section = data.iccRankings || {};
