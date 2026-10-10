@@ -1048,6 +1048,13 @@
   document.querySelectorAll("[data-sg-category]").forEach((b) =>
     b.addEventListener("click", () => {
       selectedCategory = b.dataset.sgCategory;
+      requestedScope = selectedCategory.startsWith("bowling") ? "bowling" :
+        selectedCategory.startsWith("fielding") || selectedCategory === "mostcatches" ? "fielding" : "batting";
+      requestedView = ["innings", "bowlinginnings", "fieldinginnings"].includes(selectedCategory) ? "innings" :
+        ["matchlist", "bowlingmatches"].includes(selectedCategory) ? "matchlist" :
+        ["battingseries", "bowlingseries", "fieldingseries"].includes(selectedCategory) ? "series" : "batting";
+      document.querySelectorAll('input[name="sg-analysis-scope"]').forEach((radio) => { radio.checked = radio.value === requestedScope; });
+      document.querySelectorAll('input[name="sg-analysis-view"]').forEach((radio) => { radio.checked = radio.value === requestedView; });
       render();
     }),
   );
