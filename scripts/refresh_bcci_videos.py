@@ -47,7 +47,9 @@ def fetch_custom_url(url: str) -> object:
     parsed = urllib.parse.urlparse(url)
     allowed_hosts = {"www.bcci.tv", "bcci.tv", "live-bccitv.epicon.in"}
     if parsed.scheme != "https" or parsed.hostname not in allowed_hosts:
-        raise ValueError("Admin video source must be an HTTPS URL on an official BCCI host.")
+        raise ValueError(
+            "Admin video source must be an HTTPS URL on an official BCCI host."
+        )
     request = urllib.request.Request(url, headers=HEADERS)
     with urllib.request.urlopen(request, timeout=45) as response:
         if response.status != 200:
@@ -256,7 +258,9 @@ def main() -> int:
     # First consume the exact URL saved in Admin. Python fetches the raw BCCI
     # response, extracts Tilak clips, and normalizes them into the public schema.
     try:
-        config = json.loads(CONFIG.read_text(encoding="utf-8")) if CONFIG.exists() else {}
+        config = (
+            json.loads(CONFIG.read_text(encoding="utf-8")) if CONFIG.exists() else {}
+        )
     except (OSError, json.JSONDecodeError) as exc:
         print(f"Could not read Admin video config: {exc}", file=sys.stderr)
         config = {}
