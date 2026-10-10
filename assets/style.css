@@ -8754,3 +8754,33 @@ html.death-embed footer{display:none!important}
   .bcci-player-settings-menu { bottom: 46px; padding: 12px; }
 }
 
+
+
+/* Keep video settings in the top player bar, away from the playing picture. */
+.bcci-player-head-actions { display:flex; align-items:center; gap:9px; flex-shrink:0; }
+.bcci-player-head-actions [data-bcci-close] { flex-shrink:0; }
+.bcci-quality-head-button {
+  display:flex; align-items:center; gap:8px; min-height:38px; padding:7px 11px;
+  border:1px solid rgba(255,255,255,.2); border-radius:10px; background:rgba(6,18,36,.25);
+  color:#fff; cursor:pointer; font:600 12px/1 var(--body);
+}
+.bcci-quality-head-button svg { width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.bcci-quality-head-button:hover,.bcci-quality-head-button[aria-expanded="true"] { border-color:#ff9b35; background:rgba(255,155,53,.12); }
+.bcci-quality-current { color:#ffb15d; font-size:11px; white-space:nowrap; }
+.bcci-player-options { position:absolute; z-index:12; top:12px; right:12px; bottom:auto; left:auto; width:auto; margin:0; padding:0; border:0; background:transparent; box-shadow:none; }
+.bcci-player-settings-menu { position:absolute; top:0; right:0; bottom:auto; width:min(250px,calc(100vw - 32px)); }
+.bcci-video-download-button {
+  display:block; width:100%; min-height:40px; margin-top:12px; padding:9px 11px;
+  border:1px solid rgba(255,155,53,.45); border-radius:8px; background:rgba(255,155,53,.12);
+  color:#ffbd76; text-align:left; font:700 12px/1.3 var(--body); cursor:pointer;
+}
+.bcci-video-download-button:hover { background:rgba(255,155,53,.2); }
+.bcci-video-download-button:disabled { opacity:.6; cursor:wait; }
+@media(max-width:640px) {
+ .bcci-player-head-actions { gap:6px; }
+ .bcci-quality-head-button { min-height:34px; padding:6px 8px; gap:6px; font-size:11px; }
+ .bcci-quality-head-button svg { width:17px; height:17px; }
+ .bcci-quality-current { font-size:10px; }
+ .bcci-player-options { top:8px; right:8px; }
+}
+
