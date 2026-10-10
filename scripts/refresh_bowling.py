@@ -465,7 +465,7 @@ def main():
         "updatedAt": stamp(),
         "formats": new_formats,
         "lastAttemptAt": stamp(),
-        "lastAttemptStatus": "success",
+        "lastAttemptStatus": "partial" if attempt_errors else "success",
         "lastAttemptErrors": [],
         "lastAttemptWarnings": attempt_errors,
     }
