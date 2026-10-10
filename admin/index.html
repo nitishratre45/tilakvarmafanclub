@@ -1991,7 +1991,7 @@
           },
           {
             title: "Admin Python source URL",
-            role: "The URL saved here is fetched by the Python collector; the public website never loads this raw response directly.",
+            role: "Python checks the saved API response, keeps only Tilak Varma clips with a direct HTTPS playback URL (.m3u8, .mpd or .mp4), and publishes only those to the public feed.",
             url: "../data/video-config.json",
             config: true,
             detail:
@@ -2255,7 +2255,7 @@
             state.video.feedUrl = feedUrl;
             status(
               "video-status",
-              "BCCI source URL saved. GitHub Actions will run Python to fetch it, extract Tilak videos, and refresh the normalized public feed.",
+              "BCCI API URL saved. Python will check the response and direct playback URLs; only playable Tilak Varma videos are published. If no valid playable Tilak clip is found, the existing public feed stays unchanged.",
             );
           } catch (err) {
             status("video-status", err.message, true);
