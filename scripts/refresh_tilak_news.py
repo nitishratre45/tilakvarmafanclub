@@ -53,7 +53,7 @@ class TextOnly(HTMLParser):
 
 def clean(value):
     value = html.unescape(value or "")
-    return re.sub(r"\\s+", " ", value).strip()
+    return re.sub(r"\s+", " ", value).strip()
 
 
 def article_image(url):
@@ -101,7 +101,7 @@ def load_feed(label, feed_url, seen):
         parser = TextOnly()
         parser.feed(description)
         summary = clean(" ".join(parser.parts))
-        if not re.search(r"\\btilak\\b|\\bvarma\\b", title + " " + summary, re.I):
+        if not re.search(r"\btilak\b|\bvarma\b", title + " " + summary, re.I):
             continue
         image = ""
         media = item.find("media:content", NS)
@@ -171,7 +171,7 @@ def main():
             "errors": errors or ["No usable BCCI or ESPNcricinfo stories returned."],
         }
         result.setdefault("items", [])
-    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
