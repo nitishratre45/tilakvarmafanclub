@@ -592,56 +592,118 @@
             <h3>Make your <em>fan badge</em></h3>
             <form id="fan-badge-form" class="fan-tool-form">
               <label for="fan-nickname">Your fan name</label>
-              <input id="fan-nickname" maxlength="22" placeholder="e.g. 72 Army" autocomplete="nickname" />
+              <input
+                id="fan-nickname"
+                maxlength="22"
+                placeholder="e.g. 72 Army"
+                autocomplete="nickname"
+              />
               <label for="fan-favourite-format">Favourite format</label>
               <select id="fan-favourite-format">
-                <option>T20 International</option><option>IPL</option><option>ODI</option><option>Domestic cricket</option>
+                <option>T20 International</option>
+                <option>IPL</option>
+                <option>ODI</option>
+                <option>Domestic cricket</option>
               </select>
               <button class="button primary" type="submit">CREATE MY BADGE ↗</button>
             </form>
             <div id="fan-badge-preview" class="fan-badge-preview" aria-live="polite">
-              <span>THE 72 CLUB</span><strong>YOUR NAME</strong><small>FAN MEMBER · JERSEY 72</small>
+              <span>THE 72 CLUB</span><strong>YOUR NAME</strong
+              ><small>FAN MEMBER · JERSEY 72</small>
             </div>
-            <button class="button outline fan-secondary-button" id="fan-badge-copy" type="button">COPY BADGE TEXT</button>
+            <button class="button outline fan-secondary-button" id="fan-badge-copy" type="button">
+              COPY BADGE TEXT
+            </button>
           </article>
           <article class="fan-card fan-club-card">
             <div class="feature-eyebrow">MATCHDAY RITUAL</div>
             <h3>Show up for <em>the 72</em></h3>
-            <p class="fan-card-intro">Your personal matchday checklist. Tick it off whenever you want—progress stays on this device.</p>
+            <p class="fan-card-intro">
+              Your personal matchday checklist. Tick it off whenever you want—progress stays on this
+              device.
+            </p>
             <div id="fan-ritual-list" class="fan-ritual-list">
-              <label><input type="checkbox" data-ritual="jersey" /> Wear your favourite cricket jersey</label>
+              <label
+                ><input type="checkbox" data-ritual="jersey" /> Wear your favourite cricket
+                jersey</label
+              >
               <label><input type="checkbox" data-ritual="cheer" /> Get your 72 cheer ready</label>
-              <label><input type="checkbox" data-ritual="respect" /> Back the team, respect every player</label>
-              <label><input type="checkbox" data-ritual="memory" /> Save a favourite Tilak moment</label>
+              <label
+                ><input type="checkbox" data-ritual="respect" /> Back the team, respect every
+                player</label
+              >
+              <label
+                ><input type="checkbox" data-ritual="memory" /> Save a favourite Tilak moment</label
+              >
             </div>
-            <div class="fan-ritual-progress"><span id="fan-ritual-progress-text">0 of 4 completed</span><div class="poll-track"><i id="fan-ritual-progress-bar" style="width:0%"></i></div></div>
-            <button class="button outline fan-secondary-button" id="fan-ritual-reset" type="button">RESET CHECKLIST ↻</button>
+            <div class="fan-ritual-progress">
+              <span id="fan-ritual-progress-text">0 of 4 completed</span>
+              <div class="poll-track"><i id="fan-ritual-progress-bar" style="width: 0%"></i></div>
+            </div>
+            <button class="button outline fan-secondary-button" id="fan-ritual-reset" type="button">
+              RESET CHECKLIST ↻
+            </button>
           </article>
           <article class="fan-card fan-club-card">
             <div class="feature-eyebrow">MY TILAK MOMENT</div>
             <h3>Save your <em>fan memory</em></h3>
-            <p class="fan-card-intro">Write down the innings, shot or moment that made you a Tilak fan. This journal is private to this browser.</p>
+            <p class="fan-card-intro">
+              Write down the innings, shot or moment that made you a Tilak fan. This journal is
+              private to this browser.
+            </p>
             <form id="fan-memory-form" class="fan-tool-form">
               <label for="fan-memory-title">Memory title</label>
-              <input id="fan-memory-title" maxlength="60" placeholder="That unforgettable innings…" required />
+              <input
+                id="fan-memory-title"
+                maxlength="60"
+                placeholder="That unforgettable innings…"
+                required
+              />
               <label for="fan-memory-note">Your memory</label>
-              <textarea id="fan-memory-note" rows="3" maxlength="600" placeholder="What do you remember most?" required></textarea>
+              <textarea
+                id="fan-memory-note"
+                rows="3"
+                maxlength="600"
+                placeholder="What do you remember most?"
+                required
+              ></textarea>
               <button class="button primary" type="submit">SAVE MEMORY ↗</button>
             </form>
-            <div id="fan-memory-saved" class="fan-memory-saved" aria-live="polite">No saved memory yet.</div>
-            <button class="button outline fan-secondary-button" id="fan-memory-delete" type="button">CLEAR MY MEMORY</button>
+            <div id="fan-memory-saved" class="fan-memory-saved" aria-live="polite">
+              No saved memory yet.
+            </div>
+            <button
+              class="button outline fan-secondary-button"
+              id="fan-memory-delete"
+              type="button"
+            >
+              CLEAR MY MEMORY
+            </button>
           </article>
           <article class="fan-card fan-club-card fan-chant-card">
             <div class="feature-eyebrow">THE 72 CHANT</div>
             <h3>Make some <em>noise</em></h3>
             <p class="fan-chant-line">“Number 72, we back you through and through!”</p>
-            <p class="fan-card-intro">Copy the chant for your fan group or share your support with friends.</p>
-            <button class="button primary" id="fan-chant-copy" type="button">COPY THE CHANT ↗</button>
-            <a class="button outline fan-secondary-button" href="https://www.icc-cricket.com/rankings/70761/tilak-varma" target="_blank" rel="noopener noreferrer">OPEN ICC PROFILE ↗</a>
+            <p class="fan-card-intro">
+              Copy the chant for your fan group or share your support with friends.
+            </p>
+            <button class="button primary" id="fan-chant-copy" type="button">
+              COPY THE CHANT ↗
+            </button>
+            <a
+              class="button outline fan-secondary-button"
+              href="https://www.icc-cricket.com/rankings/70761/tilak-varma"
+              target="_blank"
+              rel="noopener noreferrer"
+              >OPEN ICC PROFILE ↗</a
+            >
             <p id="fan-zone-action-status" class="fan-action-status" aria-live="polite"></p>
           </article>
         </div>
-        <p class="fan-zone-privacy">Polls, badge details, checklist and fan memories are stored locally in your browser. They are not public or shared across visitors.</p>
+        <p class="fan-zone-privacy">
+          Polls, badge details, checklist and fan memories are stored locally in your browser. They
+          are not public or shared across visitors.
+        </p>
       </section>
 
       <section id="innings" class="section innings-section">
@@ -854,7 +916,9 @@
     <script src="assets/player-matches.js?v=20261010-deduplicate1"></script>
     <script src="assets/upcoming-matches.js?v=20261010-bcci-squad2"></script>
     <script src="assets/career-formats.js?v=20261010-restore-career-formats"></script>
-    <script src="assets/features.js?v=20261010-fanzone2"></script>\n    <script src="assets/fan-zone-plus.js?v=20261010-fanzone1"></script>
+    <script src="assets/features.js?v=20261010-fanzone2"></script>
+    \n
+    <script src="assets/fan-zone-plus.js?v=20261010-fanzone1"></script>
     <script src="assets/upgrade.js"></script>
     <script src="assets/news.js?v=20261010-lastupdate1"></script>
     <script src="assets/gallery.js?v=20261010-lastupdate1"></script>
