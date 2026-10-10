@@ -3620,23 +3620,46 @@ main > section[id][hidden],
 
 /* Final mobile polish: preserve desktop rules, tighten touch layouts only. */
 @media (max-width: 760px), (pointer: coarse) and (hover: none) {
-  html, body { max-width: 100%; overflow-x: clip; }
-  main { width: 100%; min-width: 0; }
-  main > section:not([hidden]) { min-width: 0; }
-  main > section.section { scroll-margin-top: 12px; }
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+  main {
+    width: 100%;
+    min-width: 0;
+  }
+  main > section:not([hidden]) {
+    min-width: 0;
+  }
+  main > section.section {
+    scroll-margin-top: 12px;
+  }
 
   .topbar {
     box-sizing: border-box !important;
     padding-inline: max(12px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-right)) !important;
     backdrop-filter: blur(16px);
   }
-  .topbar .brand { font-size: 11px; line-height: 1.2; }
-  .topbar .brand small { display: block; margin-top: 2px; }
-  .topbar nav.open a { text-decoration: none; }
+  .topbar .brand {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+  .topbar .brand small {
+    display: block;
+    margin-top: 2px;
+  }
+  .topbar nav.open a {
+    text-decoration: none;
+  }
   .topbar nav.open a.active,
   .topbar nav.open a[aria-current="page"] {
-    border-color: rgba(255, 139, 66, .7) !important;
-    background: linear-gradient(135deg, rgba(255, 139, 66, .15), rgba(117, 227, 255, .06)) !important;
+    border-color: rgba(255, 139, 66, 0.7) !important;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 139, 66, 0.15),
+      rgba(117, 227, 255, 0.06)
+    ) !important;
     color: #fff !important;
   }
 
@@ -3646,37 +3669,49 @@ main > section[id][hidden],
     width: calc(100% - 24px) !important;
     border-radius: 18px;
     overflow: hidden;
-    background: radial-gradient(ellipse at 85% 0%, rgba(60, 126, 194, .14), transparent 48%), var(--surface, #0b1422);
-    border: 1px solid rgba(169, 194, 229, .14);
+    background:
+      radial-gradient(ellipse at 85% 0%, rgba(60, 126, 194, 0.14), transparent 48%),
+      var(--surface, #0b1422);
+    border: 1px solid rgba(169, 194, 229, 0.14);
   }
   #profile .profile-photo-wrap {
     overflow: hidden;
     border-radius: 14px;
     background: #0c1b2d;
   }
-  #profile .profile-copy { overflow-wrap: anywhere; }
-  #profile .profile-eyebrow-row { flex-wrap: wrap; }
+  #profile .profile-copy {
+    overflow-wrap: anywhere;
+  }
+  #profile .profile-eyebrow-row {
+    flex-wrap: wrap;
+  }
   #profile .profile-facts > div,
   #profile .icc-ranking-card > div {
-    border: 1px solid rgba(169, 194, 229, .12);
+    border: 1px solid rgba(169, 194, 229, 0.12);
     border-radius: 10px;
-    background: rgba(255,255,255,.025);
+    background: rgba(255, 255, 255, 0.025);
   }
   #profile .profile-facts small,
-  #profile .icc-ranking-card small { line-height: 1.35; }
-  #profile .profile-teams-panel {
-    border: 1px solid rgba(169, 194, 229, .12);
-    border-radius: 12px;
-    background: rgba(5, 13, 24, .42);
+  #profile .icc-ranking-card small {
+    line-height: 1.35;
   }
-  #profile .profile-quick-actions .button { min-height: 42px; }
+  #profile .profile-teams-panel {
+    border: 1px solid rgba(169, 194, 229, 0.12);
+    border-radius: 12px;
+    background: rgba(5, 13, 24, 0.42);
+  }
+  #profile .profile-quick-actions .button {
+    min-height: 42px;
+  }
 
   #stats.stats-section,
   main > section.section:not(#profile):not(#home-snapshot) {
     box-sizing: border-box;
     padding-inline: 12px;
   }
-  #stats .section-heading h2 { line-height: 1; }
+  #stats .section-heading h2 {
+    line-height: 1;
+  }
   .stats-subnav {
     display: flex !important;
     width: 100%;
@@ -3685,8 +3720,8 @@ main > section[id][hidden],
     gap: 6px !important;
     padding: 5px !important;
     border-radius: 12px;
-    background: rgba(10, 21, 36, .94);
-    border: 1px solid rgba(169, 194, 229, .14);
+    background: rgba(10, 21, 36, 0.94);
+    border: 1px solid rgba(169, 194, 229, 0.14);
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
   }
@@ -3700,36 +3735,71 @@ main > section[id][hidden],
   }
   .stats-subnav button.active,
   .stats-subnav button[aria-selected="true"] {
-    background: linear-gradient(110deg, rgba(255, 139, 66, .2), rgba(117, 227, 255, .08));
-    border-color: rgba(255, 139, 66, .42);
+    background: linear-gradient(110deg, rgba(255, 139, 66, 0.2), rgba(117, 227, 255, 0.08));
+    border-color: rgba(255, 139, 66, 0.42);
   }
-  .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 9px !important; }
-  .stat-card { min-width: 0; padding: 14px !important; border-radius: 13px; }
-  .stat-card strong { overflow-wrap: anywhere; }
-  .section-heading { min-width: 0; }
-  .section-heading p { max-width: 100%; }
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+  }
+  .stat-card {
+    min-width: 0;
+    padding: 14px !important;
+    border-radius: 13px;
+  }
+  .stat-card strong {
+    overflow-wrap: anywhere;
+  }
+  .section-heading {
+    min-width: 0;
+  }
+  .section-heading p {
+    max-width: 100%;
+  }
 
   #career-formats .format-card {
     border-radius: 14px;
-    box-shadow: 0 10px 24px rgba(0,0,0,.16);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
   }
-  #career-formats .format-meta-row > * { max-width: 100%; }
+  #career-formats .format-meta-row > * {
+    max-width: 100%;
+  }
 
   .bcci-video-controls,
   .tilak-news-layout,
   .tilak-photos-section,
-  .match-center-layout { min-width: 0; max-width: 100%; }
-  input, select, textarea, button { max-width: 100%; }
+  .match-center-layout {
+    min-width: 0;
+    max-width: 100%;
+  }
+  input,
+  select,
+  textarea,
+  button {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 380px) {
-  #profile.profile-section { width: calc(100% - 16px) !important; padding-inline: 10px !important; }
+  #profile.profile-section {
+    width: calc(100% - 16px) !important;
+    padding-inline: 10px !important;
+  }
   #profile .profile-facts,
-  #profile .icc-ranking-card { gap: 6px !important; }
+  #profile .icc-ranking-card {
+    gap: 6px !important;
+  }
   #profile .profile-facts > div,
-  #profile .icc-ranking-card > div { padding: 8px !important; }
-  .stats-grid { gap: 7px !important; }
-  .stat-card { padding: 11px !important; }
-  .stats-subnav button { padding-inline: 9px !important; }
+  #profile .icc-ranking-card > div {
+    padding: 8px !important;
+  }
+  .stats-grid {
+    gap: 7px !important;
+  }
+  .stat-card {
+    padding: 11px !important;
+  }
+  .stats-subnav button {
+    padding-inline: 9px !important;
+  }
 }
-
