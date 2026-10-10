@@ -7720,33 +7720,85 @@ body.bcci-player-open {
   }
 }
 
-
 /* Live Match Center controls and score presentation */
 .mc-live-toolbar {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-  gap: 12px; margin: 16px 0; padding: 12px 14px;
-  border: 1px solid var(--line, rgba(255,255,255,.12)); border-radius: 14px;
-  background: var(--card, rgba(255,255,255,.035));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 16px 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.12));
+  border-radius: 14px;
+  background: var(--card, rgba(255, 255, 255, 0.035));
 }
-.mc-view-tabs { display: flex; flex-wrap: wrap; gap: 7px; }
+.mc-view-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
 .mc-view-tabs button {
-  border: 1px solid var(--line, rgba(255,255,255,.16)); border-radius: 999px;
-  padding: 9px 13px; color: inherit; background: transparent; font: inherit; font-size: 12px; cursor: pointer;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.16));
+  border-radius: 999px;
+  padding: 9px 13px;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
 }
-.mc-view-tabs button.is-active { color: #fff; background: #16734b; border-color: #16734b; }
-#mc-provider-status { color: var(--muted, #aab3c4); font-size: 11px; }
+.mc-view-tabs button.is-active {
+  color: #fff;
+  background: #16734b;
+  border-color: #16734b;
+}
+#mc-provider-status {
+  color: var(--muted, #aab3c4);
+  font-size: 11px;
+}
 .mc-live-scores {
-  display: flex; align-items: center; justify-content: center; gap: 12px; margin: 12px 0;
-  padding: 12px; border-radius: 10px; background: rgba(18,135,84,.12); font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(18, 135, 84, 0.12);
+  font-size: 17px;
 }
-.mc-live-scores span { color: var(--muted, #aab3c4); font-size: 10px; }
-.mc-status.is-live { color: #ff7373; }
-.mc-card-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
-.mc-card-links a { font-size: 11px; }
+.mc-live-scores span {
+  color: var(--muted, #aab3c4);
+  font-size: 10px;
+}
+.mc-status.is-live {
+  color: #ff7373;
+}
+.mc-card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+.mc-card-links a {
+  font-size: 11px;
+}
 @media (max-width: 600px) {
-  .mc-live-toolbar { align-items: stretch; }
-  .mc-view-tabs { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); }
-  .mc-view-tabs button { padding: 10px 8px; }
-  #mc-provider-status { line-height: 1.5; }
-  .mc-live-scores { font-size: 15px; }
+  .mc-live-toolbar {
+    align-items: stretch;
+  }
+  .mc-view-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .mc-view-tabs button {
+    padding: 10px 8px;
+  }
+  #mc-provider-status {
+    line-height: 1.5;
+  }
+  .mc-live-scores {
+    font-size: 15px;
+  }
 }
