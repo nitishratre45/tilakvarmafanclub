@@ -234,6 +234,7 @@ def main():
     data["profile"]["photo"] = ICC_PHOTO_URL
     data["profile"]["photoSource"] = ICC_URL
     data["profile"]["photoRefreshStatus"] = "icc-profile-image"
+    photo = ICC_PHOTO_URL
     # Keep ICC limited to official rankings/records and profile metadata.
     # Recent scorecard rows must come from match-level delivery data, not a ranking page.
     rows = []
@@ -275,7 +276,7 @@ def main():
     checked_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     data["profileUpdated"] = checked_at
     data["lastChecked"] = checked_at
-    data["lastRefreshStatus"] = "available" if (rows or photo) else "source-unavailable"
+    data["lastRefreshStatus"] = "available" if rows else "source-unavailable"
     data["dataNote"] = (
         "Recent innings use Cricsheet match-level delivery data when a newer verified row is available. "
         "The ICC profile is used for official player-image metadata; official rankings and records are refreshed "
