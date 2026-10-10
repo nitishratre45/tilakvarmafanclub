@@ -1010,42 +1010,55 @@ def main():
         if not isinstance(recent_rows, list):
             recent_rows = []
         indexed = {}
+
+        def normalize_match_text(value):
+            value = clean(value).casefold()
+            value = re.sub(r"^v\\s+", "", value)
+            value = re.sub(r"^india\\s+vs\\s+", "", value)
+            value = re.sub(r"[^a-z0-9]+", " ", value)
+            return re.sub(r"\\s+", " ", value).strip()
+
+        def match_key(row, fmt):
+            raw_date = clean(row.get("date"))
+            day = date_sort_key(raw_date)
+            opposition = normalize_match_text(row.get("opposition"))
+            ground = normalize_match_text(row.get("ground") or row.get("venue"))
+            if not raw_date or not opposition or not ground:
+                return None
+            # First-class/Test matches can contain multiple innings on one date.
+            innings = clean(row.get("innings")) if fmt in {"FC", "Test"} else ""
+            return (fmt, day or raw_date.casefold(), opposition, ground, innings)
+
+        def merge_match(existing, incoming, fmt):
+            merged = dict(existing or {})
+            for field, value in incoming.items():
+                if value is None or value == "" or value in {"—", "-"}:
+                    continue
+                merged[field] = value
+            merged["format"] = fmt
+            return merged
+
         saved_match_rows = data.get("playerMatches", [])
         if isinstance(saved_match_rows, list):
             for row in saved_match_rows:
                 fmt = clean(row.get("format") or "T20I")
-                key = (
-                    fmt,
-                    clean(row.get("date")),
-                    clean(row.get("opposition")),
-                    clean(row.get("ground") or row.get("venue")),
-                )
-                if all(key[1:]):
-                    indexed[key] = dict(row)
+                key = match_key(row, fmt)
+                if key:
+                    indexed[key] = merge_match(indexed.get(key), row, fmt)
         for fmt, entry in new_formats.items():
             for row in entry.get("innings", []) if isinstance(entry, dict) else []:
-                key = (
-                    fmt,
-                    clean(row.get("date")),
-                    clean(row.get("opposition")),
-                    clean(row.get("ground")),
-                )
-                if all(key[1:]):
-                    indexed[key] = {
-                        **row,
-                        "format": fmt,
-                        "source": "ESPNcricinfo Statsguru",
-                    }
+                key = match_key(row, fmt)
+                if key:
+                    indexed[key] = merge_match(
+                        indexed.get(key),
+                        {**row, "format": fmt, "source": "ESPNcricinfo Statsguru"},
+                        fmt,
+                    )
         for row in recent_rows:
             fmt = clean(row.get("format") or "T20I")
-            key = (
-                fmt,
-                clean(row.get("date")),
-                clean(row.get("opposition")),
-                clean(row.get("venue") or row.get("ground")),
-            )
-            if all(key[1:]):
-                indexed[key] = {**indexed.get(key, {}), **row, "format": fmt}
+            key = match_key(row, fmt)
+            if key:
+                indexed[key] = merge_match(indexed.get(key), row, fmt)
         data["playerMatches"] = sorted(
             indexed.values(),
             key=lambda row: date_sort_key(row.get("date")),
