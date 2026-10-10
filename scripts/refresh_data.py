@@ -217,18 +217,23 @@ def main():
     # 30 days. A successful refresh updates the cache-busting date so browsers
     # pick up a new image even when BCCI reuses the same image URL.
     photo_checked = data["profile"].get("photoUpdated")
-    photo_due = True
+    photo_due = data["profile"].get("photoSource") != BCCI_URL
     try:
         checked_date = datetime.strptime(str(photo_checked), "%Y-%m-%d").date()
-        photo_due = (datetime.now(timezone.utc).date() - checked_date).days >= 30
+        photo_due = photo_due or (
+            datetime.now(timezone.utc).date() - checked_date
+        ).days >= 30
     except (TypeError, ValueError):
         photo_due = True
     if photo_due:
         photo = official_profile_image()
         if photo:
-            data["profile"]["photo"] = photo
+            refreshed_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+            # Add a monthly cache key while retaining the original BCCI image URL.
+            separator = "&" if "?" in photo else "?"
+            data["profile"]["photo"] = photo + separator + "tvfc=" + refreshed_date.replace("-", "")
             data["profile"]["photoSource"] = BCCI_URL
-            data["profile"]["photoUpdated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+            data["profile"]["photoUpdated"] = refreshed_date
             data["profile"]["photoRefreshStatus"] = "updated"
         else:
             # Keep the last good image and retry on the next scheduled workflow.
