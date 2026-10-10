@@ -73,7 +73,11 @@
               esc(s.matches ?? "—") +
               " matches · HS " +
               esc(s.highestScore ?? "—") +
-              "</small><small>AVG " +
+              "</small><div class=\"home-format-facts\">" +
+              [["INN", s.innings], ["NO", s.notOuts], ["4s", s.fours], ["6s", s.sixes], ["50s", s.fifties], ["100s", s.hundreds]]
+                .map(([fact, value]) => '<div class="home-format-fact"><span>' + esc(fact) + '</span><strong>' + esc(value ?? "—") + '</strong></div>')
+                .join("") +
+              "</div><small>AVG " +
               esc(s.average ?? "—") +
               " · SR " +
               esc(s.strikeRate ?? "—") +
