@@ -883,6 +883,13 @@ def main():
         if not isinstance(recent_rows, list):
             recent_rows = []
         indexed = {}
+        saved_match_rows = data.get("playerMatches", [])
+        if isinstance(saved_match_rows, list):
+            for row in saved_match_rows:
+                fmt = clean(row.get("format") or "T20I")
+                key = (fmt, clean(row.get("date")), clean(row.get("opposition")), clean(row.get("ground") or row.get("venue")))
+                if all(key[1:]):
+                    indexed[key] = dict(row)
         for fmt, entry in new_formats.items():
             for row in entry.get("innings", []) if isinstance(entry, dict) else []:
                 key = (
