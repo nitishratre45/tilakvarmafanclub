@@ -545,8 +545,14 @@ def main() -> int:
     # when they are absent from the current collection.
     previous_count = 0
     try:
-        previous_payload = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
-        previous_videos = previous_payload.get("videos", []) if isinstance(previous_payload, dict) else []
+        previous_payload = (
+            json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
+        )
+        previous_videos = (
+            previous_payload.get("videos", [])
+            if isinstance(previous_payload, dict)
+            else []
+        )
         if isinstance(previous_videos, list):
             for previous in previous_videos:
                 if not isinstance(previous, dict):
@@ -560,7 +566,10 @@ def main() -> int:
                     collected[video_id] = previous
                     previous_count += 1
     except (OSError, json.JSONDecodeError) as exc:
-        print(f"Could not read prior video history; using newly collected clips only: {exc}", file=sys.stderr)
+        print(
+            f"Could not read prior video history; using newly collected clips only: {exc}",
+            file=sys.stderr,
+        )
 
     print(
         f"Video history retention: preserved {previous_count} previously published clips not returned by this refresh."
