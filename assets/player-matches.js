@@ -80,7 +80,6 @@
       const ground = row.ground || row.venue || "";
       if (!date || !opposition) continue;
       const normalizedOpposition = normalizeText(opposition);
-      const normalizedGround = normalizeText(ground);
       const day = dayValue(date);
       const existingIndex = matches.findIndex((item) => {
         const sameOpposition = normalizeText(item.opposition) === normalizedOpposition;
