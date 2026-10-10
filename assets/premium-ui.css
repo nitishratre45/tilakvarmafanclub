@@ -2917,17 +2917,16 @@ footer .brand small {
   }
 }
 
-
 /* PROFILE UI UPDATE — larger mobile portrait, clean photo crop, richer team panel. */
 #profile .profile-teams-panel {
   margin-top: 17px;
   padding: 16px;
-  border: 1px solid rgba(117, 203, 237, .2);
+  border: 1px solid rgba(117, 203, 237, 0.2);
   border-radius: 17px;
   background:
-    radial-gradient(ellipse at 100% 0%, rgba(255, 128, 80, .09), transparent 45%),
-    linear-gradient(145deg, rgba(16, 34, 54, .94), rgba(8, 19, 33, .96));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+    radial-gradient(ellipse at 100% 0%, rgba(255, 128, 80, 0.09), transparent 45%),
+    linear-gradient(145deg, rgba(16, 34, 54, 0.94), rgba(8, 19, 33, 0.96));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
 }
 #profile .profile-teams-heading {
   display: flex;
@@ -2939,13 +2938,13 @@ footer .brand small {
 #profile .profile-teams-heading .eyebrow {
   color: #83e7f7;
   font-size: 10px;
-  letter-spacing: .15em;
+  letter-spacing: 0.15em;
 }
 #profile .profile-teams-heading h3 {
   margin: 0;
   color: #f7faff;
   font-size: 16px;
-  letter-spacing: -.035em;
+  letter-spacing: -0.035em;
 }
 #profile .profile-teams-heading h3 em {
   color: #ff895b;
@@ -2962,18 +2961,23 @@ footer .brand small {
   gap: 6px;
   min-height: 34px;
   padding: 8px 11px;
-  border: 1px solid rgba(139, 177, 212, .22);
+  border: 1px solid rgba(139, 177, 212, 0.22);
   border-radius: 9px;
-  background: rgba(23, 42, 64, .78);
+  background: rgba(23, 42, 64, 0.78);
   color: #dce8f7;
   font-size: 10px;
   font-weight: 800;
-  letter-spacing: .055em;
+  letter-spacing: 0.055em;
   line-height: 1.2;
 }
 #profile .profile-team-chip.team-india {
-  border-color: rgba(255, 145, 85, .42);
-  background: linear-gradient(110deg, rgba(255, 133, 75, .17), rgba(255,255,255,.04), rgba(90, 218, 164, .1));
+  border-color: rgba(255, 145, 85, 0.42);
+  background: linear-gradient(
+    110deg,
+    rgba(255, 133, 75, 0.17),
+    rgba(255, 255, 255, 0.04),
+    rgba(90, 218, 164, 0.1)
+  );
   color: #fff5e9;
 }
 #profile .profile-team-chip.team-india i {
@@ -2981,22 +2985,24 @@ footer .brand small {
   font-style: normal;
 }
 #profile .profile-team-chip.team-mi {
-  border-color: rgba(83, 160, 255, .38);
+  border-color: rgba(83, 160, 255, 0.38);
   color: #b8d9ff;
 }
 #profile .profile-team-chip.team-medak {
-  border-color: rgba(255, 128, 80, .32);
+  border-color: rgba(255, 128, 80, 0.32);
   color: #ffb18d;
 }
 #profile .profile-teams-note {
   margin: 11px 0 0;
   color: #a9bed5;
   font-size: 10px;
-  letter-spacing: .025em;
+  letter-spacing: 0.025em;
   line-height: 1.5;
 }
 @media (max-width: 800px) {
-  #profile .profile-teams-panel { padding: 13px; }
+  #profile .profile-teams-panel {
+    padding: 13px;
+  }
 }
 @media (max-width: 520px) {
   /* Give the player the first, wide visual block; text no longer gets squeezed beside him. */
@@ -3019,11 +3025,13 @@ footer .brand small {
     transform: scale(1.13);
     transform-origin: 38% 20%;
   }
-  #profile .profile-copy { width: 100%; }
+  #profile .profile-copy {
+    width: 100%;
+  }
   #profile .profile-copy > .eyebrow {
     margin-bottom: 8px;
     font-size: 9px;
-    letter-spacing: .1em;
+    letter-spacing: 0.1em;
   }
   #profile .profile-copy h2 {
     font-size: clamp(32px, 9vw, 43px);
@@ -3039,27 +3047,68 @@ footer .brand small {
     gap: 8px;
     margin-bottom: 12px;
   }
-  #profile .profile-facts > div { padding: 12px; border-radius: 13px; }
-  #profile .profile-facts small { font-size: 9px; letter-spacing: .1em; }
-  #profile .profile-facts strong { font-size: 14px; }
+  #profile .profile-facts > div {
+    padding: 12px;
+    border-radius: 13px;
+  }
+  #profile .profile-facts small {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+  #profile .profile-facts strong {
+    font-size: 14px;
+  }
   #profile .icc-ranking-card {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
     margin-bottom: 12px;
   }
-  #profile .icc-ranking-card > div { padding: 12px; border-radius: 13px; }
+  #profile .icc-ranking-card > div {
+    padding: 12px;
+    border-radius: 13px;
+  }
   #profile .icc-ranking-card .eyebrow,
-  #profile .icc-ranking-card span { font-size: 8px; letter-spacing: .07em; }
-  #profile .icc-ranking-card strong { font-size: 22px; }
-  #profile .icc-ranking-card small { font-size: 10px; }
-  #profile .profile-teams-panel { margin-top: 13px; padding: 13px; }
-  #profile .profile-teams-heading { align-items: center; flex-wrap: wrap; }
-  #profile .profile-team-chips { gap: 7px; }
-  #profile .profile-team-chip { min-height: 35px; padding: 8px 9px; font-size: 10px; }
-  #profile .profile-quick-actions { margin-top: 13px; }
-  #profile .profile-quick-actions .button { min-height: 42px; padding: 11px 15px; font-size: 13px; }
+  #profile .icc-ranking-card span {
+    font-size: 8px;
+    letter-spacing: 0.07em;
+  }
+  #profile .icc-ranking-card strong {
+    font-size: 22px;
+  }
+  #profile .icc-ranking-card small {
+    font-size: 10px;
+  }
+  #profile .profile-teams-panel {
+    margin-top: 13px;
+    padding: 13px;
+  }
+  #profile .profile-teams-heading {
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  #profile .profile-team-chips {
+    gap: 7px;
+  }
+  #profile .profile-team-chip {
+    min-height: 35px;
+    padding: 8px 9px;
+    font-size: 10px;
+  }
+  #profile .profile-quick-actions {
+    margin-top: 13px;
+  }
+  #profile .profile-quick-actions .button {
+    min-height: 42px;
+    padding: 11px 15px;
+    font-size: 13px;
+  }
 }
 @media (max-width: 360px) {
-  #profile .profile-photo-wrap { height: 300px; }
-  #profile .profile-team-chip { font-size: 9px; padding: 7px 8px; }
+  #profile .profile-photo-wrap {
+    height: 300px;
+  }
+  #profile .profile-team-chip {
+    font-size: 9px;
+    padding: 7px 8px;
+  }
 }
