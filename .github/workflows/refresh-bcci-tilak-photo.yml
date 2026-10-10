@@ -39,10 +39,24 @@ jobs:
           python -m json.tool data/bcci-tilak-photo.json > /dev/null
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- data/bcci-tilak-photo.json; then
-            echo "BCCI photo snapshot unchanged."
-            exit 0
-          fi
-          git add data/bcci-tilak-photo.json
-          git commit -m "chore: refresh official Tilak Varma BCCI photo"
-          git push
+          photo_snapshot="$(mktemp)"
+          cp data/bcci-tilak-photo.json "$photo_snapshot"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp "$photo_snapshot" data/bcci-tilak-photo.json
+            python -m json.tool data/bcci-tilak-photo.json > /dev/null
+            if git diff --quiet -- data/bcci-tilak-photo.json; then
+              echo "BCCI photo snapshot unchanged."
+              exit 0
+            fi
+            git add data/bcci-tilak-photo.json
+            git commit -m "chore: refresh official Tilak Varma BCCI photo"
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Concurrent repository update on attempt $attempt; retrying."
+            sleep 2
+          done
+          echo "Unable to publish BCCI photo snapshot after 3 attempts."
+          exit 1
