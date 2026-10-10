@@ -2277,7 +2277,11 @@
             if (
               parsed.protocol !== "https:" ||
               !["www.bcci.tv", "bcci.tv"].includes(parsed.hostname) ||
-              !["/api/bff/cms/videos", "/api/bff/cms/videos/latest"].includes(parsed.pathname) ||
+              !(
+                parsed.pathname === "/api/bff/cms/videos" ||
+                parsed.pathname === "/api/bff/cms/videos/latest" ||
+                /^\/api\/bff\/cms\/videos\/[a-z0-9-]+\/up-next$/i.test(parsed.pathname)
+              ) ||
               parsed.username ||
               parsed.password ||
               parsed.hash
