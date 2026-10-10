@@ -236,9 +236,12 @@ def main():
         except Exception as e:
             failures[key] = str(e)
             print(f"WARNING {key}: {e}")
-    # Overall T20 combines the broad men's T20 archive with IPL deliveries.
-    if formats.get("overall_t20", {}).get("innings"):
+        # Overall T20 combines the broad men's T20 archive with IPL deliveries.
+    # Always merge the separate IPL/Hyderabad archives, even if the broad
+    # men's T20 archive failed or returned no Tilak innings.
+    if "overall_t20" in formats:
         overall = formats["overall_t20"]
+        overall.setdefault("innings", [])
         existing = {str(row.get("matchId", "")) for row in overall["innings"]}
         for source_key in ("ipl", "hyderabad"):
             for row in formats.get(source_key, {}).get("innings", []):
