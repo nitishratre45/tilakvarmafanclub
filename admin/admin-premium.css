@@ -1,0 +1,29 @@
+/* Admin Studio visual polish — styling only; no admin behaviour changes. */
+:root{--orange:#ff6a35;--cyan:#7ce5f2;--panel:#0d1422;--panel2:#111d30;--line:rgba(169,194,229,.16)}
+body{background:radial-gradient(ellipse at 82% -10%,rgba(255,106,53,.075),transparent 30rem),radial-gradient(ellipse at 5% 12%,rgba(124,229,242,.055),transparent 28rem),var(--bg)}
+.sidebar{background:rgba(7,15,27,.96);border-right-color:rgba(169,194,229,.15);box-shadow:12px 0 38px rgba(0,0,0,.12)}
+.mark,.mark-photo{border-radius:12px}
+.nav a{border:1px solid transparent;border-radius:11px;transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease}
+.nav a:hover{background:rgba(124,229,242,.06);border-color:rgba(124,229,242,.14);transform:translateX(2px)}
+.nav a.active{background:linear-gradient(100deg,rgba(255,106,53,.15),rgba(255,106,53,.045));border-color:rgba(255,106,53,.22);color:#ff9b73}
+.main{min-width:0}
+.topbar{background:rgba(7,11,20,.78);border:1px solid rgba(169,194,229,.14);border-radius:16px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+.page-heading h1{text-wrap:balance}
+.hero,.section,.login-card{border:1px solid rgba(169,194,229,.15);border-radius:20px;background:linear-gradient(145deg,rgba(17,29,48,.94),rgba(9,16,28,.96));box-shadow:0 16px 42px rgba(0,0,0,.14)}
+.hero{background:radial-gradient(ellipse at 100% 0%,rgba(124,229,242,.08),transparent 25rem),linear-gradient(145deg,rgba(17,29,48,.98),rgba(9,16,28,.98))}
+.stat,.dataset-card,.run-card,.source-card,.source-stat,.service-row,.item{border:1px solid rgba(169,194,229,.14);border-radius:14px;background:linear-gradient(145deg,rgba(18,32,52,.96),rgba(10,18,31,.98));transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.stat:hover,.dataset-card:hover,.run-card:hover,.source-card:hover,.service-row:hover{border-color:rgba(124,229,242,.3);box-shadow:0 12px 28px rgba(0,0,0,.18)}
+.stat-number{color:#ff986e;font-variant-numeric:tabular-nums}
+.stat-icon,.dataset-badge,.pill{border-radius:10px}
+.btn{min-height:42px;border-radius:11px;transition:transform .16s ease,filter .16s ease,box-shadow .16s ease}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(135deg,#ff824c,#e94f2f);color:#180d09;box-shadow:0 8px 22px rgba(255,106,53,.14)}
+input,select,textarea{max-width:100%;border-radius:10px;border-color:rgba(169,194,229,.22);background:#0a1422}
+input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(124,229,242,.1)}
+.items,.run-list,.dataset-list{gap:12px}
+.dataset-title,.run-title,.source-registry-head{line-height:1.4}
+.dataset-metric{border-radius:10px;background:rgba(5,11,20,.34)}
+.status,.run-state{border-radius:999px}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+@media(max-width:760px){.hero,.section,.login-card{border-radius:16px}.topbar{border-radius:13px}.stat{min-width:0}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
