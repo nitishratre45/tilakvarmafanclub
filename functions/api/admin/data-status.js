@@ -80,7 +80,7 @@ const DATASETS = [
     name: "ICC rankings & records",
     file: "data/site-data.json",
     section: "iccRankings",
-    intervalHours: 24,
+    intervalHours: 48,
     workflow: "refresh-icc-records.yml",
     required: false,
   },
