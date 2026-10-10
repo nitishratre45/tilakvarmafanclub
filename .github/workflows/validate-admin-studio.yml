@@ -29,11 +29,11 @@ jobs:
           python-version: "3.12"
       - name: Check Cloudflare Pages Function syntax
         run: |
-          node --check functions/_lib/admin.js
-          node --check functions/api/admin/login.js
-          node --check functions/api/admin/sign-upload.js
-          node --check functions/api/admin/content.js
-          node --check functions/api/admin/session.js
+          node --input-type=module --check < functions/_lib/admin.js
+          node --input-type=module --check < functions/api/admin/login.js
+          node --input-type=module --check < functions/api/admin/sign-upload.js
+          node --input-type=module --check < functions/api/admin/content.js
+          node --input-type=module --check < functions/api/admin/session.js
       - name: Check data JSON
         run: |
           python -m json.tool data/admin-media.json > /dev/null
