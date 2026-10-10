@@ -9769,7 +9769,6 @@ body > .cs-overlay .cs-kicker {
   }
 }
 
-
 /* FINAL PROFILE LAYOUT OVERRIDE — override legacy narrow-phone !important rules. */
 @media (max-width: 800px) {
   html body main #profile.profile-section {
@@ -9807,7 +9806,7 @@ body > .cs-overlay .cs-kicker {
     margin-bottom: 8px !important;
     font-size: 10px !important;
     line-height: 1.5 !important;
-    letter-spacing: .12em !important;
+    letter-spacing: 0.12em !important;
   }
   html body main #profile .profile-copy h2 {
     margin: 0 0 8px !important;
@@ -9834,7 +9833,9 @@ body > .cs-overlay .cs-kicker {
     margin-bottom: 5px !important;
     font-size: 9px !important;
   }
-  html body main #profile .profile-facts strong { font-size: 14px !important; }
+  html body main #profile .profile-facts strong {
+    font-size: 14px !important;
+  }
   html body main #profile .icc-ranking-card {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 8px !important;
@@ -9845,12 +9846,16 @@ body > .cs-overlay .cs-kicker {
     padding: 11px 12px !important;
   }
   html body main #profile .icc-ranking-card .eyebrow,
-  html body main #profile .icc-ranking-card span { font-size: 8px !important; }
+  html body main #profile .icc-ranking-card span {
+    font-size: 8px !important;
+  }
   html body main #profile .icc-ranking-card strong {
     margin: 5px 0 3px !important;
     font-size: clamp(19px, 4vw, 25px) !important;
   }
-  html body main #profile .icc-ranking-card small { font-size: 10px !important; }
+  html body main #profile .icc-ranking-card small {
+    font-size: 10px !important;
+  }
   html body main #profile .profile-teams-panel {
     margin-top: 0 !important;
     padding: 13px !important;
@@ -9863,8 +9868,12 @@ body > .cs-overlay .cs-kicker {
     gap: 8px !important;
     margin-bottom: 10px !important;
   }
-  html body main #profile .profile-teams-heading h3 { margin: 0 !important; }
-  html body main #profile .profile-team-chips { gap: 7px !important; }
+  html body main #profile .profile-teams-heading h3 {
+    margin: 0 !important;
+  }
+  html body main #profile .profile-team-chips {
+    gap: 7px !important;
+  }
   html body main #profile .profile-team-chip {
     min-height: 33px !important;
     padding: 8px 10px !important;
@@ -9889,7 +9898,9 @@ body > .cs-overlay .cs-kicker {
     padding-inline: 12px !important;
     gap: 15px !important;
   }
-  html body main #profile .profile-photo-wrap { height: 285px !important; }
+  html body main #profile .profile-photo-wrap {
+    height: 285px !important;
+  }
   html body main #profile .profile-team-chip {
     font-size: 9px !important;
     padding: 7px 8px !important;
