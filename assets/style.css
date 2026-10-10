@@ -9081,3 +9081,24 @@ html.death-embed footer{display:none!important}
   min-height: 0;
   max-height: calc(min(72dvh, 620px) - 76px);
 }
+
+
+/* Video Hub: keep the quality control on the left and show only its label. */
+.bcci-player-head-actions {
+  margin-left: auto;
+}
+.bcci-player-head-actions .bcci-player-settings-menu {
+  left: 0 !important;
+  right: auto !important;
+}
+.bcci-player-head-actions .bcci-quality-head-button {
+  gap: 0 !important;
+  min-width: 76px;
+}
+@media (max-width: 600px) {
+  .bcci-player-head-actions .bcci-player-settings-menu {
+    left: 0 !important;
+    right: auto !important;
+    width: min(250px, calc(100vw - 28px));
+  }
+}
