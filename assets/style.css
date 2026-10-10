@@ -7472,12 +7472,31 @@ body.bcci-player-open {
   }
 }
 
-/* Single official BCCI player photo: remove the previous multi-image gallery layout. */
+/* Fan gallery: two columns on phones and four on desktop. */
 .cricinfo-photo-grid {
   display: grid;
-  grid-template-columns: minmax(0, 420px);
-  justify-content: start;
-  gap: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  justify-content: stretch;
+  align-items: start;
+  gap: 12px;
+}
+.admin-gallery-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #030812;
+}
+@media (max-width: 700px) {
+  .cricinfo-photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+}
+@media (min-width: 701px) and (max-width: 1000px) {
+  .cricinfo-photo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 .bcci-profile-photo-card {
   overflow: hidden;
