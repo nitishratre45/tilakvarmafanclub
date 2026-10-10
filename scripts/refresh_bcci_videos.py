@@ -7,6 +7,7 @@ are refreshed nightly; no video files are mirrored.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
@@ -161,7 +162,7 @@ def fetch_browser_payloads() -> list[object]:
         print("Playwright unavailable; using API fallback.", file=sys.stderr)
         return []
     payloads: list[object] = []
-    seen_responses: set[str] = set()
+    seen_payloads: set[str] = set()
     page_url = "https://live-bccitv.epicon.in/videos/player/993?platform=international&type=men"
 
     with sync_playwright() as playwright:
@@ -174,20 +175,26 @@ def fetch_browser_payloads() -> list[object]:
                 "content-type", ""
             ):
                 return
-            if url in seen_responses:
-                return
             try:
                 if "json" not in response.headers.get("content-type", "").lower():
                     return
                 data = response.json()
             except Exception:
                 return
-            seen_responses.add(url)
+            signature = hashlib.sha256(json.dumps(data, sort_keys=True, ensure_ascii=False, default=str).encode("utf-8")).hexdigest()
+            if signature in seen_payloads:
+                return
+            seen_payloads.add(signature)
             payloads.append(data)
-            print(f"Captured BCCI catalogue response: {url[:180]}")
+            print(f"Captured BCCI catalogue response #{len(payloads)}: {url[:180]}")
 
         page.on("response", capture)
-        page.goto(page_url, wait_until="domcontentloaded", timeout=90000)
+        try:
+            page.goto(page_url, wait_until="domcontentloaded", timeout=45000)
+        except Exception as exc:
+            print(f"Official player page unavailable; continuing with public BCCI API: {exc}", file=sys.stderr)
+            browser.close()
+            return []
         page.wait_for_timeout(2500)
         for click_number in range(100):
             # Capture links/items already rendered and trigger the official
@@ -200,10 +207,10 @@ def fetch_browser_payloads() -> list[object]:
             try:
                 if not button.first.is_visible() or button.first.is_disabled():
                     break
-                before = len(seen_responses)
+                before = len(payloads)
                 button.first.click(timeout=5000)
                 page.wait_for_timeout(1200)
-                if len(seen_responses) == before and click_number > 0:
+                if len(payloads) == before and click_number > 0:
                     # Let slow responses finish once before deciding the list is done.
                     page.wait_for_timeout(2500)
                     if len(seen_responses) == before:
@@ -215,7 +222,7 @@ def fetch_browser_payloads() -> list[object]:
                 )
                 break
         browser.close()
-    print(f"Captured {len(payloads)} unique BCCI JSON responses from player archive.")
+    print(f"Captured {len(payloads)} unique BCCI JSON payloads from player archive.")
     return payloads
 
 
@@ -231,75 +238,68 @@ def main() -> int:
             if video:
                 collected[video["id"]] = video
 
-    # BCCI's feed is paginated, but the pagination parameter name can vary
-    # between CMS deployments. Try common pagination forms and stop when the
-    # response repeats, rather than stopping just because one page lacks Tilak.
-    pagination_modes = (
-        ("page", lambda page: {"tags": "international", "page": str(page)}),
-        ("pageNumber", lambda page: {"tags": "international", "pageNumber": str(page)}),
-        ("pageNo", lambda page: {"tags": "international", "pageNo": str(page)}),
-        (
-            "offset",
-            lambda page: {
-                "tags": "international",
-                "offset": str((page - 1) * 20),
-                "limit": "20",
-            },
-        ),
-        (
-            "skip",
-            lambda page: {
-                "tags": "international",
-                "skip": str((page - 1) * 20),
-                "limit": "20",
-            },
-        ),
-    )
-    for mode_name, build_params in pagination_modes:
-        previous_signature = None
-        for page in range(1, 9):
-            params = build_params(page)
-            sources_tried.append(API_BASE + "?" + urllib.parse.urlencode(params))
-            try:
-                payload = fetch_json(params)
-            except Exception as exc:
-                print(f"Skipping {mode_name} pagination: {exc}", file=sys.stderr)
-                break
-            objects = list(walk_video_objects(payload))
-            signature = json.dumps(
-                sorted(
-                    str(item.get("id") or item.get("slug") or item.get("title") or "")
-                    for item in objects
-                )
-            )
-            if signature == previous_signature:
-                break
-            previous_signature = signature
-            for item in objects:
-                video = normalize(item)
-                if video:
-                    collected[video["id"]] = video
+    # Query BCCI API pages and season/format combinations. Continue through all
+    # requested pages even when one page contains no Tilak Varma clips.
+    api_queries: list[tuple[str, dict[str, str]]] = []
+    for page_number in range(1, 7):
+        api_queries.append((f"international page {page_number}", {
+            "page": str(page_number), "tags": "international"
+        }))
 
-    # The BCCI player page exposes a player-specific video catalogue. Try common
-    # public filter names; unsupported filters safely fall back to deduped results.
-    for params in (
-        {"playerId": PLAYER_ID},
-        {"player": PLAYER_ID},
-        {"players": PLAYER_ID},
-        {"tags": "tilak-varma"},
-        {"tags": "international", "search": "Tilak Varma"},
-        {"tags": "international", "term": "Tilak Varma"},
-    ):
-        sources_tried.append(API_BASE + "?" + urllib.parse.urlencode(params))
+    season_queries = (
+        {"tags": "international,season:2026"},
+        {"tags": "international,men,season:2026,t20"},
+        {"tags": "international,season:2025"},
+        {"tags": "international,men,season:2025,t20"},
+        {"tags": "international,season:2024"},
+        {"tags": "international,season:2024,t20"},
+        {"tags": "international,men,season:2024,t20"},
+        {"tags": "international,men,season:2023,t20"},
+        {"tags": "international,men,season:2022,t20"},
+        {"tags": "international,men,season:2021,t20"},
+        {"tags": "international,men,season:2020,t20"},
+    )
+    api_queries.extend((f"season query {params['tags']}", params) for params in season_queries)
+
+    # Additional common pagination parameter spellings and offset pages.
+    for page_number in range(1, 7):
+        api_queries.extend([
+            (f"pageNumber {page_number}", {"tags": "international", "pageNumber": str(page_number)}),
+            (f"pageNo {page_number}", {"tags": "international", "pageNo": str(page_number)}),
+            (f"offset {page_number}", {"tags": "international", "offset": str((page_number - 1) * 20), "limit": "20"}),
+        ])
+
+    api_queries.extend([
+        ("player ID", {"playerId": PLAYER_ID}),
+        ("player", {"player": PLAYER_ID}),
+        ("players", {"players": PLAYER_ID}),
+        ("Tilak Varma tag", {"tags": "tilak-varma"}),
+        ("Tilak Varma search", {"tags": "international", "search": "Tilak Varma"}),
+        ("Tilak Varma term", {"tags": "international", "term": "Tilak Varma"}),
+    ])
+
+    queried_signatures: set[str] = set()
+    for label, params in api_queries:
+        url = API_BASE + "?" + urllib.parse.urlencode(params)
+        sources_tried.append(url)
         try:
             payload = fetch_json(params)
         except Exception as exc:
-            print(f"Skipping unsupported BCCI query {params}: {exc}", file=sys.stderr)
+            print(f"Skipping BCCI {label}: {exc}", file=sys.stderr)
             continue
+        signature = hashlib.sha256(
+            json.dumps(payload, sort_keys=True, ensure_ascii=False, default=str).encode("utf-8")
+        ).hexdigest()
+        if signature in queried_signatures:
+            continue
+        queried_signatures.add(signature)
+        found_on_query = 0
         for item in walk_video_objects(payload):
             video = normalize(item)
             if video:
                 collected[video["id"]] = video
+                found_on_query += 1
+        print(f"BCCI {label}: {found_on_query} Tilak clips; {len(collected)} unique total")
 
     videos = sorted(
         collected.values(),
