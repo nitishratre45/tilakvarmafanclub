@@ -619,29 +619,143 @@
         color: var(--muted);
         font-size: 11px;
       }
-      .dataset-toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
-      .dataset-list { display:grid; gap:12px; margin-top:16px; }
-      .dataset-card { min-width:0; border:1px solid var(--line); border-radius:12px; background:#071626; overflow:hidden; }
-      .dataset-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:14px; }
-      .dataset-title { font-size:13px; font-weight:900; overflow-wrap:anywhere; }
-      .dataset-sub { margin-top:4px; font-size:11px; color:var(--muted); overflow-wrap:anywhere; }
-      .dataset-badge { flex:0 0 auto; padding:5px 8px; border-radius:999px; border:1px solid #2f4c60; font-size:10px; font-weight:900; text-transform:uppercase; }
-      .dataset-badge.current { color:var(--green); border-color:#28694f; }
-      .dataset-badge.partial, .dataset-badge.stale { color:var(--orange); border-color:#77502d; }
-      .dataset-badge.error, .dataset-badge.unavailable { color:var(--red); border-color:#78413f; }
-      .dataset-badge.refreshing { color:var(--cyan); border-color:#2f6372; }
-      .dataset-body { padding:0 14px 14px; }
-      .dataset-metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
-      .dataset-metric { min-width:0; padding:9px; border:1px solid #20344b; border-radius:8px; }
-      .dataset-metric span { display:block; color:var(--muted); font-size:10px; }
-      .dataset-metric strong { display:block; margin-top:4px; font-size:12px; overflow-wrap:anywhere; }
-      .dataset-details { margin-top:10px; padding:10px; border-radius:9px; background:#0d1b2b; color:#b9c7da; font-size:11px; overflow-wrap:anywhere; }
-      .dataset-details summary { cursor:pointer; font-weight:850; color:var(--text); }
-      .dataset-errors { margin-top:9px; padding:10px; border:1px solid #633c3c; border-radius:9px; background:#2a171d; color:#ffd5d3; font-size:11px; overflow-wrap:anywhere; }
-      .dataset-errors ul { margin:6px 0 0; padding-left:18px; }
-      .dataset-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-      .dataset-footer { padding:0 14px 14px; color:var(--muted); font-size:10px; overflow-wrap:anywhere; }
-      @media (max-width:520px) { .dataset-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); } .dataset-top { flex-direction:column; } }
+      .dataset-toolbar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .dataset-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 16px;
+      }
+      .dataset-card {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #071626;
+        overflow: hidden;
+      }
+      .dataset-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px;
+      }
+      .dataset-title {
+        font-size: 13px;
+        font-weight: 900;
+        overflow-wrap: anywhere;
+      }
+      .dataset-sub {
+        margin-top: 4px;
+        font-size: 11px;
+        color: var(--muted);
+        overflow-wrap: anywhere;
+      }
+      .dataset-badge {
+        flex: 0 0 auto;
+        padding: 5px 8px;
+        border-radius: 999px;
+        border: 1px solid #2f4c60;
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+      .dataset-badge.current {
+        color: var(--green);
+        border-color: #28694f;
+      }
+      .dataset-badge.partial,
+      .dataset-badge.stale {
+        color: var(--orange);
+        border-color: #77502d;
+      }
+      .dataset-badge.error,
+      .dataset-badge.unavailable {
+        color: var(--red);
+        border-color: #78413f;
+      }
+      .dataset-badge.refreshing {
+        color: var(--cyan);
+        border-color: #2f6372;
+      }
+      .dataset-body {
+        padding: 0 14px 14px;
+      }
+      .dataset-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .dataset-metric {
+        min-width: 0;
+        padding: 9px;
+        border: 1px solid #20344b;
+        border-radius: 8px;
+      }
+      .dataset-metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 10px;
+      }
+      .dataset-metric strong {
+        display: block;
+        margin-top: 4px;
+        font-size: 12px;
+        overflow-wrap: anywhere;
+      }
+      .dataset-details {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 9px;
+        background: #0d1b2b;
+        color: #b9c7da;
+        font-size: 11px;
+        overflow-wrap: anywhere;
+      }
+      .dataset-details summary {
+        cursor: pointer;
+        font-weight: 850;
+        color: var(--text);
+      }
+      .dataset-errors {
+        margin-top: 9px;
+        padding: 10px;
+        border: 1px solid #633c3c;
+        border-radius: 9px;
+        background: #2a171d;
+        color: #ffd5d3;
+        font-size: 11px;
+        overflow-wrap: anywhere;
+      }
+      .dataset-errors ul {
+        margin: 6px 0 0;
+        padding-left: 18px;
+      }
+      .dataset-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .dataset-footer {
+        padding: 0 14px 14px;
+        color: var(--muted);
+        font-size: 10px;
+        overflow-wrap: anywhere;
+      }
+      @media (max-width: 520px) {
+        .dataset-metrics {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .dataset-top {
+          flex-direction: column;
+        }
+      }
       .login-wrap {
         width: min(470px, calc(100% - 32px));
         margin: 9vh auto;
@@ -1092,7 +1206,11 @@
             <div>
               <div class="eyebrow">DATA FRESHNESS · SOURCE HEALTH</div>
               <h2>Every dataset, every update</h2>
-              <p>See each data source's real saved timestamp, expected refresh interval, latest automation run, data counts and source errors. A successful workflow is not treated as a fresh dataset unless the saved data timestamp is also current.</p>
+              <p>
+                See each data source's real saved timestamp, expected refresh interval, latest
+                automation run, data counts and source errors. A successful workflow is not treated
+                as a fresh dataset unless the saved data timestamp is also current.
+              </p>
             </div>
             <span class="pill">12H · 24H · 30D</span>
           </div>
@@ -1101,7 +1219,11 @@
               <span id="dataset-checked" class="monitor-meta">Loading dataset freshness…</span>
               <div class="actions">
                 <button id="dataset-refresh" class="btn" type="button">↻ Check all data</button>
-                <select id="dataset-filter" aria-label="Filter datasets" style="width:auto;min-width:145px">
+                <select
+                  id="dataset-filter"
+                  aria-label="Filter datasets"
+                  style="width: auto; min-width: 145px"
+                >
                   <option value="all">All datasets</option>
                   <option value="issues">Only issues</option>
                   <option value="current">Up to date</option>
@@ -1109,8 +1231,16 @@
               </div>
             </div>
             <div id="dataset-status" class="status" role="status" aria-live="polite"></div>
-            <div id="dataset-list" class="dataset-list"><div class="empty">Reading saved data timestamps and workflow schedules…</div></div>
-            <div class="monitor-help">“Last data update” is the timestamp inside the saved data file; “Last workflow run” is separate. If ESPNcricinfo blocks a format, the tracker shows the source error and any saved fallback data instead of pretending the format refreshed successfully. “Refresh now” starts the relevant GitHub workflow; it does not guarantee the upstream source will return new data.</div>
+            <div id="dataset-list" class="dataset-list">
+              <div class="empty">Reading saved data timestamps and workflow schedules…</div>
+            </div>
+            <div class="monitor-help">
+              “Last data update” is the timestamp inside the saved data file; “Last workflow run” is
+              separate. If ESPNcricinfo blocks a format, the tracker shows the source error and any
+              saved fallback data instead of pretending the format refreshed successfully. “Refresh
+              now” starts the relevant GitHub workflow; it does not guarantee the upstream source
+              will return new data.
+            </div>
           </div>
         </section>
         <section id="services" class="section">
@@ -1282,44 +1412,96 @@
         }
         function renderDatasets(data) {
           datasetCache = Array.isArray(data.datasets) ? data.datasets : datasetCache;
-          $("dataset-checked").textContent = "Checked: " + formatTime(data.checkedAt) + " · " + datasetCache.length + " datasets";
+          $("dataset-checked").textContent =
+            "Checked: " + formatTime(data.checkedAt) + " · " + datasetCache.length + " datasets";
           const filter = $("dataset-filter").value;
-          const rows = datasetCache.filter((d) => filter === "all" ||
-            (filter === "issues" ? !["current", "refreshing"].includes(d.status) : ["current", "refreshing"].includes(d.status)));
+          const rows = datasetCache.filter(
+            (d) =>
+              filter === "all" ||
+              (filter === "issues"
+                ? !["current", "refreshing"].includes(d.status)
+                : ["current", "refreshing"].includes(d.status)),
+          );
           const host = $("dataset-list");
           if (!rows.length) {
             host.innerHTML = '<div class="empty">No datasets match this filter.</div>';
             return;
           }
-          host.innerHTML = rows.map((d) => {
-            const summary = d.dataSummary || {};
-            const errors = (d.errors || []).filter(Boolean);
-            const run = d.latestRun;
-            const runState = run ? (run.status === "completed" ? run.conclusion : run.status) : "no runs found";
-            const details = Object.keys(summary).length ? escapeHtml(JSON.stringify(summary, null, 2)) : "No summary fields found in the saved data.";
-            const age = d.ageHours === null ? "Unknown" : prettyAge(d.ageHours);
-            const due = d.dueAt ? formatTime(d.dueAt) : "Cannot calculate";
-            const badge = d.status || "unknown";
-            const errorBox = errors.length ? '<div class="dataset-errors"><strong>Source / refresh issues</strong><ul>' + errors.map(e => "<li>" + escapeHtml(e) + "</li>").join("") + "</ul></div>" : "";
-            return '<article class="dataset-card"><div class="dataset-top"><div><div class="dataset-title">' +
-              escapeHtml(d.name) + '</div><div class="dataset-sub">' + escapeHtml(d.source || "Source unknown") +
-              ' · ' + escapeHtml(d.file) + '</div></div><span class="dataset-badge ' + escapeHtml(badge) + '">' +
-              escapeHtml(badge.replaceAll("-", " ")) + '</span></div><div class="dataset-body"><div class="dataset-metrics">' +
-              '<div class="dataset-metric"><span>Last data update</span><strong>' + escapeHtml(formatTime(d.lastDataUpdate)) +
-              '</strong><span>' + escapeHtml(age) + '</span></div><div class="dataset-metric"><span>Expected interval</span><strong>' +
-              escapeHtml(prettyInterval(d.intervalHours)) + '</strong><span>Next due: ' + escapeHtml(due) +
-              '</span></div><div class="dataset-metric"><span>Latest workflow</span><strong>' + escapeHtml(runState) +
-              '</strong><span>' + escapeHtml(run ? formatTime(run.createdAt) : "No workflow history") + '</span></div></div>' +
-              errorBox + '<details class="dataset-details"><summary>What data is saved? (' + escapeHtml(d.dataCount ?? "—") +
-              ' items/records)</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere;margin:9px 0 0;font:11px/1.5 ui-monospace,monospace">' +
-              details + '</pre></details><div class="dataset-actions"><button class="btn small primary" type="button" data-dataset-run="' +
-              escapeHtml(d.workflow) + '">Refresh now ↗</button><a class="btn small" href="' + safeMediaUrl(d.workflowUrl) +
-              '" target="_blank" rel="noopener noreferrer">Workflow history ↗</a>' +
-              (run && run.url ? '<a class="btn small" href="' + safeMediaUrl(run.url) + '" target="_blank" rel="noopener noreferrer">Latest logs ↗</a>' : '') +
-              '</div></div><div class="dataset-footer">Last successful run: ' + escapeHtml(d.latestSuccess ? formatTime(d.latestSuccess.createdAt) : "Not found in recent history") +
-              (d.latestFailure ? ' · Latest failure: ' + escapeHtml(formatTime(d.latestFailure.createdAt)) : '') +
-              (d.attemptStatus ? ' · Data-source attempt: ' + escapeHtml(d.attemptStatus) : '') + '</div></article>';
-          }).join("");
+          host.innerHTML = rows
+            .map((d) => {
+              const summary = d.dataSummary || {};
+              const errors = (d.errors || []).filter(Boolean);
+              const run = d.latestRun;
+              const runState = run
+                ? run.status === "completed"
+                  ? run.conclusion
+                  : run.status
+                : "no runs found";
+              const details = Object.keys(summary).length
+                ? escapeHtml(JSON.stringify(summary, null, 2))
+                : "No summary fields found in the saved data.";
+              const age = d.ageHours === null ? "Unknown" : prettyAge(d.ageHours);
+              const due = d.dueAt ? formatTime(d.dueAt) : "Cannot calculate";
+              const badge = d.status || "unknown";
+              const errorBox = errors.length
+                ? '<div class="dataset-errors"><strong>Source / refresh issues</strong><ul>' +
+                  errors.map((e) => "<li>" + escapeHtml(e) + "</li>").join("") +
+                  "</ul></div>"
+                : "";
+              return (
+                '<article class="dataset-card"><div class="dataset-top"><div><div class="dataset-title">' +
+                escapeHtml(d.name) +
+                '</div><div class="dataset-sub">' +
+                escapeHtml(d.source || "Source unknown") +
+                " · " +
+                escapeHtml(d.file) +
+                '</div></div><span class="dataset-badge ' +
+                escapeHtml(badge) +
+                '">' +
+                escapeHtml(badge.replaceAll("-", " ")) +
+                '</span></div><div class="dataset-body"><div class="dataset-metrics">' +
+                '<div class="dataset-metric"><span>Last data update</span><strong>' +
+                escapeHtml(formatTime(d.lastDataUpdate)) +
+                "</strong><span>" +
+                escapeHtml(age) +
+                '</span></div><div class="dataset-metric"><span>Expected interval</span><strong>' +
+                escapeHtml(prettyInterval(d.intervalHours)) +
+                "</strong><span>Next due: " +
+                escapeHtml(due) +
+                '</span></div><div class="dataset-metric"><span>Latest workflow</span><strong>' +
+                escapeHtml(runState) +
+                "</strong><span>" +
+                escapeHtml(run ? formatTime(run.createdAt) : "No workflow history") +
+                "</span></div></div>" +
+                errorBox +
+                '<details class="dataset-details"><summary>What data is saved? (' +
+                escapeHtml(d.dataCount ?? "—") +
+                ' items/records)</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere;margin:9px 0 0;font:11px/1.5 ui-monospace,monospace">' +
+                details +
+                '</pre></details><div class="dataset-actions"><button class="btn small primary" type="button" data-dataset-run="' +
+                escapeHtml(d.workflow) +
+                '">Refresh now ↗</button><a class="btn small" href="' +
+                safeMediaUrl(d.workflowUrl) +
+                '" target="_blank" rel="noopener noreferrer">Workflow history ↗</a>' +
+                (run && run.url
+                  ? '<a class="btn small" href="' +
+                    safeMediaUrl(run.url) +
+                    '" target="_blank" rel="noopener noreferrer">Latest logs ↗</a>'
+                  : "") +
+                '</div></div><div class="dataset-footer">Last successful run: ' +
+                escapeHtml(
+                  d.latestSuccess
+                    ? formatTime(d.latestSuccess.createdAt)
+                    : "Not found in recent history",
+                ) +
+                (d.latestFailure
+                  ? " · Latest failure: " + escapeHtml(formatTime(d.latestFailure.createdAt))
+                  : "") +
+                (d.attemptStatus ? " · Data-source attempt: " + escapeHtml(d.attemptStatus) : "") +
+                "</div></article>"
+              );
+            })
+            .join("");
         }
         async function loadDatasets() {
           const button = $("dataset-refresh");
@@ -1328,28 +1510,52 @@
           try {
             const data = await api("/api/admin/data-status");
             renderDatasets(data);
-            const issues = datasetCache.filter(d => !["current", "refreshing"].includes(d.status)).length;
-            status("dataset-status", issues ? issues + " dataset(s) need attention. Open each card to inspect saved data and error details." : "All tracked datasets are within their expected update intervals.");
+            const issues = datasetCache.filter(
+              (d) => !["current", "refreshing"].includes(d.status),
+            ).length;
+            status(
+              "dataset-status",
+              issues
+                ? issues +
+                    " dataset(s) need attention. Open each card to inspect saved data and error details."
+                : "All tracked datasets are within their expected update intervals.",
+            );
           } catch (err) {
             status("dataset-status", err.message, true);
-            $("dataset-list").innerHTML = '<div class="empty">Could not read data freshness. Check GitHub token permissions and admin session.</div>';
+            $("dataset-list").innerHTML =
+              '<div class="empty">Could not read data freshness. Check GitHub token permissions and admin session.</div>';
           } finally {
             if (button) button.disabled = false;
           }
         }
         $("dataset-refresh").addEventListener("click", loadDatasets);
-        $("dataset-filter").addEventListener("change", () => renderDatasets({ checkedAt: new Date().toISOString() }));
+        $("dataset-filter").addEventListener("change", () =>
+          renderDatasets({ checkedAt: new Date().toISOString() }),
+        );
         $("dataset-list").addEventListener("click", async (event) => {
           const button = event.target.closest("[data-dataset-run]");
           if (!button) return;
           const workflow = button.dataset.datasetRun;
-          const dataset = datasetCache.find(d => d.workflow === workflow);
-          if (!confirm("Start refresh workflow for " + (dataset ? dataset.name : workflow) + "? Existing data stays available while the job runs.")) return;
+          const dataset = datasetCache.find((d) => d.workflow === workflow);
+          if (
+            !confirm(
+              "Start refresh workflow for " +
+                (dataset ? dataset.name : workflow) +
+                "? Existing data stays available while the job runs.",
+            )
+          )
+            return;
           button.disabled = true;
           status("dataset-status", "Starting workflow " + workflow + "…");
           try {
-            const result = await api("/api/admin/data-status", { method: "POST", body: JSON.stringify({ action: "refresh", workflow }) });
-            status("dataset-status", result.message || "Refresh workflow queued. Re-check in a few seconds.");
+            const result = await api("/api/admin/data-status", {
+              method: "POST",
+              body: JSON.stringify({ action: "refresh", workflow }),
+            });
+            status(
+              "dataset-status",
+              result.message || "Refresh workflow queued. Re-check in a few seconds.",
+            );
             window.setTimeout(loadDatasets, 2500);
           } catch (err) {
             status("dataset-status", err.message, true);
@@ -1663,7 +1869,10 @@
             }),
           );
         window.setInterval(() => {
-          if (!$("admin-app").classList.contains("hidden")) { loadMonitor(); loadDatasets(); }
+          if (!$("admin-app").classList.contains("hidden")) {
+            loadMonitor();
+            loadDatasets();
+          }
         }, 60000);
         api("/api/admin/session")
           .then(async (d) => {
