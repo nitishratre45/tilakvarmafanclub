@@ -33,6 +33,8 @@ jobs:
           node --input-type=module --check < functions/api/admin/login.js
           node --input-type=module --check < functions/api/admin/sign-upload.js
           node --input-type=module --check < functions/api/admin/content.js
+          node --input-type=module --check < functions/api/admin/data-status.js
+          node --input-type=module --check < functions/api/admin/monitor.js
           node --input-type=module --check < functions/api/admin/session.js
       - name: Check inline Admin Studio JavaScript
         run: |
