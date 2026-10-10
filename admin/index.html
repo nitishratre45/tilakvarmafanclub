@@ -428,6 +428,51 @@
       .hidden {
         display: none !important;
       }
+      .page-heading {
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 850;
+        margin-left: 8px;
+      }
+      .nav a {
+        white-space: nowrap;
+      }
+      @media (max-width: 720px) {
+        .sidebar {
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .sidebar .nav-label {
+          display: none;
+        }
+        .sidebar .nav {
+          display: flex;
+          width: 100%;
+          gap: 5px;
+          overflow-x: auto;
+          padding: 2px 0 3px;
+          scrollbar-width: thin;
+          -webkit-overflow-scrolling: touch;
+        }
+        .sidebar .nav a {
+          flex: 0 0 auto;
+          gap: 7px;
+          padding: 9px 10px;
+          font-size: 11px;
+        }
+        .sidebar .nav-icon {
+          width: 20px;
+          height: 20px;
+          font-size: 12px;
+        }
+        .sidebar-bottom {
+          display: none;
+        }
+        .mobile-brand {
+          display: block;
+        }
+      }
       .items-toolbar {
         display: flex;
         gap: 10px;
@@ -1016,13 +1061,13 @@
           ><span>TILAK VARMA<small>FAN CLUB · ADMIN</small></span></a
         >
         <div class="nav-label">WORKSPACE</div>
-        <nav class="nav" aria-label="Admin navigation">
-          <a class="active" href="#dashboard"><span class="nav-icon">⌂</span>Dashboard</a>
-          <a href="#media"><span class="nav-icon">▧</span>Media library</a>
-          <a href="#video"><span class="nav-icon">▷</span>Video feed</a>
-          <a href="#monitor"><span class="nav-icon">⌁</span>Refresh monitor</a>
-          <a href="#data-status"><span class="nav-icon">◷</span>Data freshness</a>
-          <a href="#services"><span class="nav-icon">◈</span>Services & security</a>
+        <nav class="nav" id="admin-nav" aria-label="Admin sections">
+          <a class="active" href="#dashboard" data-view="dashboard"><span class="nav-icon">⌂</span>Overview</a>
+          <a href="#media" data-view="media"><span class="nav-icon">▧</span>Media library</a>
+          <a href="#video" data-view="video"><span class="nav-icon">▷</span>Video feed</a>
+          <a href="#monitor" data-view="monitor"><span class="nav-icon">⌁</span>Refresh monitor</a>
+          <a href="#data-status" data-view="data-status"><span class="nav-icon">◷</span>Data freshness</a>
+          <a href="#services" data-view="services"><span class="nav-icon">◈</span>Services & security</a>
         </nav>
         <div class="sidebar-bottom">
           <strong>72 CLUB · ADMIN</strong><span>Manage content, keep the fan gallery fresh.</span>
@@ -1033,7 +1078,7 @@
         <header class="topbar">
           <div class="top-meta">
             <span class="dot"></span><span>PRIVATE WORKSPACE</span><span>·</span
-            ><span>Session protected</span>
+            ><span id="page-title" class="page-heading">Dashboard</span>
           </div>
           <div class="top-actions">
             <a class="btn" href="../">View website ↗</a
@@ -1858,16 +1903,46 @@
             btn.disabled = false;
           }
         });
-        $("nav")?.addEventListener("click", () => {});
-        $("admin-app")
-          .querySelectorAll(".nav a")
-          .forEach((a) =>
-            a.addEventListener("click", () => {
-              $("admin-app")
-                .querySelectorAll(".nav a")
-                .forEach((x) => x.classList.toggle("active", x === a));
-            }),
-          );
+        const viewLabels = {
+          dashboard: "Overview",
+          media: "Media library",
+          video: "Video feed",
+          monitor: "Refresh monitor",
+          "data-status": "Data freshness",
+          services: "Services & security",
+        };
+        function showAdminView(requestedView, updateHash = false) {
+          const allowedViews = Object.keys(viewLabels);
+          const view = allowedViews.includes(requestedView) ? requestedView : "dashboard";
+          const app = $("admin-app");
+          app.querySelectorAll("#admin-nav [data-view]").forEach((link) => {
+            const active = link.dataset.view === view;
+            link.classList.toggle("active", active);
+            if (active) link.setAttribute("aria-current", "page");
+            else link.removeAttribute("aria-current");
+          });
+          const isOverview = view === "dashboard";
+          app.querySelector("#dashboard").classList.toggle("hidden", !isOverview);
+          app.querySelector(".stats").classList.toggle("hidden", !isOverview);
+          app.querySelectorAll("main > .section").forEach((section) => {
+            section.classList.toggle("hidden", section.id !== view);
+          });
+          $("page-title").textContent = viewLabels[view];
+          if (updateHash && window.location.hash !== "#" + view) {
+            window.location.hash = view;
+          }
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        $("admin-nav").addEventListener("click", (event) => {
+          const link = event.target.closest("a[data-view]");
+          if (!link) return;
+          event.preventDefault();
+          showAdminView(link.dataset.view, true);
+        });
+        window.addEventListener("hashchange", () => {
+          showAdminView(window.location.hash.slice(1), false);
+        });
+        showAdminView(window.location.hash.slice(1) || "dashboard");
         window.setInterval(() => {
           if (!$("admin-app").classList.contains("hidden")) {
             loadMonitor();
