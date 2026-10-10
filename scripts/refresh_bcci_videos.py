@@ -157,8 +157,22 @@ def main() -> int:
         ("page", lambda page: {"tags": "international", "page": str(page)}),
         ("pageNumber", lambda page: {"tags": "international", "pageNumber": str(page)}),
         ("pageNo", lambda page: {"tags": "international", "pageNo": str(page)}),
-        ("offset", lambda page: {"tags": "international", "offset": str((page - 1) * 20), "limit": "20"}),
-        ("skip", lambda page: {"tags": "international", "skip": str((page - 1) * 20), "limit": "20"}),
+        (
+            "offset",
+            lambda page: {
+                "tags": "international",
+                "offset": str((page - 1) * 20),
+                "limit": "20",
+            },
+        ),
+        (
+            "skip",
+            lambda page: {
+                "tags": "international",
+                "skip": str((page - 1) * 20),
+                "limit": "20",
+            },
+        ),
     )
     for mode_name, build_params in pagination_modes:
         previous_signature = None
