@@ -308,7 +308,10 @@ def main() -> int:
             ),
             (
                 "domestic men features/interviews season 2024",
-                {"category": "features-and-interviews", "tags": "domestic,men,season:2024"},
+                {
+                    "category": "features-and-interviews",
+                    "tags": "domestic,men,season:2024",
+                },
             ),
         ]
     )
