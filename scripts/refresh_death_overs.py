@@ -243,14 +243,21 @@ def main():
         overall = formats["overall_t20"]
         overall.setdefault("innings", [])
         existing = {str(row.get("matchId", "")) for row in overall["innings"]}
+        # Keep a base-ID set too, so the same match found in the broad T20
+        # archive and the separate IPL archive is not counted twice.
+        existing_base_ids = {value.split(":", 1)[-1] for value in existing}
         for source_key in ("ipl", "hyderabad"):
             for row in formats.get(source_key, {}).get("innings", []):
+                source_id = str(row.get("matchId", ""))
+                if source_id in existing_base_ids:
+                    continue
                 clone = dict(row)
                 clone["format"] = "overall_t20"
-                clone["matchId"] = source_key + ":" + str(row.get("matchId", ""))
+                clone["matchId"] = source_key + ":" + source_id
                 if clone["matchId"] not in existing:
                     overall["innings"].append(clone)
                     existing.add(clone["matchId"])
+                    existing_base_ids.add(source_id)
         totals = defaultdict(lambda: {"runs": 0, "balls": 0, "fours": 0, "sixes": 0})
         for row in overall["innings"]:
             for over in row.get("overs", []):
