@@ -119,9 +119,12 @@ const headers = (env) => ({
   "user-agent": "TilakVarmaFanClub-Admin",
 });
 const repoName = (env) => env.GITHUB_REPOSITORY || REPO_DEFAULT;
-async function github(env, path) {
+async function github(env, path, options = {}) {
   if (!env.GITHUB_TOKEN) throw new Error("GITHUB_TOKEN is missing from Cloudflare Pages secrets.");
-  const response = await fetch(API + "/repos/" + repoName(env) + path, { headers: headers(env) });
+  const response = await fetch(API + "/repos/" + repoName(env) + path, {
+    ...options,
+    headers: { ...headers(env), ...(options.headers || {}) },
+  });
   if (!response.ok) throw new Error("GitHub API returned " + response.status + " for " + path);
   return response.json();
 }
