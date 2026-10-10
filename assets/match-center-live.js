@@ -18,8 +18,15 @@
   const team = document.getElementById("mc-team");
   const count = document.getElementById("mc-count");
   // Preserve the BCCI snapshot rendered by match-center.js before trying the live API.
-  const fallbackHTML = host.innerHTML;
-  const fallbackCount = count ? count.textContent : "0";
+  const snapshotCards = Array.from(host.querySelectorAll(".match-center-card")).filter((card) => {
+    const text = card.querySelector(".mc-teams")?.innerText || "";
+    const teams = text.split(/\\s+VS\\s+/i).map((s) => s.trim());
+    return teams.some((name) => /^India(?:\\s+(?:Women|Men))?$/i.test(name));
+  });
+  const fallbackHTML = snapshotCards.length
+    ? snapshotCards.map((card) => card.outerHTML).join("")
+    : '<p class="activity-empty">CricAPI data is loading. India fixtures will appear here when available.</p>';
+  const fallbackCount = String(snapshotCards.length);
   let view = "all";
   let matches = [];
   let hasLiveData = false;
@@ -160,8 +167,8 @@
       if (status)
         status.textContent =
           (data.providerOk && data.total > 0
-            ? "ESPNcricinfo data connected"
-            : "Live feed unavailable · showing saved BCCI fixtures") +
+            ? "CricAPI connected"
+            : "CricAPI unavailable · showing saved India fixtures") +
           (data.providerOk && data.total > 0
             ? " · " + data.total + " matches · Refreshed "
             : " · Refreshed ") +
@@ -173,7 +180,7 @@
           " IST";
     } catch (_) {
       hasLiveData = false;
-      if (status) status.textContent = "Live feed unavailable · showing saved BCCI fixtures";
+      if (status) status.textContent = "CricAPI unavailable · showing saved India fixtures";
       host.innerHTML = fallbackHTML;
       if (count) count.textContent = fallbackCount;
     }
