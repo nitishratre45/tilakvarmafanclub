@@ -249,10 +249,13 @@
   });
   window.addEventListener(
     "scroll",
-    () => {
+    (event) => {
       if (!overlay || isMobile()) return;
-      // Ignore layout/scroll events while the popup is being opened; close only
-      // when the user scrolls the page after it is already positioned.
+      // Scrolling the options list is not page scrolling. The capture-phase
+      // listener receives both, so ignore events originating inside the popup.
+      const target = event.target;
+      if (target && (target === overlay || overlay.contains(target))) return;
+      // Close only when the user scrolls the page after the menu is positioned.
       if (overlay.dataset.positioned === "true") closeMenu();
     },
     true,
