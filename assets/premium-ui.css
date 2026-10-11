@@ -8016,3 +8016,18 @@ textarea:focus-visible {
     height: 24px !important;
   }
 }
+
+
+/* Preserve the fan club's original navy, cyan and orange palette in album view */
+#photos.tv-album-view-active,
+#photos.tv-album-view-active .cricinfo-gallery,
+#photos.tv-album-view-active .tv-album-detail{background:#070b14!important;color:#f7f9ff!important}
+#photos.tv-album-view-active .tv-album-hero{background:linear-gradient(135deg,#0d1422,#0b1422 65%,#171421)!important;color:#f7f9ff!important;border-top:2px solid transparent!important;border-image:linear-gradient(90deg,#75e3ff,#8b7dff,#ff6a35) 1!important}
+#photos.tv-album-view-active .tv-album-hero h2{color:#f7f9ff!important}
+#photos.tv-album-view-active .tv-album-hero p{color:#a3b0c4!important}
+#photos.tv-album-view-active .tv-album-hero .tv-album-back{border:1px solid rgba(117,227,255,.38)!important;background:rgba(117,227,255,.08)!important;color:#75e3ff!important;box-shadow:0 0 18px rgba(117,227,255,.08)!important}
+#photos.tv-album-view-active .tv-album-photo-grid{background:#0d1422!important}
+#photos.tv-album-view-active .tv-album-photo{background:#111d30!important}
+#photos.tv-album-view-active .tv-photo-open-icon{border:1px solid rgba(117,227,255,.3)!important;background:rgba(7,11,20,.86)!important;color:#75e3ff!important;box-shadow:0 0 14px rgba(117,227,255,.12)!important}
+#photos.tv-album-view-active .tv-album-photo:hover .tv-photo-open-icon{border-color:#ff6a35!important;color:#ff8a52!important}
+@media(max-width:600px){#photos.tv-album-view-active .tv-album-hero{background:linear-gradient(145deg,#0d2238,#091525 72%,#171421)!important}}
