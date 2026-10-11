@@ -210,9 +210,16 @@ export async function onRequestGet({ request, env }) {
     : view === "results" ? matches.filter((m) => m.status === "Result")
     : matches;
 
+  const matchFeedOk = currentResult.status === "fulfilled" || matchResult.status === "fulfilled";
+
   return json({
     provider: "CricAPI",
     providerOk,
+    matchFeedOk,
+    matchFeedErrors: [currentResult, matchResult]
+      .filter((result) => result.status === "rejected")
+      .map((result) => String(result.reason?.message || "CricAPI match endpoint failed"))
+      .slice(0, 2),
     updatedAt: new Date().toISOString(),
     total: filtered.length,
     matches: filtered,
