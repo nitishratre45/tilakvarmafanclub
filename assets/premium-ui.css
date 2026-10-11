@@ -9200,3 +9200,35 @@ footer > span:last-child {
     text-align: left !important;
   }
 }
+
+
+/* Photo gallery: static presentation, no motion or hover animation. */
+#photos,
+#photos *,
+#photos *::before,
+#photos *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+#photos .tv-album-card:hover,
+#photos .tv-album-card:focus-visible,
+#photos .tv-album-photo:hover,
+#photos .tv-album-photo:focus-visible,
+#photos .tv-album-card:hover .tv-album-cover > img,
+#photos .tv-album-photo:hover img,
+#photos .tv-album-card:hover .tv-album-open,
+#photos .tv-album-card:focus-visible .tv-album-open,
+#photos .tv-album-detail .tv-album-photo:hover {
+  transform: none !important;
+  filter: none !important;
+}
+#photos .tv-photo-lightbox.is-open {
+  animation: none !important;
+}
+@media (prefers-reduced-motion: no-preference) {
+  #photos,
+  #photos * {
+    scroll-behavior: auto !important;
+  }
+}
