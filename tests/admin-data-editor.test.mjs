@@ -59,7 +59,14 @@ function mockGitHubFetch() {
     if (url.includes("raw.githubusercontent.com")) {
       return Response.json(url.endsWith("/data/death-overs.json") ? deathFixture : statsFixture);
     }
-    return Response.json({ sha: "existing-file-sha" });
+    const fixture = url.endsWith("/data/death-overs.json?ref=main")
+      ? deathFixture
+      : statsFixture;
+    return Response.json({
+      sha: "existing-file-sha",
+      encoding: "base64",
+      content: Buffer.from(JSON.stringify(fixture)).toString("base64"),
+    });
   };
   return calls;
 }
