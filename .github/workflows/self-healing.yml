@@ -82,6 +82,7 @@ jobs:
           PY
 
       - name: Open a review PR for safe repairs
+        id: create_pr
         if: always() && steps.checks.outcome != 'cancelled'
         continue-on-error: true
         uses: peter-evans/create-pull-request@v7
@@ -98,6 +99,12 @@ jobs:
 
             The self-healing workflow also checks JavaScript syntax, Python compilation and JSON integrity.
             Please review the diff and let the normal CI checks pass before merging.
+
+      - name: Report PR creation restriction
+        if: steps.create_pr.outcome == 'failure'
+        run: |
+          echo "::warning::Formatting and integrity checks ran, but GitHub did not allow this workflow to create a pull request."
+          echo "Enable Settings > Actions > General > Workflow permissions > Allow GitHub Actions to create and approve pull requests, or open a PR manually from bot/safe-auto-repair." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Record validation failure
         if: steps.checks.outcome == 'failure'
