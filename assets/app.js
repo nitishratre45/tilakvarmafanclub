@@ -39,16 +39,101 @@
   try {
     const data = await window.TilakSiteData.load();
     const stats = data.careerStats || {};
+    const profile = data.profile || {};
     const photo = document.getElementById("tilak-photo");
-    if (photo && data.profile && data.profile.photo) photo.src = data.profile.photo;
-    if (photo)
-      photo.addEventListener(
-        "error",
-        () => {
-          photo.style.display = "none";
-        },
-        { once: true },
-      );
+    const photoFallback = document.querySelector("#profile .photo-fallback");
+    if (photo) {
+      const fallbackPhoto = photo.getAttribute("src");
+      photo.addEventListener("error", () => {
+        if (photo.dataset.fallbackAttempted !== "true" && fallbackPhoto && photo.src !== fallbackPhoto) {
+          photo.dataset.fallbackAttempted = "true";
+          photo.src = fallbackPhoto;
+          return;
+        }
+        photo.style.display = "none";
+        photoFallback?.classList.add("is-visible");
+      });
+      if (profile.photo && profile.photo !== fallbackPhoto) photo.src = profile.photo;
+    }
+    const profileSet = (id, value, fallback = "—") => set(id, value || fallback);
+    const nameNode = document.getElementById("profile-name");
+    if (nameNode && profile.name) {
+      const parts = String(profile.name).trim().split(/\s+/);
+      nameNode.replaceChildren();
+      nameNode.append(document.createTextNode((parts.shift() || "TILAK").toUpperCase() + " "));
+      const surname = document.createElement("em");
+      surname.textContent = parts.join(" ").toUpperCase() || "VARMA";
+      nameNode.append(surname);
+    }
+    profileSet("profile-jersey", profile.jerseyNumber, "72");
+    profileSet("profile-born", profile.born, "—");
+    profileSet("profile-role", profile.role, "Batter");
+    profileSet("profile-batting", profile.battingStyle, "—");
+    profileSet("profile-bowling", profile.bowlingStyle, "—");
+    profileSet("profile-birthplace", profile.birthplace, "Hyderabad, India");
+    profileSet(
+      "profile-intro",
+      profile.role && profile.battingStyle
+        ? profile.battingStyle + " " + profile.role.toLowerCase() + " representing India and Mumbai Indians."
+        : "India international cricketer and Mumbai Indians batter.",
+      "India international cricketer.",
+    );
+    const safeExternalUrl = (value) => {
+      try {
+        const url = new URL(value);
+        return url.protocol === "https:" ? url.href : "";
+      } catch {
+        return "";
+      }
+    };
+    const setExternalLink = (id, value) => {
+      const link = document.getElementById(id);
+      const href = safeExternalUrl(value);
+      if (!link) return;
+      if (href) {
+        link.href = href;
+        link.removeAttribute("aria-disabled");
+      } else {
+        link.removeAttribute("href");
+        link.setAttribute("aria-disabled", "true");
+      }
+    };
+    setExternalLink("profile-icc-link", profile.iccProfile);
+    setExternalLink("profile-bcci-link", profile.bcciProfile);
+    setExternalLink("profile-mi-link", profile.officialProfile);
+    setExternalLink("profile-photo-source", profile.photoSource || profile.iccProfile);
+    const teamHost = document.getElementById("profile-team-chips");
+    const teams = Array.isArray(profile.teams)
+      ? [...new Set(profile.teams.filter((team) => typeof team === "string" && team.trim()))]
+      : [];
+    if (teamHost && teams.length) {
+      const teamClass = (team) => {
+        const key = team.toLowerCase();
+        if (key === "india") return " team-india";
+        if (key === "mumbai indians") return " team-mi";
+        if (key === "medak falcons") return " team-medak";
+        return "";
+      };
+      teamHost.replaceChildren();
+      teams.forEach((team) => {
+        const chip = document.createElement("span");
+        chip.className = "profile-team-chip" + teamClass(team);
+        if (team.toLowerCase() === "india") {
+          const mark = document.createElement("i");
+          mark.setAttribute("aria-hidden", "true");
+          mark.textContent = "✦";
+          chip.append(mark, document.createTextNode(" " + team.toUpperCase()));
+        } else chip.textContent = team.toUpperCase();
+        teamHost.append(chip);
+      });
+      profileSet("profile-teams-count", teams.length + (teams.length === 1 ? " TEAM" : " TEAMS"));
+    }
+    const profileStamp = document.getElementById("profile-data-updated");
+    if (profileStamp) {
+      const profileDate = profile.photoCheckedAt || profile.photoUpdated || data.lastUpdated;
+      profileStamp.textContent = "Profile snapshot: " + (profileDate || "date unavailable") +
+        " · Site data: " + (data.lastUpdated || "date unavailable");
+    }
     document.querySelectorAll("[data-stat]").forEach((el) => {
       const key = el.dataset.stat;
       if (stats[key] !== undefined) el.textContent = stats[key];
@@ -73,11 +158,11 @@
             : "Available · auto-refresh enabled",
     );
     const rankings = data.iccRankings || {};
-    set("icc-ranking-t20i", rankings.T20I ? "T20I #" + rankings.T20I : "T20I ranking unavailable");
-    set("icc-ranking-odi", rankings.ODI ? "ODI #" + rankings.ODI : "ODI ranking unavailable");
+    set("icc-ranking-t20i", rankings.T20I ? "#" + rankings.T20I : "Not available");
+    set("icc-ranking-odi", rankings.ODI ? "#" + rankings.ODI : "Not available");
     set(
       "icc-ranking-updated",
-      rankings.updatedAt ? "Updated " + rankings.updatedAt : "Official ICC ranking snapshot",
+      rankings.updatedAt ? "Ranking snapshot · " + rankings.updatedAt : "Saved ICC ranking date unavailable",
     );
   } catch (error) {
     set("data-status", "Saved snapshot unavailable");
