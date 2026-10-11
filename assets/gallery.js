@@ -108,7 +108,8 @@
     "error",
     (event) => {
       const img = event.target;
-      if (!(img instanceof HTMLImageElement) || !img.closest(".tv-album-cover, .tv-album-photo")) return;
+      if (!(img instanceof HTMLImageElement) || !img.closest(".tv-album-cover, .tv-album-photo"))
+        return;
       img.style.display = "none";
       const fallback = document.createElement("span");
       fallback.className = "tv-photo-source-fallback";
