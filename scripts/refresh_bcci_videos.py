@@ -346,7 +346,11 @@ def main() -> int:
     legacy_url = config.get("feedUrl", "").strip() if isinstance(config, dict) else ""
     custom_urls = []
     for candidate in [*configured_urls, legacy_url]:
-        if isinstance(candidate, str) and candidate.strip() and candidate.strip() not in custom_urls:
+        if (
+            isinstance(candidate, str)
+            and candidate.strip()
+            and candidate.strip() not in custom_urls
+        ):
             custom_urls.append(candidate.strip())
 
     for custom_url in custom_urls:
