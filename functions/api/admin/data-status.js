@@ -89,7 +89,7 @@ const DATASETS = [
     name: "Official BCCI video feed",
     file: "assets/bcci-videos.json",
     section: "videos",
-    intervalHours: 24,
+    intervalHours: 6,
     workflow: "refresh-bcci-videos.yml",
     required: false,
   },
