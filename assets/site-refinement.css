@@ -464,3 +464,111 @@ main > section[id] {
 #profile .photo-fallback:not(.is-visible) {
   visibility: hidden;
 }
+
+
+/* Profile section refresh — dedicated overrides after all legacy profile rules. */
+#profile.profile-section {
+  position:relative; isolation:isolate; display:grid;
+  grid-template-columns:minmax(220px,.72fr) minmax(0,1.28fr);
+  align-items:center; column-gap:clamp(24px,4vw,58px); row-gap:24px;
+  overflow:hidden; padding-block:clamp(32px,4.4vw,60px)!important;
+  background:radial-gradient(ellipse at 5% 15%,rgba(29,102,180,.22),transparent 42%),
+    radial-gradient(ellipse at 92% 8%,rgba(255,116,75,.09),transparent 32%),
+    linear-gradient(125deg,#071629,#0a1b30 56%,#091426)!important;
+  border-block:1px solid rgba(126,178,229,.2);
+}
+#profile.profile-section:before {content:"";position:absolute;z-index:-1;inset:12px;border:1px solid rgba(145,192,239,.08);border-radius:24px;pointer-events:none}
+#profile.profile-section:after {content:"72";position:absolute;z-index:-1;right:1%;bottom:-24%;color:rgba(255,255,255,.025);font:900 clamp(220px,34vw,520px)/.8 Impact,sans-serif;letter-spacing:-.1em;pointer-events:none}
+#profile .profile-photo-wrap {grid-column:1;grid-row:1;width:100%;max-width:430px;min-height:0;max-height:none;aspect-ratio:4/5.15;margin:0 auto;overflow:hidden;border:1px solid rgba(179,216,255,.28);border-radius:22px;background:linear-gradient(150deg,#1a3c60,#091526 76%);box-shadow:0 28px 75px rgba(0,0,0,.34),0 0 0 5px rgba(255,255,255,.025)}
+#profile .profile-photo-wrap img {z-index:2;object-fit:cover;object-position:center top;transition:transform .45s ease,opacity .25s ease}
+#profile .profile-photo-wrap:hover img {transform:scale(1.025)}
+#profile .photo-fallback {z-index:1;place-content:center;color:rgba(255,255,255,.86);font:800 clamp(36px,5vw,68px)/1 Impact,sans-serif;letter-spacing:-.04em}
+#profile .photo-fallback span {display:block;margin-top:8px;color:#ff8050;font-size:1.5em}
+#profile .photo-fallback.is-visible {display:grid!important}
+#profile .photo-fallback:not(.is-visible) {visibility:hidden}
+#profile .profile-jersey-mark {position:absolute;z-index:4;right:14px;bottom:44px;display:grid;place-items:center;width:clamp(46px,5vw,66px);aspect-ratio:1;border:1px solid rgba(255,255,255,.42);border-radius:16px;background:linear-gradient(145deg,#ff8755,#e64f31);color:#fff;font:900 clamp(22px,3vw,34px)/1 Impact,sans-serif;box-shadow:0 12px 30px rgba(0,0,0,.28)}
+#profile .profile-photo-source {position:absolute;z-index:5;left:12px;bottom:12px;padding:7px 10px;border:1px solid rgba(255,255,255,.18);border-radius:8px;background:rgba(3,12,23,.78);color:#e5f3ff;font:700 9px/1.2 var(--mono,monospace);letter-spacing:.1em;text-decoration:none;backdrop-filter:blur(10px)}
+#profile .profile-copy {grid-column:2;grid-row:1;min-width:0;max-width:860px}
+#profile .profile-eyebrow-row {display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:15px}
+#profile .profile-status-pill {display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid rgba(114,226,241,.25);border-radius:999px;background:rgba(28,91,128,.2);color:#a7f1ff;font:800 10px/1 var(--mono,monospace);letter-spacing:.12em}
+#profile .profile-status-pill i {width:7px;height:7px;border-radius:50%;background:#7ce5b2;box-shadow:0 0 0 4px rgba(124,229,178,.12)}
+#profile .profile-team-label {color:#9eb4cf;font:700 10px/1.4 var(--mono,monospace);letter-spacing:.1em}
+#profile .profile-copy h2 {margin:0 0 14px;color:#f5f8ff;font:900 clamp(42px,6vw,82px)/.92 "Barlow Condensed",Impact,sans-serif;letter-spacing:-.045em;text-wrap:balance}
+#profile .profile-copy h2 em {display:block;color:#ff8050!important;font-style:normal}
+#profile .profile-intro {max-width:620px;margin:0 0 13px;color:#c4d3e6;font-size:clamp(14px,1.35vw,18px);line-height:1.65}
+#profile .profile-location-line {display:flex;align-items:center;gap:8px;margin:0 0 22px;color:#93abc6;font-size:12px}
+#profile .profile-location-line>span:first-child {color:#ff8050;font-size:19px}
+#profile .profile-quick-actions {display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+#profile .profile-quick-actions .button {min-height:43px;display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:11px 15px;font-size:12px;font-weight:800;text-decoration:none;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+#profile .profile-quick-actions .button:hover {transform:translateY(-2px)}
+#profile .profile-data-grid {grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(280px,.92fr);gap:14px;min-width:0}
+#profile .profile-facts {grid-column:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:0}
+#profile .profile-facts>div {min-width:0;padding:15px 13px;border:1px solid rgba(125,169,211,.18);border-radius:13px;background:linear-gradient(145deg,rgba(18,39,65,.9),rgba(9,23,41,.94));transition:transform .2s ease,border-color .2s ease}
+#profile .profile-facts>div:hover {transform:translateY(-2px);border-color:rgba(114,226,241,.4)}
+#profile .profile-facts small,#profile .profile-ranking-values small {display:block;margin-bottom:7px;color:#8fa9c7;font:700 9px/1.4 var(--mono,monospace);letter-spacing:.08em}
+#profile .profile-facts strong {display:block;color:#f4f7ff;font-size:clamp(12px,1.05vw,15px);line-height:1.35;overflow-wrap:anywhere}
+#profile .profile-ranking-card {grid-column:2;display:block;min-width:0;margin:0;padding:16px;border:1px solid rgba(114,226,241,.18);border-radius:15px;background:linear-gradient(145deg,rgba(16,38,64,.96),rgba(8,20,36,.96));box-shadow:inset 3px 0 0 rgba(114,226,241,.62),0 14px 32px rgba(0,0,0,.16)}
+#profile .profile-ranking-heading {display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:13px}
+#profile .profile-ranking-heading .eyebrow {color:#83e6f3;font-size:9px}
+#profile .profile-ranking-heading h3,#profile .profile-teams-heading h3 {margin:4px 0 0;color:#f3f7ff;font:800 19px/1.1 "Barlow Condensed",Impact,sans-serif;letter-spacing:.025em}
+#profile .profile-ranking-heading h3 em,#profile .profile-teams-heading h3 em {color:#ff8050;font-style:normal}
+#profile .profile-ranking-values {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#profile .profile-ranking-values>div {min-width:0;padding:11px;border:1px solid rgba(131,170,212,.16);border-radius:10px;background:rgba(4,14,27,.35)}
+#profile .profile-ranking-values strong {display:block;color:#fff;font:800 clamp(18px,2vw,26px)/1.1 "Barlow Condensed",Impact,sans-serif;overflow-wrap:anywhere}
+#profile .profile-ranking-updated {margin:11px 0 0;color:#91a9c3;font-size:10px;line-height:1.5}
+#profile .profile-teams-panel {grid-column:1;min-width:0;margin:0;padding:17px;border:1px solid rgba(125,169,211,.18);border-radius:15px;background:linear-gradient(145deg,rgba(16,37,62,.94),rgba(8,21,38,.97))}
+#profile .profile-teams-heading {display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+#profile .profile-teams-heading .eyebrow,#profile .profile-source-panel>.eyebrow {color:#8fa9c7;font-size:9px}
+#profile .profile-teams-count {flex:0 0 auto;padding:6px 8px;border-radius:7px;background:rgba(114,226,241,.1);color:#9deaf4;font:700 9px/1 var(--mono,monospace)}
+#profile .profile-team-chips {display:flex;flex-wrap:wrap;gap:7px}
+#profile .profile-team-chip {display:inline-flex;align-items:center;gap:6px;min-height:31px;padding:7px 10px;border:1px solid rgba(131,170,212,.2);border-radius:999px;background:rgba(5,17,31,.58);color:#d8e6f7;font:700 10px/1.2 var(--mono,monospace);letter-spacing:.02em}
+#profile .profile-team-chip.team-india {border-color:rgba(255,128,80,.4);background:linear-gradient(120deg,rgba(255,128,80,.16),rgba(114,226,241,.08));color:#fff}
+#profile .profile-team-chip.team-mi {border-color:rgba(72,139,255,.36);color:#b8d5ff}
+#profile .profile-team-chip.team-medak {border-color:rgba(114,226,241,.3);color:#9deaf4}
+#profile .profile-teams-note {margin:13px 0 0;color:#8ca5c1;font-size:10px;line-height:1.5}
+#profile .profile-source-panel {grid-column:2;min-width:0;padding:17px;border:1px solid rgba(125,169,211,.18);border-radius:15px;background:rgba(6,18,33,.66)}
+#profile .profile-source-links {display:grid;gap:7px;margin-top:12px}
+#profile .profile-source-links a {display:flex;align-items:center;gap:11px;min-width:0;padding:9px 10px;border:1px solid rgba(131,170,212,.14);border-radius:9px;color:#d9e7f8;text-decoration:none;transition:border-color .18s ease,background .18s ease}
+#profile .profile-source-links a:hover {border-color:rgba(114,226,241,.42);background:rgba(114,226,241,.06)}
+#profile .profile-source-links a[aria-disabled="true"] {opacity:.55;pointer-events:none}
+#profile .profile-source-links a span {display:grid;place-items:center;flex:0 0 36px;height:29px;border-radius:7px;background:rgba(114,226,241,.1);color:#a2edf7;font:800 10px/1 var(--mono,monospace)}
+#profile .profile-source-links a b {min-width:0;font-size:11px;overflow-wrap:anywhere}
+#profile .profile-data-stamp {margin:11px 0 0;color:#819bb7;font-size:9px;line-height:1.5}
+:root[data-theme-resolved="light"] #profile.profile-section {background:radial-gradient(ellipse at 5% 15%,rgba(29,102,180,.08),transparent 42%),linear-gradient(125deg,#f6f9ff,#eaf2fc 56%,#f7faff)!important;border-color:#d3e2f4}
+:root[data-theme-resolved="light"] #profile .profile-copy h2,:root[data-theme-resolved="light"] #profile .profile-ranking-heading h3,:root[data-theme-resolved="light"] #profile .profile-teams-heading h3,:root[data-theme-resolved="light"] #profile .profile-facts strong,:root[data-theme-resolved="light"] #profile .profile-ranking-values strong {color:#102d50}
+:root[data-theme-resolved="light"] #profile .profile-intro {color:#4f6680}
+:root[data-theme-resolved="light"] #profile .profile-location-line,:root[data-theme-resolved="light"] #profile .profile-ranking-updated,:root[data-theme-resolved="light"] #profile .profile-teams-note,:root[data-theme-resolved="light"] #profile .profile-data-stamp {color:#637d99}
+:root[data-theme-resolved="light"] #profile .profile-facts>div,:root[data-theme-resolved="light"] #profile .profile-ranking-card,:root[data-theme-resolved="light"] #profile .profile-teams-panel,:root[data-theme-resolved="light"] #profile .profile-source-panel {background:linear-gradient(145deg,#fff,#f0f6ff);border-color:#d3e2f4;box-shadow:0 10px 26px rgba(29,71,122,.07)}
+:root[data-theme-resolved="light"] #profile .profile-facts small,:root[data-theme-resolved="light"] #profile .profile-ranking-values small,:root[data-theme-resolved="light"] #profile .profile-source-panel>.eyebrow {color:#637d99}
+:root[data-theme-resolved="light"] #profile .profile-team-chip {background:#f5f9ff;border-color:#d5e3f5;color:#234464}
+:root[data-theme-resolved="light"] #profile .profile-source-links a {color:#234464;border-color:#d5e3f5}
+@media (max-width:850px) {
+  #profile.profile-section {grid-template-columns:minmax(160px,.68fr) minmax(0,1.32fr);column-gap:18px;row-gap:18px}
+  #profile .profile-data-grid {grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  #profile .profile-facts {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:620px) {
+  #profile.profile-section {grid-template-columns:minmax(0,1fr);padding:24px 15px 28px!important;row-gap:17px}
+  #profile .profile-photo-wrap {grid-column:1;grid-row:auto;width:min(100%,240px);aspect-ratio:4/4.8;border-radius:18px}
+  #profile .profile-copy {grid-column:1;grid-row:auto;max-width:none;text-align:left}
+  #profile .profile-eyebrow-row {gap:7px;margin-bottom:10px}
+  #profile .profile-status-pill {font-size:9px;padding:7px 9px}
+  #profile .profile-team-label {font-size:9px}
+  #profile .profile-copy h2 {font-size:clamp(42px,12vw,64px)}
+  #profile .profile-intro {font-size:14px}
+  #profile .profile-data-grid {grid-column:1;grid-template-columns:minmax(0,1fr);gap:10px}
+  #profile .profile-facts {grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  #profile .profile-facts>div {padding:12px 10px}
+  #profile .profile-ranking-card,#profile .profile-teams-panel,#profile .profile-source-panel {grid-column:1}
+  #profile .profile-ranking-values {grid-template-columns:repeat(2,minmax(0,1fr))}
+  #profile .profile-quick-actions {gap:7px}
+  #profile .profile-quick-actions .button {flex:1 1 auto;padding:10px 11px;font-size:11px}
+}
+@media (max-width:360px) {
+  #profile .profile-copy h2 {font-size:39px}
+  #profile .profile-facts>div {padding:10px 8px}
+  #profile .profile-facts strong {font-size:12px}
+}
+@media (prefers-reduced-motion:reduce) {
+  #profile * {transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
