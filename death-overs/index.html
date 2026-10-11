@@ -323,6 +323,91 @@
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 12px;
       }
+      .coverage-panel {
+        margin-top: 16px;
+        padding: clamp(16px, 2.5vw, 24px);
+        border: 1px solid rgba(109, 224, 245, 0.22);
+        border-radius: 14px;
+        background:
+          radial-gradient(ellipse at 100% 0%, rgba(109, 224, 245, 0.08), transparent 48%),
+          linear-gradient(145deg, #0d1d30, #091321);
+      }
+      .coverage-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+      }
+      .coverage-head h3 {
+        margin: 0;
+        color: #f4f8ff;
+        font: 800 clamp(18px, 2.4vw, 25px)/1.1 var(--display);
+      }
+      .coverage-head h3 em {
+        color: #6de0f5;
+        font-style: normal;
+      }
+      .coverage-head p {
+        margin: 6px 0 0;
+        color: #93a9c2;
+        font-size: 11px;
+        line-height: 1.6;
+      }
+      .coverage-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .coverage-card {
+        min-width: 0;
+        padding: 15px;
+        border: 1px solid rgba(111, 160, 205, 0.2);
+        border-radius: 10px;
+        background: rgba(5, 14, 27, 0.72);
+      }
+      .coverage-card small {
+        display: block;
+        color: #9fb5ce;
+        font: 600 9px/1.5 var(--mono);
+        letter-spacing: 0.055em;
+      }
+      .coverage-card strong {
+        display: block;
+        margin: 10px 0 6px;
+        color: #6de0f5;
+        font: 850 clamp(25px, 3vw, 36px)/1 var(--display);
+        overflow-wrap: anywhere;
+      }
+      .coverage-card span {
+        display: block;
+        color: #8298b2;
+        font-size: 10px;
+        line-height: 1.5;
+      }
+      .coverage-footnote {
+        margin: 12px 0 0;
+        color: #8298b2;
+        font-size: 10px;
+        line-height: 1.7;
+      }
+      @media (max-width: 850px) {
+        .coverage-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 380px) {
+        .coverage-grid {
+          gap: 7px;
+        }
+        .coverage-card {
+          padding: 11px;
+        }
+        .coverage-card strong {
+          font-size: 25px;
+        }
+      }
 
       .snapshot-card {
         position: relative;
@@ -1468,6 +1553,39 @@
             </article>
           </div>
 
+          <section class="coverage-panel" aria-labelledby="coverage-title" aria-live="polite">
+            <div class="coverage-head">
+              <div>
+                <div class="section-kicker">DELIVERY DATA COVERAGE</div>
+                <h3 id="coverage-title">BALL-BY-BALL <em>AVAILABILITY.</em></h3>
+                <p id="coverage-filter">Counting recorded Tilak Varma deliveries in the selected format and year.</p>
+              </div>
+            </div>
+            <div class="coverage-grid">
+              <article class="coverage-card">
+                <small>BALL EVENTS STORED</small>
+                <strong id="coverage-balls">—</strong>
+                <span>Individual Tilak delivery records</span>
+              </article>
+              <article class="coverage-card">
+                <small>MATCHES WITH BALL DATA</small>
+                <strong id="coverage-matches">—</strong>
+                <span>Unique matches with at least one recorded delivery</span>
+              </article>
+              <article class="coverage-card">
+                <small>INNINGS WITH BALL DATA</small>
+                <strong id="coverage-innings">—</strong>
+                <span>Innings containing individual ball records</span>
+              </article>
+              <article class="coverage-card">
+                <small>OVERS WITH BALL DATA</small>
+                <strong id="coverage-overs">—</strong>
+                <span>Overs with individual delivery records</span>
+              </article>
+            </div>
+            <p class="coverage-footnote">Coverage is based on the ball-by-ball records actually present in this feed. It can be lower than Tilak's full career totals; missing delivery data is not counted as zero runs.</p>
+          </section>
+
           <div id="latest-match-panel" class="latest-match-panel" hidden></div>
 
           <div class="refresh-strip" aria-label="Refresh status">
@@ -1883,7 +2001,23 @@
             t = overs.reduce(
               (s, o) => ({ runs: s.runs + (+o.runs || 0), balls: s.balls + (+o.balls || 0) }),
               { runs: 0, balls: 0 },
-            );
+            ),
+            ballOvers = overs.filter((o) => Array.isArray(o.deliveries) && o.deliveries.length),
+            ballInnings = innings.filter((i) =>
+              (i.overs || []).some((o) => Array.isArray(o.deliveries) && o.deliveries.length),
+            ),
+            ballMatches = new Set(
+              ballInnings.map((i) => i.matchId || i.date + "|" + i.teams),
+            ),
+            ballEvents = ballOvers.reduce((sum, o) => sum + o.deliveries.length, 0);
+          document.getElementById("coverage-balls").textContent = fmt(ballEvents);
+          document.getElementById("coverage-matches").textContent = fmt(ballMatches.size);
+          document.getElementById("coverage-innings").textContent = fmt(ballInnings.length);
+          document.getElementById("coverage-overs").textContent = fmt(ballOvers.length);
+          document.getElementById("coverage-filter").textContent =
+            (d?.label || names[active]) + " · " +
+            (year.value === "all" ? "All available years" : year.value) +
+            " · Counts update when you change the format or year.";
           document.getElementById("total-runs").textContent = fmt(t.runs);
           document.getElementById("total-innings").textContent = fmt(
             d?.inningsFound || innings.length,
