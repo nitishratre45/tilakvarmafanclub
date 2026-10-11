@@ -2494,6 +2494,7 @@
           status("friendly-status", message, error);
         }
         function friendlyOptions(select, options, placeholder) {
+          const previous = select.value;
           select.innerHTML = options
             .map(
               (item) =>
@@ -2501,6 +2502,7 @@
             )
             .join("");
           if (!options.length) select.innerHTML = '<option value="">No records available</option>';
+          if (options.some((item) => String(item[0]) === previous)) select.value = previous;
         }
         function friendlyPath(root, path) {
           return path
@@ -2642,18 +2644,19 @@
             const d = friendlyRoot?.__deathData,
               f = d?.formats?.[fmt] || {};
             const current = recordSelect.value;
-            if (!["format", "overTotals", "innings", "featuredMatch"].includes(current))
+            if (!["format", "overTotals", "innings", "delivery", "featuredMatch", "root"].includes(current))
               recordSelect.value = "format";
             friendlyOptions(recordSelect, [
               ["format", "Format summary"],
               ["overTotals", "Over totals"],
               ["innings", "Match innings"],
+              ["delivery", "Ball-by-ball delivery"],
               ["featuredMatch", "Featured match"],
               ["root", "Archive metadata"],
             ]);
             const wrap = friendlyEl("friendly-nested-selectors");
             if (wrap)
-              wrap.style.display = ["overTotals", "innings"].includes(recordSelect.value)
+              wrap.style.display = ["overTotals", "innings", "delivery"].includes(recordSelect.value)
                 ? "grid"
                 : "none";
             const inningsSelect = friendlyEl("friendly-innings"),
@@ -2855,6 +2858,9 @@
         });
         friendlyEl("friendly-format").addEventListener("change", friendlyRefreshChoices);
         friendlyEl("friendly-record").addEventListener("change", friendlyRefreshChoices);
+        ["friendly-innings", "friendly-over", "friendly-ball"].forEach((id) =>
+          friendlyEl(id).addEventListener("change", friendlyRenderFields),
+        );
         friendlyEl("friendly-refresh").addEventListener("click", friendlyLoad);
         friendlyEl("friendly-save").addEventListener("click", friendlySave);
         const editorPaths = {
