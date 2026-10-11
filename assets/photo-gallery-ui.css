@@ -726,7 +726,6 @@ html
   }
 }
 
-
 /* Root cause hardening: force every toolbar descendant back into normal flow.
    Earlier fixes reset only direct children; nested legacy positioned controls can still stretch the toolbar. */
 html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar {
@@ -771,7 +770,13 @@ html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery
   align-self: auto !important;
   flex-grow: 0 !important;
 }
-html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-toolbar-copy {
+html
+  body
+  main
+  > #photos.tilak-photos-section
+  #cricinfo-photo-grid
+  > .tv-gallery-toolbar
+  .tv-gallery-toolbar-copy {
   display: flex !important;
   position: static !important;
   flex: 0 0 auto !important;
@@ -783,7 +788,13 @@ html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery
   margin: 0 !important;
   padding: 0 !important;
 }
-html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-filters {
+html
+  body
+  main
+  > #photos.tilak-photos-section
+  #cricinfo-photo-grid
+  > .tv-gallery-toolbar
+  .tv-gallery-filters {
   display: grid !important;
   position: static !important;
   flex: 0 0 auto !important;
@@ -796,7 +807,14 @@ html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery
   margin: 0 !important;
   padding: 0 !important;
 }
-html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-filters > label {
+html
+  body
+  main
+  > #photos.tilak-photos-section
+  #cricinfo-photo-grid
+  > .tv-gallery-toolbar
+  .tv-gallery-filters
+  > label {
   display: flex !important;
   position: static !important;
   flex-direction: column !important;
@@ -805,7 +823,14 @@ html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery
   margin: 0 !important;
   padding: 0 !important;
 }
-html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-filters select {
+html
+  body
+  main
+  > #photos.tilak-photos-section
+  #cricinfo-photo-grid
+  > .tv-gallery-toolbar
+  .tv-gallery-filters
+  select {
   position: static !important;
   width: 100% !important;
   height: 42px !important;
@@ -824,14 +849,20 @@ html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-album-g
 @media (min-width: 761px) {
   html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar {
     display: grid !important;
-    grid-template-columns: minmax(180px, .8fr) minmax(0, 2fr) !important;
+    grid-template-columns: minmax(180px, 0.8fr) minmax(0, 2fr) !important;
     grid-template-rows: min-content !important;
     grid-auto-rows: min-content !important;
     align-items: end !important;
   }
 }
 @media (max-width: 760px) {
-  html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-filters {
+  html
+    body
+    main
+    > #photos.tilak-photos-section
+    #cricinfo-photo-grid
+    > .tv-gallery-toolbar
+    .tv-gallery-filters {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
