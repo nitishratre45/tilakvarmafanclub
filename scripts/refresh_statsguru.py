@@ -530,6 +530,29 @@ def date_sort_key(value):
     return 0
 
 
+
+def infer_balls_from_strike_rate(summary):
+    """Infer missing balls faced from runs and published strike rate.
+
+    Since Statsguru strike rate is rounded to two decimals, inferred balls are
+    approximate; prefer source-reported balls whenever present.
+    """
+    if not isinstance(summary, dict):
+        return summary
+    if summary.get("balls") is None:
+        runs = summary.get("runs")
+        strike_rate = summary.get("strikeRate")
+        if (
+            isinstance(runs, (int, float))
+            and isinstance(strike_rate, (int, float))
+            and runs >= 0
+            and strike_rate > 0
+        ):
+            summary["balls"] = round(runs * 100 / strike_rate)
+            summary["ballsInferred"] = True
+    return summary
+
+
 def scrape_format(fmt, match_class):
     # The legacy player page's supported view is "innings". It also includes
     # the Career averages table above the match-by-match list.
@@ -577,6 +600,7 @@ def scrape_format(fmt, match_class):
         raise RuntimeError(
             "ESPNcricinfo Statsguru returned no recognizable " + fmt + " tables"
         )
+    summary = infer_balls_from_strike_rate(summary)
     return {
         "summary": summary,
         "careerBreakdown": career_breakdown,
