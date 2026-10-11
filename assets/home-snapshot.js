@@ -28,9 +28,7 @@
     const inningsHost = $("home-recent-innings");
     const newsHost = $("home-latest-news");
     try {
-      const response = await fetch("data/site-data.json", { cache: "no-store" });
-      if (!response.ok) throw new Error("Stats unavailable");
-      const data = await response.json();
+      const data = await window.TilakSiteData.load();
       const career = data.careerFormats?.T20I || data.careerStats || {};
       if (statsHost) {
         const metrics = [

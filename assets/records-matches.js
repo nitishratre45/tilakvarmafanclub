@@ -15,9 +15,7 @@
   const stamp = (...values) =>
     values.find((v) => typeof v === "string" && v.trim()) || "Saved data";
   try {
-    const response = await fetch("data/site-data.json", { cache: "no-store" });
-    if (!response.ok) throw new Error("Saved career data unavailable");
-    const data = await response.json();
+    const data = await window.TilakSiteData.load();
 
     const recordsHost = document.getElementById("icc-record-highlights");
     if (recordsHost) {

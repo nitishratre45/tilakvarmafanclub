@@ -37,9 +37,7 @@
     }),
   );
   try {
-    const response = await fetch("data/site-data.json", { cache: "no-store" });
-    if (!response.ok) throw new Error("Data feed unavailable");
-    const data = await response.json();
+    const data = await window.TilakSiteData.load();
     const stats = data.careerStats || {};
     const photo = document.getElementById("tilak-photo");
     if (photo && data.profile && data.profile.photo) photo.src = data.profile.photo;

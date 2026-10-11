@@ -186,11 +186,7 @@
   let snapshot = null;
   const selector = $("player-match-format");
   if (selector) selector.addEventListener("change", () => snapshot && render(snapshot));
-  fetch("data/site-data.json", { cache: "no-store" })
-    .then((r) => {
-      if (!r.ok) throw new Error("site data unavailable");
-      return r.json();
-    })
+  window.TilakSiteData.load()
     .then((d) => {
       snapshot = d;
       render(d);

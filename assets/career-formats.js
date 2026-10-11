@@ -66,9 +66,7 @@
     return true;
   };
   try {
-    const response = await fetch("data/site-data.json", { cache: "no-store" });
-    if (!response.ok) throw new Error("Saved career data unavailable");
-    const data = await response.json();
+    const data = await window.TilakSiteData.load();
     render(data.careerFormats);
   } catch (error) {
     /* Leave any cards already rendered by app.js intact if the fallback request fails. */

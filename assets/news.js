@@ -77,8 +77,7 @@
       const news = await n.json();
       let site = {};
       try {
-        const s = await fetch("data/site-data.json", { cache: "no-store" });
-        if (s.ok) site = await s.json();
+        site = await window.TilakSiteData.load();
       } catch {}
       const profile = site.profile || {};
       const profilePhoto = safeUrl(profile.photo || "");

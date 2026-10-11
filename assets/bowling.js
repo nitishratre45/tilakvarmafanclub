@@ -190,9 +190,7 @@
   }
   async function init() {
     try {
-      const response = await fetch("data/site-data.json", { cache: "no-store" });
-      if (!response.ok) throw new Error("Site data unavailable");
-      allData = await response.json();
+      allData = await window.TilakSiteData.load();
       renderHome();
       renderStats();
     } catch (_) {

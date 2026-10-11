@@ -12,11 +12,12 @@
   const num = (r) => (typeof r.runs === "number" && Number.isFinite(r.runs) ? r.runs : null);
   async function init() {
     try {
-      const a = await fetch("data/site-data.json", { cache: "no-store" }),
-        b = await fetch("data/fan-zone.json", { cache: "no-store" });
-      if (!a.ok) throw Error("Stats feed unavailable");
-      site = await a.json();
-      fan = b.ok ? await b.json() : {};
+      const [siteData, fanResponse] = await Promise.all([
+        window.TilakSiteData.load(),
+        fetch("data/fan-zone.json", { cache: "no-store" }),
+      ]);
+      site = siteData;
+      fan = fanResponse.ok ? await fanResponse.json() : {};
       rows = Array.isArray(site.recentInnings) ? site.recentInnings : [];
       milestones();
       analytics();

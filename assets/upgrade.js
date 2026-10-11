@@ -12,9 +12,7 @@
   const safeNum = (v) => (typeof v === "number" && Number.isFinite(v) ? v : null);
   async function start() {
     try {
-      const res = await fetch("data/site-data.json", { cache: "no-store" });
-      if (!res.ok) throw Error("Saved data unavailable");
-      site = await res.json();
+      site = await window.TilakSiteData.load();
       rows = Array.isArray(site.recentInnings) ? site.recentInnings : [];
       dashboard();
       moments();
