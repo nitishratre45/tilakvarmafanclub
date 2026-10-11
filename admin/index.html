@@ -3060,8 +3060,10 @@
           const photoCount = $("count-photos");
           const videoCount = $("count-videos");
           if (totalCount) totalCount.textContent = state.items.length;
-          if (photoCount) photoCount.textContent = state.items.filter((x) => x.type !== "video").length;
-          if (videoCount) videoCount.textContent = state.items.filter((x) => x.type === "video").length;
+          if (photoCount)
+            photoCount.textContent = state.items.filter((x) => x.type !== "video").length;
+          if (videoCount)
+            videoCount.textContent = state.items.filter((x) => x.type === "video").length;
           if (!all.length) {
             host.innerHTML =
               '<div class="empty"><strong>' +
