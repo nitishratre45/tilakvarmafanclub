@@ -1575,6 +1575,7 @@
           >
           <a href="#video" data-view="video"><span class="nav-icon">▷</span>Video feed</a>
           <a href="#monitor" data-view="monitor"><span class="nav-icon">⌁</span>Refresh monitor</a>
+          <a href="#live-updates" data-view="live-updates"><span class="nav-icon">◉</span>Live updates</a>
           <a href="#repo-health" data-view="repo-health"
             ><span class="nav-icon">⌁</span>Repository health</a
           >
@@ -2080,6 +2081,31 @@
               a button returns GitHub permission errors, update the Cloudflare
               <code>GITHUB_TOKEN</code> with Actions read/write permission.
             </div>
+          </div>
+        </section>
+        <section id="live-updates" class="section">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">LIVE ACTIVITY · REPOSITORY & WORKFLOWS</div>
+              <h2>Live updates</h2>
+              <p>Recent GitHub Actions activity and the latest repository health scan in one place. This panel refreshes automatically every 60 seconds while open.</p>
+            </div>
+            <span class="pill" id="live-updates-status">CONNECTING</span>
+          </div>
+          <div class="section-body">
+            <div class="dataset-toolbar">
+              <span id="live-updates-checked" class="monitor-meta">Loading latest activity…</span>
+              <div class="actions">
+                <button id="live-updates-refresh" class="btn" type="button">↻ Refresh updates</button>
+                <a class="btn" href="https://github.com/nitishratre45/tilakvarmafanclub/actions" target="_blank" rel="noopener">All workflow runs ↗</a>
+              </div>
+            </div>
+            <div class="repo-health-summary">
+              <article><span>Last repository scan</span><strong id="live-updates-scan">Loading…</strong></article>
+              <article><span>Scan errors</span><strong id="live-updates-errors">—</strong></article>
+              <article><span>CSS warnings</span><strong id="live-updates-warnings">—</strong></article>
+            </div>
+            <div id="live-updates-list" class="run-list" aria-live="polite"><div class="empty">Loading recent workflow activity…</div></div>
           </div>
         </section>
         <section id="repo-health" class="section">
@@ -4463,12 +4489,77 @@
           }
         }
         $("repo-health-refresh")?.addEventListener("click", refreshRepoHealth);
+        let liveUpdatesPoll = null;
+        async function refreshLiveUpdates() {
+          const host = $("live-updates-list");
+          if (!host) return;
+          const badge = $("live-updates-status");
+          try {
+            const results = await Promise.allSettled([
+              api("/api/admin/monitor"),
+              fetch("../data/repo-health.json?ts=" + Date.now(), { cache: "no-store" }).then((r) => {
+                if (!r.ok) throw Error("Health report HTTP " + r.status);
+                return r.json();
+              }),
+            ]);
+            const monitorResult = results[0];
+            const healthResult = results[1];
+            const report = healthResult.status === "fulfilled" ? healthResult.value : null;
+            if (report) {
+              $("live-updates-scan").textContent = report.checkedAt ? new Date(report.checkedAt).toLocaleString() : "Not scanned yet";
+              $("live-updates-errors").textContent = report.summary?.issues ?? "—";
+              $("live-updates-warnings").textContent = report.summary?.warnings ?? "—";
+            } else {
+              $("live-updates-scan").textContent = "Unavailable";
+              $("live-updates-errors").textContent = "—";
+              $("live-updates-warnings").textContent = "—";
+            }
+            host.replaceChildren();
+            if (monitorResult.status === "fulfilled") {
+              const data = monitorResult.value;
+              const runs = Array.isArray(data.runs) ? data.runs.slice(0, 10) : [];
+              for (const run of runs) {
+                const row = document.createElement("article");
+                row.className = "run-card";
+                const heading = document.createElement("strong");
+                heading.textContent = (run.conclusion || run.status || "unknown").toUpperCase() + " · " + (run.name || run.title || "GitHub Actions");
+                const meta = document.createElement("p");
+                meta.textContent = (run.branch || "unknown branch") + " · " + (run.createdAt ? new Date(run.createdAt).toLocaleString() : "time unavailable");
+                const link = document.createElement("a");
+                link.className = "btn small";
+                link.href = run.url || "https://github.com/nitishratre45/tilakvarmafanclub/actions";
+                link.target = "_blank";
+                link.rel = "noopener";
+                link.textContent = "Open run ↗";
+                row.append(heading, meta, link);
+                host.append(row);
+              }
+              if (!runs.length) host.textContent = "No recent workflow runs returned.";
+              badge.textContent = report ? "LIVE · CONNECTED" : "PARTIAL DATA";
+            } else {
+              host.textContent = "Workflow activity unavailable: " + monitorResult.reason.message;
+              badge.textContent = "WORKFLOW API ERROR";
+            }
+            if (healthResult.status === "rejected") {
+              const note = document.createElement("p");
+              note.className = "monitor-help";
+              note.textContent = "Repository scan report unavailable: " + healthResult.reason.message;
+              host.append(note);
+            }
+            $("live-updates-checked").textContent = "Panel checked: " + new Date().toLocaleString() + " · auto-refresh every 60 seconds";
+          } catch (error) {
+            badge.textContent = "ERROR";
+            host.textContent = "Could not load live updates: " + error.message;
+          }
+        }
+        $("live-updates-refresh")?.addEventListener("click", refreshLiveUpdates);
         const viewLabels = {
           dashboard: "Overview",
           media: "Media library",
           "gallery-updates": "Gallery updates",
           video: "Video feed",
           monitor: "Refresh monitor",
+          "live-updates": "Live updates",
           "repo-health": "Repository health",
           "data-status": "Data freshness",
           "data-editor": "Stats & Death Overs data",
@@ -4499,6 +4590,14 @@
           } else if (repoHealthPoll) {
             clearInterval(repoHealthPoll);
             repoHealthPoll = null;
+          }
+          if (view === "live-updates") {
+            refreshLiveUpdates();
+            if (liveUpdatesPoll) clearInterval(liveUpdatesPoll);
+            liveUpdatesPoll = setInterval(refreshLiveUpdates, 60000);
+          } else if (liveUpdatesPoll) {
+            clearInterval(liveUpdatesPoll);
+            liveUpdatesPoll = null;
           }
           if (updateHash && window.location.hash !== "#" + view) {
             window.location.hash = view;
