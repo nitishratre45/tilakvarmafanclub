@@ -31,6 +31,14 @@
     <link rel="stylesheet" href="assets/admin-inspired-ui.css?v=20261011-admin-theme1" />
   </head>
   <body>
+    <div class="tv-page-loader" id="tv-page-loader" role="status" aria-live="polite" aria-label="Loading Tilak Varma Fan Club">
+      <div class="tv-loader-orbit"><span class="tv-loader-orbit-dot"></span><span class="tv-loader-orbit-dot tv-loader-orbit-dot-two"></span>
+        <div class="tv-loader-photo-wrap"><img src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" class="tv-loader-photo" fetchpriority="high" /></div>
+      </div>
+      <div class="tv-loader-title">TILAK <span>VARMA</span></div>
+      <div class="tv-loader-subtitle">FAN CLUB <i></i> 72</div>
+      <div class="tv-loader-track"><span></span></div>
+    </div>
     <header class="topbar">
       <a class="brand" href="#profile"
         ><span class="brand-mark brand-mark-photo"
@@ -1183,6 +1191,23 @@
             .catch((error) => console.warn("PWA service worker registration failed:", error));
         });
       }
+    </script>
+
+    <script>
+      (() => {
+        const loader = document.getElementById("tv-page-loader");
+        if (!loader) return;
+        let closed = false;
+        const closeLoader = () => {
+          if (closed) return;
+          closed = true;
+          loader.classList.add("is-leaving");
+          window.setTimeout(() => loader.remove(), 450);
+        };
+        if (document.readyState === "complete") window.setTimeout(closeLoader, 180);
+        else window.addEventListener("load", () => window.setTimeout(closeLoader, 180), { once: true });
+        window.setTimeout(closeLoader, 6500);
+      })();
     </script>
   </body>
 </html>
