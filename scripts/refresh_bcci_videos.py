@@ -57,9 +57,15 @@ def fetch_custom_url(url: str) -> object:
         query = urllib.parse.parse_qs(parsed.query, keep_blank_values=False)
         allowed_query_keys = {"tags", "tag", "page", "limit", "search"}
         if not query or any(key not in allowed_query_keys for key in query):
-            raise ValueError("BCCI public videos page needs supported listing query parameters.")
-        url = API_BASE + "?" + urllib.parse.urlencode(
-            [(key, value) for key, values in query.items() for value in values]
+            raise ValueError(
+                "BCCI public videos page needs supported listing query parameters."
+            )
+        url = (
+            API_BASE
+            + "?"
+            + urllib.parse.urlencode(
+                [(key, value) for key, values in query.items() for value in values]
+            )
         )
     # The public BCCI videos listing (e.g. /videos?tags=international)
     # is HTML, not JSON. Map the supported listing to its CMS JSON endpoint.
@@ -67,9 +73,15 @@ def fetch_custom_url(url: str) -> object:
         query = urllib.parse.parse_qs(parsed.query, keep_blank_values=False)
         allowed_query_keys = {"tags", "tag", "page", "limit", "search"}
         if not query or any(key not in allowed_query_keys for key in query):
-            raise ValueError("BCCI public videos page needs supported listing query parameters.")
-        url = API_BASE + "?" + urllib.parse.urlencode(
-            [(key, value) for key, values in query.items() for value in values]
+            raise ValueError(
+                "BCCI public videos page needs supported listing query parameters."
+            )
+        url = (
+            API_BASE
+            + "?"
+            + urllib.parse.urlencode(
+                [(key, value) for key, values in query.items() for value in values]
+            )
         )
     request = urllib.request.Request(url, headers=HEADERS)
     with urllib.request.urlopen(request, timeout=45) as response:
