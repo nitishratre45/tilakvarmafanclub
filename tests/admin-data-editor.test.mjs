@@ -78,7 +78,11 @@ afterEach(() => {
 test("rejects requests without a valid admin session", async () => {
   const response = await onRequestGet({
     request: await requestFor("stats", undefined, "GET", false),
-    env: { ADMIN_SESSION_SECRET: secret, ADMIN_PASSWORD: "configured" },
+    env: {
+      ADMIN_SESSION_SECRET: secret,
+      ADMIN_PASSWORD: "configured",
+      GITHUB_TOKEN: "test-token",
+    },
   });
   assert.equal(response.status, 401);
 });
