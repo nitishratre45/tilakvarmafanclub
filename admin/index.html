@@ -2193,8 +2193,8 @@
         }
         function safeMediaUrl(value) {
           try {
-            const u = new URL(value);
-            return u.protocol === "https:" ? u.href : "";
+            const u = new URL(value, window.location.origin);
+            return u.protocol === "https:" || u.origin === window.location.origin ? u.href : "";
           } catch {
             return "";
           }
