@@ -1570,7 +1570,9 @@
             ><span class="nav-icon">⌂</span>Overview</a
           >
           <a href="#media" data-view="media"><span class="nav-icon">▧</span>Media library</a>
-          <a href="#gallery-updates" data-view="gallery-updates"><span class="nav-icon">◷</span>Gallery updates</a>
+          <a href="#gallery-updates" data-view="gallery-updates"
+            ><span class="nav-icon">◷</span>Gallery updates</a
+          >
           <a href="#video" data-view="video"><span class="nav-icon">▷</span>Video feed</a>
           <a href="#monitor" data-view="monitor"><span class="nav-icon">⌁</span>Refresh monitor</a>
           <a href="#data-status" data-view="data-status"
@@ -1649,11 +1651,14 @@
                     maxlength="80"
                     placeholder="e.g. India vs Australia · T20I Series"
                   />
-                  <label class="new-album-date-label" for="new-album-date">Album date <input id="new-album-date" type="date" required /></label>
+                  <label class="new-album-date-label" for="new-album-date"
+                    >Album date <input id="new-album-date" type="date" required
+                  /></label>
                   <button class="btn" id="create-album" type="button">＋ Create album</button>
                 </div>
                 <span class="hint"
-                  >Choose the album date before creating it. Albums without a date cannot be created.</span
+                  >Choose the album date before creating it. Albums without a date cannot be
+                  created.</span
                 >
               </div>
               <div id="album-admin-status" class="status" role="status"></div>
@@ -1874,11 +1879,48 @@
           </div>
         </section>
         <section id="gallery-updates" class="section">
-          <div class="section-head"><div><div class="eyebrow">DATE-WISE CONTROL</div><h2>Gallery updates</h2><p>Newest albums and latest photos, ordered by album date.</p></div><a class="btn primary" href="#media" data-view="media">＋ Add photos / manage albums</a></div>
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">DATE-WISE CONTROL</div>
+              <h2>Gallery updates</h2>
+              <p>Newest albums and latest photos, ordered by album date.</p>
+            </div>
+            <a class="btn primary" href="#media" data-view="media">＋ Add photos / manage albums</a>
+          </div>
           <div class="section-body">
-            <div class="album-overview"><div class="album-overview-card"><span>Albums</span><strong id="gallery-updates-album-count">—</strong></div><div class="album-overview-card"><span>Photos & videos</span><strong id="gallery-updates-media-count">—</strong></div><div class="album-overview-card"><span>Latest album date</span><strong id="gallery-updates-latest-date">—</strong></div><div class="album-overview-card"><span>Latest upload</span><strong id="gallery-updates-latest-upload">—</strong></div></div>
-            <div class="album-edit-panel gallery-updates-panel"><div class="album-edit-heading"><div><strong>Albums · newest date first</strong><span class="hint">Album date controls public gallery order.</span></div></div><div id="gallery-updates-albums" class="gallery-updates-albums"></div></div>
-            <div class="album-edit-panel gallery-updates-panel"><div class="album-edit-heading"><div><strong>Latest media</strong><span class="hint">The 12 most recently uploaded items.</span></div><a class="btn small" href="#media" data-view="media">Open full library ↗</a></div><div id="gallery-updates-media" class="gallery-updates-media"></div></div>
+            <div class="album-overview">
+              <div class="album-overview-card">
+                <span>Albums</span><strong id="gallery-updates-album-count">—</strong>
+              </div>
+              <div class="album-overview-card">
+                <span>Photos & videos</span><strong id="gallery-updates-media-count">—</strong>
+              </div>
+              <div class="album-overview-card">
+                <span>Latest album date</span><strong id="gallery-updates-latest-date">—</strong>
+              </div>
+              <div class="album-overview-card">
+                <span>Latest upload</span><strong id="gallery-updates-latest-upload">—</strong>
+              </div>
+            </div>
+            <div class="album-edit-panel gallery-updates-panel">
+              <div class="album-edit-heading">
+                <div>
+                  <strong>Albums · newest date first</strong
+                  ><span class="hint">Album date controls public gallery order.</span>
+                </div>
+              </div>
+              <div id="gallery-updates-albums" class="gallery-updates-albums"></div>
+            </div>
+            <div class="album-edit-panel gallery-updates-panel">
+              <div class="album-edit-heading">
+                <div>
+                  <strong>Latest media</strong
+                  ><span class="hint">The 12 most recently uploaded items.</span>
+                </div>
+                <a class="btn small" href="#media" data-view="media">Open full library ↗</a>
+              </div>
+              <div id="gallery-updates-media" class="gallery-updates-media"></div>
+            </div>
           </div>
         </section>
         <section id="video" class="section">
@@ -2573,7 +2615,11 @@
             dateInput.value = "";
             status(
               "album-admin-status",
-              "Album created with date " + albumDate + ". It will appear in date order. Add photos to “" + name + "”.",
+              "Album created with date " +
+                albumDate +
+                ". It will appear in date order. Add photos to “" +
+                name +
+                "”.",
             );
           } catch (err) {
             state.albums = state.albums.filter((album) => album !== name);
@@ -2646,22 +2692,106 @@
             .join("");
         }
         function renderGalleryUpdates() {
-          const albumHost = $("gallery-updates-albums"), mediaHost = $("gallery-updates-media");
+          const albumHost = $("gallery-updates-albums"),
+            mediaHost = $("gallery-updates-media");
           if (!albumHost || !mediaHost) return;
-          const albums = state.albums.map((name) => {
-            const date = state.albumDates[name] || "";
-            const count = state.items.filter((item) => item.album === name).length;
-            return { name, date, count };
-          }).sort((x,y) => (y.date || "").localeCompare(x.date || "") || x.name.localeCompare(y.name));
+          const albums = state.albums
+            .map((name) => {
+              const date = state.albumDates[name] || "";
+              const count = state.items.filter((item) => item.album === name).length;
+              return { name, date, count };
+            })
+            .sort(
+              (x, y) => (y.date || "").localeCompare(x.date || "") || x.name.localeCompare(y.name),
+            );
           $("gallery-updates-album-count").textContent = albums.length;
           $("gallery-updates-media-count").textContent = state.items.length;
-          $("gallery-updates-latest-date").textContent = albums[0]?.date ? new Date(albums[0].date + "T12:00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}) : "No date";
-          const latest = state.items.filter(x=>x.createdAt).slice().sort((x,y)=>String(y.createdAt).localeCompare(String(x.createdAt)))[0];
-          $("gallery-updates-latest-upload").textContent = latest?.createdAt ? new Date(latest.createdAt).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}) : "No uploads";
-          albumHost.innerHTML = albums.length ? albums.map(x=>'<article class="gallery-update-album"><div><strong>'+escapeHtml(x.name)+'</strong><span>'+x.count+(x.count===1?' item':' items')+'</span></div><time>'+(x.date?escapeHtml(new Date(x.date+"T12:00:00").toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"})):"Date not set")+'</time><button class="btn small" type="button" data-update-album="'+escapeHtml(x.name)+'">Manage ↗</button></article>').join("") : '<div class="empty">No albums yet.</div>';
-          const recent = state.items.filter(x=>x.createdAt).slice().sort((x,y)=>String(y.createdAt).localeCompare(String(x.createdAt))).slice(0,12);
-          mediaHost.innerHTML = recent.length ? recent.map(x=>{const url=safeMediaUrl(x.url);return '<article class="gallery-update-media-item">'+(url&&x.type!=="video"?'<img src="'+url+'" alt="" loading="lazy" decoding="async">':'<span class="gallery-update-media-icon">'+(x.type==="video"?'▶':'▧')+'</span>')+'<div><strong>'+escapeHtml(x.title||"Untitled media")+'</strong><span>'+escapeHtml(x.album||"Unassigned")+'</span><time>'+escapeHtml(new Date(x.createdAt).toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"}))+'</time></div></article>';}).join("") : '<div class="empty">No uploaded media yet.</div>';
-          albumHost.querySelectorAll("[data-update-album]").forEach(button=>button.addEventListener("click",()=>{const input=$("album-manage-search");location.hash="#media";if(input){input.value=button.getAttribute("data-update-album");renderAlbumManager();}}));
+          $("gallery-updates-latest-date").textContent = albums[0]?.date
+            ? new Date(albums[0].date + "T12:00:00").toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })
+            : "No date";
+          const latest = state.items
+            .filter((x) => x.createdAt)
+            .slice()
+            .sort((x, y) => String(y.createdAt).localeCompare(String(x.createdAt)))[0];
+          $("gallery-updates-latest-upload").textContent = latest?.createdAt
+            ? new Date(latest.createdAt).toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })
+            : "No uploads";
+          albumHost.innerHTML = albums.length
+            ? albums
+                .map(
+                  (x) =>
+                    '<article class="gallery-update-album"><div><strong>' +
+                    escapeHtml(x.name) +
+                    "</strong><span>" +
+                    x.count +
+                    (x.count === 1 ? " item" : " items") +
+                    "</span></div><time>" +
+                    (x.date
+                      ? escapeHtml(
+                          new Date(x.date + "T12:00:00").toLocaleDateString("en-IN", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          }),
+                        )
+                      : "Date not set") +
+                    '</time><button class="btn small" type="button" data-update-album="' +
+                    escapeHtml(x.name) +
+                    '">Manage ↗</button></article>',
+                )
+                .join("")
+            : '<div class="empty">No albums yet.</div>';
+          const recent = state.items
+            .filter((x) => x.createdAt)
+            .slice()
+            .sort((x, y) => String(y.createdAt).localeCompare(String(x.createdAt)))
+            .slice(0, 12);
+          mediaHost.innerHTML = recent.length
+            ? recent
+                .map((x) => {
+                  const url = safeMediaUrl(x.url);
+                  return (
+                    '<article class="gallery-update-media-item">' +
+                    (url && x.type !== "video"
+                      ? '<img src="' + url + '" alt="" loading="lazy" decoding="async">'
+                      : '<span class="gallery-update-media-icon">' +
+                        (x.type === "video" ? "▶" : "▧") +
+                        "</span>") +
+                    "<div><strong>" +
+                    escapeHtml(x.title || "Untitled media") +
+                    "</strong><span>" +
+                    escapeHtml(x.album || "Unassigned") +
+                    "</span><time>" +
+                    escapeHtml(
+                      new Date(x.createdAt).toLocaleDateString("en-IN", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }),
+                    ) +
+                    "</time></div></article>"
+                  );
+                })
+                .join("")
+            : '<div class="empty">No uploaded media yet.</div>';
+          albumHost.querySelectorAll("[data-update-album]").forEach((button) =>
+            button.addEventListener("click", () => {
+              const input = $("album-manage-search");
+              location.hash = "#media";
+              if (input) {
+                input.value = button.getAttribute("data-update-album");
+                renderAlbumManager();
+              }
+            }),
+          );
         }
         async function saveMedia() {
           await api("/api/admin/content", {
