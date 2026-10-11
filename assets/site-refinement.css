@@ -1464,3 +1464,25 @@ main > section[id] {
     gap: 11px;
   }
 }
+
+
+/* Branded page-entry loader — uses the same Tilak Varma portrait as the favicon. */
+.tv-page-loader { position:fixed; inset:0; z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:15px; padding:24px; background:radial-gradient(ellipse at 50% 38%,rgba(20,76,132,.34),transparent 48%),#07101f; opacity:1; visibility:visible; transition:opacity .38s ease,visibility .38s ease; }
+.tv-page-loader.is-leaving { opacity:0; visibility:hidden; pointer-events:none; }
+.tv-loader-orbit { width:132px; height:132px; position:relative; display:grid; place-items:center; }
+.tv-loader-orbit::before,.tv-loader-orbit::after { content:""; position:absolute; inset:0; border-radius:50%; border:2px solid transparent; border-top-color:#ff744b; border-right-color:rgba(114,226,241,.65); animation:tv-loader-spin 1.25s linear infinite; }
+.tv-loader-orbit::after { inset:8px; border-top-color:rgba(114,226,241,.85); border-right-color:transparent; border-bottom-color:rgba(255,116,75,.7); animation-direction:reverse; animation-duration:1.8s; }
+.tv-loader-orbit-dot { position:absolute; width:9px; height:9px; right:9px; top:22px; border-radius:50%; background:#ff744b; box-shadow:0 0 18px #ff744b; }
+.tv-loader-orbit-dot-two { width:6px; height:6px; right:auto; top:auto; left:11px; bottom:22px; background:#72e2f1; box-shadow:0 0 15px #72e2f1; }
+.tv-loader-photo-wrap { width:102px; height:102px; overflow:hidden; border-radius:50%; border:2px solid rgba(114,226,241,.75); background:#10243a; box-shadow:0 0 30px rgba(30,115,190,.24); animation:tv-loader-breathe 1.8s ease-in-out infinite; }
+.tv-loader-photo { display:block; width:100%; height:100%; object-fit:cover; object-position:center top; }
+.tv-loader-title { margin-top:5px; color:#f4f7fb; font:900 31px/1 "Barlow Condensed",Impact,sans-serif; letter-spacing:.07em; }
+.tv-loader-title span { color:#ff744b; }
+.tv-loader-subtitle { color:#9fb5cd; font:11px/1.4 "DM Mono",monospace; letter-spacing:.28em; }
+.tv-loader-subtitle i { display:inline-block; width:5px; height:5px; margin:0 8px 2px; border-radius:50%; background:#72e2f1; box-shadow:0 0 10px #72e2f1; }
+.tv-loader-track { width:138px; height:3px; overflow:hidden; border-radius:4px; background:rgba(255,255,255,.12); }
+.tv-loader-track span { display:block; height:100%; width:42%; border-radius:inherit; background:linear-gradient(90deg,#72e2f1,#ff744b); animation:tv-loader-progress 1.15s ease-in-out infinite; }
+@keyframes tv-loader-spin { to { transform:rotate(360deg); } }
+@keyframes tv-loader-breathe { 50% { transform:scale(.94); box-shadow:0 0 42px rgba(30,115,190,.4); } }
+@keyframes tv-loader-progress { 0% { transform:translateX(-110%); } 100% { transform:translateX(340%); } }
+@media (prefers-reduced-motion:reduce) { .tv-loader-orbit::before,.tv-loader-orbit::after,.tv-loader-photo-wrap,.tv-loader-track span { animation-duration:3s; } }
