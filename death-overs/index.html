@@ -1567,7 +1567,7 @@
           min-height: 104px;
         }
       }
-    
+
       /* Death Overs analyser: unified premium surfaces and clearer visual hierarchy. */
       .stats-section[style] {
         padding-top: clamp(28px, 4vw, 48px) !important;
@@ -1582,7 +1582,7 @@
       .stats-section[style] .section-title {
         max-width: 100%;
         font-size: clamp(34px, 5vw, 58px);
-        line-height: .98;
+        line-height: 0.98;
       }
       .stats-section[style] .section-copy {
         max-width: 58ch;
@@ -1595,9 +1595,11 @@
         padding: 9px 12px;
         margin: 12px 0 16px;
         border-radius: 10px;
-        border-color: rgba(109, 224, 245, .28);
-        background: linear-gradient(115deg, rgba(16, 42, 63, .96), rgba(7, 18, 32, .98));
-        box-shadow: 0 8px 22px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.035);
+        border-color: rgba(109, 224, 245, 0.28);
+        background: linear-gradient(115deg, rgba(16, 42, 63, 0.96), rgba(7, 18, 32, 0.98));
+        box-shadow:
+          0 8px 22px rgba(0, 0, 0, 0.14),
+          inset 0 1px 0 rgba(255, 255, 255, 0.035);
       }
       .coverage-summary-line strong {
         overflow-wrap: normal;
@@ -1616,24 +1618,30 @@
       .calculator-controls label {
         gap: 8px;
         font-size: 10px;
-        letter-spacing: .075em;
+        letter-spacing: 0.075em;
       }
       .calculator-controls select {
         min-height: 52px;
         padding: 0 14px;
         border-radius: 11px;
-        transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+        transition:
+          border-color 160ms ease,
+          background-color 160ms ease,
+          box-shadow 160ms ease;
       }
       .calculate-button {
         min-height: 54px;
         border-radius: 12px;
         font-size: 12px;
         font-weight: 800;
-        letter-spacing: .035em;
-        transition: transform 160ms ease, filter 160ms ease, box-shadow 160ms ease;
+        letter-spacing: 0.035em;
+        transition:
+          transform 160ms ease,
+          filter 160ms ease,
+          box-shadow 160ms ease;
       }
       .calculate-button:active {
-        transform: translateY(1px) scale(.995);
+        transform: translateY(1px) scale(0.995);
       }
       .result-grid {
         gap: 12px;
@@ -1646,7 +1654,10 @@
         padding: 20px 18px;
         overflow: hidden;
         border-radius: 15px;
-        transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+        transition:
+          border-color 180ms ease,
+          transform 180ms ease,
+          box-shadow 180ms ease;
       }
       .result-card::after {
         content: "";
@@ -1656,16 +1667,16 @@
         right: -45px;
         bottom: -52px;
         border-radius: 50%;
-        background: rgba(109, 224, 245, .045);
+        background: rgba(109, 224, 245, 0.045);
         pointer-events: none;
       }
       .result-card:first-child::after {
-        background: rgba(255, 158, 54, .07);
+        background: rgba(255, 158, 54, 0.07);
       }
       .result-card small {
         font-size: 10px;
         line-height: 1.5;
-        letter-spacing: .065em;
+        letter-spacing: 0.065em;
       }
       .result-card strong {
         display: block;
@@ -1679,12 +1690,12 @@
         min-width: 0;
         margin-top: 20px;
         padding: clamp(16px, 2.5vw, 24px);
-        border: 1px solid rgba(109, 224, 245, .2);
+        border: 1px solid rgba(109, 224, 245, 0.2);
         border-radius: 16px;
         background:
-          radial-gradient(ellipse at 100% 0%, rgba(109,224,245,.055), transparent 45%),
+          radial-gradient(ellipse at 100% 0%, rgba(109, 224, 245, 0.055), transparent 45%),
           linear-gradient(145deg, #0e2033, #081422);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
       }
       .single-over-head,
       .detail-heading {
@@ -1695,7 +1706,7 @@
       .single-over-panel h3,
       .detail-panel h2,
       .detail-panel h3 {
-        letter-spacing: -.025em;
+        letter-spacing: -0.025em;
       }
       .single-over-grid {
         gap: 10px;
@@ -1709,23 +1720,25 @@
       .over-breakdown > *,
       .over-breakdown .over-card {
         min-width: 0;
-        border: 1px solid rgba(111,160,205,.22);
+        border: 1px solid rgba(111, 160, 205, 0.22);
         border-radius: 12px;
-        background: linear-gradient(145deg, rgba(17,38,59,.92), rgba(8,20,34,.98));
-        transition: border-color 160ms ease, transform 160ms ease;
+        background: linear-gradient(145deg, rgba(17, 38, 59, 0.92), rgba(8, 20, 34, 0.98));
+        transition:
+          border-color 160ms ease,
+          transform 160ms ease;
       }
       .over-breakdown > *:hover,
       .over-breakdown .over-card:hover {
-        border-color: rgba(109,224,245,.48);
+        border-color: rgba(109, 224, 245, 0.48);
       }
       .ball-panel {
         overflow: hidden;
       }
       .innings-summary {
         min-width: 0;
-        border: 1px solid rgba(111,160,205,.2);
+        border: 1px solid rgba(111, 160, 205, 0.2);
         border-radius: 12px;
-        background: rgba(5,14,27,.52);
+        background: rgba(5, 14, 27, 0.52);
       }
       .over-chips {
         gap: 7px;
@@ -1734,9 +1747,12 @@
         min-width: 38px;
         min-height: 36px;
         border-radius: 9px;
-        border: 1px solid rgba(111,160,205,.24);
+        border: 1px solid rgba(111, 160, 205, 0.24);
         background: #10243a;
-        transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+        transition:
+          background 140ms ease,
+          border-color 140ms ease,
+          transform 140ms ease;
       }
       .over-chip:hover {
         transform: translateY(-1px);
@@ -1744,10 +1760,10 @@
       }
       .empty-state {
         padding: 20px;
-        border: 1px dashed rgba(111,160,205,.28);
+        border: 1px dashed rgba(111, 160, 205, 0.28);
         border-radius: 12px;
         color: #a8b6c9;
-        background: rgba(5,14,27,.4);
+        background: rgba(5, 14, 27, 0.4);
       }
       @media (min-width: 801px) {
         .stats-section[style] > .page-shell {
@@ -1755,8 +1771,8 @@
         }
         .result-card:hover {
           transform: translateY(-2px);
-          border-color: rgba(109,224,245,.38) !important;
-          box-shadow: 0 12px 28px rgba(0,0,0,.16);
+          border-color: rgba(109, 224, 245, 0.38) !important;
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
         }
       }
       @media (max-width: 560px) {
@@ -1772,7 +1788,7 @@
         }
         .stats-section[style] .section-title {
           font-size: clamp(31px, 8.2vw, 40px);
-          line-height: .98;
+          line-height: 0.98;
         }
         .coverage-summary-line {
           width: 100%;
@@ -1851,7 +1867,7 @@
           transform: none !important;
         }
       }
-</style>
+    </style>
   </head>
   <body>
     <script>
