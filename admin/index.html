@@ -3454,11 +3454,14 @@
           status("data-editor-status", "Data family changed. Load the saved file before editing.");
         });
         $("data-editor-json").addEventListener("input", () => {
-          editorDirty = editorLoadedKind === $("data-editor-kind").value &&
+          editorDirty =
+            editorLoadedKind === $("data-editor-kind").value &&
             $("data-editor-json").value !== editorSavedSnapshot;
           status(
             "data-editor-status",
-            editorDirty ? "Unsaved JSON changes — save before leaving or reloading." : "No unsaved JSON changes.",
+            editorDirty
+              ? "Unsaved JSON changes — save before leaving or reloading."
+              : "No unsaved JSON changes.",
           );
         });
         $("data-editor-format").addEventListener("click", () => {
@@ -3468,7 +3471,9 @@
             editorDirty = $("data-editor-json").value !== editorSavedSnapshot;
             status(
               "data-editor-status",
-              editorDirty ? "JSON formatted. Unsaved changes — not published yet." : "JSON formatted locally. No changes to publish.",
+              editorDirty
+                ? "JSON formatted. Unsaved changes — not published yet."
+                : "JSON formatted locally. No changes to publish.",
             );
           } catch (err) {
             status("data-editor-status", "JSON syntax error: " + err.message, true);
@@ -3508,7 +3513,9 @@
             const savedText = JSON.stringify(verified.data, null, 2);
             const submittedText = JSON.stringify(JSON.parse($("data-editor-json").value), null, 2);
             if (savedText !== submittedText) {
-              throw Error("GitHub accepted the save, but the read-back did not match the submitted JSON. Reload and inspect before making more edits.");
+              throw Error(
+                "GitHub accepted the save, but the read-back did not match the submitted JSON. Reload and inspect before making more edits.",
+              );
             }
             $("data-editor-json").value = savedText;
             editorSavedSnapshot = savedText;
