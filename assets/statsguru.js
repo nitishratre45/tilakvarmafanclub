@@ -1106,22 +1106,23 @@
     render();
   });
   $("sg-apply-filter").addEventListener("click", () => {
-    activeBreakdownFilter = $("sg-filter-type").value;
-    activeBreakdownValue = $("sg-filter-value").value;
-    appliedFrom = $("sg-date-from").value;
-    appliedTo = $("sg-date-to").value;
-    if (appliedFrom && appliedTo && appliedFrom > appliedTo) {
-      $("sg-filter-status").textContent = "Start date must be before the ending date.";
+    const nextFilter = $("sg-filter-type").value;
+    const nextValue = $("sg-filter-value").value;
+    const nextFrom = $("sg-date-from").value;
+    const nextTo = $("sg-date-to").value;
+    if (nextFrom && nextTo && nextFrom > nextTo) {
+      $("sg-filter-status").textContent = "Start date must be on or before the ending date.";
       return;
     }
-    if (
-      (appliedFrom || appliedTo) &&
-      !["all", "ground", "opposition", "year"].includes(activeBreakdownFilter)
-    ) {
+    if ((nextFrom || nextTo) && !["all", "ground", "opposition", "year"].includes(nextFilter)) {
       $("sg-filter-status").textContent =
         "Date range works with All-round/general, Opposition, Ground or Year filters. Choose one of those categories or clear the dates.";
       return;
     }
+    activeBreakdownFilter = nextFilter;
+    activeBreakdownValue = nextValue;
+    appliedFrom = nextFrom;
+    appliedTo = nextTo;
     render();
   });
   $("sg-reset-filter").addEventListener("click", resetFilters);
