@@ -45,7 +45,11 @@
     if (photo) {
       const fallbackPhoto = photo.getAttribute("src");
       photo.addEventListener("error", () => {
-        if (photo.dataset.fallbackAttempted !== "true" && fallbackPhoto && photo.src !== fallbackPhoto) {
+        if (
+          photo.dataset.fallbackAttempted !== "true" &&
+          fallbackPhoto &&
+          photo.src !== fallbackPhoto
+        ) {
           photo.dataset.fallbackAttempted = "true";
           photo.src = fallbackPhoto;
           return;
@@ -74,7 +78,10 @@
     profileSet(
       "profile-intro",
       profile.role && profile.battingStyle
-        ? profile.battingStyle + " " + profile.role.toLowerCase() + " representing India and Mumbai Indians."
+        ? profile.battingStyle +
+            " " +
+            profile.role.toLowerCase() +
+            " representing India and Mumbai Indians."
         : "India international cricketer and Mumbai Indians batter.",
       "India international cricketer.",
     );
@@ -131,8 +138,11 @@
     const profileStamp = document.getElementById("profile-data-updated");
     if (profileStamp) {
       const profileDate = profile.photoCheckedAt || profile.photoUpdated || data.lastUpdated;
-      profileStamp.textContent = "Profile snapshot: " + (profileDate || "date unavailable") +
-        " · Site data: " + (data.lastUpdated || "date unavailable");
+      profileStamp.textContent =
+        "Profile snapshot: " +
+        (profileDate || "date unavailable") +
+        " · Site data: " +
+        (data.lastUpdated || "date unavailable");
     }
     document.querySelectorAll("[data-stat]").forEach((el) => {
       const key = el.dataset.stat;
@@ -162,7 +172,9 @@
     set("icc-ranking-odi", rankings.ODI ? "#" + rankings.ODI : "Not available");
     set(
       "icc-ranking-updated",
-      rankings.updatedAt ? "Ranking snapshot · " + rankings.updatedAt : "Saved ICC ranking date unavailable",
+      rankings.updatedAt
+        ? "Ranking snapshot · " + rankings.updatedAt
+        : "Saved ICC ranking date unavailable",
     );
   } catch (error) {
     set("data-status", "Saved snapshot unavailable");
