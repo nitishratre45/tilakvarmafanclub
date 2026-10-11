@@ -1,0 +1,103 @@
+name: Automation repository monitor (hourly)
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/automation-repo-monitor.yml"
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: automation-repo-monitor
+  cancel-in-progress: false
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Collect workflow inventory and 15-hour history
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const { owner, repo } = context.repo;
+            const path = 'data/automation-repo-monitor.json';
+            const now = new Date();
+            const cutoff = now.getTime() - 15 * 60 * 60 * 1000;
+            const [workflowResponse, runResponse] = await Promise.all([
+              github.rest.actions.listRepoWorkflows({ owner, repo, per_page: 100 }),
+              github.rest.actions.listWorkflowRunsForRepo({ owner, repo, per_page: 100 })
+            ]);
+            const workflows = workflowResponse.data.workflows;
+            const recentRuns = runResponse.data.workflow_runs;
+            const entries = workflows.map(workflow => {
+              const runs = recentRuns.filter(run => run.path === workflow.path).slice(0, 10);
+              const latest = runs[0] || null;
+              const completed = runs.filter(run => run.status === 'completed');
+              return {
+                id: workflow.id, name: workflow.name, path: workflow.path,
+                state: workflow.state, url: workflow.html_url, badgeUrl: workflow.badge_url,
+                latest: latest ? {
+                  id: latest.id, status: latest.status, conclusion: latest.conclusion,
+                  event: latest.event, branch: latest.head_branch,
+                  createdAt: latest.created_at, updatedAt: latest.updated_at,
+                  runUrl: latest.html_url, title: latest.display_title
+                } : null,
+                recentRuns: runs.map(run => ({
+                  id: run.id, status: run.status, conclusion: run.conclusion,
+                  event: run.event, branch: run.head_branch, createdAt: run.created_at,
+                  updatedAt: run.updated_at, runUrl: run.html_url, title: run.display_title
+                })),
+                counts: {
+                  recent: runs.length,
+                  successful: completed.filter(run => run.conclusion === 'success').length,
+                  failed: completed.filter(run => run.conclusion === 'failure').length,
+                  running: runs.filter(run => ['in_progress','queued'].includes(run.status)).length
+                }
+              };
+            });
+            let previous = { snapshots: [] };
+            if (fs.existsSync(path)) {
+              try { previous = JSON.parse(fs.readFileSync(path, 'utf8')); } catch {}
+            }
+            const snapshots = Array.isArray(previous.snapshots)
+              ? previous.snapshots.filter(item => Date.parse(item.checkedAt) >= cutoff) : [];
+            const summary = {
+              workflows: entries.length,
+              enabled: entries.filter(item => item.state === 'active').length,
+              running: entries.reduce((n, item) => n + item.counts.running, 0),
+              failedLatest: entries.filter(item => item.latest?.conclusion === 'failure').length,
+              successfulLatest: entries.filter(item => item.latest?.conclusion === 'success').length,
+              noRecentRun: entries.filter(item => !item.latest).length
+            };
+            snapshots.push({ checkedAt: now.toISOString(), ...summary });
+            fs.writeFileSync(path, JSON.stringify({
+              schemaVersion: 1, checkedAt: now.toISOString(), retentionHours: 15,
+              intervalMinutes: 60, summary, workflows: entries, snapshots
+            }, null, 2) + '\n');
+      - name: Publish monitor data
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          report_snapshot="$(mktemp)"
+          cp data/automation-repo-monitor.json "$report_snapshot"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp "$report_snapshot" data/automation-repo-monitor.json
+            git add data/automation-repo-monitor.json
+            if git diff --cached --quiet; then echo "No monitor changes"; exit 0; fi
+            git commit -m "chore: update automation repository monitor"
+            if git push origin HEAD:main; then exit 0; fi
+            echo "Push attempt $attempt failed; retrying against latest main."
+          done
+          echo "::error::Could not publish monitor report after three attempts."
+          exit 1
