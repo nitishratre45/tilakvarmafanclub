@@ -957,3 +957,44 @@ select:focus-visible, textarea:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+
+/* Album overview cards: quick content health at a glance. */
+.album-overview {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 14px 0 20px;
+}
+.album-overview-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  padding: 15px 16px;
+  border: 1px solid rgba(124, 185, 255, .22);
+  border-radius: 13px;
+  background: linear-gradient(145deg, rgba(18, 52, 91, .62), rgba(9, 24, 43, .72));
+}
+.album-overview-card span {
+  color: #a9bdd5;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.album-overview-card strong {
+  color: #f3f8ff;
+  font-size: 24px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.album-overview-latest strong { font-size: 17px; }
+@media (max-width: 760px) {
+  .album-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .album-overview-card { padding: 12px; }
+  .album-overview-card strong { font-size: 21px; }
+  .album-overview-latest strong { font-size: 15px; }
+}
+@media (max-width: 360px) {
+  .album-overview { grid-template-columns: 1fr 1fr; }
+}
