@@ -2375,7 +2375,7 @@
           return {
             runs: runs == null || runs === "" ? "—" : runs,
             balls: row?.balls ?? row?.ballsFaced ?? "—",
-            fours: row?.fours ?? row?.4s ?? "—",
+            fours: row?.fours ?? row?.["4s"] ?? "—",
             sixes: row?.sixes ?? "—"
           };
         }
