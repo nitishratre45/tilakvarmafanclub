@@ -41,8 +41,7 @@ function validate(kind, value) {
       if (!value[key] || typeof value[key] !== "object" || Array.isArray(value[key]))
         return "Stats file must retain its " + key + " object; refusing an incomplete replacement.";
     }
-    if (!Array.isArray(value.recentInnings))
-      return "recentInnings must remain an array.";
+    if (!Array.isArray(value.recentInnings)) return "recentInnings must remain an array.";
     if (
       !value.statsguru.formats ||
       typeof value.statsguru.formats !== "object" ||
