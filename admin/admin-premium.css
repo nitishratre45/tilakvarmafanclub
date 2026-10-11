@@ -554,3 +554,74 @@ textarea { line-height: 1.65; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+
+/* 72 CLUB ADMIN — cohesive motion and usability pass (CSS-only; data/actions unchanged). */
+:root {
+  --admin-ease: cubic-bezier(.2,.75,.25,1);
+  --admin-ring: rgba(117,227,255,.22);
+}
+html { scroll-behavior: smooth; scroll-padding-top: 22px; }
+body { text-rendering: optimizeLegibility; }
+#admin-app:not(.hidden) { animation: admin-enter .38s var(--admin-ease) both; }
+.hero, .section, .login-card, .topbar {
+  animation: admin-enter .42s var(--admin-ease) both;
+}
+.section { scroll-margin-top: 18px; }
+.section-head { gap: 14px; }
+.section-head h2, .section-head h3 { text-wrap: balance; }
+.nav a { position: relative; overflow: hidden; }
+.nav a::after {
+  content: "";
+  position: absolute; inset: auto 12px 0;
+  height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg,var(--orange),var(--cyan));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .22s var(--admin-ease);
+}
+.nav a:hover::after, .nav a.active::after { transform: scaleX(1); }
+.btn { position: relative; isolation: isolate; overflow: hidden; }
+.btn::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(110deg,transparent 20%,rgba(255,255,255,.13),transparent 70%);
+  transform: translateX(-130%); transition: transform .45s var(--admin-ease); z-index: -1;
+}
+.btn:hover::after { transform: translateX(130%); }
+.stat, .dataset-card, .run-card, .source-card, .service-row, .item {
+  will-change: auto;
+}
+.stat-number, .dataset-metric strong, .source-stat strong { font-variant-numeric: tabular-nums; }
+input, select, textarea, .input-like {
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+input:focus-visible, select:focus-visible, textarea:focus-visible, .btn:focus-visible {
+  outline: 2px solid var(--cyan); outline-offset: 3px;
+  box-shadow: 0 0 0 5px var(--admin-ring);
+}
+#data-editor textarea { line-height: 1.7; }
+#friendly-editor, .hint, .empty { backdrop-filter: blur(10px); }
+.status, .pill, .run-state { white-space: normal; overflow-wrap: anywhere; }
+img { height: auto; }
+@keyframes admin-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (hover:none) {
+  .stat:hover, .dataset-card:hover, .run-card:hover, .source-card:hover, .item:hover { transform: none; }
+}
+@media (max-width:760px) {
+  html { scroll-padding-top: 145px; }
+  .sidebar { gap: 8px; }
+  .sidebar .nav a { scroll-snap-align: start; }
+  .sidebar .nav { scroll-snap-type: x proximity; }
+  .section-head h2 { line-height: 1.25; }
+  .topbar .top-actions .btn { flex: 1 1 125px; }
+  #friendly-editor { padding: 13px; }
+  #friendly-editor .friendly-editor-controls,
+  #friendly-editor .friendly-editor-fields { grid-template-columns: minmax(0,1fr); }
+  #data-editor .input-like { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #admin-app:not(.hidden), .hero, .section, .login-card, .topbar { animation: none !important; }
+  .nav a::after, .btn::after { transition: none !important; }
+}
