@@ -5589,65 +5589,175 @@ body.bcci-player-open .topbar {
   }
 }
 
-
 /* THE 72 CLUB — final cohesive visual pass; presentation only, existing features/data untouched. */
 :root {
-  --ui-ease: cubic-bezier(.2,.75,.25,1);
-  --ui-glow: rgba(117,227,255,.12);
+  --ui-ease: cubic-bezier(0.2, 0.75, 0.25, 1);
+  --ui-glow: rgba(117, 227, 255, 0.12);
 }
-body { text-rendering: optimizeLegibility; }
-:where(.stat-card,.home-mini-stat,.home-format-card,.record-card,.milestone-card,
-.analytics-card,.match-card,.snapshot-card,.tilak-news-card,.bcci-video-card,
-.activity-item,.player-match-milestone,.featured-match-card,.upcoming-matches-panel) {
+body {
+  text-rendering: optimizeLegibility;
+}
+:where(
+  .stat-card,
+  .home-mini-stat,
+  .home-format-card,
+  .record-card,
+  .milestone-card,
+  .analytics-card,
+  .match-card,
+  .snapshot-card,
+  .tilak-news-card,
+  .bcci-video-card,
+  .activity-item,
+  .player-match-milestone,
+  .featured-match-card,
+  .upcoming-matches-panel
+) {
   position: relative;
   isolation: isolate;
-  transition: transform .22s var(--ui-ease), border-color .22s ease, box-shadow .22s ease;
+  transition:
+    transform 0.22s var(--ui-ease),
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
 }
-:where(.stat-card,.home-mini-stat,.home-format-card,.record-card,.milestone-card,
-.analytics-card,.match-card,.snapshot-card,.tilak-news-card,.bcci-video-card,
-.activity-item,.player-match-milestone,.featured-match-card,.upcoming-matches-panel):focus-within {
-  border-color: rgba(117,227,255,.42);
+:where(
+  .stat-card,
+  .home-mini-stat,
+  .home-format-card,
+  .record-card,
+  .milestone-card,
+  .analytics-card,
+  .match-card,
+  .snapshot-card,
+  .tilak-news-card,
+  .bcci-video-card,
+  .activity-item,
+  .player-match-milestone,
+  .featured-match-card,
+  .upcoming-matches-panel
+):focus-within {
+  border-color: rgba(117, 227, 255, 0.42);
   box-shadow: 0 0 0 3px var(--ui-glow);
 }
-:where(button,.button,.outline,.calculate-button,.menu-toggle) {
-  transition: transform .18s var(--ui-ease), filter .18s ease, box-shadow .18s ease, border-color .18s ease;
+:where(button, .button, .outline, .calculate-button, .menu-toggle) {
+  transition:
+    transform 0.18s var(--ui-ease),
+    filter 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
 }
-:where(button,.button,.outline,.calculate-button):focus-visible,
-a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: 2px solid var(--cyan, #75e3ff); outline-offset: 3px;
+:where(button, .button, .outline, .calculate-button):focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--cyan, #75e3ff);
+  outline-offset: 3px;
 }
-:where(input,select,textarea) { min-width: 0; max-width: 100%; }
-:where(img,video,iframe) { max-width: 100%; }
-:where(.stats-grid,.home-quick-stats,.home-format-stats,.home-bowling-stats,
-.tilak-news-grid,.cricinfo-photo-grid,.bcci-video-grid,.match-center-grid,
-.upcoming-matches-grid) > * { min-width: 0; }
-:where(.stat-card,.home-mini-stat,.home-format-card,.record-card,.milestone-card,
-.analytics-card,.match-card,.snapshot-card,.tilak-news-card,.bcci-video-card):hover {
-  border-color: rgba(117,227,255,.28);
-  box-shadow: 0 15px 34px rgba(0,0,0,.22);
+:where(input, select, textarea) {
+  min-width: 0;
+  max-width: 100%;
 }
-:where(.button,.primary,.calculate-button):hover { filter: brightness(1.07); }
-:where(.section,section[id]) { scroll-margin-top: 90px; }
-::selection { background: rgba(255,106,53,.32); color: #fff; }
-@media (max-width:800px) {
-  .topbar { gap: 10px; }
-  nav a { min-height: 40px; }
-  :where(.stats-grid,.home-quick-stats,.home-format-stats,.home-bowling-stats,
-  .tilak-news-grid,.cricinfo-photo-grid,.bcci-video-grid,.match-center-grid,
-  .upcoming-matches-grid) > * { min-width: 0; }
-  :where(.match-card,.bcci-video-card,.tilak-news-card) { overflow-wrap: anywhere; }
+:where(img, video, iframe) {
+  max-width: 100%;
 }
-@media (max-width:480px) {
-  .section { scroll-margin-top: 82px; }
-  :where(button,.button,.outline,.calculate-button) { max-width: 100%; }
-  :where(.match-card,.bcci-video-card,.tilak-news-card) { border-radius: 14px; }
+:where(
+    .stats-grid,
+    .home-quick-stats,
+    .home-format-stats,
+    .home-bowling-stats,
+    .tilak-news-grid,
+    .cricinfo-photo-grid,
+    .bcci-video-grid,
+    .match-center-grid,
+    .upcoming-matches-grid
+  )
+  > * {
+  min-width: 0;
 }
-@media (hover:none) {
-  :where(.stat-card,.home-mini-stat,.home-format-card,.record-card,.milestone-card,
-  .analytics-card,.match-card,.snapshot-card,.tilak-news-card,.bcci-video-card):hover {
+:where(
+  .stat-card,
+  .home-mini-stat,
+  .home-format-card,
+  .record-card,
+  .milestone-card,
+  .analytics-card,
+  .match-card,
+  .snapshot-card,
+  .tilak-news-card,
+  .bcci-video-card
+):hover {
+  border-color: rgba(117, 227, 255, 0.28);
+  box-shadow: 0 15px 34px rgba(0, 0, 0, 0.22);
+}
+:where(.button, .primary, .calculate-button):hover {
+  filter: brightness(1.07);
+}
+:where(.section, section[id]) {
+  scroll-margin-top: 90px;
+}
+::selection {
+  background: rgba(255, 106, 53, 0.32);
+  color: #fff;
+}
+@media (max-width: 800px) {
+  .topbar {
+    gap: 10px;
+  }
+  nav a {
+    min-height: 40px;
+  }
+  :where(
+      .stats-grid,
+      .home-quick-stats,
+      .home-format-stats,
+      .home-bowling-stats,
+      .tilak-news-grid,
+      .cricinfo-photo-grid,
+      .bcci-video-grid,
+      .match-center-grid,
+      .upcoming-matches-grid
+    )
+    > * {
+    min-width: 0;
+  }
+  :where(.match-card, .bcci-video-card, .tilak-news-card) {
+    overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 480px) {
+  .section {
+    scroll-margin-top: 82px;
+  }
+  :where(button, .button, .outline, .calculate-button) {
+    max-width: 100%;
+  }
+  :where(.match-card, .bcci-video-card, .tilak-news-card) {
+    border-radius: 14px;
+  }
+}
+@media (hover: none) {
+  :where(
+    .stat-card,
+    .home-mini-stat,
+    .home-format-card,
+    .record-card,
+    .milestone-card,
+    .analytics-card,
+    .match-card,
+    .snapshot-card,
+    .tilak-news-card,
+    .bcci-video-card
+  ):hover {
     transform: none;
   }
 }
-@media (prefers-reduced-motion:reduce) {
-  *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
