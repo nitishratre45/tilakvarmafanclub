@@ -2268,7 +2268,12 @@
       (() => {
         "use strict";
         const $ = (id) => document.getElementById(id);
-        const state = { items: [], albums: ["General Photos"], albumDates: {}, video: { feedUrl: "" } };
+        const state = {
+          items: [],
+          albums: ["General Photos"],
+          albumDates: {},
+          video: { feedUrl: "" },
+        };
         const status = (id, msg, error = false) => {
           const el = $(id);
           if (!el) return;
@@ -2385,7 +2390,11 @@
                 (count === 1 ? " photo" : " photos") +
                 '</small><label class="album-date-field">Gallery date <input type="date" value="' +
                 escapeHtml(state.albumDates[album] || "") +
-                '" data-album-date="' + escapeHtml(album) + '" aria-label="Gallery date for ' + escapeHtml(album) + '"></label></div><div class="album-manage-actions"><button class="btn small primary" type="button" data-save-album-date="' +
+                '" data-album-date="' +
+                escapeHtml(album) +
+                '" aria-label="Gallery date for ' +
+                escapeHtml(album) +
+                '"></label></div><div class="album-manage-actions"><button class="btn small primary" type="button" data-save-album-date="' +
                 escapeHtml(album) +
                 '">Save date</button><button class="btn small" type="button" data-album-rename="' +
                 escapeHtml(album) +
@@ -2410,9 +2419,12 @@
               button.disabled = true;
               try {
                 await saveMedia();
-                status("album-admin-status", value
-                  ? 'Gallery date saved for "' + album + '". Albums now sort by this date.'
-                  : 'Custom gallery date cleared for "' + album + '". Upload date will be used.');
+                status(
+                  "album-admin-status",
+                  value
+                    ? 'Gallery date saved for "' + album + '". Albums now sort by this date.'
+                    : 'Custom gallery date cleared for "' + album + '". Upload date will be used.',
+                );
               } catch (err) {
                 state.albumDates = previous;
                 renderAlbumManager();
