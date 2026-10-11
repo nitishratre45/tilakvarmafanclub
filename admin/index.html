@@ -1698,28 +1698,6 @@
                 </p>
               </div>
             </div>
-            <div class="grid" style="margin-bottom: 14px">
-              <label class="field">
-                <span>Data family</span>
-                <select id="data-editor-kind">
-                  <option value="stats">Stats, profile & career data</option>
-                  <option value="death">Death Overs archive</option>
-                </select>
-              </label>
-              <div class="field">
-                <span>Repository file</span>
-                <div id="data-editor-path" class="input-like" aria-live="polite">
-                  data/site-data.json
-                </div>
-              </div>
-            </div>
-            <div class="actions" style="margin-bottom: 12px">
-              <button id="data-editor-load" class="btn" type="button">↻ Load saved file</button>
-              <button id="data-editor-format" class="btn" type="button">Format JSON</button>
-              <button id="data-editor-save" class="btn primary" type="button">
-                Save to GitHub
-              </button>
-            </div>
             <div class="form-editor card" id="friendly-editor">
               <div class="eyebrow">EASY MODE · NO JSON REQUIRED</div>
               <h3>Choose what you want to change</h3>
@@ -1778,6 +1756,31 @@
                 Load saved data to start editing.
               </p>
             </div>
+            <details id="advanced-json-editor">
+              <summary>Advanced mode · raw JSON editor (optional)</summary>
+              <p class="monitor-help">Most edits should use the form above. Use this only if you understand the complete data structure.</p>
+<div class="grid" style="margin-bottom: 14px">
+              <label class="field">
+                <span>Data family</span>
+                <select id="data-editor-kind">
+                  <option value="stats">Stats, profile & career data</option>
+                  <option value="death">Death Overs archive</option>
+                </select>
+              </label>
+              <div class="field">
+                <span>Repository file</span>
+                <div id="data-editor-path" class="input-like" aria-live="polite">
+                  data/site-data.json
+                </div>
+              </div>
+            </div>
+            <div class="actions" style="margin-bottom: 12px">
+              <button id="data-editor-load" class="btn" type="button">↻ Load saved file</button>
+              <button id="data-editor-format" class="btn" type="button">Format JSON</button>
+              <button id="data-editor-save" class="btn primary" type="button">
+                Save to GitHub
+              </button>
+            </div>
             <p id="data-editor-status" class="status" role="status" aria-live="polite">
               Load a file to inspect or edit its saved data.
             </p>
@@ -1800,6 +1803,8 @@
               saved data, not API keys or passwords. Refresh workflows may overwrite automated
               fields on their next run.
             </div>
+          
+            </details>
           </div>
         </section>
         <section id="services" class="section">
