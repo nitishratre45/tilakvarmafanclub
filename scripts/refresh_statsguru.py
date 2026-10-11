@@ -1114,6 +1114,11 @@ def main():
                             "Showing the last saved career summary; no new match-by-match "
                             "rows or updated timestamp are claimed."
                         )
+                        merged["checkedAt"] = (
+                            saved_career.get("updatedAt")
+                            or merged.get("checkedAt")
+                            or ""
+                        )
                         new_formats[fmt] = merged
                         print(
                             fmt
