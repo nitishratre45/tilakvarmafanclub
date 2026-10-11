@@ -127,7 +127,9 @@ def parse_match(data, filename, key, totals):
         team = inn.get("team", "")
         if not any(target(p) for p in players.get(team, [])):
             continue
-        byover = defaultdict(lambda: {"runs": 0, "balls": 0, "fours": 0, "sixes": 0, "deliveries": []})
+        byover = defaultdict(
+            lambda: {"runs": 0, "balls": 0, "fours": 0, "sixes": 0, "deliveries": []}
+        )
         for od in inn.get("overs", []):
             number = int(od.get("over", -1)) + 1
             for d in od.get("deliveries", []):
@@ -145,18 +147,22 @@ def parse_match(data, filename, key, totals):
                 elif br == 6:
                     s["sixes"] += 1
                 # Keep real delivery events for the ball-by-ball UI.
-                dismissed = any(target(w.get("player_out", "")) for w in (d.get("wickets") or []))
-                s["deliveries"].append({
-                    "ball": len(s["deliveries"]) + 1,
-                    "batterRuns": br,
-                    "totalRuns": int(rd.get("total", br) or 0),
-                    "extras": sum(int(x or 0) for x in ex.values()),
-                    "four": br == 4,
-                    "six": br == 6,
-                    "wicket": dismissed,
-                    "wide": bool(int(ex.get("wides", 0) or 0)),
-                    "noBall": bool(int(ex.get("noballs", 0) or 0)),
-                })
+                dismissed = any(
+                    target(w.get("player_out", "")) for w in (d.get("wickets") or [])
+                )
+                s["deliveries"].append(
+                    {
+                        "ball": len(s["deliveries"]) + 1,
+                        "batterRuns": br,
+                        "totalRuns": int(rd.get("total", br) or 0),
+                        "extras": sum(int(x or 0) for x in ex.values()),
+                        "four": br == 4,
+                        "six": br == 6,
+                        "wicket": dismissed,
+                        "wide": bool(int(ex.get("wides", 0) or 0)),
+                        "noBall": bool(int(ex.get("noballs", 0) or 0)),
+                    }
+                )
         if not byover:
             continue
         opposition = next((t for t in teams if t != team), "Unknown")
