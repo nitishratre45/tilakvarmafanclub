@@ -5134,3 +5134,84 @@ body.bcci-player-open .topbar {
     top: 0;
   }
 }
+
+/* HOTFIX: keep the actual player panel above its dim/blur backdrop on desktop Chrome. */
+#bcci-video-player-modal:not([hidden]) {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9990 !important;
+  isolation: isolate !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 16px !important;
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+#bcci-video-player-modal:not([hidden]) > .bcci-video-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  background: rgba(0, 5, 14, 0.82) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  backdrop-filter: blur(5px) !important;
+}
+#bcci-video-player-modal:not([hidden]) > .bcci-video-panel {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: min(1240px, calc(100vw - 32px)) !important;
+  max-height: calc(100dvh - 32px) !important;
+  margin: 0 auto !important;
+  overflow: auto !important;
+  background: #06143e !important;
+  color: #fff !important;
+  box-shadow: 0 28px 100px rgba(0, 0, 0, 0.8) !important;
+}
+#bcci-video-player-modal .bcci-player-page-content,
+#bcci-video-player-modal .bcci-player-main,
+#bcci-video-player-modal .bcci-player-screen {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+#bcci-video-player-modal .bcci-player-page-content {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.65fr) minmax(260px, 0.8fr) !important;
+}
+#bcci-video-player-modal .bcci-player-screen {
+  display: block !important;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000 !important;
+}
+#bcci-video-player-modal #bcci-shaka-player {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 180px;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
+  background: #000 !important;
+}
+.topbar,
+body.bcci-player-open .topbar {
+  z-index: 10000 !important;
+}
+@media (max-width: 760px) {
+  #bcci-video-player-modal:not([hidden]) {
+    padding: 8px !important;
+    place-items: start center !important;
+  }
+  #bcci-video-player-modal:not([hidden]) > .bcci-video-panel {
+    width: calc(100vw - 16px) !important;
+    max-height: calc(100dvh - 16px) !important;
+  }
+  #bcci-video-player-modal .bcci-player-page-content {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
