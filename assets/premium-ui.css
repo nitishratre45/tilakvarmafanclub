@@ -3993,7 +3993,6 @@ main > section:not([hidden]) {
   }
 }
 
-
 /* Stats Centre / Explore refresh — scoped to the stats area to avoid site-wide regressions. */
 #stats.stats-section {
   --stats-card-border: rgba(124, 229, 242, 0.16);
@@ -4075,7 +4074,9 @@ main > section:not([hidden]) {
   border-radius: 11px;
   color: #ffad8b;
   background: rgba(255, 138, 91, 0.09);
-  transition: transform 180ms ease, background 180ms ease;
+  transition:
+    transform 180ms ease,
+    background 180ms ease;
 }
 #stats .player-analysis-filter[open] .player-analysis-toggle-icon {
   transform: rotate(45deg);
