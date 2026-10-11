@@ -672,7 +672,6 @@ html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-album-g
   }
 }
 
-
 /* 2026-10-12 mobile blank-space fix: keep the archive toolbar content-sized. */
 html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar {
   display: grid !important;
@@ -688,9 +687,28 @@ html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery
   contain: none !important;
 }
 html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar > *,
-html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-toolbar-copy,
-html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-filters,
-html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-filters > label {
+html
+  body
+  main
+  > #photos.tilak-photos-section
+  #cricinfo-photo-grid
+  > .tv-gallery-toolbar
+  .tv-gallery-toolbar-copy,
+html
+  body
+  main
+  > #photos.tilak-photos-section
+  #cricinfo-photo-grid
+  > .tv-gallery-toolbar
+  .tv-gallery-filters,
+html
+  body
+  main
+  > #photos.tilak-photos-section
+  #cricinfo-photo-grid
+  > .tv-gallery-toolbar
+  .tv-gallery-filters
+  > label {
   height: max-content !important;
   min-height: 0 !important;
   max-height: none !important;
