@@ -186,7 +186,11 @@
           photo.safe +
           '" alt="' +
           esc(photo.title) +
-          '" loading="lazy" decoding="async"><span class="tv-photo-open-icon">↗</span></button>',
+          '" loading="lazy" decoding="async"><span class="tv-photo-open-icon">↗</span>' +
+          (photo.createdAt && !Number.isNaN(Date.parse(photo.createdAt))
+            ? '<small class="tv-photo-date">' + esc(new Date(photo.createdAt).toLocaleString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })) + '</small>'
+            : "") +
+          '</button>',
       )
       .join("");
     host.innerHTML =
