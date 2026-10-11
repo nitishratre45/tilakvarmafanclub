@@ -1816,10 +1816,18 @@
             "total-innings",
             "total-balls",
             "overall-sr",
+            "coverage-balls",
+            "coverage-matches",
+            "coverage-innings",
+            "coverage-overs",
           ].forEach((id) => {
             const el = document.getElementById(id);
             if (el) el.textContent = "—";
           });
+          document.getElementById("coverage-filter").textContent =
+            (names[active] || active) + " · " +
+            (year.value === "all" ? "All available years" : year.value) +
+            " · No delivery records available for this selection.";
           document.getElementById("status").textContent = msg;
           document.getElementById("feed-status").textContent = "WAITING FOR DATA";
           document.getElementById("matches").innerHTML =
