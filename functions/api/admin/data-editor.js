@@ -27,20 +27,39 @@ function validate(kind, value) {
   if (!value || typeof value !== "object" || Array.isArray(value))
     return "Data must be a JSON object.";
   if (kind === "stats") {
-    if (!value.statsguru && !value.careerStats && !value.recentInnings)
-      return "Stats file is missing its expected statsguru, careerStats, or recentInnings data.";
-    if (value.recentInnings !== undefined && !Array.isArray(value.recentInnings))
+    // This editor replaces the complete JSON file, not a partial patch.
+    // Require the core sections so a truncated paste cannot erase site features.
+    const requiredObjects = [
+      "profile",
+      "careerStats",
+      "careerFormats",
+      "statsguru",
+      "bowlingStats",
+      "fieldingStats",
+    ];
+    for (const key of requiredObjects) {
+      if (!value[key] || typeof value[key] !== "object" || Array.isArray(value[key]))
+        return "Stats file must retain its " + key + " object; refusing an incomplete replacement.";
+    }
+    if (!Array.isArray(value.recentInnings))
       return "recentInnings must remain an array.";
-    if (value.statsguru !== undefined && typeof value.statsguru !== "object")
-      return "statsguru must remain an object.";
+    if (
+      !value.statsguru.formats ||
+      typeof value.statsguru.formats !== "object" ||
+      Array.isArray(value.statsguru.formats) ||
+      !Object.keys(value.statsguru.formats).length
+    )
+      return "statsguru.formats must retain the saved format data.";
   } else {
-    const hasKnownData =
-      Array.isArray(value.innings) ||
-      (value.formats && typeof value.formats === "object") ||
-      Array.isArray(value.matches) ||
-      Array.isArray(value.records);
-    if (!hasKnownData)
-      return "Death Overs file must retain its innings, formats, matches, or records data.";
+    if (
+      !value.formats ||
+      typeof value.formats !== "object" ||
+      Array.isArray(value.formats) ||
+      !Object.keys(value.formats).length
+    )
+      return "Death Overs file must retain its non-empty formats object.";
+    if (!Array.isArray(value.innings) || !Array.isArray(value.overTotals))
+      return "Death Overs file must retain its innings and overTotals arrays.";
   }
   return null;
 }
