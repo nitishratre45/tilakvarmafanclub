@@ -1019,3 +1019,17 @@
     width: min(100%, 320px);
   }
 }
+
+
+/* On phones, keep album covers clean: hide the “Explore photos” label,
+   while retaining the circular arrow as the visual tap affordance. */
+@media (max-width: 640px) {
+  #photos .tv-album-open {
+    font-size: 0;
+    letter-spacing: 0;
+  }
+
+  #photos .tv-album-open::after {
+    font-size: 15px;
+  }
+}
