@@ -1715,6 +1715,11 @@
           transition: none;
         }
       }
+
+      /* Enforce one admin view at a time, even if other theme CSS overrides display. */
+      #admin-app main > .section[hidden],
+      #admin-app #dashboard[hidden],
+      #admin-app .stats[hidden] { display: none !important; }
     </style>
     <link rel="stylesheet" href="admin-premium.css?v=20261012-mobile-menu-definitive-fix1" />
   </head>
@@ -4975,10 +4980,23 @@
             else link.removeAttribute("aria-current");
           });
           const isOverview = view === "dashboard";
-          app.querySelector("#dashboard").classList.toggle("hidden", !isOverview);
-          app.querySelector(".stats").classList.toggle("hidden", !isOverview);
+          const dashboard = app.querySelector("#dashboard");
+          const stats = app.querySelector(".stats");
+          if (dashboard) {
+            dashboard.classList.toggle("hidden", !isOverview);
+            dashboard.hidden = !isOverview;
+            dashboard.setAttribute("aria-hidden", String(!isOverview));
+          }
+          if (stats) {
+            stats.classList.toggle("hidden", !isOverview);
+            stats.hidden = !isOverview;
+            stats.setAttribute("aria-hidden", String(!isOverview));
+          }
           app.querySelectorAll("main > .section").forEach((section) => {
-            section.classList.toggle("hidden", section.id !== view);
+            const active = section.id === view;
+            section.classList.toggle("hidden", !active);
+            section.hidden = !active;
+            section.setAttribute("aria-hidden", String(!active));
           });
           $("page-title").textContent = viewLabels[view];
           if (view === "repo-health") {
