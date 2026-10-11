@@ -33,6 +33,8 @@ export async function onRequestPost({ request, env }) {
   } catch {
     return json({ error: "Invalid request." }, 400);
   }
+  if (!body || typeof body !== "object" || Array.isArray(body))
+    return json({ error: "Invalid request body." }, 400);
   const kind = body.kind;
   const path = PATHS[kind];
   if (!path) return json({ error: "Unknown content type." }, 400);
