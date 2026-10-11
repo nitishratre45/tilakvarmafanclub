@@ -1061,3 +1061,49 @@
 #photos .tv-gallery-toolbar {
   margin-top: 0;
 }
+
+
+/* Final layout override: keep the gallery at the top of its section.
+   Other site-wide section rules can make sections tall and distribute children vertically. */
+#photos.section.tilak-photos-section {
+  display: block !important;
+  position: relative !important;
+  min-height: 0 !important;
+  height: auto !important;
+  padding-top: 28px !important;
+  padding-bottom: 36px !important;
+  align-items: initial !important;
+  align-content: initial !important;
+  justify-content: initial !important;
+  place-content: initial !important;
+  row-gap: 0 !important;
+}
+#photos.section.tilak-photos-section > .section-heading {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#photos.section.tilak-photos-section > .cricinfo-gallery {
+  display: block !important;
+  position: relative !important;
+  top: auto !important;
+  margin: 0 auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  transform: none !important;
+}
+#photos #cricinfo-photo-grid {
+  display: block !important;
+  position: relative !important;
+  top: auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin-block: 0 !important;
+  transform: none !important;
+}
+@media (max-width: 600px) {
+  #photos.section.tilak-photos-section {
+    padding-top: 20px !important;
+    padding-bottom: 28px !important;
+  }
+}
