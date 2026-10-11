@@ -78,17 +78,7 @@
   function renderAlbumPhotos(album) {
     activeAlbum = album;
     document.getElementById("photos")?.classList.add("tv-album-view-active");
-    host.innerHTML =
-      '<div class="tv-album-detail"><header class="tv-album-hero"><button type="button" class="tv-album-back" aria-label="Back to all albums">← All albums</button><h2>' +
-      esc(album.name) +
-      "</h2><p>PHOTO GALLERY <span>·</span> " +
-      album.photos.length +
-      ' photos</p></header><div class="tv-album-back-row"><div class="tv-album-heading"><h3>' +
-      esc(album.name) +
-      "</h3><p>" +
-      album.photos.length +
-      ' photos</p></div></div><div class="tv-album-photo-grid">';
-    album.photos
+    const photoMarkup = album.photos
       .map(
         (photo, index) =>
           '<button class="tv-album-photo" type="button" data-photo-index="' +
@@ -101,7 +91,15 @@
           esc(photo.title) +
           '" loading="lazy" decoding="async"><span class="tv-photo-open-icon">↗</span></button>',
       )
-      .join("") + "</div></div>";
+      .join("");
+    host.innerHTML =
+      '<div class="tv-album-detail"><header class="tv-album-hero"><button type="button" class="tv-album-back" aria-label="Back to all albums">← All albums</button><h2>' +
+      esc(album.name) +
+      "</h2><p>PHOTO GALLERY <span>·</span> " +
+      album.photos.length +
+      ' photos</p></header><div class="tv-album-photo-grid">' +
+      photoMarkup +
+      "</div></div>";
     host
       .querySelectorAll(".tv-album-back")
       .forEach((button) => button.addEventListener("click", renderAlbums));
