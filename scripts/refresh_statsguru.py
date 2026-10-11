@@ -683,10 +683,7 @@ def scrape_domestic_profile_summary(fmt):
             for ri, row in enumerate(table):
                 headers = [norm(value) for value in cell_text(row)]
                 # NDTV's batting/fielding table has M, I, R, HS and a format ID.
-                if (
-                    {"m", "i", "r", "hs"}.issubset(set(headers))
-                    and "id" in headers
-                ):
+                if {"m", "i", "r", "hs"}.issubset(set(headers)) and "id" in headers:
                     header_index = ri
                     for i, h in enumerate(headers):
                         if h in {"m", "matches"}:
@@ -719,12 +716,16 @@ def scrape_domestic_profile_summary(fmt):
                             columns["formatId"] = i
                     break
             if header_index is None or not {
-                "matches", "innings", "runs", "highestScore", "formatId"
+                "matches",
+                "innings",
+                "runs",
+                "highestScore",
+                "formatId",
             }.issubset(columns):
                 continue
 
             rows = []
-            for row in table[header_index + 1:]:
+            for row in table[header_index + 1 :]:
                 values = cell_text(row)
                 max_col = max(columns.values())
                 if len(values) <= max_col:
@@ -733,8 +734,14 @@ def scrape_domestic_profile_summary(fmt):
                     continue
                 label = clean(values[0]) if values else ""
                 if not label or norm(label) in {
-                    "home", "away", "neutral", "overall", "career", "total",
-                    "battingfieldingperformance", "bowlingperformance",
+                    "home",
+                    "away",
+                    "neutral",
+                    "overall",
+                    "career",
+                    "total",
+                    "battingfieldingperformance",
+                    "bowlingperformance",
                 }:
                     continue
                 item = {"group": label, "span": "All-time"}
@@ -761,11 +768,15 @@ def scrape_domestic_profile_summary(fmt):
                 # ID matches the selected format are source-listed breakdowns.
                 # Avoid home/away/year tables, which are not team/competition splits.
                 non_year = [
-                    item for item in rows
+                    item
+                    for item in rows
                     if not re.fullmatch(r"\d{4}", str(item.get("group", "")))
                 ]
                 if len(non_year) >= 5:
-                    output_rows.extend({**item, "groupType": "opposition/competition"} for item in non_year)
+                    output_rows.extend(
+                        {**item, "groupType": "opposition/competition"}
+                        for item in non_year
+                    )
 
                 # The 'against' table partitions the player's record by opponent.
                 # Its rows are disjoint, so their match/innings/run totals can be
@@ -780,8 +791,16 @@ def scrape_domestic_profile_summary(fmt):
         source_rows = max(summaries, key=len)
         summary = {}
         additive = (
-            "matches", "innings", "notOuts", "runs", "hundreds", "fifties",
-            "fours", "sixes", "catches", "stumpings",
+            "matches",
+            "innings",
+            "notOuts",
+            "runs",
+            "hundreds",
+            "fifties",
+            "fours",
+            "sixes",
+            "catches",
+            "stumpings",
         )
         for key in additive:
             values = [row.get(key) for row in source_rows if row.get(key) is not None]
@@ -834,9 +853,12 @@ def scrape_domestic_profile_summary(fmt):
             errors.append(source_name + ": " + str(exc))
             print(fmt + ": profile source fetch/parse failed (" + url + "):", exc)
     raise RuntimeError(
-        "No recognizable " + fmt + " summary/grouped rows from profile sources: "
+        "No recognizable "
+        + fmt
+        + " summary/grouped rows from profile sources: "
         + " | ".join(errors)
     )
+
 
 def parse_fielding_summary(page):
     """Parse the official Statsguru fielding career total when present."""
