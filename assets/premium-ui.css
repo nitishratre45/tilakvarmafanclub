@@ -7179,3 +7179,24 @@ textarea:focus-visible {
     gap: 4px !important;
   }
 }
+
+
+/* Definitive album-detail layout: header above a full-width 3x3 photo grid */
+#photos #cricinfo-photo-grid .tv-album-detail{display:block!important;position:relative!important;width:100%!important;max-width:none!important;min-width:0!important;box-sizing:border-box!important;grid-column:1/-1!important;align-self:stretch!important}
+#photos #cricinfo-photo-grid .tv-album-detail .tv-album-back-row{display:flex!important;position:relative!important;float:none!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;width:100%!important;max-width:none!important;min-width:0!important;box-sizing:border-box!important;margin:0 0 16px!important;padding:0 0 13px!important;gap:12px!important;border:0!important;border-bottom:1px solid rgba(146,174,206,.17)!important;background:transparent!important}
+#photos #cricinfo-photo-grid .tv-album-detail .tv-album-heading{display:flex!important;flex-direction:row!important;align-items:baseline!important;flex-wrap:wrap!important;gap:8px!important;min-width:0!important}
+#photos #cricinfo-photo-grid .tv-album-detail .tv-album-heading h3{margin:0!important;font-size:clamp(18px,2vw,25px)!important;line-height:1.2!important;overflow-wrap:anywhere!important}
+#photos #cricinfo-photo-grid .tv-album-detail .tv-album-heading p{margin:0!important;font-size:11px!important;color:#9eb1c8!important;white-space:nowrap!important}
+#photos #cricinfo-photo-grid .tv-album-detail .tv-album-back{display:inline-flex!important;flex:0 0 auto!important;width:auto!important;min-width:0!important;min-height:32px!important;padding:7px 10px!important;font-size:11px!important;white-space:nowrap!important}
+#photos #cricinfo-photo-grid .tv-album-detail .tv-album-photo-grid{display:grid!important;position:relative!important;float:none!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-auto-rows:auto!important;align-items:start!important;justify-items:stretch!important;gap:clamp(6px,1vw,12px)!important;width:100%!important;max-width:none!important;min-width:0!important;box-sizing:border-box!important;margin:0!important;padding:0!important}
+#photos #cricinfo-photo-grid .tv-album-detail .tv-album-photo{display:block!important;width:100%!important;min-width:0!important;max-width:none!important;height:auto!important;aspect-ratio:1/1!important;box-sizing:border-box!important;margin:0!important;padding:0!important;overflow:hidden!important}
+#photos #cricinfo-photo-grid .tv-album-detail .tv-album-photo img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important}
+@media(max-width:760px){
+ #photos #cricinfo-photo-grid .tv-album-detail .tv-album-back-row{gap:8px!important;margin-bottom:11px!important;padding-bottom:10px!important}
+ #photos #cricinfo-photo-grid .tv-album-detail .tv-album-back{min-height:30px!important;padding:6px 8px!important;font-size:10px!important}
+ #photos #cricinfo-photo-grid .tv-album-detail .tv-album-heading{gap:5px!important}
+ #photos #cricinfo-photo-grid .tv-album-detail .tv-album-heading h3{font-size:clamp(16px,4.6vw,21px)!important}
+ #photos #cricinfo-photo-grid .tv-album-detail .tv-album-heading p{font-size:10px!important}
+ #photos #cricinfo-photo-grid .tv-album-detail .tv-album-photo-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important}
+ #photos #cricinfo-photo-grid .tv-album-detail .tv-album-photo{border-radius:6px!important}
+}
