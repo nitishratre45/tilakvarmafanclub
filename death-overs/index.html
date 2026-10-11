@@ -343,7 +343,7 @@
       .coverage-head h3 {
         margin: 0;
         color: #f4f8ff;
-        font: 800 clamp(18px, 2.4vw, 25px)/1.1 var(--display);
+        font: 800 clamp(18px, 2.4vw, 25px) / 1.1 var(--display);
       }
       .coverage-head h3 em {
         color: #6de0f5;
@@ -377,7 +377,7 @@
         display: block;
         margin: 10px 0 6px;
         color: #6de0f5;
-        font: 850 clamp(25px, 3vw, 36px)/1 var(--display);
+        font: 850 clamp(25px, 3vw, 36px) / 1 var(--display);
         overflow-wrap: anywhere;
       }
       .coverage-card span {
@@ -1558,7 +1558,9 @@
               <div>
                 <div class="section-kicker">DELIVERY DATA COVERAGE</div>
                 <h3 id="coverage-title">BALL-BY-BALL <em>AVAILABILITY.</em></h3>
-                <p id="coverage-filter">Counting recorded Tilak Varma deliveries in the selected format and year.</p>
+                <p id="coverage-filter">
+                  Counting recorded Tilak Varma deliveries in the selected format and year.
+                </p>
               </div>
             </div>
             <div class="coverage-grid">
@@ -1583,7 +1585,11 @@
                 <span>Overs with individual delivery records</span>
               </article>
             </div>
-            <p class="coverage-footnote">Coverage is based on the ball-by-ball records actually present in this feed. It can be lower than Tilak's full career totals; missing delivery data is not counted as zero runs.</p>
+            <p class="coverage-footnote">
+              Coverage is based on the ball-by-ball records actually present in this feed. It can be
+              lower than Tilak's full career totals; missing delivery data is not counted as zero
+              runs.
+            </p>
           </section>
 
           <div id="latest-match-panel" class="latest-match-panel" hidden></div>
@@ -2014,16 +2020,15 @@
             ballInnings = innings.filter((i) =>
               (i.overs || []).some((o) => Array.isArray(o.deliveries) && o.deliveries.length),
             ),
-            ballMatches = new Set(
-              ballInnings.map((i) => i.matchId || i.date + "|" + i.teams),
-            ),
+            ballMatches = new Set(ballInnings.map((i) => i.matchId || i.date + "|" + i.teams)),
             ballEvents = ballOvers.reduce((sum, o) => sum + o.deliveries.length, 0);
           document.getElementById("coverage-balls").textContent = fmt(ballEvents);
           document.getElementById("coverage-matches").textContent = fmt(ballMatches.size);
           document.getElementById("coverage-innings").textContent = fmt(ballInnings.length);
           document.getElementById("coverage-overs").textContent = fmt(ballOvers.length);
           document.getElementById("coverage-filter").textContent =
-            (d?.label || names[active]) + " · " +
+            (d?.label || names[active]) +
+            " · " +
             (year.value === "all" ? "All available years" : year.value) +
             " · Counts update when you change the format or year.";
           document.getElementById("total-runs").textContent = fmt(t.runs);
