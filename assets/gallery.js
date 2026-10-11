@@ -78,11 +78,11 @@
   function renderAlbumPhotos(album) {
     activeAlbum = album;
     host.innerHTML =
-      '<div class="tv-album-back-row"><button type="button" class="tv-album-back">← All albums</button><div><span class="eyebrow">PHOTO ALBUM</span><h3>' +
+      '<div class="tv-album-back-row"><button type="button" class="tv-album-back" aria-label="Back to all albums">← Back</button><div class="tv-album-heading"><h3>' +
       esc(album.name) +
       "</h3><p>" +
       album.photos.length +
-      ' photos · Tap any photo to view</p></div></div><div class="tv-album-photo-grid">' +
+      ' photos</p></div></div><div class="tv-album-photo-grid">' +
       album.photos
         .map(
           (photo, index) =>
