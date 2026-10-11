@@ -704,8 +704,12 @@ def main() -> int:
 
     # Publish a small machine-readable change report for the Admin Studio.
     # IDs are used rather than titles so similarly named clips are not conflated.
-    current_ids = {first_text(video.get("id")) for video in videos if first_text(video.get("id"))}
-    added_videos = [video for video in videos if first_text(video.get("id")) not in previous_ids]
+    current_ids = {
+        first_text(video.get("id")) for video in videos if first_text(video.get("id"))
+    }
+    added_videos = [
+        video for video in videos if first_text(video.get("id")) not in previous_ids
+    ]
     report = {
         "source": "BCCI official video refresh",
         "updatedAt": output["updatedAt"],
@@ -728,7 +732,9 @@ def main() -> int:
     report_path.write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
-    print(f"Saved refresh report: {report['addedCount']} newly added; {report['totalVideos']} total.")
+    print(
+        f"Saved refresh report: {report['addedCount']} newly added; {report['totalVideos']} total."
+    )
     print(f"Saved {len(videos)} unique Tilak Varma videos to {OUT}, newest first.")
     print(
         f"Dates covered: {videos[-1].get('publishedDate', 'unknown')} to {videos[0].get('publishedDate', 'unknown')}"
