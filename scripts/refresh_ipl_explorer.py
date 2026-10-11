@@ -5,7 +5,6 @@ The last valid IPL snapshot is preserved if the source is unavailable or parsing
 """
 import io
 import json
-import re
 import urllib.request
 import zipfile
 from collections import defaultdict
@@ -62,9 +61,16 @@ def extract_match(raw):
             str(d.get("batter", "")).casefold() == PLAYER.casefold() for d in deliveries
         ):
             continue
+        # Cricsheet has no explicit batting-position field; infer the order from
+        # each batter's first appearance in the delivery list.
+        batter_order = []
+        for delivery in deliveries:
+            batter_name = str(delivery.get("batter", "")).strip()
+            if batter_name and batter_name not in batter_order:
+                batter_order.append(batter_name)
+        position = batter_order.index(PLAYER) + 1 if PLAYER in batter_order else None
         runs = balls = fours = sixes = 0
         dismissed = False
-        position = None
         for d in deliveries:
             if str(d.get("batter", "")).casefold() != PLAYER.casefold():
                 continue
@@ -100,7 +106,7 @@ def extract_match(raw):
                 "fours": fours,
                 "sixes": sixes,
                 "strikeRate": round(runs * 100 / balls, 2) if balls else 0,
-                "position": "—",
+                "position": position or "—",
                 "dismissal": "not out" if not dismissed else "dismissed",
                 "innings": str(innings_number),
                 "wickets": "—",
@@ -175,16 +181,27 @@ def main():
         by_season[row.get("season") or row.get("date", "")[:4]].append(row)
     breakdown = []
     for season, season_rows in sorted(by_season.items()):
-        summary = make_summary(season_rows)
         breakdown.append(
-            {"group": "Season " + str(season), "span": str(season), **summary}
+            {"group": "Season " + str(season), "span": str(season), **make_summary(season_rows)}
+        )
+    by_opposition = defaultdict(list)
+    by_position = defaultdict(list)
+    for row in rows:
+        by_opposition[row.get("opposition") or "v Unknown"].append(row)
+        if isinstance(row.get("position"), int):
+            by_position[row["position"]].append(row)
+    for opposition, opposition_rows in sorted(by_opposition.items()):
+        breakdown.append(
+            {"group": opposition, "span": "All seasons", **make_summary(opposition_rows)}
+        )
+    def ordinal(n):
+        return str(n) + ("th" if 10 <= n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th"))
+    for position, position_rows in sorted(by_position.items()):
+        breakdown.append(
+            {"group": ordinal(position) + " position", "span": "All seasons", **make_summary(position_rows)}
         )
     breakdown.append(
-        {
-            "group": "overall",
-            "span": f"{min(by_season)}-{max(by_season)}",
-            **make_summary(rows),
-        }
+        {"group": "overall", "span": f"{min(by_season)}-{max(by_season)}", **make_summary(rows)}
     )
     formats = data.setdefault("statsguru", {}).setdefault("formats", {})
     formats["IPL"] = {
@@ -199,7 +216,7 @@ def main():
         "debut": min((r["date"] for r in rows if r.get("date")), default="—"),
         "lastMatch": max((r["date"] for r in rows if r.get("date")), default="—"),
         "updatedAt": stamp(),
-        "coverageNote": "IPL innings derived from available Cricsheet ball-by-ball match files. Matches without a published archive file are not inferred.",
+        "coverageNote": "IPL innings derived from available Cricsheet ball-by-ball match files. Batting position is inferred from batter appearance order; matches without a published archive file are not inferred.",
     }
     data["statsguru"]["source"] = "ESPNcricinfo Statsguru + Cricsheet IPL archive"
     data["statsguru"]["iplUpdatedAt"] = stamp()
