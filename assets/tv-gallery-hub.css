@@ -514,7 +514,6 @@
   }
 }
 
-
 /* Prevent global semantic footer rules from leaking into this component. */
 #tv-gallery-hub .tv-gallery-hub__footer {
   display: block !important;
@@ -533,9 +532,15 @@
   text-align: center !important;
   font-size: 9px !important;
   font-weight: 850 !important;
-  letter-spacing: .14em !important;
+  letter-spacing: 0.14em !important;
   line-height: 1.5 !important;
 }
 #tv-gallery-hub .tv-gallery-hub__footer::before,
-#tv-gallery-hub .tv-gallery-hub__footer::after { content: none !important; display: none !important; }
-#tv-gallery-hub .tv-gallery-hub__footer span { display: inline !important; color: var(--tgh-orange) !important; }
+#tv-gallery-hub .tv-gallery-hub__footer::after {
+  content: none !important;
+  display: none !important;
+}
+#tv-gallery-hub .tv-gallery-hub__footer span {
+  display: inline !important;
+  color: var(--tgh-orange) !important;
+}
