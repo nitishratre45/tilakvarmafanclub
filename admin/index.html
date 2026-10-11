@@ -1295,14 +1295,71 @@
         }
       }
 
-      .album-manage-tools{display:grid;grid-template-columns:minmax(180px,1fr) minmax(145px,190px) minmax(145px,190px);gap:9px;margin:0 0 12px}
-      .album-manage-search{display:flex;align-items:center;gap:9px;min-width:0;padding:0 11px;border:1px solid var(--line);border-radius:9px;background:#081729;color:var(--cyan)}
-      .album-manage-search span{font-size:20px;line-height:1}
-      .album-manage-search input{width:100%;min-width:0;min-height:39px;padding:7px 0;border:0!important;outline:0;background:transparent!important;color:var(--text)}
-      .album-manage-tools select{width:100%;min-width:0;min-height:40px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:#10243a;color:var(--text)}
-      .album-manage-empty-state{grid-column:1/-1;padding:18px;border:1px dashed var(--line);border-radius:10px;color:var(--muted);text-align:center}
-      @media(max-width:900px){.album-manage-tools{grid-template-columns:1fr 1fr}.album-manage-search{grid-column:1/-1}}
-      @media(max-width:480px){.album-manage-tools{grid-template-columns:1fr}.album-manage-search{grid-column:auto}}
+      .album-manage-tools {
+        display: grid;
+        grid-template-columns: minmax(180px, 1fr) minmax(145px, 190px) minmax(145px, 190px);
+        gap: 9px;
+        margin: 0 0 12px;
+      }
+      .album-manage-search {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        min-width: 0;
+        padding: 0 11px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: #081729;
+        color: var(--cyan);
+      }
+      .album-manage-search span {
+        font-size: 20px;
+        line-height: 1;
+      }
+      .album-manage-search input {
+        width: 100%;
+        min-width: 0;
+        min-height: 39px;
+        padding: 7px 0;
+        border: 0 !important;
+        outline: 0;
+        background: transparent !important;
+        color: var(--text);
+      }
+      .album-manage-tools select {
+        width: 100%;
+        min-width: 0;
+        min-height: 40px;
+        padding: 7px 10px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: #10243a;
+        color: var(--text);
+      }
+      .album-manage-empty-state {
+        grid-column: 1/-1;
+        padding: 18px;
+        border: 1px dashed var(--line);
+        border-radius: 10px;
+        color: var(--muted);
+        text-align: center;
+      }
+      @media (max-width: 900px) {
+        .album-manage-tools {
+          grid-template-columns: 1fr 1fr;
+        }
+        .album-manage-search {
+          grid-column: 1/-1;
+        }
+      }
+      @media (max-width: 480px) {
+        .album-manage-tools {
+          grid-template-columns: 1fr;
+        }
+        .album-manage-search {
+          grid-column: auto;
+        }
+      }
       .album-edit-panel {
         margin-top: 18px;
         padding: 16px;
@@ -1553,7 +1610,14 @@
                   <span class="pill" id="album-manage-count">0 albums</span>
                 </div>
                 <div class="album-manage-tools">
-                  <label class="album-manage-search" for="album-manage-search"><span>⌕</span><input id="album-manage-search" type="search" placeholder="Search albums by name…" autocomplete="off"></label>
+                  <label class="album-manage-search" for="album-manage-search"
+                    ><span>⌕</span
+                    ><input
+                      id="album-manage-search"
+                      type="search"
+                      placeholder="Search albums by name…"
+                      autocomplete="off"
+                  /></label>
                   <select id="album-manage-filter" aria-label="Filter albums">
                     <option value="all">All albums</option>
                     <option value="with-photos">Albums with photos</option>
@@ -2079,19 +2143,22 @@
           const query = ($("album-manage-search")?.value || "").trim().toLocaleLowerCase();
           const filter = $("album-manage-filter")?.value || "all";
           const sort = $("album-manage-sort")?.value || "name";
-          const countPhotos = (album) => state.items.filter(
-            (item) => item.type !== "video" && item.album === album,
-          ).length;
+          const countPhotos = (album) =>
+            state.items.filter((item) => item.type !== "video" && item.album === album).length;
           let visibleAlbums = state.albums.filter((album) => {
             const count = countPhotos(album);
-            return album.toLocaleLowerCase().includes(query) &&
-              (filter === "with-photos" ? count > 0 : filter === "empty" ? count === 0 : true);
+            return (
+              album.toLocaleLowerCase().includes(query) &&
+              (filter === "with-photos" ? count > 0 : filter === "empty" ? count === 0 : true)
+            );
           });
-          if (sort === "name") visibleAlbums.sort((a,b) => a.localeCompare(b));
-          if (sort === "photos") visibleAlbums.sort((a,b) => countPhotos(b)-countPhotos(a) || a.localeCompare(b));
+          if (sort === "name") visibleAlbums.sort((a, b) => a.localeCompare(b));
+          if (sort === "photos")
+            visibleAlbums.sort((a, b) => countPhotos(b) - countPhotos(a) || a.localeCompare(b));
           if (sort === "recent") visibleAlbums = visibleAlbums.reverse();
           if (!visibleAlbums.length) {
-            host.innerHTML = '<div class="album-manage-empty-state">No albums match. Try another search or filter.</div>';
+            host.innerHTML =
+              '<div class="album-manage-empty-state">No albums match. Try another search or filter.</div>';
             return;
           }
           host.innerHTML = visibleAlbums
@@ -2203,7 +2270,10 @@
         }
 
         ["album-manage-search", "album-manage-filter", "album-manage-sort"].forEach((id) => {
-          $(id)?.addEventListener(id === "album-manage-search" ? "input" : "change", renderAlbumManager);
+          $(id)?.addEventListener(
+            id === "album-manage-search" ? "input" : "change",
+            renderAlbumManager,
+          );
         });
         $("create-album").addEventListener("click", async () => {
           const input = $("new-album-name");
