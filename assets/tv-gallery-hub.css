@@ -570,3 +570,75 @@
     width: 100%;
   }
 }
+
+
+/* Auto-managed album grid: fill available width, grow/shrink with album count. */
+#tv-gallery-hub #tv-gallery-grid > .tv-album-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr)) !important;
+  grid-auto-flow: row !important;
+  grid-auto-rows: auto !important;
+  align-items: stretch !important;
+  align-content: start !important;
+  justify-content: stretch !important;
+  gap: clamp(10px, 1.2vw, 16px) !important;
+  width: 100% !important;
+}
+#tv-gallery-hub #tv-gallery-grid > .tv-album-grid > .tv-album-card {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: 100% !important;
+  align-self: stretch !important;
+}
+#tv-gallery-hub #tv-gallery-grid .tv-album-cover {
+  width: 100% !important;
+  aspect-ratio: 4 / 3 !important;
+  height: auto !important;
+  flex: 0 0 auto !important;
+}
+#tv-gallery-hub #tv-gallery-grid .tv-album-cover img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+#tv-gallery-hub #tv-gallery-grid .tv-album-info {
+  flex: 1 0 auto !important;
+}
+#tv-gallery-hub #tv-gallery-grid .tv-album-photo-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)) !important;
+  grid-auto-flow: row !important;
+  grid-auto-rows: auto !important;
+  align-content: start !important;
+  gap: clamp(8px, 1vw, 14px) !important;
+  width: 100% !important;
+}
+#tv-gallery-hub #tv-gallery-grid .tv-album-photo {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 3 / 4 !important;
+}
+@media (min-width: 1200px) {
+  #tv-gallery-hub #tv-gallery-grid > .tv-album-grid {
+    grid-template-columns: repeat(auto-fit, minmax(245px, 1fr)) !important;
+  }
+}
+@media (max-width: 760px) {
+  #tv-gallery-hub #tv-gallery-grid > .tv-album-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 155px), 1fr)) !important;
+    gap: 10px !important;
+  }
+  #tv-gallery-hub #tv-gallery-grid .tv-album-cover {
+    aspect-ratio: 3 / 4 !important;
+  }
+  #tv-gallery-hub #tv-gallery-grid .tv-album-photo-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 135px), 1fr)) !important;
+    gap: 8px !important;
+  }
+}
+@media (max-width: 360px) {
+  #tv-gallery-hub #tv-gallery-grid > .tv-album-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
