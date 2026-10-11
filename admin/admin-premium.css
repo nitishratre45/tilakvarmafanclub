@@ -1101,3 +1101,19 @@ select:focus-visible, textarea:focus-visible {
 #repo-health-status.danger{color:#ff6c75;border-color:#ff6c75}
 #repo-health-status.warning{color:#ffbd59;border-color:#ffbd59}
 @media(max-width:760px){.repo-health-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.repo-health-summary article{padding:12px}.repo-health-summary strong{font-size:22px}}
+
+
+/* Mobile menu definitive override: collapsed until tap; nothing sticky while scrolling. */
+@media (max-width: 760px) {
+  .sidebar { position: static !important; inset: auto !important; top: auto !important; height: auto !important; max-height: none !important; overflow: visible !important; display: grid !important; grid-template-columns: minmax(0,1fr) auto !important; align-items: center !important; gap: 10px !important; padding: 10px 12px !important; background: #081525 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  .sidebar .brand { grid-column: 1 !important; grid-row: 1 !important; flex: initial !important; min-width: 0 !important; padding: 0 !important; gap: 9px !important; }
+  .sidebar .brand .mark { width: 40px !important; height: 40px !important; flex: 0 0 40px !important; }
+  .admin-mobile-menu { display: flex !important; grid-column: 2 !important; grid-row: 1 !important; }
+  .sidebar .nav-label, .sidebar .sidebar-bottom, .sidebar .mobile-brand { display: none !important; }
+  .sidebar .nav, .sidebar .nav.mobile-open { position: static !important; inset: auto !important; transform: none !important; grid-column: 1 / -1 !important; width: 100% !important; min-width: 0 !important; max-width: none !important; max-height: min(65vh,460px) !important; margin: 0 !important; flex: initial !important; flex-direction: column !important; overflow-y: auto !important; overflow-x: hidden !important; gap: 5px !important; padding: 8px !important; border: 1px solid rgba(120,228,239,.25) !important; border-radius: 12px !important; background: #0b192b !important; box-shadow: 0 12px 28px rgba(0,0,0,.35) !important; }
+  .sidebar .nav:not(.mobile-open) { display: none !important; visibility: hidden !important; pointer-events: none !important; }
+  .sidebar .nav.mobile-open { display: flex !important; visibility: visible !important; pointer-events: auto !important; }
+  .sidebar .nav a, .sidebar .nav a:visited { display: flex !important; flex: 0 0 auto !important; width: 100% !important; min-height: 44px !important; white-space: normal !important; padding: 10px 12px !important; font-size: 13px !important; color: #c5d4e8 !important; }
+  .main { margin-left: 0 !important; width: 100% !important; padding: 0 12px 36px !important; }
+  .topbar { position: static !important; top: auto !important; }
+}
