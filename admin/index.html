@@ -1430,32 +1430,36 @@
             <span class="pill">● PUBLIC GALLERY</span>
           </div>
           <div class="section-body">
+            <div class="album-manager">
+              <div class="field">
+                <label for="new-album-name">Create a new photo album</label>
+                <div class="album-create-row">
+                  <input id="new-album-name" maxlength="80" placeholder="e.g. India vs Australia · T20I Series" />
+                  <button class="btn" id="create-album" type="button">＋ Create album</button>
+                </div>
+                <span class="hint">Create an album for a series, tournament, match or special moment. Then choose it when uploading photos.</span>
+              </div>
+              <div id="album-admin-status" class="status" role="status"></div>
+            </div>
             <form id="upload-form">
               <div class="grid">
                 <div class="field">
-                  <label for="media-title">Title / caption</label
-                  ><input
-                    id="media-title"
-                    maxlength="120"
-                    placeholder="Tilak Varma · Match day"
-                    required
-                  />
+                  <label for="media-title">Photo title / caption</label>
+                  <input id="media-title" maxlength="120" placeholder="Tilak Varma · Match day" required />
                 </div>
                 <div class="field">
-                  <label for="media-file">Choose image or video</label
-                  ><input
-                    id="media-file"
-                    type="file"
-                    accept="image/*,video/mp4,video/webm,video/quicktime"
-                    required
-                  /><span id="file-hint" class="hint"
-                    >Images up to 10 MB · Videos up to 100 MB</span
-                  >
+                  <label for="media-album">Add to album</label>
+                  <select id="media-album" required><option value="General">General Photos</option></select>
+                </div>
+                <div class="field">
+                  <label for="media-file">Choose image or video</label>
+                  <input id="media-file" type="file" accept="image/*,video/mp4,video/webm,video/quicktime" required />
+                  <span id="file-hint" class="hint">Images up to 10 MB · Videos up to 100 MB</span>
                 </div>
               </div>
               <div class="actions">
-                <button class="btn primary" type="submit">＋ Upload media</button
-                ><span class="hint">Supported formats depend on Cloudinary account limits.</span>
+                <button class="btn primary" type="submit">＋ Upload to album</button>
+                <span class="hint">Images up to 10 MB · Videos up to 100 MB.</span>
               </div>
             </form>
             <div id="upload-status" class="status" role="status"></div>
@@ -1874,7 +1878,7 @@
       (() => {
         "use strict";
         const $ = (id) => document.getElementById(id);
-        const state = { items: [], video: { feedUrl: "" } };
+        const state = { items: [], albums: ["General Photos"], video: { feedUrl: "" } };
         const status = (id, msg, error = false) => {
           const el = $(id);
           if (!el) return;
@@ -1909,6 +1913,29 @@
             return "";
           }
         }
+        function renderAlbumOptions() {
+          const select = $("media-album");
+          if (!select) return;
+          const previous = select.value;
+          select.innerHTML = state.albums.map((album) => '<option value="' + escapeHtml(album) + '">' + escapeHtml(album) + '</option>').join("");
+          select.value = state.albums.includes(previous) ? previous : (state.albums[0] || "General Photos");
+        }
+        $("create-album").addEventListener("click", async () => {
+          const input = $("new-album-name");
+          const name = input.value.trim().replace(/\\s+/g, " ");
+          if (!name) { status("album-admin-status", "Enter an album name first.", true); input.focus(); return; }
+          if (name.length > 80) { status("album-admin-status", "Album name must be 80 characters or fewer.", true); return; }
+          if (state.albums.some((album) => album.toLowerCase() === name.toLowerCase())) {
+            renderAlbumOptions(); $("media-album").value = state.albums.find((album) => album.toLowerCase() === name.toLowerCase());
+            status("album-admin-status", "That album already exists. It is selected for upload."); return;
+          }
+          state.albums.push(name);
+          renderAlbumOptions(); $("media-album").value = name;
+          const button = $("create-album"); button.disabled = true;
+          try { await saveMedia(); input.value = ""; status("album-admin-status", "Album created and saved. Now upload photos into “" + name + "”."); }
+          catch (err) { state.albums = state.albums.filter((album) => album !== name); renderAlbumOptions(); status("album-admin-status", err.message, true); }
+          finally { button.disabled = false; }
+        });
         function renderItems() {
           const host = $("media-items");
           const q = $("media-search").value.trim().toLowerCase();
@@ -1973,7 +2000,7 @@
         async function saveMedia() {
           await api("/api/admin/content", {
             method: "POST",
-            body: JSON.stringify({ kind: "media", data: { items: state.items } }),
+            body: JSON.stringify({ kind: "media", data: { items: state.items, albums: state.albums } }),
           });
         }
         let datasetCache = [];
@@ -3021,6 +3048,10 @@
             api("/api/admin/content?kind=video"),
           ]);
           state.items = Array.isArray(m.items) ? m.items : [];
+          state.albums = Array.isArray(m.albums) ? m.albums.filter((x) => typeof x === "string" && x.trim()) : [];
+          state.items.forEach((item) => { if (item.type !== "video" && item.album && !state.albums.includes(item.album)) state.albums.push(item.album); });
+          if (!state.albums.includes("General Photos")) state.albums.unshift("General Photos");
+          renderAlbumOptions();
           state.video = v;
           $("video-url").value = v.feedUrl || "";
           $("login-view").classList.add("hidden");
@@ -3101,14 +3132,19 @@
             if (!response.ok) throw Error(uploaded.error?.message || "Cloudinary upload failed.");
             state.items.unshift({
               title: $("media-title").value.trim(),
+              album: video ? "" : ($("media-album").value || "General Photos"),
               url: uploaded.secure_url,
               publicId: uploaded.public_id,
               type: video ? "video" : "image",
               createdAt: new Date().toISOString(),
             });
             await saveMedia();
+            if (!video && !state.albums.includes($("media-album").value)) state.albums.push($("media-album").value);
+            renderAlbumOptions();
             renderItems();
+            const selectedAlbum = $("media-album").value;
             $("upload-form").reset();
+            $("media-album").value = selectedAlbum;
             status("upload-status", "Uploaded successfully and published to the gallery.");
           } catch (err) {
             status("upload-status", err.message, true);
