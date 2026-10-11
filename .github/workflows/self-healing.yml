@@ -83,6 +83,7 @@ jobs:
 
       - name: Open a review PR for safe repairs
         if: always() && steps.checks.outcome != 'cancelled'
+        continue-on-error: true
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
