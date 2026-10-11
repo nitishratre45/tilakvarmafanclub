@@ -83,22 +83,27 @@
       "</h3><p>" +
       album.photos.length +
       ' photos</p></div></div><div class="tv-album-photo-grid">' +
-      album.photos.map((photo, index) =>
-        '<button class="tv-album-photo" type="button" data-photo-index="' +
-        index +
-        '" aria-label="Open ' +
-        esc(photo.title) +
-        '"><img src="' +
-        photo.safe +
-        '" alt="' +
-        esc(photo.title) +
-        '" loading="lazy" decoding="async"><span class="tv-photo-open-icon">↗</span></button>'
-      ).join("") +
+      album.photos
+        .map(
+          (photo, index) =>
+            '<button class="tv-album-photo" type="button" data-photo-index="' +
+            index +
+            '" aria-label="Open ' +
+            esc(photo.title) +
+            '"><img src="' +
+            photo.safe +
+            '" alt="' +
+            esc(photo.title) +
+            '" loading="lazy" decoding="async"><span class="tv-photo-open-icon">↗</span></button>',
+        )
+        .join("") +
       "</div></div>";
     host.querySelector(".tv-album-back").addEventListener("click", renderAlbums);
-    host.querySelectorAll("[data-photo-index]").forEach((button) =>
-      button.addEventListener("click", () => openPhoto(Number(button.dataset.photoIndex)))
-    );
+    host
+      .querySelectorAll("[data-photo-index]")
+      .forEach((button) =>
+        button.addEventListener("click", () => openPhoto(Number(button.dataset.photoIndex))),
+      );
   }
   function renderAlbums() {
     activeAlbum = null;
