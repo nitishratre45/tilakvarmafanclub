@@ -453,3 +453,104 @@ input:focus, select:focus, textarea:focus {
 }
 #advanced-json-editor[open] > summary { color: var(--cyan); margin-bottom: 12px; }
 #data-editor .section-body > #friendly-editor { margin-top: 18px; }
+
+
+/* Premium Admin Studio UI refresh · 11 Oct 2026 */
+:root {
+  --admin-glow: rgba(255, 106, 53, .16);
+  --admin-surface: rgba(12, 22, 37, .92);
+}
+body {
+  background:
+    radial-gradient(ellipse at 90% 0%, rgba(255,106,53,.09), transparent 34rem),
+    radial-gradient(ellipse at 4% 18%, rgba(67,145,205,.10), transparent 30rem),
+    #07101f;
+}
+.sidebar { backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+.brand { letter-spacing: .025em; }
+.brand small { margin-top: 3px; line-height: 1.5; }
+.nav { gap: 7px; }
+.nav a { min-height: 44px; }
+.nav a.active .nav-icon { background: rgba(255,106,53,.17); color: #ffb08a; }
+.main { width: auto; }
+.topbar { position: sticky; top: 0; z-index: 8; padding-inline: 16px; }
+.top-meta { min-width: 0; }
+.hero { padding-top: 34px; }
+.hero h1 { line-height: 1.02; }
+.hero p { line-height: 1.75; }
+.hero-badge { border-color: rgba(124,229,242,.22); background: rgba(124,229,242,.06); }
+.stat { min-height: 132px; }
+.stat-number { font-variant-numeric: tabular-nums; }
+.section { overflow: clip; }
+.section-head { gap: 18px; }
+.section-head p { max-width: 760px; line-height: 1.7; }
+.section-body { min-width: 0; }
+.card, .dataset-card, .run-card, .source-card, .service-row, .item {
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+}
+.field > span, .field label { line-height: 1.5; }
+input, select, textarea, .input-like {
+  min-height: 42px;
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+textarea { line-height: 1.65; }
+.status { line-height: 1.6; overflow-wrap: anywhere; }
+.btn:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid #7ce5f2;
+  outline-offset: 3px;
+}
+#friendly-editor { scroll-margin-top: 100px; }
+#friendly-editor h3 { margin-top: 8px; font-size: clamp(20px, 2vw, 25px); letter-spacing: -.025em; }
+.friendly-editor-controls { gap: 12px; }
+.friendly-editor-fields { gap: 12px; }
+#advanced-json-editor { margin-top: 16px; }
+#advanced-json-editor[open] { padding-bottom: 18px; }
+#data-editor-json { min-height: 300px; font: 12px/1.65 ui-monospace, SFMono-Regular, Consolas, monospace; }
+.dataset-list, .run-list, .items { min-width: 0; }
+.dataset-card, .run-card, .source-card { min-width: 0; overflow-wrap: anywhere; }
+.dataset-actions .btn, .run-actions .btn { flex: 0 0 auto; }
+.btn:disabled { filter: grayscale(.2); }
+.empty { line-height: 1.75; }
+@media (min-width: 1300px) {
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .section { margin-block: 28px; }
+}
+@media (max-width: 720px) {
+  .sidebar { overflow-x: auto; justify-content: flex-start; scrollbar-width: thin; }
+  .sidebar .brand { flex: 0 0 auto; }
+  .sidebar .nav {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    gap: 6px;
+    padding: 2px 0 5px;
+    scrollbar-width: thin;
+  }
+  .sidebar .nav a { flex: 0 0 auto; white-space: nowrap; padding: 9px 10px; min-height: 38px; font-size: 11px; }
+  .sidebar .nav .nav-icon { width: 22px; height: 22px; flex: 0 0 22px; }
+  .main { padding-inline: 12px; }
+  .topbar { position: relative; padding-inline: 0; gap: 8px; flex-wrap: wrap; }
+  .top-actions { gap: 6px; }
+  .hero { padding-top: 24px; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat { min-height: 118px; }
+  .section-head { align-items: flex-start; }
+  .friendly-editor-controls, .friendly-editor-fields { grid-template-columns: minmax(0, 1fr); }
+  #data-editor-json { min-height: 220px; }
+  .dataset-actions .btn, .run-actions .btn { flex: 1 1 auto; }
+}
+@media (max-width: 420px) {
+  .brand small { font-size: 8px; }
+  .brand { font-size: 10px; }
+  .sidebar { padding-inline: 10px; }
+  .sidebar .nav a { gap: 6px; }
+  .stats { gap: 7px; }
+  .stat-number { font-size: 22px; }
+  .section-head { padding-inline: 13px; }
+  .section-body { padding: 13px; }
+  .actions .btn { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
