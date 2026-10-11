@@ -2268,7 +2268,7 @@
       (() => {
         "use strict";
         const $ = (id) => document.getElementById(id);
-        const state = { items: [], albums: ["General Photos"], video: { feedUrl: "" } };
+        const state = { items: [], albums: ["General Photos"], albumDates: {}, video: { feedUrl: "" } };
         const status = (id, msg, error = false) => {
           const el = $(id);
           if (!el) return;
@@ -2383,7 +2383,11 @@
                 "</strong><small>" +
                 count +
                 (count === 1 ? " photo" : " photos") +
-                '</small></div><div class="album-manage-actions"><button class="btn small" type="button" data-album-rename="' +
+                '</small><label class="album-date-field">Gallery date <input type="date" value="' +
+                escapeHtml(state.albumDates[album] || "") +
+                '" data-album-date="' + escapeHtml(album) + '" aria-label="Gallery date for ' + escapeHtml(album) + '"></label></div><div class="album-manage-actions"><button class="btn small primary" type="button" data-save-album-date="' +
+                escapeHtml(album) +
+                '">Save date</button><button class="btn small" type="button" data-album-rename="' +
                 escapeHtml(album) +
                 '">✎ Edit</button>' +
                 (album === "General Photos"
@@ -2395,6 +2399,29 @@
               );
             })
             .join("");
+          host.querySelectorAll("[data-save-album-date]").forEach((button) => {
+            button.addEventListener("click", async () => {
+              const album = button.getAttribute("data-save-album-date");
+              const input = host.querySelector('[data-album-date="' + CSS.escape(album) + '"]');
+              const value = input?.value || "";
+              const previous = { ...state.albumDates };
+              if (value) state.albumDates[album] = value;
+              else delete state.albumDates[album];
+              button.disabled = true;
+              try {
+                await saveMedia();
+                status("album-admin-status", value
+                  ? 'Gallery date saved for "' + album + '". Albums now sort by this date.'
+                  : 'Custom gallery date cleared for "' + album + '". Upload date will be used.');
+              } catch (err) {
+                state.albumDates = previous;
+                renderAlbumManager();
+                status("album-admin-status", err.message || "Could not save album date.", true);
+              } finally {
+                button.disabled = false;
+              }
+            });
+          });
           host.querySelectorAll("[data-album-rename]").forEach((button) => {
             button.addEventListener("click", async () => {
               const oldName = button.getAttribute("data-album-rename");
@@ -2592,7 +2619,7 @@
             method: "POST",
             body: JSON.stringify({
               kind: "media",
-              data: { items: state.items, albums: state.albums },
+              data: { items: state.items, albums: state.albums, albumDates: state.albumDates },
             }),
           });
           renderAlbumManager();
