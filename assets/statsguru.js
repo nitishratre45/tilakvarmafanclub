@@ -103,6 +103,24 @@
     const month = MONTHS[m[2].slice(0, 3).toLowerCase()];
     return month === undefined ? 0 : Date.UTC(Number(m[3]), month, Number(m[1]));
   }
+  function withInferredBalls(summary) {
+    if (!summary || typeof summary !== "object") return summary;
+    if (
+      summary.balls == null &&
+      typeof summary.runs === "number" &&
+      typeof summary.strikeRate === "number" &&
+      summary.runs >= 0 &&
+      summary.strikeRate > 0
+    ) {
+      return {
+        ...summary,
+        balls: Math.round((summary.runs * 100) / summary.strikeRate),
+        ballsInferred: true,
+      };
+    }
+    return summary;
+  }
+
   function sourceData() {
     const formats = data?.statsguru?.formats || {};
     if (selectedFormat === "All") {
@@ -117,7 +135,7 @@
         })
         .filter(Boolean);
       const all = parts.flatMap((f) => (Array.isArray(f.innings) ? f.innings : []));
-      const summaries = parts.map((f) => f.summary).filter(Boolean);
+      const summaries = parts.map((f) => withInferredBalls(f.summary)).filter(Boolean);
       const sum = (k) => summaries.reduce((n, s) => n + (typeof s[k] === "number" ? s[k] : 0), 0);
       const best = summaries
         .map((s) => ({
@@ -162,7 +180,7 @@
           ? data?.careerFormats?.["List A"]
           : null;
     return {
-      summary: entry.summary || fallbackSummary || null,
+      summary: withInferredBalls(entry.summary || fallbackSummary || null),
       innings: Array.isArray(entry.innings) ? entry.innings : [],
       breakdown: Array.isArray(entry.careerBreakdown) ? entry.careerBreakdown : [],
       formats,
