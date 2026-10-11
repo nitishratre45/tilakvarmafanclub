@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08111f">
+  <title>Missing Match Lab | Tilak Varma FC</title>
+  <link rel="stylesheet" href="../assets/style.css?v=20261011-dropdown-dialog-fix2">
+  <link rel="stylesheet" href="../assets/premium-ui.css?v=20261011-deathovers-clean">
+  <style>
+    :root{color-scheme:dark;--lab-bg:#08111f;--lab-card:#101e31;--lab-line:#263a52;--lab-muted:#9fb0c5;--lab-cyan:#6de0f5;--lab-orange:#ff6a35}
+    body{background:var(--lab-bg);color:#f3f7ff}
+    .lab-wrap{width:min(1120px,92vw);margin:0 auto;padding:38px 0 72px}
+    .lab-hero{padding:clamp(24px,5vw,48px);border:1px solid var(--lab-line);border-radius:18px;background:radial-gradient(ellipse at 90% 0%,#1b3855 0,transparent 42%),linear-gradient(135deg,#10233a,#0a1423)}
+    .lab-kicker{color:var(--lab-cyan);font:700 11px/1.5 monospace;letter-spacing:.14em}
+    h1{font-size:clamp(34px,6vw,60px);line-height:1;margin:12px 0}h1 em{color:var(--lab-orange);font-style:normal}
+    .lab-hero p,.lab-note{color:var(--lab-muted);line-height:1.7;font-size:13px;max-width:780px}
+    .lab-badge{display:inline-flex;align-items:center;gap:7px;border:1px solid #78542d;background:#332517;color:#ffd19b;border-radius:99px;padding:7px 11px;font:700 10px monospace;letter-spacing:.06em}
+    .lab-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:22px 0}
+    select,.lab-button{border:1px solid #344b66;background:#101e31;color:#eef5ff;border-radius:10px;padding:12px 14px;font:600 12px inherit;min-height:44px}
+    .lab-button{cursor:pointer;background:linear-gradient(120deg,#ff6a35,#ed4c25);border-color:#ff8a5f;color:white;font-weight:800}
+    .lab-button:disabled{opacity:.6;cursor:wait}
+    .lab-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+    .lab-stat,.lab-card{background:var(--lab-card);border:1px solid var(--lab-line);border-radius:14px;padding:17px;min-width:0}
+    .lab-stat span{display:block;color:var(--lab-muted);font:700 10px monospace;letter-spacing:.08em}
+    .lab-stat strong{display:block;font-size:30px;margin-top:8px}
+    .lab-section-title{font-size:22px;margin:28px 0 8px}
+    #lab-results{display:grid;gap:10px}
+    .lab-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .lab-card h3{font-size:15px;line-height:1.35;margin:0 0 6px;overflow-wrap:anywhere}
+    .lab-meta{font-size:11px;line-height:1.7;color:var(--lab-muted);overflow-wrap:anywhere}
+    .lab-status{flex:0 0 auto;border-radius:99px;padding:6px 9px;font:700 9px monospace;letter-spacing:.04em}
+    .status-missing{color:#ffd19b;background:#3b2918;border:1px solid #77522c}
+    .status-covered{color:#a8f2cb;background:#143527;border:1px solid #28694a}
+    .status-unverified{color:#b8d9ff;background:#172b43;border:1px solid #31557d}
+    .lab-link{display:inline-block;margin-top:10px;color:var(--lab-cyan);font-size:12px;text-decoration:underline;text-underline-offset:3px}
+    .lab-empty{padding:24px;border:1px dashed #3a5069;border-radius:12px;color:var(--lab-muted);line-height:1.7}
+    .lab-foot{margin-top:22px;padding:15px;border-left:3px solid var(--lab-orange);background:#171b25;color:#b9c6d7;font-size:12px;line-height:1.7}
+    .lab-back{display:inline-block;margin-bottom:18px;color:#b8d9ff;font-size:12px}
+    @media(max-width:600px){.lab-stats{grid-template-columns:1fr}.lab-stat{padding:14px}.lab-stat strong{font-size:26px}.lab-card{padding:14px}.lab-wrap{padding-top:22px}}
+  </style>
+</head>
+<body>
+  <main class="lab-wrap">
+    <a class="lab-back" href="./">← Back to Death Overs</a>
+    <header class="lab-hero">
+      <span class="lab-badge">EXPERIMENTAL · ISOLATED TEST</span>
+      <div class="lab-kicker" style="margin-top:18px">DATA COVERAGE DIAGNOSTICS / 72 CLUB</div>
+      <h1>MISSING MATCH <em>LAB</em></h1>
+      <p>Compare saved ESPNcricinfo Statsguru innings against the existing Death Overs archive. This page is isolated: it does not edit the main Stats, Death Overs, or source JSON files.</p>
+    </header>
+    <div class="lab-controls">
+      <label for="lab-format">Format</label>
+      <select id="lab-format">
+        <option value="T20I">T20 International</option>
+        <option value="ODI">ODI</option>
+        <option value="T20">Other Men's T20</option>
+        <option value="IPL">IPL</option>
+        <option value="overall_t20">Overall T20</option>
+      </select>
+      <button id="lab-refresh" class="lab-button" type="button">Run comparison</button>
+      <span id="lab-updated" class="lab-meta" role="status">Loading saved datasets…</span>
+    </div>
+    <div class="lab-stats" aria-live="polite">
+      <article class="lab-stat"><span>CRICINFO INNINGS CHECKED</span><strong id="lab-total">—</strong></article>
+      <article class="lab-stat"><span>DEATH OVERS MATCHES</span><strong id="lab-covered">—</strong></article>
+      <article class="lab-stat"><span>POSSIBLE GAPS</span><strong id="lab-missing">—</strong></article>
+    </div>
+    <h2 class="lab-section-title">Comparison results</h2>
+    <p class="lab-note">“Possible gap” means a Statsguru innings did not find a likely date/opposition match in the saved Death Overs dataset. It is a review candidate, not proof that ball-by-ball data exists.</p>
+    <section id="lab-results" aria-live="polite"><div class="lab-empty">Loading comparison…</div></section>
+    <aside class="lab-foot"><strong>Safety rule:</strong> no overs 16–20 runs, fours, or sixes are guessed from a scorecard. This experiment only flags coverage gaps; adding a match requires a verified over-by-over or ball-by-ball source.</aside>
+  </main>
+  <script>
+  (() => {
+    "use strict";
+    const $ = id => document.getElementById(id);
+    let site = null, death = null;
+    const fmtMap = {T20I:"t20i", ODI:"odi", T20:"t20", IPL:"ipl", overall_t20:"overall_t20"};
+    const normalize = value => String(value || "").normalize("NFKD").toLowerCase()
+      .replace(/\b(vs|v|against|innings|the)\b/g, " ")
+      .replace(/\b(india|tilak varma)\b/g, " ")
+      .replace(/[^a-z0-9]/g, "");
+    function dateKey(value) {
+      const s = String(value || "").trim();
+      let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+      if (m) return m[1] + "-" + m[2].padStart(2,"0") + "-" + m[3].padStart(2,"0");
+      m = s.match(/^(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})$/);
+      if (m) {
+        const month = {jan:"01",feb:"02",mar:"03",apr:"04",may:"05",jun:"06",jul:"07",aug:"08",sep:"09",oct:"10",nov:"11",dec:"12"}[m[2].slice(0,3).toLowerCase()];
+        if (month) return m[3] + "-" + month + "-" + m[1].padStart(2,"0");
+      }
+      const d = Date.parse(s);
+      return Number.isFinite(d) ? new Date(d).toISOString().slice(0,10) : "";
+    }
+    function formatKey(value) {
+      const v = String(value || "").toLowerCase();
+      if (v === "t20i" || v.includes("international")) return "t20i";
+      if (v === "odi" || v.includes("one day")) return "odi";
+      if (v === "ipl") return "ipl";
+      if (v === "overall_t20") return "overall_t20";
+      return "t20";
+    }
+    function matchNames(row) {
+      const names = [row.opposition, row.teams, row.battingTeam].filter(Boolean).map(normalize);
+      return names;
+    }
+    function likelySame(a, b) {
+      const da = dateKey(a.date), db = dateKey(b.date);
+      if (!da || da !== db) return false;
+      const left = matchNames(a), right = matchNames(b);
+      if (!left.length || !right.length) return true;
+      return left.some(x => right.some(y => x === y || (x.length > 3 && y.length > 3 && (x.includes(y) || y.includes(x)))));
+    }
+    function statsguruInnings(format) {
+      const formats = site?.statsguru?.formats || {};
+      const aliases = format === "IPL" || format === "overall_t20" ? [] : [format];
+      const rows = [];
+      for (const alias of aliases) {
+        const entry = formats[alias];
+        if (Array.isArray(entry?.innings)) rows.push(...entry.innings.map(row => ({...row, _sourceFormat:alias})));
+      }
+      if (format === "T20") {
+        for (const alias of ["T20"]) if (Array.isArray(formats[alias]?.innings)) rows.push(...formats[alias].innings.map(row => ({...row,_sourceFormat:alias})));
+      }
+      if (format === "overall_t20") {
+        for (const alias of ["T20I","T20"]) if (Array.isArray(formats[alias]?.innings)) rows.push(...formats[alias].innings.map(row => ({...row,_sourceFormat:alias})));
+      }
+      const seen = new Set();
+      return rows.filter(row => {
+        const key = [dateKey(row.date),normalize(row.opposition),normalize(row.ground),row.score].join("|");
+        if (seen.has(key)) return false; seen.add(key); return true;
+      });
+    }
+    function deathInnings(format) {
+      const formats = death?.formats || {};
+      const keys = format === "overall_t20" ? ["overall_t20","ipl","hyderabad","t20"] : [fmtMap[format]];
+      const rows = [];
+      for (const key of keys) {
+        const entry = formats[key];
+        if (!entry) continue;
+        for (const row of Array.isArray(entry.innings) ? entry.innings : []) rows.push({...row,_sourceFormat:key});
+      }
+      return rows;
+    }
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    }
+    function render() {
+      const format = $("lab-format").value;
+      const sourceRows = statsguruInnings(format);
+      const deathRows = deathInnings(format);
+      const results = sourceRows.map(row => ({row, matched:deathRows.some(d => likelySame(row,d))}));
+      const missing = results.filter(x => !x.matched);
+      $("lab-total").textContent = sourceRows.length.toLocaleString("en-IN");
+      $("lab-covered").textContent = (results.length-missing.length).toLocaleString("en-IN");
+      $("lab-missing").textContent = missing.length.toLocaleString("en-IN");
+      $("lab-updated").textContent = "Stats snapshot: " + (site?.statsguru?.updatedAt || site?.lastUpdated || "unknown") + " · Death Overs: " + (death?.updatedAt || "unknown");
+      if (!sourceRows.length) {
+        $("lab-results").innerHTML = '<div class="lab-empty">No saved Statsguru innings list was found for this format. This test cannot confirm gaps for it. Main data has not been changed.</div>';
+        return;
+      }
+      const items = results.slice().sort((a,b) => dateKey(b.row.date).localeCompare(dateKey(a.row.date))).slice(0,100);
+      $("lab-results").innerHTML = items.map(({row,matched}) => {
+        const source = row.matchUrl || row.source || "";
+        const label = [row.opposition || "Unknown opposition", row.date || "Unknown date"].join(" · ");
+        const score = row.score || (row.runs != null ? String(row.runs) + (row.notOut ? "*" : "") : "Score not saved");
+        return '<article class="lab-card"><div class="lab-card-head"><div><h3>'+escapeHTML(label)+'</h3><div class="lab-meta">'+escapeHTML([row.ground,row.innings ? "Innings "+row.innings : "", "Score "+score].filter(Boolean).join(" · "))+'</div></div><span class="lab-status '+(matched?"status-covered":"status-missing")+'">'+(matched?"MATCH FOUND":"POSSIBLE GAP")+'</span></div>'+(source?'<a class="lab-link" href="'+escapeHTML(source)+'" target="_blank" rel="noopener noreferrer">Open saved match source ↗</a>':"")+'</article>';
+      }).join("");
+      if (results.length > 100) $("lab-results").insertAdjacentHTML("beforeend",'<div class="lab-empty">Showing latest 100 of '+results.length+' saved innings to keep this test page fast.</div>');
+    }
+    async function load() {
+      $("lab-refresh").disabled = true;
+      $("lab-updated").textContent = "Loading saved datasets…";
+      try {
+        const [s,d] = await Promise.all([
+          fetch("../data/site-data.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("site-data.json HTTP "+r.status);return r.json()}),
+          fetch("../data/death-overs.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("death-overs.json HTTP "+r.status);return r.json()})
+        ]);
+        site=s; death=d; render();
+      } catch (error) {
+        $("lab-results").innerHTML='<div class="lab-empty">Could not load the saved datasets: '+escapeHTML(error.message)+'. Try again after the site deployment completes.</div>';
+        $("lab-updated").textContent="Load failed";
+      } finally { $("lab-refresh").disabled = false; }
+    }
+    $("lab-refresh").addEventListener("click",load);
+    $("lab-format").addEventListener("change",render);
+    load();
+  })();
+  </script>
+</body>
+</html>
