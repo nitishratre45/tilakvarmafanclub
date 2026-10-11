@@ -1935,7 +1935,16 @@
           );
         }
         function unavailable(msg) {
-          ["runs", "balls", "boundaries", "sr", "single-runs", "single-balls", "single-boundaries", "single-sr"].forEach((id) => {
+          [
+            "runs",
+            "balls",
+            "boundaries",
+            "sr",
+            "single-runs",
+            "single-balls",
+            "single-boundaries",
+            "single-sr",
+          ].forEach((id) => {
             const el = document.getElementById(id);
             if (el) el.textContent = "—";
           });
@@ -1946,11 +1955,14 @@
           const feed = document.getElementById("feed-status");
           if (feed) feed.textContent = "FEED UNAVAILABLE";
           const matchesBox = document.getElementById("matches");
-          if (matchesBox) matchesBox.innerHTML = '<div class="empty-state">No match data available.</div>';
+          if (matchesBox)
+            matchesBox.innerHTML = '<div class="empty-state">No match data available.</div>';
           const overBox = document.getElementById("over-breakdown");
-          if (overBox) overBox.innerHTML = '<div class="empty-state">No over totals available.</div>';
+          if (overBox)
+            overBox.innerHTML = '<div class="empty-state">No over totals available.</div>';
           const ballBox = document.getElementById("ball-log");
-          if (ballBox) ballBox.innerHTML = '<div class="empty-state">No ball-by-ball data available.</div>';
+          if (ballBox)
+            ballBox.innerHTML = '<div class="empty-state">No ball-by-ball data available.</div>';
         }
         function calculate() {
           const d = data();
@@ -2151,9 +2163,17 @@
             matchCount = new Set(innings.map((i) => i.matchId || i.date + "|" + i.teams)).size;
           document.getElementById("coverage-summary-text").textContent =
             (d?.label || names[active]) +
-            " · " + fmt(matchCount) + " matches · " + fmt(t.runs) +
-            " runs · " + fmt(t.fours) + " fours · " + fmt(t.sixes) + " sixes" +
-            " · " + (year.value === "all" ? "all years" : year.value);
+            " · " +
+            fmt(matchCount) +
+            " matches · " +
+            fmt(t.runs) +
+            " runs · " +
+            fmt(t.fours) +
+            " fours · " +
+            fmt(t.sixes) +
+            " sixes" +
+            " · " +
+            (year.value === "all" ? "all years" : year.value);
           document.getElementById("total-runs").textContent = fmt(t.runs);
           document.getElementById("total-innings").textContent = fmt(
             d?.inningsFound || innings.length,
