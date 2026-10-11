@@ -585,26 +585,49 @@
       .single-over-head h3 {
         margin: 8px 0;
         color: #f4f8ff;
-        font: 800 clamp(22px, 3vw, 30px)/1.1 var(--display);
+        font: 800 clamp(22px, 3vw, 30px) / 1.1 var(--display);
       }
-      .single-over-head h3 em { color: var(--orange); font-style: normal; }
-      .single-over-head p { margin: 0; color: #93a9c2; font-size: 11px; line-height: 1.7; }
+      .single-over-head h3 em {
+        color: var(--orange);
+        font-style: normal;
+      }
+      .single-over-head p {
+        margin: 0;
+        color: #93a9c2;
+        font-size: 11px;
+        line-height: 1.7;
+      }
       .single-over-head label {
-        display: grid; gap: 7px; min-width: min(100%, 220px);
-        color: var(--muted); font: 10px var(--mono);
+        display: grid;
+        gap: 7px;
+        min-width: min(100%, 220px);
+        color: var(--muted);
+        font: 10px var(--mono);
       }
       .single-over-head select {
-        color-scheme: dark; width: 100%; min-height: 46px; padding: 10px 14px;
-        color: var(--white); background: #07101f; border: 1px solid #40536c;
-        border-radius: 4px; font: 12px var(--mono);
+        color-scheme: dark;
+        width: 100%;
+        min-height: 46px;
+        padding: 10px 14px;
+        color: var(--white);
+        background: #07101f;
+        border: 1px solid #40536c;
+        border-radius: 4px;
+        font: 12px var(--mono);
       }
       .single-over-grid {
-        display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 10px; margin-top: 16px;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 16px;
       }
-      .single-over-grid .result-card { min-height: 105px; }
+      .single-over-grid .result-card {
+        min-height: 105px;
+      }
       @media (max-width: 560px) {
-        .single-over-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .single-over-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
       }
 
       .result-grid {
@@ -1709,17 +1732,28 @@
                 <div>
                   <div class="section-kicker">SINGLE OVER ANALYSIS</div>
                   <h3 id="single-over-title">ONE <em>OVER.</em></h3>
-                  <p>Choose one over to see its combined stats across the selected format and year.</p>
+                  <p>
+                    Choose one over to see its combined stats across the selected format and year.
+                  </p>
                 </div>
-                <label for="single-over">SELECT OVER
+                <label for="single-over"
+                  >SELECT OVER
                   <select id="single-over"></select>
                 </label>
               </div>
               <div class="single-over-grid">
-                <article class="result-card"><small>RUNS</small><strong id="single-runs">—</strong></article>
-                <article class="result-card"><small>BALLS FACED</small><strong id="single-balls">—</strong></article>
-                <article class="result-card"><small>FOURS / SIXES</small><strong id="single-boundaries">—</strong></article>
-                <article class="result-card"><small>STRIKE RATE</small><strong id="single-sr">—</strong></article>
+                <article class="result-card">
+                  <small>RUNS</small><strong id="single-runs">—</strong>
+                </article>
+                <article class="result-card">
+                  <small>BALLS FACED</small><strong id="single-balls">—</strong>
+                </article>
+                <article class="result-card">
+                  <small>FOURS / SIXES</small><strong id="single-boundaries">—</strong>
+                </article>
+                <article class="result-card">
+                  <small>STRIKE RATE</small><strong id="single-sr">—</strong>
+                </article>
               </div>
             </section>
 
@@ -1953,17 +1987,23 @@
         }
         function renderSingleOver(d) {
           const selectedOver = +(singleOver?.value || 1);
-          const totals = (d?.innings || []).flatMap((i) => i.overs || [])
+          const totals = (d?.innings || [])
+            .flatMap((i) => i.overs || [])
             .filter((o) => +o.over === selectedOver)
-            .reduce((s, o) => {
-              for (const k of ["runs", "balls", "fours", "sixes"]) s[k] += +(o[k] || 0);
-              return s;
-            }, { runs: 0, balls: 0, fours: 0, sixes: 0 });
+            .reduce(
+              (s, o) => {
+                for (const k of ["runs", "balls", "fours", "sixes"]) s[k] += +(o[k] || 0);
+                return s;
+              },
+              { runs: 0, balls: 0, fours: 0, sixes: 0 },
+            );
           document.getElementById("single-runs").textContent = fmt(totals.runs);
           document.getElementById("single-balls").textContent = fmt(totals.balls);
-          document.getElementById("single-boundaries").textContent = fmt(totals.fours) + " / " + fmt(totals.sixes);
+          document.getElementById("single-boundaries").textContent =
+            fmt(totals.fours) + " / " + fmt(totals.sixes);
           document.getElementById("single-sr").textContent = totals.balls
-            ? ((totals.runs * 100) / totals.balls).toFixed(2) : "—";
+            ? ((totals.runs * 100) / totals.balls).toFixed(2)
+            : "—";
         }
         function renderBreakdown(d, a, b) {
           const box = document.getElementById("over-breakdown");
@@ -2256,7 +2296,10 @@
           calculate();
         });
         button.addEventListener("click", calculate);
-        singleOver?.addEventListener("change", () => { renderSingleOver(data()); renderBallLog(data()); });
+        singleOver?.addEventListener("change", () => {
+          renderSingleOver(data());
+          renderBallLog(data());
+        });
         first.addEventListener("change", calculate);
         last.addEventListener("change", calculate);
         load();
