@@ -23,6 +23,8 @@ export async function onRequestPost({ request, env }) {
   } catch {
     return json({ error: "Invalid request." }, 400);
   }
+  if (!body || typeof body !== "object" || Array.isArray(body))
+    return json({ error: "Invalid request body." }, 400);
   const resourceType = body.resourceType === "video" ? "video" : "image";
   const folder = resourceType === "video" ? "tilakvarmafanclub/videos" : "tilakvarmafanclub/photos";
   const timestamp = Math.floor(Date.now() / 1000);
