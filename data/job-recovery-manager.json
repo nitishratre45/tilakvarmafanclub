@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-11T21:51:32.703Z",
+  "checkedAt": "2026-10-11T21:52:38.010Z",
   "retentionHours": 15,
   "events": [
     {
@@ -395,6 +395,52 @@
               "name": "Re-run only failed jobs",
               "conclusion": "failure",
               "number": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-10-11T21:52:38.010Z",
+      "workflow": "Admin Python diagnostics",
+      "workflowPath": ".github/workflows/admin-diagnostics.yml",
+      "runId": 38178137758,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38178137758",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 1,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Python code and data diagnostics",
+          "conclusion": "cancelled",
+          "startedAt": "2026-10-11T21:52:25Z",
+          "completedAt": "2026-10-11T21:52:31Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38178137758/job/114584784016",
+          "steps": [
+            {
+              "name": "Locate errors with Python",
+              "conclusion": "cancelled",
+              "number": 5
+            },
+            {
+              "name": "Post Set up Node",
+              "conclusion": "skipped",
+              "number": 8
+            },
+            {
+              "name": "Post Set up Python",
+              "conclusion": "skipped",
+              "number": 9
             }
           ]
         }
