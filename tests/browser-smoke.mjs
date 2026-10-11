@@ -111,6 +111,45 @@ check("gallery handles externally hosted photo previews that fail to load", asyn
   await page.close();
 });
 
+check("mobile photo gallery shows ten albums at a time and filters by year/month", async () => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  page.setDefaultTimeout(10000);
+  const items = [];
+  const names = [];
+  for (let i = 0; i < 23; i++) {
+    const year = i < 12 ? 2024 : 2025;
+    const month = i < 6 ? "01" : i < 12 ? "02" : "03";
+    const album = "Archive Album " + String(i + 1).padStart(2, "0");
+    names.push(album);
+    items.push({
+      title: "Tilak Varma " + i,
+      album,
+      url: "https://example.com/photo-" + i + ".jpg",
+      type: "image",
+      createdAt: year + "-" + month + "-15T12:00:00.000Z",
+    });
+  }
+  await page.route("**/data/admin-media.json*", (route) => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({ items, albums: names, updatedAt: "2026-10-11T00:00:00.000Z" }),
+  }));
+  await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+  await page.locator('#main-nav a[href="#photos"]').click();
+  await page.locator(".tv-gallery-year").waitFor();
+  assert.equal(await page.locator(".tv-album-card").count(), 10, "First page should show 10 albums");
+  await page.locator(".tv-gallery-more").click();
+  assert.equal(await page.locator(".tv-album-card").count(), 20, "More albums should reveal the next 10");
+  await page.locator(".tv-gallery-more").click();
+  assert.equal(await page.locator(".tv-album-card").count(), 23, "Final page should show remaining albums");
+  await page.locator(".tv-gallery-year").selectOption("2024");
+  assert.equal(await page.locator(".tv-album-card").count(), 10, "Year filter resets paging and shows first 10 matches");
+  await page.locator(".tv-gallery-month").selectOption("1");
+  assert.equal(await page.locator(".tv-album-card").count(), 6, "Month filter should narrow results");
+  assert.equal(await page.locator(".tv-gallery-more").count(), 0, "More button should hide when all filtered albums fit");
+  await page.close();
+});
+
 check("Admin Studio warns before discarding unsaved edits", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
