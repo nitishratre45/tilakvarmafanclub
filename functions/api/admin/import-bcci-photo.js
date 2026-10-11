@@ -14,6 +14,7 @@ function normalizePastedBcciUrl(value) {
   } else {
     const urlMatch = text.match(/https?:\/\/[^\s<>()|]+/i);
     if (urlMatch) text = urlMatch[0];
+    else return "";
   }
   return text
     .replace(/&amp;/gi, "&")
