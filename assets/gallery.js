@@ -275,7 +275,7 @@
       filtered.length +
       " album" +
       (filtered.length === 1 ? "" : "s") +
-      ' found</small><span class="tv-gallery-sort-note">Oldest first · exact upload date/time when available</span></div>' +
+      ' found</small><span class="tv-gallery-sort-note">Oldest first · album date · date only</span></div>' +
       '<div class="tv-gallery-filters"><label><span>YEAR</span><select class="tv-gallery-year" aria-label="Filter albums by year"><option value="all">All years</option>' +
       years
         .map(
@@ -331,8 +331,7 @@
                         day: "numeric",
                         month: "short",
                         year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
+                        
                       })
                     : "Date unavailable",
                 ) +
@@ -397,6 +396,7 @@
         .map((item) => ({ ...item, safe: safeUrl(item.url) }))
         .filter((item) => item.safe && item.type !== "video");
       const names = Array.isArray(data.albums) ? data.albums : [];
+      const albumDates = data.albumDates && typeof data.albumDates === "object" ? data.albumDates : {};
       const grouped = new Map();
       names.forEach((name) => {
         if (typeof name === "string" && name.trim()) grouped.set(name, []);
@@ -419,7 +419,7 @@
             if (!bTime) return -1;
             return aTime - bTime;
           });
-          return { name, photos, cover: photos[0] || null };
+          return { name, photos, cover: photos[0] || null, customDate: albumDates[name] || "" };
         })
         .filter((album) => album.cover);
       albums.forEach((album) => {
@@ -427,7 +427,7 @@
           .map((photo) => photo.createdAt)
           .filter((value) => value && !Number.isNaN(Date.parse(value)))
           .sort((a, b) => Date.parse(b) - Date.parse(a));
-        album.uploadDate = uploadTimes[0] || "";
+        album.uploadDate = album.customDate || uploadTimes[0] || "";
       });
       albums.sort((a, b) => {
         const aTime = Date.parse(a.uploadDate || "") || 0;
