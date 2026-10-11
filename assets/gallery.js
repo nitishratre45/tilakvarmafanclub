@@ -50,19 +50,48 @@
     ensureLightbox();
     const photo = activeAlbum.photos[activeIndex];
     const img = lightbox.querySelector("img");
-    img.src = photo.safe;
+    const caption = lightbox.querySelector("figcaption");
+    const download = lightbox.querySelector(".tv-lightbox-download");
+    img.style.display = "";
+    img.onerror = () => {
+      img.style.display = "none";
+      caption.textContent = photo.title + " — preview unavailable from the image host.";
+      if (photo.storage === "external") {
+        const source = document.createElement("a");
+        source.href = photo.safe;
+        source.target = "_blank";
+        source.rel = "noopener noreferrer";
+        source.textContent = " Open original photo ↗";
+        caption.appendChild(source);
+      }
+    };
+    img.onload = () => {
+      img.style.display = "";
+      caption.textContent = photo.title;
+    };
     img.alt = photo.title;
-    lightbox.querySelector("figcaption").textContent = photo.title;
+    img.src = photo.safe;
+    caption.textContent = photo.title;
     lightbox.querySelector(".tv-lightbox-count").textContent =
       activeIndex + 1 + " / " + activeAlbum.photos.length;
-    const download = lightbox.querySelector(".tv-lightbox-download");
-    download.href = photo.safe.includes("res.cloudinary.com/")
-      ? photo.safe.replace("/upload/", "/upload/fl_attachment/")
-      : photo.safe;
-    download.setAttribute(
-      "download",
-      (photo.title || "tilak-varma-photo").replace(/[^a-z0-9-_]+/gi, "-") + ".jpg",
-    );
+    if (photo.storage === "external") {
+      download.href = photo.safe;
+      download.textContent = "↗ Open original photo";
+      download.removeAttribute("download");
+      download.target = "_blank";
+      download.rel = "noopener noreferrer";
+    } else {
+      download.href = photo.safe.includes("res.cloudinary.com/")
+        ? photo.safe.replace("/upload/", "/upload/fl_attachment/")
+        : photo.safe;
+      download.textContent = "↓ Download photo";
+      download.setAttribute(
+        "download",
+        (photo.title || "tilak-varma-photo").replace(/[^a-z0-9-_]+/gi, "-") + ".jpg",
+      );
+      download.removeAttribute("target");
+      download.removeAttribute("rel");
+    }
     lightbox.classList.add("is-open");
     document.body.classList.add("tv-lightbox-lock");
     lightbox.querySelector(".tv-lightbox-close").focus();
@@ -75,6 +104,19 @@
   function movePhoto(delta) {
     openPhoto(activeIndex + delta);
   }
+  host.addEventListener(
+    "error",
+    (event) => {
+      const img = event.target;
+      if (!(img instanceof HTMLImageElement) || !img.closest(".tv-album-cover, .tv-album-photo")) return;
+      img.style.display = "none";
+      const fallback = document.createElement("span");
+      fallback.className = "tv-photo-source-fallback";
+      fallback.textContent = "Preview unavailable";
+      img.parentElement?.appendChild(fallback);
+    },
+    true,
+  );
   function renderAlbumPhotos(album) {
     activeAlbum = album;
     document.getElementById("photos")?.classList.add("tv-album-view-active");
