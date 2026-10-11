@@ -1356,6 +1356,9 @@
           <a href="#data-status" data-view="data-status"
             ><span class="nav-icon">◷</span>Data freshness</a
           >
+          <a href="#data-editor" data-view="data-editor"
+            ><span class="nav-icon">✎</span>Stats & Death Overs data</a
+          >
           <a href="#services" data-view="services"
             ><span class="nav-icon">◈</span>Services & security</a
           >
@@ -1654,6 +1657,80 @@
               saved fallback data instead of pretending the format refreshed successfully. “Refresh
               now” starts the relevant GitHub workflow; it does not guarantee the upstream source
               will return new data.
+            </div>
+          </div>
+        </section>
+        <section id="data-editor" class="section">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">CONTENT CONTROL · SOURCE DATA</div>
+              <h2>Stats & Death Overs data editor</h2>
+              <p>
+                Inspect and edit the exact JSON files used by the public website. Choose the data
+                family, load the saved repository version, edit it carefully, validate the JSON,
+                then publish it to GitHub. This does not invent or fetch new stats.
+              </p>
+            </div>
+            <span class="pill">AUTHENTICATED · JSON</span>
+          </div>
+          <div class="section-body">
+            <div class="service-row">
+              <span class="service-icon">📊</span>
+              <div>
+                <strong>Stats & player profile · data/site-data.json</strong>
+                <p>
+                  Feeds the Profile and Stats pages: T20I/ODI/T20/FC/List A batting summaries,
+                  batting innings and match lists, bowling and fielding summaries/innings,
+                  career profile, recent innings, ICC rankings/records and update timestamps.
+                  Automated refresh jobs may replace fields they own; edit only when you understand
+                  the source structure.
+                </p>
+              </div>
+            </div>
+            <div class="service-row">
+              <span class="service-icon">🏏</span>
+              <div>
+                <strong>Death Overs · data/death-overs.json</strong>
+                <p>
+                  Feeds the Death-overs page: match/innings records, over-by-over and ball-by-ball
+                  data, year/format filters and calculated death-over summaries. Keep the original
+                  object/array structure and unique match/innings identifiers intact.
+                </p>
+              </div>
+            </div>
+            <div class="grid" style="margin-bottom:14px">
+              <label class="field">
+                <span>Data family</span>
+                <select id="data-editor-kind">
+                  <option value="stats">Stats, profile & career data</option>
+                  <option value="death">Death Overs archive</option>
+                </select>
+              </label>
+              <div class="field">
+                <span>Repository file</span>
+                <div id="data-editor-path" class="input-like" aria-live="polite">data/site-data.json</div>
+              </div>
+            </div>
+            <div class="actions" style="margin-bottom:12px">
+              <button id="data-editor-load" class="btn" type="button">↻ Load saved file</button>
+              <button id="data-editor-format" class="btn" type="button">Format JSON</button>
+              <button id="data-editor-save" class="btn primary" type="button">Save to GitHub</button>
+            </div>
+            <p id="data-editor-status" class="status" role="status" aria-live="polite">
+              Load a file to inspect or edit its saved data.
+            </p>
+            <label class="field">
+              <span>Saved JSON · advanced editor</span>
+              <textarea id="data-editor-json" rows="18" spellcheck="false" autocapitalize="off"
+                autocomplete="off" placeholder="Choose a data family and click Load saved file."></textarea>
+            </label>
+            <div class="monitor-help">
+              Safety: save is restricted to the two listed JSON files and requires an authenticated
+              Admin session. Invalid JSON or a missing core data structure is rejected. Saving
+              commits the full file to GitHub and can affect public pages, so load the latest file
+              before editing and avoid deleting unknown fields. This editor is for corrections to
+              saved data, not API keys or passwords. Refresh workflows may overwrite automated
+              fields on their next run.
             </div>
           </div>
         </section>
@@ -2300,6 +2377,72 @@
           if (refreshButton) refreshButton.disabled = false;
         }
         $("video-sources-refresh").addEventListener("click", loadVideoSourceStatus);
+        const editorPaths = {
+          stats: "data/site-data.json",
+          death: "data/death-overs.json",
+        };
+        let editorLoadedKind = "";
+        async function loadDataEditor() {
+          const kind = $("data-editor-kind").value;
+          const button = $("data-editor-load");
+          button.disabled = true;
+          status("data-editor-status", "Loading latest saved " + editorPaths[kind] + "…");
+          try {
+            const result = await api("/api/admin/data-editor?kind=" + encodeURIComponent(kind));
+            $("data-editor-json").value = JSON.stringify(result.data, null, 2);
+            $("data-editor-path").textContent = result.path;
+            editorLoadedKind = kind;
+            status(
+              "data-editor-status",
+              "Loaded " + result.path + ". " + (kind === "stats"
+                ? "This file feeds profile, batting, bowling, fielding, innings and ranking views."
+                : "This file feeds Death Overs match, innings, over and ball-level views."),
+            );
+          } catch (err) {
+            status("data-editor-status", err.message, true);
+          } finally {
+            button.disabled = false;
+          }
+        }
+        $("data-editor-load").addEventListener("click", loadDataEditor);
+        $("data-editor-kind").addEventListener("change", () => {
+          $("data-editor-path").textContent = editorPaths[$("data-editor-kind").value];
+          editorLoadedKind = "";
+          $("data-editor-json").value = "";
+          status("data-editor-status", "Data family changed. Load the saved file before editing.");
+        });
+        $("data-editor-format").addEventListener("click", () => {
+          try {
+            const parsed = JSON.parse($("data-editor-json").value);
+            $("data-editor-json").value = JSON.stringify(parsed, null, 2);
+            status("data-editor-status", "JSON formatted locally. Not saved yet.");
+          } catch (err) {
+            status("data-editor-status", "JSON syntax error: " + err.message, true);
+          }
+        });
+        $("data-editor-save").addEventListener("click", async () => {
+          const kind = $("data-editor-kind").value;
+          if (editorLoadedKind !== kind) {
+            status("data-editor-status", "Load the latest saved file for this data family before saving.", true);
+            return;
+          }
+          if (!confirm("Publish the entire " + editorPaths[kind] + " file to GitHub? This can change public Stats or Death Overs pages.")) return;
+          const button = $("data-editor-save");
+          button.disabled = true;
+          status("data-editor-status", "Validating and saving JSON to GitHub…");
+          try {
+            const result = await api("/api/admin/data-editor", {
+              method: "POST",
+              body: JSON.stringify({ kind, data: $("data-editor-json").value }),
+            });
+            status("data-editor-status", "Saved " + result.path + " to GitHub. Commit: " + (result.commit || "created") + ". Cloudflare Pages will deploy the change.");
+            editorLoadedKind = kind;
+          } catch (err) {
+            status("data-editor-status", err.message, true);
+          } finally {
+            button.disabled = false;
+          }
+        });
         async function loadStudio() {
           const [m, v] = await Promise.all([
             api("/api/admin/content?kind=media"),
