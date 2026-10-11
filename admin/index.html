@@ -3812,6 +3812,7 @@
           state.albums = Array.isArray(m.albums)
             ? m.albums.filter((x) => typeof x === "string" && x.trim())
             : [];
+          state.albumDates = m.albumDates && typeof m.albumDates === "object" ? m.albumDates : {};
           state.items.forEach((item) => {
             if (item.type !== "video" && item.album && !state.albums.includes(item.album))
               state.albums.push(item.album);
@@ -3897,6 +3898,7 @@
             state.albums = Array.isArray(latest.albums)
               ? latest.albums.filter((name) => typeof name === "string" && name.trim())
               : ["General Photos"];
+            state.albumDates = latest.albumDates && typeof latest.albumDates === "object" ? latest.albumDates : state.albumDates;
             if (!state.albums.includes("General Photos")) state.albums.unshift("General Photos");
             renderAlbumOptions();
             renderAlbumManager();
