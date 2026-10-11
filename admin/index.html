@@ -1758,52 +1758,54 @@
             </div>
             <details id="advanced-json-editor">
               <summary>Advanced mode · raw JSON editor (optional)</summary>
-              <p class="monitor-help">Most edits should use the form above. Use this only if you understand the complete data structure.</p>
-<div class="grid" style="margin-bottom: 14px">
-              <label class="field">
-                <span>Data family</span>
-                <select id="data-editor-kind">
-                  <option value="stats">Stats, profile & career data</option>
-                  <option value="death">Death Overs archive</option>
-                </select>
-              </label>
-              <div class="field">
-                <span>Repository file</span>
-                <div id="data-editor-path" class="input-like" aria-live="polite">
-                  data/site-data.json
+              <p class="monitor-help">
+                Most edits should use the form above. Use this only if you understand the complete
+                data structure.
+              </p>
+              <div class="grid" style="margin-bottom: 14px">
+                <label class="field">
+                  <span>Data family</span>
+                  <select id="data-editor-kind">
+                    <option value="stats">Stats, profile & career data</option>
+                    <option value="death">Death Overs archive</option>
+                  </select>
+                </label>
+                <div class="field">
+                  <span>Repository file</span>
+                  <div id="data-editor-path" class="input-like" aria-live="polite">
+                    data/site-data.json
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="actions" style="margin-bottom: 12px">
-              <button id="data-editor-load" class="btn" type="button">↻ Load saved file</button>
-              <button id="data-editor-format" class="btn" type="button">Format JSON</button>
-              <button id="data-editor-save" class="btn primary" type="button">
-                Save to GitHub
-              </button>
-            </div>
-            <p id="data-editor-status" class="status" role="status" aria-live="polite">
-              Load a file to inspect or edit its saved data.
-            </p>
-            <label class="field">
-              <span>Saved JSON · advanced editor</span>
-              <textarea
-                id="data-editor-json"
-                rows="18"
-                spellcheck="false"
-                autocapitalize="off"
-                autocomplete="off"
-                placeholder="Choose a data family and click Load saved file."
-              ></textarea>
-            </label>
-            <div class="monitor-help">
-              Safety: save is restricted to the two listed JSON files and requires an authenticated
-              Admin session. Invalid JSON or a missing core data structure is rejected. Saving
-              commits the full file to GitHub and can affect public pages, so load the latest file
-              before editing and avoid deleting unknown fields. This editor is for corrections to
-              saved data, not API keys or passwords. Refresh workflows may overwrite automated
-              fields on their next run.
-            </div>
-          
+              <div class="actions" style="margin-bottom: 12px">
+                <button id="data-editor-load" class="btn" type="button">↻ Load saved file</button>
+                <button id="data-editor-format" class="btn" type="button">Format JSON</button>
+                <button id="data-editor-save" class="btn primary" type="button">
+                  Save to GitHub
+                </button>
+              </div>
+              <p id="data-editor-status" class="status" role="status" aria-live="polite">
+                Load a file to inspect or edit its saved data.
+              </p>
+              <label class="field">
+                <span>Saved JSON · advanced editor</span>
+                <textarea
+                  id="data-editor-json"
+                  rows="18"
+                  spellcheck="false"
+                  autocapitalize="off"
+                  autocomplete="off"
+                  placeholder="Choose a data family and click Load saved file."
+                ></textarea>
+              </label>
+              <div class="monitor-help">
+                Safety: save is restricted to the two listed JSON files and requires an
+                authenticated Admin session. Invalid JSON or a missing core data structure is
+                rejected. Saving commits the full file to GitHub and can affect public pages, so
+                load the latest file before editing and avoid deleting unknown fields. This editor
+                is for corrections to saved data, not API keys or passwords. Refresh workflows may
+                overwrite automated fields on their next run.
+              </div>
             </details>
           </div>
         </section>
