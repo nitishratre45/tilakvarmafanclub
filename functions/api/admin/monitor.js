@@ -94,6 +94,8 @@ export async function onRequest({ request, env }) {
     } catch {
       return json({ error: "Invalid JSON request." }, 400);
     }
+    if (!body || typeof body !== "object" || Array.isArray(body))
+      return json({ error: "Invalid request body." }, 400);
     try {
       if (body.action === "rerun") {
         const id = String(body.runId || "");
