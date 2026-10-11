@@ -8,6 +8,7 @@
   const allowed = new Set(
     sections.map((section) => section.id).filter((id) => id !== "home-snapshot"),
   );
+  const persistentSections = new Set(["tv-gallery-hub"]);
   const legacyViews = { "stats-explorer": "statsguru", statsguru: "statsguru" };
 
   function setStatsView(view) {
@@ -35,6 +36,15 @@
     if (!allowed.has(id)) id = "profile";
 
     sections.forEach((section) => {
+      // The photo archive is a persistent page-bottom section, not a menu view.
+      // Keep it visible across client-side navigation; gallery.js applies its own
+      // compact layout with !important styles after rendering.
+      if (persistentSections.has(section.id)) {
+        section.hidden = false;
+        section.setAttribute("aria-hidden", "false");
+        section.style.removeProperty("display");
+        return;
+      }
       const active = section.id === id || (id === "profile" && section.id === "home-snapshot");
       section.hidden = !active;
       section.setAttribute("aria-hidden", String(!active));
