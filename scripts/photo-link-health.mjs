@@ -58,10 +58,15 @@ export async function buildPhotoHealthReport(data, fetchImpl = fetch) {
   }
 
   const results = [];
-  // Sequential checks avoid flooding image hosts or triggering rate limits.
-  for (const item of unique.values()) {
-    const check = await checkPhotoUrl(item.url, fetchImpl);
-    results.push({ ...item, ...check });
+  // Small batches avoid flooding image hosts while keeping large libraries practical.
+  const entries = [...unique.values()];
+  for (let start = 0; start < entries.length; start += 4) {
+    const batch = entries.slice(start, start + 4);
+    const checked = await Promise.all(batch.map(async (item) => ({
+      ...item,
+      ...(await checkPhotoUrl(item.url, fetchImpl)),
+    })));
+    results.push(...checked);
   }
   const counts = results.reduce((acc, item) => {
     acc[item.status] = (acc[item.status] || 0) + 1;
