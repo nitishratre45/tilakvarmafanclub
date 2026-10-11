@@ -8,11 +8,11 @@ const IMAGE_PATH = /^\/cms\/photos\/galleries\/[a-z0-9/_-]+\.(?:webp|jpe?g|png)$
 function normalizePastedBcciUrl(value) {
   let text = String(value || "").trim();
   text = text.replace(/&amp;/gi, "&").replace(/\\&/g, "&");
-  const markdownLink = text.match(/\\[[^\\]]*\\]\\((https?:\\/\\/[^)\\s]+)\\)/i);
+  const markdownLink = text.match(/\[[^\]]*\]\((https?:\/\/[^)\s]+)\)/i);
   if (markdownLink) {
     text = markdownLink[1];
   } else {
-    const urlMatch = text.match(/https?:\\/\\/[^\\s<>()|]+/i);
+    const urlMatch = text.match(/https?:\/\/[^\s<>()|]+/i);
     if (urlMatch) text = urlMatch[0];
   }
   return text
