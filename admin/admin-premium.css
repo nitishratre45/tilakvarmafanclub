@@ -1053,3 +1053,12 @@ select:focus-visible, textarea:focus-visible {
     background: rgba(120, 228, 239, .13) !important;
   }
 }
+
+
+/* Keep the workspace/actions topbar on Overview only; each other section has its own heading. */
+#admin-app[data-current-view]:not([data-current-view="dashboard"]) > .main > .topbar {
+  display: none !important;
+}
+#admin-app[data-current-view]:not([data-current-view="dashboard"]) > .main > .section {
+  scroll-margin-top: 18px;
+}
