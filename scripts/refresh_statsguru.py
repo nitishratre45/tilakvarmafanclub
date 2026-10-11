@@ -12,7 +12,6 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-import time
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
