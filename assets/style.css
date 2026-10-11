@@ -10084,3 +10084,43 @@ body > .cs-overlay .cs-kicker {
     height: 20px;
   }
 }
+
+
+/* Format selectors: keep every option visible on phones without horizontal scrolling. */
+.statsguru-format-tabs,
+.bowling-format-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: visible;
+  overflow-y: visible;
+  max-width: 100%;
+  white-space: normal;
+  align-items: stretch;
+}
+.statsguru-format-tabs button,
+.bowling-format-tabs button {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .statsguru-format-tabs,
+  .bowling-format-tabs {
+    gap: 7px;
+    padding: 8px 0 12px;
+  }
+  .statsguru-format-tabs button,
+  .bowling-format-tabs button {
+    padding: 10px 12px;
+    font-size: 12px;
+    line-height: 1.25;
+    min-height: 42px;
+  }
+  .statsguru-format-tabs button[data-sg-format="T20"],
+  .bowling-format-tabs button[data-bowling-format="T20"] {
+    flex: 1 1 145px;
+  }
+}
