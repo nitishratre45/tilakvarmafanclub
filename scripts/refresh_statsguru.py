@@ -993,6 +993,168 @@ def parse_fielding_innings(page, fmt):
     return output
 
 
+
+def parse_fielding_summary(page):
+    """Parse the overall fielding totals from a Statsguru fielding table."""
+    for table in parse_tables(page):
+        for index, row in enumerate(table):
+            headers = [re.sub(r"[^a-z0-9]+", "", clean(x).casefold()) for x in cell_text(row)]
+            if not ({"mat", "matches"} & set(headers)) or not ({"ct", "catches"} & set(headers)):
+                continue
+            cols = {}
+            for i, header in enumerate(headers):
+                if header in {"mat", "matches"}:
+                    cols["matches"] = i
+                elif header in {"inns", "inn", "innings"}:
+                    cols["innings"] = i
+                elif header in {"ct", "catches"}:
+                    cols["catches"] = i
+                elif header in {"st", "stumpings"}:
+                    cols["stumpings"] = i
+                elif header in {"ro", "runouts", "runout"}:
+                    cols["runOuts"] = i
+                elif header in {"dis", "dismissals"}:
+                    cols["dismissals"] = i
+            if not {"matches", "catches"}.issubset(cols):
+                continue
+            for candidate in table[index + 1:]:
+                values = cell_text(candidate)
+                if len(values) <= max(cols.values()):
+                    continue
+                if not re.search(r"\b(?:overall|career|total)\b", " ".join(values).casefold()):
+                    continue
+                result = {key: number(values[i]) for key, i in cols.items()}
+                if result.get("matches") is not None and result.get("catches") is not None:
+                    result.setdefault("stumpings", 0)
+                    result.setdefault("runOuts", 0)
+                    result.setdefault("dismissals", sum(result.get(k, 0) or 0 for k in ("catches", "stumpings", "runOuts")))
+                    return result
+    return None
+
+
+def parse_fielding_breakdown(page):
+    """Parse career fielding split rows, deduplicating by group and span."""
+    output, seen = [], set()
+    for table in parse_tables(page):
+        for index, row in enumerate(table):
+            headers = [re.sub(r"[^a-z0-9]+", "", clean(x).casefold()) for x in cell_text(row)]
+            if "span" not in headers or not ({"ct", "catches"} & set(headers)):
+                continue
+            cols = {}
+            for i, header in enumerate(headers):
+                if header in {"group", "grouping", "category"}:
+                    cols["group"] = i
+                elif header == "span":
+                    cols["span"] = i
+                elif header in {"mat", "matches"}:
+                    cols["matches"] = i
+                elif header in {"inns", "inn", "innings"}:
+                    cols["innings"] = i
+                elif header in {"ct", "catches"}:
+                    cols["catches"] = i
+                elif header in {"st", "stumpings"}:
+                    cols["stumpings"] = i
+                elif header in {"ro", "runouts", "runout"}:
+                    cols["runOuts"] = i
+                elif header in {"dis", "dismissals"}:
+                    cols["dismissals"] = i
+            if not {"span", "matches", "catches"}.issubset(cols):
+                continue
+            for candidate in table[index + 1:]:
+                values = cell_text(candidate)
+                if len(values) <= max(cols.values()):
+                    continue
+                group = clean(values[cols["group"]]) if "group" in cols else clean(values[0])
+                span = clean(values[cols["span"]])
+                if not group or not re.search(r"\d{4}", span):
+                    continue
+                key = (group, span)
+                if key in seen:
+                    continue
+                item = {"group": group, "span": span}
+                for name, column in cols.items():
+                    if name not in {"group", "span"}:
+                        item[name] = number(values[column])
+                if item.get("catches") is None:
+                    continue
+                item.setdefault("stumpings", 0)
+                item.setdefault("runOuts", 0)
+                item.setdefault("dismissals", sum(item.get(k, 0) or 0 for k in ("catches", "stumpings", "runOuts")))
+                seen.add(key)
+                output.append(item)
+    return output
+
+
+def parse_fielding_innings(page, fmt):
+    """Parse per-innings fielding records from the Statsguru innings table."""
+    for table in parse_tables(page):
+        header_index, headers = None, []
+        for index, row in enumerate(table):
+            candidate = [re.sub(r"[^a-z0-9]+", "", clean(x).casefold()) for x in cell_text(row)]
+            if (
+                "opposition" in candidate and "ground" in candidate
+                and ({"startdate", "date"} & set(candidate))
+                and ({"ct", "catches"} & set(candidate))
+            ):
+                header_index, headers = index, candidate
+                break
+        if header_index is None:
+            continue
+        cols = {}
+        for i, header in enumerate(headers):
+            if header == "opposition":
+                cols["opposition"] = i
+            elif header == "ground":
+                cols["ground"] = i
+            elif header in {"startdate", "date"}:
+                cols["date"] = i
+            elif header in {"inns", "inn", "innings"}:
+                cols["innings"] = i
+            elif header in {"ct", "catches"}:
+                cols["catches"] = i
+            elif header in {"st", "stumpings"}:
+                cols["stumpings"] = i
+            elif header in {"ro", "runouts", "runout"}:
+                cols["runOuts"] = i
+            elif header in {"dis", "dismissals"}:
+                cols["dismissals"] = i
+            elif header in {"match", "scorecard", "card"}:
+                cols["match"] = i
+        if not {"opposition", "ground", "date"}.issubset(cols):
+            continue
+        records = []
+        for row in table[header_index + 1:]:
+            values = cell_text(row)
+            if len(values) <= max(cols.values()):
+                continue
+            date, opposition, ground = (clean(values[cols[k]]) for k in ("date", "opposition", "ground"))
+            if not date or not opposition or not ground or re.sub(r"[^a-z0-9]+", "", date.casefold()) in {"date", "startdate"}:
+                continue
+            item = {"date": date, "format": fmt, "opposition": opposition, "ground": ground}
+            for key in ("innings", "catches", "stumpings", "runOuts", "dismissals"):
+                if key in cols:
+                    item[key] = number(values[cols[key]])
+            if not any(item.get(key) is not None for key in ("catches", "stumpings", "runOuts", "dismissals")):
+                continue
+            item.setdefault("catches", 0)
+            item.setdefault("stumpings", 0)
+            item.setdefault("runOuts", 0)
+            item.setdefault("dismissals", sum(item.get(k, 0) or 0 for k in ("catches", "stumpings", "runOuts")))
+            links = []
+            if "match" in cols:
+                links.extend(row[cols["match"]].get("links", []))
+            if not links:
+                for cell in row:
+                    links.extend(cell.get("links", []))
+            match_url = next((url for url in links if "engine/match" in url or "scorecard" in url or "full-scorecard" in url), None)
+            if match_url:
+                item["matchUrl"] = match_url
+            item["source"] = "ESPNcricinfo Statsguru"
+            records.append(item)
+        return records
+    return []
+
+
 def scrape_fielding_format(fmt, match_class):
     first = fetch(stats_url(match_class, "innings", 1, "fielding"))
     summary = parse_fielding_summary(first)
