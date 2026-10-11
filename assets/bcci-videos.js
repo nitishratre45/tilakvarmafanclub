@@ -19,6 +19,18 @@
   const settingsButton = document.getElementById("bcci-player-settings-button");
   const settingsMenu = document.getElementById("bcci-player-settings-menu");
   const qualityCurrent = document.getElementById("bcci-quality-current");
+  // Keep quality controls anchored to the video itself, not the modal header,
+  // which can sit above the visible viewport on desktop.
+  const playerScreen = modal && modal.querySelector(".bcci-player-screen");
+  if (playerScreen && settingsButton && settingsMenu) {
+    let qualityControl = playerScreen.querySelector(".bcci-player-quality-control");
+    if (!qualityControl) {
+      qualityControl = document.createElement("div");
+      qualityControl.className = "bcci-player-quality-control";
+      playerScreen.appendChild(qualityControl);
+    }
+    qualityControl.append(settingsButton, settingsMenu);
+  }
   const closeSettingsMenu = () => {
     if (!settingsButton || !settingsMenu) return;
     settingsMenu.hidden = true;
