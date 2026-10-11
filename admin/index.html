@@ -1575,7 +1575,9 @@
           >
           <a href="#video" data-view="video"><span class="nav-icon">▷</span>Video feed</a>
           <a href="#monitor" data-view="monitor"><span class="nav-icon">⌁</span>Refresh monitor</a>
-          <a href="#live-updates" data-view="live-updates"><span class="nav-icon">◉</span>Live updates</a>
+          <a href="#live-updates" data-view="live-updates"
+            ><span class="nav-icon">◉</span>Live updates</a
+          >
           <a href="#repo-health" data-view="repo-health"
             ><span class="nav-icon">⌁</span>Repository health</a
           >
@@ -2088,7 +2090,10 @@
             <div>
               <div class="eyebrow">LIVE ACTIVITY · REPOSITORY & WORKFLOWS</div>
               <h2>Live updates</h2>
-              <p>Recent GitHub Actions activity and the latest repository health scan in one place. This panel refreshes automatically every 60 seconds while open.</p>
+              <p>
+                Recent GitHub Actions activity and the latest repository health scan in one place.
+                This panel refreshes automatically every 60 seconds while open.
+              </p>
             </div>
             <span class="pill" id="live-updates-status">CONNECTING</span>
           </div>
@@ -2096,16 +2101,30 @@
             <div class="dataset-toolbar">
               <span id="live-updates-checked" class="monitor-meta">Loading latest activity…</span>
               <div class="actions">
-                <button id="live-updates-refresh" class="btn" type="button">↻ Refresh updates</button>
-                <a class="btn" href="https://github.com/nitishratre45/tilakvarmafanclub/actions" target="_blank" rel="noopener">All workflow runs ↗</a>
+                <button id="live-updates-refresh" class="btn" type="button">
+                  ↻ Refresh updates
+                </button>
+                <a
+                  class="btn"
+                  href="https://github.com/nitishratre45/tilakvarmafanclub/actions"
+                  target="_blank"
+                  rel="noopener"
+                  >All workflow runs ↗</a
+                >
               </div>
             </div>
             <div class="repo-health-summary">
-              <article><span>Last repository scan</span><strong id="live-updates-scan">Loading…</strong></article>
+              <article>
+                <span>Last repository scan</span><strong id="live-updates-scan">Loading…</strong>
+              </article>
               <article><span>Scan errors</span><strong id="live-updates-errors">—</strong></article>
-              <article><span>CSS warnings</span><strong id="live-updates-warnings">—</strong></article>
+              <article>
+                <span>CSS warnings</span><strong id="live-updates-warnings">—</strong>
+              </article>
             </div>
-            <div id="live-updates-list" class="run-list" aria-live="polite"><div class="empty">Loading recent workflow activity…</div></div>
+            <div id="live-updates-list" class="run-list" aria-live="polite">
+              <div class="empty">Loading recent workflow activity…</div>
+            </div>
           </div>
         </section>
         <section id="repo-health" class="section">
@@ -4497,16 +4516,20 @@
           try {
             const results = await Promise.allSettled([
               api("/api/admin/monitor"),
-              fetch("../data/repo-health.json?ts=" + Date.now(), { cache: "no-store" }).then((r) => {
-                if (!r.ok) throw Error("Health report HTTP " + r.status);
-                return r.json();
-              }),
+              fetch("../data/repo-health.json?ts=" + Date.now(), { cache: "no-store" }).then(
+                (r) => {
+                  if (!r.ok) throw Error("Health report HTTP " + r.status);
+                  return r.json();
+                },
+              ),
             ]);
             const monitorResult = results[0];
             const healthResult = results[1];
             const report = healthResult.status === "fulfilled" ? healthResult.value : null;
             if (report) {
-              $("live-updates-scan").textContent = report.checkedAt ? new Date(report.checkedAt).toLocaleString() : "Not scanned yet";
+              $("live-updates-scan").textContent = report.checkedAt
+                ? new Date(report.checkedAt).toLocaleString()
+                : "Not scanned yet";
               $("live-updates-errors").textContent = report.summary?.issues ?? "—";
               $("live-updates-warnings").textContent = report.summary?.warnings ?? "—";
             } else {
@@ -4522,9 +4545,15 @@
                 const row = document.createElement("article");
                 row.className = "run-card";
                 const heading = document.createElement("strong");
-                heading.textContent = (run.conclusion || run.status || "unknown").toUpperCase() + " · " + (run.name || run.title || "GitHub Actions");
+                heading.textContent =
+                  (run.conclusion || run.status || "unknown").toUpperCase() +
+                  " · " +
+                  (run.name || run.title || "GitHub Actions");
                 const meta = document.createElement("p");
-                meta.textContent = (run.branch || "unknown branch") + " · " + (run.createdAt ? new Date(run.createdAt).toLocaleString() : "time unavailable");
+                meta.textContent =
+                  (run.branch || "unknown branch") +
+                  " · " +
+                  (run.createdAt ? new Date(run.createdAt).toLocaleString() : "time unavailable");
                 const link = document.createElement("a");
                 link.className = "btn small";
                 link.href = run.url || "https://github.com/nitishratre45/tilakvarmafanclub/actions";
@@ -4543,10 +4572,12 @@
             if (healthResult.status === "rejected") {
               const note = document.createElement("p");
               note.className = "monitor-help";
-              note.textContent = "Repository scan report unavailable: " + healthResult.reason.message;
+              note.textContent =
+                "Repository scan report unavailable: " + healthResult.reason.message;
               host.append(note);
             }
-            $("live-updates-checked").textContent = "Panel checked: " + new Date().toLocaleString() + " · auto-refresh every 60 seconds";
+            $("live-updates-checked").textContent =
+              "Panel checked: " + new Date().toLocaleString() + " · auto-refresh every 60 seconds";
           } catch (error) {
             badge.textContent = "ERROR";
             host.textContent = "Could not load live updates: " + error.message;
