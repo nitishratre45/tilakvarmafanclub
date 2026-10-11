@@ -752,6 +752,11 @@
     document
       .querySelectorAll("[data-sg-category]")
       .forEach((b) => b.classList.toggle("active", b.dataset.sgCategory === selectedCategory));
+    const allFormatsSelected = selectedFormat === "All";
+    const categoryGrid = document.querySelector(".statsguru-category-grid");
+    const analysisPanel = document.querySelector(".statsguru-panel");
+    if (categoryGrid) categoryGrid.style.display = allFormatsSelected ? "none" : "";
+    if (analysisPanel) analysisPanel.style.display = allFormatsSelected ? "none" : "";
     const type = activeBreakdownFilter,
       value = activeBreakdownValue,
       group = selectedGroup(source);
