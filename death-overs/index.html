@@ -332,6 +332,33 @@
           radial-gradient(ellipse at 100% 0%, rgba(109, 224, 245, 0.08), transparent 48%),
           linear-gradient(145deg, #0d1d30, #091321);
       }
+      .coverage-panel {
+        margin-top: 14px;
+        padding: 10px 13px;
+        border-radius: 8px;
+      }
+      .coverage-head { margin: 0; }
+      .coverage-title-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .coverage-mini-kicker {
+        color: #6de0f5;
+        font: 9px var(--mono);
+        letter-spacing: .1em;
+      }
+      .coverage-head h3 {
+        font-size: 12px;
+        line-height: 1.25;
+      }
+      .coverage-filter-inline {
+        color: #93a9c2;
+        font-size: 9px;
+        line-height: 1.4;
+      }
+      .coverage-grid { display: none; }
       .coverage-head {
         display: flex;
         justify-content: space-between;
@@ -1690,42 +1717,7 @@
               </article>
             </div>
 
-            <section class="coverage-panel" aria-labelledby="coverage-title" aria-live="polite">
-              <div class="coverage-head">
-                <div>
-                  <div class="section-kicker">DELIVERY DATA COVERAGE</div>
-                  <h3 id="coverage-title">BALL-BY-BALL <em>AVAILABILITY.</em></h3>
-                  <p id="coverage-filter">
-                    Counting recorded Tilak Varma deliveries in the selected format and year.
-                  </p>
-                </div>
-              </div>
-              <div class="coverage-grid">
-                <article class="coverage-card">
-                  <small>TOTAL RUNS</small>
-                  <strong id="coverage-runs">—</strong>
-                  <span>Recorded runs in this format/year</span>
-                </article>
-                <article class="coverage-card">
-                  <small>MATCHES</small>
-                  <strong id="coverage-matches">—</strong>
-                  <span>Unique matches in this dataset</span>
-                </article>
-                <article class="coverage-card">
-                  <small>FOURS</small>
-                  <strong id="coverage-fours">—</strong>
-                  <span>Recorded boundaries worth four</span>
-                </article>
-                <article class="coverage-card">
-                  <small>SIXES</small>
-                  <strong id="coverage-sixes">—</strong>
-                  <span>Recorded boundaries worth six</span>
-                </article>
-              </div>
-              <p class="coverage-footnote">
-                Totals reflect the data currently available in the selected format and year.
-              </p>
-            </section>
+
 
             <section class="single-over-panel" aria-labelledby="single-over-title">
               <div class="single-over-head">
@@ -1769,6 +1761,40 @@
                 <div class="empty-state">Loading over totals…</div>
               </div>
             </div>
+
+<section class="coverage-panel" aria-labelledby="coverage-title" aria-live="polite">
+              <div class="coverage-head">
+                <div class="coverage-title-row">
+                  <span class="coverage-mini-kicker">DATA COVERAGE</span>
+                  <h3 id="coverage-title">BALL-BY-BALL <em>AVAILABILITY</em></h3>
+                  <span class="coverage-filter-inline" id="coverage-filter">Selected format · All years</span>
+                </div>
+              </div>
+              <div class="coverage-grid">
+                <article class="coverage-card">
+                  <small>TOTAL RUNS</small>
+                  <strong id="coverage-runs">—</strong>
+                  <span>Recorded runs in this format/year</span>
+                </article>
+                <article class="coverage-card">
+                  <small>MATCHES</small>
+                  <strong id="coverage-matches">—</strong>
+                  <span>Unique matches in this dataset</span>
+                </article>
+                <article class="coverage-card">
+                  <small>FOURS</small>
+                  <strong id="coverage-fours">—</strong>
+                  <span>Recorded boundaries worth four</span>
+                </article>
+                <article class="coverage-card">
+                  <small>SIXES</small>
+                  <strong id="coverage-sixes">—</strong>
+                  <span>Recorded boundaries worth six</span>
+                </article>
+              </div>
+
+            </section>
+
 
             <div class="detail-panel ball-panel">
               <div class="detail-heading">
