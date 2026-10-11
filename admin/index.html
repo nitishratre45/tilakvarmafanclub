@@ -1761,12 +1761,20 @@
               </form>
               <div id="bcci-import-status" class="status" role="status" aria-live="polite"></div>
             </section>
-            <section class="bcci-import-panel" aria-labelledby="external-photo-heading" style="margin-top:16px">
+            <section
+              class="bcci-import-panel"
+              aria-labelledby="external-photo-heading"
+              style="margin-top: 16px"
+            >
               <div class="bcci-import-head">
                 <div>
                   <div class="eyebrow">EXTERNAL PHOTO LINK</div>
                   <h3 id="external-photo-heading">Add a photo URL without downloading</h3>
-                  <p>For a Getty Images photo, save its direct image URL to the selected album. The image stays hosted by Getty; this website stores only the URL and album metadata.</p>
+                  <p>
+                    For a Getty Images photo, save its direct image URL to the selected album. The
+                    image stays hosted by Getty; this website stores only the URL and album
+                    metadata.
+                  </p>
                 </div>
                 <span class="pill">NO DOWNLOAD</span>
               </div>
@@ -1780,16 +1788,33 @@
                   </div>
                   <div class="field">
                     <label for="external-photo-title">Photo title</label>
-                    <input id="external-photo-title" maxlength="120" required value="Tilak Varma — Asian Games Men's Final" />
+                    <input
+                      id="external-photo-title"
+                      maxlength="120"
+                      required
+                      value="Tilak Varma — Asian Games Men's Final"
+                    />
                   </div>
                 </div>
                 <div class="field">
                   <label for="external-photo-url">Getty Images URL</label>
-                  <textarea id="external-photo-url" rows="3" required spellcheck="false" placeholder="Paste the Getty direct image URL or Markdown link here"></textarea>
-                  <span class="hint">Accepts direct HTTPS URLs, Markdown links, and escaped query separators such as \&amp;. The image is loaded from Getty; it is not downloaded or copied into GitHub.</span>
+                  <textarea
+                    id="external-photo-url"
+                    rows="3"
+                    required
+                    spellcheck="false"
+                    placeholder="Paste the Getty direct image URL or Markdown link here"
+                  ></textarea>
+                  <span class="hint"
+                    >Accepts direct HTTPS URLs, Markdown links, and escaped query separators such as
+                    \&amp;. The image is loaded from Getty; it is not downloaded or copied into
+                    GitHub.</span
+                  >
                 </div>
                 <div class="actions">
-                  <button class="btn primary" id="external-photo-submit" type="submit">＋ Add URL to album</button>
+                  <button class="btn primary" id="external-photo-submit" type="submit">
+                    ＋ Add URL to album
+                  </button>
                 </div>
               </form>
               <div id="external-photo-status" class="status" role="status" aria-live="polite"></div>
@@ -3864,13 +3889,28 @@
           const pasted = $("external-photo-url").value.trim();
           const markdown = pasted.match(/\[[^\]]*\]\((https?:\/\/[^)\s]+)\)/i);
           const found = markdown ? markdown[1] : (pasted.match(/https?:\/\/[^\s<>()|]+/i) || [])[0];
-          const raw = String(found || "").replace(/&amp;/gi, "&").replace(/\\&/g, "&").replace(/[.,;]+$/, "");
+          const raw = String(found || "")
+            .replace(/&amp;/gi, "&")
+            .replace(/\\&/g, "&")
+            .replace(/[.,;]+$/, "");
           let parsed;
-          try { parsed = new URL(raw); } catch {}
-          if (!parsed || parsed.protocol !== "https:" || parsed.hostname !== "media.gettyimages.com" ||
-              !/^\/id\/\d+\/photo\/[^/]+\.jpe?g$/i.test(parsed.pathname) ||
-              parsed.username || parsed.password || parsed.hash) {
-            status("external-photo-status", "Paste a valid Getty direct image URL (media.gettyimages.com/id/.../photo/...jpg).", true);
+          try {
+            parsed = new URL(raw);
+          } catch {}
+          if (
+            !parsed ||
+            parsed.protocol !== "https:" ||
+            parsed.hostname !== "media.gettyimages.com" ||
+            !/^\/id\/\d+\/photo\/[^/]+\.jpe?g$/i.test(parsed.pathname) ||
+            parsed.username ||
+            parsed.password ||
+            parsed.hash
+          ) {
+            status(
+              "external-photo-status",
+              "Paste a valid Getty direct image URL (media.gettyimages.com/id/.../photo/...jpg).",
+              true,
+            );
             return;
           }
           const album = $("external-photo-album").value;
@@ -3881,20 +3921,35 @@
           }
           const url = parsed.href;
           if (state.items.some((item) => item.url === url || item.sourceUrl === url)) {
-            status("external-photo-status", "This Getty image URL is already in the media library.", true);
+            status(
+              "external-photo-status",
+              "This Getty image URL is already in the media library.",
+              true,
+            );
             return;
           }
           const previous = state.items;
-          state.items = [{
-            title, album, url, sourceUrl: url, type: "image", storage: "external",
-            createdAt: new Date().toISOString()
-          }, ...state.items];
+          state.items = [
+            {
+              title,
+              album,
+              url,
+              sourceUrl: url,
+              type: "image",
+              storage: "external",
+              createdAt: new Date().toISOString(),
+            },
+            ...state.items,
+          ];
           button.disabled = true;
           try {
             await saveMedia();
             renderItems();
             $("external-photo-url").value = "";
-            status("external-photo-status", "Getty image URL added to “" + album + "”. No image file was downloaded or copied.");
+            status(
+              "external-photo-status",
+              "Getty image URL added to “" + album + "”. No image file was downloaded or copied.",
+            );
           } catch (err) {
             state.items = previous;
             renderItems();
