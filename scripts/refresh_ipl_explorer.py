@@ -18,7 +18,9 @@ ARCHIVE_URL = "https://cricsheet.org/downloads/ipl_json.zip"
 PLAYER = "Tilak Varma"
 SOURCE = "Cricsheet IPL ball-by-ball archive"
 SOURCE_URL = "https://cricsheet.org/downloads/ipl_json.zip"
-HEADERS = {"User-Agent": "TilakVarmaFanClub-data-refresh/1.0 (+https://github.com/nitishratre45/tilakvarmafanclub)"}
+HEADERS = {
+    "User-Agent": "TilakVarmaFanClub-data-refresh/1.0 (+https://github.com/nitishratre45/tilakvarmafanclub)"
+}
 
 
 def stamp():
@@ -43,12 +45,22 @@ def extract_match(raw):
     teams = info.get("teams") or []
     date = parse_date(info)
     season = str(info.get("season") or (date[:4] if date else ""))
-    match_id = str(match.get("meta", {}).get("data_version", "")) + "|" + date + "|" + "|".join(sorted(teams))
+    match_id = (
+        str(match.get("meta", {}).get("data_version", ""))
+        + "|"
+        + date
+        + "|"
+        + "|".join(sorted(teams))
+    )
     innings_rows = []
     for innings_number, innings in enumerate(match.get("innings") or [], start=1):
         batting_team = innings.get("team", "")
-        deliveries = [d for over in innings.get("overs", []) for d in over.get("deliveries", [])]
-        if not any(str(d.get("batter", "")).casefold() == PLAYER.casefold() for d in deliveries):
+        deliveries = [
+            d for over in innings.get("overs", []) for d in over.get("deliveries", [])
+        ]
+        if not any(
+            str(d.get("batter", "")).casefold() == PLAYER.casefold() for d in deliveries
+        ):
             continue
         runs = balls = fours = sixes = 0
         dismissed = False
@@ -65,22 +77,42 @@ def extract_match(raw):
                 fours += 1
             elif br == 6:
                 sixes += 1
-            if any(str(w.get("player_out", "")).casefold() == PLAYER.casefold() for w in d.get("wickets", [])):
+            if any(
+                str(w.get("player_out", "")).casefold() == PLAYER.casefold()
+                for w in d.get("wickets", [])
+            ):
                 dismissed = True
         opposition = next((t for t in teams if t != batting_team), "—")
         total_runs = sum(as_int((d.get("runs") or {}).get("total")) for d in deliveries)
         score = str(runs) + ("" if dismissed else "*")
-        innings_rows.append({
-            "date": date, "format": "IPL", "season": season,
-            "opposition": "v " + opposition, "ground": str(info.get("venue") or "—"),
-            "score": score, "runs": runs, "notOut": not dismissed,
-            "minutes": "—", "balls": balls, "fours": fours, "sixes": sixes,
-            "strikeRate": round(runs * 100 / balls, 2) if balls else 0,
-            "position": "—", "dismissal": "not out" if not dismissed else "dismissed",
-            "innings": str(innings_number), "wickets": "—", "catches": "—", "stumpings": "—",
-            "source": SOURCE, "matchUrl": "https://cricsheet.org/",
-            "matchId": match_id, "team": batting_team, "matchRuns": total_runs,
-        })
+        innings_rows.append(
+            {
+                "date": date,
+                "format": "IPL",
+                "season": season,
+                "opposition": "v " + opposition,
+                "ground": str(info.get("venue") or "—"),
+                "score": score,
+                "runs": runs,
+                "notOut": not dismissed,
+                "minutes": "—",
+                "balls": balls,
+                "fours": fours,
+                "sixes": sixes,
+                "strikeRate": round(runs * 100 / balls, 2) if balls else 0,
+                "position": "—",
+                "dismissal": "not out" if not dismissed else "dismissed",
+                "innings": str(innings_number),
+                "wickets": "—",
+                "catches": "—",
+                "stumpings": "—",
+                "source": SOURCE,
+                "matchUrl": "https://cricsheet.org/",
+                "matchId": match_id,
+                "team": batting_team,
+                "matchRuns": total_runs,
+            }
+        )
     return innings_rows
 
 
@@ -95,14 +127,21 @@ def make_summary(rows):
     scores = [r for r in rows if isinstance(r.get("runs"), int)]
     best = max(scores, key=lambda r: (r["runs"], bool(r["notOut"])), default=None)
     return {
-        "matches": matches, "innings": innings, "notOuts": not_outs, "runs": runs,
+        "matches": matches,
+        "innings": innings,
+        "notOuts": not_outs,
+        "runs": runs,
         "highestScore": best["score"] if best else "—",
-        "average": round(runs / (innings - not_outs), 2) if innings > not_outs else None,
-        "balls": balls, "strikeRate": round(runs * 100 / balls, 2) if balls else None,
+        "average": (
+            round(runs / (innings - not_outs), 2) if innings > not_outs else None
+        ),
+        "balls": balls,
+        "strikeRate": round(runs * 100 / balls, 2) if balls else None,
         "hundreds": sum(r["runs"] >= 100 for r in rows),
         "fifties": sum(50 <= r["runs"] < 100 for r in rows),
         "ducks": sum(r["runs"] == 0 for r in rows),
-        "fours": fours, "sixes": sixes,
+        "fours": fours,
+        "sixes": sixes,
     }
 
 
@@ -120,21 +159,33 @@ def main():
             except (ValueError, KeyError, TypeError) as exc:
                 print("Skipping unreadable match", name, exc)
     if not rows:
-        raise SystemExit("No Tilak Varma IPL innings found; preserving saved IPL snapshot.")
+        raise SystemExit(
+            "No Tilak Varma IPL innings found; preserving saved IPL snapshot."
+        )
     rows.sort(key=lambda r: (r.get("date", ""), r.get("matchId", "")), reverse=True)
     # Guard against a partial/incorrect archive overwriting a larger valid snapshot.
     old = (data.get("statsguru") or {}).get("formats", {}).get("IPL", {})
     old_rows = old.get("innings") or []
     if len(rows) < len(old_rows):
-        raise SystemExit(f"Incoming IPL innings ({len(rows)}) fewer than saved ({len(old_rows)}); preserving old snapshot.")
+        raise SystemExit(
+            f"Incoming IPL innings ({len(rows)}) fewer than saved ({len(old_rows)}); preserving old snapshot."
+        )
     by_season = defaultdict(list)
     for row in rows:
         by_season[row.get("season") or row.get("date", "")[:4]].append(row)
     breakdown = []
     for season, season_rows in sorted(by_season.items()):
         summary = make_summary(season_rows)
-        breakdown.append({"group": "Season " + str(season), "span": str(season), **summary})
-    breakdown.append({"group": "overall", "span": f"{min(by_season)}-{max(by_season)}", **make_summary(rows)})
+        breakdown.append(
+            {"group": "Season " + str(season), "span": str(season), **summary}
+        )
+    breakdown.append(
+        {
+            "group": "overall",
+            "span": f"{min(by_season)}-{max(by_season)}",
+            **make_summary(rows),
+        }
+    )
     formats = data.setdefault("statsguru", {}).setdefault("formats", {})
     formats["IPL"] = {
         "summary": make_summary(rows),
@@ -154,7 +205,9 @@ def main():
     data["statsguru"]["iplUpdatedAt"] = stamp()
     data["statsguru"]["iplLastAttemptStatus"] = "success"
     data["statsguru"]["iplLastAttemptError"] = None
-    DATA_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    DATA_FILE.write_text(
+        json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     print("IPL Explore updated:", len(rows), "innings;", make_summary(rows))
 
 
