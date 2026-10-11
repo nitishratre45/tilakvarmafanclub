@@ -1,14 +1,14 @@
 (() => {
   "use strict";
-  const host = document.getElementById("cricinfo-photo-grid");
-  const stamp = document.getElementById("cricinfo-gallery-updated");
+  const host = document.getElementById("tv-gallery-grid");
+  const stamp = document.getElementById("tv-gallery-hub-updated");
   if (!host) return;
 
   // Enforce compact photo layout at runtime so legacy site-wide section/grid rules
   // cannot stretch the gallery or push its toolbar down the viewport.
   function applyCompactPhotoLayout() {
-    const section = document.getElementById("photos");
-    const gallery = host.closest(".cricinfo-gallery");
+    const section = document.getElementById("tv-gallery-hub");
+    const gallery = host.closest(".tv-gallery-hub__shell");
     const compact = (node, styles) => {
       if (!node) return;
       Object.entries(styles).forEach(([property, value]) =>
@@ -174,7 +174,7 @@
   );
   function renderAlbumPhotos(album) {
     activeAlbum = album;
-    document.getElementById("photos")?.classList.add("tv-album-view-active");
+    document.getElementById("tv-gallery-hub")?.classList.add("tv-album-view-active");
     const photoMarkup = album.photos
       .map(
         (photo, index) =>
@@ -251,7 +251,7 @@
   }
   function renderAlbums() {
     activeAlbum = null;
-    document.getElementById("photos")?.classList.remove("tv-album-view-active");
+    document.getElementById("tv-gallery-hub")?.classList.remove("tv-album-view-active");
     const filtered = getFilteredAlbums();
     filtered.sort((a, b) => {
       const aTime = Date.parse(a.uploadDate || "") || 0;
