@@ -126,7 +126,7 @@
             album.photos.length +
             " PHOTO" +
             (album.photos.length === 1 ? "" : "S") +
-            '</span><span class="tv-album-open">OPEN ALBUM ↗</span></span><span class="tv-album-info"><strong>' +
+            '</span><span class="tv-album-open">EXPLORE PHOTOS ↗</span></span><span class="tv-album-info"><strong>' +
             esc(album.name) +
             "</strong><small>" +
             esc(album.description || "Tilak Varma · Fan Club album") +
