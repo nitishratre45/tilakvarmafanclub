@@ -1345,6 +1345,7 @@
               aria-hidden="true" /></span
           ><span>TILAK VARMA<small>FAN CLUB · ADMIN</small></span></a
         >
+        <button id="admin-mobile-menu" class="admin-mobile-menu" type="button" aria-controls="admin-nav" aria-expanded="false" aria-label="Open admin menu"><span></span><span></span><span></span><b>MENU</b></button>
         <div class="nav-label">WORKSPACE</div>
         <nav class="nav" id="admin-nav" aria-label="Admin sections">
           <a class="active" href="#dashboard" data-view="dashboard"
@@ -3216,11 +3217,27 @@
           }
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
+        const mobileMenuButton = $("admin-mobile-menu");
+        const adminNav = $("admin-nav");
+        function setMobileMenu(open) {
+          if (!mobileMenuButton || !adminNav) return;
+          adminNav.classList.toggle("mobile-open", open);
+          mobileMenuButton.setAttribute("aria-expanded", String(open));
+          mobileMenuButton.setAttribute("aria-label", open ? "Close admin menu" : "Open admin menu");
+          mobileMenuButton.classList.toggle("is-open", open);
+        }
+        mobileMenuButton?.addEventListener("click", () => {
+          setMobileMenu(!adminNav.classList.contains("mobile-open"));
+        });
         $("admin-nav").addEventListener("click", (event) => {
           const link = event.target.closest("a[data-view]");
           if (!link) return;
           event.preventDefault();
+          setMobileMenu(false);
           showAdminView(link.dataset.view, true);
+        });
+        window.addEventListener("resize", () => {
+          if (window.innerWidth > 720) setMobileMenu(false);
         });
         window.addEventListener("hashchange", () => {
           showAdminView(window.location.hash.slice(1), false);
