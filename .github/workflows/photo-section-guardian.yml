@@ -13,6 +13,8 @@ on:
       - "index.html"
       - "scripts/photo-section-guardian.mjs"
       - "tests/photo-section-guardian.test.mjs"
+      - "scripts/photo-link-health.mjs"
+      - "tests/photo-link-health.test.mjs"
       - ".github/workflows/photo-section-guardian.yml"
 
 permissions:
@@ -26,7 +28,7 @@ jobs:
   audit-and-repair:
     name: Audit and safely repair photo library
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -38,13 +40,17 @@ jobs:
           node-version: "22"
       - name: Test guardian safety rules
         run: node --test tests/photo-section-guardian.test.mjs
+      - name: Test external photo URL health reporting
+        run: node --test tests/photo-link-health.test.mjs
       - name: Validate gallery and audit media
         run: |
           test -f index.html
           test -f assets/gallery.js
           test -f assets/premium-ui.css
           node --check scripts/photo-section-guardian.mjs
+          node --check scripts/photo-link-health.mjs
           node scripts/photo-section-guardian.mjs
+          node scripts/photo-link-health.mjs
       - name: Commit safe URL-only repairs
         run: |
           if ! git diff --quiet -- data/admin-media.json; then
@@ -56,3 +62,12 @@ jobs:
           else
             echo "No safe photo metadata repairs needed."
           fi
+
+      - name: Upload photo health report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: photo-health-report
+          path: photo-health-report.json
+          if-no-files-found: warn
+          retention-days: 14
