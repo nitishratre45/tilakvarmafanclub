@@ -1,6 +1,24 @@
 name: Job recovery manager
 on:
   workflow_run:
+    workflows:
+      - "Admin data editor tests"
+      - "Admin Python diagnostics"
+      - "Auto-rerun failed GitHub Actions jobs"
+      - "Automation repository monitor (hourly)"
+      - "Browser smoke tests"
+      - "Format source code"
+      - "Photo Section Guardian"
+      - "Refresh BCCI Tilak Videos"
+      - "Refresh ESPNcricinfo Bowling Stats"
+      - "Refresh Tilak death-overs stats"
+      - "Refresh ICC rankings and record highlights"
+      - "Refresh ESPNcricinfo Statsguru"
+      - "Refresh Tilak Varma data"
+      - "Repository health monitor (10 minutes)"
+      - "Self-healing code guard"
+      - "Validate Tilak Varma FC site"
+      - "Validate Admin Studio and Site Data"
     types: [completed]
   workflow_dispatch:
 permissions:
