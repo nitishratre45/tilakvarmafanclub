@@ -8787,3 +8787,19 @@ textarea:focus-visible {
     border-radius: 9px !important;
   }
 }
+
+/* Keep album photo area blue, make the upper album header white as requested */
+#photos.tv-album-view-active .tv-album-detail .tv-album-hero{
+  background:#ffffff!important;
+  color:#10264a!important;
+  border-bottom:1px solid #d7e5f6!important;
+}
+#photos.tv-album-view-active .tv-album-detail .tv-album-hero h2{
+  color:#092c68!important;
+}
+#photos.tv-album-view-active .tv-album-detail .tv-album-hero p{
+  color:#536985!important;
+}
+#photos.tv-album-view-active .tv-album-detail .tv-album-hero .tv-album-back{
+  background:#073b8f!important;color:#ffffff!important;border-color:#073b8f!important;
+}
