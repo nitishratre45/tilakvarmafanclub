@@ -372,19 +372,29 @@
       } else {
         render();
       }
-      if (status)
-        status.textContent =
-          (data.providerOk ? "CricAPI connected" : "CricAPI unavailable") +
-          (data.providerOk ? " · " + data.total + " matches · Refreshed " : " · Refreshed ") +
-          new Date(data.updatedAt).toLocaleTimeString("en-IN", {
-            hour: "2-digit",
-            minute: "2-digit",
-            timeZone: "Asia/Kolkata",
-          }) +
-          " IST";
-    } catch (_) {
+      if (status) {
+        const refreshed = new Date(data.updatedAt).toLocaleTimeString("en-IN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZone: "Asia/Kolkata",
+        }) + " IST";
+        if (!data.providerOk) {
+          status.textContent = "CricAPI unavailable · " +
+            ((data.errors || []).slice(0, 1)[0] || "check CRICAPI_KEY / API quota") +
+            " · retrying · " + refreshed;
+        } else if (data.matchFeedOk === false) {
+          status.textContent = "CricAPI partial · live-match endpoint failed: " +
+            ((data.matchFeedErrors || []).slice(0, 1)[0] || "check API key, quota and provider access") +
+            " · " + data.total + " fixtures · " + refreshed;
+        } else {
+          status.textContent = "CricAPI connected · " + data.total + " matches · Refreshed " + refreshed +
+            ((data.errors || []).length ? " · Some series details unavailable" : "");
+        }
+      }
+    } catch (error) {
       hasLiveData = false;
-      if (status) status.textContent = "CricAPI unavailable · retrying automatically";
+      if (status) status.textContent = "Match API request failed (" +
+        String(error && error.message || "network error") + ") · retrying automatically";
       host.innerHTML = fallbackHTML;
       if (count) count.textContent = fallbackCount;
     }
