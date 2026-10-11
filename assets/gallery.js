@@ -185,17 +185,6 @@
     document.getElementById("photos")?.classList.remove("tv-album-view-active");
     const filtered = getFilteredAlbums();
     const visible = filtered.slice(0, visibleAlbumCount);
-    if (!filtered.length) {
-      host.innerHTML =
-        '<div class="bcci-photo-empty"><span class="bcci-photo-mark">72</span><div><strong>No albums match these filters</strong><p>Choose another year or month to see more Tilak Varma photo albums.</p><button type="button" class="tv-gallery-reset">Clear filters</button></div></div>';
-      host.querySelector(".tv-gallery-reset")?.addEventListener("click", () => {
-        selectedYear = "all";
-        selectedMonth = "all";
-        visibleAlbumCount = 10;
-        renderAlbums();
-      });
-      return;
-    }
     const years = [
       ...new Set(
         albums
@@ -239,8 +228,9 @@
       '</select></label><button type="button" class="tv-gallery-clear" ' +
       (selectedYear === "all" && selectedMonth === "all" ? "disabled" : "") +
       ">Reset</button></div></div>" +
-      '<div class="tv-album-grid">' +
-      visible
+      (filtered.length
+        ? '<div class="tv-album-grid">' +
+          visible
         .map(
           (album, index) =>
             '<button type="button" class="tv-album-card" data-album-index="' +
@@ -266,7 +256,8 @@
             "</small></span></button>",
         )
         .join("") +
-      "</div>" +
+          "</div>"
+        : '<div class="bcci-photo-empty"><span class="bcci-photo-mark">72</span><div><strong>No albums match these filters</strong><p>Choose another year or month to see more Tilak Varma photo albums.</p></div></div>') +
       (filtered.length > visibleAlbumCount
         ? '<div class="tv-gallery-more-wrap"><p>Showing ' +
           visible.length +
