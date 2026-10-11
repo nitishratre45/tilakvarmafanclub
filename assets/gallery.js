@@ -134,7 +134,16 @@
             '</span><span class="tv-album-open">EXPLORE PHOTOS ↗</span></span><span class="tv-album-info"><strong>' +
             esc(album.name) +
             "</strong><small>" +
-            esc(album.description || "Tilak Varma · Fan Club album") +
+            "Uploaded " +
+            esc(
+              album.uploadDate
+                ? new Date(album.uploadDate).toLocaleDateString("en-IN", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })
+                : "Date unavailable",
+            ) +
             "</small></span></button>",
         )
         .join("") +
@@ -173,7 +182,11 @@
         .map(([name, photos]) => ({ name, photos, cover: photos[0] || null }))
         .filter((album) => album.cover);
       albums.forEach((album) => {
-        album.description = album.photos[0]?.series || "";
+        const uploadTimes = album.photos
+          .map((photo) => photo.createdAt)
+          .filter((value) => value && !Number.isNaN(Date.parse(value)))
+          .sort((a, b) => Date.parse(b) - Date.parse(a));
+        album.uploadDate = uploadTimes[0] || "";
       });
       renderAlbums();
       if (stamp)
