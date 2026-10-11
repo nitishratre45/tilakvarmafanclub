@@ -8988,22 +8988,27 @@ textarea:focus-visible {
 }
 
 /* Album detail: show two photos per row on phones */
-@media(max-width:650px){
+@media (max-width: 650px) {
   #photos.tv-album-view-active .tv-album-photo-grid,
   #photos.tv-album-view-active .tv-album-photo-grid#cricinfo-photo-grid,
-  #photos.tv-album-view-active #cricinfo-photo-grid{
-    display:grid!important;
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    gap:6px!important;
-    padding:0!important;
-    width:100%!important;
+  #photos.tv-album-view-active #cricinfo-photo-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    padding: 0 !important;
+    width: 100% !important;
   }
   #photos.tv-album-view-active .tv-album-photo,
-  #photos.tv-album-view-active .tv-album-photo-grid .tv-album-photo{
-    width:100%!important;min-width:0!important;aspect-ratio:3/4!important;
-    margin:0!important;border-radius:7px!important;
+  #photos.tv-album-view-active .tv-album-photo-grid .tv-album-photo {
+    width: 100% !important;
+    min-width: 0 !important;
+    aspect-ratio: 3/4 !important;
+    margin: 0 !important;
+    border-radius: 7px !important;
   }
-  #photos.tv-album-view-active .tv-album-photo img{
-    width:100%!important;height:100%!important;object-fit:cover!important;
+  #photos.tv-album-view-active .tv-album-photo img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
   }
 }
