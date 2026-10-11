@@ -1,20 +1,301 @@
 {
   "schemaVersion": 1,
-  "checkedAt": null,
+  "checkedAt": "2026-10-11T20:15:16+00:00",
   "intervalMinutes": 10,
-  "status": "pending",
+  "status": "warning",
   "summary": {
-    "filesScanned": 0,
-    "checksPassed": 0,
+    "filesScanned": 90,
+    "checksPassed": 50,
     "issues": 0,
-    "warnings": 0
+    "warnings": 6
   },
-  "items": [],
+  "items": [
+    {
+      "level": "warning",
+      "message": "80 repeated CSS selector(s); review cascade/overrides: .sidebar (12x), .stats (12x), .topbar (11x), .stat (11x), .section-head (11x), .main (9x), .hero (9x), .section-body (9x)",
+      "file": "admin/admin-premium.css"
+    },
+    {
+      "level": "warning",
+      "message": "5 repeated CSS selector(s); review cascade/overrides: .section (4x), html (2x), .topbar (2x), .section-heading (2x), .section-heading > p (2x)",
+      "file": "assets/admin-inspired-ui.css"
+    },
+    {
+      "level": "warning",
+      "message": "309 repeated CSS selector(s); review cascade/overrides: #photos .cricinfo-gallery (13x), .topbar (12x), #profile .profile-photo-wrap (11x), #career-formats .format-card (10x), .section (9x), #profile.profile-section (9x), #photos #cricinfo-photo-grid .tv-album-grid (9x), #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid (9x)",
+      "file": "assets/premium-ui.css"
+    },
+    {
+      "level": "warning",
+      "message": "50 repeated CSS selector(s); review cascade/overrides: #profile .profile-data-grid (6x), #profile .profile-photo-wrap (5x), #profile .profile-copy h2 (5x), .section (4x), #profile .profile-intro (4x), #profile .profile-quick-actions .button (4x), #profile .profile-facts (4x), #profile .profile-teams-panel (4x)",
+      "file": "assets/site-refinement.css"
+    },
+    {
+      "level": "warning",
+      "message": "346 repeated CSS selector(s); review cascade/overrides: .profile-section (15x), .profile-photo-wrap (12x), .bcci-player-head-actions .bcci-player-settings-menu (11x), .profile-copy h2 (9x), .bcci-player-options (9x), .fan-zone-grid (8x), .statsguru-category-grid button (8x), .bcci-player-head-actions .bcci-quality-head-button (8x)",
+      "file": "assets/style.css"
+    },
+    {
+      "level": "warning",
+      "message": "15 repeated CSS selector(s); review cascade/overrides: #tv-gallery-hub .tv-album-grid (4x), #tv-gallery-hub .tv-gallery-toolbar (3x), #tv-gallery-hub .tv-album-photo-grid (3x), #tv-gallery-hub #tv-gallery-grid > .tv-album-grid (3x), #tv-gallery-hub .tv-gallery-hub__shell (2x), #tv-gallery-hub .tv-gallery-hub__header (2x), #tv-gallery-hub #tv-gallery-hub-title (2x), #tv-gallery-hub .tv-gallery-filters (2x)",
+      "file": "assets/tv-gallery-hub.css"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": ".prettierrc.json"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
+      "file": "admin/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/app.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/bcci-videos.js"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "assets/bcci-videos.json"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/bowling.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/career-formats.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/custom-selects.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/fan-zone-plus.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/features.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/gallery.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/home-snapshot.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/news.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/player-matches.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/records-matches.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/section-tabs.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/site-data-store.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/statsguru.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/theme.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/upcoming-matches.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/upgrade.js"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "data/admin-media.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "data/death-overs.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "data/fan-zone.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "data/repo-health.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "data/site-data.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "data/tilak-news.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "data/video-config.json"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
+      "file": "death-overs/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "functions/_lib/admin.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "functions/api/admin/content.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "functions/api/admin/data-editor.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "functions/api/admin/data-status.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "functions/api/admin/import-bcci-photo.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "functions/api/admin/login.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "functions/api/admin/monitor.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "functions/api/admin/session.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "functions/api/admin/sign-upload.js"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
+      "file": "index.html"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/admin_diagnostics.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_bcci_videos.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_bowling.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_career_stats.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_data.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_death_overs.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_icc_records.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_ipl_explorer.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_statsguru.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_tilak_news.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/repo_health_monitor.py"
+    }
+  ],
   "autoRepair": {
     "attempted": false,
-    "result": "Waiting for first scheduled repository scan."
+    "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "main"
+    "branch": "80cac3a"
   }
 }
