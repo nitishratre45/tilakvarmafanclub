@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-11T21:26:14.257Z",
+  "checkedAt": "2026-10-11T21:26:44.084Z",
   "retentionHours": 15,
   "intervalMinutes": 60,
   "summary": {
     "workflows": 17,
     "enabled": 17,
-    "running": 5,
+    "running": 3,
     "failedLatest": 0,
-    "successfulLatest": 4,
+    "successfulLatest": 5,
     "noRecentRun": 8
   },
   "workflows": [
@@ -19,6 +19,12 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/admin-data-editor-tests.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Admin%20data%20editor%20tests/badge.svg",
+      "schedule": [],
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
       "latest": null,
       "recentRuns": [],
       "counts": {
@@ -35,26 +41,45 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/admin-diagnostics.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Admin%20Python%20diagnostics/badge.svg",
+      "schedule": [
+        "17 */6 * * *"
+      ],
+      "triggers": [
+        "workflow_dispatch",
+        "schedule",
+        "push"
+      ],
       "latest": {
-        "id": 38176352231,
-        "status": "in_progress",
-        "conclusion": null,
+        "id": 38176369231,
+        "status": "completed",
+        "conclusion": "success",
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-11T21:26:09Z",
-        "updatedAt": "2026-10-11T21:26:13Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176352231",
-        "title": "Add initial automation monitor data file"
+        "createdAt": "2026-10-11T21:26:24Z",
+        "updatedAt": "2026-10-11T21:26:34Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176369231",
+        "title": "Add fourth Live Updates tab for automation repository inventory"
       },
       "recentRuns": [
         {
+          "id": 38176369231,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-11T21:26:24Z",
+          "updatedAt": "2026-10-11T21:26:34Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176369231",
+          "title": "Add fourth Live Updates tab for automation repository inventory"
+        },
+        {
           "id": 38176352231,
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "event": "push",
           "branch": "main",
           "createdAt": "2026-10-11T21:26:09Z",
-          "updatedAt": "2026-10-11T21:26:13Z",
+          "updatedAt": "2026-10-11T21:26:21Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176352231",
           "title": "Add initial automation monitor data file"
         },
@@ -134,35 +159,13 @@
           "updatedAt": "2026-10-11T21:14:57Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175561569",
           "title": "Change only profile Match history shortcut to orange Videos button"
-        },
-        {
-          "id": 38175280969,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:10:44Z",
-          "updatedAt": "2026-10-11T21:10:56Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175280969",
-          "title": "Change profile Match history shortcut to Videos with primary CTA styling"
-        },
-        {
-          "id": 38175125485,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:08:33Z",
-          "updatedAt": "2026-10-11T21:08:42Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175125485",
-          "title": "Fix broken PWA icon with self-contained Tilak Varma 72 emblem"
         }
       ],
       "counts": {
-        "recent": 10,
+        "recent": 9,
         "successful": 4,
         "failed": 0,
-        "running": 1
+        "running": 0
       }
     },
     {
@@ -172,18 +175,99 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/auto-rerun-failed.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Auto-rerun%20failed%20GitHub%20Actions%20jobs/badge.svg",
+      "schedule": [],
+      "triggers": [
+        "workflow_run"
+      ],
       "latest": {
-        "id": 38176081830,
+        "id": 38176381337,
         "status": "completed",
         "conclusion": "skipped",
         "event": "workflow_run",
         "branch": "main",
-        "createdAt": "2026-10-11T21:22:16Z",
-        "updatedAt": "2026-10-11T21:22:17Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176081830",
+        "createdAt": "2026-10-11T21:26:35Z",
+        "updatedAt": "2026-10-11T21:26:36Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176381337",
         "title": "Auto-rerun failed GitHub Actions jobs"
       },
       "recentRuns": [
+        {
+          "id": 38176381337,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-11T21:26:35Z",
+          "updatedAt": "2026-10-11T21:26:36Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176381337",
+          "title": "Auto-rerun failed GitHub Actions jobs"
+        },
+        {
+          "id": 38176381279,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-11T21:26:35Z",
+          "updatedAt": "2026-10-11T21:26:36Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176381279",
+          "title": "Auto-rerun failed GitHub Actions jobs"
+        },
+        {
+          "id": 38176370711,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-11T21:26:26Z",
+          "updatedAt": "2026-10-11T21:26:27Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176370711",
+          "title": "Auto-rerun failed GitHub Actions jobs"
+        },
+        {
+          "id": 38176367798,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-11T21:26:23Z",
+          "updatedAt": "2026-10-11T21:26:24Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176367798",
+          "title": "Auto-rerun failed GitHub Actions jobs"
+        },
+        {
+          "id": 38176367577,
+          "status": "completed",
+          "conclusion": "failure",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-11T21:26:23Z",
+          "updatedAt": "2026-10-11T21:26:31Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176367577",
+          "title": "Auto-rerun failed GitHub Actions jobs"
+        },
+        {
+          "id": 38176366460,
+          "status": "completed",
+          "conclusion": "failure",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-11T21:26:22Z",
+          "updatedAt": "2026-10-11T21:26:29Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176366460",
+          "title": "Auto-rerun failed GitHub Actions jobs"
+        },
+        {
+          "id": 38176366039,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-11T21:26:21Z",
+          "updatedAt": "2026-10-11T21:26:22Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176366039",
+          "title": "Auto-rerun failed GitHub Actions jobs"
+        },
         {
           "id": 38176081830,
           "status": "completed",
@@ -216,89 +300,12 @@
           "updatedAt": "2026-10-11T21:21:37Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176036794",
           "title": "Auto-rerun failed GitHub Actions jobs"
-        },
-        {
-          "id": 38176024455,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:21:25Z",
-          "updatedAt": "2026-10-11T21:21:33Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176024455",
-          "title": "Auto-rerun failed GitHub Actions jobs"
-        },
-        {
-          "id": 38176010994,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:21:14Z",
-          "updatedAt": "2026-10-11T21:21:15Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176010994",
-          "title": "Auto-rerun failed GitHub Actions jobs"
-        },
-        {
-          "id": 38175999842,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:21:04Z",
-          "updatedAt": "2026-10-11T21:21:06Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175999842",
-          "title": "Auto-rerun failed GitHub Actions jobs"
-        },
-        {
-          "id": 38175993761,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:20:59Z",
-          "updatedAt": "2026-10-11T21:21:09Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175993761",
-          "title": "Auto-rerun failed GitHub Actions jobs"
-        },
-        {
-          "id": 38175992008,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:20:57Z",
-          "updatedAt": "2026-10-11T21:21:03Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175992008",
-          "title": "Auto-rerun failed GitHub Actions jobs"
-        },
-        {
-          "id": 38175990626,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:20:56Z",
-          "updatedAt": "2026-10-11T21:20:57Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175990626",
-          "title": "Auto-rerun failed GitHub Actions jobs"
-        },
-        {
-          "id": 38175986715,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:20:53Z",
-          "updatedAt": "2026-10-11T21:20:54Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175986715",
-          "title": "Auto-rerun failed GitHub Actions jobs"
         }
       ],
       "counts": {
         "recent": 10,
         "successful": 0,
-        "failed": 1,
+        "failed": 2,
         "running": 0
       }
     },
@@ -309,33 +316,52 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/automation-repo-monitor.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Automation%20repository%20monitor%20(hourly)/badge.svg",
+      "schedule": [
+        "17 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch",
+        "push"
+      ],
       "latest": {
-        "id": 38176349709,
+        "id": 38176385297,
         "status": "in_progress",
         "conclusion": null,
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-11T21:26:07Z",
-        "updatedAt": "2026-10-11T21:26:10Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176349709",
-        "title": "Add hourly automation repository monitor with 15-hour history"
+        "createdAt": "2026-10-11T21:26:38Z",
+        "updatedAt": "2026-10-11T21:26:41Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176385297",
+        "title": "Include workflow schedule and trigger details in automation inventory"
       },
       "recentRuns": [
         {
-          "id": 38176349709,
+          "id": 38176385297,
           "status": "in_progress",
           "conclusion": null,
           "event": "push",
           "branch": "main",
+          "createdAt": "2026-10-11T21:26:38Z",
+          "updatedAt": "2026-10-11T21:26:41Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176385297",
+          "title": "Include workflow schedule and trigger details in automation inventory"
+        },
+        {
+          "id": 38176349709,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
           "createdAt": "2026-10-11T21:26:07Z",
-          "updatedAt": "2026-10-11T21:26:10Z",
+          "updatedAt": "2026-10-11T21:26:19Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176349709",
           "title": "Add hourly automation repository monitor with 15-hour history"
         }
       ],
       "counts": {
-        "recent": 1,
-        "successful": 0,
+        "recent": 2,
+        "successful": 1,
         "failed": 0,
         "running": 1
       }
@@ -347,6 +373,12 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/browser-smoke.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Browser%20smoke%20tests/badge.svg",
+      "schedule": [],
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
       "latest": {
         "id": 38175976364,
         "status": "completed",
@@ -413,22 +445,11 @@
           "updatedAt": "2026-10-11T21:15:30Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175561576",
           "title": "Change only profile Match history shortcut to orange Videos button"
-        },
-        {
-          "id": 38175281017,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:10:44Z",
-          "updatedAt": "2026-10-11T21:11:25Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175281017",
-          "title": "Change profile Match history shortcut to Videos with primary CTA styling"
         }
       ],
       "counts": {
-        "recent": 6,
-        "successful": 4,
+        "recent": 5,
+        "successful": 3,
         "failed": 0,
         "running": 0
       }
@@ -440,26 +461,53 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/format-code.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Format%20source%20code/badge.svg",
+      "schedule": [],
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
       "latest": {
-        "id": 38176349682,
-        "status": "in_progress",
+        "id": 38176385294,
+        "status": "pending",
         "conclusion": null,
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-11T21:26:07Z",
-        "updatedAt": "2026-10-11T21:26:10Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176349682",
-        "title": "Add hourly automation repository monitor with 15-hour history"
+        "createdAt": "2026-10-11T21:26:38Z",
+        "updatedAt": "2026-10-11T21:26:39Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176385294",
+        "title": "Include workflow schedule and trigger details in automation inventory"
       },
       "recentRuns": [
         {
-          "id": 38176349682,
+          "id": 38176385294,
+          "status": "pending",
+          "conclusion": null,
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-11T21:26:38Z",
+          "updatedAt": "2026-10-11T21:26:39Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176385294",
+          "title": "Include workflow schedule and trigger details in automation inventory"
+        },
+        {
+          "id": 38176369215,
           "status": "in_progress",
           "conclusion": null,
           "event": "push",
           "branch": "main",
+          "createdAt": "2026-10-11T21:26:24Z",
+          "updatedAt": "2026-10-11T21:26:28Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176369215",
+          "title": "Add fourth Live Updates tab for automation repository inventory"
+        },
+        {
+          "id": 38176349682,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
           "createdAt": "2026-10-11T21:26:07Z",
-          "updatedAt": "2026-10-11T21:26:10Z",
+          "updatedAt": "2026-10-11T21:26:24Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176349682",
           "title": "Add hourly automation repository monitor with 15-hour history"
         },
@@ -539,33 +587,11 @@
           "updatedAt": "2026-10-11T21:15:10Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175561572",
           "title": "Change only profile Match history shortcut to orange Videos button"
-        },
-        {
-          "id": 38175281084,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:10:44Z",
-          "updatedAt": "2026-10-11T21:11:03Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175281084",
-          "title": "Change profile Match history shortcut to Videos with primary CTA styling"
-        },
-        {
-          "id": 38175125539,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:08:33Z",
-          "updatedAt": "2026-10-11T21:08:51Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175125539",
-          "title": "Fix broken PWA icon with self-contained Tilak Varma 72 emblem"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 8,
+        "successful": 7,
         "failed": 0,
         "running": 1
       }
@@ -577,6 +603,14 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/photo-section-guardian.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Photo%20Section%20Guardian/badge.svg",
+      "schedule": [
+        "17 */6 * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch",
+        "push"
+      ],
       "latest": {
         "id": 38175976271,
         "status": "completed",
@@ -632,22 +666,11 @@
           "updatedAt": "2026-10-11T21:14:59Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175561583",
           "title": "Change only profile Match history shortcut to orange Videos button"
-        },
-        {
-          "id": 38175280983,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:10:44Z",
-          "updatedAt": "2026-10-11T21:10:53Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175280983",
-          "title": "Change profile Match history shortcut to Videos with primary CTA styling"
         }
       ],
       "counts": {
-        "recent": 5,
-        "successful": 5,
+        "recent": 4,
+        "successful": 4,
         "failed": 0,
         "running": 0
       }
@@ -659,6 +682,14 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/refresh-bcci-videos.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Refresh%20BCCI%20Tilak%20Videos/badge.svg",
+      "schedule": [
+        "30 0,12 * * *"
+      ],
+      "triggers": [
+        "push",
+        "schedule",
+        "workflow_dispatch"
+      ],
       "latest": null,
       "recentRuns": [],
       "counts": {
@@ -675,6 +706,14 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/refresh-bowling.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Refresh%20ESPNcricinfo%20Bowling%20Stats/badge.svg",
+      "schedule": [
+        "41 1 * * *"
+      ],
+      "triggers": [
+        "workflow_dispatch",
+        "schedule",
+        "push"
+      ],
       "latest": null,
       "recentRuns": [],
       "counts": {
@@ -691,6 +730,14 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/refresh-death-overs.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Refresh%20Tilak%20death-overs%20stats/badge.svg",
+      "schedule": [
+        "23 */12 * * *"
+      ],
+      "triggers": [
+        "workflow_dispatch",
+        "schedule",
+        "push"
+      ],
       "latest": null,
       "recentRuns": [],
       "counts": {
@@ -707,6 +754,14 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/refresh-icc-records.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Refresh%20ICC%20rankings%20and%20record%20highlights/badge.svg",
+      "schedule": [
+        "37 2 */2 * *"
+      ],
+      "triggers": [
+        "workflow_dispatch",
+        "schedule",
+        "push"
+      ],
       "latest": null,
       "recentRuns": [],
       "counts": {
@@ -723,6 +778,14 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/refresh-statsguru.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Refresh%20ESPNcricinfo%20Statsguru/badge.svg",
+      "schedule": [
+        "23 * * * *"
+      ],
+      "triggers": [
+        "workflow_dispatch",
+        "schedule",
+        "push"
+      ],
       "latest": null,
       "recentRuns": [],
       "counts": {
@@ -739,6 +802,14 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/refresh-tilak-data.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Refresh%20Tilak%20Varma%20data/badge.svg",
+      "schedule": [
+        "17 */12 * * *"
+      ],
+      "triggers": [
+        "push",
+        "workflow_dispatch",
+        "schedule"
+      ],
       "latest": null,
       "recentRuns": [],
       "counts": {
@@ -755,6 +826,14 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/repo-health-monitor.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Repository%20health%20monitor%20(10%20minutes)/badge.svg",
+      "schedule": [
+        "*/10 * * * *"
+      ],
+      "triggers": [
+        "schedule",
+        "workflow_dispatch",
+        "push"
+      ],
       "latest": null,
       "recentRuns": [],
       "counts": {
@@ -771,18 +850,37 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/self-healing.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Self-healing%20code%20guard/badge.svg",
+      "schedule": [
+        "23 3 * * *"
+      ],
+      "triggers": [
+        "workflow_dispatch",
+        "schedule",
+        "push"
+      ],
       "latest": {
-        "id": 38175976423,
+        "id": 38176369202,
         "status": "completed",
         "conclusion": "success",
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-11T21:20:43Z",
-        "updatedAt": "2026-10-11T21:21:24Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175976423",
-        "title": "Refresh loader stylesheet cache version"
+        "createdAt": "2026-10-11T21:26:24Z",
+        "updatedAt": "2026-10-11T21:26:43Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176369202",
+        "title": "Add fourth Live Updates tab for automation repository inventory"
       },
       "recentRuns": [
+        {
+          "id": 38176369202,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-11T21:26:24Z",
+          "updatedAt": "2026-10-11T21:26:43Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176369202",
+          "title": "Add fourth Live Updates tab for automation repository inventory"
+        },
         {
           "id": 38175976423,
           "status": "completed",
@@ -859,33 +957,11 @@
           "updatedAt": "2026-10-11T21:15:10Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175561585",
           "title": "Change only profile Match history shortcut to orange Videos button"
-        },
-        {
-          "id": 38175280976,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:10:44Z",
-          "updatedAt": "2026-10-11T21:11:03Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175280976",
-          "title": "Change profile Match history shortcut to Videos with primary CTA styling"
-        },
-        {
-          "id": 38175125536,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:08:33Z",
-          "updatedAt": "2026-10-11T21:09:05Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175125536",
-          "title": "Fix broken PWA icon with self-contained Tilak Varma 72 emblem"
         }
       ],
       "counts": {
-        "recent": 9,
-        "successful": 8,
+        "recent": 8,
+        "successful": 7,
         "failed": 0,
         "running": 0
       }
@@ -897,37 +973,54 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/site-check.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Validate%20Tilak%20Varma%20FC%20site/badge.svg",
+      "schedule": [],
+      "triggers": [
+        "push",
+        "pull_request",
+        "workflow_dispatch"
+      ],
       "latest": {
-        "id": 38176352323,
+        "id": 38176385296,
         "status": "in_progress",
         "conclusion": null,
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-11T21:26:09Z",
-        "updatedAt": "2026-10-11T21:26:13Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176352323",
-        "title": "Add initial automation monitor data file"
+        "createdAt": "2026-10-11T21:26:38Z",
+        "updatedAt": "2026-10-11T21:26:42Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176385296",
+        "title": "Include workflow schedule and trigger details in automation inventory"
       },
       "recentRuns": [
         {
-          "id": 38176352323,
+          "id": 38176385296,
           "status": "in_progress",
           "conclusion": null,
           "event": "push",
           "branch": "main",
+          "createdAt": "2026-10-11T21:26:38Z",
+          "updatedAt": "2026-10-11T21:26:42Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176385296",
+          "title": "Include workflow schedule and trigger details in automation inventory"
+        },
+        {
+          "id": 38176352323,
+          "status": "completed",
+          "conclusion": "failure",
+          "event": "push",
+          "branch": "main",
           "createdAt": "2026-10-11T21:26:09Z",
-          "updatedAt": "2026-10-11T21:26:13Z",
+          "updatedAt": "2026-10-11T21:26:19Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176352323",
           "title": "Add initial automation monitor data file"
         },
         {
           "id": 38176349728,
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "failure",
           "event": "push",
           "branch": "main",
           "createdAt": "2026-10-11T21:26:07Z",
-          "updatedAt": "2026-10-11T21:26:11Z",
+          "updatedAt": "2026-10-11T21:26:21Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176349728",
           "title": "Add hourly automation repository monitor with 15-hour history"
         },
@@ -985,35 +1078,13 @@
           "updatedAt": "2026-10-11T21:15:01Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175561604",
           "title": "Change only profile Match history shortcut to orange Videos button"
-        },
-        {
-          "id": 38175281039,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:10:44Z",
-          "updatedAt": "2026-10-11T21:10:54Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175281039",
-          "title": "Change profile Match history shortcut to Videos with primary CTA styling"
-        },
-        {
-          "id": 38175125463,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-11T21:08:33Z",
-          "updatedAt": "2026-10-11T21:08:42Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175125463",
-          "title": "Fix broken PWA icon with self-contained Tilak Varma 72 emblem"
         }
       ],
       "counts": {
-        "recent": 9,
+        "recent": 8,
         "successful": 0,
         "failed": 7,
-        "running": 2
+        "running": 1
       }
     },
     {
@@ -1023,18 +1094,34 @@
       "state": "active",
       "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/validate-admin-studio.yml",
       "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Validate%20Admin%20Studio%20and%20Site%20Data/badge.svg",
+      "schedule": [],
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
       "latest": {
-        "id": 38175969859,
+        "id": 38176369210,
         "status": "completed",
         "conclusion": "success",
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-11T21:20:38Z",
-        "updatedAt": "2026-10-11T21:20:50Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38175969859",
-        "title": "Add animated Tilak portrait loader to Admin Studio"
+        "createdAt": "2026-10-11T21:26:24Z",
+        "updatedAt": "2026-10-11T21:26:33Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176369210",
+        "title": "Add fourth Live Updates tab for automation repository inventory"
       },
       "recentRuns": [
+        {
+          "id": 38176369210,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-11T21:26:24Z",
+          "updatedAt": "2026-10-11T21:26:33Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38176369210",
+          "title": "Add fourth Live Updates tab for automation repository inventory"
+        },
         {
           "id": 38175969859,
           "status": "completed",
@@ -1059,8 +1146,8 @@
         }
       ],
       "counts": {
-        "recent": 2,
-        "successful": 2,
+        "recent": 3,
+        "successful": 3,
         "failed": 0,
         "running": 0
       }
@@ -1074,6 +1161,15 @@
       "running": 5,
       "failedLatest": 0,
       "successfulLatest": 4,
+      "noRecentRun": 8
+    },
+    {
+      "checkedAt": "2026-10-11T21:26:44.084Z",
+      "workflows": 17,
+      "enabled": 17,
+      "running": 3,
+      "failedLatest": 0,
+      "successfulLatest": 5,
       "noRecentRun": 8
     }
   ]
