@@ -5,8 +5,8 @@
   if (!host) return;
   const safeUrl = (value) => {
     try {
-      const url = new URL(value);
-      return url.protocol === "https:" ? url.href : "";
+      const url = new URL(value, window.location.origin);
+      return url.protocol === "https:" || url.origin === window.location.origin ? url.href : "";
     } catch {
       return "";
     }
