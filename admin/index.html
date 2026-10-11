@@ -1447,7 +1447,7 @@
         }
       }
     </style>
-    <link rel="stylesheet" href="admin-premium.css?v=20261011-mobile-menu-overlay2" />
+    <link rel="stylesheet" href="admin-premium.css?v=20261011-section-topbar-fix3" />
   </head>
   <body>
     <div id="login-view" class="login-wrap">
@@ -3673,6 +3673,7 @@
           const allowedViews = Object.keys(viewLabels);
           const view = allowedViews.includes(requestedView) ? requestedView : "dashboard";
           const app = $("admin-app");
+          app.dataset.currentView = view;
           app.querySelectorAll("#admin-nav [data-view]").forEach((link) => {
             const active = link.dataset.view === view;
             link.classList.toggle("active", active);
