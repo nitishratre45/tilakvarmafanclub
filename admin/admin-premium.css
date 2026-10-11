@@ -720,3 +720,12 @@ img { height: auto; }
   .admin-mobile-menu span { transition: none; }
   .sidebar .nav { animation: none; }
 }
+
+
+/* FIX: override legacy mobile nav rules that used display:flex!important. */
+@media (max-width: 720px) {
+  .sidebar .nav { display: none !important; }
+  .sidebar .nav.mobile-open { display: flex !important; }
+  .sidebar .brand { flex: 1 1 auto !important; }
+  .sidebar .admin-mobile-menu { display: inline-flex !important; }
+}
