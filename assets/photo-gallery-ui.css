@@ -549,7 +549,6 @@
   padding: 0 !important;
 }
 
-
 /* Final compact-layout guard: defeat legacy full-height/flex/grid rules in the Photos section. */
 html body main#main-content > #photos.tilak-photos-section,
 html body main > #photos.tilak-photos-section {
@@ -606,8 +605,20 @@ html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery
   transform: none !important;
 }
 html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar > *,
-html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-toolbar-copy,
-html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-filters {
+html
+  body
+  main
+  > #photos.tilak-photos-section
+  #cricinfo-photo-grid
+  > .tv-gallery-toolbar
+  .tv-gallery-toolbar-copy,
+html
+  body
+  main
+  > #photos.tilak-photos-section
+  #cricinfo-photo-grid
+  > .tv-gallery-toolbar
+  .tv-gallery-filters {
   position: static !important;
   inset: auto !important;
   height: auto !important;
@@ -631,14 +642,24 @@ html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-album-g
   transform: none !important;
 }
 @media (max-width: 760px) {
-  html body main > #photos.tilak-photos-section { padding-block: 14px !important; }
-  html body main > #photos.tilak-photos-section > .cricinfo-gallery { padding: 12px !important; }
+  html body main > #photos.tilak-photos-section {
+    padding-block: 14px !important;
+  }
+  html body main > #photos.tilak-photos-section > .cricinfo-gallery {
+    padding: 12px !important;
+  }
   html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar {
     grid-template-columns: minmax(0, 1fr) !important;
     grid-template-rows: auto auto !important;
     gap: 12px !important;
   }
-  html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-filters {
+  html
+    body
+    main
+    > #photos.tilak-photos-section
+    #cricinfo-photo-grid
+    > .tv-gallery-toolbar
+    .tv-gallery-filters {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
   html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-album-grid {
