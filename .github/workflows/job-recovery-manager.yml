@@ -1,0 +1,103 @@
+name: Job recovery manager
+on:
+  workflow_run:
+    workflows: ["*"]
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  actions: write
+  contents: write
+concurrency:
+  group: job-recovery-manager
+  cancel-in-progress: false
+jobs:
+  inspect-and-recover:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.name != 'Job recovery manager'
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Inspect completed workflow and safely recover eligible jobs
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'data/job-recovery-manager.json';
+            const now = new Date();
+            const run = context.payload.workflow_run;
+            const isManual = context.eventName === 'workflow_dispatch';
+            let report = { schemaVersion: 1, checkedAt: null, retentionHours: 15, events: [] };
+            if (fs.existsSync(path)) {
+              try { report = JSON.parse(fs.readFileSync(path, 'utf8')); } catch {}
+            }
+            if (!Array.isArray(report.events)) report.events = [];
+            const cutoff = now.getTime() - 15 * 60 * 60 * 1000;
+            report.events = report.events.filter(item => Date.parse(item.checkedAt) >= cutoff);
+            if (isManual) {
+              core.notice('Manual run: no historical workflow is rerun automatically. Use the Actions run link to select a specific recovery.');
+            } else {
+              const { owner, repo } = context.repo;
+              const jobsResponse = await github.rest.actions.listJobsForWorkflowRun({ owner, repo, run_id: run.id, per_page: 100 });
+              const jobs = jobsResponse.data.jobs;
+              const failed = jobs.filter(job => job.conclusion === 'failure');
+              const cancelled = jobs.filter(job => job.conclusion === 'cancelled');
+              const skipped = jobs.filter(job => job.conclusion === 'skipped');
+              const successful = jobs.filter(job => job.conclusion === 'success');
+              let action = 'diagnosed_only';
+              let reason = '';
+              if (run.conclusion === 'failure') {
+                action = 'handled_by_auto_rerun_failed';
+                reason = 'Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.';
+              } else if (run.conclusion === 'cancelled') {
+                action = 'manual_review_required';
+                reason = successful.length
+                  ? 'Cancelled after one or more jobs succeeded; automatic full rerun suppressed to avoid duplicate side effects.'
+                  : 'GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.';
+                core.warning(reason);
+              } else if (skipped.length) {
+                action = 'skipped_diagnosed';
+                reason = 'Skipped jobs are not automatically rerun: inspect their if/needs conditions and dependency outcomes.';
+                core.notice(reason);
+              } else {
+                action = 'no_recovery_needed';
+                reason = 'No failed, cancelled, or skipped jobs require this manager.';
+              }
+              report.events.push({
+                checkedAt: now.toISOString(), workflow: run.name, workflowPath: run.path,
+                runId: run.id, runAttempt: run.run_attempt || 1, conclusion: run.conclusion,
+                event: run.event, branch: run.head_branch, runUrl: run.html_url, action, reason,
+                jobCounts: { total: jobs.length, success: successful.length, failure: failed.length, cancelled: cancelled.length, skipped: skipped.length },
+                jobs: jobs.filter(job => ['failure','cancelled','skipped'].includes(job.conclusion)).map(job => ({
+                  name: job.name, conclusion: job.conclusion, startedAt: job.started_at,
+                  completedAt: job.completed_at, url: job.html_url,
+                  steps: (job.steps || []).filter(step => ['failure','cancelled','skipped'].includes(step.conclusion)).map(step => ({ name: step.name, conclusion: step.conclusion, number: step.number }))
+                }))
+              });
+            }
+            report.checkedAt = now.toISOString();
+            report.retentionHours = 15;
+            report.events = report.events.slice(-500);
+            fs.writeFileSync(path, JSON.stringify(report, null, 2) + '\n');
+      - name: Publish recovery history
+        if: always()
+        run: |
+          set -euo pipefail
+          test -s data/job-recovery-manager.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          snapshot="$(mktemp)"
+          cp data/job-recovery-manager.json "$snapshot"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp "$snapshot" data/job-recovery-manager.json
+            git add data/job-recovery-manager.json
+            if git diff --cached --quiet; then echo "Recovery history unchanged"; exit 0; fi
+            git commit -m "chore: update job recovery history"
+            if git push origin HEAD:main; then exit 0; fi
+            echo "Push attempt $attempt failed; retrying."
+          done
+          echo "::error::Could not publish recovery history after three attempts."
+          exit 1
