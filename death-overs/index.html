@@ -323,6 +323,21 @@
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 12px;
       }
+      .coverage-summary-line {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: 8px;
+        color: #a8b6c9;
+        font-size: 10px;
+        line-height: 1.5;
+      }
+      .coverage-summary-line strong {
+        color: #7ce5f2;
+        font: 600 10px/1.5 var(--mono);
+        overflow-wrap: anywhere;
+      }
       .coverage-panel {
         margin-top: 16px;
         padding: clamp(16px, 2.5vw, 24px);
@@ -1675,6 +1690,10 @@
               <h2 class="section-title">DEATH-OVERS <em>ANALYSER.</em></h2>
             </div>
             <p class="section-copy">Choose a format, season and over range.</p>
+            <div class="coverage-summary-line" aria-live="polite">
+              <span class="coverage-mini-kicker">DATA</span>
+              <strong id="coverage-summary-text">Loading match data…</strong>
+            </div>
           </div>
 
           <div class="calculator-card">
@@ -1764,39 +1783,7 @@
               </div>
             </div>
 
-            <section class="coverage-panel" aria-labelledby="coverage-title" aria-live="polite">
-              <div class="coverage-head">
-                <div class="coverage-title-row">
-                  <span class="coverage-mini-kicker">DATA COVERAGE</span>
-                  <h3 id="coverage-title">BALL-BY-BALL <em>AVAILABILITY</em></h3>
-                  <span class="coverage-filter-inline" id="coverage-filter"
-                    >Selected format · All years</span
-                  >
-                </div>
-              </div>
-              <div class="coverage-grid">
-                <article class="coverage-card">
-                  <small>TOTAL RUNS</small>
-                  <strong id="coverage-runs">—</strong>
-                  <span>Recorded runs in this format/year</span>
-                </article>
-                <article class="coverage-card">
-                  <small>MATCHES</small>
-                  <strong id="coverage-matches">—</strong>
-                  <span>Unique matches in this dataset</span>
-                </article>
-                <article class="coverage-card">
-                  <small>FOURS</small>
-                  <strong id="coverage-fours">—</strong>
-                  <span>Recorded boundaries worth four</span>
-                </article>
-                <article class="coverage-card">
-                  <small>SIXES</small>
-                  <strong id="coverage-sixes">—</strong>
-                  <span>Recorded boundaries worth six</span>
-                </article>
-              </div>
-            </section>
+
 
             <div class="detail-panel ball-panel">
               <div class="detail-heading">
@@ -2162,11 +2149,11 @@
           document.getElementById("coverage-matches").textContent = fmt(matchCount);
           document.getElementById("coverage-fours").textContent = fmt(t.fours);
           document.getElementById("coverage-sixes").textContent = fmt(t.sixes);
-          document.getElementById("coverage-filter").textContent =
+          document.getElementById("coverage-summary-text").textContent =
             (d?.label || names[active]) +
-            " · " +
-            (year.value === "all" ? "All available years" : year.value) +
-            " · Counts update when you change the format or year.";
+            " · " + fmt(matchCount) + " matches · " + fmt(t.runs) +
+            " runs · " + fmt(t.fours) + " fours · " + fmt(t.sixes) + " sixes" +
+            " · " + (year.value === "all" ? "all years" : year.value);
           document.getElementById("total-runs").textContent = fmt(t.runs);
           document.getElementById("total-innings").textContent = fmt(
             d?.inningsFound || innings.length,
