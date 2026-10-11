@@ -37,13 +37,24 @@ jobs:
             ]);
             const workflows = workflowResponse.data.workflows;
             const recentRuns = runResponse.data.workflow_runs;
-            const entries = workflows.map(workflow => {
+            const entries = await Promise.all(workflows.map(async workflow => {
               const runs = recentRuns.filter(run => run.path === workflow.path).slice(0, 10);
+              let schedule = [];
+              let triggers = [];
+              try {
+                const source = await github.rest.repos.getContent({ owner, repo, path: workflow.path });
+                const yaml = Buffer.from(source.data.content, 'base64').toString('utf8');
+                schedule = [...yaml.matchAll(/^\s*-\s*cron:\s*["']?([^"'\n]+)["']?\s*$/gm)].map(match => match[1].trim());
+                const onBlock = yaml.match(/^on:\s*\n([\s\S]*?)(?=^[^ \t]|\Z)/m);
+                if (onBlock) triggers = [...onBlock[1].matchAll(/^\s{2}([a-zA-Z_-]+):/gm)].map(match => match[1]);
+              } catch {}
+
               const latest = runs[0] || null;
               const completed = runs.filter(run => run.status === 'completed');
               return {
                 id: workflow.id, name: workflow.name, path: workflow.path,
                 state: workflow.state, url: workflow.html_url, badgeUrl: workflow.badge_url,
+                schedule, triggers,
                 latest: latest ? {
                   id: latest.id, status: latest.status, conclusion: latest.conclusion,
                   event: latest.event, branch: latest.head_branch,
@@ -62,7 +73,7 @@ jobs:
                   running: runs.filter(run => ['in_progress','queued'].includes(run.status)).length
                 }
               };
-            });
+            }));
             let previous = { snapshots: [] };
             if (fs.existsSync(path)) {
               try { previous = JSON.parse(fs.readFileSync(path, 'utf8')); } catch {}
