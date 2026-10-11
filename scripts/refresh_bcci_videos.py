@@ -51,6 +51,16 @@ def fetch_custom_url(url: str) -> object:
         raise ValueError(
             "Admin video source must be an HTTPS URL on an official BCCI host."
         )
+    # The public BCCI videos listing (e.g. /videos?tags=international)
+    # is HTML, not JSON. Map the supported listing to its CMS JSON endpoint.
+    if parsed.path.rstrip("/") == "/videos":
+        query = urllib.parse.parse_qs(parsed.query, keep_blank_values=False)
+        allowed_query_keys = {"tags", "tag", "page", "limit", "search"}
+        if not query or any(key not in allowed_query_keys for key in query):
+            raise ValueError("BCCI public videos page needs supported listing query parameters.")
+        url = API_BASE + "?" + urllib.parse.urlencode(
+            [(key, value) for key, values in query.items() for value in values]
+        )
     request = urllib.request.Request(url, headers=HEADERS)
     with urllib.request.urlopen(request, timeout=45) as response:
         if response.status != 200:
