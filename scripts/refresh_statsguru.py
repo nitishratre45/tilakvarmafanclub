@@ -651,7 +651,12 @@ def scrape_format(fmt, match_class):
 
 
 def scrape_domestic_profile_summary(fmt):
-    """Read domestic-format career totals and team/competition splits from public profile tables."""
+    """Read NDTV domestic career totals plus opponent/competition and year splits.
+
+    NDTV exposes these as separate HTML tables (against/where/year tabs), not a
+    single overall row. Totals are aggregated only from complete source-listed
+    rows; no match-by-match innings are fabricated.
+    """
     sources = [
         (
             "https://sports.ndtv.com/cricket/players/112645-tilak-varma-playerprofile/stats",
@@ -662,172 +667,176 @@ def scrape_domestic_profile_summary(fmt):
             "Secondary public player profile stats",
         ),
     ]
-    wanted = "listas" if fmt == "List A" else "firstclass"
+    format_id = 5 if fmt == "List A" else 4
 
     def norm(value):
         return re.sub(r"[^a-z0-9]+", "", clean(value).casefold())
 
-    aliases = {
-        "matches": {"mat", "matches", "m"},
-        "innings": {"inn", "inns", "innings", "i"},
-        "runs": {"r", "runs"},
-        "balls": {"bf", "balls", "ballsfaced"},
-        "notOuts": {"no", "notout", "notouts", "n/o"},
-        "average": {"avg", "average"},
-        "strikeRate": {"sr", "strikerate", "s/r"},
-        "hundreds": {"100", "100s", "hundreds"},
-        "fifties": {"50", "50s", "fifties"},
-        "highestScore": {"h", "hs", "highscore"},
-        "fours": {"4s", "fours"},
-        "sixes": {"6s", "sixes"},
-        "catches": {"ct", "catches"},
-        "stumpings": {"st", "stumpings"},
-        "ducks": {"ducks", "0"},
-        "runOuts": {"ro", "runouts", "runout"},
-    }
+    def parse_ndtv(page, source_name, url):
+        output_rows = []
+        yearly_rows = []
+        summaries = []
+        for table in parse_tables(page):
+            header_index = None
+            columns = {}
+            headers = []
+            for ri, row in enumerate(table):
+                headers = [norm(value) for value in cell_text(row)]
+                # NDTV's batting/fielding table has M, I, R, HS and a format ID.
+                if (
+                    {"m", "i", "r", "hs"}.issubset(set(headers))
+                    and "id" in headers
+                ):
+                    header_index = ri
+                    for i, h in enumerate(headers):
+                        if h in {"m", "matches"}:
+                            columns["matches"] = i
+                        elif h in {"i", "inn", "inns", "innings"}:
+                            columns["innings"] = i
+                        elif h in {"no", "notout", "notouts"}:
+                            columns["notOuts"] = i
+                        elif h in {"r", "runs"}:
+                            columns["runs"] = i
+                        elif h in {"hs", "highscore"}:
+                            columns["highestScore"] = i
+                        elif h in {"100s", "100", "hundreds"}:
+                            columns["hundreds"] = i
+                        elif h in {"50s", "50", "fifties"}:
+                            columns["fifties"] = i
+                        elif h in {"4s", "fours"}:
+                            columns["fours"] = i
+                        elif h in {"6s", "sixes"}:
+                            columns["sixes"] = i
+                        elif h in {"avg", "average", "batavg"}:
+                            columns["average"] = i
+                        elif h in {"sr", "strikerate"}:
+                            columns["strikeRate"] = i
+                        elif h in {"ct", "catches"}:
+                            columns["catches"] = i
+                        elif h in {"st", "stumpings"}:
+                            columns["stumpings"] = i
+                        elif h in {"id"}:
+                            columns["formatId"] = i
+                    break
+            if header_index is None or not {
+                "matches", "innings", "runs", "highestScore", "formatId"
+            }.issubset(columns):
+                continue
 
+            rows = []
+            for row in table[header_index + 1:]:
+                values = cell_text(row)
+                max_col = max(columns.values())
+                if len(values) <= max_col:
+                    continue
+                if clean(values[columns["formatId"]]) != str(format_id):
+                    continue
+                label = clean(values[0]) if values else ""
+                if not label or norm(label) in {
+                    "home", "away", "neutral", "overall", "career", "total",
+                    "battingfieldingperformance", "bowlingperformance",
+                }:
+                    continue
+                item = {"group": label, "span": "All-time"}
+                for key, column in columns.items():
+                    if key == "formatId" or column >= len(values):
+                        continue
+                    raw = clean(values[column])
+                    if key == "highestScore":
+                        item[key] = raw
+                    else:
+                        item[key] = number(raw)
+                if item.get("matches") is None or item.get("runs") is None:
+                    continue
+                rows.append(item)
+
+            if not rows:
+                continue
+
+            # Year rows are kept separately from opposition/competition rows.
+            if all(re.fullmatch(r"\d{4}", str(item.get("group", ""))) for item in rows):
+                yearly_rows.extend({**item, "groupType": "year"} for item in rows)
+            else:
+                # Rows whose label is an opposition/competition and whose format
+                # ID matches the selected format are source-listed breakdowns.
+                # Avoid home/away/year tables, which are not team/competition splits.
+                non_year = [
+                    item for item in rows
+                    if not re.fullmatch(r"\d{4}", str(item.get("group", "")))
+                ]
+                if len(non_year) >= 5:
+                    output_rows.extend({**item, "groupType": "opposition/competition"} for item in non_year)
+
+                # The 'against' table partitions the player's record by opponent.
+                # Its rows are disjoint, so their match/innings/run totals can be
+                # summed to recover the overall summary without guessing values.
+                if len(rows) >= 5:
+                    summaries.append(rows)
+
+        if not summaries:
+            return None
+        # Select the largest complete opposition table; the other matching tables
+        # are usually venue/year/team tabs with fewer rows.
+        source_rows = max(summaries, key=len)
+        summary = {}
+        additive = (
+            "matches", "innings", "notOuts", "runs", "hundreds", "fifties",
+            "fours", "sixes", "catches", "stumpings",
+        )
+        for key in additive:
+            values = [row.get(key) for row in source_rows if row.get(key) is not None]
+            if values:
+                summary[key] = sum(values)
+        scores = []
+        for row in source_rows:
+            raw = clean(row.get("highestScore"))
+            match = re.search(r"(\d+)\s*(\*)?", raw)
+            if match:
+                scores.append((int(match.group(1)), bool(match.group(2)), raw))
+        if scores:
+            best = max(scores, key=lambda x: (x[0], x[1]))
+            summary["highestScore"] = str(best[0]) + ("*" if best[1] else "")
+        innings = summary.get("innings")
+        not_outs = summary.get("notOuts")
+        runs = summary.get("runs")
+        if runs is not None and innings is not None and not_outs is not None:
+            dismissals = innings - not_outs
+            if dismissals > 0:
+                summary["average"] = round(runs / dismissals, 2)
+        # The page gives a rounded strike rate for each split but not balls faced.
+        # Do not synthesize a career strike rate from rounded split values.
+        if not summary.get("matches") or not summary.get("runs"):
+            return None
+        summary.setdefault("innings", summary.get("matches"))
+        return {
+            "summary": summary,
+            "careerBreakdown": output_rows,
+            "teamBreakdown": output_rows,
+            "yearBreakdown": yearly_rows,
+            "innings": [],
+            "inningsCount": summary.get("innings") or 0,
+            "source": source_name + " (HTML table summary and grouped splits)",
+            "sourceUrl": url,
+            "detailStatus": "summary-and-grouped-splits",
+            "detailNote": "Career totals and opponent/competition/year splits are derived from NDTV source-listed tables. Match-by-match innings are not fabricated; strike rate is omitted where the source does not provide a verified aggregate.",
+            "checkedAt": stamp(),
+        }
+
+    errors = []
     for url, source_name in sources:
         try:
             page = fetch(url)
+            result = parse_ndtv(page, source_name, url)
+            if result:
+                return result
+            errors.append(source_name + ": no recognized domestic tables")
         except Exception as exc:
-            print(fmt + ": profile source fetch failed (" + url + "):", exc)
-            continue
-
-        for table in parse_tables(page):
-            for index, row in enumerate(table):
-                headers = [norm(value) for value in cell_text(row)]
-                if not ({norm(x) for x in aliases["matches"]} & set(headers)):
-                    continue
-                if not ({norm(x) for x in aliases["runs"]} & set(headers)):
-                    continue
-
-                columns = {}
-                for i, header in enumerate(headers):
-                    for key, names in aliases.items():
-                        if header in {norm(name) for name in names}:
-                            columns[key] = i
-                            break
-                    if header in {"format", "game", "gametype", "type", "careerformat"}:
-                        columns["format"] = i
-
-                required = {"matches", "runs", "highestScore"}
-                if not required.issubset(columns):
-                    continue
-
-                # NDTV format tabs often render the selected format's table with
-                # team/competition names in column zero and no explicit format column.
-                if "format" not in columns:
-                    team_rows = []
-                    for candidate in table[index + 1 :]:
-                        values = cell_text(candidate)
-                        if len(values) <= max(columns.values(), default=0):
-                            continue
-                        label = clean(values[0]) if values else ""
-                        label_norm = norm(label)
-                        if not label or label_norm in {"overall", "career", "total"}:
-                            continue
-                        if label_norm in {norm(x) for x in aliases["matches"]}:
-                            continue
-                        item = {"group": label, "span": "All-time", "groupType": "team"}
-                        for key, column in columns.items():
-                            if key == "format" or column >= len(values):
-                                continue
-                            raw = values[column]
-                            item[key] = raw if key == "highestScore" else number(raw)
-                        if (
-                            item.get("matches") is not None
-                            and item.get("runs") is not None
-                        ):
-                            team_rows.append(item)
-                    if team_rows:
-                        summary = {
-                            key: value
-                            for key, value in team_rows[0].items()
-                            if key not in {"group", "span", "groupType"}
-                        }
-                        # Team splits are not career totals; keep the verified
-                        # overall summary separate and only store rows as breakdown.
-                        # If a labeled overall row exists, use it below instead.
-                    else:
-                        continue
-
-                if "format" in columns:
-                    for candidate in table[index + 1 :]:
-                        values = cell_text(candidate)
-                        if len(values) <= max(columns.values()):
-                            continue
-                        if wanted not in norm(values[columns["format"]]):
-                            continue
-                        summary = {}
-                        for key, column in columns.items():
-                            if key == "format":
-                                continue
-                            raw = values[column]
-                            summary[key] = raw if key == "highestScore" else number(raw)
-                        if (
-                            summary.get("runs") is None
-                            or summary.get("matches") is None
-                        ):
-                            continue
-                        summary.setdefault("innings", summary.get("matches"))
-                        return {
-                            "summary": summary,
-                            "careerBreakdown": (
-                                team_rows if "team_rows" in locals() else []
-                            ),
-                            "teamBreakdown": (
-                                team_rows if "team_rows" in locals() else []
-                            ),
-                            "innings": [],
-                            "inningsCount": summary.get("innings")
-                            or summary.get("matches")
-                            or 0,
-                            "source": source_name + " (summary only)",
-                            "sourceUrl": url,
-                            "detailStatus": "summary-only",
-                            "detailNote": "Only source-listed career totals and team/competition splits are imported; match-by-match innings are not fabricated.",
-                            "checkedAt": stamp(),
-                        }
-
-                # For an already-selected format table, use the first row with
-                # an explicit overall/career label as the career summary.
-                if "format" not in columns:
-                    for candidate in table[index + 1 :]:
-                        values = cell_text(candidate)
-                        if len(values) <= max(columns.values(), default=0):
-                            continue
-                        label_norm = norm(values[0])
-                        if label_norm not in {"overall", "career", "total"}:
-                            continue
-                        summary = {}
-                        for key, column in columns.items():
-                            raw = values[column]
-                            summary[key] = raw if key == "highestScore" else number(raw)
-                        if (
-                            summary.get("runs") is not None
-                            and summary.get("matches") is not None
-                        ):
-                            summary.setdefault("innings", summary.get("matches"))
-                            return {
-                                "summary": summary,
-                                "careerBreakdown": team_rows,
-                                "teamBreakdown": team_rows,
-                                "innings": [],
-                                "inningsCount": summary.get("innings")
-                                or summary.get("matches")
-                                or 0,
-                                "source": source_name + " (summary and team split)",
-                                "sourceUrl": url,
-                                "detailStatus": "summary-only",
-                                "detailNote": "Only source-listed summary and team/competition splits are imported; match-by-match innings are not fabricated.",
-                                "checkedAt": stamp(),
-                            }
+            errors.append(source_name + ": " + str(exc))
+            print(fmt + ": profile source fetch/parse failed (" + url + "):", exc)
     raise RuntimeError(
-        "No recognizable "
-        + fmt
-        + " summary/team rows in NDTV Sports or the secondary profile feed"
+        "No recognizable " + fmt + " summary/grouped rows from profile sources: "
+        + " | ".join(errors)
     )
-
 
 def parse_fielding_summary(page):
     """Parse the official Statsguru fielding career total when present."""
