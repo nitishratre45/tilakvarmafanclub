@@ -11,7 +11,9 @@
     const gallery = host.closest(".cricinfo-gallery");
     const compact = (node, styles) => {
       if (!node) return;
-      Object.entries(styles).forEach(([property, value]) => node.style.setProperty(property, value, "important"));
+      Object.entries(styles).forEach(([property, value]) =>
+        node.style.setProperty(property, value, "important"),
+      );
     };
     compact(section, {
       display: "block",
@@ -21,18 +23,35 @@
       "padding-bottom": window.matchMedia("(max-width: 600px)").matches ? "28px" : "36px",
       "align-content": "start",
       "justify-content": "start",
-      "row-gap": "0"
+      "row-gap": "0",
     });
     compact(gallery, {
-      display: "block", position: "relative", top: "auto", height: "auto",
-      "min-height": "0", "max-height": "none", "margin-top": "0", "margin-bottom": "0",
-      "align-self": "start", flex: "0 0 auto", transform: "none"
+      display: "block",
+      position: "relative",
+      top: "auto",
+      height: "auto",
+      "min-height": "0",
+      "max-height": "none",
+      "margin-top": "0",
+      "margin-bottom": "0",
+      "align-self": "start",
+      flex: "0 0 auto",
+      transform: "none",
     });
     compact(host, {
-      display: "block", position: "relative", top: "auto", height: "auto",
-      "min-height": "0", "max-height": "none", "margin-top": "0", "margin-bottom": "0",
-      "padding-top": "0", "padding-bottom": "0", "align-self": "start",
-      flex: "0 0 auto", transform: "none"
+      display: "block",
+      position: "relative",
+      top: "auto",
+      height: "auto",
+      "min-height": "0",
+      "max-height": "none",
+      "margin-top": "0",
+      "margin-bottom": "0",
+      "padding-top": "0",
+      "padding-bottom": "0",
+      "align-self": "start",
+      flex: "0 0 auto",
+      transform: "none",
     });
     compact(host.querySelector(".tv-gallery-toolbar"), { "margin-top": "0" });
     compact(host.querySelector(".tv-album-grid"), { "margin-top": "0", "align-self": "start" });
