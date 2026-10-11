@@ -3483,6 +3483,17 @@
             return;
           }
           try {
+            const baseline = fileKind === "death" ? friendlySavedRoot?.__deathData : friendlySavedRoot;
+            if (!baseline) throw Error("Reload the saved file before publishing changes.");
+            friendlySetStatus("Checking for newer repository changes before saving…");
+            const latest = await api("/api/admin/data-editor?kind=" + fileKind);
+            if (JSON.stringify(latest.data) !== JSON.stringify(baseline)) {
+              friendlySetStatus(
+                "Save blocked: this file changed in GitHub after you loaded it. Reload saved values, review the newer data, then reapply your edit.",
+                true,
+              );
+              return;
+            }
             friendlyApplyFields();
             const root = fileKind === "death" ? friendlyRoot.__deathData : friendlyRoot;
             const button = friendlyEl("friendly-save");
@@ -3630,8 +3641,19 @@
             return;
           const button = $("data-editor-save");
           button.disabled = true;
-          status("data-editor-status", "Validating and saving JSON to GitHub…");
+          status("data-editor-status", "Checking for newer repository changes before saving…");
           try {
+            const latest = await api("/api/admin/data-editor?kind=" + encodeURIComponent(kind));
+            const baseline = JSON.stringify(JSON.parse(editorSavedSnapshot));
+            if (JSON.stringify(latest.data) !== baseline) {
+              status(
+                "data-editor-status",
+                "Save blocked: this file changed in GitHub after you loaded it. Reload the latest file, review the changes, then reapply your edit.",
+                true,
+              );
+              return;
+            }
+            status("data-editor-status", "Validating and saving JSON to GitHub…");
             const result = await api("/api/admin/data-editor", {
               method: "POST",
               body: JSON.stringify({ kind, data: $("data-editor-json").value }),
