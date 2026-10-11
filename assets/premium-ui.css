@@ -5058,3 +5058,80 @@ body[data-theme="light"] #stats #stats-overview .data-line,
     font-size: 12px;
   }
 }
+
+/* VIDEO PLAYER VISIBILITY + NAVBAR PERSISTENCE FIX.
+   Keep the original player, feed, controls and page structure intact. */
+#bcci-video-player-modal:not([hidden]) {
+  z-index: 6990 !important;
+  display: grid !important;
+  align-items: center;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+#bcci-video-player-modal .bcci-video-panel {
+  width: min(1240px, calc(100vw - 28px));
+  max-width: 1240px;
+  max-height: calc(100dvh - 32px);
+  margin: 16px auto;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+#bcci-video-player-modal .bcci-player-screen {
+  display: block !important;
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000 !important;
+}
+#bcci-video-player-modal #bcci-shaka-player {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100% !important;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
+  background: #000 !important;
+}
+#bcci-video-player-modal .bcci-player-page-content,
+#bcci-video-player-modal .bcci-player-main {
+  min-width: 0;
+}
+.topbar {
+  z-index: 7005 !important;
+}
+body.bcci-player-open .topbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 7005 !important;
+}
+@media (max-width: 760px) {
+  #bcci-video-player-modal:not([hidden]) {
+    padding: 8px;
+    align-items: start;
+  }
+  #bcci-video-player-modal .bcci-video-panel {
+    width: calc(100vw - 16px);
+    max-height: calc(100dvh - 16px);
+    margin: 8px auto;
+  }
+  #bcci-video-player-modal .bcci-player-page-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #bcci-video-player-modal .bcci-up-next-panel {
+    border-left: 0;
+    border-top: 1px solid #1c2d56;
+  }
+  #bcci-video-player-modal .bcci-video-player-head {
+    position: sticky;
+    top: 0;
+  }
+}
+
