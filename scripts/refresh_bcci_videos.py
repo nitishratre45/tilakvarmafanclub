@@ -3,7 +3,7 @@
 
 The public latest-video feed is paginated/limited, so query additional pages and
 player/search filters where the BCCI endpoint supports them. Signed playback URLs
-are refreshed nightly; no video files are mirrored.
+are refreshed every six hours; no video files are mirrored.
 """
 from __future__ import annotations
 
