@@ -3,6 +3,41 @@
   const host = document.getElementById("cricinfo-photo-grid");
   const stamp = document.getElementById("cricinfo-gallery-updated");
   if (!host) return;
+
+  // Enforce compact photo layout at runtime so legacy site-wide section/grid rules
+  // cannot stretch the gallery or push its toolbar down the viewport.
+  function applyCompactPhotoLayout() {
+    const section = document.getElementById("photos");
+    const gallery = host.closest(".cricinfo-gallery");
+    const compact = (node, styles) => {
+      if (!node) return;
+      Object.entries(styles).forEach(([property, value]) => node.style.setProperty(property, value, "important"));
+    };
+    compact(section, {
+      display: "block",
+      height: "auto",
+      "min-height": "0",
+      "padding-top": window.matchMedia("(max-width: 600px)").matches ? "20px" : "28px",
+      "padding-bottom": window.matchMedia("(max-width: 600px)").matches ? "28px" : "36px",
+      "align-content": "start",
+      "justify-content": "start",
+      "row-gap": "0"
+    });
+    compact(gallery, {
+      display: "block", position: "relative", top: "auto", height: "auto",
+      "min-height": "0", "max-height": "none", "margin-top": "0", "margin-bottom": "0",
+      "align-self": "start", flex: "0 0 auto", transform: "none"
+    });
+    compact(host, {
+      display: "block", position: "relative", top: "auto", height: "auto",
+      "min-height": "0", "max-height": "none", "margin-top": "0", "margin-bottom": "0",
+      "padding-top": "0", "padding-bottom": "0", "align-self": "start",
+      flex: "0 0 auto", transform: "none"
+    });
+    compact(host.querySelector(".tv-gallery-toolbar"), { "margin-top": "0" });
+    compact(host.querySelector(".tv-album-grid"), { "margin-top": "0", "align-self": "start" });
+  }
+  applyCompactPhotoLayout();
   const safeUrl = (value) => {
     try {
       const url = new URL(value, window.location.origin);
@@ -270,6 +305,7 @@
             : filtered.length + " album" + (filtered.length === 1 ? "" : "s") + " in this view") +
           "</p>");
 
+    applyCompactPhotoLayout();
     host.querySelector(".tv-gallery-year")?.addEventListener("change", (event) => {
       selectedYear = event.target.value;
       visibleAlbumCount = 10;
