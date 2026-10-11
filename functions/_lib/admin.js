@@ -76,6 +76,7 @@ export async function saveRepoJson(env, path, data, expectedSha = null) {
   if (!env.GITHUB_TOKEN)
     throw new Error("GITHUB_TOKEN is missing from Cloudflare Pages environment variables.");
   const repo = env.GITHUB_REPOSITORY || "nitishratre45/tilakvarmafanclub";
+  const branch = env.GITHUB_BRANCH || "main";
   const api = "https://api.github.com/repos/" + repo + "/contents/" + path;
   const headers = {
     authorization: "Bearer " + env.GITHUB_TOKEN,
@@ -85,7 +86,7 @@ export async function saveRepoJson(env, path, data, expectedSha = null) {
     "user-agent": "TilakVarmaFanClub-Admin",
   };
   let sha;
-  const current = await fetch(api, { headers });
+  const current = await fetch(api + "?ref=" + encodeURIComponent(branch), { headers });
   if (current.ok) {
     sha = (await current.json()).sha;
     if (expectedSha && sha !== expectedSha) {
@@ -113,7 +114,7 @@ export async function saveRepoJson(env, path, data, expectedSha = null) {
       message: "chore: update site content from admin studio",
       content: encoded,
       ...(sha ? { sha } : {}),
-      branch: env.GITHUB_BRANCH || "main",
+      branch,
     }),
   });
   if (!response.ok) {
