@@ -45,12 +45,13 @@
   // Keep quality controls anchored to the video itself, not the modal header,
   // which can sit above the visible viewport on desktop.
   const playerScreen = modal && modal.querySelector(".bcci-player-screen");
-  if (playerScreen && settingsButton && settingsMenu) {
-    let qualityControl = playerScreen.querySelector(".bcci-player-quality-control");
+  const playerTitleBlock = modal && modal.querySelector(".bcci-player-title-block");
+  if (playerTitleBlock && settingsButton && settingsMenu) {
+    let qualityControl = playerTitleBlock.querySelector(".bcci-player-quality-control");
     if (!qualityControl) {
       qualityControl = document.createElement("div");
       qualityControl.className = "bcci-player-quality-control";
-      playerScreen.appendChild(qualityControl);
+      playerTitleBlock.prepend(qualityControl);
     }
     qualityControl.append(settingsButton, settingsMenu);
   }
