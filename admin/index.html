@@ -2541,16 +2541,15 @@
           if (!base) return { path: "", object: null };
           if (kind === "career")
             return { path: "careerFormats." + fmt, object: base.careerFormats?.[fmt] };
-          if (kind === "bowling")
+          if (kind === "bowling" || kind === "fielding") {
+            const family = kind === "bowling" ? "bowlingStats" : "fieldingStats";
+            const target = base[family]?.formats?.[fmt];
+            const parts = record.split(".");
             return {
-              path: "bowlingStats.formats." + fmt,
-              object: base.bowlingStats?.formats?.[fmt],
+              path: family + ".formats." + fmt + "." + record,
+              object: parts.reduce((value, key) => value == null ? undefined : value[key], target),
             };
-          if (kind === "fielding")
-            return {
-              path: "fieldingStats.formats." + fmt,
-              object: base.fieldingStats?.formats?.[fmt],
-            };
+          }
           if (kind === "innings") {
             const list = fmt === "recentInnings" ? base.recentInnings : base.playerMatches;
             return {
@@ -2616,6 +2615,13 @@
                   " · " +
                   (x.runs ?? x.score ?? "—"),
               ]);
+            } else if (kind === "bowling" || kind === "fielding") {
+              const family = kind === "bowling" ? "bowlingStats" : "fieldingStats";
+              const f = friendlyRoot[family]?.formats?.[fmt] || {};
+              rows = [];
+              if (f.summary && typeof f.summary === "object") rows.push(["summary", "Career summary"]);
+              (f.careerBreakdown || []).forEach((x, i) => rows.push(["careerBreakdown."+i, "Career breakdown · "+(x.group||x.span||("Row "+(i+1))) ]));
+              (f.innings || []).forEach((x, i) => rows.push(["innings."+i, "Innings · "+(x.date||"Undated")+" · "+(x.opposition||"")+" · "+(x.figures || x.runsConceded || "") ]));
             } else if (kind === "profile" && ["iccRecords", "activityLog"].includes(fmt)) {
               rows = (friendlyRoot[fmt] || []).map((x, i) => [
                 String(i),
