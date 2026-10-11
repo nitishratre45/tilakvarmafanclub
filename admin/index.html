@@ -1515,7 +1515,7 @@
 
       .live-update-tabs {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 8px;
         margin: 0 0 18px;
         padding: 6px;
@@ -2481,6 +2481,15 @@
               >
                 Refresh monitor
               </button>
+              <button
+                class="live-update-tab"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                data-live-tab="automations"
+              >
+                Automation repos
+              </button>
             </div>
             <div class="dataset-toolbar" data-live-panel="activity">
               <span id="live-updates-checked" class="monitor-meta">Loading latest activity…</span>
@@ -2585,6 +2594,36 @@
               </div>
             </div>
           </section>
+          <div id="automation-repo-panel" class="section-body" data-live-panel="automations">
+            <div class="album-edit-panel">
+              <div class="section-head">
+                <div>
+                  <div class="eyebrow">AUTOMATION INVENTORY · HOURLY</div>
+                  <h2>Repository automation control</h2>
+                  <p>Every workflow and scan job in this repository, its latest run, recent failures, schedule source and 15-hour history.</p>
+                </div>
+                <a class="btn small" href="https://github.com/nitishratre45/tilakvarmafanclub/actions" target="_blank" rel="noopener">All Actions ↗</a>
+              </div>
+              <div class="repo-health-summary automation-overview">
+                <article><span>Automation workflows</span><strong id="automation-total">—</strong></article>
+                <article><span>Enabled</span><strong id="automation-enabled">—</strong></article>
+                <article><span>Running now</span><strong id="automation-running">—</strong></article>
+                <article><span>Latest failures</span><strong id="automation-failed">—</strong></article>
+                <article><span>Latest successes</span><strong id="automation-success">—</strong></article>
+                <article><span>History retained</span><strong>15 hours</strong></article>
+              </div>
+              <div class="monitor-toolbar">
+                <span id="automation-checked" class="monitor-meta">Waiting for hourly monitor…</span>
+                <button id="automation-refresh" class="btn" type="button">↻ Refresh monitor data</button>
+              </div>
+              <p id="automation-status" class="status" role="status" aria-live="polite">The first hourly snapshot will populate this dashboard.</p>
+              <div id="automation-workflow-list" class="run-list"><div class="empty">Loading repository automation inventory…</div></div>
+              <div class="album-edit-panel" style="margin-top:16px">
+                <div class="section-head"><div><div class="eyebrow">15-HOUR TIMELINE</div><h3>Overall activity history</h3><p>Hourly snapshots of workflow counts, failures, successes and active jobs.</p></div></div>
+                <div id="automation-history-list" class="run-list"><div class="empty">Waiting for snapshots…</div></div>
+              </div>
+            </div>
+          </div>
         </section>
         <section id="repo-health" class="section">
           <div class="section-head">
@@ -5146,6 +5185,7 @@
             });
             if (target === "monitor") loadMonitor();
             if (target === "activity") refreshLiveUpdates();
+            if (target === "automations") loadAutomationRepoMonitor();
           });
         });
         document
@@ -5153,6 +5193,79 @@
           .forEach((panel) => {
             panel.hidden = true;
           });
+        async function loadAutomationRepoMonitor() {
+          const host = $("automation-workflow-list");
+          if (!host) return;
+          const status = $("automation-status");
+          status.textContent = "Refreshing saved repository automation inventory…";
+          try {
+            const response = await fetch("../data/automation-repo-monitor.json?ts=" + Date.now(), { cache: "no-store" });
+            if (!response.ok) throw new Error("Monitor report HTTP " + response.status);
+            const data = await response.json();
+            const summary = data.summary || {};
+            $("automation-total").textContent = summary.workflows ?? "—";
+            $("automation-enabled").textContent = summary.enabled ?? "—";
+            $("automation-running").textContent = summary.running ?? "—";
+            $("automation-failed").textContent = summary.failedLatest ?? "—";
+            $("automation-success").textContent = summary.successfulLatest ?? "—";
+            $("automation-checked").textContent = data.checkedAt ? "Last snapshot: " + new Date(data.checkedAt).toLocaleString() + " · hourly · keeps 15 hours" : "Initial snapshot pending";
+            host.replaceChildren();
+            const workflows = Array.isArray(data.workflows) ? data.workflows : [];
+            if (!workflows.length) {
+              host.textContent = "Inventory is not populated yet. The hourly GitHub Actions monitor must complete its first run.";
+            }
+            for (const workflow of workflows) {
+              const card = document.createElement("details");
+              card.className = "run-card automation-workflow-card";
+              const heading = document.createElement("summary");
+              const latest = workflow.latest || {};
+              const result = latest.conclusion || latest.status || "NO RUN";
+              heading.textContent = (workflow.state === "active" ? "● " : "○ ") + workflow.name + " · " + result.toUpperCase();
+              const meta = document.createElement("p");
+              meta.textContent = workflow.path + " · state: " + workflow.state + " · latest: " + (latest.createdAt ? new Date(latest.createdAt).toLocaleString() : "no recorded run") + " · recent failures: " + (workflow.counts?.failed ?? 0);
+              const description = document.createElement("p");
+              description.textContent = "Recent runs: " + (workflow.counts?.recent ?? 0) + " · successes: " + (workflow.counts?.successful ?? 0) + " · running/queued: " + (workflow.counts?.running ?? 0);
+              const link = document.createElement("a");
+              link.className = "btn small";
+              link.href = workflow.url || "https://github.com/nitishratre45/tilakvarmafanclub/actions";
+              link.target = "_blank";
+              link.rel = "noopener";
+              link.textContent = "Open workflow ↗";
+              card.append(heading, meta, description);
+              const runs = Array.isArray(workflow.recentRuns) ? workflow.recentRuns : [];
+              for (const run of runs.slice(0, 10)) {
+                const item = document.createElement("p");
+                item.className = "monitor-meta";
+                item.textContent = (run.conclusion || run.status || "unknown").toUpperCase() + " · " + (run.createdAt ? new Date(run.createdAt).toLocaleString() : "time unavailable") + " · " + (run.event || "event unknown");
+                if (run.runUrl) {
+                  const runLink = document.createElement("a");
+                  runLink.href = run.runUrl; runLink.target = "_blank"; runLink.rel = "noopener";
+                  runLink.textContent = " Open run ↗"; item.append(runLink);
+                }
+                card.append(item);
+              }
+              card.append(link);
+              host.append(card);
+            }
+            const history = $("automation-history-list");
+            history.replaceChildren();
+            const snapshots = Array.isArray(data.snapshots) ? data.snapshots.slice().reverse() : [];
+            if (!snapshots.length) history.textContent = "No snapshots saved yet.";
+            for (const snap of snapshots) {
+              const row = document.createElement("article");
+              row.className = "run-card";
+              const title = document.createElement("strong");
+              title.textContent = new Date(snap.checkedAt).toLocaleString() + " · " + (snap.workflows ?? 0) + " workflows";
+              const detail = document.createElement("p");
+              detail.textContent = "Enabled " + (snap.enabled ?? 0) + " · running " + (snap.running ?? 0) + " · latest failures " + (snap.failedLatest ?? 0) + " · latest successes " + (snap.successfulLatest ?? 0);
+              row.append(title, detail); history.append(row);
+            }
+            status.textContent = "Inventory loaded · " + workflows.length + " workflows · snapshots retained for 15 hours.";
+          } catch (error) {
+            status.textContent = "Monitor data unavailable: " + error.message + ". Check the hourly workflow and its latest run.";
+          }
+        }
+        $("automation-refresh")?.addEventListener("click", loadAutomationRepoMonitor);
         $("live-updates-refresh")?.addEventListener("click", refreshLiveUpdates);
         const viewLabels = {
           dashboard: "Overview",
