@@ -1,1335 +1,246 @@
-/* The 72 Club — Photo Gallery UI
-   Scoped to the photo section and its same-page viewer; gallery data hooks remain unchanged. */
-
+/* Fresh Photos section rebuild — The 72 Club
+   Deliberately scoped to #photos; gallery data and interactions stay in assets/gallery.js. */
 #photos.tilak-photos-section {
-  --photo-accent: #ff744b;
-  --photo-cyan: #72e2f1;
-  --photo-surface: rgba(8, 25, 46, 0.94);
-  --photo-border: rgba(132, 184, 235, 0.2);
+  --pg-bg: #071426;
+  --pg-panel: #0c2038;
+  --pg-panel-2: #102a47;
+  --pg-line: rgba(145, 190, 235, .2);
+  --pg-text: #f2f7ff;
+  --pg-muted: #a7bdd5;
+  --pg-cyan: #70e4f5;
+  --pg-orange: #ff8057;
+  display: block !important;
   position: relative;
   isolation: isolate;
-  overflow: clip;
-  padding-top: clamp(30px, 4vw, 54px);
-  padding-bottom: clamp(54px, 7vw, 92px);
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: clamp(18px, 3vw, 38px) clamp(12px, 3.5vw, 48px) clamp(24px, 4vw, 44px) !important;
+  overflow: visible;
   background:
-    radial-gradient(ellipse at 5% 12%, rgba(24, 103, 200, 0.17), transparent 34rem),
-    radial-gradient(ellipse at 94% 40%, rgba(255, 116, 75, 0.075), transparent 28rem),
-    linear-gradient(180deg, #071426 0%, #08182b 55%, #061222 100%);
+    radial-gradient(ellipse at 0% 0%, rgba(31, 107, 198, .2), transparent 34rem),
+    radial-gradient(ellipse at 100% 24%, rgba(255, 128, 87, .08), transparent 28rem),
+    linear-gradient(180deg, #071426, #081a2d 60%, #061222);
 }
-
-/* The gallery's own compact header is the visual entry point. */
-#photos.tilak-photos-section > .section-heading {
-  display: none;
-}
-
-#photos .cricinfo-gallery {
+#photos.tilak-photos-section > .section-heading { display: none !important; }
+#photos.tilak-photos-section > .cricinfo-gallery {
+  display: block !important;
   position: relative;
-  width: min(100%, 1480px);
-  margin: 0 auto;
-  padding: clamp(16px, 2.4vw, 30px);
-  overflow: hidden;
-  border: 1px solid var(--photo-border);
-  border-radius: 26px;
-  background:
-    radial-gradient(ellipse at 100% 0%, rgba(114, 226, 241, 0.09), transparent 27rem),
-    linear-gradient(145deg, rgba(13, 34, 59, 0.98), rgba(6, 19, 35, 0.98));
-  box-shadow:
-    0 24px 70px rgba(0, 4, 15, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  box-sizing: border-box;
+  width: min(100%, 1440px) !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  padding: clamp(14px, 2.2vw, 28px) !important;
+  overflow: visible;
+  border: 1px solid var(--pg-line);
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(12, 32, 56, .98), rgba(6, 20, 36, .98));
+  box-shadow: 0 18px 55px rgba(0, 0, 0, .22), inset 0 1px 0 rgba(255,255,255,.035);
 }
-
 #photos .cricinfo-gallery::before {
-  position: absolute;
-  top: 0;
-  left: clamp(16px, 2.4vw, 30px);
-  width: clamp(54px, 9vw, 112px);
-  height: 3px;
-  border-radius: 0 0 4px 4px;
-  background: linear-gradient(90deg, var(--photo-accent), var(--photo-cyan));
   content: "";
+  position: absolute;
+  top: 0; left: 22px;
+  width: 90px; height: 3px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(90deg, var(--pg-orange), var(--pg-cyan));
 }
-
 #photos .gallery-heading {
   display: flex;
-  align-items: end;
+  align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  margin: 4px 0 clamp(18px, 2.5vw, 30px);
-  padding-bottom: 18px;
-  border-bottom: 1px solid rgba(132, 184, 235, 0.14);
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 0 0 20px;
+  padding: 4px 0 18px;
+  border-bottom: 1px solid rgba(145,190,235,.14);
 }
-
 #photos .gallery-heading .eyebrow {
-  color: var(--photo-cyan);
+  color: var(--pg-cyan);
   font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
+  font-weight: 850;
+  letter-spacing: .18em;
 }
-
 #photos .gallery-heading h3 {
-  margin: 8px 0 0;
-  color: #f3f8ff;
-  font-size: clamp(28px, 4vw, 48px);
+  margin: 7px 0 0;
+  color: var(--pg-text);
+  font-size: clamp(25px, 3.7vw, 42px);
+  line-height: 1.05;
   font-weight: 900;
-  line-height: 0.98;
-  letter-spacing: -0.045em;
+  letter-spacing: -.04em;
 }
-
-#photos .gallery-heading h3 em {
-  color: var(--photo-accent);
-  font-style: normal;
-}
-
+#photos .gallery-heading h3 em { color: var(--pg-orange); font-style: normal; }
 #photos #cricinfo-gallery-updated {
-  flex: 0 1 auto;
-  max-width: 48%;
+  max-width: 100%;
   padding: 8px 11px;
-  border: 1px solid rgba(114, 226, 241, 0.18);
+  border: 1px solid rgba(112,228,245,.2);
   border-radius: 999px;
-  background: rgba(114, 226, 241, 0.055);
-  color: #a8c5df;
-  font-size: 10px;
+  background: rgba(112,228,245,.06);
+  color: var(--pg-muted);
+  font-size: 11px;
   line-height: 1.45;
-  text-align: right;
 }
-
-#photos .tv-album-grid {
+#photos #cricinfo-photo-grid {
+  display: block !important;
+  position: relative;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+}
+#photos .tv-gallery-toolbar {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: stretch;
-  gap: clamp(12px, 1.8vw, 22px);
+  grid-template-columns: minmax(180px, 1fr) minmax(0, 2fr);
+  align-items: end;
+  gap: 16px;
+  margin: 0 0 18px !important;
+  padding: 15px;
+  border: 1px solid rgba(145,190,235,.16);
+  border-radius: 15px;
+  background: rgba(4, 16, 30, .56);
 }
-
+#photos .tv-gallery-toolbar-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; min-width: 0; }
+#photos .tv-gallery-toolbar-copy .eyebrow { color: var(--pg-cyan); font-size: 9px; font-weight: 850; letter-spacing: .14em; }
+#photos .tv-gallery-toolbar-copy strong { color: var(--pg-text); font-size: 16px; line-height: 1.25; }
+#photos .tv-gallery-toolbar-copy small,
+#photos .tv-gallery-sort-note { color: var(--pg-muted); font-size: 11px; line-height: 1.5; }
+#photos .tv-gallery-sort-note { margin-top: 1px; }
+#photos .tv-gallery-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  align-items: end;
+  gap: 9px;
+  min-width: 0;
+}
+#photos .tv-gallery-filters label { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+#photos .tv-gallery-filters label > span { color: var(--pg-muted); font-size: 9px; font-weight: 800; letter-spacing: .1em; }
+#photos .tv-gallery-filters select,
+#photos .tv-gallery-clear,
+#photos .tv-gallery-more {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 40px;
+  border: 1px solid rgba(145,190,235,.22);
+  border-radius: 10px;
+  background: #0b1c30;
+  color: var(--pg-text);
+  font-size: 12px;
+}
+#photos .tv-gallery-filters select { width: 100%; padding: 0 9px; }
+#photos .tv-gallery-clear { padding: 0 13px; cursor: pointer; }
+#photos .tv-gallery-clear:disabled { opacity: .42; cursor: default; }
+#photos .tv-album-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  align-content: start;
+  gap: 14px;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+}
 #photos .tv-album-card {
   display: flex;
-  min-width: 0;
   flex-direction: column;
+  align-self: start;
+  min-width: 0;
+  width: 100%;
   padding: 0;
   overflow: hidden;
-  border: 1px solid rgba(132, 184, 235, 0.19);
-  border-radius: 19px;
-  background: linear-gradient(155deg, rgba(18, 43, 71, 0.98), rgba(8, 23, 41, 0.98));
-  color: #f4f8ff;
   text-align: left;
+  border: 1px solid rgba(145,190,235,.18);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #102741, #091a2e);
+  color: var(--pg-text);
   cursor: pointer;
-  box-shadow: 0 12px 28px rgba(0, 5, 18, 0.2);
-  transition:
-    transform 220ms ease,
-    border-color 220ms ease,
-    box-shadow 220ms ease;
-  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 8px 22px rgba(0,0,0,.14);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
-
-#photos .tv-album-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(114, 226, 241, 0.58);
-  box-shadow:
-    0 22px 44px rgba(0, 6, 20, 0.34),
-    0 0 0 1px rgba(114, 226, 241, 0.08);
+#photos .tv-album-card:hover,
+#photos .tv-album-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(112,228,245,.55);
+  box-shadow: 0 14px 28px rgba(0,0,0,.24);
 }
-
 #photos .tv-album-cover {
-  position: relative;
   display: block;
-  width: 100%;
-  overflow: hidden;
+  position: relative;
   aspect-ratio: 4 / 3;
-  background: #071426;
-  isolation: isolate;
+  overflow: hidden;
+  background: #0b1d31;
 }
-
 #photos .tv-album-cover::after {
-  position: absolute;
-  z-index: 1;
-  inset: 30% 0 0;
-  background: linear-gradient(180deg, transparent, rgba(2, 10, 22, 0.76));
   content: "";
+  position: absolute;
+  inset: 35% 0 0;
   pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(2,9,18,.8));
 }
-
 #photos .tv-album-cover img {
   display: block;
   width: 100%;
   height: 100%;
-  max-width: none;
   object-fit: cover;
-  object-position: center;
-  transition:
-    transform 480ms cubic-bezier(0.2, 0.75, 0.25, 1),
-    filter 280ms ease;
-}
-
-#photos .tv-album-card:hover .tv-album-cover img {
-  transform: scale(1.055);
-  filter: saturate(1.08);
-}
-
-#photos .tv-album-count {
-  position: absolute;
-  z-index: 2;
-  top: 11px;
-  left: 11px;
-  padding: 7px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 999px;
-  background: rgba(4, 16, 30, 0.8);
-  color: #fff;
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-  backdrop-filter: blur(12px);
-}
-
-#photos .tv-album-open {
-  position: absolute;
-  z-index: 2;
-  right: 12px;
-  bottom: 12px;
-  left: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
-}
-
-#photos .tv-album-open::after {
-  display: grid;
-  width: 30px;
-  height: 30px;
-  flex: 0 0 30px;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 50%;
-  background: rgba(4, 16, 30, 0.45);
-  content: "↗";
-  font-size: 15px;
-  transition:
-    transform 180ms ease,
-    background 180ms ease;
-}
-
-#photos .tv-album-card:hover .tv-album-open::after {
-  transform: rotate(45deg);
-  background: var(--photo-accent);
-}
-
-#photos .tv-album-info {
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  padding: clamp(13px, 1.8vw, 20px);
-}
-
-#photos .tv-album-info strong {
-  display: -webkit-box;
-  max-width: 100%;
-  overflow: hidden;
-  color: #f5f8ff;
-  font-size: clamp(14px, 1.4vw, 19px);
-  font-weight: 850;
-  line-height: 1.28;
-  overflow-wrap: anywhere;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-#photos .tv-album-info small {
-  color: #9cb3cc;
-  font-size: 11px;
-  line-height: 1.4;
-}
-
-#photos .tv-album-detail {
-  animation: tv-gallery-enter 260ms ease both;
-}
-
-#photos .tv-album-hero {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: 8px 18px;
-  margin-bottom: 22px;
-  padding: 0 0 22px;
-  border-bottom: 1px solid rgba(132, 184, 235, 0.16);
-}
-
-#photos .tv-album-back {
-  grid-row: span 2;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 15px;
-  border: 1px solid rgba(114, 226, 241, 0.3);
-  border-radius: 12px;
-  background: rgba(114, 226, 241, 0.07);
-  color: #b8f3fb;
-  font-size: 12px;
-  font-weight: 800;
-  cursor: pointer;
-  transition:
-    background 180ms ease,
-    border-color 180ms ease;
-}
-
-#photos .tv-album-back:hover {
-  border-color: var(--photo-cyan);
-  background: rgba(114, 226, 241, 0.13);
-}
-
-#photos .tv-album-hero h2 {
-  margin: 0;
-  color: #f4f8ff;
-  font-size: clamp(25px, 3.8vw, 42px);
-  line-height: 1.04;
-  letter-spacing: -0.04em;
-  overflow-wrap: anywhere;
-}
-
-#photos .tv-album-hero p {
-  margin: 0;
-  color: #9cb3cc;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-#photos .tv-album-hero p span {
-  padding: 0 5px;
-  color: var(--photo-accent);
-}
-
-#photos .tv-album-photo-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(7px, 1.2vw, 14px);
-}
-
-#photos .tv-album-photo {
-  position: relative;
-  display: block;
-  min-width: 0;
-  padding: 0;
-  overflow: hidden;
-  aspect-ratio: 4 / 5;
-  border: 1px solid rgba(132, 184, 235, 0.18);
-  border-radius: 14px;
-  background: #071426;
-  cursor: zoom-in;
-  isolation: isolate;
-  transition:
-    transform 200ms ease,
-    border-color 200ms ease,
-    box-shadow 200ms ease;
-}
-
-#photos .tv-album-photo img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  transition:
-    transform 350ms ease,
-    filter 250ms ease;
-}
-
-#photos .tv-album-photo:hover {
-  z-index: 1;
-  transform: translateY(-3px);
-  border-color: rgba(114, 226, 241, 0.65);
-  box-shadow:
-    0 14px 26px rgba(0, 4, 16, 0.3),
-    0 0 0 1px rgba(114, 226, 241, 0.12);
-}
-
-#photos .tv-album-photo:hover img {
-  transform: scale(1.04);
-  filter: saturate(1.08);
-}
-
-#photos .tv-photo-open-icon {
-  position: absolute;
-  right: 9px;
-  bottom: 9px;
-  display: grid;
-  width: 30px;
-  height: 30px;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.34);
-  border-radius: 50%;
-  background: rgba(4, 16, 30, 0.7);
-  color: #fff;
-  font-size: 15px;
-  opacity: 0;
-  transform: translateY(4px);
-  transition:
-    opacity 180ms ease,
-    transform 180ms ease;
-}
-
-#photos .tv-album-photo:hover .tv-photo-open-icon,
-#photos .tv-album-photo:focus-visible .tv-photo-open-icon {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-#photos .bcci-photo-empty {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  max-width: 760px;
-  margin: 12px auto;
-  padding: clamp(18px, 3vw, 30px);
-  border: 1px dashed rgba(114, 226, 241, 0.3);
-  border-radius: 18px;
-  background: rgba(114, 226, 241, 0.045);
-}
-
-#photos .bcci-photo-mark {
-  display: grid;
-  width: 62px;
-  height: 62px;
-  flex: 0 0 62px;
-  place-items: center;
-  border: 1px solid rgba(255, 116, 75, 0.38);
-  border-radius: 18px;
-  background: linear-gradient(145deg, rgba(255, 116, 75, 0.17), rgba(114, 226, 241, 0.08));
-  color: var(--photo-accent);
-  font-size: 27px;
-  font-weight: 950;
-}
-
-#photos .bcci-photo-empty strong {
-  display: block;
-  color: #f4f8ff;
-  font-size: 16px;
-}
-
-#photos .bcci-photo-empty p {
-  margin: 5px 0 12px;
-  color: #a8bad1;
-  font-size: 13px;
-  line-height: 1.65;
-}
-
-#photos .bcci-photo-empty a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 40px;
-  padding: 0 13px;
-  border: 1px solid rgba(114, 226, 241, 0.28);
-  border-radius: 10px;
-  color: var(--photo-cyan);
-  font-size: 12px;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-#photos .gallery-attribution {
-  margin: 20px 0 0;
-  padding-top: 14px;
-  border-top: 1px solid rgba(132, 184, 235, 0.12);
-  color: #8199b5;
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.13em;
-}
-
-/* Same-page lightbox */
-.tv-photo-lightbox {
-  position: fixed;
-  z-index: 10000;
-  inset: 0;
-  display: grid;
-  grid-template-columns: 58px minmax(0, 1fr) 58px;
-  grid-template-rows: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-  padding: clamp(14px, 3vw, 34px);
-  background: rgba(1, 7, 17, 0.94);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  backdrop-filter: blur(18px) saturate(125%);
-  transition:
-    opacity 180ms ease,
-    visibility 180ms ease;
-}
-
-.tv-photo-lightbox.is-open {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.tv-lightbox-figure {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  min-width: 0;
-  min-height: 0;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin: 0;
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.tv-lightbox-figure img {
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: calc(100dvh - 150px);
-  object-fit: contain;
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 12px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
-}
-
-.tv-lightbox-figure figcaption {
-  max-width: min(760px, 100%);
-  color: #e8f2ff;
-  font-size: 13px;
-  line-height: 1.5;
-  text-align: center;
-}
-
-.tv-lightbox-close,
-.tv-lightbox-nav {
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(154, 195, 234, 0.26);
-  background: rgba(13, 35, 60, 0.86);
-  color: #f5f8ff;
-  cursor: pointer;
-  backdrop-filter: blur(12px);
-  transition:
-    transform 180ms ease,
-    background 180ms ease,
-    border-color 180ms ease;
-}
-
-.tv-lightbox-close:hover,
-.tv-lightbox-nav:hover {
-  transform: scale(1.05);
-  border-color: var(--photo-cyan);
-  background: rgba(24, 73, 112, 0.96);
-}
-
-.tv-lightbox-close {
-  position: absolute;
-  top: max(14px, env(safe-area-inset-top));
-  right: max(14px, env(safe-area-inset-right));
-  z-index: 2;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  font-size: 27px;
-}
-
-.tv-lightbox-nav {
-  width: 48px;
-  height: 58px;
-  border-radius: 15px;
-  font-size: 36px;
-  line-height: 1;
-}
-
-.tv-lightbox-prev {
-  grid-column: 1;
-  grid-row: 1;
-  justify-self: center;
-}
-
-.tv-lightbox-next {
-  grid-column: 3;
-  grid-row: 1;
-  justify-self: center;
-}
-
-.tv-lightbox-tools {
-  display: flex;
-  grid-column: 1 / -1;
-  grid-row: 2;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  min-height: 48px;
-  color: #a8c2dc;
-  font-size: 12px;
-}
-
-.tv-lightbox-download {
-  display: inline-flex;
-  min-height: 42px;
-  align-items: center;
-  justify-content: center;
-  padding: 0 16px;
-  border: 1px solid rgba(255, 116, 75, 0.45);
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ff8759, #ff6844);
-  color: #1b0a08;
-  font-weight: 900;
-  text-decoration: none;
-  box-shadow: 0 8px 24px rgba(255, 104, 68, 0.15);
-}
-
-.tv-lightbox-download:hover {
-  background: linear-gradient(135deg, #ff9a73, #ff744b);
-}
-
-.tv-lightbox-lock {
-  overflow: hidden;
-}
-
-@keyframes tv-gallery-enter {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-:root[data-theme-resolved="light"] #photos.tilak-photos-section {
-  background:
-    radial-gradient(ellipse at 5% 12%, rgba(24, 103, 200, 0.1), transparent 34rem),
-    linear-gradient(180deg, #edf5ff 0%, #f6f9ff 60%, #edf4ff 100%);
-}
-
-:root[data-theme-resolved="light"] #photos .cricinfo-gallery {
-  border-color: rgba(43, 86, 137, 0.2);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(238, 246, 255, 0.98));
-  box-shadow: 0 24px 60px rgba(35, 75, 125, 0.1);
-}
-
-:root[data-theme-resolved="light"] #photos .gallery-heading h3,
-:root[data-theme-resolved="light"] #photos .tv-album-hero h2,
-:root[data-theme-resolved="light"] #photos .tv-album-info strong,
-:root[data-theme-resolved="light"] #photos .bcci-photo-empty strong {
-  color: #102b4d;
-}
-
-:root[data-theme-resolved="light"] #photos .tv-album-card {
-  border-color: rgba(43, 86, 137, 0.18);
-  background: linear-gradient(155deg, #fff, #edf4ff);
-  box-shadow: 0 12px 28px rgba(29, 71, 122, 0.1);
-}
-
-:root[data-theme-resolved="light"] #photos .tv-album-info small,
-:root[data-theme-resolved="light"] #photos .tv-album-hero p {
-  color: #526985;
-}
-
-:root[data-theme-resolved="light"] #photos .tv-album-back {
-  color: #12528f;
-  background: #edf6ff;
-  border-color: #c5dcef;
-}
-
-:root[data-theme-resolved="light"] #photos .bcci-photo-empty p {
-  color: #526985;
-}
-
-@media (min-width: 1200px) {
-  #photos .tv-album-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 900px) {
-  #photos .tv-album-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  #photos .tv-album-hero {
-    grid-template-columns: minmax(0, 1fr);
-    align-items: start;
-  }
-
-  #photos .tv-album-back {
-    grid-row: auto;
-    justify-self: start;
-  }
-}
-
-@media (max-width: 600px) {
-  #photos.tilak-photos-section {
-    padding-top: 22px;
-    padding-bottom: 42px;
-  }
-
-  #photos .cricinfo-gallery {
-    padding: 16px 12px;
-    border-radius: 20px;
-  }
-
-  #photos .gallery-heading {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 16px;
-    padding-bottom: 15px;
-  }
-
-  #photos .gallery-heading h3 {
-    font-size: clamp(29px, 9vw, 39px);
-  }
-
-  #photos #cricinfo-gallery-updated {
-    max-width: 100%;
-    text-align: left;
-    overflow-wrap: anywhere;
-  }
-
-  #photos .tv-album-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  #photos .tv-album-card {
-    border-radius: 14px;
-  }
-
-  #photos .tv-album-cover {
-    aspect-ratio: 4 / 3.4;
-  }
-
-  #photos .tv-album-count {
-    top: 7px;
-    left: 7px;
-    padding: 6px 7px;
-    font-size: 8px;
-  }
-
-  #photos .tv-album-open {
-    right: 8px;
-    bottom: 8px;
-    left: 8px;
-    font-size: 8px;
-    letter-spacing: 0.05em;
-  }
-
-  #photos .tv-album-open::after {
-    width: 25px;
-    height: 25px;
-    flex-basis: 25px;
-  }
-
-  #photos .tv-album-info {
-    gap: 6px;
-    padding: 11px 10px 12px;
-  }
-
-  #photos .tv-album-info strong {
-    font-size: 13px;
-  }
-
-  #photos .tv-album-info small {
-    font-size: 10px;
-  }
-
-  #photos .tv-album-photo-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 6px;
-  }
-
-  #photos .tv-album-photo {
-    aspect-ratio: 3 / 4;
-    border-radius: 9px;
-  }
-
-  #photos .tv-photo-open-icon {
-    right: 4px;
-    bottom: 4px;
-    width: 23px;
-    height: 23px;
-    font-size: 12px;
-    opacity: 1;
-    transform: none;
-  }
-
-  #photos .bcci-photo-empty {
-    align-items: flex-start;
-    gap: 12px;
-    padding: 15px;
-  }
-
-  #photos .bcci-photo-mark {
-    width: 46px;
-    height: 46px;
-    flex-basis: 46px;
-    border-radius: 13px;
-    font-size: 21px;
-  }
-
-  .tv-photo-lightbox {
-    grid-template-columns: 36px minmax(0, 1fr) 36px;
-    grid-template-rows: minmax(0, 1fr) auto;
-    gap: 5px;
-    padding: 10px;
-    padding-top: max(60px, env(safe-area-inset-top));
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
-  }
-
-  .tv-lightbox-figure img {
-    max-height: calc(100dvh - 155px);
-    border-radius: 8px;
-  }
-
-  .tv-lightbox-figure figcaption {
-    font-size: 11px;
-  }
-
-  .tv-lightbox-nav {
-    width: 34px;
-    height: 46px;
-    border-radius: 10px;
-    font-size: 28px;
-  }
-
-  .tv-lightbox-tools {
-    gap: 10px;
-    font-size: 11px;
-  }
-
-  .tv-lightbox-download {
-    min-height: 40px;
-    padding-inline: 12px;
-    font-size: 11px;
-  }
-}
-
-@media (max-width: 360px) {
-  #photos .tv-album-grid {
-    gap: 7px;
-  }
-
-  #photos .tv-album-info {
-    padding: 9px;
-  }
-
-  #photos .tv-album-info strong {
-    font-size: 12px;
-  }
-
-  #photos .tv-album-photo-grid {
-    gap: 4px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #photos *,
-  .tv-photo-lightbox * {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Archive browsing: year/month filters and progressive album pagination. */
-#photos .tv-gallery-toolbar {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 18px;
-  margin: 0 0 20px;
-  padding: 16px;
-  border: 1px solid rgba(132, 184, 235, 0.16);
-  border-radius: 16px;
-  background: rgba(4, 17, 32, 0.52);
-}
-#photos .tv-gallery-toolbar-copy {
-  display: flex;
-  min-width: 160px;
-  flex-direction: column;
-  gap: 3px;
-}
-#photos .tv-gallery-toolbar-copy .eyebrow {
-  color: var(--photo-cyan);
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 0.15em;
-}
-#photos .tv-gallery-toolbar-copy strong {
-  color: #f4f8ff;
-  font-size: 16px;
-  line-height: 1.35;
-}
-#photos .tv-gallery-toolbar-copy small {
-  color: #9cb3cc;
-  font-size: 11px;
-}
-#photos .tv-gallery-filters {
-  display: flex;
-  align-items: end;
-  gap: 10px;
-}
-#photos .tv-gallery-filters label {
-  display: flex;
-  min-width: 130px;
-  flex-direction: column;
-  gap: 5px;
-  color: #a9c0d9;
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-}
-#photos .tv-gallery-filters select {
-  width: 100%;
-  min-height: 42px;
-  padding: 0 30px 0 11px;
-  border: 1px solid rgba(132, 184, 235, 0.23);
-  border-radius: 10px;
-  background: #0a1b2f;
-  color: #f3f8ff;
-  font: inherit;
-  font-size: 12px;
-  letter-spacing: 0;
-}
-#photos .tv-gallery-clear,
-#photos .tv-gallery-reset {
-  min-height: 42px;
-  padding: 0 13px;
-  border: 1px solid rgba(114, 226, 241, 0.28);
-  border-radius: 10px;
-  background: rgba(114, 226, 241, 0.06);
-  color: #b8f3fb;
-  font-size: 11px;
-  font-weight: 850;
-  cursor: pointer;
-}
-#photos .tv-gallery-clear:disabled {
-  opacity: 0.42;
-  cursor: default;
-}
-#photos .tv-gallery-more-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 8px;
-  padding: 24px 0 4px;
-}
+  object-position: center 25%;
+  transition: transform .35s ease;
+}
+#photos .tv-album-card:hover .tv-album-cover img { transform: scale(1.045); }
+#photos .tv-album-count,
+#photos .tv-album-open { position: absolute; z-index: 1; color: #fff; font-size: 9px; font-weight: 850; letter-spacing: .08em; }
+#photos .tv-album-count { top: 9px; left: 9px; padding: 6px 8px; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; background: rgba(3,12,23,.72); backdrop-filter: blur(8px); }
+#photos .tv-album-open { right: 10px; bottom: 10px; }
+#photos .tv-album-info { display: flex; flex-direction: column; gap: 6px; padding: 12px; }
+#photos .tv-album-info strong { display: -webkit-box; overflow: hidden; color: var(--pg-text); font-size: 13px; font-weight: 800; line-height: 1.35; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+#photos .tv-album-info small { color: var(--pg-muted); font-size: 10px; line-height: 1.4; }
+#photos .tv-gallery-more-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 22px 0 4px; }
 #photos .tv-gallery-more-wrap p,
-#photos .tv-gallery-end-note {
-  margin: 0;
-  color: #91a9c4;
-  font-size: 11px;
-  text-align: center;
+#photos .tv-gallery-end-note { margin: 16px 0 0; color: var(--pg-muted); text-align: center; font-size: 11px; }
+#photos .tv-gallery-more { padding: 0 20px; border-color: rgba(112,228,245,.36); background: linear-gradient(100deg, rgba(22,83,133,.75), rgba(10,42,68,.9)); font-weight: 800; cursor: pointer; }
+#photos .tv-gallery-more:hover { border-color: var(--pg-cyan); }
+#photos .bcci-photo-empty { display: flex; align-items: center; gap: 15px; margin: 0; padding: 24px; border: 1px dashed var(--pg-line); border-radius: 14px; background: rgba(4,16,30,.55); color: var(--pg-text); }
+#photos .bcci-photo-mark { display: grid; place-items: center; flex: 0 0 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, var(--pg-orange), #e9485f); color: #fff; font-weight: 950; }
+#photos .bcci-photo-empty strong { font-size: 14px; }
+#photos .bcci-photo-empty p { margin: 5px 0 0; color: var(--pg-muted); font-size: 12px; }
+#photos .bcci-photo-empty a { display: inline-block; margin-top: 10px; color: var(--pg-cyan); font-size: 12px; }
+#photos .gallery-attribution { margin: 18px 0 0; color: #7893af; text-align: center; font-size: 9px; font-weight: 750; letter-spacing: .12em; }
+#photos .tv-album-view-active .cricinfo-gallery { display: block; }
+@media (min-width: 1100px) {
+  #photos .tv-album-grid { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 16px; }
 }
-#photos .tv-gallery-more {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  min-width: 180px;
-  min-height: 46px;
-  padding: 0 20px;
-  border: 1px solid rgba(255, 116, 75, 0.5);
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ff8759, #ff6844);
-  color: #1b0a08;
-  font-size: 12px;
-  font-weight: 950;
-  cursor: pointer;
-  box-shadow: 0 9px 24px rgba(255, 104, 68, 0.13);
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease;
-}
-#photos .tv-gallery-more:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 13px 28px rgba(255, 104, 68, 0.22);
-}
-#photos .tv-gallery-more span {
-  font-size: 17px;
-}
-#photos .tv-gallery-end-note {
-  padding: 22px 0 2px;
-}
-:root[data-theme-resolved="light"] #photos .tv-gallery-toolbar {
-  border-color: rgba(43, 86, 137, 0.18);
-  background: rgba(235, 245, 255, 0.72);
-}
-:root[data-theme-resolved="light"] #photos .tv-gallery-toolbar-copy strong {
-  color: #102b4d;
-}
-:root[data-theme-resolved="light"] #photos .tv-gallery-toolbar-copy small,
-:root[data-theme-resolved="light"] #photos .tv-gallery-more-wrap p,
-:root[data-theme-resolved="light"] #photos .tv-gallery-end-note {
-  color: #526985;
-}
-:root[data-theme-resolved="light"] #photos .tv-gallery-filters select {
-  background: #fff;
-  color: #102b4d;
-  border-color: #c5dcef;
-}
-:root[data-theme-resolved="light"] #photos .tv-gallery-clear,
-:root[data-theme-resolved="light"] #photos .tv-gallery-reset {
-  color: #12528f;
-  background: #edf6ff;
-  border-color: #c5dcef;
-}
-@media (max-width: 640px) {
-  #photos .tv-gallery-toolbar {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 13px;
-    margin-bottom: 14px;
-    padding: 13px 11px;
-  }
-  #photos .tv-gallery-toolbar-copy strong {
-    font-size: 15px;
-  }
-  #photos .tv-gallery-filters {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 8px;
-  }
-  #photos .tv-gallery-filters label {
-    min-width: 0;
-  }
-  #photos .tv-gallery-filters select {
-    min-width: 0;
-    min-height: 44px;
-    font-size: 11px;
-  }
-  #photos .tv-gallery-clear {
-    grid-column: 1 / -1;
-    width: 100%;
-  }
-  #photos .tv-gallery-more {
-    width: min(100%, 320px);
-  }
-}
-
-/* On phones, keep album covers clean: hide the “Explore photos” label,
-   while retaining the circular arrow as the visual tap affordance. */
-@media (max-width: 640px) {
-  #photos .tv-album-open {
-    font-size: 0;
-    letter-spacing: 0;
-  }
-
-  #photos .tv-album-open::after {
-    font-size: 15px;
-  }
-}
-
-/* Compact archive layout: override legacy gallery rules that leave a viewport-sized blank area. */
-#photos.tilak-photos-section {
-  min-height: 0 !important;
-  height: auto !important;
-  align-content: start;
-}
-#photos .cricinfo-gallery {
-  min-height: 0 !important;
-  height: auto !important;
-}
-#photos #cricinfo-photo-grid {
-  display: block;
-  min-height: 0 !important;
-  height: auto !important;
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-  align-content: start;
-}
-#photos #cricinfo-photo-grid > .tv-gallery-toolbar {
-  margin-top: 0 !important;
-}
-#photos #cricinfo-photo-grid > .tv-album-grid {
-  margin-top: 0 !important;
-}
-#photos .tv-gallery-toolbar {
-  margin-top: 0;
-}
-
-/* Final layout override: keep the gallery at the top of its section.
-   Other site-wide section rules can make sections tall and distribute children vertically. */
-#photos.section.tilak-photos-section {
-  display: block !important;
-  position: relative !important;
-  min-height: 0 !important;
-  height: auto !important;
-  padding-top: 28px !important;
-  padding-bottom: 36px !important;
-  align-items: initial !important;
-  align-content: initial !important;
-  justify-content: initial !important;
-  place-content: initial !important;
-  row-gap: 0 !important;
-}
-#photos.section.tilak-photos-section > .section-heading {
-  display: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-#photos.section.tilak-photos-section > .cricinfo-gallery {
-  display: block !important;
-  position: relative !important;
-  top: auto !important;
-  margin: 0 auto !important;
-  min-height: 0 !important;
-  height: auto !important;
-  transform: none !important;
-}
-#photos #cricinfo-photo-grid {
-  display: block !important;
-  position: relative !important;
-  top: auto !important;
-  min-height: 0 !important;
-  height: auto !important;
-  margin-block: 0 !important;
-  transform: none !important;
+@media (max-width: 900px) {
+  #photos .tv-gallery-toolbar { grid-template-columns: 1fr; }
+  #photos .tv-gallery-filters { grid-template-columns: repeat(3, minmax(0, 1fr)) auto; }
+  #photos .tv-album-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 11px; }
 }
 @media (max-width: 600px) {
-  #photos.section.tilak-photos-section {
-    padding-top: 20px !important;
-    padding-bottom: 28px !important;
-  }
+  #photos.tilak-photos-section { padding: 12px 10px 22px !important; }
+  #photos.tilak-photos-section > .cricinfo-gallery { padding: 14px 11px !important; border-radius: 16px; }
+  #photos .gallery-heading { align-items: flex-start; gap: 10px; margin-bottom: 14px; padding-bottom: 14px; }
+  #photos .gallery-heading h3 { font-size: 26px; }
+  #photos #cricinfo-gallery-updated { font-size: 10px; padding: 6px 8px; }
+  #photos .tv-gallery-toolbar { gap: 12px; padding: 11px; margin-bottom: 12px !important; }
+  #photos .tv-gallery-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  #photos .tv-gallery-filters label > span { font-size: 9px; }
+  #photos .tv-gallery-filters select { min-height: 42px; font-size: 12px; }
+  #photos .tv-gallery-clear { min-height: 42px; }
+  #photos .tv-album-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 9px; }
+  #photos .tv-album-cover { aspect-ratio: 3 / 4; }
+  #photos .tv-album-count { top: 7px; left: 7px; padding: 5px 6px; font-size: 8px; }
+  #photos .tv-album-open { right: 7px; bottom: 8px; font-size: 8px; }
+  #photos .tv-album-info { padding: 9px; gap: 5px; }
+  #photos .tv-album-info strong { font-size: 12px; }
+  #photos .tv-album-info small { font-size: 9px; }
+  #photos .gallery-attribution { line-height: 1.6; }
 }
-
-/* Runtime-backed compact layout: no viewport-height blank space before album controls. */
-#photos.section.tilak-photos-section,
-#photos.section.tilak-photos-section > .cricinfo-gallery,
-#photos .cricinfo-gallery #cricinfo-photo-grid {
-  display: block !important;
-  height: auto !important;
-  min-height: 0 !important;
-  max-height: none !important;
-  align-self: start !important;
-  flex: 0 0 auto !important;
+@media (max-width: 360px) {
+  #photos .tv-album-grid { grid-template-columns: 1fr !important; }
+  #photos .tv-album-cover { aspect-ratio: 16 / 10; }
 }
-#photos.section.tilak-photos-section::before {
-  display: none !important;
-  content: none !important;
-}
-#photos .cricinfo-gallery {
-  margin-block: 0 !important;
-}
-#photos .cricinfo-gallery #cricinfo-photo-grid > .tv-gallery-toolbar,
-#photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid {
-  margin-top: 0 !important;
-}
-
-/* 2026-10-12: definitive compact photo-section spacing override.
-   Keep the gallery content-driven; avoid global section padding/margins and
-   prevent vertical space from being distributed around the album grid. */
-html body main #photos.section.tilak-photos-section {
-  display: block !important;
-  box-sizing: border-box !important;
-  min-height: 0 !important;
-  height: auto !important;
-  margin-block: 0 !important;
-  padding: 20px 0 24px !important;
-  align-content: start !important;
-  justify-content: start !important;
-  place-content: initial !important;
-  row-gap: 0 !important;
-}
-html body main #photos.section.tilak-photos-section::before,
-html body main #photos.section.tilak-photos-section::after {
-  display: none !important;
-  content: none !important;
-}
-html body main #photos.section.tilak-photos-section > .section-heading {
-  display: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-html body main #photos.section.tilak-photos-section > .cricinfo-gallery {
-  display: block !important;
-  box-sizing: border-box !important;
-  width: 100% !important;
-  max-width: 1480px !important;
-  min-height: 0 !important;
-  height: auto !important;
-  margin: 0 auto !important;
-  padding: 16px !important;
-  transform: none !important;
-}
-html body main #photos #cricinfo-photo-grid {
-  display: block !important;
-  min-height: 0 !important;
-  height: auto !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  align-content: start !important;
-  transform: none !important;
-}
-html body main #photos #cricinfo-photo-grid > .tv-gallery-toolbar {
-  margin: 0 0 12px !important;
-}
-html body main #photos #cricinfo-photo-grid > .tv-album-grid {
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  align-content: start !important;
-  gap: 10px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-html body main #photos .gallery-attribution {
-  margin: 14px 0 0 !important;
-  padding-top: 10px !important;
-}
-@media (min-width: 1100px) {
-  html body main #photos.section.tilak-photos-section {
-    padding: 28px 24px 32px !important;
-  }
-  html body main #photos.section.tilak-photos-section > .cricinfo-gallery {
-    padding: 24px !important;
-  }
-  html body main #photos #cricinfo-photo-grid > .tv-album-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 16px !important;
-  }
-}
-@media (max-width: 600px) {
-  html body main #photos.section.tilak-photos-section {
-    padding: 12px 0 16px !important;
-    border-radius: 14px !important;
-  }
-  html body main #photos.section.tilak-photos-section > .cricinfo-gallery {
-    padding: 12px 10px !important;
-    border-radius: 16px !important;
-  }
-  html body main #photos #cricinfo-photo-grid > .tv-gallery-toolbar {
-    margin-bottom: 10px !important;
-  }
-  html body main #photos #cricinfo-photo-grid > .tv-album-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 12px !important;
-  }
-  html body main #photos .gallery-attribution {
-    margin-top: 12px !important;
-    padding-top: 9px !important;
-  }
-}
-
-/* Archive controls: clearer copy, predictable sizing, and readable timestamps. */
-#photos .tv-gallery-toolbar-copy {
-  flex: 1 1 220px;
-  gap: 5px;
-}
-#photos .tv-gallery-toolbar-copy strong {
-  font-size: clamp(17px, 1.6vw, 21px);
-  letter-spacing: -0.025em;
-}
-#photos .tv-gallery-sort-note {
-  color: #7f9bb8;
-  font-size: 10px;
-  line-height: 1.5;
-}
-#photos .tv-gallery-filters {
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-#photos .tv-gallery-filters label {
-  flex: 1 1 112px;
-}
-#photos .tv-gallery-filters select {
-  min-width: 0;
-  max-width: 100%;
-}
-#photos .tv-album-info {
-  min-width: 0;
-}
-#photos .tv-album-info strong {
-  overflow-wrap: anywhere;
-  line-height: 1.35;
-}
-#photos .tv-album-info small {
-  font-variant-numeric: tabular-nums;
-  line-height: 1.45;
-}
-#photos .tv-album-photo {
-  position: relative;
-  overflow: hidden;
-}
-#photos .tv-photo-date {
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  left: 5px;
-  z-index: 2;
-  display: block;
-  overflow: hidden;
-  padding: 5px 6px;
-  border: 1px solid rgba(172, 204, 236, 0.15);
-  border-radius: 7px;
-  background: rgba(3, 10, 20, 0.82);
-  color: #eef6ff;
-  font-size: 9px;
-  font-weight: 750;
-  line-height: 1.25;
-  text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  backdrop-filter: blur(8px);
-  pointer-events: none;
-}
-#photos .tv-album-photo-grid {
-  align-items: start;
-  grid-auto-flow: row;
-}
-@media (min-width: 1100px) {
-  #photos .tv-gallery-toolbar {
-    align-items: center;
-    gap: 22px;
-    padding: 20px;
-  }
-  #photos .tv-gallery-filters {
-    flex: 0 1 680px;
-  }
-}
-@media (max-width: 640px) {
-  #photos .tv-gallery-toolbar-copy {
-    min-width: 0;
-  }
-  #photos .tv-gallery-sort-note {
-    font-size: 9px;
-  }
-  #photos .tv-gallery-filters {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: end;
-  }
-  #photos .tv-gallery-filters label {
-    min-width: 0;
-    width: 100%;
-  }
-  #photos .tv-gallery-filters label:nth-child(3) {
-    grid-column: 1 / -1;
-  }
-  #photos .tv-gallery-filters select {
-    width: 100%;
-    padding-inline: 8px 24px;
-  }
-  #photos .tv-gallery-clear {
-    grid-column: 1 / -1;
-  }
-  #photos .tv-photo-date {
-    right: 3px;
-    bottom: 3px;
-    left: 3px;
-    padding: 4px 3px;
-    font-size: 8px;
-  }
+@media (prefers-reduced-motion: reduce) {
+  #photos .tv-album-card, #photos .tv-album-cover img { transition: none; }
 }
