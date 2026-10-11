@@ -451,3 +451,8 @@ main > section[id] {
     scroll-behavior: auto !important;
   }
 }
+
+/* Keep the settings panel visible whenever section navigation activates it. */
+#settings:not([hidden]) {
+  display: block;
+}
