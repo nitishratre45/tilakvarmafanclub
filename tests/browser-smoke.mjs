@@ -89,6 +89,28 @@ check("theme controls change and persist selected appearance", async () => {
 });
 
 
+check("gallery handles externally hosted photo previews that fail to load", async () => {
+  const page = await browser.newPage();
+  page.setDefaultTimeout(10000);
+  await page.route("https://media.gettyimages.com/**", (route) => route.abort());
+  await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+  await page.locator('#main-nav a[href="#photos"]').click();
+  const album = page.locator(".tv-album-card").filter({ hasText: "ASIAN GAMES 2026 FINAL" });
+  await album.waitFor();
+  await album.click();
+  const photo = page.locator(".tv-album-photo").first();
+  await photo.waitFor();
+  await photo.click();
+  await page.locator(".tv-lightbox-download").waitFor();
+  await page.waitForFunction(() => {
+    const caption = document.querySelector("#tv-photo-lightbox figcaption");
+    return caption && caption.textContent.includes("preview unavailable");
+  });
+  assert.match(await page.locator(".tv-lightbox-download").innerText(), /Open original photo/);
+  assert.equal(await page.locator(".tv-lightbox-download").getAttribute("target"), "_blank");
+  await page.close();
+});
+
 check("Admin Studio warns before discarding unsaved edits", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
