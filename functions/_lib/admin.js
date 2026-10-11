@@ -89,13 +89,18 @@ export async function saveRepoJson(env, path, data, expectedSha = null) {
   if (current.ok) {
     sha = (await current.json()).sha;
     if (expectedSha && sha !== expectedSha) {
-      const error = new Error("Save blocked: the GitHub file version changed since it was loaded. Reload the latest data and reapply your edit.");
+      const error = new Error(
+        "Save blocked: the GitHub file version changed since it was loaded. Reload the latest data and reapply your edit.",
+      );
       error.status = 409;
       throw error;
     }
-  } else if (current.status !== 404) throw new Error("GitHub read failed (" + current.status + ").");
+  } else if (current.status !== 404)
+    throw new Error("GitHub read failed (" + current.status + ").");
   else if (expectedSha) {
-    const error = new Error("Save blocked: the GitHub file no longer exists. Reload and inspect the repository before saving.");
+    const error = new Error(
+      "Save blocked: the GitHub file no longer exists. Reload and inspect the repository before saving.",
+    );
     error.status = 409;
     throw error;
   }

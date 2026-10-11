@@ -24,7 +24,12 @@ async function readFile(env, path) {
     "user-agent": "TilakVarmaFanClub-Admin",
   };
   const response = await fetch(
-    "https://api.github.com/repos/" + repo + "/contents/" + path + "?ref=" + encodeURIComponent(branch),
+    "https://api.github.com/repos/" +
+      repo +
+      "/contents/" +
+      path +
+      "?ref=" +
+      encodeURIComponent(branch),
     { headers },
   );
   if (!response.ok) throw new Error("Could not read " + path + " (" + response.status + ").");

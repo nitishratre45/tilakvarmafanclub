@@ -3671,7 +3671,11 @@
             status("data-editor-status", "Validating and saving JSON to GitHub…");
             const result = await api("/api/admin/data-editor", {
               method: "POST",
-              body: JSON.stringify({ kind, data: $("data-editor-json").value, expectedSha: editorSavedSha }),
+              body: JSON.stringify({
+                kind,
+                data: $("data-editor-json").value,
+                expectedSha: editorSavedSha,
+              }),
             });
             const verified = await api("/api/admin/data-editor?kind=" + encodeURIComponent(kind));
             const savedText = JSON.stringify(verified.data, null, 2);
