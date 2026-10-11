@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css" />
     <link rel="stylesheet" href="assets/premium-ui.css?v=20261011-audit-pro1" />
     <link rel="stylesheet" href="assets/site-refinement.css?v=20261011-profile-highlights4" />
-    <link rel="stylesheet" href="assets/photo-gallery-ui.css?v=20261012-normal-flow4" />
+    <link rel="stylesheet" href="assets/tv-gallery-hub.css?v=20261012-clean1" />
     <link rel="stylesheet" href="assets/admin-inspired-ui.css?v=20261011-admin-theme1" />
   </head>
   <body>
@@ -37,7 +37,7 @@
       <nav id="main-nav">
         <a href="#profile">Profile</a><a href="#stats">Stats</a
         ><a href="#death-overs">Death-overs</a><a href="#innings">Matches</a
-        ><a href="#records">Records</a><a href="#photos">Photos</a><a href="#news">News</a
+        ><a href="#records">Records</a><a href="#tv-gallery-hub">Photos</a><a href="#news">News</a
         ><a href="#tilak-videos">Videos</a><a href="#fan-zone">Fan Zone</a><a href="#about">About</a
         ><a href="#settings">Settings</a>
       </nav>
@@ -879,27 +879,21 @@
         </div>
       </section>
 
-      <section id="photos" class="section tilak-photos-section">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">TILAK VARMA · PHOTO GALLERY</div>
-            <h2>PHOTO <em>GALLERY</em></h2>
-          </div>
-          <p>Official player photos and photos uploaded through the Fan Club Admin Studio.</p>
-        </div>
-        <section class="cricinfo-gallery" aria-labelledby="cricinfo-gallery-title">
-          <div class="gallery-heading">
-            <div>
-              <div class="eyebrow">FAN CLUB PHOTOS</div>
-              <h3 id="cricinfo-gallery-title">TILAK <em>PHOTO GALLERY</em></h3>
+      <section id="tv-gallery-hub" class="section tv-gallery-hub" aria-labelledby="tv-gallery-hub-title">
+        <div class="tv-gallery-hub__shell">
+          <header class="tv-gallery-hub__header">
+            <div class="tv-gallery-hub__title-wrap">
+              <span class="tv-gallery-hub__eyebrow">THE 72 CLUB · PHOTO ARCHIVE</span>
+              <h2 id="tv-gallery-hub-title">TILAK <em>GALLERY</em></h2>
+              <p>Match moments, official images and fan-club albums — arranged by date.</p>
             </div>
-            <span id="cricinfo-gallery-updated">Loading fan gallery…</span>
+            <div id="tv-gallery-hub-updated" class="tv-gallery-hub__count" aria-live="polite">Loading gallery…</div>
+          </header>
+          <div id="tv-gallery-grid" class="tv-gallery-hub__content" aria-live="polite">
+            <p class="tv-gallery-hub__loading">Loading Tilak Varma photo albums…</p>
           </div>
-          <div id="cricinfo-photo-grid" class="cricinfo-photo-grid">
-            <p class="activity-empty">Loading Tilak Varma photos…</p>
-          </div>
-          <p class="gallery-attribution">FAN CLUB GALLERY · OFFICIAL SOURCE LINKS WHEN AVAILABLE</p>
-        </section>
+          <footer class="tv-gallery-hub__footer">THE 72 CLUB <span>·</span> PHOTO ARCHIVE</footer>
+        </div>
       </section>
 
       <section id="news" class="section tilak-news-section">
@@ -1134,7 +1128,7 @@
 
     <script src="assets/upgrade.js"></script>
     <script src="assets/news.js?v=20261010-bcci-espn-sources1"></script>
-    <script src="assets/gallery.js?v=20261012-chronological-gallery2"></script>
+    <script src="assets/gallery.js?v=20261012-clean-gallery1"></script>
     <script src="assets/statsguru.js?v=20261011-audit-pro2"></script>
     <script src="assets/home-snapshot.js?v=20261011-home-format-facts2"></script>
     <script src="assets/section-tabs.js?v=20261011-player-nav-signal1"></script>
