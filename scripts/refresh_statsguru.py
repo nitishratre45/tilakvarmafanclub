@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh Tilak Varma batting Statsguru data from ESPNcricinfo every 24 hours.
+"""Refresh Tilak Varma batting Statsguru data from ESPNcricinfo every 12 hours.
 
 ESPNcricinfo Statsguru supplies these tables for T20I, ODI, T20, FC and List A.
 Optional formats may be blocked; if a source is unavailable or markup changes, the last

@@ -772,7 +772,7 @@
         detailNote.textContent =
           "Last update: " +
           stamp +
-          ". Automatic refresh checks every 20 hours." +
+          ". Automatic refresh checks every 12 hours." +
           (allSource.summary?.ballsInferred
             ? " Overall-format strike rate is approximate because at least one source format did not provide balls faced; missing balls were estimated from its published strike rate."
             : "");
@@ -1095,15 +1095,15 @@
       selectedFormat === "All"
         ? "Last update: " +
           (sg.updatedAt || "timestamp unavailable") +
-          ". Automatic refresh checks every 20 hours." +
+          ". Automatic refresh checks every 12 hours." +
           (source.summary?.ballsInferred
             ? " Overall-format strike rate is approximate because at least one source format did not provide balls faced; missing balls were estimated from its published strike rate."
             : "")
         : domesticSummaryOnly
-          ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. Snapshot refresh checks every 20 hours."
+          ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. Snapshot refresh checks every 12 hours."
           : "Last update: " +
             (sg.updatedAt || "timestamp unavailable") +
-            ". Automatic refresh checks every 20 hours; last saved figures remain available if an update is delayed.";
+            ". Automatic refresh checks every 12 hours; last saved figures remain available if an update is delayed.";
   }
   function resetFilters() {
     $("sg-filter-type").value = "all";
