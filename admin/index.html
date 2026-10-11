@@ -2970,6 +2970,24 @@
         let friendlyRoot = null;
         let friendlyLoadedKind = "";
         let friendlyDirty = false;
+        let editorDirty = false;
+        let editorSavedSnapshot = "";
+        function hasUnsavedAdminEdits() {
+          return friendlyDirty || editorDirty;
+        }
+        function confirmDiscardAdminEdits(action) {
+          if (!hasUnsavedAdminEdits()) return true;
+          return window.confirm(
+            "You have unsaved changes in the data editor. " +
+              action +
+              " will discard them. Continue?",
+          );
+        }
+        window.addEventListener("beforeunload", (event) => {
+          if (!hasUnsavedAdminEdits()) return;
+          event.preventDefault();
+          event.returnValue = "";
+        });
         const friendlyEl = (id) => document.getElementById(id);
         function friendlySetStatus(message, error = false) {
           status("friendly-status", message, error);
@@ -3300,9 +3318,9 @@
             } else value = input.value;
             selected.object[key] = value;
           }
-          friendlyDirty = false;
         }
         async function friendlyLoad() {
+          if (!confirmDiscardAdminEdits("Reloading saved values")) return;
           const kind = friendlyEl("friendly-kind").value;
           const fileKind = kind === "death" ? "death" : "stats";
           friendlyEl("friendly-refresh").disabled = true;
@@ -3348,12 +3366,17 @@
               method: "POST",
               body: JSON.stringify({ kind: fileKind, data: root }),
             });
+            const verified = await api("/api/admin/data-editor?kind=" + fileKind);
+            if (fileKind === "death") friendlyRoot.__deathData = verified.data;
+            else friendlyRoot = verified.data;
+            friendlyDirty = false;
+            friendlyRefreshChoices();
             friendlySetStatus(
-              "Saved " +
+              "Saved and reloaded " +
                 result.path +
-                " successfully. Commit: " +
+                " successfully. Repository read-back verified. Commit: " +
                 (result.commit || "created") +
-                ". Cloudflare Pages will deploy it.",
+                ". Cloudflare Pages deployment runs separately.",
             );
           } catch (err) {
             friendlySetStatus(err.message, true);
@@ -3361,7 +3384,14 @@
             friendlyEl("friendly-save").disabled = false;
           }
         }
+        let previousFriendlyKind = friendlyEl("friendly-kind").value;
         friendlyEl("friendly-kind").addEventListener("change", async () => {
+          const nextKind = friendlyEl("friendly-kind").value;
+          if (friendlyDirty && !confirmDiscardAdminEdits("Changing the editor section")) {
+            friendlyEl("friendly-kind").value = previousFriendlyKind;
+            return;
+          }
+          previousFriendlyKind = nextKind;
           friendlyRoot = null;
           friendlyLoadedKind = "";
           friendlyDirty = false;
@@ -3380,6 +3410,7 @@
         };
         let editorLoadedKind = "";
         async function loadDataEditor() {
+          if (!confirmDiscardAdminEdits("Loading the raw JSON file")) return;
           const kind = $("data-editor-kind").value;
           const button = $("data-editor-load");
           button.disabled = true;
@@ -3389,6 +3420,8 @@
             $("data-editor-json").value = JSON.stringify(result.data, null, 2);
             $("data-editor-path").textContent = result.path;
             editorLoadedKind = kind;
+            editorSavedSnapshot = $("data-editor-json").value;
+            editorDirty = false;
             status(
               "data-editor-status",
               "Loaded " +
@@ -3405,17 +3438,38 @@
           }
         }
         $("data-editor-load").addEventListener("click", loadDataEditor);
+        let previousEditorKind = $("data-editor-kind").value;
         $("data-editor-kind").addEventListener("change", () => {
-          $("data-editor-path").textContent = editorPaths[$("data-editor-kind").value];
+          const nextKind = $("data-editor-kind").value;
+          if (!confirmDiscardAdminEdits("Changing the raw JSON data family")) {
+            $("data-editor-kind").value = previousEditorKind;
+            return;
+          }
+          previousEditorKind = nextKind;
+          $("data-editor-path").textContent = editorPaths[nextKind];
           editorLoadedKind = "";
+          editorDirty = false;
           $("data-editor-json").value = "";
+          editorSavedSnapshot = "";
           status("data-editor-status", "Data family changed. Load the saved file before editing.");
+        });
+        $("data-editor-json").addEventListener("input", () => {
+          editorDirty = editorLoadedKind === $("data-editor-kind").value &&
+            $("data-editor-json").value !== editorSavedSnapshot;
+          status(
+            "data-editor-status",
+            editorDirty ? "Unsaved JSON changes — save before leaving or reloading." : "No unsaved JSON changes.",
+          );
         });
         $("data-editor-format").addEventListener("click", () => {
           try {
             const parsed = JSON.parse($("data-editor-json").value);
             $("data-editor-json").value = JSON.stringify(parsed, null, 2);
-            status("data-editor-status", "JSON formatted locally. Not saved yet.");
+            editorDirty = $("data-editor-json").value !== editorSavedSnapshot;
+            status(
+              "data-editor-status",
+              editorDirty ? "JSON formatted. Unsaved changes — not published yet." : "JSON formatted locally. No changes to publish.",
+            );
           } catch (err) {
             status("data-editor-status", "JSON syntax error: " + err.message, true);
           }
@@ -3428,6 +3482,10 @@
               "Load the latest saved file for this data family before saving.",
               true,
             );
+            return;
+          }
+          if (!editorDirty) {
+            status("data-editor-status", "No unsaved changes to publish.");
             return;
           }
           if (
@@ -3446,13 +3504,22 @@
               method: "POST",
               body: JSON.stringify({ kind, data: $("data-editor-json").value }),
             });
+            const verified = await api("/api/admin/data-editor?kind=" + encodeURIComponent(kind));
+            const savedText = JSON.stringify(verified.data, null, 2);
+            const submittedText = JSON.stringify(JSON.parse($("data-editor-json").value), null, 2);
+            if (savedText !== submittedText) {
+              throw Error("GitHub accepted the save, but the read-back did not match the submitted JSON. Reload and inspect before making more edits.");
+            }
+            $("data-editor-json").value = savedText;
+            editorSavedSnapshot = savedText;
+            editorDirty = false;
             status(
               "data-editor-status",
-              "Saved " +
+              "Saved and reloaded " +
                 result.path +
-                " to GitHub. Commit: " +
+                ". Repository read-back verified. Commit: " +
                 (result.commit || "created") +
-                ". Cloudflare Pages will deploy the change.",
+                ". Cloudflare Pages deployment runs separately.",
             );
             editorLoadedKind = kind;
           } catch (err) {
