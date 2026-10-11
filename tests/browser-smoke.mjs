@@ -103,7 +103,7 @@ check("Admin Studio warns before discarding unsaved edits", async () => {
   });
   await page.goto(baseURL + "/admin/index.html", { waitUntil: "domcontentloaded" });
   await page.locator("#admin-nav [data-view='data-editor']").click();
-  const field = page.locator("#friendly-fields [data-friendly-key]").first();
+  const field = page.locator('#friendly-fields [data-friendly-key]:not([type="number"])').first();
   await field.waitFor();
   const originalKind = await page.locator("#friendly-kind").inputValue();
   await field.fill((await field.inputValue()) + " test");
