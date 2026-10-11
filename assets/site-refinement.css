@@ -456,3 +456,9 @@ main > section[id] {
 #settings:not([hidden]) {
   display: block;
 }
+
+#profile .photo-fallback.is-visible {
+  display: grid !important;
+  place-content: center;
+}
+#profile .photo-fallback:not(.is-visible) { visibility: hidden; }
