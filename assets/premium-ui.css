@@ -5540,52 +5540,51 @@ body.bcci-player-open .topbar {
 
 /* Keep quality controls below the video, never floating over the playing picture. */
 #bcci-video-player-modal .bcci-player-title-block .bcci-player-quality-control {
-  position:relative !important;
-  inset:auto !important;
-  z-index:20 !important;
-  display:flex !important;
-  flex-direction:row !important;
-  align-items:center !important;
-  justify-content:flex-end !important;
-  width:100% !important;
-  height:auto !important;
-  margin:0 0 12px !important;
-  padding:0 !important;
-  gap:8px !important;
+  position: relative !important;
+  inset: auto !important;
+  z-index: 20 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  gap: 8px !important;
 }
 #bcci-video-player-modal .bcci-player-title-block .bcci-quality-head-button {
-  position:relative !important;
-  display:inline-flex !important;
-  flex:0 0 auto !important;
-  width:auto !important;
-  min-width:94px !important;
-  max-width:140px !important;
-  height:36px !important;
-  min-height:36px !important;
-  margin:0 !important;
+  position: relative !important;
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  min-width: 94px !important;
+  max-width: 140px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  margin: 0 !important;
 }
 #bcci-video-player-modal .bcci-player-title-block .bcci-player-settings-menu:not([hidden]) {
-  position:absolute !important;
-  top:auto !important;
-  right:0 !important;
-  bottom:calc(100% + 8px) !important;
-  left:auto !important;
-  width:220px !important;
-  min-width:220px !important;
-  max-width:min(260px, calc(100vw - 32px)) !important;
-  transform:none !important;
+  position: absolute !important;
+  top: auto !important;
+  right: 0 !important;
+  bottom: calc(100% + 8px) !important;
+  left: auto !important;
+  width: 220px !important;
+  min-width: 220px !important;
+  max-width: min(260px, calc(100vw - 32px)) !important;
+  transform: none !important;
 }
 #bcci-video-player-modal .bcci-player-title-block .bcci-player-settings-menu:not([hidden]) label {
-  display:grid !important;
-  gap:8px !important;
+  display: grid !important;
+  gap: 8px !important;
 }
-@media (max-width:760px) {
+@media (max-width: 760px) {
   #bcci-video-player-modal .bcci-player-title-block .bcci-player-quality-control {
-    margin-bottom:10px !important;
+    margin-bottom: 10px !important;
   }
   #bcci-video-player-modal .bcci-player-title-block .bcci-player-settings-menu:not([hidden]) {
-    width:205px !important;
-    min-width:205px !important;
+    width: 205px !important;
+    min-width: 205px !important;
   }
 }
-
