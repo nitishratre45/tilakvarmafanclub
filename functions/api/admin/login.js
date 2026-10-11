@@ -16,7 +16,7 @@ export async function onRequestPost({ request, env }) {
   } catch {
     return json({ error: "Invalid request." }, 400);
   }
-  const supplied = typeof body.password === "string" ? body.password : "";
+  const supplied = typeof body?.password === "string" ? body.password : "";
   // Cloudflare dashboard pastes can accidentally include a trailing newline/space.
   // Normalize only the configured secret boundary so a copied value still works.
   const expected = String(env.ADMIN_PASSWORD).trim();
