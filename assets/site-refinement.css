@@ -1401,3 +1401,67 @@ main > section[id] {
     grid-column: 1;
   }
 }
+
+
+/* Profile finish: compact player-highlight pills and clearer section rhythm. */
+#profile .profile-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 4px;
+}
+#profile .profile-highlights > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 31px;
+  padding: 7px 10px;
+  border: 1px solid rgba(127, 185, 229, .2);
+  border-radius: 999px;
+  background: rgba(11, 32, 53, .58);
+  color: #c4d8ee;
+  font: 700 9px/1.2 var(--mono, monospace);
+  letter-spacing: .045em;
+}
+#profile .profile-highlights i {
+  color: #ff8b58;
+  font-size: 12px;
+  font-style: normal;
+}
+#profile .profile-highlights > span:last-child i {
+  color: #fff;
+  font-weight: 900;
+}
+#profile .profile-data-grid {
+  align-items: start;
+}
+#profile .profile-facts {
+  align-content: start;
+}
+#profile .profile-teams-panel {
+  grid-column: 1 / -1;
+}
+#profile .profile-teams-note {
+  font-size: 10px;
+}
+:root[data-theme-resolved="light"] #profile .profile-highlights > span {
+  background: rgba(255, 255, 255, .78);
+  border-color: #d6e4f5;
+  color: #31516f;
+}
+@media (max-width: 620px) {
+  #profile .profile-highlights {
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 3px;
+  }
+  #profile .profile-highlights > span {
+    min-height: 29px;
+    padding: 7px 8px;
+    font-size: 8px;
+  }
+  #profile .profile-data-grid {
+    gap: 11px;
+  }
+}
