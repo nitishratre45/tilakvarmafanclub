@@ -1,0 +1,812 @@
+/* The 72 Club — Photo Gallery UI
+   Scoped to the photo section and its same-page viewer; gallery data hooks remain unchanged. */
+
+#photos.tilak-photos-section {
+  --photo-accent: #ff744b;
+  --photo-cyan: #72e2f1;
+  --photo-surface: rgba(8, 25, 46, 0.94);
+  --photo-border: rgba(132, 184, 235, 0.2);
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-top: clamp(30px, 4vw, 54px);
+  padding-bottom: clamp(54px, 7vw, 92px);
+  background:
+    radial-gradient(ellipse at 5% 12%, rgba(24, 103, 200, 0.17), transparent 34rem),
+    radial-gradient(ellipse at 94% 40%, rgba(255, 116, 75, 0.075), transparent 28rem),
+    linear-gradient(180deg, #071426 0%, #08182b 55%, #061222 100%);
+}
+
+/* The gallery's own compact header is the visual entry point. */
+#photos.tilak-photos-section > .section-heading {
+  display: none;
+}
+
+#photos .cricinfo-gallery {
+  position: relative;
+  width: min(100%, 1480px);
+  margin: 0 auto;
+  padding: clamp(16px, 2.4vw, 30px);
+  overflow: hidden;
+  border: 1px solid var(--photo-border);
+  border-radius: 26px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(114, 226, 241, 0.09), transparent 27rem),
+    linear-gradient(145deg, rgba(13, 34, 59, 0.98), rgba(6, 19, 35, 0.98));
+  box-shadow: 0 24px 70px rgba(0, 4, 15, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+#photos .cricinfo-gallery::before {
+  position: absolute;
+  top: 0;
+  left: clamp(16px, 2.4vw, 30px);
+  width: clamp(54px, 9vw, 112px);
+  height: 3px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(90deg, var(--photo-accent), var(--photo-cyan));
+  content: "";
+}
+
+#photos .gallery-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 4px 0 clamp(18px, 2.5vw, 30px);
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(132, 184, 235, 0.14);
+}
+
+#photos .gallery-heading .eyebrow {
+  color: var(--photo-cyan);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+#photos .gallery-heading h3 {
+  margin: 8px 0 0;
+  color: #f3f8ff;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+#photos .gallery-heading h3 em {
+  color: var(--photo-accent);
+  font-style: normal;
+}
+
+#photos #cricinfo-gallery-updated {
+  flex: 0 1 auto;
+  max-width: 48%;
+  padding: 8px 11px;
+  border: 1px solid rgba(114, 226, 241, 0.18);
+  border-radius: 999px;
+  background: rgba(114, 226, 241, 0.055);
+  color: #a8c5df;
+  font-size: 10px;
+  line-height: 1.45;
+  text-align: right;
+}
+
+#photos .tv-album-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(12px, 1.8vw, 22px);
+}
+
+#photos .tv-album-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(132, 184, 235, 0.19);
+  border-radius: 19px;
+  background: linear-gradient(155deg, rgba(18, 43, 71, 0.98), rgba(8, 23, 41, 0.98));
+  color: #f4f8ff;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(0, 5, 18, 0.2);
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#photos .tv-album-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(114, 226, 241, 0.58);
+  box-shadow: 0 22px 44px rgba(0, 6, 20, 0.34), 0 0 0 1px rgba(114, 226, 241, 0.08);
+}
+
+#photos .tv-album-cover {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: #071426;
+  isolation: isolate;
+}
+
+#photos .tv-album-cover::after {
+  position: absolute;
+  z-index: 1;
+  inset: 30% 0 0;
+  background: linear-gradient(180deg, transparent, rgba(2, 10, 22, 0.76));
+  content: "";
+  pointer-events: none;
+}
+
+#photos .tv-album-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 480ms cubic-bezier(0.2, 0.75, 0.25, 1), filter 280ms ease;
+}
+
+#photos .tv-album-card:hover .tv-album-cover img {
+  transform: scale(1.055);
+  filter: saturate(1.08);
+}
+
+#photos .tv-album-count {
+  position: absolute;
+  z-index: 2;
+  top: 11px;
+  left: 11px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  background: rgba(4, 16, 30, 0.8);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  backdrop-filter: blur(12px);
+}
+
+#photos .tv-album-open {
+  position: absolute;
+  z-index: 2;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+}
+
+#photos .tv-album-open::after {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: rgba(4, 16, 30, 0.45);
+  content: "↗";
+  font-size: 15px;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+#photos .tv-album-card:hover .tv-album-open::after {
+  transform: rotate(45deg);
+  background: var(--photo-accent);
+}
+
+#photos .tv-album-info {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: clamp(13px, 1.8vw, 20px);
+}
+
+#photos .tv-album-info strong {
+  display: -webkit-box;
+  max-width: 100%;
+  overflow: hidden;
+  color: #f5f8ff;
+  font-size: clamp(14px, 1.4vw, 19px);
+  font-weight: 850;
+  line-height: 1.28;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+#photos .tv-album-info small {
+  color: #9cb3cc;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+#photos .tv-album-detail {
+  animation: tv-gallery-enter 260ms ease both;
+}
+
+#photos .tv-album-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 18px;
+  margin-bottom: 22px;
+  padding: 0 0 22px;
+  border-bottom: 1px solid rgba(132, 184, 235, 0.16);
+}
+
+#photos .tv-album-back {
+  grid-row: span 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 15px;
+  border: 1px solid rgba(114, 226, 241, 0.3);
+  border-radius: 12px;
+  background: rgba(114, 226, 241, 0.07);
+  color: #b8f3fb;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+
+#photos .tv-album-back:hover {
+  border-color: var(--photo-cyan);
+  background: rgba(114, 226, 241, 0.13);
+}
+
+#photos .tv-album-hero h2 {
+  margin: 0;
+  color: #f4f8ff;
+  font-size: clamp(25px, 3.8vw, 42px);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  overflow-wrap: anywhere;
+}
+
+#photos .tv-album-hero p {
+  margin: 0;
+  color: #9cb3cc;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#photos .tv-album-hero p span {
+  padding: 0 5px;
+  color: var(--photo-accent);
+}
+
+#photos .tv-album-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(7px, 1.2vw, 14px);
+}
+
+#photos .tv-album-photo {
+  position: relative;
+  display: block;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border: 1px solid rgba(132, 184, 235, 0.18);
+  border-radius: 14px;
+  background: #071426;
+  cursor: zoom-in;
+  isolation: isolate;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+#photos .tv-album-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  transition: transform 350ms ease, filter 250ms ease;
+}
+
+#photos .tv-album-photo:hover {
+  z-index: 1;
+  transform: translateY(-3px);
+  border-color: rgba(114, 226, 241, 0.65);
+  box-shadow: 0 14px 26px rgba(0, 4, 16, 0.3), 0 0 0 1px rgba(114, 226, 241, 0.12);
+}
+
+#photos .tv-album-photo:hover img {
+  transform: scale(1.04);
+  filter: saturate(1.08);
+}
+
+#photos .tv-photo-open-icon {
+  position: absolute;
+  right: 9px;
+  bottom: 9px;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 50%;
+  background: rgba(4, 16, 30, 0.7);
+  color: #fff;
+  font-size: 15px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+#photos .tv-album-photo:hover .tv-photo-open-icon,
+#photos .tv-album-photo:focus-visible .tv-photo-open-icon {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#photos .bcci-photo-empty {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  max-width: 760px;
+  margin: 12px auto;
+  padding: clamp(18px, 3vw, 30px);
+  border: 1px dashed rgba(114, 226, 241, 0.3);
+  border-radius: 18px;
+  background: rgba(114, 226, 241, 0.045);
+}
+
+#photos .bcci-photo-mark {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  flex: 0 0 62px;
+  place-items: center;
+  border: 1px solid rgba(255, 116, 75, 0.38);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(255, 116, 75, 0.17), rgba(114, 226, 241, 0.08));
+  color: var(--photo-accent);
+  font-size: 27px;
+  font-weight: 950;
+}
+
+#photos .bcci-photo-empty strong {
+  display: block;
+  color: #f4f8ff;
+  font-size: 16px;
+}
+
+#photos .bcci-photo-empty p {
+  margin: 5px 0 12px;
+  color: #a8bad1;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+#photos .bcci-photo-empty a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 13px;
+  border: 1px solid rgba(114, 226, 241, 0.28);
+  border-radius: 10px;
+  color: var(--photo-cyan);
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+#photos .gallery-attribution {
+  margin: 20px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(132, 184, 235, 0.12);
+  color: #8199b5;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+/* Same-page lightbox */
+.tv-photo-lightbox {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) 58px;
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: clamp(14px, 3vw, 34px);
+  background: rgba(1, 7, 17, 0.94);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  backdrop-filter: blur(18px) saturate(125%);
+  transition: opacity 180ms ease, visibility 180ms ease;
+}
+
+.tv-photo-lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.tv-lightbox-figure {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0;
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.tv-lightbox-figure img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(100dvh - 150px);
+  object-fit: contain;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 12px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+
+.tv-lightbox-figure figcaption {
+  max-width: min(760px, 100%);
+  color: #e8f2ff;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.tv-lightbox-close,
+.tv-lightbox-nav {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(154, 195, 234, 0.26);
+  background: rgba(13, 35, 60, 0.86);
+  color: #f5f8ff;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.tv-lightbox-close:hover,
+.tv-lightbox-nav:hover {
+  transform: scale(1.05);
+  border-color: var(--photo-cyan);
+  background: rgba(24, 73, 112, 0.96);
+}
+
+.tv-lightbox-close {
+  position: absolute;
+  top: max(14px, env(safe-area-inset-top));
+  right: max(14px, env(safe-area-inset-right));
+  z-index: 2;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  font-size: 27px;
+}
+
+.tv-lightbox-nav {
+  width: 48px;
+  height: 58px;
+  border-radius: 15px;
+  font-size: 36px;
+  line-height: 1;
+}
+
+.tv-lightbox-prev {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: center;
+}
+
+.tv-lightbox-next {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: center;
+}
+
+.tv-lightbox-tools {
+  display: flex;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 48px;
+  color: #a8c2dc;
+  font-size: 12px;
+}
+
+.tv-lightbox-download {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 116, 75, 0.45);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff8759, #ff6844);
+  color: #1b0a08;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(255, 104, 68, 0.15);
+}
+
+.tv-lightbox-download:hover {
+  background: linear-gradient(135deg, #ff9a73, #ff744b);
+}
+
+.tv-lightbox-lock {
+  overflow: hidden;
+}
+
+@keyframes tv-gallery-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+:root[data-theme-resolved="light"] #photos.tilak-photos-section {
+  background:
+    radial-gradient(ellipse at 5% 12%, rgba(24, 103, 200, 0.1), transparent 34rem),
+    linear-gradient(180deg, #edf5ff 0%, #f6f9ff 60%, #edf4ff 100%);
+}
+
+:root[data-theme-resolved="light"] #photos .cricinfo-gallery {
+  border-color: rgba(43, 86, 137, 0.2);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(238, 246, 255, 0.98));
+  box-shadow: 0 24px 60px rgba(35, 75, 125, 0.1);
+}
+
+:root[data-theme-resolved="light"] #photos .gallery-heading h3,
+:root[data-theme-resolved="light"] #photos .tv-album-hero h2,
+:root[data-theme-resolved="light"] #photos .tv-album-info strong,
+:root[data-theme-resolved="light"] #photos .bcci-photo-empty strong {
+  color: #102b4d;
+}
+
+:root[data-theme-resolved="light"] #photos .tv-album-card {
+  border-color: rgba(43, 86, 137, 0.18);
+  background: linear-gradient(155deg, #fff, #edf4ff);
+  box-shadow: 0 12px 28px rgba(29, 71, 122, 0.1);
+}
+
+:root[data-theme-resolved="light"] #photos .tv-album-info small,
+:root[data-theme-resolved="light"] #photos .tv-album-hero p {
+  color: #526985;
+}
+
+:root[data-theme-resolved="light"] #photos .tv-album-back {
+  color: #12528f;
+  background: #edf6ff;
+  border-color: #c5dcef;
+}
+
+:root[data-theme-resolved="light"] #photos .bcci-photo-empty p {
+  color: #526985;
+}
+
+@media (min-width: 1200px) {
+  #photos .tv-album-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  #photos .tv-album-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #photos .tv-album-hero {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  #photos .tv-album-back {
+    grid-row: auto;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 600px) {
+  #photos.tilak-photos-section {
+    padding-top: 22px;
+    padding-bottom: 42px;
+  }
+
+  #photos .cricinfo-gallery {
+    padding: 16px 12px;
+    border-radius: 20px;
+  }
+
+  #photos .gallery-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 15px;
+  }
+
+  #photos .gallery-heading h3 {
+    font-size: clamp(29px, 9vw, 39px);
+  }
+
+  #photos #cricinfo-gallery-updated {
+    max-width: 100%;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+
+  #photos .tv-album-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  #photos .tv-album-card {
+    border-radius: 14px;
+  }
+
+  #photos .tv-album-cover {
+    aspect-ratio: 4 / 3.4;
+  }
+
+  #photos .tv-album-count {
+    top: 7px;
+    left: 7px;
+    padding: 6px 7px;
+    font-size: 8px;
+  }
+
+  #photos .tv-album-open {
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    font-size: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  #photos .tv-album-open::after {
+    width: 25px;
+    height: 25px;
+    flex-basis: 25px;
+  }
+
+  #photos .tv-album-info {
+    gap: 6px;
+    padding: 11px 10px 12px;
+  }
+
+  #photos .tv-album-info strong {
+    font-size: 13px;
+  }
+
+  #photos .tv-album-info small {
+    font-size: 10px;
+  }
+
+  #photos .tv-album-photo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  #photos .tv-album-photo {
+    aspect-ratio: 3 / 4;
+    border-radius: 9px;
+  }
+
+  #photos .tv-photo-open-icon {
+    right: 4px;
+    bottom: 4px;
+    width: 23px;
+    height: 23px;
+    font-size: 12px;
+    opacity: 1;
+    transform: none;
+  }
+
+  #photos .bcci-photo-empty {
+    align-items: flex-start;
+    gap: 12px;
+    padding: 15px;
+  }
+
+  #photos .bcci-photo-mark {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+    border-radius: 13px;
+    font-size: 21px;
+  }
+
+  .tv-photo-lightbox {
+    grid-template-columns: 36px minmax(0, 1fr) 36px;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 5px;
+    padding: 10px;
+    padding-top: max(60px, env(safe-area-inset-top));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  .tv-lightbox-figure img {
+    max-height: calc(100dvh - 155px);
+    border-radius: 8px;
+  }
+
+  .tv-lightbox-figure figcaption {
+    font-size: 11px;
+  }
+
+  .tv-lightbox-nav {
+    width: 34px;
+    height: 46px;
+    border-radius: 10px;
+    font-size: 28px;
+  }
+
+  .tv-lightbox-tools {
+    gap: 10px;
+    font-size: 11px;
+  }
+
+  .tv-lightbox-download {
+    min-height: 40px;
+    padding-inline: 12px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 360px) {
+  #photos .tv-album-grid {
+    gap: 7px;
+  }
+
+  #photos .tv-album-info {
+    padding: 9px;
+  }
+
+  #photos .tv-album-info strong {
+    font-size: 12px;
+  }
+
+  #photos .tv-album-photo-grid {
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #photos *,
+  .tv-photo-lightbox * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
