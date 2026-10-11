@@ -351,3 +351,37 @@ input:focus, select:focus, textarea:focus {
     transform: none !important;
   }
 }
+
+
+/* Clearer dataset editor labels and safe mobile editing for Stats / Death Overs JSON. */
+#data-editor .service-row { align-items: flex-start; }
+#data-editor .service-row p { max-width: 100%; line-height: 1.65; }
+#data-editor .grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+#data-editor .input-like {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  overflow-wrap: anywhere;
+  padding: 10px 12px;
+  border: 1px solid rgba(169,194,229,.22);
+  border-radius: 10px;
+  background: #0a1422;
+  color: var(--cyan);
+  font: 12px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+#data-editor textarea {
+  width: 100%;
+  min-height: 360px;
+  resize: vertical;
+  font: 12px/1.6 ui-monospace, SFMono-Regular, Consolas, monospace;
+  tab-size: 2;
+  white-space: pre;
+  overflow: auto;
+}
+#data-editor .monitor-help { margin-top: 14px; }
+@media(max-width:760px) {
+  #data-editor .grid { grid-template-columns: minmax(0, 1fr); }
+  #data-editor textarea { min-height: 280px; font-size: 12px; }
+  #data-editor .actions { display: grid; grid-template-columns: minmax(0, 1fr); }
+  #data-editor .actions .btn { width: 100%; }
+}
