@@ -9,8 +9,10 @@ import html
 import json
 import re
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
+import time
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
@@ -119,10 +121,41 @@ class TableParser(HTMLParser):
             self.row = None
 
 
-def fetch(url):
-    req = urllib.request.Request(url, headers=HEADERS)
-    with urllib.request.urlopen(req, timeout=45) as response:
-        return response.read().decode("utf-8", "replace")
+def fetch(url, retries=4):
+    """Fetch Statsguru with bounded backoff for temporary network/server errors.
+
+    HTTP 400 and other non-retryable client errors fail immediately. A failed
+    retry never changes saved snapshots; callers decide whether a format is
+    optional or required.
+    """
+    last_error = None
+    for attempt in range(retries):
+        try:
+            req = urllib.request.Request(url, headers=HEADERS)
+            with urllib.request.urlopen(req, timeout=45) as response:
+                return response.read().decode("utf-8", "replace")
+        except urllib.error.HTTPError as exc:
+            last_error = exc
+            retryable = exc.code == 429 or 500 <= exc.code <= 599
+            if not retryable or attempt >= retries - 1:
+                raise
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as exc:
+            last_error = exc
+            if attempt >= retries - 1:
+                raise
+        delay = min(2 ** (attempt + 1), 12)
+        print(
+            "Temporary Statsguru fetch error; retrying in "
+            + str(delay)
+            + "s (attempt "
+            + str(attempt + 2)
+            + "/"
+            + str(retries)
+            + "): "
+            + str(last_error)
+        )
+        time.sleep(delay)
+    raise last_error
 
 
 def stats_url(match_class, view=None, page=1, kind="batting"):
