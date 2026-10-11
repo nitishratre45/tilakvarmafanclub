@@ -1720,6 +1720,36 @@
                 Save to GitHub
               </button>
             </div>
+            <div class="form-editor card" id="friendly-editor">
+              <div class="eyebrow">EASY MODE · NO JSON REQUIRED</div>
+              <h3>Choose what you want to change</h3>
+              <p class="monitor-help">Pick a section, format and record. Only simple fields are shown here; unknown data and nested history are preserved.</p>
+              <div class="grid friendly-editor-controls">
+                <label class="field"><span>Section</span>
+                  <select id="friendly-kind">
+                    <option value="career">Stats & Career</option>
+                    <option value="bowling">Bowling Stats</option>
+                    <option value="fielding">Fielding Stats</option>
+                    <option value="innings">Match-by-match Innings</option>
+                    <option value="death">Death Overs Data</option>
+                    <option value="profile">Player Profile & Records</option>
+                  </select>
+                </label>
+                <label class="field"><span>Format / data group</span>
+                  <select id="friendly-format"></select>
+                </label>
+                <label class="field"><span>Record / match / innings</span>
+                  <select id="friendly-record"></select>
+                </label>
+              </div>
+              <div id="friendly-description" class="monitor-help" aria-live="polite"></div>
+              <div id="friendly-fields" class="grid friendly-editor-fields"></div>
+              <div class="actions">
+                <button id="friendly-refresh" class="btn" type="button">Reload saved values</button>
+                <button id="friendly-save" class="btn primary" type="button">Save these changes</button>
+              </div>
+              <p id="friendly-status" class="status" role="status" aria-live="polite">Load saved data to start editing.</p>
+            </div>
             <p id="data-editor-status" class="status" role="status" aria-live="polite">
               Load a file to inspect or edit its saved data.
             </p>
@@ -2387,6 +2417,208 @@
           if (refreshButton) refreshButton.disabled = false;
         }
         $("video-sources-refresh").addEventListener("click", loadVideoSourceStatus);
+
+        // Friendly form editor: writes only selected primitive fields back into the loaded source object.
+        const friendlyDescriptions = {
+          career: "Career summaries by format. Balls, average and strike rate are stored values; change only when verified.",
+          bowling: "Format-wise bowling summary and career-breakdown rows. Missing optional FC/List A data will not be fabricated.",
+          fielding: "Format-wise catches, stumpings, run-outs and dismissal totals.",
+          innings: "Player match-by-match batting entries from Statsguru. Use the record selector to choose a row.",
+          death: "Death Overs archive: format metadata, match innings, over totals and individual delivery records.",
+          profile: "Player profile, career headline, featured match, ICC rankings and records.",
+        };
+        const friendlyFormatOptions = {
+          career: [["T20I","T20I"],["IPL","IPL"],["ODI","ODI"],["First-class","FC"],["List A","List A"],["Overall T20 (all competitions)","T20 · all competitions"]],
+          bowling: [["T20I","T20I"],["ODI","ODI"],["T20","T20"],["FC","FC"],["List A","List A"]],
+          fielding: [["T20I","T20I"],["ODI","ODI"],["T20","T20"],["FC","FC"],["List A","List A"]],
+          innings: [["playerMatches","Player match list"],["recentInnings","Recent innings"]],
+          death: [["t20i","T20I"],["ipl","IPL"],["overall_t20","T20 · all competitions"],["t20","T20"],["odi","ODI"],["test","Test"],["hyderabad","Hyderabad domestic"]],
+          profile: [["profile","Player profile"],["careerStats","Career headline stats"],["featuredMatch","Featured match"],["iccRankings","ICC rankings"],["iccRecords","ICC records"],["activityLog","Activity log"]],
+        };
+        let friendlyRoot = null;
+        let friendlyLoadedKind = "";
+        let friendlyDirty = false;
+        const friendlyEl = (id) => document.getElementById(id);
+        function friendlySetStatus(message, error = false) {
+          status("friendly-status", message, error);
+        }
+        function friendlyOptions(select, options, placeholder) {
+          select.innerHTML = options.map((item) =>
+            '<option value="' + escapeHtml(item[0]) + '">' + escapeHtml(item[1]) + '</option>'
+          ).join("");
+          if (!options.length) select.innerHTML = '<option value="">No records available</option>';
+        }
+        function friendlyPath(root, path) {
+          return path.split(".").reduce((value, key) => value == null ? undefined : value[key], root);
+        }
+        function friendlyPut(root, path, value) {
+          const keys = path.split(".");
+          const last = keys.pop();
+          const target = keys.reduce((obj, key) => obj[key], root);
+          target[last] = value;
+        }
+        function friendlyFieldsFor() {
+          const kind = friendlyEl("friendly-kind").value;
+          const fmt = friendlyEl("friendly-format").value;
+          const record = friendlyEl("friendly-record").value;
+          const base = friendlyRoot;
+          if (!base) return {path:"", object:null};
+          if (kind === "career") return {path:"careerFormats."+fmt, object:base.careerFormats?.[fmt]};
+          if (kind === "bowling") return {path:"bowlingStats.formats."+fmt, object:base.bowlingStats?.formats?.[fmt]};
+          if (kind === "fielding") return {path:"fieldingStats.formats."+fmt, object:base.fieldingStats?.formats?.[fmt]};
+          if (kind === "innings") {
+            const list = fmt === "recentInnings" ? base.recentInnings : base.playerMatches;
+            return {path:fmt+"."+record, object:Array.isArray(list) ? list[Number(record)] : null};
+          }
+          if (kind === "profile") {
+            if (fmt === "iccRecords" || fmt === "activityLog") return {path:fmt+"."+record, object:Array.isArray(base[fmt]) ? base[fmt][Number(record)] : null};
+            return {path:fmt, object:base[fmt]};
+          }
+          if (kind === "death") {
+            const d = friendlyRoot.__deathData;
+            if (!d) return {path:"",object:null};
+            if (record === "root") return {path:"",object:d};
+            if (record === "overTotals") return {path:"formats."+fmt+".overTotals."+friendlyEl("friendly-over").value, object:d.formats?.[fmt]?.overTotals?.[Number(friendlyEl("friendly-over").value)]};
+            if (record === "innings") return {path:"formats."+fmt+".innings."+friendlyEl("friendly-innings").value, object:d.formats?.[fmt]?.innings?.[Number(friendlyEl("friendly-innings").value)]};
+            if (record === "delivery") {
+              const ii=Number(friendlyEl("friendly-innings").value), oi=Number(friendlyEl("friendly-over").value), bi=Number(friendlyEl("friendly-ball").value);
+              return {path:"formats."+fmt+".innings."+ii+".overs."+oi+".deliveries."+bi, object:d.formats?.[fmt]?.innings?.[ii]?.overs?.[oi]?.deliveries?.[bi]};
+            }
+            if (record === "featuredMatch") return {path:"featuredMatch",object:d.featuredMatch};
+            return {path:"formats."+fmt,object:d.formats?.[fmt]};
+          }
+          return {path:"",object:null};
+        }
+        function friendlyRefreshChoices() {
+          const kind = friendlyEl("friendly-kind").value;
+          const fmtSelect = friendlyEl("friendly-format");
+          const recordSelect = friendlyEl("friendly-record");
+          friendlyOptions(fmtSelect, friendlyFormatOptions[kind] || []);
+          const fmt = fmtSelect.value;
+          let rows = [];
+          if (friendlyRoot) {
+            if (kind === "innings") {
+              const list = fmt === "recentInnings" ? friendlyRoot.recentInnings : friendlyRoot.playerMatches;
+              rows = (Array.isArray(list) ? list : []).map((x,i)=>[String(i), (x.date||"Undated")+" · "+(x.format||"")+" · "+(x.opposition||"")+" · "+(x.runs??x.score??"—")]);
+            } else if (kind === "profile" && ["iccRecords","activityLog"].includes(fmt)) {
+              rows = (friendlyRoot[fmt]||[]).map((x,i)=>[String(i), (x.title||x.category||x.date||"Record")+" · "+(x.description||"")]);
+            } else if (kind === "death" && friendlyRoot.__deathData) {
+              const d=friendlyRoot.__deathData, f=d.formats?.[fmt]||{};
+              rows=[["format","Format summary"],["overTotals","Over totals"],["innings","Match innings"],["featuredMatch","Featured match"]];
+              if (recordSelect.value==="innings") {
+                const arr=f.innings||[];
+                rows=arr.map((x,i)=>[String(i),(x.date||"Undated")+" · "+(x.teams||"Match")+" · innings "+(x.innings??"—")]);
+              } else if (recordSelect.value==="overTotals") {
+                rows=(f.overTotals||[]).map((x,i)=>[String(i),"Over "+(x.over??i+1)+" · "+(x.runs??0)+" runs"]);
+              } else if (recordSelect.value==="delivery") {
+                const ii=Number(friendlyEl("friendly-innings").value), oi=Number(friendlyEl("friendly-over").value);
+                rows=(f.innings?.[ii]?.overs?.[oi]?.deliveries||[]).map((x,i)=>[String(i),"Ball "+(x.ball??i+1)+" · "+(x.totalRuns??0)+" runs"]);
+              }
+            }
+          }
+          if (!rows.length) rows=[["root", kind==="death"?"Death Overs archive":"Selected object"]];
+          if (kind === "death") {
+            // Keep the first-level target selector stable; nested selectors choose a specific match/over/ball.
+            const d=friendlyRoot?.__deathData, f=d?.formats?.[fmt]||{};
+            const current=recordSelect.value;
+            if (!["format","overTotals","innings","featuredMatch"].includes(current)) recordSelect.value="format";
+            friendlyOptions(recordSelect,[["format","Format summary"],["overTotals","Over totals"],["innings","Match innings"],["featuredMatch","Featured match"],["root","Archive metadata"]]);
+            const wrap=friendlyEl("friendly-nested-selectors");
+            if (wrap) wrap.style.display=["overTotals","innings"].includes(recordSelect.value)?"grid":"none";
+            const inningsSelect=friendlyEl("friendly-innings"), overSelect=friendlyEl("friendly-over");
+            if(inningsSelect) friendlyOptions(inningsSelect,(f.innings||[]).map((x,i)=>[String(i),(x.date||"Undated")+" · "+(x.teams||"Match")+" · innings "+(x.innings??"—")]));
+            const ii=Number(inningsSelect?.value||0), inn=f.innings?.[ii]||{};
+            if(overSelect) friendlyOptions(overSelect,(inn.overs||f.overTotals||[]).map((x,i)=>[String(i),"Over "+(x.over??i+1)]));
+            const oi=Number(overSelect?.value||0), ov=inn.overs?.[oi]||{};
+            const ballSelect=friendlyEl("friendly-ball");
+            if(ballSelect) friendlyOptions(ballSelect,(ov.deliveries||[]).map((x,i)=>[String(i),"Ball "+(x.ball??i+1)]));
+          } else {
+            friendlyOptions(recordSelect,rows);
+            const nested=friendlyEl("friendly-nested-selectors"); if(nested) nested.style.display="none";
+          }
+          friendlyRenderFields();
+        }
+        function friendlyRenderFields() {
+          const kind=friendlyEl("friendly-kind").value, fmt=friendlyEl("friendly-format").value, record=friendlyEl("friendly-record").value;
+          const host=friendlyEl("friendly-fields");
+          const selected=friendlyFieldsFor();
+          friendlyEl("friendly-description").textContent=friendlyDescriptions[kind]||"";
+          if (!selected.object || typeof selected.object!=="object" || Array.isArray(selected.object)) {
+            host.innerHTML='<div class="empty">No editable record is available for this selection. The saved data will be preserved.</div>';
+            return;
+          }
+          const entries=Object.entries(selected.object).filter(([,v])=>v===null || ["string","number","boolean"].includes(typeof v));
+          if (!entries.length) {
+            host.innerHTML='<div class="empty">This record contains nested data. Choose a specific match, over or ball above to edit its fields.</div>';
+            return;
+          }
+          host.innerHTML=entries.map(([key,value])=>{
+            const id="friendly-field-"+key.replace(/[^a-z0-9_-]/gi,"-");
+            const label=key.replace(/([A-Z])/g," $1").replace(/^./,x=>x.toUpperCase());
+            if(typeof value==="boolean") return '<label class="field friendly-check"><span>'+escapeHtml(label)+'</span><input type="checkbox" id="'+id+'" data-friendly-key="'+escapeHtml(key)+'" '+(value?"checked":"")+'></label>';
+            return '<label class="field"><span>'+escapeHtml(label)+'</span><input id="'+id+'" data-friendly-key="'+escapeHtml(key)+'" type="'+(typeof value==="number"?"number":"text")+'" '+(typeof value==="number"?'step="any"':'')+' value="'+escapeHtml(value??"")+'"></label>';
+          }).join("");
+          host.querySelectorAll("[data-friendly-key]").forEach(input=>input.addEventListener("input",()=>{friendlyDirty=true;}));
+          host.querySelectorAll("[data-friendly-key]").forEach(input=>input.addEventListener("change",()=>{friendlyDirty=true;}));
+        }
+        function friendlyApplyFields() {
+          const selected=friendlyFieldsFor();
+          if(!selected.object || typeof selected.object!=="object" || Array.isArray(selected.object)) throw Error("Choose a record with editable fields first.");
+          for(const input of friendlyEl("friendly-fields").querySelectorAll("[data-friendly-key]")){
+            const key=input.dataset.friendlyKey, old=selected.object[key];
+            let value;
+            if(typeof old==="boolean") value=input.checked;
+            else if(typeof old==="number") {
+              if(input.value.trim()==="") throw Error("Please fill the "+key+" field or reload the saved values.");
+              value=Number(input.value);
+              if(!Number.isFinite(value)) throw Error(key+" must be a valid number.");
+            } else value=input.value;
+            selected.object[key]=value;
+          }
+          friendlyDirty=false;
+        }
+        async function friendlyLoad() {
+          const kind=friendlyEl("friendly-kind").value;
+          const fileKind=kind==="death"?"death":"stats";
+          friendlyEl("friendly-refresh").disabled=true;
+          friendlyEl("friendly-save").disabled=true;
+          friendlySetStatus("Loading the latest saved "+(fileKind==="death"?"Death Overs archive":"Stats & career data")+"…");
+          try {
+            const result=await api("/api/admin/data-editor?kind="+fileKind);
+            if(fileKind==="death") {
+              friendlyRoot=friendlyRoot||{};
+              friendlyRoot.__deathData=result.data;
+            } else friendlyRoot=result.data;
+            friendlyLoadedKind=kind;
+            friendlyDirty=false;
+            friendlyRefreshChoices();
+            friendlySetStatus("Loaded successfully. Choose a section and edit the visible fields; nested arrays and other formats are preserved.");
+          } catch(err) { friendlySetStatus(err.message,true); }
+          finally { friendlyEl("friendly-refresh").disabled=false; friendlyEl("friendly-save").disabled=false; }
+        }
+        async function friendlySave() {
+          const kind=friendlyEl("friendly-kind").value;
+          const fileKind=kind==="death"?"death":"stats";
+          if(friendlyLoadedKind!==kind) { friendlySetStatus("Load the latest saved file before editing this section.",true); return; }
+          try {
+            friendlyApplyFields();
+            const root=fileKind==="death"?friendlyRoot.__deathData:friendlyRoot;
+            const button=friendlyEl("friendly-save");
+            button.disabled=true;
+            friendlySetStatus("Validating and saving selected changes to GitHub…");
+            const result=await api("/api/admin/data-editor",{method:"POST",body:JSON.stringify({kind:fileKind,data:root})});
+            friendlySetStatus("Saved "+result.path+" successfully. Commit: "+(result.commit||"created")+". Cloudflare Pages will deploy it.");
+          } catch(err) { friendlySetStatus(err.message,true); }
+          finally { friendlyEl("friendly-save").disabled=false; }
+        }
+        friendlyEl("friendly-kind").addEventListener("change",async()=>{
+          friendlyRoot=null; friendlyLoadedKind=""; friendlyDirty=false;
+          await friendlyLoad();
+        });
+        friendlyEl("friendly-format").addEventListener("change",friendlyRefreshChoices);
+        friendlyEl("friendly-record").addEventListener("change",friendlyRefreshChoices);
+        friendlyEl("friendly-refresh").addEventListener("click",friendlyLoad);
+        friendlyEl("friendly-save").addEventListener("click",friendlySave);
         const editorPaths = {
           stats: "data/site-data.json",
           death: "data/death-overs.json",
