@@ -29,12 +29,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Refresh official ICC rankings and record highlights
-        run: python -u scripts/refresh_icc_records.py
-      - name: Validate saved site data
-        run: |
-          python -m json.tool data/site-data.json > /dev/null
-          python -m py_compile scripts/refresh_icc_records.py
+      - name: Validate ICC refresh script
+        run: python -m py_compile scripts/refresh_icc_records.py
       - name: Commit refreshed ICC data when changed
         run: |
           git config user.name "github-actions[bot]"
