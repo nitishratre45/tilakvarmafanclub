@@ -4875,7 +4875,6 @@ body[data-theme="light"] #stats #stats-overview .data-line,
   }
 }
 
-
 /* MATCH CENTRE — isolated third-party live-score widget */
 .mc-widget-panel {
   display: grid;
@@ -4897,7 +4896,9 @@ body[data-theme="light"] #stats #stats-overview .data-line,
   font-size: clamp(22px, 2.5vw, 32px);
   line-height: 1.15;
 }
-.mc-widget-copy h3 em { color: var(--orange, #ff6a35); }
+.mc-widget-copy h3 em {
+  color: var(--orange, #ff6a35);
+}
 .mc-widget-copy p {
   max-width: 620px;
   margin: 0;
@@ -4933,5 +4934,7 @@ body[data-theme="light"] #stats #stats-overview .data-line,
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .mc-widget-panel { scroll-behavior: auto; }
+  .mc-widget-panel {
+    scroll-behavior: auto;
+  }
 }
