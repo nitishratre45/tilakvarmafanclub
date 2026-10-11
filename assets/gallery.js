@@ -231,31 +231,31 @@
       (filtered.length
         ? '<div class="tv-album-grid">' +
           visible
-        .map(
-          (album, index) =>
-            '<button type="button" class="tv-album-card" data-album-index="' +
-            index +
-            '"><span class="tv-album-cover"><img src="' +
-            album.cover.safe +
-            '" alt="" loading="lazy" decoding="async"><span class="tv-album-count">' +
-            album.photos.length +
-            " PHOTO" +
-            (album.photos.length === 1 ? "" : "S") +
-            '</span><span class="tv-album-open">EXPLORE PHOTOS ↗</span></span><span class="tv-album-info"><strong>' +
-            esc(album.name) +
-            "</strong><small>" +
-            esc(
-              album.uploadDate
-                ? new Date(album.uploadDate).toLocaleDateString("en-IN", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                  })
-                : "Date unavailable",
-            ) +
-            "</small></span></button>",
-        )
-        .join("") +
+            .map(
+              (album, index) =>
+                '<button type="button" class="tv-album-card" data-album-index="' +
+                index +
+                '"><span class="tv-album-cover"><img src="' +
+                album.cover.safe +
+                '" alt="" loading="lazy" decoding="async"><span class="tv-album-count">' +
+                album.photos.length +
+                " PHOTO" +
+                (album.photos.length === 1 ? "" : "S") +
+                '</span><span class="tv-album-open">EXPLORE PHOTOS ↗</span></span><span class="tv-album-info"><strong>' +
+                esc(album.name) +
+                "</strong><small>" +
+                esc(
+                  album.uploadDate
+                    ? new Date(album.uploadDate).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })
+                    : "Date unavailable",
+                ) +
+                "</small></span></button>",
+            )
+            .join("") +
           "</div>"
         : '<div class="bcci-photo-empty"><span class="bcci-photo-mark">72</span><div><strong>No albums match these filters</strong><p>Choose another year or month to see more Tilak Varma photo albums.</p></div></div>') +
       (filtered.length > visibleAlbumCount
