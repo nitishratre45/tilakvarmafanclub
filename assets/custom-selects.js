@@ -18,7 +18,7 @@
     if (label) {
       const clone = label.cloneNode(true);
       clone.querySelectorAll("select, option, script, style").forEach((node) => node.remove());
-      const text = clone.textContent.replace(/\\s+/g, " ").trim();
+      const text = clone.textContent.replace(/\s+/g, " ").trim();
       if (text) return text;
     }
     return select.id.replace(/[-_]/g, " ") || "Choose an option";
