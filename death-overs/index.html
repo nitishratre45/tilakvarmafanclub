@@ -1935,55 +1935,45 @@
           );
         }
         function unavailable(msg) {
-          [
-            "runs",
-            "balls",
-            "boundaries",
-            "sr",
-            "total-runs",
-            "total-innings",
-            "total-balls",
-            "overall-sr",
-            "coverage-balls",
-            "coverage-matches",
-            "coverage-innings",
-            "coverage-overs",
-          ].forEach((id) => {
+          ["runs", "balls", "boundaries", "sr", "single-runs", "single-balls", "single-boundaries", "single-sr"].forEach((id) => {
             const el = document.getElementById(id);
             if (el) el.textContent = "—";
           });
-          document.getElementById("total-runs").textContent = fmt(t.runs);
-          document.getElementById("total-innings").textContent = fmt(
-            d?.inningsFound || innings.length,
-          );
-          document.getElementById("total-balls").textContent = fmt(t.balls);
-          document.getElementById("overall-sr").textContent = t.balls
-            ? ((t.runs * 100) / t.balls).toFixed(2)
-            : "—";
-          document.getElementById("feed-status").textContent = innings.length
-            ? "STATS LOADED"
-            : "NO DATA FOR FORMAT/YEAR";
-          document.getElementById("last-refresh").textContent =
-            root.updatedAt || "Timestamp unavailable";
+          document.getElementById("coverage-summary-text").textContent = msg || "Match data unavailable";
+          document.getElementById("status").textContent = msg || "Data unavailable";
+          document.getElementById("feed-status").textContent = "FEED UNAVAILABLE";
+        }
+        function snapshot() {
+          const d = data(),
+            innings = d?.innings || [],
+            overs = innings.flatMap((i) => i.overs || []),
+            totals = overs.reduce((s, o) => {
+              for (const k of ["runs", "balls", "fours", "sixes"]) s[k] += +(o[k] || 0);
+              return s;
+            }, { runs: 0, balls: 0, fours: 0, sixes: 0 }),
+            matchCount = new Set(innings.map((i) => i.matchId || i.date + "|" + i.teams)).size;
+          document.getElementById("coverage-summary-text").textContent =
+            (d?.label || names[active]) + " · " + fmt(matchCount) + " matches · " +
+            fmt(totals.runs) + " runs · " + fmt(totals.fours) + " fours · " +
+            fmt(totals.sixes) + " sixes · " + (year.value === "all" ? "all years" : year.value);
+          document.getElementById("total-runs").textContent = fmt(totals.runs);
+          document.getElementById("total-innings").textContent = fmt(d?.inningsFound || innings.length);
+          document.getElementById("total-balls").textContent = fmt(totals.balls);
+          document.getElementById("overall-sr").textContent = totals.balls
+            ? ((totals.runs * 100) / totals.balls).toFixed(2) : "—";
+          document.getElementById("feed-status").textContent = innings.length ? "STATS LOADED" : "NO DATA FOR FORMAT/YEAR";
+          document.getElementById("last-refresh").textContent = root?.updatedAt || "Timestamp unavailable";
           if (timer) clearInterval(timer);
-          const stamp = Date.parse(
-            String(root.updatedAt || "")
-              .replace(" UTC", "Z")
-              .replace(" ", "T"),
-          );
+          const stamp = Date.parse(String(root?.updatedAt || "").replace(" UTC", "Z").replace(" ", "T"));
           function tick() {
             if (!Number.isFinite(stamp)) {
               document.getElementById("next-refresh").textContent = "Every 12 hours";
               return;
             }
             const ms = Math.max(0, stamp + REFRESH - Date.now());
-            document.getElementById("next-refresh").textContent =
-              ms === 0
-                ? "Refresh window reached"
-                : Math.floor(ms / 3600000) +
-                  "h " +
-                  Math.floor((ms % 3600000) / 60000) +
-                  "m remaining";
+            document.getElementById("next-refresh").textContent = ms === 0
+              ? "Refresh window reached"
+              : Math.floor(ms / 3600000) + "h " + Math.floor((ms % 3600000) / 60000) + "m remaining";
           }
           tick();
           timer = setInterval(tick, 60000);
