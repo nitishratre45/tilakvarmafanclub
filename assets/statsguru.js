@@ -755,8 +755,10 @@
     const allFormatsSelected = selectedFormat === "All";
     const categoryGrid = document.querySelector(".statsguru-category-grid");
     const analysisPanel = document.querySelector(".statsguru-panel");
+    const analysisMenu = document.querySelector(".player-analysis-filter");
     if (categoryGrid) categoryGrid.style.display = allFormatsSelected ? "none" : "";
     if (analysisPanel) analysisPanel.style.display = allFormatsSelected ? "none" : "";
+    if (analysisMenu) analysisMenu.style.display = allFormatsSelected ? "none" : "";
     const type = activeBreakdownFilter,
       value = activeBreakdownValue,
       group = selectedGroup(source);
