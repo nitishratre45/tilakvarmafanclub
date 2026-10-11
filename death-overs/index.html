@@ -706,6 +706,60 @@
         }
       }
 
+      .detail-panel {
+        margin-top: 24px;
+        padding: clamp(14px, 2.5vw, 22px);
+        border: 1px solid rgba(111, 160, 205, 0.22);
+        background: rgba(5, 16, 30, 0.7);
+        min-width: 0;
+      }
+      .detail-heading {
+        display: flex; align-items: end; justify-content: space-between;
+        gap: 12px; margin-bottom: 16px;
+      }
+      .detail-heading h3 {
+        margin: 8px 0 0; color: #f4f8ff;
+        font: 800 clamp(20px, 3vw, 28px)/1 var(--display);
+      }
+      .detail-heading h3 em { color: #ff9e36; font-style: normal; }
+      .detail-heading > span {
+        color: #8fa9c5; font: 10px/1.6 var(--mono); text-align: right;
+      }
+      .over-breakdown {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 9px;
+      }
+      .breakdown-card {
+        min-width: 0; padding: 13px; border: 1px solid rgba(111, 160, 205, .2);
+        background: linear-gradient(145deg, #10243a, #081525);
+      }
+      .breakdown-card strong {
+        display: block; margin: 7px 0; color: #ff9e36; font: 800 26px/1 var(--display);
+      }
+      .breakdown-card small, .breakdown-card span { display: block; color: #a9bdd3; font: 10px/1.7 var(--mono); }
+      .breakdown-card .over-label { color: #6de0f5; letter-spacing: .08em; }
+      .ball-log { display: grid; gap: 12px; }
+      .ball-over-group { padding: 13px; border: 1px solid rgba(111, 160, 205, .2); background: #081525; }
+      .ball-over-title {
+        display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+        margin-bottom: 12px; color: #eaf3ff; font: 700 11px/1.6 var(--mono);
+      }
+      .ball-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+      .ball-pill {
+        display: grid; place-items: center; gap: 4px; width: 54px; min-height: 58px; padding: 7px 4px;
+        border: 1px solid #29425d; border-radius: 8px; background: #10243a; color: #f4f8ff;
+        font: 800 16px/1 var(--display);
+      }
+      .ball-pill small { color: #9bb0c8; font: 9px var(--mono); }
+      .ball-pill.boundary { border-color: #ff9e36; background: rgba(255,158,54,.13); color: #ffb05a; }
+      .ball-pill.six { border-color: #65e0f1; background: rgba(101,224,241,.12); color: #7ce5f2; }
+      .ball-pill.wicket { border-color: #ff6a76; background: rgba(255,106,118,.13); color: #ff9ba4; }
+      @media (max-width: 600px) {
+        .detail-heading { align-items: start; }
+        .over-breakdown { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .breakdown-card { padding: 11px; }
+        .ball-pill { width: 46px; min-height: 54px; }
+      }
+
       /* Embedded Stats tab: render only the death-overs tool, not a second full website. */
       html.death-embed,
       html.death-embed body {
@@ -1393,6 +1447,10 @@
                 >LAST OVER
                 <select id="last-over"></select>
               </label>
+              <label for="ball-over"
+                >BALL-BY-BALL OVER
+                <select id="ball-over"></select>
+              </label>
               <button class="calculate-button" id="calculate" type="button">
                 CALCULATE RANGE ↗
               </button>
@@ -1415,6 +1473,32 @@
                 <small>STRIKE RATE</small>
                 <strong id="sr">—</strong>
               </article>
+            </div>
+
+            <div class="detail-panel">
+              <div class="detail-heading">
+                <div>
+                  <div class="section-kicker">OVER-BY-OVER</div>
+                  <h3>FULL <em>OVER DATA</em></h3>
+                </div>
+                <span id="breakdown-summary">Selected range</span>
+              </div>
+              <div id="over-breakdown" class="over-breakdown" aria-live="polite">
+                <div class="empty-state">Loading over totals…</div>
+              </div>
+            </div>
+
+            <div class="detail-panel ball-panel">
+              <div class="detail-heading">
+                <div>
+                  <div class="section-kicker">DELIVERY LOG</div>
+                  <h3>BALL BY <em>BALL</em></h3>
+                </div>
+                <span id="ball-summary">Select an over</span>
+              </div>
+              <div id="ball-log" class="ball-log" aria-live="polite">
+                <div class="empty-state">Loading ball-by-ball data…</div>
+              </div>
             </div>
 
             <p class="calculator-status" id="status" role="status">Loading stats…</p>
@@ -1461,6 +1545,7 @@
           year = document.querySelector("#year-filter"),
           first = document.querySelector("#first-over"),
           last = document.querySelector("#last-over"),
+          ballOver = document.querySelector("#ball-over"),
           button = document.querySelector("#calculate");
         let root = null,
           active = "t20i",
@@ -1495,15 +1580,19 @@
         function options(max = 20) {
           const a = Number(first.value) || (max === 20 ? 16 : Math.max(1, max - 4)),
             b = Number(last.value) || max;
+          const detailValue = Number(ballOver?.value) || max;
           first.replaceChildren();
           last.replaceChildren();
+          ballOver?.replaceChildren();
           for (let n = 1; n <= max; n++) {
             first.add(new Option(n, n));
             last.add(new Option(n, n));
+            ballOver?.add(new Option("OVER " + n, n));
           }
           first.value = Math.min(a, max);
           last.value = Math.min(b, max);
           if (+first.value > +last.value) last.value = first.value;
+          if (ballOver) ballOver.value = String(Math.min(detailValue, max));
         }
         function yearOptions() {
           const d = rawData(),
@@ -1582,6 +1671,8 @@
           document.getElementById("sr").textContent = t.balls
             ? ((t.runs * 100) / t.balls).toFixed(2)
             : "—";
+          renderBreakdown(d, a, b);
+          renderBallLog(d);
           document.getElementById("status").textContent =
             "FORMAT " +
             (d.label || names[active]) +
@@ -1595,6 +1686,62 @@
             fmt(d.matchesFound) +
             " MATCHES · UPDATED " +
             (root.updatedAt || "TIME UNKNOWN");
+        }
+        function renderBreakdown(d, a, b) {
+          const box = document.getElementById("over-breakdown");
+          if (!d?.innings?.length) {
+            box.innerHTML = '<div class="empty-state">No over totals for this format/year.</div>';
+            return;
+          }
+          const totals = new Map();
+          for (let n = a; n <= b; n++) totals.set(n, { over: n, runs: 0, balls: 0, fours: 0, sixes: 0 });
+          for (const innings of d.innings) {
+            for (const over of innings.overs || []) {
+              const n = +over.over;
+              if (!totals.has(n)) continue;
+              const t = totals.get(n);
+              for (const k of ["runs", "balls", "fours", "sixes"]) t[k] += +(over[k] || 0);
+            }
+          }
+          box.innerHTML = [...totals.values()].map(t =>
+            '<article class="breakdown-card"><span class="over-label">OVER ' + t.over +
+            '</span><strong>' + fmt(t.runs) + ' RUNS</strong><small>' + fmt(t.balls) +
+            ' balls · ' + fmt(t.fours) + ' fours · ' + fmt(t.sixes) +
+            ' sixes</small><span>SR ' + (t.balls ? (t.runs * 100 / t.balls).toFixed(2) : "—") +
+            '</span></article>'
+          ).join("");
+          document.getElementById("breakdown-summary").textContent =
+            "Overs " + a + "–" + b + " · " + (year.value === "all" ? "all years" : year.value);
+        }
+        function renderBallLog(d) {
+          const box = document.getElementById("ball-log");
+          const selectedOver = +(ballOver?.value || last.value || 20);
+          const rows = (d?.innings || []).filter(i => (i.overs || []).some(o =>
+            +o.over === selectedOver && Array.isArray(o.deliveries) && o.deliveries.length
+          ));
+          document.getElementById("ball-summary").textContent =
+            "Over " + selectedOver + " · " + rows.length + " innings";
+          if (!rows.length) {
+            box.innerHTML = '<div class="empty-state">Ball-by-ball detail will appear after the next successful data refresh for this format. Existing over totals remain available above.</div>';
+            return;
+          }
+          box.innerHTML = rows.slice(0, 80).map(innings => {
+            const over = (innings.overs || []).find(o => +o.over === selectedOver);
+            const balls = over?.deliveries || [];
+            return '<article class="ball-over-group"><div class="ball-over-title"><span>' +
+              esc(innings.date || "Date unavailable") + ' · ' + esc(innings.opposition || innings.teams || "Match") +
+              '</span><span>' + fmt(over.runs) + ' runs · ' + fmt(over.balls) + ' balls · ' +
+              fmt(over.fours) + ' fours · ' + fmt(over.sixes) + ' sixes</span></div><div class="ball-pills">' +
+              balls.map(ball => {
+                const label = ball.wicket ? "W" : ball.six ? "6" : ball.four ? "4" :
+                  (+(ball.batterRuns || 0) === 0 ? "·" : String(ball.batterRuns));
+                const cls = ball.wicket ? " wicket" : ball.six ? " six" : ball.four ? " boundary" : "";
+                const note = ball.wide ? "WD" : ball.noBall ? "NB" : "B" + ball.ball;
+                return '<span class="ball-pill' + cls + '" title="Batter ' + fmt(ball.batterRuns) +
+                  ' runs; total ' + fmt(ball.totalRuns) + '"><span>' + label +
+                  '</span><small>' + note + '</small></span>';
+              }).join("") + '</div></article>';
+          }).join("");
         }
         function snapshot() {
           const d = data(),
@@ -1761,6 +1908,7 @@
           calculate();
         });
         button.addEventListener("click", calculate);
+        ballOver?.addEventListener("change", () => renderBallLog(data()));
         first.addEventListener("change", calculate);
         last.addEventListener("change", calculate);
         load();
