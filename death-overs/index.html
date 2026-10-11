@@ -1894,6 +1894,44 @@
           margin-top: 0 !important;
         }
       }
+
+      /* Analyser heading: keep the helper sentence directly under the title, not floating mid-row. */
+      .stats-section[style] .section-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 42%);
+        align-items: end;
+        column-gap: clamp(20px, 3vw, 42px);
+        row-gap: 10px;
+      }
+      .stats-section[style] .analyser-heading-copy {
+        min-width: 0;
+      }
+      .stats-section[style] .analyser-heading-copy .section-copy {
+        margin-top: 10px;
+        max-width: 44ch;
+        font-size: 14px;
+        line-height: 1.65;
+        color: #b8c8dc;
+      }
+      .stats-section[style] .coverage-summary-line {
+        justify-self: end;
+        margin: 0 0 3px;
+      }
+      @media (max-width: 760px) {
+        .stats-section[style] .section-head {
+          grid-template-columns: minmax(0, 1fr);
+          align-items: start;
+          gap: 12px;
+        }
+        .stats-section[style] .analyser-heading-copy .section-copy {
+          margin-top: 8px;
+          font-size: 13px;
+        }
+        .stats-section[style] .coverage-summary-line {
+          justify-self: stretch;
+          margin: 0;
+        }
+      }
     </style>
   </head>
   <body>
@@ -2035,11 +2073,11 @@
       <section class="stats-section" style="padding-top: 0">
         <div class="page-shell">
           <div class="section-head">
-            <div>
+            <div class="analyser-heading-copy">
               <div class="section-kicker">INTERACTIVE TOOL</div>
               <h2 class="section-title">DEATH-OVERS <em>ANALYSER.</em></h2>
+              <p class="section-copy">Choose a format, season and over range.</p>
             </div>
-            <p class="section-copy">Choose a format, season and over range.</p>
             <div class="coverage-summary-line" aria-live="polite">
               <span class="coverage-mini-kicker">DATA</span>
               <strong id="coverage-summary-text">Loading match data…</strong>
