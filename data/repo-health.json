@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-11T20:58:54+00:00",
+  "checkedAt": "2026-10-11T23:42:42+00:00",
   "intervalMinutes": 10,
   "status": "warning",
   "summary": {
-    "filesScanned": 91,
-    "checksPassed": 51,
+    "filesScanned": 99,
+    "checksPassed": 55,
     "issues": 0,
-    "warnings": 6
+    "warnings": 7
   },
   "items": [
     {
       "level": "warning",
-      "message": "81 repeated CSS selector(s); review cascade/overrides: .sidebar (13x), .topbar (12x), .stats (12x), .stat (11x), .section-head (11x), .main (10x), .hero (9x), .section-body (9x)",
+      "message": "84 repeated CSS selector(s); review cascade/overrides: .sidebar (13x), .topbar (13x), .main (12x), .stats (12x), .stat (11x), .section-head (11x), .hero (9x), .section-body (9x)",
       "file": "admin/admin-premium.css"
     },
     {
@@ -27,7 +27,7 @@
     },
     {
       "level": "warning",
-      "message": "50 repeated CSS selector(s); review cascade/overrides: #profile .profile-data-grid (6x), #profile .profile-photo-wrap (5x), #profile .profile-copy h2 (5x), .section (4x), #profile .profile-intro (4x), #profile .profile-quick-actions .button (4x), #profile .profile-facts (4x), #profile .profile-teams-panel (4x)",
+      "message": "54 repeated CSS selector(s); review cascade/overrides: #profile .profile-data-grid (6x), #profile .profile-photo-wrap (5x), #profile .profile-copy h2 (5x), .section (4x), #profile .profile-intro (4x), #profile .profile-quick-actions .button (4x), #profile .profile-facts (4x), #profile .profile-teams-panel (4x)",
       "file": "assets/site-refinement.css"
     },
     {
@@ -39,6 +39,11 @@
       "level": "warning",
       "message": "15 repeated CSS selector(s); review cascade/overrides: #tv-gallery-hub .tv-album-grid (4x), #tv-gallery-hub .tv-gallery-toolbar (3x), #tv-gallery-hub .tv-album-photo-grid (3x), #tv-gallery-hub #tv-gallery-grid > .tv-album-grid (3x), #tv-gallery-hub .tv-gallery-hub__shell (2x), #tv-gallery-hub .tv-gallery-hub__header (2x), #tv-gallery-hub #tv-gallery-hub-title (2x), #tv-gallery-hub .tv-gallery-filters (2x)",
       "file": "assets/tv-gallery-hub.css"
+    },
+    {
+      "level": "warning",
+      "message": "Local asset path escapes repository: /manifest.json",
+      "file": "index.html"
     },
     {
       "level": "pass",
@@ -158,12 +163,22 @@
     {
       "level": "pass",
       "message": "Valid JSON",
+      "file": "data/automation-repo-monitor.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
       "file": "data/death-overs.json"
     },
     {
       "level": "pass",
       "message": "Valid JSON",
       "file": "data/fan-zone.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "data/job-recovery-manager.json"
     },
     {
       "level": "pass",
@@ -242,6 +257,11 @@
     },
     {
       "level": "pass",
+      "message": "Valid JSON",
+      "file": "manifest.json"
+    },
+    {
+      "level": "pass",
       "message": "Python syntax OK",
       "file": "scripts/admin_diagnostics.py"
     },
@@ -294,6 +314,11 @@
       "level": "pass",
       "message": "Python syntax OK",
       "file": "scripts/repo_health_monitor.py"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "sw.js"
     }
   ],
   "autoRepair": {
@@ -301,6 +326,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "0ae00aa"
+    "branch": "6ef006b"
   }
 }
