@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-11T21:53:50.234Z",
+  "checkedAt": "2026-10-11T21:54:00.944Z",
   "retentionHours": 15,
   "events": [
     {
@@ -625,6 +625,42 @@
         "skipped": 0
       },
       "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-11T21:54:00.944Z",
+      "workflow": "Auto-rerun failed GitHub Actions jobs",
+      "workflowPath": ".github/workflows/auto-rerun-failed.yml",
+      "runId": 38178223698,
+      "runAttempt": 1,
+      "conclusion": "failure",
+      "event": "workflow_run",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38178223698",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Retry failed jobs once",
+          "conclusion": "failure",
+          "startedAt": "2026-10-11T21:53:45Z",
+          "completedAt": "2026-10-11T21:53:50Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38178223698/job/114585039821",
+          "steps": [
+            {
+              "name": "Re-run only failed jobs",
+              "conclusion": "failure",
+              "number": 2
+            }
+          ]
+        }
+      ]
     }
   ]
 }
