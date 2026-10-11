@@ -156,7 +156,10 @@ export async function onRequestPost({ request, env }) {
     }
   }
   if (typeof body.expectedSha !== "string" || !body.expectedSha)
-    return json({ error: "Missing saved file version. Reload the latest data before saving." }, 400);
+    return json(
+      { error: "Missing saved file version. Reload the latest data before saving." },
+      400,
+    );
   const validationError = validate(kind, data);
   if (validationError) return json({ error: validationError }, 400);
   const encoded = JSON.stringify(data);
