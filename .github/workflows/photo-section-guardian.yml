@@ -1,0 +1,58 @@
+name: Photo Section Guardian
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "data/admin-media.json"
+      - "assets/gallery.js"
+      - "assets/premium-ui.css"
+      - "index.html"
+      - "scripts/photo-section-guardian.mjs"
+      - "tests/photo-section-guardian.test.mjs"
+      - ".github/workflows/photo-section-guardian.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: photo-section-guardian-main
+  cancel-in-progress: false
+
+jobs:
+  audit-and-repair:
+    name: Audit and safely repair photo library
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test guardian safety rules
+        run: node --test tests/photo-section-guardian.test.mjs
+      - name: Validate gallery and audit media
+        run: |
+          test -f index.html
+          test -f assets/gallery.js
+          test -f assets/premium-ui.css
+          node --check scripts/photo-section-guardian.mjs
+          node scripts/photo-section-guardian.mjs
+      - name: Commit safe URL-only repairs
+        run: |
+          if ! git diff --quiet -- data/admin-media.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/admin-media.json
+            git commit -m "chore: repair exact duplicate photo URLs"
+            git push
+          else
+            echo "No safe photo metadata repairs needed."
+          fi
