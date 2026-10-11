@@ -323,6 +323,34 @@
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 12px;
       }
+      .missing-data-panel {
+        margin: 0 0 22px;
+        padding: 18px 20px;
+        border: 1px solid rgba(72, 192, 219, .24);
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(17, 39, 58, .96), rgba(7, 17, 31, .96));
+        min-width: 0;
+      }
+      .missing-data-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:14px; }
+      .missing-data-heading h3 { margin:5px 0 6px; font-size:clamp(17px,2vw,23px); letter-spacing:-.04em; }
+      .missing-data-heading h3 em { color:#ff9945; font-style:normal; }
+      .missing-data-heading p, .missing-data-note { margin:0; color:#a9bbcf; font-size:12px; line-height:1.55; }
+      #missing-data-count { flex:0 0 auto; color:#5ed9ed; font-size:11px; font-weight:800; }
+      .missing-data-table-wrap { max-width:100%; overflow-x:auto; border:1px solid rgba(122,164,196,.17); border-radius:10px; }
+      .missing-data-table { width:100%; min-width:620px; border-collapse:collapse; font-size:12px; }
+      .missing-data-table th { padding:10px 12px; text-align:left; background:rgba(4,13,25,.72); color:#8fa9c4; font-size:10px; letter-spacing:.08em; white-space:nowrap; }
+      .missing-data-table td { padding:10px 12px; border-top:1px solid rgba(122,164,196,.12); color:#eaf2fc; white-space:nowrap; }
+      .missing-data-table td:nth-child(n+4) { font-variant-numeric:tabular-nums; font-weight:750; }
+      .missing-data-table tbody tr:hover { background:rgba(49,114,149,.12); }
+      .missing-data-table .missing-empty { color:#a9bbcf; text-align:center; padding:18px; white-space:normal; }
+      .missing-data-note { margin-top:10px; font-size:11px; }
+      @media (max-width:640px) {
+        .missing-data-panel { padding:14px 12px; }
+        .missing-data-heading { align-items:flex-start; flex-direction:column; gap:8px; }
+        .missing-data-table { font-size:11px; }
+        .missing-data-table th, .missing-data-table td { padding:9px 10px; }
+      }
+
       .coverage-summary-line {
         display: flex;
         align-items: center;
@@ -2084,6 +2112,24 @@
             </div>
           </div>
 
+          <section class="missing-data-panel" aria-labelledby="missing-data-title">
+            <div class="missing-data-heading">
+              <div>
+                <div class="section-kicker">MATCH COVERAGE</div>
+                <h3 id="missing-data-title">MATCHES <em>WITHOUT BALL-BY-BALL</em></h3>
+                <p>Saved innings scores from the Explore data are shown here when delivery-level records are missing.</p>
+              </div>
+              <span id="missing-data-count">Checking coverage…</span>
+            </div>
+            <div class="missing-data-table-wrap">
+              <table class="missing-data-table">
+                <thead><tr><th>DATE</th><th>OPPOSITION</th><th>FORMAT</th><th>RUNS</th><th>BALLS</th><th>4s</th><th>6s</th></tr></thead>
+                <tbody id="missing-data-rows"><tr><td colspan="7">Checking saved innings…</td></tr></tbody>
+              </table>
+            </div>
+            <p class="missing-data-note">Only values available in saved Explore records are displayed. Missing values remain —; they are not estimated.</p>
+          </section>
+
           <div class="calculator-card">
             <div class="calculator-controls">
               <label for="data-format"
@@ -2297,6 +2343,92 @@
             /[&<>"']/g,
             (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
           );
+        }
+        const SITE_DATA_URL = "../data/site-data.json";
+        let siteSnapshot = null;
+        const normalizeMatchText = (value) => String(value || "")
+          .toLowerCase().replace(/\\bindia\\s+vs\\s+/g, "").replace(/^\\s*v\\s+/g, "")
+          .replace(/\\s+/g, " ").replace(/[^a-z0-9 ]/g, "").trim();
+        const dateKey = (value) => {
+          const raw = String(value || "").trim();
+          const parsed = Date.parse(raw);
+          if (Number.isFinite(parsed)) return new Date(parsed).toISOString().slice(0, 10);
+          const m = raw.match(/^(\\d{1,2})[ -]([A-Za-z]{3,})[ -](\\d{4})$/);
+          if (m) { const d = Date.parse(m[1] + " " + m[2] + " " + m[3]); if (Number.isFinite(d)) return new Date(d).toISOString().slice(0,10); }
+          return raw.slice(0, 10);
+        };
+        function rowFormat(row, fallback) {
+          const f = String(row?.format || row?.matchType || fallback || "").toLowerCase();
+          if (f === "t20i" || f.includes("international")) return "t20i";
+          if (f === "ipl") return "ipl";
+          if (f === "odi" || f === "list a") return "odi";
+          if (f === "test" || f === "fc" || f.includes("first-class")) return "test";
+          if (f === "t20") return "t20";
+          return f;
+        }
+        function getSavedScore(row) {
+          let runs = row?.runs;
+          if (runs == null || runs === "") {
+            const score = String(row?.score || "").match(/^\\s*(\\d+)/);
+            if (score) runs = Number(score[1]);
+          }
+          return {
+            runs: runs == null || runs === "" ? "—" : runs,
+            balls: row?.balls ?? row?.ballsFaced ?? "—",
+            fours: row?.fours ?? row?.4s ?? "—",
+            sixes: row?.sixes ?? "—"
+          };
+        }
+        function renderMissingCoverage() {
+          const count = document.getElementById("missing-data-count");
+          const body = document.getElementById("missing-data-rows");
+          if (!body || !count) return;
+          if (!siteSnapshot) {
+            count.textContent = "Explore data unavailable";
+            body.innerHTML = '<tr><td class="missing-empty" colspan="7">Saved Explore innings could not be loaded. Ball-by-ball totals are unchanged.</td></tr>';
+            return;
+          }
+          const selectedFormat = active;
+          const selectedYear = year?.value || "all";
+          const d = data();
+          const deliveryRows = d?.innings || [];
+          const hasBallByBall = (row) => {
+            const rd = dateKey(row.date);
+            const ro = normalizeMatchText(row.opposition || row.teams || row.match || "");
+            return deliveryRows.some((i) => dateKey(i.date) === rd && normalizeMatchText(i.opposition || i.teams || "") === ro);
+          };
+          const candidates = [];
+          const add = (row, format) => {
+            if (!row || !row.date || !(row.opposition || row.teams || row.match)) return;
+            const fmt = rowFormat(row, format);
+            if (fmt !== selectedFormat) return;
+            if (selectedYear !== "all" && String(row.date).slice(0,4) !== selectedYear) return;
+            if (hasBallByBall(row)) return;
+            candidates.push({ ...row, format: fmt });
+          };
+          (Array.isArray(siteSnapshot.playerMatches) ? siteSnapshot.playerMatches : []).forEach((r) => add(r, r.format));
+          for (const [fmt, entry] of Object.entries(siteSnapshot.statsguru?.formats || {})) {
+            (Array.isArray(entry?.innings) ? entry.innings : []).forEach((r) => add(r, fmt));
+          }
+          (Array.isArray(siteSnapshot.recentInnings) ? siteSnapshot.recentInnings : []).forEach((r) => add(r, r.format || "T20I"));
+          const unique = new Map();
+          for (const row of candidates) {
+            const key = dateKey(row.date) + "|" + normalizeMatchText(row.opposition || row.teams || row.match);
+            const old = unique.get(key);
+            if (!old || (Number(row.balls) || 0) > (Number(old.balls) || 0)) unique.set(key, row);
+          }
+          const rows = [...unique.values()].sort((a,b) => dateKey(b.date).localeCompare(dateKey(a.date)));
+          count.textContent = rows.length + " matches without delivery data";
+          if (!rows.length) {
+            body.innerHTML = '<tr><td class="missing-empty" colspan="7">No saved Explore innings found for this format/year without ball-by-ball records.</td></tr>';
+            return;
+          }
+          body.innerHTML = rows.slice(0,100).map((row) => {
+            const score = getSavedScore(row);
+            return '<tr><td>' + esc(row.date) + '</td><td>' + esc(row.opposition || row.teams || row.match || "—") +
+              '</td><td>' + esc(row.format.toUpperCase()) + '</td><td>' + esc(score.runs) + '</td><td>' + esc(score.balls) +
+              '</td><td>' + esc(score.fours) + '</td><td>' + esc(score.sixes) + '</td></tr>';
+          }).join("");
         }
         function unavailable(msg) {
           [
@@ -2655,6 +2787,7 @@
           options(active === "odi" ? 50 : active === "test" ? 90 : 20);
           snapshot();
           matches();
+          renderMissingCoverage();
           calculate();
           document.querySelector(".section-copy").textContent =
             "Selected: " +
@@ -2667,6 +2800,10 @@
             const r = await fetch(URL_DATA, { cache: "no-store" });
             if (!r.ok) throw Error("HTTP " + r.status);
             root = await r.json();
+            fetch(SITE_DATA_URL, { cache: "no-store" })
+              .then((response) => { if (!response.ok) throw new Error("Explore snapshot unavailable"); return response.json(); })
+              .then((snapshotData) => { siteSnapshot = snapshotData; renderMissingCoverage(); })
+              .catch(() => renderMissingCoverage());
             fs.replaceChildren();
             Object.entries(root.formats || {}).forEach(([k, v]) => {
               if (v && Array.isArray(v.innings) && v.innings.length)
@@ -2692,6 +2829,7 @@
         year.addEventListener("change", () => {
           snapshot();
           matches();
+          renderMissingCoverage();
           calculate();
         });
         button.addEventListener("click", calculate);
