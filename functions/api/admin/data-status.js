@@ -93,24 +93,6 @@ const DATASETS = [
     workflow: "refresh-bcci-videos.yml",
     required: false,
   },
-  {
-    id: "bcci-photo",
-    name: "Official BCCI profile photo",
-    file: "data/bcci-tilak-photo.json",
-    section: "photo",
-    intervalHours: 720,
-    workflow: "refresh-bcci-tilak-photo.yml",
-    required: false,
-  },
-  {
-    id: "cricinfo-photos",
-    name: "ESPNcricinfo photo gallery",
-    file: "data/cricinfo-photos.json",
-    section: "photos",
-    intervalHours: 24,
-    workflow: "refresh-cricinfo-photos.yml",
-    required: false,
-  },
 ];
 const headers = (env) => ({
   authorization: "Bearer " + env.GITHUB_TOKEN,
@@ -333,28 +315,6 @@ function getInfo(def, data) {
         .slice(0, 5)
         .map((x) => ({ title: x.title, publishedDate: x.publishedDate, format: x.format })),
       source: data.source || "BCCI official video feed",
-    };
-  if (def.id === "bcci-photo")
-    return {
-      updatedAt: data.updatedAt,
-      attemptAt: data.checkedAt,
-      attemptStatus: data.status,
-      errors: compactErrors(data.lastAttemptError),
-      count: data.image ? 1 : 0,
-      summary: { imageAvailable: Boolean(data.image), sourceUrl: data.sourceUrl },
-      source: data.source || "BCCI",
-      sourceUrl: data.sourceUrl,
-    };
-  if (def.id === "cricinfo-photos")
-    return {
-      updatedAt: data.updatedAt,
-      attemptAt: data.checkedAt,
-      attemptStatus: data.lastAttemptStatus || data.status,
-      errors: compactErrors(data.lastAttemptError),
-      count: Array.isArray(data.items) ? data.items.length : 0,
-      summary: { photos: Array.isArray(data.items) ? data.items.length : 0 },
-      source: data.source || "ESPNcricinfo",
-      sourceUrl: data.sourceUrl,
     };
   return { updatedAt: null, count: 0, summary: {}, errors: ["No dataset mapping configured"] };
 }
