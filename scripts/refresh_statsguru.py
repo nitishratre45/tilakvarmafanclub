@@ -742,7 +742,9 @@ def scrape_domestic_profile_summary(fmt):
                         "summary": summary,
                         "careerBreakdown": [],
                         "innings": [],
-                        "inningsCount": summary.get("innings") or summary.get("matches") or 0,
+                        "inningsCount": summary.get("innings")
+                        or summary.get("matches")
+                        or 0,
                         "source": source_name + " (summary only)",
                         "sourceUrl": url,
                         "detailStatus": "summary-only",
@@ -750,8 +752,11 @@ def scrape_domestic_profile_summary(fmt):
                         "checkedAt": stamp(),
                     }
     raise RuntimeError(
-        "No recognizable " + fmt + " summary row in NDTV Sports or the secondary profile feed"
+        "No recognizable "
+        + fmt
+        + " summary row in NDTV Sports or the secondary profile feed"
     )
+
 
 def parse_fielding_summary(page):
     """Parse the official Statsguru fielding career total when present."""
