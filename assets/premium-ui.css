@@ -9231,3 +9231,46 @@ footer > span:last-child {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* FIX: Stats format choices must wrap into rows on mobile; never make a horizontal scroller. */
+#stats #statsguru .statsguru-format-tabs {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  white-space: normal !important;
+  max-width: 100% !important;
+  scrollbar-width: none !important;
+  overscroll-behavior-x: auto !important;
+  -webkit-overflow-scrolling: auto !important;
+}
+#stats #statsguru .statsguru-format-tabs::-webkit-scrollbar {
+  display: none !important;
+}
+#stats #statsguru .statsguru-format-tabs button {
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+@media (max-width: 760px) {
+  #stats #statsguru .statsguru-format-tabs {
+    flex-wrap: wrap !important;
+    overflow: visible !important;
+    gap: 7px !important;
+    padding: 8px !important;
+    margin-inline: 0 !important;
+  }
+  #stats #statsguru .statsguru-format-tabs button {
+    flex: 0 1 auto !important;
+    min-height: 40px !important;
+    padding: 9px 10px !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+  #stats #statsguru .statsguru-format-tabs button[data-sg-format="T20"] {
+    flex: 1 1 145px !important;
+  }
+}
