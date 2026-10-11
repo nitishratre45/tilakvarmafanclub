@@ -530,7 +530,6 @@ def date_sort_key(value):
     return 0
 
 
-
 def infer_balls_from_strike_rate(summary):
     """Infer missing balls faced from runs and published strike rate.
 
