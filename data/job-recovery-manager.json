@@ -1,6 +1,53 @@
 {
   "schemaVersion": 1,
-  "checkedAt": null,
+  "checkedAt": "2026-10-11T21:44:06.158Z",
   "retentionHours": 15,
-  "events": []
+  "events": [
+    {
+      "checkedAt": "2026-10-11T21:44:06.158Z",
+      "workflow": "Validate Tilak Varma FC site",
+      "workflowPath": ".github/workflows/site-check.yml",
+      "runId": 38177568190,
+      "runAttempt": 1,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38177568190",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "validate",
+          "conclusion": "failure",
+          "startedAt": "2026-10-11T21:43:52Z",
+          "completedAt": "2026-10-11T21:43:58Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38177568190/job/114583080655",
+          "steps": [
+            {
+              "name": "Check page anchors and local asset references",
+              "conclusion": "failure",
+              "number": 6
+            },
+            {
+              "name": "Verify feature modules are linked",
+              "conclusion": "skipped",
+              "number": 7
+            },
+            {
+              "name": "Post Set up Node.js",
+              "conclusion": "skipped",
+              "number": 13
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
