@@ -9,6 +9,7 @@ const check = (name, fn) => checks.push({ name, fn });
 
 check("home loads without uncaught JavaScript exceptions", async () => {
   const page = await browser.newPage();
+  page.setDefaultTimeout(8000);
   const pageErrors = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
@@ -20,6 +21,7 @@ check("home loads without uncaught JavaScript exceptions", async () => {
 
 check("default appearance is dark", async () => {
   const page = await browser.newPage();
+  page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   const theme = await page.locator("html").getAttribute("data-theme");
   assert.equal(theme, "dark", "Expected dark theme by default");
@@ -28,6 +30,7 @@ check("default appearance is dark", async () => {
 
 check("section navigation switches content and keeps one main section visible", async () => {
   const page = await browser.newPage();
+  page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   await page.locator('#main-nav a[href="#stats"]').click();
   await page.waitForFunction(() => location.hash === "#stats");
@@ -43,6 +46,7 @@ check("section navigation switches content and keeps one main section visible", 
 
 check("Stats Explorer sub-tab responds", async () => {
   const page = await browser.newPage();
+  page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   await page.locator('#main-nav a[href="#stats"]').click();
   const tab = page.locator('#stats [data-stats-tab="statsguru"]');
@@ -54,6 +58,7 @@ check("Stats Explorer sub-tab responds", async () => {
 
 check("mobile navigation opens, scroll target works, and closes after selection", async () => {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   const button = page.locator(".menu-toggle");
   const nav = page.locator("#main-nav");
@@ -69,7 +74,9 @@ check("mobile navigation opens, scroll target works, and closes after selection"
 
 check("theme controls change and persist selected appearance", async () => {
   const page = await browser.newPage();
+  page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+  await page.locator('#main-nav a[href="#settings"]').click();
   const light = page.locator('[data-theme-choice="light"]');
   assert.equal(await light.count(), 1, "Light theme control missing");
   await light.click();
