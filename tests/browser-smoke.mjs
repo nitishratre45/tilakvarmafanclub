@@ -135,8 +135,30 @@ check("mobile photo gallery shows ten albums at a time and filters by year/month
     body: JSON.stringify({ items, albums: names, updatedAt: "2026-10-11T00:00:00.000Z" }),
   }));
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+  const menu = page.locator(".menu-toggle");
+  if (await menu.isVisible()) await menu.click();
   await page.locator('#main-nav a[href="#photos"]').click();
   await page.locator(".tv-gallery-year").waitFor();
+  const geometry = await page.evaluate(() => {
+    const rect = (selector) => {
+      const node = document.querySelector(selector);
+      if (!node) return null;
+      const box = node.getBoundingClientRect();
+      return { top: Math.round(box.top), bottom: Math.round(box.bottom), height: Math.round(box.height) };
+    };
+    return {
+      section: rect("#photos"),
+      gallery: rect("#photos > .cricinfo-gallery"),
+      toolbar: rect("#cricinfo-photo-grid > .tv-gallery-toolbar"),
+      firstAlbum: rect("#cricinfo-photo-grid .tv-album-card"),
+    };
+  });
+  assert(geometry.section && geometry.gallery && geometry.toolbar && geometry.firstAlbum,
+    "Photo gallery geometry is incomplete: " + JSON.stringify(geometry));
+  assert(geometry.gallery.top - geometry.section.top < 45,
+    "Unexpected blank gap above gallery: " + JSON.stringify(geometry));
+  assert(geometry.firstAlbum.top - geometry.toolbar.bottom < 36,
+    "Unexpected blank gap between filters and first album: " + JSON.stringify(geometry));
   assert.equal(await page.locator(".tv-album-card").count(), 10, "First page should show 10 albums");
   await page.locator(".tv-gallery-more").click();
   assert.equal(await page.locator(".tv-album-card").count(), 20, "More albums should reveal the next 10");
