@@ -8234,3 +8234,14 @@ textarea:focus-visible {
     font-size: 14px !important;
   }
 }
+
+
+/* Image visibility recovery: keep real image elements visible in both album cards and opened albums */
+#photos #cricinfo-photo-grid .tv-album-cover{position:relative!important;display:block!important;visibility:visible!important;opacity:1!important;overflow:hidden!important;background:#111d30!important}
+#photos #cricinfo-photo-grid .tv-album-cover img,
+#photos #cricinfo-photo-grid .tv-album-photo img{display:block!important;visibility:visible!important;opacity:1!important;max-width:none!important;max-height:none!important;filter:none!important;mix-blend-mode:normal!important}
+#photos #cricinfo-photo-grid .tv-album-cover img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;z-index:1!important}
+#photos #cricinfo-photo-grid .tv-album-photo img{position:static!important;width:100%!important;height:100%!important;object-fit:cover!important}
+#photos #cricinfo-photo-grid .tv-album-cover .tv-album-count,
+#photos #cricinfo-photo-grid .tv-album-cover .tv-album-open{position:absolute!important;z-index:2!important}
+#photos #cricinfo-photo-grid .tv-album-card{background:#0d1727!important}
