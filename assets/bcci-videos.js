@@ -7,6 +7,11 @@
   const thumbSelect = document.getElementById("bcci-thumb-quality");
   const status = document.getElementById("bcci-video-status");
   const modal = document.getElementById("bcci-video-player-modal");
+  // Mount the player directly under <body> to escape section-level
+  // filter/transform stacking contexts that can hide the panel on desktop.
+  if (modal && modal.parentElement !== document.body) {
+    document.body.appendChild(modal);
+  }
   const videoElement = document.getElementById("bcci-shaka-player");
   const titleElement = document.getElementById("bcci-playing-title");
   const errorElement = document.getElementById("bcci-player-error");
