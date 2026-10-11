@@ -1,0 +1,41 @@
+name: Admin data editor tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "functions/api/admin/data-editor.js"
+      - "functions/_lib/admin.js"
+      - "data/site-data.json"
+      - "data/death-overs.json"
+      - "tests/admin-data-editor.test.mjs"
+      - ".github/workflows/admin-data-editor-tests.yml"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: admin-data-editor-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  admin-data-editor:
+    name: Admin save validation and API safety
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test Admin data editor endpoints against saved snapshots
+        run: node --test tests/admin-data-editor.test.mjs
+      - name: Check Admin endpoint syntax
+        run: |
+          node --input-type=module --check < functions/api/admin/data-editor.js
+          node --input-type=module --check < functions/_lib/admin.js
