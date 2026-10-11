@@ -1391,3 +1391,14 @@ main > section[id] {
     animation: none !important;
   }
 }
+
+
+/* Profile cleanup: remove source panel and let team journey use the full row. */
+#profile .profile-teams-panel {
+  grid-column: 1 / -1;
+}
+@media (max-width: 620px) {
+  #profile .profile-teams-panel {
+    grid-column: 1;
+  }
+}
