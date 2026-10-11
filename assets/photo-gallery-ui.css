@@ -843,3 +843,179 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Archive browsing: year/month filters and progressive album pagination. */
+#photos .tv-gallery-toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 0 20px;
+  padding: 16px;
+  border: 1px solid rgba(132, 184, 235, 0.16);
+  border-radius: 16px;
+  background: rgba(4, 17, 32, 0.52);
+}
+#photos .tv-gallery-toolbar-copy {
+  display: flex;
+  min-width: 160px;
+  flex-direction: column;
+  gap: 3px;
+}
+#photos .tv-gallery-toolbar-copy .eyebrow {
+  color: var(--photo-cyan);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .15em;
+}
+#photos .tv-gallery-toolbar-copy strong {
+  color: #f4f8ff;
+  font-size: 16px;
+  line-height: 1.35;
+}
+#photos .tv-gallery-toolbar-copy small {
+  color: #9cb3cc;
+  font-size: 11px;
+}
+#photos .tv-gallery-filters {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+}
+#photos .tv-gallery-filters label {
+  display: flex;
+  min-width: 130px;
+  flex-direction: column;
+  gap: 5px;
+  color: #a9c0d9;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+#photos .tv-gallery-filters select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 30px 0 11px;
+  border: 1px solid rgba(132, 184, 235, .23);
+  border-radius: 10px;
+  background: #0a1b2f;
+  color: #f3f8ff;
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+#photos .tv-gallery-clear,
+#photos .tv-gallery-reset {
+  min-height: 42px;
+  padding: 0 13px;
+  border: 1px solid rgba(114, 226, 241, .28);
+  border-radius: 10px;
+  background: rgba(114, 226, 241, .06);
+  color: #b8f3fb;
+  font-size: 11px;
+  font-weight: 850;
+  cursor: pointer;
+}
+#photos .tv-gallery-clear:disabled {
+  opacity: .42;
+  cursor: default;
+}
+#photos .tv-gallery-more-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px 0 4px;
+}
+#photos .tv-gallery-more-wrap p,
+#photos .tv-gallery-end-note {
+  margin: 0;
+  color: #91a9c4;
+  font-size: 11px;
+  text-align: center;
+}
+#photos .tv-gallery-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 180px;
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid rgba(255, 116, 75, .5);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff8759, #ff6844);
+  color: #1b0a08;
+  font-size: 12px;
+  font-weight: 950;
+  cursor: pointer;
+  box-shadow: 0 9px 24px rgba(255, 104, 68, .13);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+#photos .tv-gallery-more:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 13px 28px rgba(255, 104, 68, .22);
+}
+#photos .tv-gallery-more span {
+  font-size: 17px;
+}
+#photos .tv-gallery-end-note {
+  padding: 22px 0 2px;
+}
+:root[data-theme-resolved="light"] #photos .tv-gallery-toolbar {
+  border-color: rgba(43, 86, 137, .18);
+  background: rgba(235, 245, 255, .72);
+}
+:root[data-theme-resolved="light"] #photos .tv-gallery-toolbar-copy strong {
+  color: #102b4d;
+}
+:root[data-theme-resolved="light"] #photos .tv-gallery-toolbar-copy small,
+:root[data-theme-resolved="light"] #photos .tv-gallery-more-wrap p,
+:root[data-theme-resolved="light"] #photos .tv-gallery-end-note {
+  color: #526985;
+}
+:root[data-theme-resolved="light"] #photos .tv-gallery-filters select {
+  background: #fff;
+  color: #102b4d;
+  border-color: #c5dcef;
+}
+:root[data-theme-resolved="light"] #photos .tv-gallery-clear,
+:root[data-theme-resolved="light"] #photos .tv-gallery-reset {
+  color: #12528f;
+  background: #edf6ff;
+  border-color: #c5dcef;
+}
+@media (max-width: 640px) {
+  #photos .tv-gallery-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 13px;
+    margin-bottom: 14px;
+    padding: 13px 11px;
+  }
+  #photos .tv-gallery-toolbar-copy strong {
+    font-size: 15px;
+  }
+  #photos .tv-gallery-filters {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 8px;
+  }
+  #photos .tv-gallery-filters label {
+    min-width: 0;
+  }
+  #photos .tv-gallery-filters select {
+    min-width: 0;
+    min-height: 44px;
+    font-size: 11px;
+  }
+  #photos .tv-gallery-clear {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+  #photos .tv-gallery-more {
+    width: min(100%, 320px);
+  }
+}
