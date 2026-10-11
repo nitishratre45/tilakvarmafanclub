@@ -3898,7 +3898,10 @@
             state.albums = Array.isArray(latest.albums)
               ? latest.albums.filter((name) => typeof name === "string" && name.trim())
               : ["General Photos"];
-            state.albumDates = latest.albumDates && typeof latest.albumDates === "object" ? latest.albumDates : state.albumDates;
+            state.albumDates =
+              latest.albumDates && typeof latest.albumDates === "object"
+                ? latest.albumDates
+                : state.albumDates;
             if (!state.albums.includes("General Photos")) state.albums.unshift("General Photos");
             renderAlbumOptions();
             renderAlbumManager();
