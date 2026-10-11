@@ -1,0 +1,60 @@
+name: Repository health monitor (10 minutes)
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/repo_health_monitor.py"
+      - ".github/workflows/repo-health-monitor.yml"
+permissions:
+  contents: write
+concurrency:
+  group: repo-health-monitor
+  cancel-in-progress: false
+jobs:
+  scan:
+    name: Scan code, UI references and data
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Scan repository
+        id: scan
+        continue-on-error: true
+        run: python scripts/repo_health_monitor.py
+      - name: Upload detailed scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-health-${{ github.run_number }}
+          path: data/repo-health.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Publish latest report to Admin Studio
+        if: always() && hashFiles('data/repo-health.json') != ''
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/repo-health.json
+          if git diff --cached --quiet; then
+            echo "Health report unchanged; no report commit needed."
+          else
+            git commit -m "chore: publish repository health report"
+            git push origin HEAD:main
+          fi
+      - name: Surface scan result
+        if: steps.scan.outcome == 'failure'
+        run: |
+          echo "::error::Repository health scan found errors. Open Admin Studio → Repository health, then inspect this workflow run."
+          exit 1
