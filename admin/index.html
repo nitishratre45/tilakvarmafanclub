@@ -1345,7 +1345,16 @@
               aria-hidden="true" /></span
           ><span>TILAK VARMA<small>FAN CLUB · ADMIN</small></span></a
         >
-        <button id="admin-mobile-menu" class="admin-mobile-menu" type="button" aria-controls="admin-nav" aria-expanded="false" aria-label="Open admin menu"><span></span><span></span><span></span><b>MENU</b></button>
+        <button
+          id="admin-mobile-menu"
+          class="admin-mobile-menu"
+          type="button"
+          aria-controls="admin-nav"
+          aria-expanded="false"
+          aria-label="Open admin menu"
+        >
+          <span></span><span></span><span></span><b>MENU</b>
+        </button>
         <div class="nav-label">WORKSPACE</div>
         <nav class="nav" id="admin-nav" aria-label="Admin sections">
           <a class="active" href="#dashboard" data-view="dashboard"
@@ -3223,7 +3232,10 @@
           if (!mobileMenuButton || !adminNav) return;
           adminNav.classList.toggle("mobile-open", open);
           mobileMenuButton.setAttribute("aria-expanded", String(open));
-          mobileMenuButton.setAttribute("aria-label", open ? "Close admin menu" : "Open admin menu");
+          mobileMenuButton.setAttribute(
+            "aria-label",
+            open ? "Close admin menu" : "Open admin menu",
+          );
           mobileMenuButton.classList.toggle("is-open", open);
         }
         mobileMenuButton?.addEventListener("click", () => {
