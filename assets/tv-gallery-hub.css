@@ -544,3 +544,8 @@
   display: inline !important;
   color: var(--tgh-orange) !important;
 }
+
+/* Admin: explicit per-album date control */
+.album-date-field { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:10px; color:var(--muted); font-size:11px; }
+.album-date-field input[type="date"] { width:min(100%,190px); min-height:36px; padding:7px 9px; border:1px solid rgba(112,228,245,.25); border-radius:8px; background:#0b1c30; color:var(--text,#f4f8ff); color-scheme:dark; }
+@media(max-width:760px) { .album-date-field input[type="date"] { width:100%; } }
