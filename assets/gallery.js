@@ -327,7 +327,7 @@
                 "</strong><small>" +
                 esc(
                   album.uploadDate
-                    ? new Date(album.uploadDate).toLocaleString("en-IN", {
+                    ? new Date(album.uploadDate).toLocaleDateString("en-IN", {
                         day: "numeric",
                         month: "short",
                         year: "numeric",
