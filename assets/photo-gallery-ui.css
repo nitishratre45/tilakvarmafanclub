@@ -1106,3 +1106,27 @@
     padding-bottom: 28px !important;
   }
 }
+
+
+/* Runtime-backed compact layout: no viewport-height blank space before album controls. */
+#photos.section.tilak-photos-section,
+#photos.section.tilak-photos-section > .cricinfo-gallery,
+#photos .cricinfo-gallery #cricinfo-photo-grid {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  align-self: start !important;
+  flex: 0 0 auto !important;
+}
+#photos.section.tilak-photos-section::before {
+  display: none !important;
+  content: none !important;
+}
+#photos .cricinfo-gallery {
+  margin-block: 0 !important;
+}
+#photos .cricinfo-gallery #cricinfo-photo-grid > .tv-gallery-toolbar,
+#photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid {
+  margin-top: 0 !important;
+}
