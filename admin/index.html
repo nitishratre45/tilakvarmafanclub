@@ -2085,26 +2085,46 @@
             <div>
               <div class="eyebrow">AUTOMATED AUDIT · EVERY 10 MINUTES</div>
               <h2>Repository health monitor</h2>
-              <p>Tracks JavaScript and Python syntax, JSON integrity, duplicate HTML IDs, missing local assets and repeated CSS selectors. The report refreshes automatically; suspected CSS conflicts are review warnings, not automatic deletions.</p>
+              <p>
+                Tracks JavaScript and Python syntax, JSON integrity, duplicate HTML IDs, missing
+                local assets and repeated CSS selectors. The report refreshes automatically;
+                suspected CSS conflicts are review warnings, not automatic deletions.
+              </p>
             </div>
             <span class="pill" id="repo-health-status">WAITING FOR SCAN</span>
           </div>
           <div class="section-body">
             <div class="repo-health-summary">
               <article><span>Files scanned</span><strong id="repo-health-files">—</strong></article>
-              <article><span>Checks passed</span><strong id="repo-health-passed">—</strong></article>
+              <article>
+                <span>Checks passed</span><strong id="repo-health-passed">—</strong>
+              </article>
               <article><span>Errors</span><strong id="repo-health-errors">—</strong></article>
               <article><span>Warnings</span><strong id="repo-health-warnings">—</strong></article>
             </div>
             <div class="dataset-toolbar">
-              <span id="repo-health-checked" class="monitor-meta">Waiting for first 10-minute scan…</span>
+              <span id="repo-health-checked" class="monitor-meta"
+                >Waiting for first 10-minute scan…</span
+              >
               <div class="actions">
                 <button id="repo-health-refresh" class="btn" type="button">↻ Refresh report</button>
-                <a class="btn" href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/repo-health-monitor.yml" target="_blank" rel="noopener">Workflow logs ↗</a>
+                <a
+                  class="btn"
+                  href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/repo-health-monitor.yml"
+                  target="_blank"
+                  rel="noopener"
+                  >Workflow logs ↗</a
+                >
               </div>
             </div>
-            <div id="repo-health-repair" class="monitor-help">Automatic repair policy: deterministic formatting may be handled by the safe-format workflow. Logic, CSS layout and cricket data are never rewritten blindly; errors are reported for a reviewed repair.</div>
-            <div id="repo-health-items" class="repo-health-items" aria-live="polite"><div class="empty">Loading latest repository scan…</div></div>
+            <div id="repo-health-repair" class="monitor-help">
+              Automatic repair policy: deterministic formatting may be handled by the safe-format
+              workflow. Logic, CSS layout and cricket data are never rewritten blindly; errors are
+              reported for a reviewed repair.
+            </div>
+            <div id="repo-health-items" class="repo-health-items" aria-live="polite">
+              <div class="empty">Loading latest repository scan…</div>
+            </div>
           </div>
         </section>
         <section id="data-status" class="section">
@@ -4392,8 +4412,11 @@
           const host = $("repo-health-items");
           if (!host) return;
           try {
-            const response = await fetch("../data/repo-health.json?ts=" + Date.now(), { cache: "no-store" });
-            if (!response.ok) throw Error("Health report unavailable (HTTP " + response.status + ")");
+            const response = await fetch("../data/repo-health.json?ts=" + Date.now(), {
+              cache: "no-store",
+            });
+            if (!response.ok)
+              throw Error("Health report unavailable (HTTP " + response.status + ")");
             const report = await response.json();
             const summary = report.summary || {};
             const statusNode = $("repo-health-status");
@@ -4405,22 +4428,34 @@
             $("repo-health-errors").textContent = summary.issues ?? 0;
             $("repo-health-warnings").textContent = summary.warnings ?? 0;
             $("repo-health-checked").textContent = report.checkedAt
-              ? "Last scan: " + new Date(report.checkedAt).toLocaleString() + " · scheduled every 10 minutes"
+              ? "Last scan: " +
+                new Date(report.checkedAt).toLocaleString() +
+                " · scheduled every 10 minutes"
               : "Waiting for first scheduled scan";
-            $("repo-health-repair").textContent = report.autoRepair?.result ||
+            $("repo-health-repair").textContent =
+              report.autoRepair?.result ||
               "Safe auto-repair is limited to deterministic formatting; logic and cricket data require review.";
             const items = Array.isArray(report.items) ? report.items : [];
-            host.innerHTML = items.length ? items.map((item) => {
-              const level = ["error", "warning", "pass"].includes(item.level) ? item.level : "warning";
-              const row = document.createElement("article");
-              row.className = "repo-health-item " + level;
-              const title = document.createElement("strong");
-              title.textContent = (level === "error" ? "ERROR" : level === "warning" ? "REVIEW" : "PASS") + " · " + (item.file || "Repository");
-              const detail = document.createElement("p");
-              detail.textContent = item.message || "No details provided";
-              row.append(title, detail);
-              return row.outerHTML;
-            }).join("") : '<div class="empty">No scan findings in the latest report.</div>';
+            host.innerHTML = items.length
+              ? items
+                  .map((item) => {
+                    const level = ["error", "warning", "pass"].includes(item.level)
+                      ? item.level
+                      : "warning";
+                    const row = document.createElement("article");
+                    row.className = "repo-health-item " + level;
+                    const title = document.createElement("strong");
+                    title.textContent =
+                      (level === "error" ? "ERROR" : level === "warning" ? "REVIEW" : "PASS") +
+                      " · " +
+                      (item.file || "Repository");
+                    const detail = document.createElement("p");
+                    detail.textContent = item.message || "No details provided";
+                    row.append(title, detail);
+                    return row.outerHTML;
+                  })
+                  .join("")
+              : '<div class="empty">No scan findings in the latest report.</div>';
           } catch (error) {
             host.textContent = "Could not load repository health report: " + error.message;
           }
