@@ -513,3 +513,29 @@
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Prevent global semantic footer rules from leaking into this component. */
+#tv-gallery-hub .tv-gallery-hub__footer {
+  display: block !important;
+  position: static !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 20px 0 0 !important;
+  padding: 14px 0 0 !important;
+  border-top: 1px solid var(--tgh-line) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #8eaccb !important;
+  text-align: center !important;
+  font-size: 9px !important;
+  font-weight: 850 !important;
+  letter-spacing: .14em !important;
+  line-height: 1.5 !important;
+}
+#tv-gallery-hub .tv-gallery-hub__footer::before,
+#tv-gallery-hub .tv-gallery-hub__footer::after { content: none !important; display: none !important; }
+#tv-gallery-hub .tv-gallery-hub__footer span { display: inline !important; color: var(--tgh-orange) !important; }
