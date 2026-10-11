@@ -1867,7 +1867,34 @@
           transform: none !important;
         }
       }
-    </style>
+    
+      /* Remove the oversized dead space after the Death Overs tool on phones. */
+      @media (max-width: 800px) {
+        .stats-section[style] {
+          padding-bottom: 14px !important;
+        }
+        .innings-section {
+          padding-top: 20px !important;
+          padding-bottom: 28px !important;
+        }
+        .stats-section[style] + .innings-section {
+          margin-top: 0 !important;
+        }
+        .innings-section .section-head {
+          margin-bottom: 14px !important;
+        }
+        .match-list:empty {
+          display: none !important;
+        }
+        main {
+          padding-bottom: 0 !important;
+          margin-bottom: 0 !important;
+        }
+        footer {
+          margin-top: 0 !important;
+        }
+      }
+</style>
   </head>
   <body>
     <script>
