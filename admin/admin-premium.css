@@ -385,3 +385,54 @@ input:focus, select:focus, textarea:focus {
   #data-editor .actions { display: grid; grid-template-columns: minmax(0, 1fr); }
   #data-editor .actions .btn { width: 100%; }
 }
+
+
+/* Form-based content controls: readable labels and touch-friendly mobile layout. */
+#friendly-editor {
+  margin: 14px 0 18px;
+  padding: 18px;
+  border: 1px solid rgba(124,229,242,.22);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(124,229,242,.055), rgba(255,106,53,.045));
+}
+#friendly-editor h3 { margin: 5px 0 8px; font-size: 21px; }
+#friendly-editor .friendly-editor-controls,
+#friendly-editor .friendly-editor-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 14px 0;
+}
+#friendly-editor .friendly-editor-fields { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+#friendly-editor .field { min-width: 0; }
+#friendly-editor .field > span { display:block; margin-bottom: 7px; color: var(--muted); font-size: 12px; font-weight: 700; }
+#friendly-editor input[type="text"],
+#friendly-editor input[type="number"],
+#friendly-editor select {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 11px;
+  background: #081423;
+  color: var(--text);
+}
+#friendly-editor .friendly-check {
+  display:flex; align-items:center; justify-content:space-between;
+  gap: 12px; min-height: 48px; padding: 10px 12px;
+  border: 1px solid var(--line); border-radius: 10px;
+  background: rgba(8,20,35,.65);
+}
+#friendly-editor .friendly-check span { margin:0; }
+#friendly-editor .friendly-check input { width:20px; height:20px; accent-color:var(--orange); }
+#friendly-editor .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+#friendly-editor .status { overflow-wrap:anywhere; }
+@media(max-width:760px) {
+  #friendly-editor { padding: 13px; margin-inline: 0; }
+  #friendly-editor h3 { font-size: 19px; }
+  #friendly-editor .friendly-editor-controls,
+  #friendly-editor .friendly-editor-fields { grid-template-columns: minmax(0,1fr); gap:10px; }
+  #friendly-editor .actions { display:grid; grid-template-columns:minmax(0,1fr); }
+  #friendly-editor .actions .btn { width:100%; }
+}
