@@ -734,11 +734,15 @@ def scrape_domestic_profile_summary(fmt):
                                 continue
                             raw = values[column]
                             item[key] = raw if key == "highestScore" else number(raw)
-                        if item.get("matches") is not None and item.get("runs") is not None:
+                        if (
+                            item.get("matches") is not None
+                            and item.get("runs") is not None
+                        ):
                             team_rows.append(item)
                     if team_rows:
                         summary = {
-                            key: value for key, value in team_rows[0].items()
+                            key: value
+                            for key, value in team_rows[0].items()
                             if key not in {"group", "span", "groupType"}
                         }
                         # Team splits are not career totals; keep the verified
@@ -760,15 +764,24 @@ def scrape_domestic_profile_summary(fmt):
                                 continue
                             raw = values[column]
                             summary[key] = raw if key == "highestScore" else number(raw)
-                        if summary.get("runs") is None or summary.get("matches") is None:
+                        if (
+                            summary.get("runs") is None
+                            or summary.get("matches") is None
+                        ):
                             continue
                         summary.setdefault("innings", summary.get("matches"))
                         return {
                             "summary": summary,
-                            "careerBreakdown": team_rows if "team_rows" in locals() else [],
-                            "teamBreakdown": team_rows if "team_rows" in locals() else [],
+                            "careerBreakdown": (
+                                team_rows if "team_rows" in locals() else []
+                            ),
+                            "teamBreakdown": (
+                                team_rows if "team_rows" in locals() else []
+                            ),
                             "innings": [],
-                            "inningsCount": summary.get("innings") or summary.get("matches") or 0,
+                            "inningsCount": summary.get("innings")
+                            or summary.get("matches")
+                            or 0,
                             "source": source_name + " (summary only)",
                             "sourceUrl": url,
                             "detailStatus": "summary-only",
@@ -790,14 +803,19 @@ def scrape_domestic_profile_summary(fmt):
                         for key, column in columns.items():
                             raw = values[column]
                             summary[key] = raw if key == "highestScore" else number(raw)
-                        if summary.get("runs") is not None and summary.get("matches") is not None:
+                        if (
+                            summary.get("runs") is not None
+                            and summary.get("matches") is not None
+                        ):
                             summary.setdefault("innings", summary.get("matches"))
                             return {
                                 "summary": summary,
                                 "careerBreakdown": team_rows,
                                 "teamBreakdown": team_rows,
                                 "innings": [],
-                                "inningsCount": summary.get("innings") or summary.get("matches") or 0,
+                                "inningsCount": summary.get("innings")
+                                or summary.get("matches")
+                                or 0,
                                 "source": source_name + " (summary and team split)",
                                 "sourceUrl": url,
                                 "detailStatus": "summary-only",
@@ -805,8 +823,11 @@ def scrape_domestic_profile_summary(fmt):
                                 "checkedAt": stamp(),
                             }
     raise RuntimeError(
-        "No recognizable " + fmt + " summary/team rows in NDTV Sports or the secondary profile feed"
+        "No recognizable "
+        + fmt
+        + " summary/team rows in NDTV Sports or the secondary profile feed"
     )
+
 
 def parse_fielding_summary(page):
     """Parse the official Statsguru fielding career total when present."""
