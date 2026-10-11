@@ -4,6 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#070b14" />
+    <meta name="application-name" content="Tilak Varma Fan Club" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/assets/tilak-app-icon.svg" />
+    <link rel="apple-touch-icon" href="/assets/tilak-app-icon.svg" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Tilak Varma FC" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta
       name="description"
       content="Tilak Varma fan club — career snapshot, recent innings, match moments and fan gallery."
@@ -1160,5 +1167,13 @@
     <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.12.6/dist/shaka-player.compiled.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.js"></script>
     <script src="assets/bcci-videos.js?v=20261011-player-nav-signal1"></script>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch((error) => console.warn("PWA service worker registration failed:", error));
+        });
+      }
+    </script>
   </body>
 </html>
