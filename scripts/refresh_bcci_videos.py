@@ -339,8 +339,17 @@ def main() -> int:
     except (OSError, json.JSONDecodeError) as exc:
         print(f"Could not read Admin video config: {exc}", file=sys.stderr)
         config = {}
-    custom_url = config.get("feedUrl", "").strip() if isinstance(config, dict) else ""
-    if custom_url:
+    configured_urls = config.get("feedUrls", []) if isinstance(config, dict) else []
+    if not isinstance(configured_urls, list):
+        configured_urls = []
+    # Backward compatibility with the existing Admin single-URL setting.
+    legacy_url = config.get("feedUrl", "").strip() if isinstance(config, dict) else ""
+    custom_urls = []
+    for candidate in [*configured_urls, legacy_url]:
+        if isinstance(candidate, str) and candidate.strip() and candidate.strip() not in custom_urls:
+            custom_urls.append(candidate.strip())
+
+    for custom_url in custom_urls:
         sources_tried.append(custom_url)
         try:
             payload = fetch_custom_url(custom_url)
@@ -351,22 +360,20 @@ def main() -> int:
                     collected[video["id"]] = video
                     custom_found += 1
             print(
-                f"Admin-saved BCCI URL: extracted {custom_found} Tilak clips; "
+                f"Configured BCCI URL {custom_url}: extracted {custom_found} Tilak clips; "
                 f"{len(collected)} unique total so far."
             )
             if custom_found == 0:
                 print(
-                    "Admin-saved BCCI URL returned no playable Tilak clips; "
+                    f"Configured BCCI URL {custom_url} returned no playable Tilak clips; "
                     "continuing with the built-in official BCCI searches.",
                     file=sys.stderr,
                 )
         except Exception as exc:
-            # The custom source is optional. Reject unsafe/unavailable inputs,
-            # then continue with the fixed official BCCI catalogue searches.
-            # The normalizer still publishes only verified Tilak clips with
-            # direct HTTPS media URLs, so fallback cannot publish unrelated items.
+            # Each configured page is optional on its own: one unavailable page
+            # must not prevent the other pages or the built-in searches from running.
             print(
-                f"Admin-saved BCCI URL unavailable; continuing with built-in official searches: {exc}",
+                f"Configured BCCI URL unavailable ({custom_url}); continuing with other official searches: {exc}",
                 file=sys.stderr,
             )
 
