@@ -150,6 +150,8 @@ export async function onRequestPost({ request, env }) {
       return json({ error: "JSON syntax error: " + error.message }, 400);
     }
   }
+  if (typeof body.expectedSha !== "string" || !body.expectedSha)
+    return json({ error: "Missing saved file version. Reload the latest data before saving." }, 400);
   const validationError = validate(kind, data);
   if (validationError) return json({ error: validationError }, 400);
   const encoded = JSON.stringify(data);
