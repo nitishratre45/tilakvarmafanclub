@@ -9012,3 +9012,11 @@ textarea:focus-visible {
     object-fit: cover !important;
   }
 }
+
+/* Hide the redundant Photos page intro/header; retain the gallery itself */
+#photos.tilak-photos-section > .section-heading,
+#photos.tilak-photos-section .section-heading,
+#photos .photos-page-heading,
+#photos .photo-gallery-intro{
+  display:none!important;
+}
