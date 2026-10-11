@@ -1748,10 +1748,23 @@
                   <select id="friendly-record"></select>
                 </label>
               </div>
-              <div id="friendly-nested-selectors" class="grid friendly-editor-controls" style="display:none">
-                <label class="field"><span>Match / innings</span><select id="friendly-innings"></select></label>
-                <label class="field"><span>Over</span><select id="friendly-over"></select></label>
-                <label class="field"><span>Ball</span><select id="friendly-ball"></select></label>
+              <div
+                id="friendly-nested-selectors"
+                class="grid friendly-editor-controls"
+                style="display: none"
+              >
+                <label class="field"
+                  ><span>Match / innings</span
+                  ><select id="friendly-innings"></select
+                ></label>
+                <label class="field"
+                  ><span>Over</span
+                  ><select id="friendly-over"></select
+                ></label>
+                <label class="field"
+                  ><span>Ball</span
+                  ><select id="friendly-ball"></select
+                ></label>
               </div>
               <div id="friendly-description" class="monitor-help" aria-live="polite"></div>
               <div id="friendly-fields" class="grid friendly-editor-fields"></div>
@@ -2689,10 +2702,9 @@
             if (overSelect)
               friendlyOptions(
                 overSelect,
-                (recordSelect.value === "overTotals" ? (f.overTotals || []) : (inn.overs || [])).map((x, i) => [
-                  String(i),
-                  "Over " + (x.over ?? i + 1),
-                ]),
+                (recordSelect.value === "overTotals" ? f.overTotals || [] : inn.overs || []).map(
+                  (x, i) => [String(i), "Over " + (x.over ?? i + 1)],
+                ),
               );
             const oi = Number(overSelect?.value || 0),
               ov = inn.overs?.[oi] || {};
