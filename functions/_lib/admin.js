@@ -72,7 +72,7 @@ export function clearSession() {
   return COOKIE_NAME + "=; Path=/api/admin; HttpOnly; Secure; SameSite=Strict; Max-Age=0";
 }
 
-export async function saveRepoJson(env, path, data) {
+export async function saveRepoJson(env, path, data, expectedSha = null) {
   if (!env.GITHUB_TOKEN)
     throw new Error("GITHUB_TOKEN is missing from Cloudflare Pages environment variables.");
   const repo = env.GITHUB_REPOSITORY || "nitishratre45/tilakvarmafanclub";
@@ -86,8 +86,19 @@ export async function saveRepoJson(env, path, data) {
   };
   let sha;
   const current = await fetch(api, { headers });
-  if (current.ok) sha = (await current.json()).sha;
-  else if (current.status !== 404) throw new Error("GitHub read failed (" + current.status + ").");
+  if (current.ok) {
+    sha = (await current.json()).sha;
+    if (expectedSha && sha !== expectedSha) {
+      const error = new Error("Save blocked: the GitHub file version changed since it was loaded. Reload the latest data and reapply your edit.");
+      error.status = 409;
+      throw error;
+    }
+  } else if (current.status !== 404) throw new Error("GitHub read failed (" + current.status + ").");
+  else if (expectedSha) {
+    const error = new Error("Save blocked: the GitHub file no longer exists. Reload and inspect the repository before saving.");
+    error.status = 409;
+    throw error;
+  }
   const text = JSON.stringify(data, null, 2) + "\n";
   const encoded = btoa(unescape(encodeURIComponent(text)));
   const response = await fetch(api, {
