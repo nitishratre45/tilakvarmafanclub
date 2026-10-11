@@ -5,10 +5,12 @@ on:
     branches: [main]
     paths:
       - "functions/api/admin/data-editor.js"
+      - "functions/api/admin/import-bcci-photo.js"
       - "functions/_lib/admin.js"
       - "data/site-data.json"
       - "data/death-overs.json"
       - "tests/admin-data-editor.test.mjs"
+      - "tests/bcci-photo-import.test.mjs"
       - ".github/workflows/admin-data-editor-tests.yml"
   pull_request:
     branches: [main]
@@ -35,7 +37,10 @@ jobs:
           node-version: "22"
       - name: Test Admin data editor endpoints against saved snapshots
         run: node --test tests/admin-data-editor.test.mjs
+      - name: Test BCCI photo URL import and repository storage
+        run: node --test tests/bcci-photo-import.test.mjs
       - name: Check Admin endpoint syntax
         run: |
           node --input-type=module --check < functions/api/admin/data-editor.js
+          node --input-type=module --check < functions/api/admin/import-bcci-photo.js
           node --input-type=module --check < functions/_lib/admin.js
