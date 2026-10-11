@@ -19,8 +19,8 @@
       display: "block",
       height: "auto",
       "min-height": "0",
-      "padding-top": window.matchMedia("(max-width: 600px)").matches ? "20px" : "28px",
-      "padding-bottom": window.matchMedia("(max-width: 600px)").matches ? "28px" : "36px",
+      "padding-top": window.matchMedia("(max-width: 600px)").matches ? "12px" : "28px",
+      "padding-bottom": window.matchMedia("(max-width: 600px)").matches ? "16px" : "32px",
       "align-content": "start",
       "justify-content": "start",
       "row-gap": "0",
@@ -209,6 +209,7 @@
   let visibleAlbumCount = 10;
   let selectedYear = "all";
   let selectedMonth = "all";
+  let sortOrder = "oldest";
   const monthNames = [
     "January",
     "February",
@@ -238,6 +239,14 @@
     activeAlbum = null;
     document.getElementById("photos")?.classList.remove("tv-album-view-active");
     const filtered = getFilteredAlbums();
+    filtered.sort((a, b) => {
+      const aTime = Date.parse(a.uploadDate || "") || 0;
+      const bTime = Date.parse(b.uploadDate || "") || 0;
+      if (!aTime && !bTime) return a.name.localeCompare(b.name);
+      if (!aTime) return 1;
+      if (!bTime) return -1;
+      return sortOrder === "oldest" ? aTime - bTime : bTime - aTime;
+    });
     const visible = filtered.slice(0, visibleAlbumCount);
     const years = [
       ...new Set(
@@ -279,7 +288,11 @@
             "</option>",
         )
         .join("") +
-      '</select></label><button type="button" class="tv-gallery-clear" ' +
+      '</select></label><label><span>SORT ORDER</span><select class="tv-gallery-sort" aria-label="Sort albums by date"><option value="oldest"' +
+      (sortOrder === "oldest" ? " selected" : "") +
+      '>Oldest first</option><option value="newest"' +
+      (sortOrder === "newest" ? " selected" : "") +
+      '>Newest first</option></select></label><button type="button" class="tv-gallery-clear" ' +
       (selectedYear === "all" && selectedMonth === "all" ? "disabled" : "") +
       ">Reset</button></div></div>" +
       (filtered.length
@@ -335,6 +348,11 @@
       visibleAlbumCount = 10;
       renderAlbums();
     });
+    host.querySelector(".tv-gallery-sort")?.addEventListener("change", (event) => {
+      sortOrder = event.target.value === "newest" ? "newest" : "oldest";
+      visibleAlbumCount = 10;
+      renderAlbums();
+    });
     host.querySelector(".tv-gallery-clear")?.addEventListener("click", () => {
       selectedYear = "all";
       selectedMonth = "all";
@@ -376,7 +394,17 @@
         grouped.get(name).push(item);
       });
       albums = [...grouped.entries()]
-        .map(([name, photos]) => ({ name, photos, cover: photos[0] || null }))
+        .map(([name, photos]) => {
+          photos.sort((a, b) => {
+            const aTime = Date.parse(a.createdAt || "") || 0;
+            const bTime = Date.parse(b.createdAt || "") || 0;
+            if (!aTime && !bTime) return 0;
+            if (!aTime) return 1;
+            if (!bTime) return -1;
+            return aTime - bTime;
+          });
+          return { name, photos, cover: photos[0] || null };
+        })
         .filter((album) => album.cover);
       albums.forEach((album) => {
         const uploadTimes = album.photos
@@ -385,7 +413,14 @@
           .sort((a, b) => Date.parse(b) - Date.parse(a));
         album.uploadDate = uploadTimes[0] || "";
       });
-      albums.sort((a, b) => Date.parse(b.uploadDate || 0) - Date.parse(a.uploadDate || 0));
+      albums.sort((a, b) => {
+        const aTime = Date.parse(a.uploadDate || "") || 0;
+        const bTime = Date.parse(b.uploadDate || "") || 0;
+        if (!aTime && !bTime) return a.name.localeCompare(b.name);
+        if (!aTime) return 1;
+        if (!bTime) return -1;
+        return aTime - bTime;
+      });
       renderAlbums();
       if (stamp)
         stamp.textContent =
