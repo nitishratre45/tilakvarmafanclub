@@ -8613,3 +8613,44 @@ textarea:focus-visible {
     font-size: 10px !important;
   }
 }
+
+/* BCCI-inspired all-blue photo album detail page */
+#photos .tv-photo-album-view,
+#photos .tv-album-detail,
+#photos .tv-gallery-detail,
+#photos .cricinfo-gallery .tv-album-detail,
+#photos .cricinfo-gallery .tv-photo-detail{
+  background:linear-gradient(135deg,#073b8f 0%,#0646a8 45%,#082d70 100%)!important;
+  color:#fff!important;border-color:rgba(126,203,255,.42)!important;
+  box-shadow:0 18px 44px rgba(0,35,105,.28),inset 0 1px rgba(255,255,255,.08)!important;
+}
+#photos .cricinfo-gallery:has(.tv-album-detail),
+#photos .cricinfo-gallery:has(.tv-photo-detail),
+#photos .cricinfo-gallery:has(.tv-photo-grid){
+  background:linear-gradient(145deg,#0645a3 0%,#07377f 55%,#06275e 100%)!important;
+}
+#photos .cricinfo-gallery .tv-album-detail h1,
+#photos .cricinfo-gallery .tv-album-detail h2,
+#photos .cricinfo-gallery .tv-photo-detail h1,
+#photos .cricinfo-gallery .tv-photo-detail h2{color:#fff!important}
+#photos .cricinfo-gallery .tv-album-detail p,
+#photos .cricinfo-gallery .tv-photo-detail p{color:#d5e9ff!important}
+#photos .cricinfo-gallery .tv-album-detail button,
+#photos .cricinfo-gallery .tv-photo-detail button,
+#photos .cricinfo-gallery .tv-album-detail a,
+#photos .cricinfo-gallery .tv-photo-detail a{
+  border-color:rgba(255,255,255,.34)!important;
+}
+#photos .cricinfo-gallery .tv-album-detail .tv-back,
+#photos .cricinfo-gallery .tv-photo-detail .tv-back{
+  background:#fff!important;color:#07377f!important;border-radius:9px!important;
+}
+#photos .cricinfo-gallery .tv-album-detail .tv-photo-grid,
+#photos .cricinfo-gallery .tv-photo-detail .tv-photo-grid,
+#photos .cricinfo-gallery .tv-photo-grid{
+  background:transparent!important;
+}
+@media(max-width:650px){
+ #photos .cricinfo-gallery .tv-album-detail,
+ #photos .cricinfo-gallery .tv-photo-detail{border-radius:15px!important}
+}
