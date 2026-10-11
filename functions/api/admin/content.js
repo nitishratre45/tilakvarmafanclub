@@ -60,13 +60,18 @@ export async function onRequestPost({ request, env }) {
       );
       const isMatchVideoPage = /^\/matches\/[0-9a-f-]+\/[a-z0-9-]+\/video$/i.test(parsed.pathname);
       const isVideoDetailPage = /^\/videos\/[a-z0-9-]+$/i.test(parsed.pathname);
+      const isPublicVideosListing =
+        parsed.pathname === "/videos" &&
+        parsed.searchParams.get("tags") === "international" &&
+        [...parsed.searchParams.keys()].every((key) => key === "tags");
       if (
         parsed.protocol !== "https:" ||
         !allowedHosts.has(parsed.hostname) ||
         (!allowedPaths.has(parsed.pathname) &&
           !isVideoUpNextEndpoint &&
           !isMatchVideoPage &&
-          !isVideoDetailPage) ||
+          !isVideoDetailPage &&
+          !isPublicVideosListing) ||
         parsed.username ||
         parsed.password ||
         parsed.hash ||
@@ -75,7 +80,7 @@ export async function onRequestPost({ request, env }) {
         return json(
           {
             error:
-              "Only official BCCI videos API, up-next, match video, or video detail URLs are allowed. Other websites are rejected.",
+              "Only official BCCI videos API, supported public videos listing, up-next, match video, or video detail URLs are allowed. Other websites are rejected.",
           },
           400,
         );
