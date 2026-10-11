@@ -1701,12 +1701,15 @@
                     <option value="empty">Empty albums</option>
                   </select>
                   <select id="album-manage-sort" aria-label="Sort albums">
+                    <option value="date-desc">Sort: Newest date</option>
+                    <option value="date-asc">Sort: Oldest date</option>
                     <option value="name">Sort: A–Z</option>
                     <option value="photos">Sort: Most photos</option>
                     <option value="recent">Sort: Recently added</option>
                   </select>
                 </div>
                 <div id="album-manage-list" class="album-manage-list"></div>
+                <div class="album-manage-more-wrap"><button id="album-manage-more" class="btn" type="button">Show more albums</button><span id="album-manage-visible-note" class="hint"></span></div>
               </div>
             </div>
             <section class="bcci-import-panel" aria-labelledby="bcci-import-heading">
@@ -2409,7 +2412,7 @@
           }
           const query = ($("album-manage-search")?.value || "").trim().toLocaleLowerCase();
           const filter = $("album-manage-filter")?.value || "all";
-          const sort = $("album-manage-sort")?.value || "name";
+          const sort = $("album-manage-sort")?.value || "date-desc";
           const countPhotos = (album) =>
             state.items.filter((item) => item.type !== "video" && item.album === album).length;
           let visibleAlbums = state.albums.filter((album) => {
@@ -2419,6 +2422,8 @@
               (filter === "with-photos" ? count > 0 : filter === "empty" ? count === 0 : true)
             );
           });
+          if (sort === "date-desc") visibleAlbums.sort((a, b) => (state.albumDates[b] || "").localeCompare(state.albumDates[a] || "") || a.localeCompare(b));
+          if (sort === "date-asc") visibleAlbums.sort((a, b) => (state.albumDates[a] || "").localeCompare(state.albumDates[b] || "") || a.localeCompare(b));
           if (sort === "name") visibleAlbums.sort((a, b) => a.localeCompare(b));
           if (sort === "photos")
             visibleAlbums.sort((a, b) => countPhotos(b) - countPhotos(a) || a.localeCompare(b));
@@ -2428,7 +2433,11 @@
               '<div class="album-manage-empty-state">No albums match. Try another search or filter.</div>';
             return;
           }
-          host.innerHTML = visibleAlbums
+          const searching = Boolean(query);
+          const pageSize = 3;
+          const visibleLimit = searching ? visibleAlbums.length : (window.__galleryAlbumsExpanded ? visibleAlbums.length : pageSize);
+          const pageAlbums = visibleAlbums.slice(0, visibleLimit);
+          host.innerHTML = pageAlbums
             .map((album) => {
               const count = state.items.filter(
                 (item) => item.type !== "video" && item.album === album,
@@ -2459,6 +2468,18 @@
               );
             })
             .join("");
+          const moreButton = $("album-manage-more");
+          const visibleNote = $("album-manage-visible-note");
+          if (moreButton) {
+            const hasMore = !searching && visibleAlbums.length > pageSize && !window.__galleryAlbumsExpanded;
+            moreButton.hidden = !hasMore;
+            moreButton.textContent = "Show all " + visibleAlbums.length + " albums";
+          }
+          if (visibleNote) visibleNote.textContent = searching ? ("Showing all " + visibleAlbums.length + " search results") : ("Showing " + pageAlbums.length + " of " + visibleAlbums.length + " albums");
+          if (!searching && visibleAlbums.length > pageSize && window.__galleryAlbumsExpanded) {
+            // Keep the full list available after the user chooses Show all.
+            if (moreButton) { moreButton.hidden = false; moreButton.textContent = "Show fewer albums"; }
+          }
           host.querySelectorAll("[data-save-album-date]").forEach((button) => {
             button.addEventListener("click", async () => {
               const album = button.getAttribute("data-save-album-date");
@@ -2570,6 +2591,10 @@
           });
         }
 
+        $("album-manage-more")?.addEventListener("click", () => {
+          window.__galleryAlbumsExpanded = !window.__galleryAlbumsExpanded;
+          renderAlbumManager();
+        });
         ["album-manage-search", "album-manage-filter", "album-manage-sort"].forEach((id) => {
           $(id)?.addEventListener(
             id === "album-manage-search" ? "input" : "change",
