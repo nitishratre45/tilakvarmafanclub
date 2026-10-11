@@ -108,7 +108,9 @@ export async function onRequestPost({ request, env }) {
   } catch {
     return json({ error: "Invalid JSON request." }, 400);
   }
-  const kind = body?.kind;
+  if (!body || typeof body !== "object" || Array.isArray(body))
+    return json({ error: "Invalid request body." }, 400);
+  const kind = body.kind;
   const def = FILES[kind];
   if (!def) return json({ error: "Choose Stats or Death Overs data." }, 400);
   let data = body.data;
