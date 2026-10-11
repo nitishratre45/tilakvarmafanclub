@@ -1402,7 +1402,6 @@ main > section[id] {
   }
 }
 
-
 /* Profile finish: compact player-highlight pills and clearer section rhythm. */
 #profile .profile-highlights {
   display: flex;
@@ -1417,12 +1416,12 @@ main > section[id] {
   gap: 7px;
   min-height: 31px;
   padding: 7px 10px;
-  border: 1px solid rgba(127, 185, 229, .2);
+  border: 1px solid rgba(127, 185, 229, 0.2);
   border-radius: 999px;
-  background: rgba(11, 32, 53, .58);
+  background: rgba(11, 32, 53, 0.58);
   color: #c4d8ee;
   font: 700 9px/1.2 var(--mono, monospace);
-  letter-spacing: .045em;
+  letter-spacing: 0.045em;
 }
 #profile .profile-highlights i {
   color: #ff8b58;
@@ -1446,7 +1445,7 @@ main > section[id] {
   font-size: 10px;
 }
 :root[data-theme-resolved="light"] #profile .profile-highlights > span {
-  background: rgba(255, 255, 255, .78);
+  background: rgba(255, 255, 255, 0.78);
   border-color: #d6e4f5;
   color: #31516f;
 }
