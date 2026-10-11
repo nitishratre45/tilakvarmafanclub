@@ -275,7 +275,7 @@
       filtered.length +
       " album" +
       (filtered.length === 1 ? "" : "s") +
-      " found</small></div>" +
+      " found</small><span class="tv-gallery-sort-note">Oldest first · exact upload date/time when available</span></div>" +
       '<div class="tv-gallery-filters"><label><span>YEAR</span><select class="tv-gallery-year" aria-label="Filter albums by year"><option value="all">All years</option>' +
       years
         .map(
@@ -327,10 +327,12 @@
                 "</strong><small>" +
                 esc(
                   album.uploadDate
-                    ? new Date(album.uploadDate).toLocaleDateString("en-IN", {
+                    ? new Date(album.uploadDate).toLocaleString("en-IN", {
                         day: "numeric",
                         month: "short",
                         year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
                       })
                     : "Date unavailable",
                 ) +
