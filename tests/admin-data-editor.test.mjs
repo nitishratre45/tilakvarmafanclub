@@ -91,7 +91,11 @@ test("loads the requested saved data family and its path", async () => {
   mockGitHubFetch();
   const response = await onRequestGet({
     request: await requestFor("stats"),
-    env: { ADMIN_SESSION_SECRET: secret, ADMIN_PASSWORD: "configured" },
+    env: {
+      ADMIN_SESSION_SECRET: secret,
+      ADMIN_PASSWORD: "configured",
+      GITHUB_TOKEN: "test-token",
+    },
   });
   const body = await response.json();
   assert.equal(response.status, 200);
