@@ -1062,3 +1062,9 @@ select:focus-visible, textarea:focus-visible {
 #admin-app[data-current-view]:not([data-current-view="dashboard"]) > .main > .section {
   scroll-margin-top: 18px;
 }
+
+/* Manual album date controls in Media Library */
+.album-date-field { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:10px; color:var(--muted); font-size:11px; }
+.album-date-field input[type="date"] { width:min(100%,190px); min-height:36px; padding:7px 9px; border:1px solid rgba(120,228,239,.25); border-radius:8px; background:rgba(5,16,30,.9); color:var(--text,#f4f8ff); color-scheme:dark; }
+.album-manage-row .album-manage-name { flex:1 1 auto; }
+@media(max-width:760px) { .album-date-field input[type="date"] { width:100%; } }
