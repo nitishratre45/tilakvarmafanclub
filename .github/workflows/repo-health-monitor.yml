@@ -43,16 +43,36 @@ jobs:
           retention-days: 30
       - name: Publish latest report to Admin Studio
         if: always() && hashFiles('data/repo-health.json') != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/repo-health.json
-          if git diff --cached --quiet; then
-            echo "Health report unchanged; no report commit needed."
-          else
+          report_snapshot="$(mktemp)"
+          cp data/repo-health.json "$report_snapshot"
+
+          # Other workflows can update main while this scan is running.
+          # Rebase the report onto the latest main and retry to avoid stale reports
+          # or a non-fast-forward push failure.
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp "$report_snapshot" data/repo-health.json
+            git add data/repo-health.json
+            if git diff --cached --quiet; then
+              echo "Health report unchanged; no report commit needed."
+              exit 0
+            fi
             git commit -m "chore: publish repository health report"
-            git push origin HEAD:main
-          fi
+            if git push origin HEAD:main; then
+              echo "Published latest repository health report."
+              exit 0
+            fi
+            echo "Push attempt $attempt failed; retrying against latest main."
+          done
+          echo "::error::Could not publish repository health report after 3 attempts."
+          exit 1
       - name: Open or update health issue when errors are found
         if: steps.scan.outcome == 'failure'
         uses: actions/github-script@v7
