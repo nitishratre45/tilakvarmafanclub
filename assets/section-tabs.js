@@ -70,6 +70,9 @@
       const id = link.hash.slice(1);
       if (!view && !allowed.has(id)) return;
 
+      // Notify the video module before this capture handler stops propagation.
+      // The section-tabs handler owns navigation, so the player must close here.
+      window.dispatchEvent(new CustomEvent("tilak:section-change", { detail: { id: view ? "stats" : id } }));
       event.preventDefault();
       event.stopImmediatePropagation();
       show(view ? "stats" : id, true, view);
