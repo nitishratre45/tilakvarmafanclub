@@ -373,10 +373,18 @@ section[id],
 main > section[id] {
   scroll-margin-top: 96px;
 }
-:where(.stat-card, .home-format-card, .format-card, .fan-card, .upcoming-match-card, .tv-album-card) {
+:where(
+  .stat-card,
+  .home-format-card,
+  .format-card,
+  .fan-card,
+  .upcoming-match-card,
+  .tv-album-card
+) {
   min-width: 0;
 }
-:where(.stat-card, .home-format-card, .format-card, .fan-card, .upcoming-match-card) :where(h2, h3, p, small, strong, span) {
+:where(.stat-card, .home-format-card, .format-card, .fan-card, .upcoming-match-card)
+  :where(h2, h3, p, small, strong, span) {
   overflow-wrap: anywhere;
 }
 :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap) table {
@@ -443,4 +451,3 @@ main > section[id] {
     scroll-behavior: auto !important;
   }
 }
-
