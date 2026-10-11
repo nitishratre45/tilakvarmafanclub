@@ -1503,6 +1503,15 @@
           flex-direction: column;
         }
       }
+
+      .live-update-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 18px;padding:6px;border:1px solid var(--line);border-radius:16px;background:#081525;position:sticky;top:8px;z-index:5}
+      .live-update-tab{min-width:0;border:1px solid transparent;border-radius:11px;padding:12px 6px;background:transparent;color:var(--muted);font-weight:750;cursor:pointer;line-height:1.25}
+      .live-update-tab.active{background:linear-gradient(135deg,#193550,#12283e);border-color:#35526d;color:var(--cyan)}
+      [data-live-panel][hidden]{display:none!important}
+      #live-tab-monitor .section-head{display:none}
+      #live-tab-monitor .section-body{padding:0}
+      .live-warning-detail{font-size:12px;color:var(--muted);margin-top:6px}
+      @media(max-width:480px){.live-update-tabs{gap:4px;padding:4px}.live-update-tab{font-size:12px;padding:11px 4px}}
     </style>
     <link rel="stylesheet" href="admin-premium.css?v=20261011-section-topbar-fix3" />
   </head>
@@ -2061,7 +2070,12 @@
             <span class="pill" id="live-updates-status">CONNECTING</span>
           </div>
           <div class="section-body">
-            <div class="dataset-toolbar">
+            <div class="live-update-tabs" role="tablist" aria-label="Live update sections">
+              <button class="live-update-tab active" type="button" role="tab" aria-selected="true" data-live-tab="activity">Live activity</button>
+              <button class="live-update-tab" type="button" role="tab" aria-selected="false" data-live-tab="videos">BCCI videos</button>
+              <button class="live-update-tab" type="button" role="tab" aria-selected="false" data-live-tab="monitor">Refresh monitor</button>
+            </div>
+            <div class="dataset-toolbar" data-live-panel="activity">
               <span id="live-updates-checked" class="monitor-meta">Loading latest activity…</span>
               <div class="actions">
                 <button id="live-updates-refresh" class="btn" type="button">
@@ -2076,7 +2090,7 @@
                 >
               </div>
             </div>
-            <div class="repo-health-summary">
+            <div class="repo-health-summary" data-live-panel="activity">
               <article>
                 <span>Last repository scan</span><strong id="live-updates-scan">Loading…</strong>
               </article>
@@ -2085,7 +2099,7 @@
                 <span>CSS warnings</span><strong id="live-updates-warnings">—</strong>
               </article>
             </div>
-            <div class="source-registry" id="bcci-video-live-summary">
+            <div class="source-registry" id="bcci-video-live-summary" data-live-panel="videos">
               <div class="source-registry-head">
                 <div>
                   <div class="eyebrow">BCCI VIDEO CATALOGUE · AUTO REFRESH</div>
@@ -2119,11 +2133,11 @@
                 <div class="empty">Loading latest video additions…</div>
               </div>
             </div>
-            <div id="live-updates-list" class="run-list" aria-live="polite">
+            <div id="live-updates-list" class="run-list" data-live-panel="activity" aria-live="polite">
               <div class="empty">Loading recent workflow activity…</div>
             </div>
           </div>
-          <section id="refresh-monitor-panel" class="section">
+          <section id="refresh-monitor-panel" class="section" data-live-panel="monitor">
             <div class="section-head">
               <div>
                 <div class="eyebrow">AUTOMATION · ERROR DETECTION</div>
@@ -4624,7 +4638,26 @@
                 ? new Date(report.checkedAt).toLocaleString()
                 : "Not scanned yet";
               $("live-updates-errors").textContent = report.summary?.issues ?? "—";
-              $("live-updates-warnings").textContent = report.summary?.warnings ?? "—";
+              const warningCount = Number(report.summary?.warnings ?? 0);
+              $("live-updates-warnings").textContent = warningCount.toLocaleString();
+              const warningCard = $("live-updates-warnings").closest("article");
+              let detail = warningCard.querySelector(".live-warning-detail");
+              if (!detail) {
+                detail = document.createElement("p");
+                detail.className = "live-warning-detail";
+                warningCard.append(detail);
+              }
+              const repeated = (report.items || []).filter((item) => item.level === "warning").reduce((sum, item) => {
+                const match = String(item.message || "").match(/(\\d+) repeated CSS selector/);
+                return sum + (match ? Number(match[1]) : 0);
+              }, 0);
+              detail.textContent = repeated
+                ? repeated.toLocaleString() + " repeated CSS selectors across " + warningCount + " warning entries"
+                : "Warning entries from latest saved scan";
+              const scanTime = report.checkedAt ? new Date(report.checkedAt).getTime() : 0;
+              const stale = !scanTime || Date.now() - scanTime > 20 * 60 * 1000;
+              $("live-updates-status").textContent = stale ? "STALE SCAN REPORT" : "LIVE · CONNECTED";
+              $("live-updates-status").classList.toggle("warning", stale);
             } else {
               $("live-updates-scan").textContent = "Unavailable";
               $("live-updates-errors").textContent = "—";
@@ -4676,6 +4709,24 @@
             host.textContent = "Could not load live updates: " + error.message;
           }
         }
+        document.querySelectorAll("[data-live-tab]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const target = button.dataset.liveTab;
+            document.querySelectorAll("[data-live-tab]").forEach((tab) => {
+              const active = tab === button;
+              tab.classList.toggle("active", active);
+              tab.setAttribute("aria-selected", String(active));
+            });
+            document.querySelectorAll("[data-live-panel]").forEach((panel) => {
+              panel.hidden = panel.dataset.livePanel !== target;
+            });
+            if (target === "monitor") loadMonitor();
+            if (target === "activity") refreshLiveUpdates();
+          });
+        });
+        document.querySelectorAll('[data-live-panel]:not([data-live-panel="activity"])').forEach((panel) => {
+          panel.hidden = true;
+        });
         $("live-updates-refresh")?.addEventListener("click", refreshLiveUpdates);
         const viewLabels = {
           dashboard: "Overview",
