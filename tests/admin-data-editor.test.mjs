@@ -91,7 +91,7 @@ test("loads the requested saved data family and its path", async () => {
 test("rejects an incomplete stats replacement without writing to GitHub", async () => {
   const calls = mockGitHubFetch();
   const response = await onRequestPost({
-    request: await requestFor("stats", { kind: "stats", data: { profile: {} } }, "POST"),
+    request: await requestFor("stats", { kind: "stats", data: { profile: {} }, expectedSha: "existing-file-sha" }, "POST"),
     env: {
       ADMIN_SESSION_SECRET: secret,
       ADMIN_PASSWORD: "configured",
@@ -108,7 +108,7 @@ test("rejects an empty Death Overs replacement without writing to GitHub", async
   const response = await onRequestPost({
     request: await requestFor(
       "death",
-      { kind: "death", data: { formats: {}, innings: [], overTotals: [] } },
+      { kind: "death", data: { formats: {}, innings: [], overTotals: [] }, expectedSha: "existing-file-sha" },
       "POST",
     ),
     env: {
@@ -124,7 +124,7 @@ test("rejects an empty Death Overs replacement without writing to GitHub", async
 test("accepts the current verified Stats snapshot and returns the GitHub commit", async () => {
   const calls = mockGitHubFetch();
   const response = await onRequestPost({
-    request: await requestFor("stats", { kind: "stats", data: statsFixture }, "POST"),
+    request: await requestFor("stats", { kind: "stats", data: statsFixture, expectedSha: "existing-file-sha" }, "POST"),
     env: {
       ADMIN_SESSION_SECRET: secret,
       ADMIN_PASSWORD: "configured",
@@ -142,7 +142,7 @@ test("accepts the current verified Stats snapshot and returns the GitHub commit"
 test("accepts the current Death Overs snapshot and returns the GitHub commit", async () => {
   const calls = mockGitHubFetch();
   const response = await onRequestPost({
-    request: await requestFor("death", { kind: "death", data: deathFixture }, "POST"),
+    request: await requestFor("death", { kind: "death", data: deathFixture, expectedSha: "existing-file-sha" }, "POST"),
     env: {
       ADMIN_SESSION_SECRET: secret,
       ADMIN_PASSWORD: "configured",
