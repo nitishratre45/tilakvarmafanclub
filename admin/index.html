@@ -1948,7 +1948,7 @@
         }
         $("create-album").addEventListener("click", async () => {
           const input = $("new-album-name");
-          const name = input.value.trim().replace(/\\s+/g, " ");
+          const name = input.value.trim().replace(/\s+/g, " ");
           if (!name) {
             status("album-admin-status", "Enter an album name first.", true);
             input.focus();
