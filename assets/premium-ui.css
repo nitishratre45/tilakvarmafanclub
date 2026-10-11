@@ -9195,3 +9195,25 @@ footer > span:last-child {
     flex: 1 1 145px !important;
   }
 }
+
+/* Graceful fallback for external image hosts that deny hotlinking. */
+#photos .tv-photo-source-fallback {
+  display: grid;
+  place-items: center;
+  min-height: 110px;
+  width: 100%;
+  height: 100%;
+  padding: 14px;
+  color: #b8c8df;
+  background: radial-gradient(ellipse at top, rgba(117, 227, 255, 0.1), transparent 70%), #0a1423;
+  font-size: 12px;
+  font-weight: 750;
+  text-align: center;
+}
+#tv-photo-lightbox figcaption a {
+  display: inline-block;
+  margin-left: 8px;
+  color: var(--cyan, #75e3ff);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
