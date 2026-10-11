@@ -203,3 +203,151 @@ input, select, textarea { min-width: 0; max-width: 100%; }
   .source-summary { grid-template-columns: minmax(0, 1fr); }
   .section-head h2 { font-size: 18px; }
 }
+
+
+/* Fresh visual layer — vivid orange/cyan accents, glass panels, and clearer admin controls. */
+:root {
+  --admin-glow-orange: rgba(255, 106, 53, .18);
+  --admin-glow-cyan: rgba(124, 229, 242, .12);
+}
+body {
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(255,106,53,.09), transparent 26rem),
+    radial-gradient(ellipse at 92% 18%, rgba(124,229,242,.07), transparent 30rem),
+    var(--bg);
+}
+.sidebar .brand {
+  padding: 10px;
+  border: 1px solid rgba(124,229,242,.13);
+  border-radius: 15px;
+  background: linear-gradient(125deg, rgba(124,229,242,.07), rgba(255,106,53,.045));
+}
+.sidebar .brand img, .sidebar .mark-photo img {
+  border-radius: 10px;
+}
+.nav a.active {
+  background: linear-gradient(105deg, rgba(255,106,53,.19), rgba(124,229,242,.055));
+  border-color: rgba(255,106,53,.24);
+  box-shadow: inset 3px 0 #ff6a35, 0 8px 20px rgba(0,0,0,.1);
+}
+.nav a.active .nav-icon {
+  color: #ffb18e;
+  background: rgba(255,106,53,.14);
+}
+.topbar {
+  border-bottom-color: rgba(124,229,242,.18);
+}
+.hero {
+  isolation: isolate;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 8px 0 0;
+  border: 1px solid rgba(124,229,242,.12);
+  border-radius: 22px;
+  background: linear-gradient(120deg, rgba(124,229,242,.035), rgba(255,106,53,.035));
+  pointer-events: none;
+}
+.hero-badge {
+  border-color: rgba(124,229,242,.26);
+  background: linear-gradient(125deg, rgba(124,229,242,.1), rgba(255,106,53,.08));
+  color: #dffaff;
+}
+.section {
+  position: relative;
+  box-shadow: 0 16px 40px rgba(0,0,0,.12);
+}
+.section::before {
+  content: "";
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, #ff6a35, #7ce5f2 48%, transparent 100%);
+  opacity: .72;
+}
+.section-head {
+  background: linear-gradient(110deg, rgba(124,229,242,.035), transparent 65%);
+}
+.stat {
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.stat:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255,106,53,.34);
+  box-shadow: 0 14px 28px rgba(0,0,0,.2);
+}
+.dataset-card, .run-card, .source-card, .service-row, .item {
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.dataset-card:hover, .run-card:hover, .source-card:hover, .item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(124,229,242,.28);
+  box-shadow: 0 12px 26px rgba(0,0,0,.18);
+}
+.btn.primary {
+  background: linear-gradient(135deg, #ffad58, #ff6a35 75%);
+  border-color: rgba(255,190,126,.75);
+  box-shadow: 0 7px 20px rgba(255,106,53,.16);
+}
+.btn:not(.primary):hover {
+  border-color: rgba(124,229,242,.36);
+}
+input:focus, select:focus, textarea:focus {
+  background: #0b1929;
+}
+.status:not(:empty) {
+  padding: 9px 11px;
+  border: 1px solid rgba(124,229,242,.14);
+  border-radius: 10px;
+  background: rgba(124,229,242,.045);
+}
+.status.error {
+  border-color: rgba(255,141,136,.22);
+  background: rgba(255,141,136,.05);
+}
+.pill {
+  background: rgba(124,229,242,.055);
+}
+@media (max-width: 760px) {
+  .sidebar {
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    border-bottom-color: rgba(124,229,242,.2);
+  }
+  .sidebar .brand {
+    flex-basis: 100%;
+    padding: 6px 8px;
+    background: linear-gradient(100deg, rgba(124,229,242,.065), rgba(255,106,53,.055));
+  }
+  .sidebar .nav a {
+    border: 1px solid rgba(169,194,229,.15);
+    border-radius: 999px;
+    background: rgba(17,29,48,.8);
+  }
+  .sidebar .nav a.active {
+    border-color: rgba(255,154,103,.62);
+    background: linear-gradient(120deg, #ffb35c, #ff6a35);
+    color: #17111a;
+    box-shadow: 0 5px 15px rgba(255,106,53,.18);
+  }
+  .sidebar .nav a.active .nav-icon {
+    background: rgba(15,22,34,.14);
+    color: #17111a;
+  }
+  .topbar {
+    border: 1px solid rgba(124,229,242,.12);
+    border-radius: 14px;
+    padding: 10px;
+    margin-top: 12px;
+    background: rgba(13,26,43,.72);
+  }
+  .hero::before { inset: 4px 0 0; border-radius: 16px; }
+  .section { box-shadow: 0 10px 24px rgba(0,0,0,.14); }
+  .section-head { background: linear-gradient(110deg, rgba(124,229,242,.05), transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stat, .dataset-card, .run-card, .source-card, .item, .btn, .nav a {
+    transition: none !important;
+    transform: none !important;
+  }
+}
