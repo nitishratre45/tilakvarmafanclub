@@ -4875,7 +4875,6 @@ body[data-theme="light"] #stats #stats-overview .data-line,
   }
 }
 
-
 /* EXPLORE format selector — make the selected format unmistakable. */
 #stats #statsguru .statsguru-format-tabs {
   gap: 9px;
@@ -4902,7 +4901,11 @@ body[data-theme="light"] #stats #stats-overview .data-line,
   font-weight: 800;
   letter-spacing: 0.015em;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
-  transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
 }
 #stats #statsguru .statsguru-format-tabs button:hover {
   border-color: rgba(255, 169, 106, 0.85);
@@ -4915,7 +4918,10 @@ body[data-theme="light"] #stats #stats-overview .data-line,
   border: 2px solid #fff2d4 !important;
   padding: 8px 14px;
   font-weight: 950;
-  box-shadow: 0 0 0 3px rgba(255, 132, 70, 0.2), 0 8px 22px rgba(255, 105, 58, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 0 0 3px rgba(255, 132, 70, 0.2),
+    0 8px 22px rgba(255, 105, 58, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
   text-shadow: none;
   transform: translateY(-1px);
 }
@@ -4964,7 +4970,9 @@ body[data-theme="light"] #stats #stats-overview .data-line,
   background: linear-gradient(135deg, #ffd166 0%, #ff9b50 48%, #ff6947 100%) !important;
   color: #172033 !important;
   border-color: #fff !important;
-  box-shadow: 0 0 0 3px rgba(255, 132, 70, 0.17), 0 8px 20px rgba(196, 82, 38, 0.2);
+  box-shadow:
+    0 0 0 3px rgba(255, 132, 70, 0.17),
+    0 8px 20px rgba(196, 82, 38, 0.2);
 }
 :root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-pill,
 :root[data-theme="light"] #stats #statsguru .statsguru-format-pill {
