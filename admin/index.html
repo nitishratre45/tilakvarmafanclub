@@ -1295,21 +1295,92 @@
         }
       }
 
-      .album-edit-panel{margin-top:18px;padding:16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,rgba(17,36,58,.85),rgba(8,21,37,.9))}
-      .album-edit-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
-      .album-edit-heading strong{display:block;font-size:14px}
-      .album-edit-heading .hint{display:block;margin-top:3px}
-      .album-manage-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-      .album-manage-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;padding:12px;border:1px solid rgba(120,228,239,.17);border-radius:11px;background:rgba(5,16,30,.6)}
-      .album-manage-name{min-width:0}
-      .album-manage-name strong{display:block;overflow-wrap:anywhere;font-size:13px}
-      .album-manage-name small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
-      .album-manage-actions{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-shrink:0}
-      .btn.danger{border-color:rgba(255,141,136,.4);color:#ffaaa5;background:rgba(120,30,38,.18)}
-      .btn.danger:hover{background:rgba(120,30,38,.35)}
-      .album-manage-empty{padding:12px;color:var(--muted);font-size:12px}
-      @media(max-width:760px){.album-manage-list{grid-template-columns:minmax(0,1fr)}.album-edit-panel{padding:12px}.album-manage-row{align-items:flex-start}.album-manage-actions .btn{padding:5px 7px}}
-
+      .album-edit-panel {
+        margin-top: 18px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: linear-gradient(145deg, rgba(17, 36, 58, 0.85), rgba(8, 21, 37, 0.9));
+      }
+      .album-edit-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .album-edit-heading strong {
+        display: block;
+        font-size: 14px;
+      }
+      .album-edit-heading .hint {
+        display: block;
+        margin-top: 3px;
+      }
+      .album-manage-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .album-manage-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-width: 0;
+        padding: 12px;
+        border: 1px solid rgba(120, 228, 239, 0.17);
+        border-radius: 11px;
+        background: rgba(5, 16, 30, 0.6);
+      }
+      .album-manage-name {
+        min-width: 0;
+      }
+      .album-manage-name strong {
+        display: block;
+        overflow-wrap: anywhere;
+        font-size: 13px;
+      }
+      .album-manage-name small {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        margin-top: 3px;
+      }
+      .album-manage-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 6px;
+        flex-shrink: 0;
+      }
+      .btn.danger {
+        border-color: rgba(255, 141, 136, 0.4);
+        color: #ffaaa5;
+        background: rgba(120, 30, 38, 0.18);
+      }
+      .btn.danger:hover {
+        background: rgba(120, 30, 38, 0.35);
+      }
+      .album-manage-empty {
+        padding: 12px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      @media (max-width: 760px) {
+        .album-manage-list {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .album-edit-panel {
+          padding: 12px;
+        }
+        .album-manage-row {
+          align-items: flex-start;
+        }
+        .album-manage-actions .btn {
+          padding: 5px 7px;
+        }
+      }
     </style>
     <link rel="stylesheet" href="admin-premium.css?v=20261011-mobile-menu2" />
   </head>
@@ -1465,7 +1536,12 @@
               <div id="album-admin-status" class="status" role="status"></div>
               <div class="album-edit-panel">
                 <div class="album-edit-heading">
-                  <div><strong>Manage albums</strong><span class="hint">Rename albums or remove an album. Photos are kept safe.</span></div>
+                  <div>
+                    <strong>Manage albums</strong
+                    ><span class="hint"
+                      >Rename albums or remove an album. Photos are kept safe.</span
+                    >
+                  </div>
                   <span class="pill" id="album-manage-count">0 albums</span>
                 </div>
                 <div id="album-manage-list" class="album-manage-list"></div>
@@ -1973,38 +2049,73 @@
         function renderAlbumManager() {
           const host = $("album-manage-list");
           if (!host) return;
-          $("album-manage-count").textContent = state.albums.length + (state.albums.length === 1 ? " album" : " albums");
+          $("album-manage-count").textContent =
+            state.albums.length + (state.albums.length === 1 ? " album" : " albums");
           if (!state.albums.length) {
             host.innerHTML = '<div class="album-manage-empty">No albums created yet.</div>';
             return;
           }
-          host.innerHTML = state.albums.map((album) => {
-            const count = state.items.filter((item) => item.type !== "video" && item.album === album).length;
-            return '<div class="album-manage-row"><div class="album-manage-name"><strong>' + escapeHtml(album) + '</strong><small>' + count + (count === 1 ? ' photo' : ' photos') + '</small></div><div class="album-manage-actions"><button class="btn small" type="button" data-album-rename="' + escapeHtml(album) + '">✎ Edit</button>' + (album === "General Photos" ? '' : '<button class="btn small danger" type="button" data-album-delete="' + escapeHtml(album) + '">Delete</button>') + '</div></div>';
-          }).join("");
+          host.innerHTML = state.albums
+            .map((album) => {
+              const count = state.items.filter(
+                (item) => item.type !== "video" && item.album === album,
+              ).length;
+              return (
+                '<div class="album-manage-row"><div class="album-manage-name"><strong>' +
+                escapeHtml(album) +
+                "</strong><small>" +
+                count +
+                (count === 1 ? " photo" : " photos") +
+                '</small></div><div class="album-manage-actions"><button class="btn small" type="button" data-album-rename="' +
+                escapeHtml(album) +
+                '">✎ Edit</button>' +
+                (album === "General Photos"
+                  ? ""
+                  : '<button class="btn small danger" type="button" data-album-delete="' +
+                    escapeHtml(album) +
+                    '">Delete</button>') +
+                "</div></div>"
+              );
+            })
+            .join("");
           host.querySelectorAll("[data-album-rename]").forEach((button) => {
             button.addEventListener("click", async () => {
               const oldName = button.getAttribute("data-album-rename");
               const proposed = window.prompt("Edit album name:", oldName);
               if (proposed === null) return;
               const newName = proposed.trim().replace(/\s+/g, " ");
-              if (!newName) { status("album-admin-status", "Album name cannot be empty.", true); return; }
-              if (newName.length > 80) { status("album-admin-status", "Album name must be 80 characters or fewer.", true); return; }
-              if (newName.toLowerCase() !== oldName.toLowerCase() && state.albums.some((name) => name.toLowerCase() === newName.toLowerCase())) {
-                status("album-admin-status", "An album with that name already exists.", true); return;
+              if (!newName) {
+                status("album-admin-status", "Album name cannot be empty.", true);
+                return;
+              }
+              if (newName.length > 80) {
+                status("album-admin-status", "Album name must be 80 characters or fewer.", true);
+                return;
+              }
+              if (
+                newName.toLowerCase() !== oldName.toLowerCase() &&
+                state.albums.some((name) => name.toLowerCase() === newName.toLowerCase())
+              ) {
+                status("album-admin-status", "An album with that name already exists.", true);
+                return;
               }
               if (newName === oldName) return;
               const previousAlbums = [...state.albums];
-              const previousItems = state.items.map((item) => ({...item}));
-              state.albums = state.albums.map((name) => name === oldName ? newName : name);
-              state.items.forEach((item) => { if (item.album === oldName) item.album = newName; });
-              renderAlbumOptions(); renderAlbumManager();
+              const previousItems = state.items.map((item) => ({ ...item }));
+              state.albums = state.albums.map((name) => (name === oldName ? newName : name));
+              state.items.forEach((item) => {
+                if (item.album === oldName) item.album = newName;
+              });
+              renderAlbumOptions();
+              renderAlbumManager();
               try {
                 await saveMedia();
                 status("album-admin-status", 'Album renamed to "' + newName + '" and saved.');
               } catch (err) {
-                state.albums = previousAlbums; state.items = previousItems;
-                renderAlbumOptions(); renderAlbumManager();
+                state.albums = previousAlbums;
+                state.items = previousItems;
+                renderAlbumOptions();
+                renderAlbumManager();
                 status("album-admin-status", err.message, true);
               }
             });
@@ -2012,22 +2123,40 @@
           host.querySelectorAll("[data-album-delete]").forEach((button) => {
             button.addEventListener("click", async () => {
               const name = button.getAttribute("data-album-delete");
-              const count = state.items.filter((item) => item.type !== "video" && item.album === name).length;
+              const count = state.items.filter(
+                (item) => item.type !== "video" && item.album === name,
+              ).length;
               const message = count
-                ? 'Delete "' + name + '"? Its ' + count + ' photo(s) will be moved to General Photos. Files will not be deleted.'
+                ? 'Delete "' +
+                  name +
+                  '"? Its ' +
+                  count +
+                  " photo(s) will be moved to General Photos. Files will not be deleted."
                 : 'Delete empty album "' + name + '"?';
               if (!window.confirm(message)) return;
               const previousAlbums = [...state.albums];
-              const previousItems = state.items.map((item) => ({...item}));
+              const previousItems = state.items.map((item) => ({ ...item }));
               state.albums = state.albums.filter((album) => album !== name);
-              state.items.forEach((item) => { if (item.album === name) item.album = "General Photos"; });
-              renderAlbumOptions(); renderAlbumManager(); renderItems();
+              state.items.forEach((item) => {
+                if (item.album === name) item.album = "General Photos";
+              });
+              renderAlbumOptions();
+              renderAlbumManager();
+              renderItems();
               try {
                 await saveMedia();
-                status("album-admin-status", count ? 'Album deleted. Photos moved safely to General Photos.' : "Album deleted.");
+                status(
+                  "album-admin-status",
+                  count
+                    ? "Album deleted. Photos moved safely to General Photos."
+                    : "Album deleted.",
+                );
               } catch (err) {
-                state.albums = previousAlbums; state.items = previousItems;
-                renderAlbumOptions(); renderAlbumManager(); renderItems();
+                state.albums = previousAlbums;
+                state.items = previousItems;
+                renderAlbumOptions();
+                renderAlbumManager();
+                renderItems();
                 status("album-admin-status", err.message, true);
               }
             });
