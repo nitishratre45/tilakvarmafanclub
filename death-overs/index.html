@@ -337,13 +337,13 @@
         color: #a8b6c9;
         font-size: 10px;
         line-height: 1.35;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.025);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
       }
       .coverage-summary-line .coverage-mini-kicker {
         flex: 0 0 auto;
         color: #6de0f5;
         font: 700 9px/1.3 var(--mono);
-        letter-spacing: .08em;
+        letter-spacing: 0.08em;
       }
       .coverage-summary-line strong {
         min-width: 0;
@@ -357,7 +357,9 @@
           gap: 6px;
           padding: 7px 8px;
         }
-        .coverage-summary-line strong { font-size: 9px; }
+        .coverage-summary-line strong {
+          font-size: 9px;
+        }
       }
       .coverage-panel {
         margin-top: 16px;
