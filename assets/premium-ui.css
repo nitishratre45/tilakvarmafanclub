@@ -5761,3 +5761,46 @@ textarea:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Series-wise photo albums and same-page glowing lightbox */
+.tv-album-grid,.tv-album-photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1.4vw,18px)}
+.tv-album-card{display:block;min-width:0;padding:0;text-align:left;color:#eef6ff;background:linear-gradient(145deg,rgba(17,34,56,.98),rgba(7,15,28,.98));border:1px solid rgba(124,229,242,.18);border-radius:17px;overflow:hidden;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.2);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.tv-album-card:hover,.tv-album-card:focus-visible{transform:translateY(-4px);border-color:#7ce5f2;box-shadow:0 0 0 1px rgba(124,229,242,.18),0 0 26px rgba(45,205,255,.17),0 15px 36px rgba(0,0,0,.35);outline:none}
+.tv-album-cover{display:block;position:relative;aspect-ratio:4/3;overflow:hidden;background:#0b1728}
+.tv-album-cover>img,.tv-album-photo img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .35s ease}
+.tv-album-card:hover .tv-album-cover>img{transform:scale(1.045)}
+.tv-album-count{position:absolute;left:8px;top:8px;padding:5px 8px;border:1px solid #7ce5f266;border-radius:999px;background:#06101ddf;color:#9af3ff;font-size:9px;font-weight:900;letter-spacing:.08em}
+.tv-album-open{position:absolute;right:8px;bottom:8px;padding:6px 9px;border-radius:8px;background:linear-gradient(120deg,#ff7a45,#f04c39);color:#160b0a;font-size:9px;font-weight:900;box-shadow:0 0 18px #ff6a3544}
+.tv-album-info{display:grid;gap:5px;padding:12px}
+.tv-album-info strong{font-size:clamp(12px,1.25vw,16px);line-height:1.35}
+.tv-album-info small{color:#98abc3;font-size:10px;line-height:1.5}
+.tv-album-back-row{display:flex;align-items:center;gap:18px;margin:0 0 20px;padding:16px;border:1px solid #7ce5f233;border-radius:15px;background:linear-gradient(120deg,#0d2035,#0a1423)}
+.tv-album-back{flex:0 0 auto;padding:11px 14px;border:1px solid #7ce5f255;border-radius:10px;background:#0b1b2d;color:#a5f4ff;cursor:pointer}
+.tv-album-back-row h3{margin:3px 0;font-size:clamp(20px,3vw,30px)}
+.tv-album-back-row p{margin:0;color:#9badc3;font-size:12px}
+.tv-album-photo{position:relative;aspect-ratio:1/1;overflow:hidden;padding:0;border:1px solid #7ce5f222;border-radius:12px;background:#0b1728;cursor:zoom-in}
+.tv-album-photo:hover,.tv-album-photo:focus-visible{border-color:#7ce5f2;box-shadow:0 0 0 1px #7ce5f255,0 0 22px #2dcfff26;outline:none}
+.tv-album-photo:hover img{transform:scale(1.05)}
+.tv-photo-open-icon{position:absolute;right:8px;bottom:8px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;color:#e8fbff;background:#07101dcc;border:1px solid #7ce5f266;box-shadow:0 0 14px #2dcfff2b}
+.tv-photo-lightbox{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:76px 72px 86px;background:rgba(2,6,14,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.tv-photo-lightbox.is-open{display:flex;animation:tv-lightbox-in .18s ease both}
+.tv-lightbox-figure{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;width:100%;height:100%;margin:0;min-width:0;min-height:0}
+.tv-lightbox-figure img{display:block;max-width:100%;max-height:calc(100% - 40px);object-fit:contain;border-radius:10px;box-shadow:0 0 0 1px #7ce5f233,0 0 42px #2dcfff24,0 18px 70px #000a}
+.tv-lightbox-figure figcaption{max-width:90%;color:#f2f7ff;text-align:center;font-weight:700;font-size:13px}
+.tv-lightbox-close,.tv-lightbox-nav{position:absolute;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;border:1px solid #7ce5f277;background:#0c1b2ddd;color:#a5f4ff;cursor:pointer;box-shadow:0 0 20px #2dcfff22;transition:background .18s ease,box-shadow .18s ease,transform .18s ease}
+.tv-lightbox-close{top:20px;right:22px;font-size:32px;line-height:1}
+.tv-lightbox-nav{top:50%;transform:translateY(-50%);font-size:37px;line-height:1}
+.tv-lightbox-prev{left:18px}.tv-lightbox-next{right:18px}
+.tv-lightbox-close:hover,.tv-lightbox-nav:hover{background:#16334b;box-shadow:0 0 28px #2dcfff55,0 0 12px #ff6a3533}
+.tv-lightbox-tools{position:absolute;bottom:18px;left:50%;display:flex;align-items:center;justify-content:center;gap:16px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 28px);color:#a7bad0;font-size:12px}
+.tv-lightbox-download{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 16px;border:1px solid #ff8a5c88;border-radius:12px;background:linear-gradient(120deg,#ff7b45,#ee4d37);color:#160a09;text-decoration:none;font-weight:900;box-shadow:0 0 24px #ff6a3533}
+.tv-lightbox-download:hover{box-shadow:0 0 30px #ff6a3577}
+.tv-lightbox-lock{overflow:hidden}
+.album-manager{margin-bottom:18px;padding:18px;border:1px solid rgba(124,229,242,.2);border-radius:16px;background:linear-gradient(135deg,rgba(15,31,51,.9),rgba(8,15,27,.9))}
+.album-create-row{display:flex;gap:10px;align-items:center}
+.album-create-row input{flex:1;min-width:0}
+#album-admin-status:empty{display:none}
+@keyframes tv-lightbox-in{from{opacity:0}to{opacity:1}}
+@media(max-width:640px){.tv-album-grid,.tv-album-photo-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.tv-album-card{border-radius:10px}.tv-album-info{padding:8px}.tv-album-info small{display:none}.tv-album-count{left:4px;top:4px;padding:4px 5px;font-size:8px}.tv-album-open{right:4px;bottom:4px;padding:5px 6px;font-size:8px}.tv-album-photo{border-radius:6px}.tv-album-back-row{align-items:flex-start;flex-direction:column;gap:10px;padding:12px}.tv-photo-lightbox{padding:70px 8px 94px}.tv-lightbox-close{top:12px;right:12px;width:42px;height:42px}.tv-lightbox-nav{width:38px;height:44px;border-radius:12px;font-size:30px;background:#07101dcf}.tv-lightbox-prev{left:6px}.tv-lightbox-next{right:6px}.tv-lightbox-figure img{max-width:100%;max-height:calc(100% - 34px)}.tv-lightbox-tools{bottom:12px;gap:9px}.tv-lightbox-download{min-height:40px;padding:9px 12px;font-size:11px}.album-create-row{align-items:stretch;flex-direction:column}}
+@media(prefers-reduced-motion:reduce){.tv-album-card,.tv-album-cover>img,.tv-album-photo img,.tv-lightbox-close,.tv-lightbox-nav{transition:none}.tv-photo-lightbox.is-open{animation:none}}
