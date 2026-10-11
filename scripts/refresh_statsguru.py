@@ -1073,16 +1073,64 @@ def main():
                             + ": refreshed verified domestic summary from secondary profile feed; preserved any existing detailed innings"
                         )
                 except Exception as fallback_exc:
-                    optional_warnings.append(
-                        fmt + " summary fallback: " + str(fallback_exc)
+                    # The secondary profile feed can change independently of Statsguru.
+                    # If both live sources fail, keep the last saved career summary
+                    # visible in the Stats Explorer rather than treating a valid saved
+                    # snapshot as missing data. Do not change its original timestamp.
+                    target = "First-class" if fmt == "FC" else "List A"
+                    saved_career = data.get("careerFormats", {}).get(target, {})
+                    previous = old_formats.get(fmt, {})
+                    saved_summary = (
+                        previous.get("summary")
+                        if isinstance(previous, dict)
+                        else None
                     )
-                    print(
-                        fmt
-                        + ": secondary summary fallback unavailable; preserving saved data:",
-                        fallback_exc,
-                    )
-                    if old_formats.get(fmt):
-                        new_formats[fmt] = old_formats[fmt]
+                    if not isinstance(saved_summary, dict) or not saved_summary:
+                        saved_summary = {
+                            key: saved_career.get(key)
+                            for key in (
+                                "matches", "innings", "notOuts", "runs",
+                                "highestScore", "average", "strikeRate",
+                                "hundreds", "fifties", "fours", "sixes", "balls",
+                            )
+                            if saved_career.get(key) is not None
+                        }
+                    if saved_summary:
+                        merged = dict(previous) if isinstance(previous, dict) else {}
+                        merged["summary"] = saved_summary
+                        merged.setdefault("careerBreakdown", [])
+                        merged.setdefault("innings", [])
+                        merged.setdefault("inningsCount", len(merged["innings"]))
+                        merged["source"] = (
+                            "Saved verified career summary; live domestic source unavailable"
+                        )
+                        merged["detailStatus"] = (
+                            "saved-summary-only"
+                            if not merged.get("innings")
+                            else merged.get("detailStatus", "saved-details")
+                        )
+                        merged["detailNote"] = (
+                            "The live Statsguru and secondary profile requests failed. "
+                            "Showing the last saved career summary; no new match-by-match "
+                            "rows or updated timestamp are claimed."
+                        )
+                        new_formats[fmt] = merged
+                        print(
+                            fmt
+                            + ": live sources unavailable; retained saved career summary:",
+                            fallback_exc,
+                        )
+                    else:
+                        optional_warnings.append(
+                            fmt + " summary fallback: " + str(fallback_exc)
+                        )
+                        print(
+                            fmt
+                            + ": secondary summary fallback unavailable; preserving saved data:",
+                            fallback_exc,
+                        )
+                        if old_formats.get(fmt):
+                            new_formats[fmt] = old_formats[fmt]
     if success:
         # Cross-format match index for the Matches section. Preserve recent verified
         # scorecards (including DNB rows) and enrich with Statsguru batting rows.
