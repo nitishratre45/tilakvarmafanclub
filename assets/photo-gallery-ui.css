@@ -1033,3 +1033,32 @@
     font-size: 15px;
   }
 }
+
+
+/* Compact archive layout: override legacy gallery rules that leave a viewport-sized blank area. */
+#photos.tilak-photos-section {
+  min-height: 0 !important;
+  height: auto !important;
+  align-content: start;
+}
+#photos .cricinfo-gallery {
+  min-height: 0 !important;
+  height: auto !important;
+}
+#photos #cricinfo-photo-grid {
+  display: block;
+  min-height: 0 !important;
+  height: auto !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  align-content: start;
+}
+#photos #cricinfo-photo-grid > .tv-gallery-toolbar {
+  margin-top: 0 !important;
+}
+#photos #cricinfo-photo-grid > .tv-album-grid {
+  margin-top: 0 !important;
+}
+#photos .tv-gallery-toolbar {
+  margin-top: 0;
+}
