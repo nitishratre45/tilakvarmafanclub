@@ -14,7 +14,8 @@ function validBcciImageUrl(value) {
       url.username ||
       url.password ||
       url.hash
-    ) return null;
+    )
+      return null;
 
     if (url.pathname === "/_next/image") {
       const imagePath = url.searchParams.get("url") || "";
@@ -38,7 +39,9 @@ function base64(bytes) {
   let binary = "";
   const chunkSize = 0x8000;
   for (let offset = 0; offset < bytes.length; offset += chunkSize) {
-    binary += String.fromCharCode(...bytes.subarray(offset, Math.min(offset + chunkSize, bytes.length)));
+    binary += String.fromCharCode(
+      ...bytes.subarray(offset, Math.min(offset + chunkSize, bytes.length)),
+    );
   }
   return btoa(binary);
 }
@@ -68,9 +71,12 @@ async function saveBinary(env, path, bytes) {
     "x-github-api-version": "2022-11-28",
     "user-agent": "TilakVarmaFanClub-Admin",
   };
-  const existing = await fetch(api + "?ref=" + encodeURIComponent(env.GITHUB_BRANCH || "main"), { headers });
+  const existing = await fetch(api + "?ref=" + encodeURIComponent(env.GITHUB_BRANCH || "main"), {
+    headers,
+  });
   if (existing.ok) return;
-  if (existing.status !== 404) throw new Error("GitHub image check failed (" + existing.status + ").");
+  if (existing.status !== 404)
+    throw new Error("GitHub image check failed (" + existing.status + ").");
 
   const response = await fetch(api, {
     method: "PUT",
@@ -83,7 +89,12 @@ async function saveBinary(env, path, bytes) {
   });
   if (!response.ok) {
     const detail = await response.text();
-    throw new Error("Could not save photo to the website repository (" + response.status + "): " + detail.slice(0, 180));
+    throw new Error(
+      "Could not save photo to the website repository (" +
+        response.status +
+        "): " +
+        detail.slice(0, 180),
+    );
   }
 }
 
@@ -101,8 +112,10 @@ async function digestHex(bytes) {
 }
 
 export async function onRequestPost({ request, env }) {
-  if (!(await requireAdmin(request, env))) return json({ error: "Admin session expired. Sign in again." }, 401);
-  if (!env.GITHUB_TOKEN) return json({ error: "GITHUB_TOKEN is missing from Cloudflare Pages settings." }, 503);
+  if (!(await requireAdmin(request, env)))
+    return json({ error: "Admin session expired. Sign in again." }, 401);
+  if (!env.GITHUB_TOKEN)
+    return json({ error: "GITHUB_TOKEN is missing from Cloudflare Pages settings." }, 503);
 
   let body;
   try {
@@ -113,8 +126,10 @@ export async function onRequestPost({ request, env }) {
 
   const urls = Array.isArray(body?.urls) ? body.urls : [];
   const album = typeof body?.album === "string" ? body.album.trim() : "";
-  const titlePrefix = typeof body?.titlePrefix === "string" ? body.titlePrefix.trim().slice(0, 100) : "";
-  if (!album || album.length > 120) return json({ error: "Choose a valid destination album." }, 400);
+  const titlePrefix =
+    typeof body?.titlePrefix === "string" ? body.titlePrefix.trim().slice(0, 100) : "";
+  if (!album || album.length > 120)
+    return json({ error: "Choose a valid destination album." }, 400);
   if (!urls.length || urls.length > MAX_URLS) {
     return json({ error: "Paste between 1 and " + MAX_URLS + " BCCI image URLs at a time." }, 400);
   }
@@ -129,9 +144,14 @@ export async function onRequestPost({ request, env }) {
     else parsedUrls.push({ raw, parsed });
   }
   if (invalid.length) {
-    return json({
-      error: "Only BCCI gallery image URLs are accepted (/_next/image with /cms/photos/galleries/ images, or the direct BCCI gallery image URL). Invalid URL(s): " + invalid.length,
-    }, 400);
+    return json(
+      {
+        error:
+          "Only BCCI gallery image URLs are accepted (/_next/image with /cms/photos/galleries/ images, or the direct BCCI gallery image URL). Invalid URL(s): " +
+          invalid.length,
+      },
+      400,
+    );
   }
   if (!parsedUrls.length) return json({ error: "Paste at least one BCCI photo URL." }, 400);
 
@@ -150,7 +170,10 @@ export async function onRequestPost({ request, env }) {
         continue;
       }
       try {
-        const response = await fetch(parsed.href, { redirect: "manual", headers: { "accept": "image/avif,image/webp,image/*" } });
+        const response = await fetch(parsed.href, {
+          redirect: "manual",
+          headers: { accept: "image/avif,image/webp,image/*" },
+        });
         if (!response.ok) throw new Error("BCCI returned HTTP " + response.status + ".");
         const finalUrl = new URL(response.url || parsed.href);
         if (!ALLOWED_HOSTS.has(finalUrl.hostname) || finalUrl.protocol !== "https:") {
@@ -160,16 +183,20 @@ export async function onRequestPost({ request, env }) {
         const extension = extensionFor(contentType);
         if (!extension) throw new Error("BCCI did not return a supported WebP, JPEG or PNG image.");
         const declaredLength = Number(response.headers.get("content-length") || 0);
-        if (declaredLength > MAX_IMAGE_BYTES) throw new Error("Image exceeds the 8 MB per-photo limit.");
+        if (declaredLength > MAX_IMAGE_BYTES)
+          throw new Error("Image exceeds the 8 MB per-photo limit.");
         const bytes = new Uint8Array(await response.arrayBuffer());
-        if (!bytes.length || bytes.length > MAX_IMAGE_BYTES) throw new Error("Image is empty or exceeds the 8 MB per-photo limit.");
+        if (!bytes.length || bytes.length > MAX_IMAGE_BYTES)
+          throw new Error("Image is empty or exceeds the 8 MB per-photo limit.");
 
         const hash = await digestHex(bytes);
         const filename = hash + "." + extension;
         const path = "assets/imported-photos/" + filename;
         await saveBinary(env, path, bytes);
         const title = titlePrefix
-          ? (parsedUrls.length > 1 ? titlePrefix + " " + String(i + 1).padStart(2, "0") : titlePrefix)
+          ? parsedUrls.length > 1
+            ? titlePrefix + " " + String(i + 1).padStart(2, "0")
+            : titlePrefix
           : "BCCI Photo " + hash.slice(0, 8).toUpperCase();
 
         const item = {
@@ -192,9 +219,22 @@ export async function onRequestPost({ request, env }) {
     if (added.length) {
       data.updatedAt = new Date().toISOString();
       const commit = await saveRepoJson(env, "data/admin-media.json", data);
-      return json({ ok: true, added, skipped: skipped.length, errors, commit, storage: "GitHub repository (not Cloudinary)" });
+      return json({
+        ok: true,
+        added,
+        skipped: skipped.length,
+        errors,
+        commit,
+        storage: "GitHub repository (not Cloudinary)",
+      });
     }
-    return json({ ok: errors.length === 0, added, skipped: skipped.length, errors, storage: "GitHub repository (not Cloudinary)" });
+    return json({
+      ok: errors.length === 0,
+      added,
+      skipped: skipped.length,
+      errors,
+      storage: "GitHub repository (not Cloudinary)",
+    });
   } catch (error) {
     return json({ error: error.message || "BCCI photo import failed." }, 502);
   }
