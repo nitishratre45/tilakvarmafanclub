@@ -43,7 +43,15 @@ export async function onRequestPost({ request, env }) {
     if (!data || !Array.isArray(data.items) || data.items.length > 300)
       return json({ error: "Invalid photo/video list." }, 400);
     data.items = data.items
-      .filter((item) => item && typeof item.url === "string" && /^https:\/\//i.test(item.url))
+      .filter((item) => {
+        if (!item || typeof item.url !== "string") return false;
+        if (/^https:\/\//i.test(item.url)) return true;
+        // BCCI imports are stored as same-origin files in the repository.
+        // Preserve these paths when any Admin edit saves the media library.
+        return /^\/assets\/imported-photos\/[a-f0-9]{64}\.(?:webp|jpe?g|png)$/i.test(
+          item.url,
+        );
+      })
       .slice(0, 300);
     data.updatedAt = new Date().toISOString();
   } else {
