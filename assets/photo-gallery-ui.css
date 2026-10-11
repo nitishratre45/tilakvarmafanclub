@@ -1223,3 +1223,114 @@ html body main #photos .gallery-attribution {
     padding-top: 9px !important;
   }
 }
+
+
+/* Archive controls: clearer copy, predictable sizing, and readable timestamps. */
+#photos .tv-gallery-toolbar-copy {
+  flex: 1 1 220px;
+  gap: 5px;
+}
+#photos .tv-gallery-toolbar-copy strong {
+  font-size: clamp(17px, 1.6vw, 21px);
+  letter-spacing: -0.025em;
+}
+#photos .tv-gallery-sort-note {
+  color: #7f9bb8;
+  font-size: 10px;
+  line-height: 1.5;
+}
+#photos .tv-gallery-filters {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+#photos .tv-gallery-filters label {
+  flex: 1 1 112px;
+}
+#photos .tv-gallery-filters select {
+  min-width: 0;
+  max-width: 100%;
+}
+#photos .tv-album-info {
+  min-width: 0;
+}
+#photos .tv-album-info strong {
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+#photos .tv-album-info small {
+  font-variant-numeric: tabular-nums;
+  line-height: 1.45;
+}
+#photos .tv-album-photo {
+  position: relative;
+  overflow: hidden;
+}
+#photos .tv-photo-date {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  left: 5px;
+  z-index: 2;
+  display: block;
+  overflow: hidden;
+  padding: 5px 6px;
+  border: 1px solid rgba(172, 204, 236, 0.15);
+  border-radius: 7px;
+  background: rgba(3, 10, 20, 0.82);
+  color: #eef6ff;
+  font-size: 9px;
+  font-weight: 750;
+  line-height: 1.25;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+#photos .tv-album-photo-grid {
+  align-items: start;
+  grid-auto-flow: row;
+}
+@media (min-width: 1100px) {
+  #photos .tv-gallery-toolbar {
+    align-items: center;
+    gap: 22px;
+    padding: 20px;
+  }
+  #photos .tv-gallery-filters {
+    flex: 0 1 680px;
+  }
+}
+@media (max-width: 640px) {
+  #photos .tv-gallery-toolbar-copy {
+    min-width: 0;
+  }
+  #photos .tv-gallery-sort-note {
+    font-size: 9px;
+  }
+  #photos .tv-gallery-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: end;
+  }
+  #photos .tv-gallery-filters label {
+    min-width: 0;
+    width: 100%;
+  }
+  #photos .tv-gallery-filters label:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+  #photos .tv-gallery-filters select {
+    width: 100%;
+    padding-inline: 8px 24px;
+  }
+  #photos .tv-gallery-clear {
+    grid-column: 1 / -1;
+  }
+  #photos .tv-photo-date {
+    right: 3px;
+    bottom: 3px;
+    left: 3px;
+    padding: 4px 3px;
+    font-size: 8px;
+  }
+}
