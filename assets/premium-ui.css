@@ -4874,3 +4874,121 @@ body[data-theme="light"] #stats #stats-overview .data-line,
     transition: none;
   }
 }
+
+
+/* EXPLORE format selector — make the selected format unmistakable. */
+#stats #statsguru .statsguru-format-tabs {
+  gap: 9px;
+  padding: 8px 5px 12px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(9, 20, 38, 0.72), rgba(20, 31, 52, 0.48));
+  border: 1px solid rgba(125, 160, 205, 0.18);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 132, 75, 0.7) transparent;
+}
+#stats #statsguru .statsguru-format-tabs button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 9px 15px;
+  border: 1px solid rgba(151, 174, 207, 0.3);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(36, 51, 75, 0.88), rgba(20, 32, 51, 0.96));
+  color: #e2eaf7;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.015em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+#stats #statsguru .statsguru-format-tabs button:hover {
+  border-color: rgba(255, 169, 106, 0.85);
+  background: linear-gradient(180deg, rgba(61, 75, 101, 0.98), rgba(28, 43, 66, 0.98));
+  transform: translateY(-1px);
+}
+#stats #statsguru .statsguru-format-tabs button.active {
+  background: linear-gradient(135deg, #ffd166 0%, #ff9b50 48%, #ff6947 100%) !important;
+  color: #172033 !important;
+  border: 2px solid #fff2d4 !important;
+  padding: 8px 14px;
+  font-weight: 950;
+  box-shadow: 0 0 0 3px rgba(255, 132, 70, 0.2), 0 8px 22px rgba(255, 105, 58, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  text-shadow: none;
+  transform: translateY(-1px);
+}
+#stats #statsguru .statsguru-format-tabs button.active::before {
+  content: "✓";
+  display: inline-grid;
+  place-items: center;
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
+  border-radius: 50%;
+  background: #172033;
+  color: #ffe0a0;
+  font-size: 12px;
+  font-weight: 950;
+  line-height: 1;
+}
+#stats #statsguru .statsguru-format-tabs button:focus-visible {
+  outline: 3px solid #69d7ff;
+  outline-offset: 3px;
+}
+#stats #statsguru .statsguru-format-pill {
+  padding: 7px 12px;
+  border: 1px solid rgba(255, 177, 91, 0.8);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 177, 91, 0.18), rgba(255, 105, 71, 0.12));
+  color: #ffc078;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.055em;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.035);
+}
+:root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-tabs,
+:root[data-theme="light"] #stats #statsguru .statsguru-format-tabs {
+  background: linear-gradient(135deg, #edf3fb, #f8faff);
+  border-color: #d4deeb;
+}
+:root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-tabs button,
+:root[data-theme="light"] #stats #statsguru .statsguru-format-tabs button {
+  background: linear-gradient(180deg, #fff, #f0f4fa);
+  border-color: #cbd6e5;
+  color: #33445e;
+}
+:root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-tabs button.active,
+:root[data-theme="light"] #stats #statsguru .statsguru-format-tabs button.active {
+  background: linear-gradient(135deg, #ffd166 0%, #ff9b50 48%, #ff6947 100%) !important;
+  color: #172033 !important;
+  border-color: #fff !important;
+  box-shadow: 0 0 0 3px rgba(255, 132, 70, 0.17), 0 8px 20px rgba(196, 82, 38, 0.2);
+}
+:root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-pill,
+:root[data-theme="light"] #stats #statsguru .statsguru-format-pill {
+  color: #9a3e18;
+  background: linear-gradient(135deg, #fff2d9, #ffe7dd);
+  border-color: #e9a46b;
+}
+@media (max-width: 760px) {
+  #stats #statsguru .statsguru-format-tabs {
+    gap: 8px;
+    padding: 8px 7px 11px;
+    margin-block: 9px 12px;
+  }
+  #stats #statsguru .statsguru-format-tabs button {
+    min-height: 42px;
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+  #stats #statsguru .statsguru-format-tabs button.active {
+    padding: 8px 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #stats #statsguru .statsguru-format-tabs button {
+    transition: none;
+  }
+}
