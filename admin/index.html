@@ -2649,7 +2649,11 @@
             const d = friendlyRoot?.__deathData,
               f = d?.formats?.[fmt] || {};
             const current = recordSelect.value;
-            if (!["format", "overTotals", "innings", "delivery", "featuredMatch", "root"].includes(current))
+            if (
+              !["format", "overTotals", "innings", "delivery", "featuredMatch", "root"].includes(
+                current,
+              )
+            )
               recordSelect.value = "format";
             friendlyOptions(recordSelect, [
               ["format", "Format summary"],
@@ -2661,7 +2665,9 @@
             ]);
             const wrap = friendlyEl("friendly-nested-selectors");
             if (wrap)
-              wrap.style.display = ["overTotals", "innings", "delivery"].includes(recordSelect.value)
+              wrap.style.display = ["overTotals", "innings", "delivery"].includes(
+                recordSelect.value,
+              )
                 ? "grid"
                 : "none";
             const inningsSelect = friendlyEl("friendly-innings"),
