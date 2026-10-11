@@ -1831,7 +1831,8 @@
             if (el) el.textContent = "—";
           });
           document.getElementById("coverage-filter").textContent =
-            (names[active] || active) + " · " +
+            (names[active] || active) +
+            " · " +
             (year.value === "all" ? "All available years" : year.value) +
             " · No delivery records available for this selection.";
           document.getElementById("status").textContent = msg;
