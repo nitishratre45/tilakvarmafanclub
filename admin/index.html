@@ -2159,7 +2159,9 @@
           $("album-overview-empty").textContent = String(emptyAlbums);
           $("album-overview-latest").textContent = latest
             ? new Date(latest.createdAt).toLocaleDateString("en-IN", {
-                day: "numeric", month: "short", year: "numeric",
+                day: "numeric",
+                month: "short",
+                year: "numeric",
               })
             : "No uploads yet";
         }
