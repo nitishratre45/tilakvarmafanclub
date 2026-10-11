@@ -208,7 +208,6 @@ nav a:focus-visible::after {
 .tilak-news-grid,
 .cricinfo-photo-grid,
 .bcci-video-grid,
-.match-center-grid,
 .upcoming-matches-grid {
   gap: 14px;
 }
@@ -472,7 +471,6 @@ img {
   .activity-feed,
   .tilak-news-grid,
   .bcci-video-grid,
-  .match-center-grid,
   .upcoming-matches-grid {
     grid-template-columns: 1fr;
   }
@@ -673,12 +671,6 @@ img {
 .about-section p {
   color: var(--text-secondary);
   line-height: 1.9;
-}
-.match-center-section {
-  padding: clamp(44px, 6vw, 80px) clamp(18px, 7.5vw, 120px);
-}
-.match-center-section .section-heading {
-  margin-bottom: 26px;
 }
 .home-snapshot-section .home-mini-stat strong,
 .home-format-card strong,
@@ -1137,26 +1129,9 @@ textarea:focus-visible {
     radial-gradient(ellipse at 100% 0%, rgba(124, 229, 242, 0.055), transparent 30rem),
     linear-gradient(180deg, #091321, #080d17);
 }
-.embedded-match-center {
-  background: transparent;
-}
-.match-center-toolbar {
-  border: 1px solid rgba(169, 194, 229, 0.15);
-  border-radius: 16px;
-  background: rgba(12, 22, 37, 0.7);
-  padding: 16px;
-}
-.match-center-summary {
-  border-radius: 10px;
-  background: rgba(124, 229, 242, 0.055);
-  border: 1px solid rgba(124, 229, 242, 0.12);
-  padding: 12px 14px;
-}
-.match-center-grid,
 .upcoming-matches-grid {
   gap: 14px;
 }
-.match-center-grid > *,
 .upcoming-matches-grid > * {
   min-width: 0;
   border: 1px solid rgba(169, 194, 229, 0.16);
@@ -1167,7 +1142,6 @@ textarea:focus-visible {
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
-.match-center-grid > *:hover,
 .upcoming-matches-grid > *:hover {
   transform: translateY(-3px);
   border-color: rgba(124, 229, 242, 0.34);
@@ -1312,9 +1286,6 @@ footer {
     right: -12vw;
     bottom: -8vw;
   }
-  .match-center-toolbar {
-    padding: 12px;
-  }
   .cricinfo-gallery {
     padding: 12px;
   }
@@ -1337,7 +1308,6 @@ footer {
 }
 @media (prefers-reduced-motion: reduce) {
   .fan-card,
-  .match-center-grid > *,
   .upcoming-matches-grid > *,
   .cricinfo-photo-grid img,
   .bcci-video-grid > *,
@@ -1556,20 +1526,12 @@ footer {
     radial-gradient(ellipse at 100% 0%, rgba(124, 229, 242, 0.055), transparent 30rem),
     linear-gradient(180deg, #091321, #080d17);
 }
-.match-center-toolbar,
 .bcci-video-controls {
   border: 1px solid rgba(169, 194, 229, 0.15);
   border-radius: 16px;
   background: rgba(12, 22, 37, 0.72);
   padding: 16px;
 }
-.match-center-summary {
-  border-radius: 10px;
-  background: rgba(124, 229, 242, 0.055);
-  border: 1px solid rgba(124, 229, 242, 0.12);
-  padding: 12px 14px;
-}
-.match-center-grid > *,
 .upcoming-matches-grid > * {
   min-width: 0;
   border: 1px solid rgba(169, 194, 229, 0.16);
@@ -1580,7 +1542,6 @@ footer {
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
-.match-center-grid > *:hover,
 .upcoming-matches-grid > *:hover {
   transform: translateY(-3px);
   border-color: rgba(124, 229, 242, 0.34);
@@ -1686,7 +1647,6 @@ footer {
     right: -12vw;
     bottom: -8vw;
   }
-  .match-center-toolbar,
   .bcci-video-controls {
     padding: 12px;
   }
@@ -1709,7 +1669,6 @@ footer {
 }
 @media (prefers-reduced-motion: reduce) {
   .fan-card,
-  .match-center-grid > *,
   .upcoming-matches-grid > *,
   .cricinfo-photo-grid img,
   .bcci-video-grid > *,
@@ -1735,11 +1694,9 @@ footer {
 :root[data-theme-resolved="light"] .official-records-grid > *,
 :root[data-theme-resolved="light"] .milestone-grid > *,
 :root[data-theme-resolved="light"] .analytics-grid > *,
-:root[data-theme-resolved="light"] .match-center-grid > *,
 :root[data-theme-resolved="light"] .upcoming-matches-grid > *,
 :root[data-theme-resolved="light"] .bcci-video-grid > *,
 :root[data-theme-resolved="light"] .home-bowling-card,
-:root[data-theme-resolved="light"] .match-center-toolbar,
 :root[data-theme-resolved="light"] .bcci-video-controls,
 :root[data-theme-resolved="light"] .analytics-chart,
 :root[data-theme-resolved="light"] .settings-card,
@@ -1781,7 +1738,6 @@ footer {
   background: linear-gradient(135deg, #fff3eb, #fff);
   color: #152235;
 }
-:root[data-theme-resolved="light"] .match-center-summary,
 :root[data-theme-resolved="light"] .data-line,
 :root[data-theme-resolved="light"] .stats-subnav {
   background: #edf3f8;
@@ -1966,7 +1922,6 @@ body {
 .stats-grid > *,
 .career-formats > *,
 .records-section > *,
-.match-center-grid > *,
 .upcoming-matches-grid > *,
 .tilak-news-grid > *,
 .bcci-video-grid > * {
@@ -2051,11 +2006,9 @@ body {
   .home-format-card {
     min-width: 0;
   }
-  .match-center-toolbar,
   .bcci-video-controls {
     flex-wrap: wrap;
   }
-  .match-center-toolbar > *,
   .bcci-video-controls > * {
     min-width: 0;
     max-width: 100%;
@@ -2086,7 +2039,6 @@ body {
   .calculator-card,
   .settings-card,
   .upcoming-matches-panel,
-  .match-center-toolbar,
   .bcci-video-controls {
     padding: 14px;
   }
@@ -3528,7 +3480,6 @@ main > section[id][hidden],
 #records[hidden],
 #fan-zone[hidden],
 #innings[hidden],
-#match-center[hidden],
 #photos[hidden],
 #news[hidden],
 #tilak-videos[hidden],
@@ -5662,20 +5613,6 @@ textarea:focus-visible {
   max-width: 100%;
 }
 :where(
-    .stats-grid,
-    .home-quick-stats,
-    .home-format-stats,
-    .home-bowling-stats,
-    .tilak-news-grid,
-    .cricinfo-photo-grid,
-    .bcci-video-grid,
-    .match-center-grid,
-    .upcoming-matches-grid
-  )
-  > * {
-  min-width: 0;
-}
-:where(
   .stat-card,
   .home-mini-stat,
   .home-format-card,
@@ -5706,20 +5643,6 @@ textarea:focus-visible {
   }
   nav a {
     min-height: 40px;
-  }
-  :where(
-      .stats-grid,
-      .home-quick-stats,
-      .home-format-stats,
-      .home-bowling-stats,
-      .tilak-news-grid,
-      .cricinfo-photo-grid,
-      .bcci-video-grid,
-      .match-center-grid,
-      .upcoming-matches-grid
-    )
-    > * {
-    min-width: 0;
   }
   :where(.match-card, .bcci-video-card, .tilak-news-card) {
     overflow-wrap: anywhere;
