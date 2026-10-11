@@ -461,3 +461,33 @@
     transition: none;
   }
 }
+
+/* Hard reset legacy section pseudo-elements: they were creating the giant empty block. */
+#photos.tilak-photos-section::before,
+#photos.tilak-photos-section::after {
+  content: none !important;
+  display: none !important;
+  position: absolute !important;
+  inset: auto !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#photos.tilak-photos-section > .cricinfo-gallery > .gallery-heading {
+  display: flex !important;
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin-top: 0 !important;
+  transform: none !important;
+}
+#photos.tilak-photos-section > .cricinfo-gallery,
+#photos.tilak-photos-section > .cricinfo-gallery > .gallery-heading,
+#photos.tilak-photos-section #cricinfo-photo-grid,
+#photos.tilak-photos-section .tv-gallery-toolbar,
+#photos.tilak-photos-section .tv-album-grid {
+  inset-block-start: auto !important;
+}
