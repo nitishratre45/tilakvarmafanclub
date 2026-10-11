@@ -1,5 +1,6 @@
 import { chromium } from "playwright";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 
 const baseURL = process.env.SMOKE_BASE_URL || "http://127.0.0.1:8000";
 const browser = await chromium.launch({ headless: true });
@@ -84,6 +85,33 @@ check("theme controls change and persist selected appearance", async () => {
   assert.equal(await page.evaluate(() => localStorage.getItem("tilak-fc-theme")), "light");
   await page.locator('[data-theme-choice="dark"]').click();
   assert.equal(await page.locator("html").getAttribute("data-theme"), "dark");
+  await page.close();
+});
+
+
+check("Admin Studio warns before discarding unsaved edits", async () => {
+  const page = await browser.newPage();
+  page.setDefaultTimeout(10000);
+  const stats = JSON.parse(await readFile(new URL("../data/site-data.json", import.meta.url), "utf8"));
+  await page.route("**/api/admin/**", async (route) => {
+    const req = route.request();
+    const url = new URL(req.url());
+    if (url.pathname.endsWith("/session")) return route.fulfill({ json: { authenticated: true } });
+    if (url.pathname.endsWith("/content")) return route.fulfill({ json: url.searchParams.get("kind") === "media" ? { items: [], albums: [] } : { feedUrl: "" } });
+    if (url.pathname.endsWith("/data-editor") && req.method() === "GET") return route.fulfill({ json: { kind: "stats", path: "data/site-data.json", data: stats } });
+    return route.fulfill({ json: { ok: true, items: [], runs: [], datasets: [] } });
+  });
+  await page.goto(baseURL + "/admin/index.html", { waitUntil: "domcontentloaded" });
+  await page.locator("#admin-nav [data-view='data-editor']").click();
+  const field = page.locator("#friendly-fields [data-friendly-key]").first();
+  await field.waitFor();
+  const originalKind = await page.locator("#friendly-kind").inputValue();
+  await field.fill((await field.inputValue()) + " test");
+  let warned = false;
+  page.once("dialog", async (dialog) => { warned = true; await dialog.dismiss(); });
+  await page.locator("#friendly-kind").selectOption("profile");
+  assert.equal(warned, true);
+  assert.equal(await page.locator("#friendly-kind").inputValue(), originalKind);
   await page.close();
 });
 
