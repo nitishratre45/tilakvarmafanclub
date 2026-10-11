@@ -6,7 +6,7 @@
   const allowed = new Set(["light", "dark", "system"]);
   const media = window.matchMedia("(prefers-color-scheme: light)");
   function apply(theme, save) {
-    const value = allowed.has(theme) ? theme : "system";
+    const value = allowed.has(theme) ? theme : "dark";
     const resolved = value === "system" ? (media.matches ? "light" : "dark") : value;
     root.dataset.theme = value;
     root.dataset.themeResolved = resolved;
@@ -28,9 +28,9 @@
       } catch (_) {}
     }
   }
-  let initial = "system";
+  let initial = "dark";
   try {
-    initial = localStorage.getItem("tilak-fc-theme") || "system";
+    initial = localStorage.getItem("tilak-fc-theme") || "dark";
   } catch (_) {}
   apply(initial, false);
   buttons.forEach((button) =>
@@ -38,17 +38,17 @@
   );
   if (media.addEventListener)
     media.addEventListener("change", () => {
-      let value = "system";
+      let value = "dark";
       try {
-        value = localStorage.getItem("tilak-fc-theme") || "system";
+        value = localStorage.getItem("tilak-fc-theme") || "dark";
       } catch (_) {}
       if (value === "system") apply(value, false);
     });
   else if (media.addListener)
     media.addListener(() => {
-      let value = "system";
+      let value = "dark";
       try {
-        value = localStorage.getItem("tilak-fc-theme") || "system";
+        value = localStorage.getItem("tilak-fc-theme") || "dark";
       } catch (_) {}
       if (value === "system") apply(value, false);
     });
