@@ -326,17 +326,38 @@
       .coverage-summary-line {
         display: flex;
         align-items: center;
-        flex-wrap: wrap;
-        gap: 7px;
-        margin-top: 8px;
+        gap: 8px;
+        width: fit-content;
+        max-width: 100%;
+        margin: 10px 0 0;
+        padding: 7px 10px;
+        border: 1px solid rgba(109, 224, 245, 0.24);
+        border-radius: 8px;
+        background: linear-gradient(110deg, rgba(14, 37, 56, 0.96), rgba(7, 18, 32, 0.96));
         color: #a8b6c9;
         font-size: 10px;
-        line-height: 1.5;
+        line-height: 1.35;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.025);
+      }
+      .coverage-summary-line .coverage-mini-kicker {
+        flex: 0 0 auto;
+        color: #6de0f5;
+        font: 700 9px/1.3 var(--mono);
+        letter-spacing: .08em;
       }
       .coverage-summary-line strong {
-        color: #7ce5f2;
-        font: 600 10px/1.5 var(--mono);
+        min-width: 0;
+        color: #dce8f7;
+        font: 600 10px/1.4 var(--mono);
         overflow-wrap: anywhere;
+      }
+      @media (max-width: 560px) {
+        .coverage-summary-line {
+          width: 100%;
+          gap: 6px;
+          padding: 7px 8px;
+        }
+        .coverage-summary-line strong { font-size: 9px; }
       }
       .coverage-panel {
         margin-top: 16px;
