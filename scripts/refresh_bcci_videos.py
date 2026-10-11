@@ -3,7 +3,7 @@
 
 The public latest-video feed is paginated/limited, so query additional pages and
 player/search filters where the BCCI endpoint supports them. Signed playback URLs
-are refreshed every six hours; no video files are mirrored.
+are refreshed every twelve hours; no video files are mirrored.
 """
 from __future__ import annotations
 
@@ -587,10 +587,20 @@ def main() -> int:
     # (they may carry refreshed signed playback URLs); old IDs are appended only
     # when they are absent from the current collection.
     previous_count = 0
+    previous_payload: dict = {}
+    previous_ids: set[str] = set()
     try:
         previous_payload = (
             json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
         )
+        if isinstance(previous_payload, dict):
+            old_list = previous_payload.get("videos", [])
+            if isinstance(old_list, list):
+                previous_ids = {
+                    first_text(item.get("id"))
+                    for item in old_list
+                    if isinstance(item, dict) and first_text(item.get("id"))
+                }
         previous_videos = (
             previous_payload.get("videos", [])
             if isinstance(previous_payload, dict)
@@ -691,6 +701,34 @@ def main() -> int:
     OUT.write_text(
         json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
+
+    # Publish a small machine-readable change report for the Admin Studio.
+    # IDs are used rather than titles so similarly named clips are not conflated.
+    current_ids = {first_text(video.get("id")) for video in videos if first_text(video.get("id"))}
+    added_videos = [video for video in videos if first_text(video.get("id")) not in previous_ids]
+    report = {
+        "source": "BCCI official video refresh",
+        "updatedAt": output["updatedAt"],
+        "totalVideos": len(videos),
+        "previousTotal": len(previous_ids),
+        "addedCount": len(current_ids - previous_ids),
+        "addedVideos": [
+            {
+                "id": first_text(video.get("id")),
+                "title": first_text(video.get("title")),
+                "publishedDate": first_text(video.get("publishedDate")),
+                "thumbnailUrl": first_text(video.get("thumbnailUrl")),
+            }
+            for video in added_videos[:20]
+        ],
+        "historyPreserved": previous_count,
+        "duplicateEntriesRemoved": removed_duplicates,
+    }
+    report_path = Path("assets/bcci-video-refresh-report.json")
+    report_path.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    print(f"Saved refresh report: {report['addedCount']} newly added; {report['totalVideos']} total.")
     print(f"Saved {len(videos)} unique Tilak Varma videos to {OUT}, newest first.")
     print(
         f"Dates covered: {videos[-1].get('publishedDate', 'unknown')} to {videos[0].get('publishedDate', 'unknown')}"
