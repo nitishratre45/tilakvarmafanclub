@@ -56,7 +56,7 @@
     lightbox.querySelector(".tv-lightbox-count").textContent =
       activeIndex + 1 + " / " + activeAlbum.photos.length;
     const download = lightbox.querySelector(".tv-lightbox-download");
-    download.href = photo.safe;
+    download.href = photo.safe.includes("res.cloudinary.com/") ? photo.safe.replace("/upload/", "/upload/fl_attachment/") : photo.safe;
     download.setAttribute(
       "download",
       (photo.title || "tilak-varma-photo").replace(/[^a-z0-9-_]+/gi, "-") + ".jpg",
