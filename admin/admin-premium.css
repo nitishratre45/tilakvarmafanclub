@@ -998,3 +998,58 @@ select:focus-visible, textarea:focus-visible {
 @media (max-width: 360px) {
   .album-overview { grid-template-columns: 1fr 1fr; }
 }
+
+
+/* Mobile menu fix: dropdown overlays the page instead of pushing the dashboard down. */
+@media (max-width: 720px) {
+  .sidebar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    isolation: isolate !important;
+  }
+  .sidebar .nav,
+  .sidebar .nav.mobile-open {
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: auto !important;
+    flex: none !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    z-index: 1100 !important;
+    transform-origin: top center !important;
+  }
+  .sidebar .nav:not(.mobile-open) {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  .sidebar .nav.mobile-open {
+    display: flex !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    max-height: min(62dvh, 460px) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    border: 1px solid rgba(120, 228, 239, .25) !important;
+    background: linear-gradient(155deg, #111f34 0%, #091322 100%) !important;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, .52) !important;
+  }
+  .sidebar .nav a,
+  .sidebar .nav a:visited {
+    color: #c5d4e8 !important;
+  }
+  .sidebar .nav a.active {
+    color: #fff !important;
+    background: linear-gradient(100deg, rgba(255, 106, 53, .22), rgba(120, 228, 239, .10)) !important;
+    border-color: rgba(120, 228, 239, .3) !important;
+    box-shadow: inset 3px 0 0 #ff8750 !important;
+  }
+  .sidebar .nav a.active .nav-icon {
+    color: #8cebf4 !important;
+    background: rgba(120, 228, 239, .13) !important;
+  }
+}
