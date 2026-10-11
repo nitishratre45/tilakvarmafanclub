@@ -365,6 +365,17 @@
   );
   playbackQuality.addEventListener("change", applyPlaybackQuality);
 
+  // When a visitor chooses another site section from the navbar,
+  // close/unload the floating video first so the destination section can scroll
+  // and receive clicks normally. Clicking Videos keeps the player open.
+  document.querySelectorAll('#main-nav a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      if (link.getAttribute("href") !== "#tilak-videos" && !modal.hidden) {
+        closePlayer();
+      }
+    });
+  });
+
   modal
     .querySelectorAll("[data-bcci-close]")
     .forEach((element) => element.addEventListener("click", closePlayer));
