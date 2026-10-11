@@ -365,15 +365,13 @@
   );
   playbackQuality.addEventListener("change", applyPlaybackQuality);
 
-  // When a visitor chooses another site section from the navbar,
-  // close/unload the floating video first so the destination section can scroll
-  // and receive clicks normally. Clicking Videos keeps the player open.
-  document.querySelectorAll('#main-nav a[href^="#"]').forEach((link) => {
-    link.addEventListener("click", () => {
-      if (link.getAttribute("href") !== "#tilak-videos" && !modal.hidden) {
-        closePlayer();
-      }
-    });
+  // section-tabs.js handles navbar clicks in capture phase and stops
+  // propagation, so listen for its explicit section-change signal instead.
+  window.addEventListener("tilak:section-change", (event) => {
+    const nextSection = event.detail && event.detail.id;
+    if (nextSection && nextSection !== "tilak-videos" && !modal.hidden) {
+      closePlayer();
+    }
   });
 
   modal
