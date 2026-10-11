@@ -3483,7 +3483,8 @@
             return;
           }
           try {
-            const baseline = fileKind === "death" ? friendlySavedRoot?.__deathData : friendlySavedRoot;
+            const baseline =
+              fileKind === "death" ? friendlySavedRoot?.__deathData : friendlySavedRoot;
             if (!baseline) throw Error("Reload the saved file before publishing changes.");
             friendlySetStatus("Checking for newer repository changes before saving…");
             const latest = await api("/api/admin/data-editor?kind=" + fileKind);
