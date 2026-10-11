@@ -1084,11 +1084,13 @@
     const domesticSummaryOnly =
       (selectedFormat === "FC" && !sg.formats?.FC?.summary) ||
       (selectedFormat === "List A" && !sg.formats?.["List A"]?.summary);
-    note.textContent = domesticSummaryOnly
-      ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. Snapshot refresh checks every 20 hours."
-      : "Last update: " +
-        (sg.updatedAt || "timestamp unavailable") +
-        ". Automatic refresh checks every 20 hours; last saved figures remain available if an update is delayed.";
+    note.textContent = selectedFormat === "All"
+      ? "Last update: " + (sg.updatedAt || "timestamp unavailable") + ". Automatic refresh checks every 20 hours."
+      : domesticSummaryOnly
+        ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. Snapshot refresh checks every 20 hours."
+        : "Last update: " +
+          (sg.updatedAt || "timestamp unavailable") +
+          ". Automatic refresh checks every 20 hours; last saved figures remain available if an update is delayed.";
   }
   function resetFilters() {
     $("sg-filter-type").value = "all";
