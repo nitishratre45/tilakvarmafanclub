@@ -767,7 +767,8 @@
       detailNote.style.display = allFormatsSelected ? "" : "";
       if (allFormatsSelected) {
         const stamp = data?.statsguru?.updatedAt || "timestamp unavailable";
-        detailNote.textContent = "Last update: " + stamp + ". Automatic refresh checks every 20 hours.";
+        detailNote.textContent =
+          "Last update: " + stamp + ". Automatic refresh checks every 20 hours.";
       }
     }
     const type = activeBreakdownFilter,
