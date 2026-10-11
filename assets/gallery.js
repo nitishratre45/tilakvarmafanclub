@@ -331,7 +331,6 @@
                         day: "numeric",
                         month: "short",
                         year: "numeric",
-                        
                       })
                     : "Date unavailable",
                 ) +
@@ -396,7 +395,8 @@
         .map((item) => ({ ...item, safe: safeUrl(item.url) }))
         .filter((item) => item.safe && item.type !== "video");
       const names = Array.isArray(data.albums) ? data.albums : [];
-      const albumDates = data.albumDates && typeof data.albumDates === "object" ? data.albumDates : {};
+      const albumDates =
+        data.albumDates && typeof data.albumDates === "object" ? data.albumDates : {};
       const grouped = new Map();
       names.forEach((name) => {
         if (typeof name === "string" && name.trim()) grouped.set(name, []);
