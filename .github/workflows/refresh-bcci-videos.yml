@@ -7,8 +7,8 @@ on:
       - '.github/workflows/refresh-bcci-videos.yml'
       - 'data/video-config.json'
   schedule:
-    # 00:00 India Standard Time (18:30 UTC on the previous day)
-    - cron: "30 18 * * *"
+    # Refresh signed playback URLs every 6 hours (06:00, 12:00, 18:00 and 00:00 IST).
+    - cron: "30 */6 * * *"
   workflow_dispatch:
 
 permissions:
