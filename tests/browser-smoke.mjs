@@ -94,7 +94,7 @@ check("gallery handles externally hosted photo previews that fail to load", asyn
   page.setDefaultTimeout(10000);
   await page.route("https://media.gettyimages.com/**", (route) => route.abort());
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="#photos"]').click();
+  await page.locator('#main-nav a[href="#tv-gallery-hub"]').click();
   const album = page.locator(".tv-album-card").filter({ hasText: "ASIAN GAMES 2026 FINAL" });
   await album.waitFor();
   await album.click();
@@ -137,7 +137,7 @@ check("mobile photo gallery shows ten albums at a time and filters by year/month
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   const menu = page.locator(".menu-toggle");
   if (await menu.isVisible()) await menu.click();
-  await page.locator('#main-nav a[href="#photos"]').click();
+  await page.locator('#main-nav a[href="#tv-gallery-hub"]').click();
   await page.locator(".tv-gallery-year").waitFor();
   const geometry = await page.evaluate(() => {
     const rect = (selector) => {
@@ -147,10 +147,10 @@ check("mobile photo gallery shows ten albums at a time and filters by year/month
       return { top: Math.round(box.top), bottom: Math.round(box.bottom), height: Math.round(box.height) };
     };
     return {
-      section: rect("#photos"),
-      gallery: rect("#photos > .cricinfo-gallery"),
-      toolbar: rect("#cricinfo-photo-grid > .tv-gallery-toolbar"),
-      firstAlbum: rect("#cricinfo-photo-grid .tv-album-card"),
+      section: rect("#tv-gallery-hub"),
+      gallery: rect("#tv-gallery-hub > .tv-gallery-hub__shell"),
+      toolbar: rect("#tv-gallery-grid > .tv-gallery-toolbar"),
+      firstAlbum: rect("#tv-gallery-grid .tv-album-card"),
     };
   });
   assert(geometry.section && geometry.gallery && geometry.toolbar && geometry.firstAlbum,
