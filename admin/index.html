@@ -1599,6 +1599,20 @@
                 >
               </div>
               <div id="album-admin-status" class="status" role="status"></div>
+              <div class="album-overview" aria-label="Album overview">
+                <div class="album-overview-card">
+                  <span>Total albums</span><strong id="album-overview-total">—</strong>
+                </div>
+                <div class="album-overview-card">
+                  <span>Albums with photos</span><strong id="album-overview-filled">—</strong>
+                </div>
+                <div class="album-overview-card">
+                  <span>Empty albums</span><strong id="album-overview-empty">—</strong>
+                </div>
+                <div class="album-overview-card album-overview-latest">
+                  <span>Latest upload</span><strong id="album-overview-latest">—</strong>
+                </div>
+              </div>
               <div class="album-edit-panel">
                 <div class="album-edit-heading">
                   <div>
@@ -2131,9 +2145,29 @@
             : state.albums[0] || "General Photos";
         }
 
+        function updateAlbumOverview() {
+          const photoItems = state.items.filter((item) => item.type !== "video");
+          const filledAlbums = state.albums.filter((album) =>
+            photoItems.some((item) => item.album === album),
+          );
+          const emptyAlbums = state.albums.length - filledAlbums.length;
+          const latest = photoItems
+            .filter((item) => item.createdAt && !Number.isNaN(Date.parse(item.createdAt)))
+            .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))[0];
+          $("album-overview-total").textContent = String(state.albums.length);
+          $("album-overview-filled").textContent = String(filledAlbums.length);
+          $("album-overview-empty").textContent = String(emptyAlbums);
+          $("album-overview-latest").textContent = latest
+            ? new Date(latest.createdAt).toLocaleDateString("en-IN", {
+                day: "numeric", month: "short", year: "numeric",
+              })
+            : "No uploads yet";
+        }
+
         function renderAlbumManager() {
           const host = $("album-manage-list");
           if (!host) return;
+          updateAlbumOverview();
           $("album-manage-count").textContent =
             state.albums.length + (state.albums.length === 1 ? " album" : " albums");
           if (!state.albums.length) {
