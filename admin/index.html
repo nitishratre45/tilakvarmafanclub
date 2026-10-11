@@ -1446,6 +1446,42 @@
           padding: 5px 7px;
         }
       }
+      .bcci-import-panel {
+        margin: 22px 0;
+        padding: 20px;
+        border: 1px solid #2b6274;
+        border-radius: 14px;
+        background: linear-gradient(145deg, rgba(13, 42, 60, .82), rgba(7, 22, 37, .96));
+        box-shadow: 0 14px 34px #0002;
+      }
+      .bcci-import-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+      .bcci-import-head h3 { margin: 5px 0; font-size: 20px; letter-spacing: -.025em; }
+      .bcci-import-head p { max-width: 760px; margin: 6px 0 0; color: var(--muted); font-size: 12px; }
+      #bcci-import-form textarea {
+        display: block;
+        width: 100%;
+        min-height: 132px;
+        padding: 12px;
+        resize: vertical;
+        border: 1px solid #354c66;
+        border-radius: 9px;
+        background: #071626;
+        color: var(--text);
+        font: 12px/1.6 ui-monospace, SFMono-Regular, Consolas, monospace;
+        overflow-wrap: anywhere;
+      }
+      #bcci-import-form textarea::placeholder { color: #71859e; }
+      #bcci-import-form code { color: var(--cyan); }
+      @media (max-width: 720px) {
+        .bcci-import-panel { padding: 14px; }
+        .bcci-import-head { flex-direction: column; }
+      }
     </style>
     <link rel="stylesheet" href="admin-premium.css?v=20261011-section-topbar-fix3" />
   </head>
@@ -1575,8 +1611,7 @@
               <div class="eyebrow">MEDIA LIBRARY</div>
               <h2>Photos & videos</h2>
               <p>
-                Uploads go to Cloudinary; gallery entries are saved to GitHub and then served by the
-                public site.
+                BCCI URL imports are saved directly in this website repository without Cloudinary. Manual file uploads below still use Cloudinary.
               </p>
             </div>
             <span class="pill">● PUBLIC GALLERY</span>
@@ -1646,6 +1681,40 @@
                 <div id="album-manage-list" class="album-manage-list"></div>
               </div>
             </div>
+            <section class="bcci-import-panel" aria-labelledby="bcci-import-heading">
+              <div class="bcci-import-head">
+                <div>
+                  <div class="eyebrow">BCCI PHOTO IMPORT</div>
+                  <h3 id="bcci-import-heading">Import photos from BCCI image URLs</h3>
+                  <p>Paste one or more BCCI gallery image URLs (one per line). Photos are downloaded by the server and saved inside this website's GitHub repository — not Cloudinary.</p>
+                </div>
+                <span class="pill">REPO STORAGE</span>
+              </div>
+              <form id="bcci-import-form">
+                <div class="grid">
+                  <div class="field">
+                    <label for="bcci-import-album">Destination album</label>
+                    <select id="bcci-import-album" required>
+                      <option value="General Photos">General Photos</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="bcci-import-title">Photo title prefix (optional)</label>
+                    <input id="bcci-import-title" maxlength="100" placeholder="e.g. India vs West Indies" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="bcci-import-urls">BCCI image URLs · max 12 at a time</label>
+                  <textarea id="bcci-import-urls" rows="5" required spellcheck="false" placeholder="https://www.bcci.tv/_next/image?url=%2Fcms%2Fphotos%2Fgalleries%2Fmaster%2F...webp&w=1920&q=75&#10;Paste another BCCI photo URL on the next line"></textarea>
+                  <span class="hint">Accepts BCCI /_next/image gallery URLs and direct /cms/photos/galleries/ image URLs. Max 8 MB per image. Duplicate URLs are skipped.</span>
+                </div>
+                <div class="actions">
+                  <button class="btn primary" id="bcci-import-submit" type="submit">↓ Download & add to album</button>
+                  <span class="hint">Files are stored at <code>assets/imported-photos/</code> in this repository.</span>
+                </div>
+              </form>
+              <div id="bcci-import-status" class="status" role="status" aria-live="polite"></div>
+            </section>
             <form id="upload-form">
               <div class="grid">
                 <div class="field">
@@ -2131,18 +2200,20 @@
           }
         }
         function renderAlbumOptions() {
-          const select = $("media-album");
-          if (!select) return;
-          const previous = select.value;
-          select.innerHTML = state.albums
-            .map(
-              (album) =>
-                '<option value="' + escapeHtml(album) + '">' + escapeHtml(album) + "</option>",
-            )
-            .join("");
-          select.value = state.albums.includes(previous)
-            ? previous
-            : state.albums[0] || "General Photos";
+          ["media-album", "bcci-import-album"].forEach((id) => {
+            const select = $(id);
+            if (!select) return;
+            const previous = select.value;
+            select.innerHTML = state.albums
+              .map(
+                (album) =>
+                  '<option value="' + escapeHtml(album) + '">' + escapeHtml(album) + "</option>",
+              )
+              .join("");
+            select.value = state.albums.includes(previous)
+              ? previous
+              : state.albums[0] || "General Photos";
+          });
         }
 
         function updateAlbumOverview() {
@@ -3605,6 +3676,55 @@
             $("password").value = "";
             status("login-status", "You are signed out.");
             window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        });
+        $("bcci-import-form").addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const button = $("bcci-import-submit");
+          const urls = $("bcci-import-urls").value
+            .split(/\r?\n/)
+            .map((value) => value.trim())
+            .filter(Boolean);
+          if (!urls.length) {
+            status("bcci-import-status", "Paste at least one BCCI image URL.", true);
+            return;
+          }
+          if (urls.length > 12) {
+            status("bcci-import-status", "Import up to 12 image URLs at a time.", true);
+            return;
+          }
+          button.disabled = true;
+          status("bcci-import-status", "Downloading BCCI photos and saving them to this repository…");
+          try {
+            const result = await api("/api/admin/import-bcci-photo", {
+              method: "POST",
+              body: JSON.stringify({
+                urls,
+                album: $("bcci-import-album").value,
+                titlePrefix: $("bcci-import-title").value.trim(),
+              }),
+            });
+            const latest = await api("/api/admin/content?kind=media");
+            state.items = Array.isArray(latest.items) ? latest.items : [];
+            state.albums = Array.isArray(latest.albums)
+              ? latest.albums.filter((name) => typeof name === "string" && name.trim())
+              : ["General Photos"];
+            if (!state.albums.includes("General Photos")) state.albums.unshift("General Photos");
+            renderAlbumOptions();
+            renderAlbumManager();
+            renderItems();
+            $("bcci-import-urls").value = "";
+            const problems = Array.isArray(result.errors) ? result.errors.length : 0;
+            let message =
+              (result.added?.length || 0) + " photo(s) added to the selected album; " +
+              (result.skipped || 0) + " duplicate(s) skipped. " +
+              "Saved in GitHub repository storage; Cloudinary was not used for these imports.";
+            if (problems) message += " " + problems + " URL(s) failed: " + result.errors.map((item) => item.error).join(" · ");
+            status("bcci-import-status", message, problems > 0 && !(result.added?.length));
+          } catch (err) {
+            status("bcci-import-status", err.message, true);
+          } finally {
+            button.disabled = false;
           }
         });
         $("upload-form").addEventListener("submit", async (e) => {
