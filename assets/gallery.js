@@ -78,32 +78,27 @@
   function renderAlbumPhotos(album) {
     activeAlbum = album;
     host.innerHTML =
-      '<div class="tv-album-back-row"><button type="button" class="tv-album-back" aria-label="Back to all albums">← Back</button><div class="tv-album-heading"><h3>' +
+      '<div class="tv-album-detail"><div class="tv-album-back-row"><button type="button" class="tv-album-back" aria-label="Back to all albums">← Back</button><div class="tv-album-heading"><h3>' +
       esc(album.name) +
       "</h3><p>" +
       album.photos.length +
       ' photos</p></div></div><div class="tv-album-photo-grid">' +
-      album.photos
-        .map(
-          (photo, index) =>
-            '<button class="tv-album-photo" type="button" data-photo-index="' +
-            index +
-            '" aria-label="Open ' +
-            esc(photo.title) +
-            '"><img src="' +
-            photo.safe +
-            '" alt="' +
-            esc(photo.title) +
-            '" loading="lazy" decoding="async"><span class="tv-photo-open-icon">↗</span></button>',
-        )
-        .join("") +
-      "</div>";
+      album.photos.map((photo, index) =>
+        '<button class="tv-album-photo" type="button" data-photo-index="' +
+        index +
+        '" aria-label="Open ' +
+        esc(photo.title) +
+        '"><img src="' +
+        photo.safe +
+        '" alt="' +
+        esc(photo.title) +
+        '" loading="lazy" decoding="async"><span class="tv-photo-open-icon">↗</span></button>'
+      ).join("") +
+      "</div></div>";
     host.querySelector(".tv-album-back").addEventListener("click", renderAlbums);
-    host
-      .querySelectorAll("[data-photo-index]")
-      .forEach((button) =>
-        button.addEventListener("click", () => openPhoto(Number(button.dataset.photoIndex))),
-      );
+    host.querySelectorAll("[data-photo-index]").forEach((button) =>
+      button.addEventListener("click", () => openPhoto(Number(button.dataset.photoIndex)))
+    );
   }
   function renderAlbums() {
     activeAlbum = null;
