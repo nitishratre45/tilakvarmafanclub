@@ -81,29 +81,30 @@
     host.innerHTML =
       '<div class="tv-album-detail"><header class="tv-album-hero"><button type="button" class="tv-album-back" aria-label="Back to all albums">← All albums</button><h2>' +
       esc(album.name) +
-      '</h2><p>PHOTO GALLERY <span>·</span> ' +
+      "</h2><p>PHOTO GALLERY <span>·</span> " +
       album.photos.length +
       ' photos</p></header><div class="tv-album-back-row"><div class="tv-album-heading"><h3>' +
       esc(album.name) +
       "</h3><p>" +
       album.photos.length +
-      ' photos</p></div></div><div class="tv-album-photo-grid">'
-      album.photos
-        .map(
-          (photo, index) =>
-            '<button class="tv-album-photo" type="button" data-photo-index="' +
-            index +
-            '" aria-label="Open ' +
-            esc(photo.title) +
-            '"><img src="' +
-            photo.safe +
-            '" alt="' +
-            esc(photo.title) +
-            '" loading="lazy" decoding="async"><span class="tv-photo-open-icon">↗</span></button>',
-        )
-        .join("") +
-      "</div></div>";
-    host.querySelectorAll(".tv-album-back").forEach((button) => button.addEventListener("click", renderAlbums));
+      ' photos</p></div></div><div class="tv-album-photo-grid">';
+    album.photos
+      .map(
+        (photo, index) =>
+          '<button class="tv-album-photo" type="button" data-photo-index="' +
+          index +
+          '" aria-label="Open ' +
+          esc(photo.title) +
+          '"><img src="' +
+          photo.safe +
+          '" alt="' +
+          esc(photo.title) +
+          '" loading="lazy" decoding="async"><span class="tv-photo-open-icon">↗</span></button>',
+      )
+      .join("") + "</div></div>";
+    host
+      .querySelectorAll(".tv-album-back")
+      .forEach((button) => button.addEventListener("click", renderAlbums));
     host
       .querySelectorAll("[data-photo-index]")
       .forEach((button) =>
