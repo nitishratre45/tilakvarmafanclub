@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="assets/style.css?v=20261011-audit-pro1" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css" />
     <link rel="stylesheet" href="assets/premium-ui.css?v=20261011-audit-pro1" />
-    <link rel="stylesheet" href="assets/site-refinement.css?v=20261011-settings-visibility4" />
+    <link rel="stylesheet" href="assets/site-refinement.css?v=20261011-profile-refresh1" />
     <link rel="stylesheet" href="assets/photo-gallery-ui.css?v=20261011-premium-gallery1" />
   </head>
   <body>
@@ -42,73 +42,83 @@
       </nav>
     </header>
     <main>
-      <section id="profile" class="section profile-section">
+      <section id="profile" class="section profile-section" aria-labelledby="profile-name">
         <div class="profile-photo-wrap">
           <img
             id="tilak-photo"
             src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
-            alt="Tilak Varma in India jersey — official ICC player profile"
+            alt="Tilak Varma — India international cricketer"
             loading="eager"
             decoding="async"
             referrerpolicy="no-referrer"
           />
-          <div class="photo-fallback">TV <span>72</span></div>
+          <div class="photo-fallback" aria-hidden="true">TV <span>72</span></div>
+          <span class="profile-jersey-mark" aria-label="Jersey number 72">72</span>
+          <a class="profile-photo-source" id="profile-photo-source" href="https://www.icc-cricket.com/rankings/70761/tilak-varma" target="_blank" rel="noopener noreferrer">PHOTO SOURCE ↗</a>
         </div>
+
         <div class="profile-copy">
           <div class="profile-eyebrow-row">
-            <div class="eyebrow">PLAYER PROFILE / INDIA · MI</div>
-            <a
-              class="bcci-profile-badge"
-              href="https://www.bcci.tv/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="BCCI official website"
-              ><img
-                src="https://www.bcci.tv/cms/images/gtykgr9m2ngt/1wee95mOUTwOptkwqVRYqW/ef7367850791aa565aa7fa5536260619/BCCI_Logo.svg"
-                alt="BCCI logo"
-                loading="lazy"
-                decoding="async"
-              /><span>BCCI</span></a
-            >
+            <span class="profile-status-pill"><i aria-hidden="true"></i> PLAYER PROFILE</span>
+            <span class="profile-team-label">INDIA · MUMBAI INDIANS</span>
           </div>
-          <h2>TILAK <em>VARMA</em></h2>
-          <p class="profile-intro">
-            A left-handed batter from Hyderabad, known for composure under pressure and bold
-            strokeplay.
+          <h2 id="profile-name">TILAK <em>VARMA</em></h2>
+          <p class="profile-intro" id="profile-intro">
+            Left-handed batter representing India and Mumbai Indians.
           </p>
-          <div class="profile-facts">
-            <div><small>JERSEY</small><strong>72</strong></div>
-            <div><small>BORN</small><strong>8 Nov 2002</strong></div>
-            <div><small>BATTING</small><strong>Left-hand</strong></div>
-            <div><small>BOWLING</small><strong>Off-break</strong></div>
+          <p class="profile-location-line"><span aria-hidden="true">⌖</span><span id="profile-birthplace">Hyderabad, Telangana, India</span></p>
+          <div class="profile-quick-actions">
+            <a class="button primary" href="#stats">Explore career stats <span aria-hidden="true">↗</span></a>
+            <a class="button outline" href="#innings">Match history <span aria-hidden="true">↗</span></a>
           </div>
-          <div class="icc-ranking-card">
-            <div>
-              <span class="eyebrow">ICC PLAYER RANKING</span
-              ><strong id="icc-ranking-t20i">T20I #9</strong
-              ><small id="icc-ranking-updated">Official ranking snapshot</small>
+        </div>
+
+        <div class="profile-data-grid">
+          <div class="profile-facts" aria-label="Player details">
+            <div><small>JERSEY NUMBER</small><strong id="profile-jersey">72</strong></div>
+            <div><small>DATE OF BIRTH</small><strong id="profile-born">8 November 2002</strong></div>
+            <div><small>PLAYER ROLE</small><strong id="profile-role">Batter</strong></div>
+            <div><small>BATTING STYLE</small><strong id="profile-batting">Left-handed</strong></div>
+            <div><small>BOWLING STYLE</small><strong id="profile-bowling">Right-arm off-break</strong></div>
+            <div><small>HOME CITY</small><strong>Hyderabad</strong></div>
+          </div>
+
+          <section class="icc-ranking-card profile-ranking-card" aria-labelledby="profile-ranking-title">
+            <div class="profile-ranking-heading">
+              <span class="eyebrow">ICC MEN'S BATTING</span>
+              <h3 id="profile-ranking-title">WORLD <em>RANKINGS</em></h3>
             </div>
-            <div><strong id="icc-ranking-odi">ODI #338</strong><small>Men’s batting</small></div>
-          </div>
+            <div class="profile-ranking-values">
+              <div><small>T20 INTERNATIONAL</small><strong id="icc-ranking-t20i">T20I —</strong></div>
+              <div><small>ONE-DAY INTERNATIONAL</small><strong id="icc-ranking-odi">ODI —</strong></div>
+            </div>
+            <p class="profile-ranking-updated" id="icc-ranking-updated" aria-live="polite">Checking saved ranking snapshot…</p>
+          </section>
+
           <section class="profile-teams-panel" aria-labelledby="profile-teams-title">
             <div class="profile-teams-heading">
-              <span class="eyebrow">REPRESENTED TEAMS</span>
-              <h3 id="profile-teams-title">THE <em>JOURNEY</em></h3>
+              <div><span class="eyebrow">REPRESENTED TEAMS</span><h3 id="profile-teams-title">THE <em>JOURNEY</em></h3></div>
+              <span class="profile-teams-count" id="profile-teams-count">6 TEAMS</span>
             </div>
-            <div class="profile-team-chips">
+            <div class="profile-team-chips" id="profile-team-chips" aria-live="polite">
               <span class="profile-team-chip team-india"><i aria-hidden="true">✦</i> INDIA</span>
-              <span class="profile-team-chip">INDIA A</span>
               <span class="profile-team-chip team-mi">MUMBAI INDIANS</span>
               <span class="profile-team-chip">HYDERABAD</span>
-              <span class="profile-team-chip">SOUTH ZONE</span>
+              <span class="profile-team-chip">INDIA A</span>
               <span class="profile-team-chip">INDIA U19</span>
-              <span class="profile-team-chip">HAMPSHIRE</span>
               <span class="profile-team-chip team-medak">MEDAK FALCONS</span>
             </div>
-            <p class="profile-teams-note">Senior international · domestic · franchise cricket</p>
+            <p class="profile-teams-note">Teams are loaded from the saved player profile data.</p>
           </section>
-          <div class="profile-quick-actions">
-            <a class="button primary" href="#stats">Career stats ↘</a>
+
+          <div class="profile-source-panel" aria-label="Official player sources">
+            <span class="eyebrow">OFFICIAL PLAYER SOURCES</span>
+            <div class="profile-source-links">
+              <a id="profile-icc-link" href="https://www.icc-cricket.com/rankings/70761/tilak-varma" target="_blank" rel="noopener noreferrer"><span>ICC</span><b>Rankings & profile ↗</b></a>
+              <a id="profile-bcci-link" href="https://www.bcci.tv/international/men/players/tilak-varma/993" target="_blank" rel="noopener noreferrer"><span>BCCI</span><b>India player profile ↗</b></a>
+              <a id="profile-mi-link" href="https://www.mumbaiindians.com/players/70761------------profile" target="_blank" rel="noopener noreferrer"><span>MI</span><b>Franchise profile ↗</b></a>
+            </div>
+            <p class="profile-data-stamp" id="profile-data-updated">Profile details from saved site data.</p>
           </div>
         </div>
       </section>
@@ -1095,7 +1105,7 @@
           .catch(() => {});
       })();
     </script>
-    <script src="assets/app.js?v=20261011-nav-recovery2"></script>
+    <script src="assets/app.js?v=20261011-profile-data1"></script>
     <script src="assets/records-matches.js?v=20261010-recovery1"></script>
     <script src="assets/player-matches.js?v=20261010-deduplicate1"></script>
     <script src="assets/upcoming-matches.js?v=20261010-bcci-squad2"></script>
