@@ -94,9 +94,11 @@ test("BCCI Next image URL imports to GitHub repository storage, not Cloudinary",
     throw new Error("Unexpected request: " + method + " " + url.href);
   };
 
-  const imageUrl = "https://www.bcci.tv/_next/image?url=%2Fcms%2Fphotos%2Fgalleries%2Fmaster%2F7tFehizQweZ1n3ugtTQVI0%2F73dffc3a3f273625ecc7ff34.webp&w=1920&q=75";
+  const imageUrl = "https://www.bcci.tv/_next/image?url=%2Fcms%2Fphotos%2Fgalleries%2Fmaster%2F7tFehizQweZ1n3ugtTQVI0%2F134ca27bfdd8aef14f5c8768.webp&w=750&q=75";
+  const markdownTableCell =
+    "| <br>[" + imageUrl + "](" + imageUrl.replaceAll("&", "\\&") + ") |";
   const response = await request({
-    urls: [imageUrl],
+    urls: [markdownTableCell],
     album: "IND VS WI 3RD T20I",
     titlePrefix: "Tilak Varma",
   });
