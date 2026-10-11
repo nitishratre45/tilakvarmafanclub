@@ -2968,6 +2968,7 @@
           ],
         };
         let friendlyRoot = null;
+        let friendlySavedRoot = null;
         let friendlyLoadedKind = "";
         let friendlyDirty = false;
         let editorDirty = false;
@@ -2977,11 +2978,20 @@
         }
         function confirmDiscardAdminEdits(action) {
           if (!hasUnsavedAdminEdits()) return true;
-          return window.confirm(
+          const confirmed = window.confirm(
             "You have unsaved changes in the data editor. " +
               action +
               " will discard them. Continue?",
           );
+          if (!confirmed) return false;
+          friendlyDirty = false;
+          editorDirty = false;
+          if (friendlySavedRoot) {
+            friendlyRoot = JSON.parse(JSON.stringify(friendlySavedRoot));
+            friendlyRefreshChoices();
+          }
+          if (editorLoadedKind) $("data-editor-json").value = editorSavedSnapshot;
+          return true;
         }
         window.addEventListener("beforeunload", (event) => {
           if (!hasUnsavedAdminEdits()) return;
@@ -3336,6 +3346,7 @@
               friendlyRoot = friendlyRoot || {};
               friendlyRoot.__deathData = result.data;
             } else friendlyRoot = result.data;
+            friendlySavedRoot = JSON.parse(JSON.stringify(friendlyRoot));
             friendlyLoadedKind = kind;
             friendlyDirty = false;
             friendlyRefreshChoices();
@@ -3369,6 +3380,7 @@
             const verified = await api("/api/admin/data-editor?kind=" + fileKind);
             if (fileKind === "death") friendlyRoot.__deathData = verified.data;
             else friendlyRoot = verified.data;
+            friendlySavedRoot = JSON.parse(JSON.stringify(friendlyRoot));
             friendlyDirty = false;
             friendlyRefreshChoices();
             friendlySetStatus(
