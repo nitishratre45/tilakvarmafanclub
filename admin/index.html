@@ -2547,7 +2547,10 @@
             const parts = record.split(".");
             return {
               path: family + ".formats." + fmt + "." + record,
-              object: parts.reduce((value, key) => value == null ? undefined : value[key], target),
+              object: parts.reduce(
+                (value, key) => (value == null ? undefined : value[key]),
+                target,
+              ),
             };
           }
           if (kind === "innings") {
@@ -2619,9 +2622,25 @@
               const family = kind === "bowling" ? "bowlingStats" : "fieldingStats";
               const f = friendlyRoot[family]?.formats?.[fmt] || {};
               rows = [];
-              if (f.summary && typeof f.summary === "object") rows.push(["summary", "Career summary"]);
-              (f.careerBreakdown || []).forEach((x, i) => rows.push(["careerBreakdown."+i, "Career breakdown · "+(x.group||x.span||("Row "+(i+1))) ]));
-              (f.innings || []).forEach((x, i) => rows.push(["innings."+i, "Innings · "+(x.date||"Undated")+" · "+(x.opposition||"")+" · "+(x.figures || x.runsConceded || "") ]));
+              if (f.summary && typeof f.summary === "object")
+                rows.push(["summary", "Career summary"]);
+              (f.careerBreakdown || []).forEach((x, i) =>
+                rows.push([
+                  "careerBreakdown." + i,
+                  "Career breakdown · " + (x.group || x.span || "Row " + (i + 1)),
+                ]),
+              );
+              (f.innings || []).forEach((x, i) =>
+                rows.push([
+                  "innings." + i,
+                  "Innings · " +
+                    (x.date || "Undated") +
+                    " · " +
+                    (x.opposition || "") +
+                    " · " +
+                    (x.figures || x.runsConceded || ""),
+                ]),
+              );
             } else if (kind === "profile" && ["iccRecords", "activityLog"].includes(fmt)) {
               rows = (friendlyRoot[fmt] || []).map((x, i) => [
                 String(i),
