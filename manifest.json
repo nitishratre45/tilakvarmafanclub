@@ -6,12 +6,23 @@
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
   "orientation": "any",
   "background_color": "#070b14",
   "theme_color": "#070b14",
-  "categories": ["sports", "entertainment"],
+  "categories": [
+    "sports",
+    "entertainment"
+  ],
   "icons": [
-    { "src": "/assets/tilak-app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    {
+      "src": "https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
   ]
 }
