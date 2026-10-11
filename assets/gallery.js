@@ -77,12 +77,17 @@
   }
   function renderAlbumPhotos(album) {
     activeAlbum = album;
+    document.getElementById("photos")?.classList.add("tv-album-view-active");
     host.innerHTML =
-      '<div class="tv-album-detail"><div class="tv-album-back-row"><button type="button" class="tv-album-back" aria-label="Back to all albums">← Back</button><div class="tv-album-heading"><h3>' +
+      '<div class="tv-album-detail"><header class="tv-album-hero"><button type="button" class="tv-album-back" aria-label="Back to all albums">← All albums</button><h2>' +
+      esc(album.name) +
+      '</h2><p>PHOTO GALLERY <span>·</span> ' +
+      album.photos.length +
+      ' photos</p></header><div class="tv-album-back-row"><div class="tv-album-heading"><h3>' +
       esc(album.name) +
       "</h3><p>" +
       album.photos.length +
-      ' photos</p></div></div><div class="tv-album-photo-grid">' +
+      ' photos</p></div></div><div class="tv-album-photo-grid">'
       album.photos
         .map(
           (photo, index) =>
@@ -98,7 +103,7 @@
         )
         .join("") +
       "</div></div>";
-    host.querySelector(".tv-album-back").addEventListener("click", renderAlbums);
+    host.querySelectorAll(".tv-album-back").forEach((button) => button.addEventListener("click", renderAlbums));
     host
       .querySelectorAll("[data-photo-index]")
       .forEach((button) =>
@@ -107,6 +112,7 @@
   }
   function renderAlbums() {
     activeAlbum = null;
+    document.getElementById("photos")?.classList.remove("tv-album-view-active");
     const photos = albums.filter((album) => album.photos.length);
     if (!photos.length) {
       host.innerHTML =
