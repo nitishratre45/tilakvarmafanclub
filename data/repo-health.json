@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-11T20:15:16+00:00",
+  "checkedAt": "2026-10-11T20:54:53+00:00",
   "intervalMinutes": 10,
   "status": "warning",
   "summary": {
-    "filesScanned": 90,
-    "checksPassed": 50,
+    "filesScanned": 91,
+    "checksPassed": 51,
     "issues": 0,
     "warnings": 6
   },
   "items": [
     {
       "level": "warning",
-      "message": "80 repeated CSS selector(s); review cascade/overrides: .sidebar (12x), .stats (12x), .topbar (11x), .stat (11x), .section-head (11x), .main (9x), .hero (9x), .section-body (9x)",
+      "message": "81 repeated CSS selector(s); review cascade/overrides: .sidebar (13x), .topbar (12x), .stats (12x), .stat (11x), .section-head (11x), .main (10x), .hero (9x), .section-body (9x)",
       "file": "admin/admin-premium.css"
     },
     {
@@ -54,6 +54,11 @@
       "level": "pass",
       "message": "JavaScript syntax OK",
       "file": "assets/app.js"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "assets/bcci-video-refresh-report.json"
     },
     {
       "level": "pass",
@@ -296,6 +301,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "80cac3a"
+    "branch": "3a627f7"
   }
 }
