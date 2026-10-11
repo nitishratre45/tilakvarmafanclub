@@ -900,20 +900,28 @@ def parse_fielding_summary(page):
             cols = _fielding_columns(cell_text(row))
             if not {"matches", "catches"}.issubset(cols):
                 continue
-            for candidate in table[i + 1:]:
+            for candidate in table[i + 1 :]:
                 values = cell_text(candidate)
                 if len(values) <= max(cols.values()):
                     continue
-                if not re.search(r"\\b(?:overall|career|total)\\b", " ".join(values).casefold()):
+                if not re.search(
+                    r"\\b(?:overall|career|total)\\b", " ".join(values).casefold()
+                ):
                     continue
                 result = {}
                 for key in ("matches", "innings", "catches", "stumpings", "runOuts"):
                     if key in cols:
                         result[key] = number(values[cols[key]])
-                if result.get("matches") is not None and result.get("catches") is not None:
+                if (
+                    result.get("matches") is not None
+                    and result.get("catches") is not None
+                ):
                     result.setdefault("stumpings", 0)
                     result.setdefault("runOuts", 0)
-                    result["dismissals"] = sum(result.get(k, 0) or 0 for k in ("catches", "stumpings", "runOuts"))
+                    result["dismissals"] = sum(
+                        result.get(k, 0) or 0
+                        for k in ("catches", "stumpings", "runOuts")
+                    )
                     return result
     return None
 
@@ -926,13 +934,21 @@ def parse_fielding_breakdown(page):
             cols = _fielding_columns(cell_text(row))
             if not {"span", "matches", "catches"}.issubset(cols):
                 continue
-            for candidate in table[i + 1:]:
+            for candidate in table[i + 1 :]:
                 values = cell_text(candidate)
                 if len(values) <= max(cols.values()):
                     continue
-                group = clean(values[cols["group"]]) if "group" in cols else clean(values[0])
+                group = (
+                    clean(values[cols["group"]])
+                    if "group" in cols
+                    else clean(values[0])
+                )
                 span = clean(values[cols["span"]])
-                if not group or not span or re.fullmatch(r"(?:overall|career|total)", group, re.I):
+                if (
+                    not group
+                    or not span
+                    or re.fullmatch(r"(?:overall|career|total)", group, re.I)
+                ):
                     continue
                 key = (group.casefold(), span.casefold())
                 if key in seen:
@@ -945,7 +961,9 @@ def parse_fielding_breakdown(page):
                     continue
                 item.setdefault("stumpings", 0)
                 item.setdefault("runOuts", 0)
-                item["dismissals"] = sum(item.get(k, 0) or 0 for k in ("catches", "stumpings", "runOuts"))
+                item["dismissals"] = sum(
+                    item.get(k, 0) or 0 for k in ("catches", "stumpings", "runOuts")
+                )
                 seen.add(key)
                 output.append(item)
     return output
@@ -958,7 +976,9 @@ def parse_fielding_innings(page, fmt):
     for table in parse_tables(page):
         for i, row in enumerate(table):
             headers = cell_text(row)
-            normalized = [re.sub(r"[^a-z0-9]+", "", clean(h).casefold()) for h in headers]
+            normalized = [
+                re.sub(r"[^a-z0-9]+", "", clean(h).casefold()) for h in headers
+            ]
             cols = _fielding_columns(headers)
             for j, h in enumerate(normalized):
                 if h in {"opposition", "oppositionteam", "team"}:
@@ -971,21 +991,28 @@ def parse_fielding_innings(page, fmt):
                     cols["inningsNumber"] = j
             if not {"opposition", "ground", "date", "catches"}.issubset(cols):
                 continue
-            for candidate in table[i + 1:]:
+            for candidate in table[i + 1 :]:
                 values = cell_text(candidate)
                 if len(values) <= max(cols.values()):
                     continue
                 date = clean(values[cols["date"]])
                 opposition = clean(values[cols["opposition"]])
                 ground = clean(values[cols["ground"]])
-                if not date or not opposition or not ground or not re.search(r"\\d{4}", date):
+                if (
+                    not date
+                    or not opposition
+                    or not ground
+                    or not re.search(r"\\d{4}", date)
+                ):
                     continue
                 item = {"date": date, "opposition": opposition, "ground": ground}
                 if "inningsNumber" in cols:
                     item["innings"] = number(values[cols["inningsNumber"]])
                 for field in ("catches", "stumpings", "runOuts"):
                     item[field] = number(values[cols[field]]) if field in cols else 0
-                item["dismissals"] = sum(item.get(k, 0) or 0 for k in ("catches", "stumpings", "runOuts"))
+                item["dismissals"] = sum(
+                    item.get(k, 0) or 0 for k in ("catches", "stumpings", "runOuts")
+                )
                 key = (item["date"], opposition, ground, item.get("innings"))
                 if key not in seen:
                     seen.add(key)
