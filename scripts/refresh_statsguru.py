@@ -671,16 +671,16 @@ def scrape_domestic_profile_summary(fmt):
     def extract_div_section(page, class_name):
         """Return one div (including nested divs) identified by its exact class."""
         start_tag = re.compile(
-            r"<div\\b(?=[^>]*\\bclass\\s*=\\s*(['\"])[^'\"]*"
+            r"<div\b(?=[^>]*\bclass\s*=\s*(['\"])[^'\"]*"
             + re.escape(class_name)
-            + r"[^'\"]*\\1)[^>]*>",
+            + r"[^'\"]*\1)[^>]*>",
             re.IGNORECASE,
         )
         match = start_tag.search(page)
         if not match:
             return ""
         depth = 1
-        token_re = re.compile(r"</?div\\b[^>]*>", re.IGNORECASE)
+        token_re = re.compile(r"</?div\b[^>]*>", re.IGNORECASE)
         for token in token_re.finditer(page, match.end()):
             if token.group(0).lower().startswith("</div"):
                 depth -= 1
@@ -775,7 +775,7 @@ def scrape_domestic_profile_summary(fmt):
             source_rows = opponent_rows
             yearly_rows = []
             for row in read_rows(year_tables):
-                if re.fullmatch(r"\\d{4}", str(row.get("group", ""))):
+                if re.fullmatch(r"\d{4}", str(row.get("group", ""))):
                     yearly_rows.append({**row, "groupType": "year"})
         else:
             # Preserve the secondary source's prior behavior if NDTV markup is absent.
@@ -797,7 +797,7 @@ def scrape_domestic_profile_summary(fmt):
         scores = []
         for row in source_rows:
             raw = clean(row.get("highestScore"))
-            match = re.search(r"(\\d+)\\s*(\\*)?", raw)
+            match = re.search(r"(\d+)\s*(\*)?", raw)
             if match:
                 scores.append((int(match.group(1)), bool(match.group(2)), raw))
         if scores:
