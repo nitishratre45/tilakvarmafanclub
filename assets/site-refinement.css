@@ -339,3 +339,108 @@ footer {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Final responsive/accessibility pass — safe overrides, no data hooks changed. */
+:root {
+  color-scheme: dark;
+  --tv-focus-ring: #80e8ff;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+img,
+video,
+iframe {
+  max-width: 100%;
+}
+button,
+.button,
+select,
+input,
+textarea {
+  touch-action: manipulation;
+}
+button:disabled,
+.button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+::selection {
+  background: rgba(255, 116, 75, 0.32);
+  color: #fff;
+}
+section[id],
+main > section[id] {
+  scroll-margin-top: 96px;
+}
+:where(.stat-card, .home-format-card, .format-card, .fan-card, .upcoming-match-card, .tv-album-card) {
+  min-width: 0;
+}
+:where(.stat-card, .home-format-card, .format-card, .fan-card, .upcoming-match-card) :where(h2, h3, p, small, strong, span) {
+  overflow-wrap: anywhere;
+}
+:where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap) table {
+  min-width: 100%;
+}
+:where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap) th,
+:where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap) td {
+  white-space: normal;
+}
+@media (max-width: 760px) {
+  .topbar {
+    gap: 10px;
+  }
+  .brand {
+    min-width: 0;
+    max-width: calc(100% - 58px);
+  }
+  .brand > span:last-child {
+    overflow-wrap: anywhere;
+  }
+  .topbar nav {
+    max-width: 100%;
+    max-height: calc(100dvh - 84px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .topbar nav a {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+  }
+  .profile-section {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .profile-photo-wrap {
+    width: min(100%, 360px);
+  }
+  .icc-ranking-card,
+  .profile-facts {
+    min-width: 0;
+  }
+  .settings-theme-options {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .settings-theme-options button {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 420px) {
+  .settings-theme-options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .profile-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .icc-ranking-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto !important;
+  }
+}
+
