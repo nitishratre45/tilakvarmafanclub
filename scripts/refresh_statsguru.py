@@ -651,12 +651,7 @@ def scrape_format(fmt, match_class):
 
 
 def scrape_domestic_profile_summary(fmt):
-    """Fallback for FC/List A career totals from public player profile tables.
-
-    NDTV Sports is tried first because its player profile exposes domestic-format
-    career totals. The older profile feed remains a secondary fallback. This
-    deliberately imports summary totals only; it never fabricates innings rows.
-    """
+    """Read domestic-format career totals and team/competition splits from public profile tables."""
     sources = [
         (
             "https://sports.ndtv.com/cricket/players/112645-tilak-varma-playerprofile/stats",
@@ -687,6 +682,8 @@ def scrape_domestic_profile_summary(fmt):
         "sixes": {"6s", "sixes"},
         "catches": {"ct", "catches"},
         "stumpings": {"st", "stumpings"},
+        "ducks": {"ducks", "0"},
+        "runOuts": {"ro", "runouts", "runout"},
     }
 
     for url, source_name in sources:
@@ -713,50 +710,103 @@ def scrape_domestic_profile_summary(fmt):
                     if header in {"format", "game", "gametype", "type", "careerformat"}:
                         columns["format"] = i
 
-                # Some profile tables label the format in the first column and
-                # use short NDTV headers (M, I, R, HS, 100s, 50s, 4s, 6s, Avg, S/R).
-                if "format" not in columns and headers:
-                    first = headers[0]
-                    if first in {"format", "game", "gametype", "type", "careerformat"}:
-                        columns["format"] = 0
                 required = {"matches", "runs", "highestScore"}
-                if not required.issubset(columns) or "format" not in columns:
+                if not required.issubset(columns):
                     continue
 
-                for candidate in table[index + 1 :]:
-                    values = cell_text(candidate)
-                    if len(values) <= max(columns.values()):
-                        continue
-                    if wanted not in norm(values[columns["format"]]):
-                        continue
-                    summary = {}
-                    for key, column in columns.items():
-                        if key == "format":
+                # NDTV format tabs often render the selected format's table with
+                # team/competition names in column zero and no explicit format column.
+                if "format" not in columns:
+                    team_rows = []
+                    for candidate in table[index + 1 :]:
+                        values = cell_text(candidate)
+                        if len(values) <= max(columns.values(), default=0):
                             continue
-                        raw = values[column]
-                        summary[key] = raw if key == "highestScore" else number(raw)
-                    if summary.get("runs") is None or summary.get("matches") is None:
+                        label = clean(values[0]) if values else ""
+                        label_norm = norm(label)
+                        if not label or label_norm in {"overall", "career", "total"}:
+                            continue
+                        if label_norm in {norm(x) for x in aliases["matches"]}:
+                            continue
+                        item = {"group": label, "span": "All-time", "groupType": "team"}
+                        for key, column in columns.items():
+                            if key == "format" or column >= len(values):
+                                continue
+                            raw = values[column]
+                            item[key] = raw if key == "highestScore" else number(raw)
+                        if item.get("matches") is not None and item.get("runs") is not None:
+                            team_rows.append(item)
+                    if team_rows:
+                        summary = {
+                            key: value for key, value in team_rows[0].items()
+                            if key not in {"group", "span", "groupType"}
+                        }
+                        # Team splits are not career totals; keep the verified
+                        # overall summary separate and only store rows as breakdown.
+                        # If a labeled overall row exists, use it below instead.
+                    else:
                         continue
-                    summary.setdefault("innings", summary.get("matches"))
-                    return {
-                        "summary": summary,
-                        "careerBreakdown": [],
-                        "innings": [],
-                        "inningsCount": summary.get("innings")
-                        or summary.get("matches")
-                        or 0,
-                        "source": source_name + " (summary only)",
-                        "sourceUrl": url,
-                        "detailStatus": "summary-only",
-                        "detailNote": "Legacy ESPNcricinfo Statsguru did not provide domestic innings rows; only source-listed career totals are imported, and match-by-match data is not fabricated.",
-                        "checkedAt": stamp(),
-                    }
-    raise RuntimeError(
-        "No recognizable "
-        + fmt
-        + " summary row in NDTV Sports or the secondary profile feed"
-    )
 
+                if "format" in columns:
+                    for candidate in table[index + 1 :]:
+                        values = cell_text(candidate)
+                        if len(values) <= max(columns.values()):
+                            continue
+                        if wanted not in norm(values[columns["format"]]):
+                            continue
+                        summary = {}
+                        for key, column in columns.items():
+                            if key == "format":
+                                continue
+                            raw = values[column]
+                            summary[key] = raw if key == "highestScore" else number(raw)
+                        if summary.get("runs") is None or summary.get("matches") is None:
+                            continue
+                        summary.setdefault("innings", summary.get("matches"))
+                        return {
+                            "summary": summary,
+                            "careerBreakdown": team_rows if "team_rows" in locals() else [],
+                            "teamBreakdown": team_rows if "team_rows" in locals() else [],
+                            "innings": [],
+                            "inningsCount": summary.get("innings") or summary.get("matches") or 0,
+                            "source": source_name + " (summary only)",
+                            "sourceUrl": url,
+                            "detailStatus": "summary-only",
+                            "detailNote": "Only source-listed career totals and team/competition splits are imported; match-by-match innings are not fabricated.",
+                            "checkedAt": stamp(),
+                        }
+
+                # For an already-selected format table, use the first row with
+                # an explicit overall/career label as the career summary.
+                if "format" not in columns:
+                    for candidate in table[index + 1 :]:
+                        values = cell_text(candidate)
+                        if len(values) <= max(columns.values(), default=0):
+                            continue
+                        label_norm = norm(values[0])
+                        if label_norm not in {"overall", "career", "total"}:
+                            continue
+                        summary = {}
+                        for key, column in columns.items():
+                            raw = values[column]
+                            summary[key] = raw if key == "highestScore" else number(raw)
+                        if summary.get("runs") is not None and summary.get("matches") is not None:
+                            summary.setdefault("innings", summary.get("matches"))
+                            return {
+                                "summary": summary,
+                                "careerBreakdown": team_rows,
+                                "teamBreakdown": team_rows,
+                                "innings": [],
+                                "inningsCount": summary.get("innings") or summary.get("matches") or 0,
+                                "source": source_name + " (summary and team split)",
+                                "sourceUrl": url,
+                                "detailStatus": "summary-only",
+                                "detailNote": "Only source-listed summary and team/competition splits are imported; match-by-match innings are not fabricated.",
+                                "checkedAt": stamp(),
+                            }
+    raise RuntimeError(
+        "No recognizable " + fmt + " summary/team rows in NDTV Sports or the secondary profile feed"
+    )
 
 def parse_fielding_summary(page):
     """Parse the official Statsguru fielding career total when present."""
