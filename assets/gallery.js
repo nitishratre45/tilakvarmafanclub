@@ -156,15 +156,27 @@
   let selectedYear = "all";
   let selectedMonth = "all";
   const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
   function getFilteredAlbums() {
     return albums.filter((album) => {
       if (!album.photos.length) return false;
       const date = album.uploadDate ? new Date(album.uploadDate) : null;
-      if (selectedYear !== "all" && (!date || String(date.getFullYear()) !== selectedYear)) return false;
-      if (selectedMonth !== "all" && (!date || String(date.getMonth() + 1) !== selectedMonth)) return false;
+      if (selectedYear !== "all" && (!date || String(date.getFullYear()) !== selectedYear))
+        return false;
+      if (selectedMonth !== "all" && (!date || String(date.getMonth() + 1) !== selectedMonth))
+        return false;
       return true;
     });
   }
@@ -184,33 +196,88 @@
       });
       return;
     }
-    const years = [...new Set(albums.filter((album) => album.photos.length && album.uploadDate)
-      .map((album) => String(new Date(album.uploadDate).getFullYear())))].sort((a, b) => Number(b) - Number(a));
+    const years = [
+      ...new Set(
+        albums
+          .filter((album) => album.photos.length && album.uploadDate)
+          .map((album) => String(new Date(album.uploadDate).getFullYear())),
+      ),
+    ].sort((a, b) => Number(b) - Number(a));
     const months = monthNames.map((name, index) => ({ name, value: String(index + 1) }));
     host.innerHTML =
       '<div class="tv-gallery-toolbar"><div class="tv-gallery-toolbar-copy"><span class="eyebrow">BROWSE THE ARCHIVE</span><strong>Find photos by date</strong><small>' +
-      filtered.length + ' album' + (filtered.length === 1 ? '' : 's') + ' found</small></div>' +
+      filtered.length +
+      " album" +
+      (filtered.length === 1 ? "" : "s") +
+      " found</small></div>" +
       '<div class="tv-gallery-filters"><label><span>YEAR</span><select class="tv-gallery-year" aria-label="Filter albums by year"><option value="all">All years</option>' +
-      years.map((year) => '<option value="' + esc(year) + '"' + (selectedYear === year ? ' selected' : '') + '>' + esc(year) + '</option>').join('') +
+      years
+        .map(
+          (year) =>
+            '<option value="' +
+            esc(year) +
+            '"' +
+            (selectedYear === year ? " selected" : "") +
+            ">" +
+            esc(year) +
+            "</option>",
+        )
+        .join("") +
       '</select></label><label><span>MONTH</span><select class="tv-gallery-month" aria-label="Filter albums by month"><option value="all">All months</option>' +
-      months.map((month) => '<option value="' + month.value + '"' + (selectedMonth === month.value ? ' selected' : '') + '>' + month.name + '</option>').join('') +
-      '</select></label><button type="button" class="tv-gallery-clear" ' + (selectedYear === "all" && selectedMonth === "all" ? 'disabled' : '') + '>Reset</button></div></div>' +
+      months
+        .map(
+          (month) =>
+            '<option value="' +
+            month.value +
+            '"' +
+            (selectedMonth === month.value ? " selected" : "") +
+            ">" +
+            month.name +
+            "</option>",
+        )
+        .join("") +
+      '</select></label><button type="button" class="tv-gallery-clear" ' +
+      (selectedYear === "all" && selectedMonth === "all" ? "disabled" : "") +
+      ">Reset</button></div></div>" +
       '<div class="tv-album-grid">' +
-      visible.map((album, index) =>
-        '<button type="button" class="tv-album-card" data-album-index="' + index +
-        '"><span class="tv-album-cover"><img src="' + album.cover.safe +
-        '" alt="" loading="lazy" decoding="async"><span class="tv-album-count">' +
-        album.photos.length + ' PHOTO' + (album.photos.length === 1 ? '' : 'S') +
-        '</span><span class="tv-album-open">EXPLORE PHOTOS ↗</span></span><span class="tv-album-info"><strong>' +
-        esc(album.name) + '</strong><small>' +
-        esc(album.uploadDate ? new Date(album.uploadDate).toLocaleDateString("en-IN", {
-          day: "numeric", month: "short", year: "numeric",
-        }) : "Date unavailable") +
-        '</small></span></button>'
-      ).join("") + '</div>' +
+      visible
+        .map(
+          (album, index) =>
+            '<button type="button" class="tv-album-card" data-album-index="' +
+            index +
+            '"><span class="tv-album-cover"><img src="' +
+            album.cover.safe +
+            '" alt="" loading="lazy" decoding="async"><span class="tv-album-count">' +
+            album.photos.length +
+            " PHOTO" +
+            (album.photos.length === 1 ? "" : "S") +
+            '</span><span class="tv-album-open">EXPLORE PHOTOS ↗</span></span><span class="tv-album-info"><strong>' +
+            esc(album.name) +
+            "</strong><small>" +
+            esc(
+              album.uploadDate
+                ? new Date(album.uploadDate).toLocaleDateString("en-IN", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })
+                : "Date unavailable",
+            ) +
+            "</small></span></button>",
+        )
+        .join("") +
+      "</div>" +
       (filtered.length > visibleAlbumCount
-        ? '<div class="tv-gallery-more-wrap"><p>Showing ' + visible.length + ' of ' + filtered.length + ' albums</p><button type="button" class="tv-gallery-more">More albums <span aria-hidden="true">↓</span></button></div>'
-        : '<p class="tv-gallery-end-note">' + (filtered.length > 10 ? 'All matching albums are shown' : filtered.length + ' album' + (filtered.length === 1 ? '' : 's') + ' in this view') + '</p>');
+        ? '<div class="tv-gallery-more-wrap"><p>Showing ' +
+          visible.length +
+          " of " +
+          filtered.length +
+          ' albums</p><button type="button" class="tv-gallery-more">More albums <span aria-hidden="true">↓</span></button></div>'
+        : '<p class="tv-gallery-end-note">' +
+          (filtered.length > 10
+            ? "All matching albums are shown"
+            : filtered.length + " album" + (filtered.length === 1 ? "" : "s") + " in this view") +
+          "</p>");
 
     host.querySelector(".tv-gallery-year")?.addEventListener("change", (event) => {
       selectedYear = event.target.value;
@@ -232,9 +299,13 @@
       visibleAlbumCount += 10;
       renderAlbums();
     });
-    host.querySelectorAll("[data-album-index]").forEach((button) =>
-      button.addEventListener("click", () => renderAlbumPhotos(visible[Number(button.dataset.albumIndex)])),
-    );
+    host
+      .querySelectorAll("[data-album-index]")
+      .forEach((button) =>
+        button.addEventListener("click", () =>
+          renderAlbumPhotos(visible[Number(button.dataset.albumIndex)]),
+        ),
+      );
   }
   fetch("data/admin-media.json?v=20261011-series-albums", { cache: "no-store" })
     .then((response) => {
