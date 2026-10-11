@@ -13,6 +13,29 @@
     document.body.appendChild(modal);
   }
   const videoElement = document.getElementById("bcci-shaka-player");
+  // Plyr supplies the polished playback UI; Shaka remains responsible for
+  // loading the existing BCCI playback URLs and adaptive stream quality.
+  let plyrUi = null;
+  if (videoElement && window.Plyr) {
+    plyrUi = new window.Plyr(videoElement, {
+      controls: [
+        "play-large",
+        "play",
+        "progress",
+        "current-time",
+        "duration",
+        "mute",
+        "volume",
+        "fullscreen",
+      ],
+      autoplay: true,
+      clickToPlay: true,
+      hideControls: true,
+      resetOnEnd: false,
+      tooltips: { controls: true, seek: true },
+      keyboard: { focused: true, global: false },
+    });
+  }
   const titleElement = document.getElementById("bcci-playing-title");
   const errorElement = document.getElementById("bcci-player-error");
   const playbackQuality = document.getElementById("bcci-playback-quality");
