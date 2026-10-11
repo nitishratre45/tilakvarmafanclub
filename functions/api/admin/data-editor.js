@@ -50,6 +50,17 @@ function validate(kind, value) {
       !Object.keys(value.statsguru.formats).length
     )
       return "statsguru.formats must retain the saved format data.";
+    for (const format of ["T20I", "ODI", "T20", "IPL"]) {
+      const snapshot = value.statsguru.formats[format];
+      if (
+        !snapshot ||
+        !snapshot.summary ||
+        typeof snapshot.summary !== "object" ||
+        !Array.isArray(snapshot.innings) ||
+        !snapshot.innings.length
+      )
+        return "Stats file must retain verified " + format + " summary and innings data.";
+    }
   } else {
     if (
       !value.formats ||
@@ -58,8 +69,18 @@ function validate(kind, value) {
       !Object.keys(value.formats).length
     )
       return "Death Overs file must retain its non-empty formats object.";
-    if (!Array.isArray(value.innings) || !Array.isArray(value.overTotals))
-      return "Death Overs file must retain its innings and overTotals arrays.";
+    if (
+      !Array.isArray(value.innings) ||
+      !value.innings.length ||
+      !Array.isArray(value.overTotals) ||
+      !value.overTotals.length
+    )
+      return "Death Overs file must retain non-empty innings and overTotals arrays.";
+    const hasFormatInnings = Object.values(value.formats).some(
+      (format) => Array.isArray(format?.innings) && format.innings.length > 0,
+    );
+    if (!hasFormatInnings)
+      return "Death Overs formats must retain at least one format with verified innings.";
   }
   return null;
 }
