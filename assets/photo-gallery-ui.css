@@ -844,7 +844,6 @@
   }
 }
 
-
 /* Archive browsing: year/month filters and progressive album pagination. */
 #photos .tv-gallery-toolbar {
   display: flex;
@@ -867,7 +866,7 @@
   color: var(--photo-cyan);
   font-size: 9px;
   font-weight: 900;
-  letter-spacing: .15em;
+  letter-spacing: 0.15em;
 }
 #photos .tv-gallery-toolbar-copy strong {
   color: #f4f8ff;
@@ -891,13 +890,13 @@
   color: #a9c0d9;
   font-size: 9px;
   font-weight: 900;
-  letter-spacing: .12em;
+  letter-spacing: 0.12em;
 }
 #photos .tv-gallery-filters select {
   width: 100%;
   min-height: 42px;
   padding: 0 30px 0 11px;
-  border: 1px solid rgba(132, 184, 235, .23);
+  border: 1px solid rgba(132, 184, 235, 0.23);
   border-radius: 10px;
   background: #0a1b2f;
   color: #f3f8ff;
@@ -909,16 +908,16 @@
 #photos .tv-gallery-reset {
   min-height: 42px;
   padding: 0 13px;
-  border: 1px solid rgba(114, 226, 241, .28);
+  border: 1px solid rgba(114, 226, 241, 0.28);
   border-radius: 10px;
-  background: rgba(114, 226, 241, .06);
+  background: rgba(114, 226, 241, 0.06);
   color: #b8f3fb;
   font-size: 11px;
   font-weight: 850;
   cursor: pointer;
 }
 #photos .tv-gallery-clear:disabled {
-  opacity: .42;
+  opacity: 0.42;
   cursor: default;
 }
 #photos .tv-gallery-more-wrap {
@@ -944,19 +943,21 @@
   min-width: 180px;
   min-height: 46px;
   padding: 0 20px;
-  border: 1px solid rgba(255, 116, 75, .5);
+  border: 1px solid rgba(255, 116, 75, 0.5);
   border-radius: 12px;
   background: linear-gradient(135deg, #ff8759, #ff6844);
   color: #1b0a08;
   font-size: 12px;
   font-weight: 950;
   cursor: pointer;
-  box-shadow: 0 9px 24px rgba(255, 104, 68, .13);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  box-shadow: 0 9px 24px rgba(255, 104, 68, 0.13);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 #photos .tv-gallery-more:hover {
   transform: translateY(-2px);
-  box-shadow: 0 13px 28px rgba(255, 104, 68, .22);
+  box-shadow: 0 13px 28px rgba(255, 104, 68, 0.22);
 }
 #photos .tv-gallery-more span {
   font-size: 17px;
@@ -965,8 +966,8 @@
   padding: 22px 0 2px;
 }
 :root[data-theme-resolved="light"] #photos .tv-gallery-toolbar {
-  border-color: rgba(43, 86, 137, .18);
-  background: rgba(235, 245, 255, .72);
+  border-color: rgba(43, 86, 137, 0.18);
+  background: rgba(235, 245, 255, 0.72);
 }
 :root[data-theme-resolved="light"] #photos .tv-gallery-toolbar-copy strong {
   color: #102b4d;
@@ -1019,7 +1020,6 @@
     width: min(100%, 320px);
   }
 }
-
 
 /* On phones, keep album covers clean: hide the “Explore photos” label,
    while retaining the circular arrow as the visual tap affordance. */
