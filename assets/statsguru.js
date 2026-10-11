@@ -156,6 +156,7 @@
             highestScore: best?.score || "—",
             average: inn > no ? Math.round((runs / (inn - no)) * 100) / 100 : null,
             balls,
+            ballsInferred: summaries.some((s) => s.ballsInferred === true),
             strikeRate: balls ? Math.round(((runs * 100) / balls) * 100) / 100 : null,
             hundreds: sum("hundreds"),
             fifties: sum("fifties"),
@@ -767,8 +768,14 @@
       detailNote.style.display = allFormatsSelected ? "" : "";
       if (allFormatsSelected) {
         const stamp = data?.statsguru?.updatedAt || "timestamp unavailable";
+        const allSource = sourceData();
         detailNote.textContent =
-          "Last update: " + stamp + ". Automatic refresh checks every 20 hours.";
+          "Last update: " +
+          stamp +
+          ". Automatic refresh checks every 20 hours." +
+          (allSource.summary?.ballsInferred
+            ? " Overall-format strike rate is approximate because at least one source format did not provide balls faced; missing balls were estimated from its published strike rate."
+            : "");
       }
     }
     const type = activeBreakdownFilter,
@@ -1088,7 +1095,10 @@
       selectedFormat === "All"
         ? "Last update: " +
           (sg.updatedAt || "timestamp unavailable") +
-          ". Automatic refresh checks every 20 hours."
+          ". Automatic refresh checks every 20 hours." +
+          (source.summary?.ballsInferred
+            ? " Overall-format strike rate is approximate because at least one source format did not provide balls faced; missing balls were estimated from its published strike rate."
+            : "")
         : domesticSummaryOnly
           ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. Snapshot refresh checks every 20 hours."
           : "Last update: " +
