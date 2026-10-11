@@ -16,7 +16,8 @@
       );
     };
     compact(section, {
-      display: "block",
+      // Never let gallery layout styles override section navigation visibility.
+      display: section?.hidden ? "none" : "block",
       height: "auto",
       "min-height": "0",
       "padding-top": window.matchMedia("(max-width: 600px)").matches ? "12px" : "28px",
