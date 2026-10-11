@@ -1748,6 +1748,11 @@
                   <select id="friendly-record"></select>
                 </label>
               </div>
+              <div id="friendly-nested-selectors" class="grid friendly-editor-controls" style="display:none">
+                <label class="field"><span>Match / innings</span><select id="friendly-innings"></select></label>
+                <label class="field"><span>Over</span><select id="friendly-over"></select></label>
+                <label class="field"><span>Ball</span><select id="friendly-ball"></select></label>
+              </div>
               <div id="friendly-description" class="monitor-help" aria-live="polite"></div>
               <div id="friendly-fields" class="grid friendly-editor-fields"></div>
               <div class="actions">
@@ -2678,7 +2683,7 @@
             if (overSelect)
               friendlyOptions(
                 overSelect,
-                (inn.overs || f.overTotals || []).map((x, i) => [
+                (recordSelect.value === "overTotals" ? (f.overTotals || []) : (inn.overs || [])).map((x, i) => [
                   String(i),
                   "Over " + (x.over ?? i + 1),
                 ]),
@@ -2859,7 +2864,7 @@
         friendlyEl("friendly-format").addEventListener("change", friendlyRefreshChoices);
         friendlyEl("friendly-record").addEventListener("change", friendlyRefreshChoices);
         ["friendly-innings", "friendly-over", "friendly-ball"].forEach((id) =>
-          friendlyEl(id).addEventListener("change", friendlyRenderFields),
+          friendlyEl(id).addEventListener("change", friendlyRefreshChoices),
         );
         friendlyEl("friendly-refresh").addEventListener("click", friendlyLoad);
         friendlyEl("friendly-save").addEventListener("click", friendlySave);
