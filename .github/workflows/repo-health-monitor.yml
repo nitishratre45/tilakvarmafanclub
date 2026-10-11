@@ -53,6 +53,52 @@ jobs:
             git commit -m "chore: publish repository health report"
             git push origin HEAD:main
           fi
+      - name: Open or update health issue when errors are found
+        if: steps.scan.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = '[Repo Health] Automated scan found errors';
+            const { data: openIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100
+            });
+            const report = JSON.parse(require('fs').readFileSync('data/repo-health.json', 'utf8'));
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const errors = (report.items || []).filter(item => item.level === 'error').slice(0, 30);
+            const body = [
+              'The scheduled repository health scan found errors that were not automatically rewritten.',
+              '',
+              `Latest scan: ${report.checkedAt}`,
+              `Workflow: ${runUrl}`,
+              '',
+              ...errors.map(item => `- ${item.file}: ${item.message}`),
+              '',
+              'Review the workflow logs and fix the underlying issue. A later clean scan will close this tracking issue.',
+              'The monitor intentionally does not guess at logic changes or modify cricket data.'
+            ].join('\n');
+            const existing = openIssues.find(issue => !issue.pull_request && issue.title === title);
+            if (existing) {
+              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, body });
+            } else {
+              await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title, body });
+            }
+      - name: Close health issue after a clean scan
+        if: steps.scan.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = '[Repo Health] Automated scan found errors';
+            const { data: openIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100
+            });
+            const existing = openIssues.find(issue => !issue.pull_request && issue.title === title);
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number,
+                body: `A clean repository scan passed at ${new Date().toISOString()}. Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+              });
+              await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, state: 'closed' });
+            }
       - name: Surface scan result
         if: steps.scan.outcome == 'failure'
         run: |
