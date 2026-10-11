@@ -114,17 +114,12 @@
     }
     function statsguruInnings(format) {
       const formats = site?.statsguru?.formats || {};
-      const aliases = format === "IPL" || format === "overall_t20" ? [] : [format];
       const rows = [];
-      for (const alias of aliases) {
+      // IPL is not present as a dedicated source in the saved Statsguru data.
+      const aliasesByFormat = {T20I:["T20I"], ODI:["ODI"], T20:["T20"], IPL:[], overall_t20:["T20I","T20"]};
+      for (const alias of (aliasesByFormat[format] || [])) {
         const entry = formats[alias];
         if (Array.isArray(entry?.innings)) rows.push(...entry.innings.map(row => ({...row, _sourceFormat:alias})));
-      }
-      if (format === "T20") {
-        for (const alias of ["T20"]) if (Array.isArray(formats[alias]?.innings)) rows.push(...formats[alias].innings.map(row => ({...row,_sourceFormat:alias})));
-      }
-      if (format === "overall_t20") {
-        for (const alias of ["T20I","T20"]) if (Array.isArray(formats[alias]?.innings)) rows.push(...formats[alias].innings.map(row => ({...row,_sourceFormat:alias})));
       }
       const seen = new Set();
       return rows.filter(row => {
@@ -150,16 +145,22 @@
       const format = $("lab-format").value;
       const sourceRows = statsguruInnings(format);
       const deathRows = deathInnings(format);
+      $("lab-updated").textContent = "Stats snapshot: " + (site?.statsguru?.updatedAt || site?.lastUpdated || "unknown") + " · Death Overs: " + (death?.updatedAt || "unknown");
+      if (!sourceRows.length) {
+        $("lab-total").textContent = "N/A";
+        $("lab-covered").textContent = "N/A";
+        $("lab-missing").textContent = "N/A";
+        const reason = format === "IPL"
+          ? "IPL is not available as a dedicated format in the saved Statsguru innings list. This comparison cannot calculate IPL gaps from that source."
+          : "No saved Statsguru innings list was found for this format. This test cannot confirm gaps for it.";
+        $("lab-results").innerHTML = '<div class="lab-empty">'+escapeHTML(reason)+' Main data has not been changed.</div>';
+        return;
+      }
       const results = sourceRows.map(row => ({row, matched:deathRows.some(d => likelySame(row,d))}));
       const missing = results.filter(x => !x.matched);
       $("lab-total").textContent = sourceRows.length.toLocaleString("en-IN");
       $("lab-covered").textContent = (results.length-missing.length).toLocaleString("en-IN");
       $("lab-missing").textContent = missing.length.toLocaleString("en-IN");
-      $("lab-updated").textContent = "Stats snapshot: " + (site?.statsguru?.updatedAt || site?.lastUpdated || "unknown") + " · Death Overs: " + (death?.updatedAt || "unknown");
-      if (!sourceRows.length) {
-        $("lab-results").innerHTML = '<div class="lab-empty">No saved Statsguru innings list was found for this format. This test cannot confirm gaps for it. Main data has not been changed.</div>';
-        return;
-      }
       const items = results.slice().sort((a,b) => dateKey(b.row.date).localeCompare(dateKey(a.row.date))).slice(0,100);
       $("lab-results").innerHTML = items.map(({row,matched}) => {
         const source = row.matchUrl || row.source || "";
