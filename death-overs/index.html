@@ -2703,21 +2703,40 @@
         last.addEventListener("change", calculate);
         load();
         if (new URLSearchParams(location.search).get("embed") === "1") {
+          let heightFrame = 0;
           const sendHeight = () => {
-            const height = Math.max(
-              document.documentElement.scrollHeight,
-              document.body?.scrollHeight || 0,
-            );
-            parent.postMessage({ type: "death-overs-height", height }, "*");
+            cancelAnimationFrame(heightFrame);
+            heightFrame = requestAnimationFrame(() => {
+              const main = document.querySelector("main");
+              const footer = document.querySelector("footer");
+              const mainBottom = main
+                ? main.getBoundingClientRect().bottom + window.scrollY
+                : 0;
+              const footerBottom =
+                footer && getComputedStyle(footer).display !== "none"
+                  ? footer.getBoundingClientRect().bottom + window.scrollY
+                  : 0;
+              const contentBottom = Math.max(mainBottom, footerBottom);
+              const height = Math.ceil(contentBottom + 12);
+              if (height > 0) {
+                document.documentElement.style.height = "auto";
+                document.body.style.height = "auto";
+                parent.postMessage({ type: "death-overs-height", height }, "*");
+              }
+            });
           };
           window.addEventListener("load", sendHeight);
           window.addEventListener("resize", sendHeight);
+          window.addEventListener("orientationchange", sendHeight);
           if ("ResizeObserver" in window) {
-            new ResizeObserver(sendHeight).observe(document.body);
+            const observer = new ResizeObserver(sendHeight);
+            [document.documentElement, document.body, document.querySelector("main"),
+              document.getElementById("matches"), document.getElementById("over-breakdown"),
+              document.getElementById("ball-log")].filter(Boolean).forEach((node) => observer.observe(node));
           }
           setTimeout(sendHeight, 80);
-          setTimeout(sendHeight, 500);
-          setTimeout(sendHeight, 1400);
+          setTimeout(sendHeight, 350);
+          setTimeout(sendHeight, 900);
         }
       })();
     </script>
