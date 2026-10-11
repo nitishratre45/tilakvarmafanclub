@@ -2143,10 +2143,6 @@
               { runs: 0, balls: 0, fours: 0, sixes: 0 },
             ),
             matchCount = new Set(innings.map((i) => i.matchId || i.date + "|" + i.teams)).size;
-          document.getElementById("coverage-runs").textContent = fmt(t.runs);
-          document.getElementById("coverage-matches").textContent = fmt(matchCount);
-          document.getElementById("coverage-fours").textContent = fmt(t.fours);
-          document.getElementById("coverage-sixes").textContent = fmt(t.sixes);
           document.getElementById("coverage-summary-text").textContent =
             (d?.label || names[active]) +
             " · " +
