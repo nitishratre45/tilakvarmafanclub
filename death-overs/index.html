@@ -1644,30 +1644,28 @@
               </div>
               <div class="coverage-grid">
                 <article class="coverage-card">
-                  <small>BALL EVENTS STORED</small>
-                  <strong id="coverage-balls">—</strong>
-                  <span>Individual Tilak delivery records</span>
+                  <small>TOTAL RUNS</small>
+                  <strong id="coverage-runs">—</strong>
+                  <span>Recorded runs in this format/year</span>
                 </article>
                 <article class="coverage-card">
-                  <small>MATCHES WITH BALL DATA</small>
+                  <small>MATCHES</small>
                   <strong id="coverage-matches">—</strong>
-                  <span>Unique matches with at least one recorded delivery</span>
+                  <span>Unique matches in this dataset</span>
                 </article>
                 <article class="coverage-card">
-                  <small>INNINGS WITH BALL DATA</small>
-                  <strong id="coverage-innings">—</strong>
-                  <span>Innings containing individual ball records</span>
+                  <small>FOURS</small>
+                  <strong id="coverage-fours">—</strong>
+                  <span>Recorded boundaries worth four</span>
                 </article>
                 <article class="coverage-card">
-                  <small>OVERS WITH BALL DATA</small>
-                  <strong id="coverage-overs">—</strong>
-                  <span>Overs with individual delivery records</span>
+                  <small>SIXES</small>
+                  <strong id="coverage-sixes">—</strong>
+                  <span>Recorded boundaries worth six</span>
                 </article>
               </div>
               <p class="coverage-footnote">
-                Coverage is based on the ball-by-ball records actually present in this feed. It can
-                be lower than Tilak's full career totals; missing delivery data is not counted as
-                zero runs.
+                Totals reflect the data currently available in the selected format and year.
               </p>
             </section>
 
@@ -2014,19 +2012,19 @@
             innings = d?.innings || [],
             overs = innings.flatMap((i) => i.overs || []),
             t = overs.reduce(
-              (s, o) => ({ runs: s.runs + (+o.runs || 0), balls: s.balls + (+o.balls || 0) }),
-              { runs: 0, balls: 0 },
+              (s, o) => ({
+                runs: s.runs + (+o.runs || 0),
+                balls: s.balls + (+o.balls || 0),
+                fours: s.fours + (+o.fours || 0),
+                sixes: s.sixes + (+o.sixes || 0),
+              }),
+              { runs: 0, balls: 0, fours: 0, sixes: 0 },
             ),
-            ballOvers = overs.filter((o) => Array.isArray(o.deliveries) && o.deliveries.length),
-            ballInnings = innings.filter((i) =>
-              (i.overs || []).some((o) => Array.isArray(o.deliveries) && o.deliveries.length),
-            ),
-            ballMatches = new Set(ballInnings.map((i) => i.matchId || i.date + "|" + i.teams)),
-            ballEvents = ballOvers.reduce((sum, o) => sum + o.deliveries.length, 0);
-          document.getElementById("coverage-balls").textContent = fmt(ballEvents);
-          document.getElementById("coverage-matches").textContent = fmt(ballMatches.size);
-          document.getElementById("coverage-innings").textContent = fmt(ballInnings.length);
-          document.getElementById("coverage-overs").textContent = fmt(ballOvers.length);
+            matchCount = new Set(innings.map((i) => i.matchId || i.date + "|" + i.teams)).size;
+          document.getElementById("coverage-runs").textContent = fmt(t.runs);
+          document.getElementById("coverage-matches").textContent = fmt(matchCount);
+          document.getElementById("coverage-fours").textContent = fmt(t.fours);
+          document.getElementById("coverage-sixes").textContent = fmt(t.sixes);
           document.getElementById("coverage-filter").textContent =
             (d?.label || names[active]) +
             " · " +
