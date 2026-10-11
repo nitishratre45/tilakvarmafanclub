@@ -105,9 +105,6 @@
         link.setAttribute("aria-disabled", "true");
       }
     };
-    setExternalLink("profile-icc-link", profile.iccProfile);
-    setExternalLink("profile-bcci-link", profile.bcciProfile);
-    setExternalLink("profile-mi-link", profile.officialProfile);
     const teamHost = document.getElementById("profile-team-chips");
     const teams = Array.isArray(profile.teams)
       ? [...new Set(profile.teams.filter((team) => typeof team === "string" && team.trim()))]
