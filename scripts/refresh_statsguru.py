@@ -871,28 +871,6 @@ def scrape_domestic_profile_summary(fmt):
     raise RuntimeError("No verified NDTV/secondary domestic rows for " + fmt)
 
 
-def _fielding_columns(headers):
-    """Map Statsguru fielding headings to stable fielding-data keys."""
-    cols = {}
-    for i, header in enumerate(headers):
-        h = re.sub(r"[^a-z0-9]+", "", clean(header).casefold())
-        if h in {"group", "grouping", "category", "opposition"}:
-            cols["group"] = i
-        elif h in {"span", "season", "year"}:
-            cols["span"] = i
-        elif h in {"mat", "matches"}:
-            cols["matches"] = i
-        elif h in {"inns", "inn", "innings"}:
-            cols["innings"] = i
-        elif h in {"ct", "catches", "catch"}:
-            cols["catches"] = i
-        elif h in {"st", "stumpings", "stumping"}:
-            cols["stumpings"] = i
-        elif h in {"ro", "runouts", "runout"}:
-            cols["runOuts"] = i
-    return cols
-
-
 def parse_fielding_summary(page):
     """Read the explicit overall/career row from a Statsguru fielding table."""
     for table in parse_tables(page):
