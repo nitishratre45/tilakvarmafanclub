@@ -2723,9 +2723,7 @@
             heightFrame = requestAnimationFrame(() => {
               const main = document.querySelector("main");
               const footer = document.querySelector("footer");
-              const mainBottom = main
-                ? main.getBoundingClientRect().bottom + window.scrollY
-                : 0;
+              const mainBottom = main ? main.getBoundingClientRect().bottom + window.scrollY : 0;
               const footerBottom =
                 footer && getComputedStyle(footer).display !== "none"
                   ? footer.getBoundingClientRect().bottom + window.scrollY
@@ -2744,9 +2742,16 @@
           window.addEventListener("orientationchange", sendHeight);
           if ("ResizeObserver" in window) {
             const observer = new ResizeObserver(sendHeight);
-            [document.documentElement, document.body, document.querySelector("main"),
-              document.getElementById("matches"), document.getElementById("over-breakdown"),
-              document.getElementById("ball-log")].filter(Boolean).forEach((node) => observer.observe(node));
+            [
+              document.documentElement,
+              document.body,
+              document.querySelector("main"),
+              document.getElementById("matches"),
+              document.getElementById("over-breakdown"),
+              document.getElementById("ball-log"),
+            ]
+              .filter(Boolean)
+              .forEach((node) => observer.observe(node));
           }
           setTimeout(sendHeight, 80);
           setTimeout(sendHeight, 350);
