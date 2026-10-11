@@ -203,3 +203,108 @@ When Explore is stale or incorrect, inspect in this order:
 8. Inspect CSS only when the data is correct but the presentation/layout is wrong.
 
 **Do not start by changing unrelated sections, deleting existing rows, or regenerating the entire JSON file.**
+
+
+---
+
+# 11. Stats → Batting Overview: exact data flow
+
+This section documents the **Batting** tab under `#stats` (the career snapshot cards and format-wise cards). It is separate from the **Explore** view rendered by `assets/statsguru.js`.
+
+## A. Page structure and renderers
+
+| UI area | HTML container / selector | Renderer | JSON path |
+|---|---|---|---|
+| Main T20I summary cards | `#stats-overview .stats-grid` and `[data-stat]` | `assets/app.js` | `careerStats` |
+| Format-wise cards | `#career-formats` | `assets/career-formats.js` | `careerFormats` |
+| Data status and timestamp | `#data-status`, `#career-updated` | `assets/app.js` | `lastChecked`, `lastUpdated`, `lastRefreshStatus`, `careerStatsUpdated`, `statsguru.updatedAt` |
+| Tab visibility | Stats tab buttons / `#stats-overview` | `assets/section-tabs.js` | No cricket data calculation |
+| Styling | `#stats #stats-overview` | `assets/premium-ui.css` and `assets/style.css` | No cricket data calculation |
+
+## B. Main T20I summary cards
+
+The HTML defines six cards with `data-stat` keys:
+
+- `t20iRuns`
+- `highestScore`
+- `average`
+- `strikeRate`
+- `fifties`
+- `hundreds`
+
+When `assets/app.js` successfully fetches `data/site-data.json`, it reads `data.careerStats`, loops over each `[data-stat]` element, and replaces the card text when the matching key exists. If the key is missing, the HTML's initial text remains visible.
+
+**Important fallback detail:** initial HTML text is only a loading/fallback value, not the authoritative source. For example, if HTML says `FIFTIES = 6` but JSON says `careerStats.fifties = 10`, the browser should replace the visible value with 10 after the JSON request succeeds. If the request fails, the fallback may remain, which can look like a real value even though it wasn't loaded. When diagnosing a suspicious number, inspect the JSON and network/load status before editing the card text.
+
+## C. Format-wise career cards
+
+`assets/career-formats.js` independently fetches the same `data/site-data.json` file and renders `data.careerFormats` into `#career-formats`.
+
+Each available format entry can supply:
+
+- `matches`, `innings`, `notOuts`
+- `runs`, `highestScore`, `average`, `strikeRate`
+- `fours`, `sixes`, `fifties`, `hundreds`, `balls`
+- `source` and, where provided, `updatedAt`
+
+The renderer escapes text fields before inserting them into HTML. Missing fields are displayed as an em dash rather than calculated or invented. It renders the format entries that exist; it does not infer a missing format from another format.
+
+Current format keys in the saved snapshot include `ODI`, `T20I`, `First-class`, `List A`, `IPL`, and `Overall T20 (all competitions)`. The data sources and timestamps are not necessarily identical for every format. Check each entry's own `source` / `updatedAt` metadata rather than assuming all formats updated together.
+
+## D. Batting overview flow diagram
+
+```text
+Career-stat refresh workflow(s)
+        |
+        v
+Source-specific parser / validation
+        |
+        v
+data/site-data.json
+  ├─ careerStats       -> six main T20I cards
+  └─ careerFormats     -> format-wise cards
+        |
+        ├─ assets/app.js
+        |    └─ sets [data-stat] values and status text
+        |
+        └─ assets/career-formats.js
+             └─ renders each available format card
+        |
+        v
+Stats → Batting UI
+```
+
+The page itself does not scrape scorecards or recompute career totals on each visit. It renders the most recently saved JSON snapshot served by the deployed site.
+
+## E. Update responsibilities and what not to confuse
+
+- `scripts/refresh_data.py` maintains profile metadata and checks recent T20I innings from Cricsheet. Its comments explicitly say career totals are refreshed separately from ESPNcricinfo and preserved when that source is unavailable. Do **not** assume running this script alone refreshes every batting-overview total.
+- The main career totals are stored under `careerStats`; format cards are stored under `careerFormats`. These are distinct from Explore's `statsguru.formats` structure and from `bowlingStats` / `fieldingStats`.
+- The IPL Explore refresh script writes to `statsguru.formats.IPL`; that does not automatically mean the top-level `careerFormats.IPL` card was refreshed too. Check both data paths if the overview and Explore show different IPL totals.
+- CSS changes in `assets/premium-ui.css` only change presentation. They must not modify numbers, update timestamps, JSON keys, or source data.
+- A cache-busting query string on the stylesheet affects CSS delivery only; it does not refresh the saved cricket data.
+
+## F. Status text caveat
+
+`assets/app.js` derives `#data-status` mainly from the presence of `recentInnings`, `lastChecked` / `lastUpdated`, and `lastRefreshStatus`. That status is **not a dedicated validation result for every field in `careerStats` or every entry in `careerFormats`**. Likewise, `#career-updated` chooses the latest parseable timestamp from `careerStatsUpdated`, `statsguru.updatedAt`, and `lastUpdated`; this displayed time may not be the individual format's own last-update time.
+
+For exact freshness, inspect:
+1. `careerStatsUpdated` for the main career summary;
+2. the relevant `careerFormats[FORMAT].updatedAt`, when present, for the format card;
+3. the relevant refresh workflow's run log and commit;
+4. the deployed `data/site-data.json` snapshot.
+
+A workflow run alone is not proof that the displayed totals changed or that every format refreshed successfully.
+
+## G. Batting overview troubleshooting checklist
+
+- [ ] Open the deployed `data/site-data.json` and inspect `careerStats`.
+- [ ] Confirm the six `careerStats` keys match the values expected in the main cards.
+- [ ] Inspect `careerFormats` separately and confirm each format's totals/source.
+- [ ] Compare any stale format card with its individual `updatedAt` and the relevant workflow log.
+- [ ] Confirm the workflow committed the JSON change and Cloudflare Pages deployed that commit.
+- [ ] Reload the site and check that the JSON request succeeds.
+- [ ] Only if JSON is correct but UI is wrong, inspect `assets/app.js`, `assets/career-formats.js`, and the HTML IDs.
+- [ ] Only if values are correct but the cards look wrong, inspect the scoped CSS under `#stats #stats-overview`.
+
+Never change a displayed number by hard-coding it into HTML to conceal a stale or failed data feed. Fix the source/refresh path or the renderer, and preserve all unrelated JSON datasets.
