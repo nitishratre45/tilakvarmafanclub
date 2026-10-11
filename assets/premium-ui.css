@@ -5395,72 +5395,71 @@ body.bcci-player-open .topbar {
 
 /* Quality selector placement correction from desktop screenshot. */
 #bcci-video-player-modal .bcci-player-quality-control {
-  position:absolute !important;
-  right:12px !important;
-  bottom:12px !important;
-  width:max-content !important;
-  height:auto !important;
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:flex-end !important;
-  justify-content:flex-end !important;
-  gap:0 !important;
+  position: absolute !important;
+  right: 12px !important;
+  bottom: 12px !important;
+  width: max-content !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  gap: 0 !important;
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-quality-head-button {
-  position:relative !important;
-  display:inline-flex !important;
-  width:auto !important;
-  min-width:94px !important;
-  max-width:140px !important;
-  height:38px !important;
-  min-height:38px !important;
-  margin:0 !important;
-  padding:0 13px !important;
-  white-space:nowrap !important;
-  border-radius:10px !important;
+  position: relative !important;
+  display: inline-flex !important;
+  width: auto !important;
+  min-width: 94px !important;
+  max-width: 140px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  margin: 0 !important;
+  padding: 0 13px !important;
+  white-space: nowrap !important;
+  border-radius: 10px !important;
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu:not([hidden]) {
-  position:absolute !important;
-  left:auto !important;
-  right:0 !important;
-  bottom:calc(100% + 9px) !important;
-  top:auto !important;
-  transform:none !important;
-  width:220px !important;
-  min-width:220px !important;
-  max-width:min(260px, calc(100vw - 32px)) !important;
-  max-height:none !important;
-  overflow:visible !important;
-  padding:13px !important;
-  border-radius:13px !important;
+  position: absolute !important;
+  left: auto !important;
+  right: 0 !important;
+  bottom: calc(100% + 9px) !important;
+  top: auto !important;
+  transform: none !important;
+  width: 220px !important;
+  min-width: 220px !important;
+  max-width: min(260px, calc(100vw - 32px)) !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 13px !important;
+  border-radius: 13px !important;
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu label {
-  gap:8px !important;
-  font-size:11px !important;
+  gap: 8px !important;
+  font-size: 11px !important;
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu label::before {
-  content:"SELECT RESOLUTION" !important;
-  margin-bottom:1px;
+  content: "SELECT RESOLUTION" !important;
+  margin-bottom: 1px;
 }
 #bcci-video-player-modal #bcci-playback-quality {
-  width:100% !important;
-  height:40px !important;
-  min-height:40px !important;
-  padding:0 10px !important;
-  border-radius:9px !important;
+  width: 100% !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 10px !important;
+  border-radius: 9px !important;
 }
 #bcci-video-player-modal .bcci-player-quality-control #bcci-player-error {
-  max-width:100% !important;
-  margin-top:8px !important;
+  max-width: 100% !important;
+  margin-top: 8px !important;
 }
-@media (max-width:760px) {
+@media (max-width: 760px) {
   #bcci-video-player-modal .bcci-player-quality-control {
-    right:8px !important;
-    bottom:8px !important;
+    right: 8px !important;
+    bottom: 8px !important;
   }
   #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu:not([hidden]) {
-    width:205px !important;
-    min-width:205px !important;
+    width: 205px !important;
+    min-width: 205px !important;
   }
 }
-
