@@ -651,156 +651,144 @@ def scrape_format(fmt, match_class):
 
 
 def scrape_domestic_profile_summary(fmt):
-    """Read NDTV domestic career totals plus opponent/competition and year splits.
+    """Read only the selected NDTV domestic-format section for FC or List A.
 
-    NDTV exposes these as separate HTML tables (against/where/year tabs), not a
-    single overall row. Totals are aggregated only from complete source-listed
-    rows; no match-by-match innings are fabricated.
+    The NDTV profile has separate against/where/year tab containers. Career
+    totals are derived only from the selected format's opponent table, while
+    year rows are read only from that format's year tab. ESPNcricinfo scraping
+    and URL construction are deliberately untouched.
     """
-    sources = [
-        (
-            "https://sports.ndtv.com/cricket/players/112645-tilak-varma-playerprofile/stats",
-            "NDTV Sports player profile stats",
-        ),
-        (
-            "https://dujseks5cqq0r.cloudfront.net/player/tilak-varma/stats",
-            "Secondary public player profile stats",
-        ),
-    ]
+    ndtv_url = "https://sports.ndtv.com/cricket/players/112645-tilak-varma-playerprofile/stats"
+    secondary_url = "https://dujseks5cqq0r.cloudfront.net/player/tilak-varma/stats"
     format_id = 5 if fmt == "List A" else 4
+    section_label = "List_A" if fmt == "List A" else "First-class"
+    against_class = "against_ " + section_label
+    year_class = "yeardata_ " + section_label
 
     def norm(value):
         return re.sub(r"[^a-z0-9]+", "", clean(value).casefold())
 
-    def parse_ndtv(page, source_name, url):
-        output_rows = []
-        yearly_rows = []
-        summaries = []
-        for table in parse_tables(page):
-            header_index = None
-            columns = {}
-            headers = []
-            for ri, row in enumerate(table):
-                headers = [norm(value) for value in cell_text(row)]
-                # NDTV's batting/fielding table has M, I, R, HS and a format ID.
-                if {"m", "i", "r", "hs"}.issubset(set(headers)) and "id" in headers:
-                    header_index = ri
-                    for i, h in enumerate(headers):
-                        if h in {"m", "matches"}:
-                            columns["matches"] = i
-                        elif h in {"i", "inn", "inns", "innings"}:
-                            columns["innings"] = i
-                        elif h in {"no", "notout", "notouts"}:
-                            columns["notOuts"] = i
-                        elif h in {"r", "runs"}:
-                            columns["runs"] = i
-                        elif h in {"hs", "highscore"}:
-                            columns["highestScore"] = i
-                        elif h in {"100s", "100", "hundreds"}:
-                            columns["hundreds"] = i
-                        elif h in {"50s", "50", "fifties"}:
-                            columns["fifties"] = i
-                        elif h in {"4s", "fours"}:
-                            columns["fours"] = i
-                        elif h in {"6s", "sixes"}:
-                            columns["sixes"] = i
-                        elif h in {"avg", "average", "batavg"}:
-                            columns["average"] = i
-                        elif h in {"sr", "strikerate"}:
-                            columns["strikeRate"] = i
-                        elif h in {"ct", "catches"}:
-                            columns["catches"] = i
-                        elif h in {"st", "stumpings"}:
-                            columns["stumpings"] = i
-                        elif h in {"id"}:
-                            columns["formatId"] = i
-                    break
-            if header_index is None or not {
-                "matches",
-                "innings",
-                "runs",
-                "highestScore",
-                "formatId",
-            }.issubset(columns):
-                continue
+    def extract_div_section(page, class_name):
+        """Return one div (including nested divs) identified by its exact class."""
+        start_tag = re.compile(
+            r"<div\\b(?=[^>]*\\bclass\\s*=\\s*(['\"])[^'\"]*"
+            + re.escape(class_name)
+            + r"[^'\"]*\\1)[^>]*>",
+            re.IGNORECASE,
+        )
+        match = start_tag.search(page)
+        if not match:
+            return ""
+        depth = 1
+        token_re = re.compile(r"</?div\\b[^>]*>", re.IGNORECASE)
+        for token in token_re.finditer(page, match.end()):
+            if token.group(0).lower().startswith("</div"):
+                depth -= 1
+                if depth == 0:
+                    return page[match.start():token.end()]
+            elif not token.group(0).rstrip().endswith("/>"):
+                depth += 1
+        return ""
 
-            rows = []
-            for row in table[header_index + 1 :]:
-                values = cell_text(row)
-                max_col = max(columns.values())
-                if len(values) <= max_col:
+    def parse_format_tables(page, source_name, url, strict_ndtv=False):
+        if strict_ndtv:
+            against_html = extract_div_section(page, against_class)
+            if not against_html:
+                return None
+            against_tables = parse_tables(against_html)
+            year_html = extract_div_section(page, year_class)
+            year_tables = parse_tables(year_html) if year_html else []
+        else:
+            # Secondary profile fallback is retained for compatibility if NDTV
+            # does not expose the expected section markup.
+            against_tables = parse_tables(page)
+            year_tables = []
+
+        def read_rows(tables):
+            found = []
+            for table in tables:
+                header_index = None
+                columns = {}
+                for ri, row in enumerate(table):
+                    headers = [norm(value) for value in cell_text(row)]
+                    if {"m", "i", "r", "hs"}.issubset(set(headers)) and "id" in headers:
+                        header_index = ri
+                        for i, h in enumerate(headers):
+                            if h in {"m", "matches"}:
+                                columns["matches"] = i
+                            elif h in {"i", "inn", "inns", "innings"}:
+                                columns["innings"] = i
+                            elif h in {"no", "notout", "notouts"}:
+                                columns["notOuts"] = i
+                            elif h in {"r", "runs"}:
+                                columns["runs"] = i
+                            elif h in {"hs", "highscore"}:
+                                columns["highestScore"] = i
+                            elif h in {"100s", "100", "hundreds"}:
+                                columns["hundreds"] = i
+                            elif h in {"50s", "50", "fifties"}:
+                                columns["fifties"] = i
+                            elif h in {"4s", "fours"}:
+                                columns["fours"] = i
+                            elif h in {"6s", "sixes"}:
+                                columns["sixes"] = i
+                            elif h in {"avg", "average", "batavg"}:
+                                columns["average"] = i
+                            elif h in {"sr", "strikerate"}:
+                                columns["strikeRate"] = i
+                            elif h in {"ct", "catches"}:
+                                columns["catches"] = i
+                            elif h in {"st", "stumpings"}:
+                                columns["stumpings"] = i
+                            elif h == "id":
+                                columns["formatId"] = i
+                        break
+                required = {"matches", "innings", "runs", "highestScore", "formatId"}
+                if header_index is None or not required.issubset(columns):
                     continue
-                if clean(values[columns["formatId"]]) != str(format_id):
-                    continue
-                label = clean(values[0]) if values else ""
-                if not label or norm(label) in {
-                    "home",
-                    "away",
-                    "neutral",
-                    "overall",
-                    "career",
-                    "total",
-                    "battingfieldingperformance",
-                    "bowlingperformance",
-                }:
-                    continue
-                item = {"group": label, "span": "All-time"}
-                for key, column in columns.items():
-                    if key == "formatId" or column >= len(values):
+                for row in table[header_index + 1:]:
+                    values = cell_text(row)
+                    if len(values) <= max(columns.values()):
                         continue
-                    raw = clean(values[column])
-                    if key == "highestScore":
-                        item[key] = raw
-                    else:
-                        item[key] = number(raw)
-                if item.get("matches") is None or item.get("runs") is None:
-                    continue
-                rows.append(item)
+                    if clean(values[columns["formatId"]]) != str(format_id):
+                        continue
+                    label = clean(values[0]) if values else ""
+                    if not label or norm(label) in {
+                        "home", "away", "neutral", "overall", "career", "total",
+                        "battingfieldingperformance", "bowlingperformance",
+                    }:
+                        continue
+                    item = {"group": label, "span": "All-time"}
+                    for key, column in columns.items():
+                        if key == "formatId" or column >= len(values):
+                            continue
+                        raw = clean(values[column])
+                        item[key] = raw if key == "highestScore" else number(raw)
+                    if item.get("matches") is not None and item.get("runs") is not None:
+                        found.append(item)
+            return found
 
-            if not rows:
-                continue
+        opponent_rows = read_rows(against_tables)
+        if strict_ndtv:
+            # The against tab is a disjoint opponent partition, so only its rows
+            # may contribute to the domestic career total.
+            source_rows = opponent_rows
+            yearly_rows = []
+            for row in read_rows(year_tables):
+                if re.fullmatch(r"\\d{4}", str(row.get("group", ""))):
+                    yearly_rows.append({**row, "groupType": "year"})
+        else:
+            # Preserve the secondary source's prior behavior if NDTV markup is absent.
+            source_rows = opponent_rows
+            yearly_rows = []
 
-            # Year rows are kept separately from opposition/competition rows.
-            if all(re.fullmatch(r"\d{4}", str(item.get("group", ""))) for item in rows):
-                yearly_rows.extend({**item, "groupType": "year"} for item in rows)
-            else:
-                # Rows whose label is an opposition/competition and whose format
-                # ID matches the selected format are source-listed breakdowns.
-                # Avoid home/away/year tables, which are not team/competition splits.
-                non_year = [
-                    item
-                    for item in rows
-                    if not re.fullmatch(r"\d{4}", str(item.get("group", "")))
-                ]
-                if len(non_year) >= 5:
-                    output_rows.extend(
-                        {**item, "groupType": "opposition/competition"}
-                        for item in non_year
-                    )
-
-                # The 'against' table partitions the player's record by opponent.
-                # Its rows are disjoint, so their match/innings/run totals can be
-                # summed to recover the overall summary without guessing values.
-                if len(rows) >= 5:
-                    summaries.append(rows)
-
-        if not summaries:
+        if len(source_rows) < 1:
             return None
-        # Select the largest complete opposition table; the other matching tables
-        # are usually venue/year/team tabs with fewer rows.
-        source_rows = max(summaries, key=len)
+
         summary = {}
         additive = (
-            "matches",
-            "innings",
-            "notOuts",
-            "runs",
-            "hundreds",
-            "fifties",
-            "fours",
-            "sixes",
-            "catches",
-            "stumpings",
+            "matches", "innings", "notOuts", "runs", "hundreds", "fifties",
+            "fours", "sixes", "catches", "stumpings",
         )
         for key in additive:
             values = [row.get(key) for row in source_rows if row.get(key) is not None]
@@ -809,7 +797,7 @@ def scrape_domestic_profile_summary(fmt):
         scores = []
         for row in source_rows:
             raw = clean(row.get("highestScore"))
-            match = re.search(r"(\d+)\s*(\*)?", raw)
+            match = re.search(r"(\\d+)\\s*(\\*)?", raw)
             if match:
                 scores.append((int(match.group(1)), bool(match.group(2)), raw))
         if scores:
@@ -822,252 +810,45 @@ def scrape_domestic_profile_summary(fmt):
             dismissals = innings - not_outs
             if dismissals > 0:
                 summary["average"] = round(runs / dismissals, 2)
-        # The page gives a rounded strike rate for each split but not balls faced.
-        # Do not synthesize a career strike rate from rounded split values.
-        if not summary.get("matches") or not summary.get("runs"):
+        if not summary.get("matches") or summary.get("runs") is None:
             return None
-        summary.setdefault("innings", summary.get("matches"))
         return {
             "summary": summary,
-            "careerBreakdown": output_rows,
-            "teamBreakdown": output_rows,
+            "careerBreakdown": [
+                {**row, "groupType": "opposition"} for row in source_rows
+            ],
+            "teamBreakdown": [
+                {**row, "groupType": "opposition"} for row in source_rows
+            ],
             "yearBreakdown": yearly_rows,
             "innings": [],
             "inningsCount": summary.get("innings") or 0,
-            "source": source_name + " (HTML table summary and grouped splits)",
+            "source": source_name + " (selected domestic format section)",
             "sourceUrl": url,
             "detailStatus": "summary-and-grouped-splits",
-            "detailNote": "Career totals and opponent/competition/year splits are derived from NDTV source-listed tables. Match-by-match innings are not fabricated; strike rate is omitted where the source does not provide a verified aggregate.",
+            "detailNote": "FC/List A summary uses only the selected format's NDTV opponent table; year breakdown uses that format's year tab. Match-by-match innings are not fabricated.",
             "checkedAt": stamp(),
         }
 
-    errors = []
-    for url, source_name in sources:
-        try:
-            page = fetch(url)
-            result = parse_ndtv(page, source_name, url)
-            if result:
-                return result
-            errors.append(source_name + ": no recognized domestic tables")
-        except Exception as exc:
-            errors.append(source_name + ": " + str(exc))
-            print(fmt + ": profile source fetch/parse failed (" + url + "):", exc)
-    raise RuntimeError(
-        "No recognizable "
-        + fmt
-        + " summary/grouped rows from profile sources: "
-        + " | ".join(errors)
-    )
+    # NDTV is the primary domestic fallback. Do not use NDTV's other formats/tabs.
+    try:
+        page = fetch(ndtv_url)
+        result = parse_format_tables(page, "NDTV Sports player profile stats", ndtv_url, strict_ndtv=True)
+        if result:
+            return result
+    except Exception as exc:
+        print(fmt + ": NDTV selected-section fallback failed:", exc)
 
-
-def parse_fielding_summary(page):
-    """Parse the official Statsguru fielding career total when present."""
-    for table in parse_tables(page):
-        for idx, row in enumerate(table):
-            headers = [
-                re.sub(r"[^a-z0-9]+", "", clean(x).casefold()) for x in cell_text(row)
-            ]
-            if not ({"mat", "matches"} & set(headers)) or not (
-                {"ct", "catches"} & set(headers)
-            ):
-                continue
-            cols = {}
-            for i, h in enumerate(headers):
-                if h in {"mat", "matches"}:
-                    cols["matches"] = i
-                elif h in {"inns", "innings"}:
-                    cols["innings"] = i
-                elif h in {"ct", "catches"}:
-                    cols["catches"] = i
-                elif h in {"st", "stumpings"}:
-                    cols["stumpings"] = i
-                elif h in {"ro", "runouts", "runout"}:
-                    cols["runOuts"] = i
-                elif h in {"dismissals", "total"}:
-                    cols["dismissals"] = i
-            for candidate in table[idx + 1 :]:
-                vals = cell_text(candidate)
-                if len(vals) <= max(cols.values(), default=0):
-                    continue
-                if not any(
-                    re.search(r"\b(overall|career|total)\b", v, re.I) for v in vals
-                ):
-                    continue
-                out = {k: number(vals[i]) for k, i in cols.items()}
-                if out.get("catches") is not None:
-                    out.setdefault("stumpings", 0)
-                    out.setdefault("runOuts", 0)
-                    out["dismissals"] = (
-                        out.get("dismissals")
-                        if out.get("dismissals") is not None
-                        else sum(
-                            out.get(k) or 0 for k in ("catches", "stumpings", "runOuts")
-                        )
-                    )
-                    return out
-    return None
-
-
-def parse_fielding_breakdown(page):
-    """Read verified grouped fielding figures (series/year/opposition etc.)."""
-    out, seen, columns = [], set(), None
-    for table in parse_tables(page):
-        header_idx = None
-        for i, row in enumerate(table):
-            hs = [
-                re.sub(r"[^a-z0-9]+", "", clean(x).casefold()) for x in cell_text(row)
-            ]
-            if {"span", "mat"} <= set(hs) and ({"ct", "catches"} & set(hs)):
-                header_idx, columns = i, {}
-                for j, h in enumerate(hs):
-                    if h in {"group", "grouping", "category"}:
-                        columns["group"] = j
-                    elif h == "span":
-                        columns["span"] = j
-                    elif h in {"mat", "matches"}:
-                        columns["matches"] = j
-                    elif h in {"ct", "catches"}:
-                        columns["catches"] = j
-                    elif h in {"st", "stumpings"}:
-                        columns["stumpings"] = j
-                    elif h in {"ro", "runouts", "runout"}:
-                        columns["runOuts"] = j
-                    elif h in {"dismissals", "total"}:
-                        columns["dismissals"] = j
-                break
-        if header_idx is None or columns is None:
-            continue
-        for row in table[header_idx + 1 :]:
-            vals = cell_text(row)
-            if len(vals) <= max(columns.values(), default=0):
-                continue
-            group = vals[columns.get("group", 0)].strip()
-            span = vals[columns["span"]].strip() if "span" in columns else ""
-            if not group or not re.search(r"\d{4}", span):
-                continue
-            item = {"group": group, "span": span}
-            for k, j in columns.items():
-                if k not in {"group", "span"} and j < len(vals):
-                    item[k] = number(vals[j])
-            if item.get("catches") is None:
-                continue
-            item.setdefault("stumpings", 0)
-            item.setdefault("runOuts", 0)
-            item["dismissals"] = (
-                item.get("dismissals")
-                if item.get("dismissals") is not None
-                else sum(item.get(k) or 0 for k in ("catches", "stumpings", "runOuts"))
-            )
-            key = (
-                group,
-                span,
-                item.get("matches"),
-                item.get("catches"),
-                item.get("stumpings"),
-                item.get("runOuts"),
-            )
-            if key not in seen:
-                seen.add(key)
-                out.append(item)
-    return out
-
-
-def parse_fielding_innings(page, fmt):
-    """Parse fielding innings list from the player-specific Statsguru response."""
-    output = []
-    for table in parse_tables(page):
-        header_idx = None
-        cols = {}
-        for i, row in enumerate(table):
-            hs = [
-                re.sub(r"[^a-z0-9]+", "", clean(x).casefold()) for x in cell_text(row)
-            ]
-            has_date = any(h in {"startdate", "date"} for h in hs)
-            has_opp = any("opposition" in h or h == "oppo" for h in hs)
-            has_ground = any("ground" in h or "venue" in h for h in hs)
-            has_fielding = bool(
-                {"ct", "catches", "st", "stumpings", "ro", "runouts", "runout"}
-                & set(hs)
-            )
-            if has_date and has_opp and has_ground and has_fielding:
-                header_idx = i
-                for j, h in enumerate(hs):
-                    if h in {"startdate", "date"}:
-                        cols["date"] = j
-                    elif "opposition" in h or h == "oppo":
-                        cols["opposition"] = j
-                    elif "ground" in h or "venue" in h:
-                        cols["ground"] = j
-                    elif h in {"ct", "catches"}:
-                        cols["catches"] = j
-                    elif h in {"st", "stumpings"}:
-                        cols["stumpings"] = j
-                    elif h in {"ro", "runouts", "runout"}:
-                        cols["runOuts"] = j
-                    elif h in {"inns", "inn", "innings"}:
-                        cols["innings"] = j
-                    elif h in {"match", "scorecard", "card"}:
-                        cols["match"] = j
-                break
-        if header_idx is None:
-            continue
-        for row in table[header_idx + 1 :]:
-            vals = cell_text(row)
-            if len(vals) <= max(cols.values(), default=0):
-                continue
-            date, opp, ground = (
-                vals[cols[k]] for k in ("date", "opposition", "ground")
-            )
-            if (
-                not date
-                or not opp
-                or not ground
-                or date.casefold() in {"date", "start date"}
-            ):
-                continue
-
-            def field_value(key):
-                return (
-                    number(vals[cols[key]])
-                    if key in cols and cols[key] < len(vals)
-                    else 0
-                )
-
-            match_url = None
-            for cell in row:
-                for url in cell.get("links", []):
-                    if (
-                        "engine/match" in url
-                        or "scorecard" in url
-                        or "full-scorecard" in url
-                    ):
-                        match_url = url
-                        break
-                if match_url:
-                    break
-            item = {
-                "date": date,
-                "format": fmt,
-                "opposition": opp,
-                "ground": ground,
-                "catches": field_value("catches"),
-                "stumpings": field_value("stumpings"),
-                "runOuts": field_value("runOuts"),
-                "innings": (
-                    vals[cols["innings"]]
-                    if "innings" in cols and cols["innings"] < len(vals)
-                    else "—"
-                ),
-                "source": "ESPNcricinfo Statsguru",
-            }
-            if match_url:
-                item["matchUrl"] = match_url
-            item["dismissals"] = sum(
-                item[k] or 0 for k in ("catches", "stumpings", "runOuts")
-            )
-            output.append(item)
-    return output
-
+    # Keep the pre-existing secondary feed as a last resort; ESPNcricinfo logic is
+    # not changed. Its format ID is still required before rows can be aggregated.
+    try:
+        page = fetch(secondary_url)
+        result = parse_format_tables(page, "Secondary public player profile stats", secondary_url)
+        if result:
+            return result
+    except Exception as exc:
+        print(fmt + ": secondary domestic profile fallback failed:", exc)
+    raise RuntimeError("No verified NDTV/secondary domestic rows for " + fmt)
 
 def scrape_fielding_format(fmt, match_class):
     first = fetch(stats_url(match_class, "innings", 1, "fielding"))
