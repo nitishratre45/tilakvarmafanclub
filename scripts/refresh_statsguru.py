@@ -658,7 +658,9 @@ def scrape_domestic_profile_summary(fmt):
     year rows are read only from that format's year tab. ESPNcricinfo scraping
     and URL construction are deliberately untouched.
     """
-    ndtv_url = "https://sports.ndtv.com/cricket/players/112645-tilak-varma-playerprofile/stats"
+    ndtv_url = (
+        "https://sports.ndtv.com/cricket/players/112645-tilak-varma-playerprofile/stats"
+    )
     secondary_url = "https://dujseks5cqq0r.cloudfront.net/player/tilak-varma/stats"
     format_id = 5 if fmt == "List A" else 4
     section_label = "List_A" if fmt == "List A" else "First-class"
@@ -685,7 +687,7 @@ def scrape_domestic_profile_summary(fmt):
             if token.group(0).lower().startswith("</div"):
                 depth -= 1
                 if depth == 0:
-                    return page[match.start():token.end()]
+                    return page[match.start() : token.end()]
             elif not token.group(0).rstrip().endswith("/>"):
                 depth += 1
         return ""
@@ -746,7 +748,7 @@ def scrape_domestic_profile_summary(fmt):
                 required = {"matches", "innings", "runs", "highestScore", "formatId"}
                 if header_index is None or not required.issubset(columns):
                     continue
-                for row in table[header_index + 1:]:
+                for row in table[header_index + 1 :]:
                     values = cell_text(row)
                     if len(values) <= max(columns.values()):
                         continue
@@ -754,8 +756,14 @@ def scrape_domestic_profile_summary(fmt):
                         continue
                     label = clean(values[0]) if values else ""
                     if not label or norm(label) in {
-                        "home", "away", "neutral", "overall", "career", "total",
-                        "battingfieldingperformance", "bowlingperformance",
+                        "home",
+                        "away",
+                        "neutral",
+                        "overall",
+                        "career",
+                        "total",
+                        "battingfieldingperformance",
+                        "bowlingperformance",
                     }:
                         continue
                     item = {"group": label, "span": "All-time"}
@@ -787,8 +795,16 @@ def scrape_domestic_profile_summary(fmt):
 
         summary = {}
         additive = (
-            "matches", "innings", "notOuts", "runs", "hundreds", "fifties",
-            "fours", "sixes", "catches", "stumpings",
+            "matches",
+            "innings",
+            "notOuts",
+            "runs",
+            "hundreds",
+            "fifties",
+            "fours",
+            "sixes",
+            "catches",
+            "stumpings",
         )
         for key in additive:
             values = [row.get(key) for row in source_rows if row.get(key) is not None]
@@ -833,7 +849,9 @@ def scrape_domestic_profile_summary(fmt):
     # NDTV is the primary domestic fallback. Do not use NDTV's other formats/tabs.
     try:
         page = fetch(ndtv_url)
-        result = parse_format_tables(page, "NDTV Sports player profile stats", ndtv_url, strict_ndtv=True)
+        result = parse_format_tables(
+            page, "NDTV Sports player profile stats", ndtv_url, strict_ndtv=True
+        )
         if result:
             return result
     except Exception as exc:
@@ -843,12 +861,15 @@ def scrape_domestic_profile_summary(fmt):
     # not changed. Its format ID is still required before rows can be aggregated.
     try:
         page = fetch(secondary_url)
-        result = parse_format_tables(page, "Secondary public player profile stats", secondary_url)
+        result = parse_format_tables(
+            page, "Secondary public player profile stats", secondary_url
+        )
         if result:
             return result
     except Exception as exc:
         print(fmt + ": secondary domestic profile fallback failed:", exc)
     raise RuntimeError("No verified NDTV/secondary domestic rows for " + fmt)
+
 
 def scrape_fielding_format(fmt, match_class):
     first = fetch(stats_url(match_class, "innings", 1, "fielding"))
