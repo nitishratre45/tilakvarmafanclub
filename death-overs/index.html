@@ -2706,16 +2706,6 @@
             const r = await fetch(URL_DATA, { cache: "no-store" });
             if (!r.ok) throw Error("HTTP " + r.status);
             root = await r.json();
-            fetch(SITE_DATA_URL, { cache: "no-store" })
-              .then((response) => {
-                if (!response.ok) throw new Error("Explore snapshot unavailable");
-                return response.json();
-              })
-              .then((snapshotData) => {
-                siteSnapshot = snapshotData;
-                renderMissingCoverage();
-              })
-              .catch(() => renderMissingCoverage());
             fs.replaceChildren();
             Object.entries(root.formats || {}).forEach(([k, v]) => {
               if (v && Array.isArray(v.innings) && v.innings.length)
