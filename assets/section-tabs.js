@@ -8,7 +8,7 @@
   const allowed = new Set(
     sections.map((section) => section.id).filter((id) => id !== "home-snapshot"),
   );
-  const persistentSections = new Set(["tv-gallery-hub"]);
+  const persistentSections = new Set();
   const legacyViews = { "stats-explorer": "statsguru", statsguru: "statsguru" };
 
   function setStatsView(view) {
