@@ -182,7 +182,11 @@ def main():
     breakdown = []
     for season, season_rows in sorted(by_season.items()):
         breakdown.append(
-            {"group": "Season " + str(season), "span": str(season), **make_summary(season_rows)}
+            {
+                "group": "Season " + str(season),
+                "span": str(season),
+                **make_summary(season_rows),
+            }
         )
     by_opposition = defaultdict(list)
     by_position = defaultdict(list)
@@ -192,16 +196,34 @@ def main():
             by_position[row["position"]].append(row)
     for opposition, opposition_rows in sorted(by_opposition.items()):
         breakdown.append(
-            {"group": opposition, "span": "All seasons", **make_summary(opposition_rows)}
+            {
+                "group": opposition,
+                "span": "All seasons",
+                **make_summary(opposition_rows),
+            }
         )
+
     def ordinal(n):
-        return str(n) + ("th" if 10 <= n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th"))
+        return str(n) + (
+            "th"
+            if 10 <= n % 100 <= 20
+            else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+        )
+
     for position, position_rows in sorted(by_position.items()):
         breakdown.append(
-            {"group": ordinal(position) + " position", "span": "All seasons", **make_summary(position_rows)}
+            {
+                "group": ordinal(position) + " position",
+                "span": "All seasons",
+                **make_summary(position_rows),
+            }
         )
     breakdown.append(
-        {"group": "overall", "span": f"{min(by_season)}-{max(by_season)}", **make_summary(rows)}
+        {
+            "group": "overall",
+            "span": f"{min(by_season)}-{max(by_season)}",
+            **make_summary(rows),
+        }
     )
     formats = data.setdefault("statsguru", {}).setdefault("formats", {})
     formats["IPL"] = {
