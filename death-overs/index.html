@@ -1423,8 +1423,8 @@
         <div class="eyebrow"><span class="live-dot"></span> THE 72 CLUB · STATS CENTRE</div>
         <h1>NUMBERS<br /><em>BEHIND THE GAME.</em></h1>
         <p>
-          Explore Tilak Varma's available T20 International ball-by-ball data, compare over ranges
-          and track the batting numbers as the dataset refreshes.
+          Explore Tilak Varma's available format-wise ball-by-ball data, compare any over range,
+          and inspect runs, balls, fours, sixes and strike rate by year and competition.
         </p>
         <div class="hero-tags" aria-label="Stats features">
           <span class="hero-tag"><strong>01</strong> OVER RANGE ANALYSER</span>
@@ -1707,6 +1707,12 @@
           document.getElementById("matches").innerHTML =
             '<div class="empty-state">No delivery-level innings available for this format/year.</div>';
           document.getElementById("match-summary").textContent = "No innings data available";
+          document.getElementById("over-breakdown").innerHTML =
+            '<div class="empty-state">No over totals for this format/year.</div>';
+          document.getElementById("ball-log").innerHTML =
+            '<div class="empty-state">No ball-by-ball data for this format/year.</div>';
+          document.getElementById("breakdown-summary").textContent = "No data";
+          document.getElementById("ball-summary").textContent = "No data";
         }
         function calculate() {
           const d = data();
