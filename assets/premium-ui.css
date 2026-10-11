@@ -4563,7 +4563,6 @@ main > section:not([hidden]) {
   }
 }
 
-
 /* STATS / BATTING OVERVIEW — polished cards, restrained accents, scoped away from other sections. */
 #stats #stats-overview {
   --bat-ink: #eaf2ff;
@@ -4601,7 +4600,10 @@ main > section:not([hidden]) {
   border-radius: 17px;
   background: var(--bat-panel);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.13);
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 #stats #stats-overview .stat-card::before {
   position: absolute;
@@ -4610,7 +4612,12 @@ main > section:not([hidden]) {
   right: 0;
   left: 0;
   height: 2px;
-  background: linear-gradient(90deg, rgba(255, 153, 85, 0.9), rgba(84, 190, 220, 0.55), transparent 88%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 153, 85, 0.9),
+    rgba(84, 190, 220, 0.55),
+    transparent 88%
+  );
   content: "";
   opacity: 0.62;
 }
