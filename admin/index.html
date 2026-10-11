@@ -3056,9 +3056,12 @@
                   .toLowerCase()
                   .includes(q),
             );
-          $("count-total").textContent = state.items.length;
-          $("count-photos").textContent = state.items.filter((x) => x.type !== "video").length;
-          $("count-videos").textContent = state.items.filter((x) => x.type === "video").length;
+          const totalCount = $("count-total");
+          const photoCount = $("count-photos");
+          const videoCount = $("count-videos");
+          if (totalCount) totalCount.textContent = state.items.length;
+          if (photoCount) photoCount.textContent = state.items.filter((x) => x.type !== "video").length;
+          if (videoCount) videoCount.textContent = state.items.filter((x) => x.type === "video").length;
           if (!all.length) {
             host.innerHTML =
               '<div class="empty"><strong>' +
