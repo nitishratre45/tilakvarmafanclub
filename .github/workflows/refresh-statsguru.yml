@@ -3,7 +3,8 @@ name: Refresh ESPNcricinfo Statsguru
 on:
   workflow_dispatch:
   schedule:
-    - cron: "23 1 * * *"
+    # Hourly trigger; the step below enforces a rolling 20-hour interval.
+    - cron: "23 * * * *"
   push:
     branches: [main]
     paths:
@@ -31,7 +32,13 @@ jobs:
           python-version: "3.12"
       - name: Validate Statsguru and IPL refresh scripts
         run: python -m py_compile scripts/refresh_statsguru.py scripts/refresh_ipl_explorer.py
+      - name: Check 20-hour refresh interval
+        id: refresh_due
+        if: github.event_name == 'schedule'
+        run: |
+          python -c 'import json,os; from datetime import datetime,timezone; from pathlib import Path; d=json.loads(Path("data/site-data.json").read_text(encoding="utf-8")); raw=d.get("statsguru",{}).get("iplUpdatedAt"); last=datetime.strptime(raw,"%Y-%m-%d %H:%M UTC").replace(tzinfo=timezone.utc) if raw else None; due=last is None or (datetime.now(timezone.utc)-last).total_seconds() >= 72000; open(os.environ["GITHUB_OUTPUT"],"a").write("run_refresh="+("true" if due else "false")+"\n"); print("20-hour refresh due:",due,"last IPL update:",raw)'
       - name: Commit updated Statsguru snapshot
+        if: github.event_name != 'schedule' || steps.refresh_due.outputs.run_refresh == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
