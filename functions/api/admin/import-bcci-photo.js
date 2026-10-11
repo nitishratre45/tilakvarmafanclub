@@ -5,6 +5,22 @@ const MAX_URLS = 12;
 const ALLOWED_HOSTS = new Set(["www.bcci.tv", "bcci.tv"]);
 const IMAGE_PATH = /^\/cms\/photos\/galleries\/[a-z0-9/_-]+\.(?:webp|jpe?g|png)$/i;
 
+function normalizePastedBcciUrl(value) {
+  let text = String(value || "").trim();
+  text = text.replace(/&amp;/gi, "&").replace(/\\&/g, "&");
+  const markdownLink = text.match(/\\[[^\\]]*\\]\\((https?:\\/\\/[^)\\s]+)\\)/i);
+  if (markdownLink) {
+    text = markdownLink[1];
+  } else {
+    const urlMatch = text.match(/https?:\\/\\/[^\\s<>()|]+/i);
+    if (urlMatch) text = urlMatch[0];
+  }
+  return text
+    .replace(/&amp;/gi, "&")
+    .replace(/\\&/g, "&")
+    .replace(/[.,;]+$/, "");
+}
+
 function validBcciImageUrl(value) {
   try {
     const url = new URL(value);
@@ -137,7 +153,7 @@ export async function onRequestPost({ request, env }) {
   const parsedUrls = [];
   const invalid = [];
   for (const value of urls) {
-    const raw = typeof value === "string" ? value.trim() : "";
+    const raw = normalizePastedBcciUrl(value);
     if (!raw) continue;
     const parsed = validBcciImageUrl(raw);
     if (!parsed) invalid.push(raw.slice(0, 180));
