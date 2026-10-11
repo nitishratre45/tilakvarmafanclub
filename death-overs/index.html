@@ -1783,8 +1783,6 @@
               </div>
             </div>
 
-
-
             <div class="detail-panel ball-panel">
               <div class="detail-heading">
                 <div>
@@ -2151,9 +2149,17 @@
           document.getElementById("coverage-sixes").textContent = fmt(t.sixes);
           document.getElementById("coverage-summary-text").textContent =
             (d?.label || names[active]) +
-            " · " + fmt(matchCount) + " matches · " + fmt(t.runs) +
-            " runs · " + fmt(t.fours) + " fours · " + fmt(t.sixes) + " sixes" +
-            " · " + (year.value === "all" ? "all years" : year.value);
+            " · " +
+            fmt(matchCount) +
+            " matches · " +
+            fmt(t.runs) +
+            " runs · " +
+            fmt(t.fours) +
+            " fours · " +
+            fmt(t.sixes) +
+            " sixes" +
+            " · " +
+            (year.value === "all" ? "all years" : year.value);
           document.getElementById("total-runs").textContent = fmt(t.runs);
           document.getElementById("total-innings").textContent = fmt(
             d?.inningsFound || innings.length,
