@@ -5342,54 +5342,53 @@ body.bcci-player-open .topbar {
 
 /* Final fix: keep the quality menu as a compact panel and hide the native select face. */
 #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu:not([hidden]) {
-  display:block !important;
-  box-sizing:border-box !important;
-  min-height:0 !important;
-  overflow:visible !important;
-  padding:16px !important;
-  background:#07142f !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  padding: 16px !important;
+  background: #07142f !important;
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu label {
-  display:grid !important;
-  width:100% !important;
-  gap:10px !important;
+  display: grid !important;
+  width: 100% !important;
+  gap: 10px !important;
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu label::before {
-  content:"PLAYBACK QUALITY";
-  display:block;
-  color:#ffad77;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.13em;
+  content: "PLAYBACK QUALITY";
+  display: block;
+  color: #ffad77;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.13em;
 }
 #bcci-video-player-modal #bcci-playback-quality {
-  position:relative !important;
-  display:block !important;
-  box-sizing:border-box !important;
-  width:100% !important;
-  max-width:100% !important;
-  min-width:0 !important;
-  height:44px !important;
-  min-height:44px !important;
-  margin:0 !important;
-  padding:0 36px 0 12px !important;
-  appearance:auto !important;
-  -webkit-appearance:menulist !important;
-  opacity:1 !important;
-  visibility:visible !important;
-  transform:none !important;
-  font-size:14px !important;
-  line-height:1.2 !important;
+  position: relative !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  padding: 0 36px 0 12px !important;
+  appearance: auto !important;
+  -webkit-appearance: menulist !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  font-size: 14px !important;
+  line-height: 1.2 !important;
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-quality-current {
-  display:none !important;
+  display: none !important;
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-quality-head-button {
-  min-width:88px !important;
+  min-width: 88px !important;
 }
-@media (max-width:760px) {
+@media (max-width: 760px) {
   #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu:not([hidden]) {
-    padding:12px !important;
+    padding: 12px !important;
   }
 }
-
