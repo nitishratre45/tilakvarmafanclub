@@ -651,86 +651,107 @@ def scrape_format(fmt, match_class):
 
 
 def scrape_domestic_profile_summary(fmt):
-    """Fallback for domestic career totals when legacy Statsguru omits FC/List A.
+    """Fallback for FC/List A career totals from public player profile tables.
 
-    Only summary rows are imported from the public profile stats table. We
-    deliberately do not invent match-by-match innings when they are absent.
+    NDTV Sports is tried first because its player profile exposes domestic-format
+    career totals. The older profile feed remains a secondary fallback. This
+    deliberately imports summary totals only; it never fabricates innings rows.
     """
-    url = "https://dujseks5cqq0r.cloudfront.net/player/tilak-varma/stats"
-    page = fetch(url)
+    sources = [
+        (
+            "https://sports.ndtv.com/cricket/players/112645-tilak-varma-playerprofile/stats",
+            "NDTV Sports player profile stats",
+        ),
+        (
+            "https://dujseks5cqq0r.cloudfront.net/player/tilak-varma/stats",
+            "Secondary public player profile stats",
+        ),
+    ]
     wanted = "listas" if fmt == "List A" else "firstclass"
 
     def norm(value):
         return re.sub(r"[^a-z0-9]+", "", clean(value).casefold())
 
-    for table in parse_tables(page):
-        for index, row in enumerate(table):
-            headers = [norm(value) for value in cell_text(row)]
-            if not ({"mat", "matches"} & set(headers)) or not (
-                {"r", "runs"} & set(headers)
-            ):
-                continue
-            columns = {}
-            for i, header in enumerate(headers):
-                if header in {"game", "gametype", "format", "type"}:
-                    columns["format"] = i
-                elif header in {"mat", "matches"}:
-                    columns["matches"] = i
-                elif header in {"inn", "inns", "innings"}:
-                    columns["innings"] = i
-                elif header in {"r", "runs"}:
-                    columns["runs"] = i
-                elif header in {"bf", "balls", "balls_faced"}:
-                    columns["balls"] = i
-                elif header in {"no", "notout", "notouts"}:
-                    columns["notOuts"] = i
-                elif header in {"avg", "average"}:
-                    columns["average"] = i
-                elif header in {"sr", "strikerate"}:
-                    columns["strikeRate"] = i
-                elif header in {"100", "100s", "hundreds"}:
-                    columns["hundreds"] = i
-                elif header in {"50", "50s", "fifties"}:
-                    columns["fifties"] = i
-                elif header in {"h", "hs", "highscore"}:
-                    columns["highestScore"] = i
-                elif header in {"4s", "fours"}:
-                    columns["fours"] = i
-                elif header in {"6s", "sixes"}:
-                    columns["sixes"] = i
-            if not {"matches", "innings", "runs", "highestScore", "format"}.issubset(
-                columns
-            ):
-                continue
-            for candidate in table[index + 1 :]:
-                values = cell_text(candidate)
-                if len(values) <= max(columns.values()):
-                    continue
-                if wanted not in norm(values[columns["format"]]):
-                    continue
-                summary = {}
-                for key, column in columns.items():
-                    if key == "format":
-                        continue
-                    raw = values[column]
-                    summary[key] = raw if key == "highestScore" else number(raw)
-                if summary.get("runs") is None or summary.get("matches") is None:
-                    continue
-                return {
-                    "summary": summary,
-                    "careerBreakdown": [],
-                    "innings": [],
-                    "inningsCount": summary.get("matches") or 0,
-                    "source": "Secondary public player profile stats (summary only)",
-                    "sourceUrl": url,
-                    "detailStatus": "summary-only",
-                    "detailNote": "Legacy ESPNcricinfo Statsguru did not provide domestic innings rows; match-by-match data is not fabricated.",
-                    "checkedAt": stamp(),
-                }
-    raise RuntimeError(
-        "No recognizable " + fmt + " summary row in the fallback profile feed"
-    )
+    aliases = {
+        "matches": {"mat", "matches", "m"},
+        "innings": {"inn", "inns", "innings", "i"},
+        "runs": {"r", "runs"},
+        "balls": {"bf", "balls", "ballsfaced"},
+        "notOuts": {"no", "notout", "notouts", "n/o"},
+        "average": {"avg", "average"},
+        "strikeRate": {"sr", "strikerate", "s/r"},
+        "hundreds": {"100", "100s", "hundreds"},
+        "fifties": {"50", "50s", "fifties"},
+        "highestScore": {"h", "hs", "highscore"},
+        "fours": {"4s", "fours"},
+        "sixes": {"6s", "sixes"},
+        "catches": {"ct", "catches"},
+        "stumpings": {"st", "stumpings"},
+    }
 
+    for url, source_name in sources:
+        try:
+            page = fetch(url)
+        except Exception as exc:
+            print(fmt + ": profile source fetch failed (" + url + "):", exc)
+            continue
+
+        for table in parse_tables(page):
+            for index, row in enumerate(table):
+                headers = [norm(value) for value in cell_text(row)]
+                if not ({norm(x) for x in aliases["matches"]} & set(headers)):
+                    continue
+                if not ({norm(x) for x in aliases["runs"]} & set(headers)):
+                    continue
+
+                columns = {}
+                for i, header in enumerate(headers):
+                    for key, names in aliases.items():
+                        if header in {norm(name) for name in names}:
+                            columns[key] = i
+                            break
+                    if header in {"format", "game", "gametype", "type", "careerformat"}:
+                        columns["format"] = i
+
+                # Some profile tables label the format in the first column and
+                # use short NDTV headers (M, I, R, HS, 100s, 50s, 4s, 6s, Avg, S/R).
+                if "format" not in columns and headers:
+                    first = headers[0]
+                    if first in {"format", "game", "gametype", "type", "careerformat"}:
+                        columns["format"] = 0
+                required = {"matches", "runs", "highestScore"}
+                if not required.issubset(columns) or "format" not in columns:
+                    continue
+
+                for candidate in table[index + 1 :]:
+                    values = cell_text(candidate)
+                    if len(values) <= max(columns.values()):
+                        continue
+                    if wanted not in norm(values[columns["format"]]):
+                        continue
+                    summary = {}
+                    for key, column in columns.items():
+                        if key == "format":
+                            continue
+                        raw = values[column]
+                        summary[key] = raw if key == "highestScore" else number(raw)
+                    if summary.get("runs") is None or summary.get("matches") is None:
+                        continue
+                    summary.setdefault("innings", summary.get("matches"))
+                    return {
+                        "summary": summary,
+                        "careerBreakdown": [],
+                        "innings": [],
+                        "inningsCount": summary.get("innings") or summary.get("matches") or 0,
+                        "source": source_name + " (summary only)",
+                        "sourceUrl": url,
+                        "detailStatus": "summary-only",
+                        "detailNote": "Legacy ESPNcricinfo Statsguru did not provide domestic innings rows; only source-listed career totals are imported, and match-by-match data is not fabricated.",
+                        "checkedAt": stamp(),
+                    }
+    raise RuntimeError(
+        "No recognizable " + fmt + " summary row in NDTV Sports or the secondary profile feed"
+    )
 
 def parse_fielding_summary(page):
     """Parse the official Statsguru fielding career total when present."""
