@@ -756,9 +756,13 @@
     const categoryGrid = document.querySelector(".statsguru-category-grid");
     const analysisPanel = document.querySelector(".statsguru-panel");
     const analysisMenu = document.querySelector(".player-analysis-filter");
+    const detailTable = document.querySelector(".statsguru-panel .table-wrap");
+    const detailNote = $("statsguru-note");
     if (categoryGrid) categoryGrid.style.display = allFormatsSelected ? "none" : "";
-    if (analysisPanel) analysisPanel.style.display = allFormatsSelected ? "none" : "";
-    if (analysisMenu) analysisMenu.style.display = allFormatsSelected ? "none" : "";
+    if (analysisPanel) analysisPanel.style.display = "";
+    if (analysisMenu) analysisMenu.style.display = "";
+    if (detailTable) detailTable.style.display = allFormatsSelected ? "none" : "";
+    if (detailNote) detailNote.style.display = allFormatsSelected ? "none" : "";
     const type = activeBreakdownFilter,
       value = activeBreakdownValue,
       group = selectedGroup(source);
