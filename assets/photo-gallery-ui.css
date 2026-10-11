@@ -725,3 +725,113 @@ html
     padding: 12px !important;
   }
 }
+
+
+/* Root cause hardening: force every toolbar descendant back into normal flow.
+   Earlier fixes reset only direct children; nested legacy positioned controls can still stretch the toolbar. */
+html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  position: static !important;
+  inset: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  min-block-size: 0 !important;
+  block-size: auto !important;
+  grid-template: none !important;
+  grid-auto-rows: auto !important;
+  align-content: flex-start !important;
+  place-content: start !important;
+  place-items: stretch !important;
+  overflow: visible !important;
+  contain: none !important;
+  margin: 0 0 14px !important;
+  padding: 14px !important;
+}
+html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar,
+html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar * {
+  inset-block: auto !important;
+  inset-inline: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  translate: none !important;
+  transform: none !important;
+  float: none !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  block-size: auto !important;
+  max-block-size: none !important;
+  align-self: auto !important;
+  flex-grow: 0 !important;
+}
+html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-toolbar-copy {
+  display: flex !important;
+  position: static !important;
+  flex: 0 0 auto !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 5px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-filters {
+  display: grid !important;
+  position: static !important;
+  flex: 0 0 auto !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto !important;
+  grid-template-rows: auto !important;
+  align-items: end !important;
+  align-content: start !important;
+  gap: 9px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-filters > label {
+  display: flex !important;
+  position: static !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-filters select {
+  position: static !important;
+  width: 100% !important;
+  height: 42px !important;
+  min-height: 42px !important;
+}
+html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-album-grid {
+  position: static !important;
+  clear: both !important;
+  float: none !important;
+  flex: 0 0 auto !important;
+  align-self: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+@media (min-width: 761px) {
+  html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar {
+    display: grid !important;
+    grid-template-columns: minmax(180px, .8fr) minmax(0, 2fr) !important;
+    grid-template-rows: min-content !important;
+    grid-auto-rows: min-content !important;
+    align-items: end !important;
+  }
+}
+@media (max-width: 760px) {
+  html body main > #photos.tilak-photos-section #cricinfo-photo-grid > .tv-gallery-toolbar .tv-gallery-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
