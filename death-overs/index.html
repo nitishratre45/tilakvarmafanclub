@@ -2347,13 +2347,13 @@
         const SITE_DATA_URL = "../data/site-data.json";
         let siteSnapshot = null;
         const normalizeMatchText = (value) => String(value || "")
-          .toLowerCase().replace(/\\bindia\\s+vs\\s+/g, "").replace(/^\\s*v\\s+/g, "")
-          .replace(/\\s+/g, " ").replace(/[^a-z0-9 ]/g, "").trim();
+          .toLowerCase().replace(/\bindia\s+vs\s+/g, "").replace(/^\s*v\s+/g, "")
+          .replace(/\s+/g, " ").replace(/[^a-z0-9 ]/g, "").trim();
         const dateKey = (value) => {
           const raw = String(value || "").trim();
           const parsed = Date.parse(raw);
           if (Number.isFinite(parsed)) return new Date(parsed).toISOString().slice(0, 10);
-          const m = raw.match(/^(\\d{1,2})[ -]([A-Za-z]{3,})[ -](\\d{4})$/);
+          const m = raw.match(/^(\d{1,2})[ -]([A-Za-z]{3,})[ -](\d{4})$/);
           if (m) { const d = Date.parse(m[1] + " " + m[2] + " " + m[3]); if (Number.isFinite(d)) return new Date(d).toISOString().slice(0,10); }
           return raw.slice(0, 10);
         };
@@ -2369,7 +2369,7 @@
         function getSavedScore(row) {
           let runs = row?.runs;
           if (runs == null || runs === "") {
-            const score = String(row?.score || "").match(/^\\s*(\\d+)/);
+            const score = String(row?.score || "").match(/^\s*(\d+)/);
             if (score) runs = Number(score[1]);
           }
           return {
