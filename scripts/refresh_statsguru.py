@@ -1081,17 +1081,24 @@ def main():
                     saved_career = data.get("careerFormats", {}).get(target, {})
                     previous = old_formats.get(fmt, {})
                     saved_summary = (
-                        previous.get("summary")
-                        if isinstance(previous, dict)
-                        else None
+                        previous.get("summary") if isinstance(previous, dict) else None
                     )
                     if not isinstance(saved_summary, dict) or not saved_summary:
                         saved_summary = {
                             key: saved_career.get(key)
                             for key in (
-                                "matches", "innings", "notOuts", "runs",
-                                "highestScore", "average", "strikeRate",
-                                "hundreds", "fifties", "fours", "sixes", "balls",
+                                "matches",
+                                "innings",
+                                "notOuts",
+                                "runs",
+                                "highestScore",
+                                "average",
+                                "strikeRate",
+                                "hundreds",
+                                "fifties",
+                                "fours",
+                                "sixes",
+                                "balls",
                             )
                             if saved_career.get(key) is not None
                         }
