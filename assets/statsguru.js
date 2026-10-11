@@ -758,11 +758,18 @@
     const analysisMenu = document.querySelector(".player-analysis-filter");
     const detailTable = document.querySelector(".statsguru-panel .table-wrap");
     const detailNote = $("statsguru-note");
+    const summaryUpdate = document.querySelector(".statsguru-panel .statsguru-panel-head");
     if (categoryGrid) categoryGrid.style.display = allFormatsSelected ? "none" : "";
     if (analysisPanel) analysisPanel.style.display = "";
-    if (analysisMenu) analysisMenu.style.display = "";
+    if (analysisMenu) analysisMenu.style.display = allFormatsSelected ? "none" : "";
     if (detailTable) detailTable.style.display = allFormatsSelected ? "none" : "";
-    if (detailNote) detailNote.style.display = allFormatsSelected ? "none" : "";
+    if (detailNote) {
+      detailNote.style.display = allFormatsSelected ? "" : "";
+      if (allFormatsSelected) {
+        const stamp = data?.statsguru?.updatedAt || "timestamp unavailable";
+        detailNote.textContent = "Last update: " + stamp + ". Automatic refresh checks every 20 hours.";
+      }
+    }
     const type = activeBreakdownFilter,
       value = activeBreakdownValue,
       group = selectedGroup(source);
