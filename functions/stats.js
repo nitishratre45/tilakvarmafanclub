@@ -1,11 +1,8 @@
 // Cloudflare Pages Function for the real /stats route.
-// _redirects rules are bypassed for requests handled by Pages Functions, so
-// serve index.html directly through the Assets binding while preserving the
-// browser-visible URL (/stats).
+// Rewrite the internal asset request while preserving the browser-visible URL.
 export async function onRequest(context) {
   const url = new URL(context.request.url);
   url.pathname = "/index.html";
   url.search = "";
-  const rewrittenRequest = new Request(url, context.request);
-  return context.env.ASSETS.fetch(rewrittenRequest);
+  return context.next({ request: new Request(url, context.request) });
 }
