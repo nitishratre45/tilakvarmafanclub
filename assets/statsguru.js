@@ -6,7 +6,22 @@
       /[&<>"']/g,
       (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
     );
-  const formatIndiaTimestamp = (value) => { if (!value || /waiting for update|timestamp unavailable|saved snapshot/i.test(String(value))) return value || "timestamp unavailable"; const date = new Date(value); return Number.isNaN(date.getTime()) ? String(value) : new Intl.DateTimeFormat("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true }).format(date) + " IST"; };
+  const formatIndiaTimestamp = (value) => {
+    if (!value || /waiting for update|timestamp unavailable|saved snapshot/i.test(String(value)))
+      return value || "timestamp unavailable";
+    const date = new Date(value);
+    return Number.isNaN(date.getTime())
+      ? String(value)
+      : new Intl.DateTimeFormat("en-IN", {
+          timeZone: "Asia/Kolkata",
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }).format(date) + " IST";
+  };
   const fmt = (v) =>
     typeof v === "number" ? v.toLocaleString("en-IN", { maximumFractionDigits: 2 }) : (v ?? "—");
   const titles = {
@@ -827,7 +842,8 @@
             (value === "all" ? "all available values" : value);
       if (appliedFrom || appliedTo)
         text += " · date range " + (appliedFrom || "earliest") + " to " + (appliedTo || "latest");
-      status.textContent = text + " · " + formatIndiaTimestamp(sg.updatedAt || "snapshot timestamp unavailable");
+      status.textContent =
+        text + " · " + formatIndiaTimestamp(sg.updatedAt || "snapshot timestamp unavailable");
     }
     if (
       selectedCategory === "batting" ||
