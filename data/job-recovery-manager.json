@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T19:52:06.807Z",
+  "checkedAt": "2026-10-12T19:52:22.276Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T08:22:59.868Z",
-      "workflow": "Self-healing code guard",
-      "workflowPath": ".github/workflows/self-healing.yml",
-      "runId": 38223158972,
-      "runAttempt": 1,
-      "conclusion": "success",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38223158972",
-      "action": "no_recovery_needed",
-      "reason": "No failed, cancelled, or skipped jobs require this manager.",
-      "jobCounts": {
-        "total": 1,
-        "success": 1,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T08:23:11.407Z",
       "workflow": "Validate Tilak Varma FC site",
@@ -12677,6 +12656,36 @@
               "number": 13
             }
           ]
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-10-12T19:52:22.276Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38299853850,
+      "runAttempt": 3,
+      "conclusion": "cancelled",
+      "event": "pull_request",
+      "branch": "fix/stats-route-path",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38299853850",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 1,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Desktop and mobile interaction checks",
+          "conclusion": "cancelled",
+          "startedAt": "2026-10-12T19:52:10Z",
+          "completedAt": "2026-10-12T19:52:11Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38299853850/job/114981926477",
+          "steps": []
         }
       ]
     }
