@@ -1,4 +1,4 @@
-/* Stats-only styles migrated from the legacy global stylesheets. Shared homepage card/layout styles remain in assets CSS. */
+/* Stats-only styles extracted from global stylesheets. Shared homepage styles remain global. */
 
 .stats-grid
 {
@@ -174,6 +174,21 @@
 
 }
 
+:root[data-theme-resolved="light"] .stats-section .career-formats .format-card
+{
+
+  background: #fff;
+
+}
+
+:root[data-theme-resolved="light"] .stats-section .career-formats .format-card strong
+{
+
+  color: #152235;
+
+}
+
+.stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature,
 .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature:hover
 {
 
@@ -184,6 +199,7 @@
 
 }
 
+.stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature .stat-label,
 .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature .stat-note
 {
 
@@ -198,6 +214,62 @@
 
 }
 
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature,
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature:hover
+{
+
+  background: #fff !important;
+  color: #152235;
+  border-color: rgba(18, 35, 55, 0.16) !important;
+  border-top-color: #7ce5f2 !important;
+
+}
+
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature
+  strong
+{
+
+  color: #152235 !important;
+
+}
+
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature
+  .stat-label,
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature
+  .stat-note
+{
+
+  color: #5d6d82 !important;
+
+}
+
+.stats-grid
+{
+
+  gap: 14px;
+
+}
+
 .stats-grid:not(.career-formats) .stat-feature
 {
 
@@ -209,6 +281,7 @@
 }
 
 @media (max-width: 640px) {
+.stats-grid,
 .career-formats
 {
 
@@ -268,6 +341,13 @@
 {
 
   border-top-color: rgba(251, 191, 36, 0.8);
+
+}
+
+.career-formats .stat-card
+{
+
+  border-left: 2px solid rgba(124, 229, 242, 0.55);
 
 }
 
@@ -404,6 +484,7 @@
 
 }
 
+#career-formats .format-card .stat-note,
 #career-formats .format-card .format-detail
 {
 
@@ -466,6 +547,7 @@
     font-size: clamp(23px, 6.5vw, 31px) !important;
   
 }
+#career-formats .format-card .stat-note,
 #career-formats .format-card .format-detail
 {
 
@@ -499,6 +581,24 @@
 
   color: #5d6b7e;
 
+}
+
+.stats-grid > *,
+.career-formats > *
+{
+
+  min-width: 0;
+
+}
+
+@media (max-width: 480px) {
+.stats-grid,
+.career-formats
+{
+
+    gap: 9px;
+  
+}
 }
 
 #career-formats.career-formats
@@ -974,6 +1074,7 @@
     padding: 8px 5px !important;
   
 }
+#career-formats .format-fact span,
 #career-formats .format-fact strong
 {
 
@@ -1325,6 +1426,8 @@
 
 }
 
+html[data-theme="light"] #stats #stats-overview,
+body[data-theme="light"] #stats #stats-overview,
 [data-theme="light"] #stats #stats-overview
 {
 
@@ -1336,6 +1439,8 @@
 
 }
 
+html[data-theme="light"] #stats #stats-overview .stat-card,
+body[data-theme="light"] #stats #stats-overview .stat-card,
 [data-theme="light"] #stats #stats-overview .stat-card
 {
 
@@ -1343,6 +1448,11 @@
 
 }
 
+html[data-theme="light"] #stats #stats-overview .stat-card > strong,
+body[data-theme="light"] #stats #stats-overview .stat-card > strong,
+[data-theme="light"] #stats #stats-overview .stat-card > strong,
+html[data-theme="light"] #stats #stats-overview .career-formats .format-runs strong,
+body[data-theme="light"] #stats #stats-overview .career-formats .format-runs strong,
 [data-theme="light"] #stats #stats-overview .career-formats .format-runs strong
 {
 
@@ -1350,6 +1460,8 @@
 
 }
 
+html[data-theme="light"] #stats #stats-overview .stat-feature > strong,
+body[data-theme="light"] #stats #stats-overview .stat-feature > strong,
 [data-theme="light"] #stats #stats-overview .stat-feature > strong
 {
 
@@ -1357,6 +1469,8 @@
 
 }
 
+html[data-theme="light"] #stats #stats-overview .format-fact strong,
+body[data-theme="light"] #stats #stats-overview .format-fact strong,
 [data-theme="light"] #stats #stats-overview .format-fact strong
 {
 
@@ -1364,6 +1478,8 @@
 
 }
 
+html[data-theme="light"] #stats #stats-overview .data-line,
+body[data-theme="light"] #stats #stats-overview .data-line,
 [data-theme="light"] #stats #stats-overview .data-line
 {
 
@@ -1502,6 +1618,32 @@
 {
 
     transition: none;
+  
+}
+}
+
+.stats-grid
+{
+
+  align-items: stretch;
+
+}
+
+@media (max-width: 650px) {
+.stats-grid
+{
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  
+}
+}
+
+@media (max-width: 380px) {
+.stats-grid
+{
+
+    gap: 7px;
   
 }
 }
