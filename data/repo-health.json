@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T10:52:47+00:00",
+  "checkedAt": "2026-10-12T12:33:21+00:00",
   "intervalMinutes": 10,
   "status": "warning",
   "summary": {
-    "filesScanned": 114,
+    "filesScanned": 115,
     "checksPassed": 66,
     "issues": 0,
     "warnings": 8
@@ -12,17 +12,17 @@
   "items": [
     {
       "level": "warning",
-      "message": "40 repeated CSS selector(s); review cascade/overrides: .article-data-table (6x), .page-layout (4x), .article-body (4x), .related-panel (4x), .article-data-table th,.article-data-table td (4x), .article-hero (3x), .article-hero h1 (3x), .hero-image-wrap (3x)",
+      "message": "58 repeated CSS selector(s); review cascade/overrides: .site-navigation (8x), .brand (7x), .page-layout (6x), .article-data-table (6x), .menu-toggle (6x), .topbar (5x), .article-hero (5x), .mobile-back (5x)",
       "file": "News-details/news-details.css"
     },
     {
       "level": "warning",
-      "message": "7 repeated CSS selector(s); review cascade/overrides: .tv-news-grid (3x), .tv-news-copy (3x), .tv-news-copy h3 (3x), .tv-news-section (2x), .tv-news-heading (2x), .tv-news-count (2x), .tv-news-copy p (2x)",
+      "message": "11 repeated CSS selector(s); review cascade/overrides: .tv-news-grid (4x), .tv-news-copy (4x), .tv-news-copy h3 (4x), .tv-news-copy p (3x), .tv-news-section (2x), .tv-news-heading (2x), .tv-news-count (2x), .tv-news-card:hover (2x)",
       "file": "News/news-section.css"
     },
     {
       "level": "warning",
-      "message": "84 repeated CSS selector(s); review cascade/overrides: .sidebar (13x), .topbar (13x), .main (12x), .stats (12x), .stat (11x), .section-head (11x), .hero (9x), .section-body (9x)",
+      "message": "106 repeated CSS selector(s); review cascade/overrides: .sidebar (13x), .topbar (13x), .main (12x), .stats (12x), .stat (11x), .section-head (11x), .sidebar .nav a (10x), body (9x)",
       "file": "admin/admin-premium.css"
     },
     {
@@ -386,6 +386,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "5860ed0"
+    "branch": "d9c6547"
   }
 }
