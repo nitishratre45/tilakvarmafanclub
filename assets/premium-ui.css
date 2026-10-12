@@ -247,12 +247,7 @@ nav a:focus-visible::after {
   border-color: rgba(117, 227, 255, 0.38);
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
 }
-.stats-grid:not(.career-formats) .stat-feature {
-  background: linear-gradient(135deg, #ff6977 0%, #e94f2f 100%);
-  border-color: transparent;
-  border-radius: 18px;
-  box-shadow: 0 18px 42px rgba(255, 83, 100, 0.16);
-}
+
 .stat-label {
   color: #b7c5d8;
 }
@@ -271,13 +266,7 @@ nav a:focus-visible::after {
   border-radius: 14px;
 }
 .stats-subnav button,
-.statsguru-format-tabs button {
-  border-radius: 10px;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
-}
+
 input,
 select,
 textarea {
@@ -440,27 +429,18 @@ img {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .stats-grid,
-  .career-formats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-  .stats-grid:not(.career-formats) .stat-feature {
-    grid-column: 1 / -1;
-  }
+
+
   .stat-card {
     padding: 16px;
     min-height: 126px;
   }
-  .stats-grid:not(.career-formats) .stat-card:not(.stat-feature) {
-    min-height: 128px;
-  }
+
   .stat-card strong {
     font-size: clamp(31px, 9vw, 43px);
     overflow-wrap: anywhere;
   }
-  .stats-grid:not(.career-formats) .stat-feature strong {
-    font-size: clamp(54px, 14vw, 68px);
-  }
+
   .featured-match-main {
     align-items: flex-start;
     gap: 16px;
@@ -690,36 +670,13 @@ img {
 }
 .home-snapshot-foot,
 .data-line,
-.statsguru-sourcebar {
-  line-height: 1.7;
-}
-.stats-subnav {
-  position: sticky;
-  top: 82px;
-  z-index: 8;
-  background: rgba(8, 14, 25, 0.92);
-  border: 1px solid var(--line);
-  padding: 6px;
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-}
+
+
 .stats-subnav button[aria-selected="true"],
 .stats-subnav button.active,
-.statsguru-format-tabs button.active {
-  background: linear-gradient(135deg, #ff7c45, #e94f2f);
-  color: #180d09;
-  border-color: transparent;
-  font-weight: 900;
-}
-.statsguru-format-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.statsguru-format-tabs button {
-  min-height: 40px;
-  padding: 10px 14px;
-}
+
+
+
 .table-wrap {
   max-width: 100%;
   overscroll-behavior-x: contain;
@@ -750,15 +707,8 @@ textarea:focus-visible {
   .section-heading > p {
     max-width: 62ch;
   }
-  .stats-subnav {
-    top: 68px;
-    overflow-x: auto;
-    white-space: nowrap;
-    scrollbar-width: thin;
-  }
-  .stats-subnav button {
-    flex: 0 0 auto;
-  }
+
+
   .statsguru-sourcebar,
   .data-line {
     align-items: flex-start;
@@ -792,38 +742,21 @@ textarea:focus-visible {
   .home-mini-stat strong {
     font-size: clamp(25px, 8vw, 34px);
   }
-  .statsguru-format-tabs button {
-    padding: 9px 11px;
-    font-size: 11px;
-  }
+
 }
 
 /* Distinct, coordinated stat accents — Runs remains the hero metric. */
-.stats-grid:not(.career-formats) .stat-card:not(.stat-feature) {
-  border-top: 2px solid rgba(124, 229, 242, 0.55);
-}
-.stats-grid:not(.career-formats) .stat-card:nth-child(3) {
-  border-top-color: rgba(167, 139, 250, 0.8);
-}
-.stats-grid:not(.career-formats) .stat-card:nth-child(4) {
-  border-top-color: rgba(124, 229, 242, 0.8);
-}
-.stats-grid:not(.career-formats) .stat-card:nth-child(5) {
-  border-top-color: rgba(163, 230, 53, 0.75);
-}
-.stats-grid:not(.career-formats) .stat-card:nth-child(6) {
-  border-top-color: rgba(251, 191, 36, 0.8);
-}
+
+
+
+
+
 .career-formats .stat-card,
 .home-format-card {
   border-left: 2px solid rgba(124, 229, 242, 0.55);
 }
-.career-formats .stat-card:nth-child(2n) {
-  border-left-color: rgba(255, 106, 53, 0.72);
-}
-.career-formats .stat-card:nth-child(3n) {
-  border-left-color: rgba(167, 139, 250, 0.75);
-}
+
+
 .records-section .record-card:nth-child(3n + 1) {
   border-top: 2px solid rgba(255, 106, 53, 0.65);
 }
@@ -959,44 +892,17 @@ textarea:focus-visible {
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
-.stats-section {
-  background:
-    radial-gradient(ellipse at 0% 25%, rgba(255, 106, 53, 0.045), transparent 28rem),
-    radial-gradient(ellipse at 100% 70%, rgba(124, 229, 242, 0.04), transparent 32rem), #080e19;
-}
-.stats-grid:not(.career-formats) .stat-feature {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, #ff8754 0%, #ff6a35 48%, #e74d32 100%);
-}
-.stats-grid:not(.career-formats) .stat-feature::after {
-  content: "RUNS";
-  position: absolute;
-  right: 18px;
-  bottom: -10px;
-  color: rgba(28, 10, 6, 0.12);
-  font:
-    900 clamp(44px, 7vw, 86px) / 1 "Barlow Condensed",
-    Impact,
-    sans-serif;
-  letter-spacing: -0.04em;
-}
+
+
+
 .player-analysis-content,
 .statsguru-panel,
 .bowling-breakdown-wrap,
-.bowling-innings-wrap {
-  border-radius: 18px;
-  border-color: rgba(169, 194, 229, 0.16);
-  background: linear-gradient(145deg, rgba(15, 27, 45, 0.86), rgba(8, 14, 24, 0.82));
-}
+
 .player-analysis-grid,
-.statsguru-category-grid {
-  gap: 12px;
-}
+
 .player-analysis-grid > *,
-.statsguru-category-grid > * {
-  border-radius: 13px;
-}
+
 .records-section {
   background:
     radial-gradient(ellipse at 100% 0%, rgba(167, 139, 250, 0.07), transparent 28rem),
@@ -1302,9 +1208,7 @@ footer {
     gap: 10px;
     flex-direction: column;
   }
-  .statsguru-section {
-    padding-inline: 18px;
-  }
+
 }
 @media (prefers-reduced-motion: reduce) {
   .fan-card,
@@ -1374,26 +1278,9 @@ footer {
 .home-mini-stat:nth-child(4)::after {
   border-color: rgba(163, 230, 53, 0.18);
 }
-.stats-section {
-  background:
-    radial-gradient(ellipse at 0% 25%, rgba(255, 106, 53, 0.045), transparent 28rem),
-    radial-gradient(ellipse at 100% 70%, rgba(124, 229, 242, 0.04), transparent 32rem), #080e19;
-}
-.stats-grid:not(.career-formats) .stat-feature {
-  background: linear-gradient(135deg, #ff8754, #ff6a35 48%, #e74d32);
-}
-.stats-grid:not(.career-formats) .stat-feature::after {
-  content: "RUNS";
-  position: absolute;
-  right: 18px;
-  bottom: -10px;
-  color: rgba(28, 10, 6, 0.12);
-  font:
-    900 clamp(44px, 7vw, 86px) / 1 "Barlow Condensed",
-    Impact,
-    sans-serif;
-  letter-spacing: -0.04em;
-}
+
+
+
 .records-section {
   background:
     radial-gradient(ellipse at 100% 0%, rgba(167, 139, 250, 0.07), transparent 28rem),
@@ -1663,9 +1550,7 @@ footer {
     gap: 10px;
     flex-direction: column;
   }
-  .statsguru-section {
-    padding-inline: 18px;
-  }
+
 }
 @media (prefers-reduced-motion: reduce) {
   .fan-card,
@@ -1686,10 +1571,7 @@ footer {
 :root[data-theme-resolved="light"] .settings-section,
 :root[data-theme-resolved="light"] .about-section,
 :root[data-theme-resolved="light"] .innings-section,
-:root[data-theme-resolved="light"] .stats-section {
-  background: var(--bg) !important;
-  color: var(--white);
-}
+
 :root[data-theme-resolved="light"] .fan-card,
 :root[data-theme-resolved="light"] .official-records-grid > *,
 :root[data-theme-resolved="light"] .milestone-grid > *,
@@ -1739,16 +1621,10 @@ footer {
   color: #152235;
 }
 :root[data-theme-resolved="light"] .data-line,
-:root[data-theme-resolved="light"] .stats-subnav {
-  background: #edf3f8;
-  color: #152235;
-  border-color: rgba(18, 35, 55, 0.14);
-}
+
 :root[data-theme-resolved="light"] .stats-subnav button[aria-selected="true"],
 :root[data-theme-resolved="light"] .stats-subnav button.active,
-:root[data-theme-resolved="light"] .statsguru-format-tabs button.active {
-  color: #fff;
-}
+
 :root[data-theme-resolved="light"] .bcci-video-player-head {
   background: #edf3f8;
   color: #152235;
@@ -1759,105 +1635,33 @@ footer {
 }
 
 /* FORMAT-WISE CAREER — compact dashboard cards on phones, roomier grid on desktop. */
-#career-formats.career-formats {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 14px !important;
-  align-items: stretch;
-}
-#career-formats .format-card {
-  min-width: 0;
-  min-height: 0 !important;
-  padding: 18px 19px !important;
-  gap: 7px;
-  border: 1px solid rgba(169, 194, 229, 0.16);
-  border-left: 3px solid rgba(124, 229, 242, 0.65);
-  border-radius: 17px;
-  background: linear-gradient(145deg, rgba(17, 29, 48, 0.92), rgba(9, 16, 28, 0.96));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-#career-formats .format-card:nth-child(3n + 2) {
-  border-left-color: rgba(255, 106, 53, 0.8);
-}
-#career-formats .format-card:nth-child(3n) {
-  border-left-color: rgba(167, 139, 250, 0.8);
-}
-#career-formats .format-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(124, 229, 242, 0.38);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
-}
-#career-formats .format-card .stat-label {
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  line-height: 1.35;
-}
-#career-formats .format-card strong {
-  font-size: clamp(27px, 2.5vw, 38px) !important;
-  line-height: 1.05;
-  letter-spacing: -0.045em;
-  overflow-wrap: anywhere;
-}
+
+
+
+
+
+
+
 #career-formats .format-card .stat-note,
-#career-formats .format-card .format-detail {
-  display: block;
-  font-size: 11px;
-  line-height: 1.55;
-  overflow-wrap: anywhere;
-}
-#career-formats .format-card .format-detail {
-  color: var(--muted, #9ba9bc);
-}
+
+
 @media (min-width: 1200px) {
-  #career-formats.career-formats {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 16px !important;
-  }
-  #career-formats .format-card {
-    padding: 20px 21px !important;
-  }
+
+
 }
 @media (max-width: 760px) {
-  #career-formats.career-formats {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-  }
-  #career-formats .format-card {
-    padding: 13px 12px !important;
-    border-radius: 14px;
-    gap: 6px;
-  }
-  #career-formats .format-card .stat-label {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-  }
-  #career-formats .format-card strong {
-    font-size: clamp(23px, 6.5vw, 31px) !important;
-  }
+
+
+
+
   #career-formats .format-card .stat-note,
-  #career-formats .format-card .format-detail {
-    font-size: 10px;
-    line-height: 1.45;
-  }
+
 }
 @media (max-width: 350px) {
-  #career-formats.career-formats {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
+
 }
-:root[data-theme-resolved="light"] #career-formats .format-card {
-  background: linear-gradient(145deg, #fff, #f5f8fc);
-  color: #152235;
-  border-color: rgba(18, 35, 55, 0.15);
-  box-shadow: 0 7px 20px rgba(25, 45, 70, 0.05);
-}
-:root[data-theme-resolved="light"] #career-formats .format-card .format-detail {
-  color: #5d6b7e;
-}
+
+
 
 /* MOBILE NAV FIX — fully opaque menu surface, above page content, scroll-safe. */
 @media (max-width: 800px) {
@@ -2056,137 +1860,36 @@ body {
 }
 
 /* Career format cards: use the right-hand space for key batting milestones. */
-#career-formats.career-formats {
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 16px !important;
-}
-#career-formats .format-card {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 12px !important;
-  padding: 21px 22px !important;
-  min-height: 0 !important;
-  border-radius: 19px !important;
-}
-#career-formats .format-main-row {
-  display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  align-items: center;
-  gap: 15px;
-}
-#career-formats .format-runs {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 4px;
-}
-#career-formats .format-runs > strong {
-  font-size: clamp(34px, 3vw, 46px) !important;
-  line-height: 1 !important;
-  letter-spacing: -0.045em;
-  font-variant-numeric: tabular-nums;
-}
-#career-formats .format-runs-caption {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.17em;
-  color: var(--muted, #9ba9bc);
-}
-#career-formats .format-batting-facts {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 7px;
-}
-#career-formats .format-fact {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 7px;
-  padding: 8px 10px;
-  min-width: 0;
-  border: 1px solid rgba(124, 229, 242, 0.15);
-  border-radius: 10px;
-  background: rgba(124, 229, 242, 0.045);
-}
-#career-formats .format-fact span {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--muted, #a5b1c3);
-}
-#career-formats .format-fact strong {
-  font-size: 17px !important;
-  line-height: 1 !important;
-  color: var(--text, #f4f7fb);
-  font-variant-numeric: tabular-nums;
-}
-#career-formats .format-fact:nth-child(2) {
-  border-color: rgba(255, 106, 53, 0.22);
-  background: rgba(255, 106, 53, 0.06);
-}
-#career-formats .format-fact:nth-child(4) {
-  border-color: rgba(167, 139, 250, 0.22);
-  background: rgba(167, 139, 250, 0.06);
-}
-#career-formats .format-meta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px 13px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(169, 194, 229, 0.12);
-  color: var(--muted, #a5b1c3);
-  font-size: 10px;
-  letter-spacing: 0.035em;
-  line-height: 1.45;
-}
-#career-formats .format-meta-row span:first-child {
-  color: var(--cyan, #7ce5f2);
-  font-weight: 700;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width: 760px) {
-  #career-formats.career-formats {
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 14px !important;
-  }
-  #career-formats .format-card {
-    padding: 18px 18px !important;
-    gap: 11px !important;
-  }
-  #career-formats .format-main-row {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: 12px;
-  }
-  #career-formats .format-runs > strong {
-    font-size: clamp(36px, 9vw, 45px) !important;
-  }
-  #career-formats .format-fact {
-    padding: 9px 10px;
-  }
-  #career-formats .format-fact strong {
-    font-size: 18px !important;
-  }
+
+
+
+
+
+
 }
 @media (max-width: 360px) {
-  #career-formats .format-card {
-    padding: 15px 13px !important;
-  }
-  #career-formats .format-main-row {
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: 8px;
-  }
-  #career-formats .format-fact {
-    padding: 8px 7px;
-  }
-  #career-formats .format-meta-row {
-    gap: 6px 9px;
-  }
+
+
+
+
 }
-:root[data-theme-resolved="light"] #career-formats .format-fact {
-  background: #f1f7fb;
-  border-color: rgba(18, 35, 55, 0.12);
-}
-:root[data-theme-resolved="light"] #career-formats .format-fact strong {
-  color: #152235;
-}
+
+
 
 /* NAVBAR BLUE FINISH — mobile-first, consistent with The 72 Club navy/cyan palette */
 .topbar {
@@ -2279,84 +1982,23 @@ body {
 
 /* MOBILE CAREER CARDS — prevent labels and multi-digit values breaking across lines */
 @media (max-width: 760px) {
-  #career-formats .format-card {
-    padding: 20px 18px !important;
-    gap: 15px !important;
-  }
-  #career-formats .format-main-row {
-    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr) !important;
-    align-items: center;
-    gap: 16px !important;
-  }
-  #career-formats .format-runs > strong {
-    font-size: clamp(38px, 9vw, 48px) !important;
-    line-height: 1.05 !important;
-    white-space: nowrap;
-  }
-  #career-formats .format-batting-facts {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 8px !important;
-  }
-  #career-formats .format-fact {
-    min-width: 0;
-    min-height: 78px;
-    padding: 10px 8px !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    justify-content: center !important;
-    gap: 6px !important;
-    border-radius: 12px !important;
-  }
-  #career-formats .format-fact span {
-    display: block;
-    max-width: 100%;
-    white-space: nowrap !important;
-    overflow-wrap: normal !important;
-    word-break: keep-all !important;
-    font-size: 10px !important;
-    line-height: 1.2 !important;
-  }
-  #career-formats .format-fact strong {
-    display: block;
-    max-width: 100%;
-    white-space: nowrap !important;
-    overflow-wrap: normal !important;
-    word-break: keep-all !important;
-    font-size: 18px !important;
-    line-height: 1.1 !important;
-    letter-spacing: -0.02em;
-  }
-  #career-formats .format-meta-row {
-    gap: 7px 12px !important;
-    font-size: 11px !important;
-    line-height: 1.55 !important;
-  }
+
+
+
+
+
+
+
+
 }
 @media (max-width: 390px) {
-  #career-formats .format-main-row {
-    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr) !important;
-    gap: 10px !important;
-  }
-  #career-formats .format-card {
-    padding: 17px 13px !important;
-  }
-  #career-formats .format-batting-facts {
-    gap: 6px !important;
-  }
-  #career-formats .format-fact {
-    min-height: 70px;
-    padding: 8px 6px !important;
-  }
-  #career-formats .format-fact span {
-    font-size: 9px !important;
-  }
-  #career-formats .format-fact strong {
-    font-size: 16px !important;
-  }
-  #career-formats .format-meta-row {
-    gap: 6px 10px !important;
-    font-size: 10px !important;
-  }
+
+
+
+
+
+
+
 }
 
 /* Main-page Death Overs section: keep the analyser visually integrated with the site. */
@@ -2463,21 +2105,13 @@ footer .brand small {
   color: #d4deec;
 }
 .stats-subnav button,
-.statsguru-format-tabs button {
-  color: #cbd7e7;
-}
+
 .stats-subnav button.active,
-.statsguru-format-tabs button.active {
-  color: #ffffff;
-}
+
 .home-format-card .home-format-fact span,
-#career-formats .format-fact span {
-  color: #b8c9dd;
-}
+
 .home-format-card .home-format-fact strong,
-#career-formats .format-fact strong {
-  color: #f5f9ff;
-}
+
 .home-format-card > small {
   color: #b5c5d9;
 }
@@ -3248,65 +2882,17 @@ footer .brand small {
 
 /* MOBILE RECOVERY — keep touch-screen layout compact and prevent sticky tabs covering content. */
 @media (max-width: 760px), (pointer: coarse) and (hover: none) {
-  .stats-subnav {
-    position: relative !important;
-    top: auto !important;
-    z-index: 2 !important;
-    margin: 0 0 12px !important;
-    padding: 6px !important;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-  }
 
-  #career-formats.career-formats {
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 12px !important;
-  }
-  #career-formats .format-card {
-    min-width: 0 !important;
-    padding: 15px 14px !important;
-    gap: 10px !important;
-  }
-  #career-formats .format-main-row {
-    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr) !important;
-    gap: 10px !important;
-  }
-  #career-formats .format-runs > strong {
-    font-size: clamp(32px, 8vw, 43px) !important;
-    white-space: nowrap !important;
-  }
-  #career-formats .format-batting-facts {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 6px !important;
-  }
-  #career-formats .format-fact {
-    min-width: 0 !important;
-    min-height: 58px !important;
-    padding: 7px 6px !important;
-    align-items: flex-start !important;
-    justify-content: center !important;
-    gap: 5px !important;
-  }
-  #career-formats .format-fact span {
-    white-space: nowrap !important;
-    word-break: keep-all !important;
-    font-size: 9px !important;
-    line-height: 1.15 !important;
-  }
-  #career-formats .format-fact strong {
-    white-space: nowrap !important;
-    word-break: keep-all !important;
-    font-size: 16px !important;
-    line-height: 1.1 !important;
-  }
-  #career-formats .format-meta-row {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 5px 10px !important;
-    font-size: 9px !important;
-    line-height: 1.5 !important;
-    overflow-wrap: anywhere;
-  }
+
+
+
+
+
+
+
+
+
+
 
   #profile.profile-section {
     grid-template-columns: minmax(0, 1fr) !important;
@@ -3369,13 +2955,8 @@ footer .brand small {
   #profile .profile-quick-actions {
     margin-top: 10px !important;
   }
-  .stats-section .section-heading {
-    gap: 10px;
-  }
-  .stats-section .section-heading > p {
-    max-width: none;
-    margin-top: 4px;
-  }
+
+
 }
 
 /* Touch devices may request desktop-site mode; keep the site navigation phone-friendly. */
@@ -3405,9 +2986,7 @@ footer .brand small {
 /* Mobile navigation recovery: handle Android Chrome's "Desktop site" viewport. */
 @media (pointer: coarse) and (hover: none) {
   main > section[hidden],
-  .stats-subview[hidden] {
-    display: none !important;
-  }
+
 
   .topbar {
     position: sticky !important;
@@ -3485,9 +3064,7 @@ main > section[id][hidden],
 #tilak-videos[hidden],
 #settings[hidden],
 #about[hidden],
-#stats .stats-subview[hidden] {
-  display: none !important;
-}
+
 
 /* Keep touch devices compact even when Android Chrome requests Desktop site. */
 @media (pointer: coarse) and (hover: none), (max-width: 760px) {
@@ -3535,28 +3112,13 @@ main > section[id][hidden],
     white-space: normal !important;
     font-size: 12px !important;
   }
-  .stats-subnav {
-    position: relative !important;
-    top: auto !important;
-  }
-  #career-formats.career-formats {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-  #career-formats .format-main-row {
-    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr) !important;
-  }
-  #career-formats .format-batting-facts {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-  #career-formats .format-fact {
-    min-width: 0 !important;
-    padding: 8px 5px !important;
-  }
+
+
+
+
+
   #career-formats .format-fact span,
-  #career-formats .format-fact strong {
-    white-space: nowrap !important;
-    word-break: normal !important;
-  }
+
   #profile.profile-section {
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 13px !important;
@@ -3660,39 +3222,12 @@ main > section[id][hidden],
     box-sizing: border-box;
     padding-inline: 12px;
   }
-  #stats .section-heading h2 {
-    line-height: 1;
-  }
-  .stats-subnav {
-    display: flex !important;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    gap: 6px !important;
-    padding: 5px !important;
-    border-radius: 12px;
-    background: rgba(10, 21, 36, 0.94);
-    border: 1px solid rgba(169, 194, 229, 0.14);
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-  }
-  .stats-subnav button {
-    flex: 1 0 auto;
-    min-height: 40px;
-    padding: 9px 12px !important;
-    border-radius: 8px;
-    white-space: nowrap;
-    touch-action: manipulation;
-  }
+
+
+
   .stats-subnav button.active,
-  .stats-subnav button[aria-selected="true"] {
-    background: linear-gradient(110deg, rgba(255, 139, 66, 0.2), rgba(117, 227, 255, 0.08));
-    border-color: rgba(255, 139, 66, 0.42);
-  }
-  .stats-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 9px !important;
-  }
+
+
   .stat-card {
     min-width: 0;
     padding: 14px !important;
@@ -3708,13 +3243,8 @@ main > section[id][hidden],
     max-width: 100%;
   }
 
-  #career-formats .format-card {
-    border-radius: 14px;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
-  }
-  #career-formats .format-meta-row > * {
-    max-width: 100%;
-  }
+
+
 
   .bcci-video-controls,
   .tilak-news-layout,
@@ -3743,15 +3273,11 @@ main > section[id][hidden],
   #profile .icc-ranking-card > div {
     padding: 8px !important;
   }
-  .stats-grid {
-    gap: 7px !important;
-  }
+
   .stat-card {
     padding: 11px !important;
   }
-  .stats-subnav button {
-    padding-inline: 9px !important;
-  }
+
 }
 
 /* 72 CLUB — colourful motion polish (progressive, non-destructive) */
@@ -3830,13 +3356,7 @@ body {
 .button,
 button,
 .stats-subnav button,
-.statsguru-format-tabs button {
-  transition:
-    transform 0.18s ease,
-    filter 0.18s ease,
-    border-color 0.18s ease,
-    box-shadow 0.18s ease;
-}
+
 .button:hover,
 button:hover:not(:disabled) {
   filter: brightness(1.08);
@@ -3944,1069 +3464,261 @@ main > section:not([hidden]) {
 }
 
 /* Stats Centre / Explore refresh — scoped to the stats area to avoid site-wide regressions. */
-#stats.stats-section {
-  --stats-card-border: rgba(124, 229, 242, 0.16);
-  --stats-card-glow: 0 14px 36px rgba(0, 0, 0, 0.18);
-}
-#stats .stats-subnav {
-  z-index: 12;
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--stats-card-border);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
+
+
 #stats .stats-subnav button,
 #stats .statsguru-format-tabs button,
-#stats .statsguru-category-grid button {
-  min-width: 0;
-  font-weight: 750;
-  letter-spacing: 0.01em;
-  -webkit-tap-highlight-color: transparent;
-}
-#stats .statsguru-section {
-  min-width: 0;
-}
-#stats .statsguru-sourcebar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px 14px;
-  padding: 12px 15px;
-  border: 1px solid var(--stats-card-border);
-  border-radius: 14px;
-  background: linear-gradient(120deg, rgba(98, 200, 255, 0.07), rgba(155, 123, 255, 0.07));
-}
-#stats .statsguru-format-tabs {
-  display: flex;
-  align-items: stretch;
-  gap: 8px;
-  margin-block: 14px;
-}
-#stats .statsguru-format-tabs button {
-  flex: 0 0 auto;
-  border: 1px solid var(--stats-card-border);
-  border-radius: 11px;
-  background: var(--panel);
-  color: var(--text-secondary, #cbd7e7);
-  min-height: 42px;
-}
-#stats .statsguru-format-tabs button.active {
-  color: #fff;
-  border-color: transparent;
-  box-shadow: 0 7px 20px rgba(255, 106, 53, 0.18);
-}
-#stats .player-analysis-filter {
-  border: 1px solid var(--stats-card-border);
-  border-radius: 16px;
-  background: linear-gradient(145deg, rgba(17, 29, 48, 0.86), rgba(10, 18, 32, 0.94));
-  overflow: clip;
-}
-#stats .player-analysis-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  min-height: 66px;
-  padding: 14px 16px;
-  cursor: pointer;
-  list-style: none;
-}
-#stats .player-analysis-toggle::-webkit-details-marker {
-  display: none;
-}
-#stats .player-analysis-toggle-icon {
-  display: grid;
-  place-items: center;
-  flex: 0 0 34px;
-  width: 34px;
-  height: 34px;
-  border: 1px solid rgba(255, 138, 91, 0.3);
-  border-radius: 11px;
-  color: #ffad8b;
-  background: rgba(255, 138, 91, 0.09);
-  transition:
-    transform 180ms ease,
-    background 180ms ease;
-}
-#stats .player-analysis-filter[open] .player-analysis-toggle-icon {
-  transform: rotate(45deg);
-  background: rgba(255, 138, 91, 0.16);
-}
-#stats .player-analysis-content {
-  min-width: 0;
-  padding: 0 16px 16px;
-}
-#stats .player-analysis-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-#stats .player-analysis-grid label {
-  display: grid;
-  align-content: start;
-  gap: 7px;
-  min-width: 0;
-  color: var(--text-secondary, #cbd7e7);
-  font-size: 12px;
-  font-weight: 700;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #stats .player-analysis-grid select,
-#stats .player-analysis-grid input {
-  box-sizing: border-box;
-  width: 100%;
-  min-width: 0;
-  min-height: 43px;
-  padding: 10px 11px;
-  border: 1px solid var(--stats-card-border);
-  border-radius: 10px;
-  background: rgba(5, 13, 25, 0.8);
-  color: var(--white, #f3f7ff);
-  color-scheme: dark;
-}
+
 #stats .player-analysis-grid select:focus-visible,
-#stats .player-analysis-grid input:focus-visible {
-  border-color: var(--club-blue, #62c8ff);
-}
-#stats .player-analysis-actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 14px;
-}
-#stats #sg-filter-status {
-  flex: 1 1 220px;
-  min-width: 0;
-  color: var(--text-secondary, #cbd7e7);
-  font-size: 12px;
-  line-height: 1.55;
-}
-#stats .sg-analysis-options {
-  min-width: 0;
-  margin-top: 14px;
-  border: 1px solid var(--stats-card-border);
-  border-radius: 12px;
-  background: rgba(98, 200, 255, 0.035);
-}
-#stats .statsguru-category-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 9px;
-  margin-block: 15px;
-}
-#stats .statsguru-category-grid button {
-  min-height: 48px;
-  padding: 10px 12px;
-  border: 1px solid var(--stats-card-border);
-  border-radius: 12px;
-  background: var(--panel);
-  color: var(--text-secondary, #cbd7e7);
-  line-height: 1.35;
-  text-align: left;
-  overflow-wrap: anywhere;
-}
-#stats .statsguru-category-grid button.active {
-  color: #fff;
-  border-color: rgba(255, 138, 91, 0.48);
-  background: linear-gradient(125deg, rgba(255, 124, 69, 0.18), rgba(155, 123, 255, 0.12));
-  box-shadow: inset 0 0 0 1px rgba(255, 138, 91, 0.06);
-}
-#stats .statsguru-panel {
-  min-width: 0;
-  border: 1px solid var(--stats-card-border);
-  border-radius: 18px;
-  box-shadow: var(--stats-card-glow);
-}
-#stats .statsguru-panel-head {
-  flex-wrap: wrap;
-  gap: 10px;
-}
-#stats .statsguru-summary {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-}
-#stats .statsguru-metric {
-  min-width: 0;
-  border: 1px solid var(--stats-card-border);
-  border-radius: 12px;
-  padding: 13px;
-  overflow-wrap: anywhere;
-}
-#stats .statsguru-metric strong {
-  font-variant-numeric: tabular-nums;
-}
-#stats .statsguru-panel .table-wrap {
-  max-width: 100%;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  -webkit-overflow-scrolling: touch;
-  border-radius: 12px;
-}
-#stats .statsguru-panel table {
-  min-width: 680px;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #stats .statsguru-panel th,
-#stats .statsguru-panel td {
-  white-space: nowrap;
-}
+
 #stats .statsguru-panel td:first-child,
-#stats .statsguru-panel th:first-child {
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  background: var(--panel, #101b2d);
-}
-#stats .statsguru-panel th:first-child {
-  z-index: 2;
-  background: color-mix(in srgb, var(--stats-accent, #7ce5f2) 16%, var(--panel2, #152238));
-}
-#stats .statsguru-note {
-  line-height: 1.65;
-  overflow-wrap: anywhere;
-}
-:root[data-theme-resolved="light"] #stats .player-analysis-filter {
-  background: linear-gradient(145deg, #fff, #f2f6fc);
-}
+
+
+
+
 :root[data-theme-resolved="light"] #stats .player-analysis-grid select,
-:root[data-theme-resolved="light"] #stats .player-analysis-grid input {
-  background: #fff;
-  color: #152235;
-  color-scheme: light;
-}
-:root[data-theme-resolved="light"] #stats .statsguru-category-grid button {
-  background: #fff;
-  color: #34465c;
-}
-:root[data-theme-resolved="light"] #stats .statsguru-category-grid button.active {
-  background: linear-gradient(125deg, #fff0e8, #f0edff);
-  color: #7e301b;
-}
-:root[data-theme-resolved="light"] #stats .statsguru-panel td:first-child {
-  background: #fff;
-}
+
+
+
+
 @media (max-width: 900px) {
-  #stats .statsguru-category-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  #stats .statsguru-summary {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+
+
 }
 @media (max-width: 600px) {
-  #stats .stats-subnav {
-    position: relative !important;
-    top: auto !important;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 6px;
-    padding: 6px;
-    border-radius: 14px;
-  }
-  #stats .stats-subnav button {
-    min-width: 0;
-    padding: 10px 6px;
-    font-size: 12px;
-  }
-  #stats .statsguru-sourcebar {
-    align-items: flex-start;
-    flex-direction: column;
-    padding: 11px 12px;
-    font-size: 11px;
-  }
-  #stats .statsguru-format-tabs {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding: 2px 1px 8px;
-    margin-inline: -2px;
-    scrollbar-width: thin;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-  }
-  #stats .statsguru-format-tabs button {
-    min-height: 42px;
-    padding: 9px 13px;
-    font-size: 11px;
-  }
-  #stats .player-analysis-toggle {
-    min-height: 60px;
-    padding: 12px;
-  }
-  #stats .player-analysis-content {
-    padding: 0 12px 13px;
-  }
-  #stats .player-analysis-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 10px;
-  }
-  #stats .player-analysis-actions > button {
-    flex: 1 1 130px;
-  }
-  #stats .sg-analysis-options {
-    padding: 10px;
-  }
-  #stats .statsguru-category-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 7px;
-  }
-  #stats .statsguru-category-grid button {
-    min-height: 46px;
-    padding: 9px 10px;
-    font-size: 11px;
-  }
-  #stats .statsguru-panel {
-    padding: 12px;
-    border-radius: 15px;
-  }
-  #stats .statsguru-summary {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 7px;
-  }
-  #stats .statsguru-metric {
-    padding: 10px;
-  }
-  #stats .statsguru-panel .table-wrap {
-    margin-inline: -1px;
-  }
-  #stats .statsguru-panel table {
-    min-width: 620px;
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 @media (max-width: 360px) {
-  #stats .statsguru-category-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  #stats .statsguru-summary {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
+
 }
 @media (prefers-reduced-motion: reduce) {
-  #stats .player-analysis-toggle-icon {
-    transition: none;
-  }
+
 }
 
 /* Explore compact layout: reduce vertical scrolling without changing data or behavior. */
-#stats #statsguru .section-heading.explore-heading {
-  margin-bottom: 12px;
-  gap: 12px;
-}
-#stats #statsguru .explore-heading > p {
-  max-width: 42ch;
-  font-size: 13px;
-  line-height: 1.5;
-}
-#stats #statsguru .statsguru-sourcebar {
-  padding: 9px 12px;
-  line-height: 1.4;
-}
-#stats #statsguru .statsguru-format-tabs {
-  gap: 6px;
-  margin-block: 9px 10px;
-}
-#stats #statsguru .statsguru-format-tabs button {
-  min-height: 36px;
-  padding: 7px 11px;
-}
-#stats #statsguru .player-analysis-toggle {
-  min-height: 54px;
-  padding: 10px 13px;
-}
-#stats #statsguru .player-analysis-content {
-  padding: 0 13px 12px;
-}
-#stats #statsguru .player-analysis-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 9px;
-}
+
+
+
+
+
+
+
+
 #stats #statsguru .player-analysis-grid select,
-#stats #statsguru .player-analysis-grid input {
-  min-height: 38px;
-  padding: 7px 9px;
-  font-size: 12px;
-}
-#stats #statsguru .player-analysis-actions {
-  gap: 7px;
-  margin-top: 10px;
-}
-#stats #statsguru .sg-analysis-options {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 7px 10px;
-  padding: 9px 11px;
-  margin-top: 9px;
-}
-#stats #statsguru .sg-analysis-options legend {
-  padding-inline: 5px;
-}
-#stats #statsguru .sg-analysis-options label {
-  min-width: 0;
-  font-size: 12px;
-  line-height: 1.35;
-}
-#stats #statsguru .statsguru-category-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 7px;
-  margin-block: 10px;
-}
-#stats #statsguru .statsguru-category-grid button {
-  min-height: 39px;
-  padding: 7px 9px;
-  font-size: 12px;
-  line-height: 1.25;
-}
-#stats #statsguru .statsguru-panel {
-  padding: 14px;
-}
-#stats #statsguru .statsguru-panel-head {
-  margin-bottom: 10px;
-}
-#stats #statsguru .statsguru-summary {
-  gap: 7px;
-  margin-bottom: 10px;
-}
-#stats #statsguru .statsguru-metric {
-  padding: 10px 11px;
-}
-#stats #statsguru .statsguru-metric strong {
-  font-size: clamp(15px, 1.8vw, 22px);
-}
-#stats #statsguru .statsguru-note {
-  margin-top: 10px;
-  font-size: 12px;
-  line-height: 1.5;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width: 900px) {
-  #stats #statsguru .player-analysis-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  #stats #statsguru .statsguru-category-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  #stats #statsguru .sg-analysis-options {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
+
+
 }
 @media (max-width: 600px) {
-  #stats #statsguru .section-heading.explore-heading {
-    margin-bottom: 9px;
-  }
-  #stats #statsguru .explore-heading > p {
-    font-size: 12px;
-  }
-  #stats #statsguru .statsguru-sourcebar {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 5px 10px;
-    padding: 8px 10px;
-    font-size: 10px;
-  }
-  #stats #statsguru .statsguru-format-tabs {
-    margin-block: 7px 8px;
-    padding-bottom: 5px;
-  }
-  #stats #statsguru .statsguru-format-tabs button {
-    min-height: 35px;
-    padding: 7px 10px;
-  }
-  #stats #statsguru .player-analysis-toggle {
-    min-height: 50px;
-    padding: 9px 10px;
-  }
-  #stats #statsguru .player-analysis-toggle .eyebrow {
-    margin-bottom: 2px;
-    font-size: 9px;
-  }
-  #stats #statsguru .player-analysis-toggle strong {
-    font-size: 13px;
-  }
-  #stats #statsguru .player-analysis-toggle small {
-    font-size: 11px;
-  }
-  #stats #statsguru .player-analysis-content {
-    padding: 0 10px 10px;
-  }
-  #stats #statsguru .player-analysis-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-  #stats #statsguru .player-analysis-grid label {
-    gap: 4px;
-    font-size: 11px;
-  }
+
+
+
+
+
+
+
+
+
+
+
+
   #stats #statsguru .player-analysis-grid select,
-  #stats #statsguru .player-analysis-grid input {
-    min-height: 36px;
-    padding: 6px 7px;
-    font-size: 11px;
-  }
-  #stats #statsguru .player-analysis-actions {
-    margin-top: 8px;
-  }
-  #stats #statsguru .player-analysis-actions > button {
-    flex: 1 1 110px;
-    min-height: 37px;
-    padding: 8px 9px;
-    font-size: 11px;
-  }
-  #stats #statsguru .sg-analysis-options {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px 8px;
-    padding: 8px;
-    margin-top: 8px;
-  }
-  #stats #statsguru .sg-analysis-options label {
-    font-size: 11px;
-  }
-  #stats #statsguru .player-analysis-help {
-    margin-block: 8px 0;
-    font-size: 11px;
-    line-height: 1.45;
-  }
-  #stats #statsguru .statsguru-category-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 6px;
-    margin-block: 8px;
-  }
-  #stats #statsguru .statsguru-category-grid button {
-    min-height: 37px;
-    padding: 6px 7px;
-    font-size: 10px;
-    line-height: 1.2;
-  }
-  #stats #statsguru .statsguru-panel {
-    padding: 10px;
-    border-radius: 13px;
-  }
-  #stats #statsguru .statsguru-panel-head {
-    gap: 7px;
-    margin-bottom: 8px;
-  }
-  #stats #statsguru .statsguru-panel-head h3 {
-    font-size: 16px;
-  }
-  #stats #statsguru .statsguru-summary {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px;
-    margin-bottom: 8px;
-  }
-  #stats #statsguru .statsguru-metric {
-    padding: 8px;
-    border-radius: 9px;
-  }
-  #stats #statsguru .statsguru-metric span {
-    font-size: 9px;
-    letter-spacing: 0.035em;
-  }
-  #stats #statsguru .statsguru-metric strong {
-    font-size: 16px;
-  }
-  #stats #statsguru .statsguru-note {
-    margin-top: 8px;
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 @media (max-width: 360px) {
-  #stats #statsguru .statsguru-category-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
 }
 
 /* STATS / BATTING OVERVIEW — polished cards, restrained accents, scoped away from other sections. */
-#stats #stats-overview {
-  --bat-ink: #eaf2ff;
-  --bat-muted: #9fb2c9;
-  --bat-line: rgba(142, 177, 214, 0.16);
-  --bat-panel: linear-gradient(145deg, rgba(16, 32, 52, 0.94), rgba(8, 18, 32, 0.97));
-  color: var(--bat-ink);
-}
-#stats #stats-overview > .section-heading {
-  align-items: end;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-#stats #stats-overview > .section-heading h2 {
-  margin: 5px 0 0;
-  letter-spacing: -0.035em;
-}
-#stats #stats-overview > .section-heading > p {
-  max-width: 420px;
-  margin: 0;
-  color: var(--bat-muted);
-  font-size: 12px;
-  line-height: 1.55;
-}
-#stats #stats-overview .stats-grid {
-  gap: 12px;
-}
-#stats #stats-overview .stat-card {
-  position: relative;
-  isolation: isolate;
-  min-width: 0;
-  overflow: hidden;
-  padding: clamp(15px, 2vw, 22px);
-  border: 1px solid var(--bat-line);
-  border-radius: 17px;
-  background: var(--bat-panel);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.13);
-  transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease;
-}
-#stats #stats-overview .stat-card::before {
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 153, 85, 0.9),
-    rgba(84, 190, 220, 0.55),
-    transparent 88%
-  );
-  content: "";
-  opacity: 0.62;
-}
-#stats #stats-overview .stat-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(100, 190, 223, 0.34);
-  box-shadow: 0 15px 34px rgba(0, 0, 0, 0.2);
-}
-#stats #stats-overview .stat-label {
-  display: block;
-  color: var(--bat-muted);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.105em;
-  line-height: 1.35;
-}
-#stats #stats-overview .stat-card > strong {
-  display: block;
-  margin-top: 10px;
-  color: #f7fbff;
-  font-size: clamp(25px, 3vw, 35px);
-  font-weight: 850;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.045em;
-  line-height: 1.05;
-}
-#stats #stats-overview .stat-note {
-  display: block;
-  margin-top: 9px;
-  color: #91a8c2;
-  font-size: 10px;
-  line-height: 1.35;
-}
-#stats #stats-overview .stat-feature {
-  border-color: rgba(255, 153, 85, 0.32);
-  background:
-    radial-gradient(ellipse at 100% 0%, rgba(255, 140, 74, 0.16), transparent 58%),
-    linear-gradient(145deg, rgba(34, 40, 55, 0.98), rgba(10, 20, 34, 0.98));
-}
-#stats #stats-overview .stat-feature::before {
-  height: 3px;
-  opacity: 1;
-}
-#stats #stats-overview .stat-feature > strong {
-  color: #ffbd8b;
-  font-size: clamp(31px, 3.5vw, 43px);
-}
-#stats #stats-overview .stat-watermark {
-  right: 12px;
-  bottom: -13px;
-  color: rgba(240, 247, 255, 0.045);
-  font-size: clamp(65px, 8vw, 100px);
-  font-weight: 950;
-  line-height: 1;
-  pointer-events: none;
-}
-#stats #stats-overview .format-heading {
-  margin-top: clamp(25px, 4vw, 38px);
-}
-#stats #stats-overview .career-formats .format-card {
-  padding: 16px;
-}
-#stats #stats-overview .career-formats .format-main-row {
-  display: grid;
-  grid-template-columns: minmax(70px, 0.7fr) minmax(0, 1.3fr);
-  align-items: center;
-  gap: 12px;
-  margin-top: 13px;
-}
-#stats #stats-overview .career-formats .format-runs strong {
-  display: block;
-  color: #f5f9ff;
-  font-size: clamp(24px, 2.7vw, 32px);
-  font-weight: 850;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.04em;
-  line-height: 1.1;
-}
-#stats #stats-overview .career-formats .format-runs-caption {
-  display: block;
-  margin-top: 4px;
-  color: var(--bat-muted);
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-}
-#stats #stats-overview .format-batting-facts {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 5px;
-}
-#stats #stats-overview .format-fact {
-  min-width: 0;
-  padding: 7px 5px;
-  border: 1px solid rgba(142, 177, 214, 0.11);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.025);
-}
-#stats #stats-overview .format-fact span {
-  display: block;
-  color: var(--bat-muted);
-  font-size: 9px;
-  font-weight: 750;
-}
-#stats #stats-overview .format-fact strong {
-  display: block;
-  margin-top: 3px;
-  color: #e9f3ff;
-  font-size: 13px;
-  font-variant-numeric: tabular-nums;
-}
-#stats #stats-overview .format-meta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
-}
-#stats #stats-overview .format-meta-row span {
-  padding: 5px 7px;
-  border: 1px solid rgba(142, 177, 214, 0.13);
-  border-radius: 7px;
-  background: rgba(5, 13, 24, 0.42);
-  color: #afc2d8;
-  font-size: 9px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-#stats #stats-overview .data-line {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px 14px;
-  margin-top: 14px;
-  padding: 11px 13px;
-  border: 1px solid var(--bat-line);
-  border-radius: 11px;
-  background: rgba(8, 19, 32, 0.72);
-  color: var(--bat-muted);
-  font-size: 10px;
-}
-#stats #stats-overview .data-line b {
-  color: #dcecff;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 html[data-theme="light"] #stats #stats-overview,
 body[data-theme="light"] #stats #stats-overview,
-[data-theme="light"] #stats #stats-overview {
-  --bat-ink: #17283d;
-  --bat-muted: #60738a;
-  --bat-line: rgba(60, 90, 125, 0.16);
-  --bat-panel: linear-gradient(145deg, #ffffff, #f2f6fb);
-  color: var(--bat-ink);
-}
+
 html[data-theme="light"] #stats #stats-overview .stat-card,
 body[data-theme="light"] #stats #stats-overview .stat-card,
-[data-theme="light"] #stats #stats-overview .stat-card {
-  box-shadow: 0 8px 22px rgba(32, 54, 80, 0.07);
-}
+
 html[data-theme="light"] #stats #stats-overview .stat-card > strong,
 body[data-theme="light"] #stats #stats-overview .stat-card > strong,
 [data-theme="light"] #stats #stats-overview .stat-card > strong,
 html[data-theme="light"] #stats #stats-overview .career-formats .format-runs strong,
 body[data-theme="light"] #stats #stats-overview .career-formats .format-runs strong,
-[data-theme="light"] #stats #stats-overview .career-formats .format-runs strong {
-  color: #173451;
-}
+
 html[data-theme="light"] #stats #stats-overview .stat-feature > strong,
 body[data-theme="light"] #stats #stats-overview .stat-feature > strong,
-[data-theme="light"] #stats #stats-overview .stat-feature > strong {
-  color: #a94e17;
-}
+
 html[data-theme="light"] #stats #stats-overview .format-fact strong,
 body[data-theme="light"] #stats #stats-overview .format-fact strong,
-[data-theme="light"] #stats #stats-overview .format-fact strong {
-  color: #183954;
-}
+
 html[data-theme="light"] #stats #stats-overview .data-line,
 body[data-theme="light"] #stats #stats-overview .data-line,
-[data-theme="light"] #stats #stats-overview .data-line {
-  background: rgba(237, 243, 250, 0.88);
-}
+
 @media (max-width: 700px) {
-  #stats #stats-overview > .section-heading {
-    align-items: start;
-    gap: 7px;
-    margin-bottom: 12px;
-  }
-  #stats #stats-overview > .section-heading > p {
-    font-size: 11px;
-    line-height: 1.45;
-  }
-  #stats #stats-overview .stats-grid {
-    gap: 8px;
-  }
-  #stats #stats-overview .stat-card {
-    padding: 13px 12px;
-    border-radius: 13px;
-  }
-  #stats #stats-overview .stat-label {
-    font-size: 9px;
-    letter-spacing: 0.075em;
-  }
-  #stats #stats-overview .stat-card > strong {
-    margin-top: 8px;
-    font-size: clamp(22px, 6vw, 29px);
-  }
-  #stats #stats-overview .stat-feature > strong {
-    font-size: clamp(27px, 7vw, 35px);
-  }
-  #stats #stats-overview .stat-note {
-    margin-top: 6px;
-    font-size: 9px;
-  }
-  #stats #stats-overview .career-formats .format-card {
-    padding: 12px;
-  }
-  #stats #stats-overview .career-formats .format-main-row {
-    grid-template-columns: 1fr;
-    gap: 9px;
-    margin-top: 10px;
-  }
-  #stats #stats-overview .career-formats .format-runs strong {
-    font-size: clamp(24px, 6vw, 31px);
-  }
-  #stats #stats-overview .format-batting-facts {
-    gap: 4px;
-  }
-  #stats #stats-overview .format-fact {
-    padding: 6px 4px;
-  }
-  #stats #stats-overview .format-fact strong {
-    font-size: 12px;
-  }
-  #stats #stats-overview .format-meta-row {
-    gap: 5px;
-    margin-top: 9px;
-  }
-  #stats #stats-overview .format-meta-row span {
-    padding: 4px 6px;
-    font-size: 8px;
-  }
-  #stats #stats-overview .data-line {
-    padding: 9px 10px;
-    font-size: 9px;
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 @media (max-width: 360px) {
-  #stats #stats-overview .stats-grid:not(.career-formats) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
 }
 @media (prefers-reduced-motion: reduce) {
-  #stats #stats-overview .stat-card {
-    transition: none;
-  }
+
 }
 
 /* EXPLORE format selector — make the selected format unmistakable. */
-#stats #statsguru .statsguru-format-tabs {
-  gap: 9px;
-  padding: 8px 5px 12px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, rgba(9, 20, 38, 0.72), rgba(20, 31, 52, 0.48));
-  border: 1px solid rgba(125, 160, 205, 0.18);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 132, 75, 0.7) transparent;
-}
-#stats #statsguru .statsguru-format-tabs button {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  min-height: 42px;
-  padding: 9px 15px;
-  border: 1px solid rgba(151, 174, 207, 0.3);
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(36, 51, 75, 0.88), rgba(20, 32, 51, 0.96));
-  color: #e2eaf7;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.015em;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
-  transition:
-    background 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease,
-    transform 180ms ease;
-}
-#stats #statsguru .statsguru-format-tabs button:hover {
-  border-color: rgba(255, 169, 106, 0.85);
-  background: linear-gradient(180deg, rgba(61, 75, 101, 0.98), rgba(28, 43, 66, 0.98));
-  transform: translateY(-1px);
-}
-#stats #statsguru .statsguru-format-tabs button.active {
-  background: linear-gradient(135deg, #ffd166 0%, #ff9b50 48%, #ff6947 100%) !important;
-  color: #172033 !important;
-  border: 2px solid #fff2d4 !important;
-  padding: 8px 14px;
-  font-weight: 950;
-  box-shadow:
-    0 0 0 3px rgba(255, 132, 70, 0.2),
-    0 8px 22px rgba(255, 105, 58, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  text-shadow: none;
-  transform: translateY(-1px);
-}
-#stats #statsguru .statsguru-format-tabs button.active::before {
-  content: "✓";
-  display: inline-grid;
-  place-items: center;
-  width: 19px;
-  height: 19px;
-  flex: 0 0 19px;
-  border-radius: 50%;
-  background: #172033;
-  color: #ffe0a0;
-  font-size: 12px;
-  font-weight: 950;
-  line-height: 1;
-}
-#stats #statsguru .statsguru-format-tabs button:focus-visible {
-  outline: 3px solid #69d7ff;
-  outline-offset: 3px;
-}
-#stats #statsguru .statsguru-format-pill {
-  padding: 7px 12px;
-  border: 1px solid rgba(255, 177, 91, 0.8);
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(255, 177, 91, 0.18), rgba(255, 105, 71, 0.12));
-  color: #ffc078;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.055em;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.035);
-}
+
+
+
+
+
+
+
 :root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-tabs,
-:root[data-theme="light"] #stats #statsguru .statsguru-format-tabs {
-  background: linear-gradient(135deg, #edf3fb, #f8faff);
-  border-color: #d4deeb;
-}
+
 :root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-tabs button,
-:root[data-theme="light"] #stats #statsguru .statsguru-format-tabs button {
-  background: linear-gradient(180deg, #fff, #f0f4fa);
-  border-color: #cbd6e5;
-  color: #33445e;
-}
+
 :root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-tabs button.active,
-:root[data-theme="light"] #stats #statsguru .statsguru-format-tabs button.active {
-  background: linear-gradient(135deg, #ffd166 0%, #ff9b50 48%, #ff6947 100%) !important;
-  color: #172033 !important;
-  border-color: #fff !important;
-  box-shadow:
-    0 0 0 3px rgba(255, 132, 70, 0.17),
-    0 8px 20px rgba(196, 82, 38, 0.2);
-}
+
 :root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-pill,
-:root[data-theme="light"] #stats #statsguru .statsguru-format-pill {
-  color: #9a3e18;
-  background: linear-gradient(135deg, #fff2d9, #ffe7dd);
-  border-color: #e9a46b;
-}
+
 @media (max-width: 760px) {
-  #stats #statsguru .statsguru-format-tabs {
-    gap: 8px;
-    padding: 8px 7px 11px;
-    margin-block: 9px 12px;
-  }
-  #stats #statsguru .statsguru-format-tabs button {
-    min-height: 42px;
-    padding: 9px 12px;
-    font-size: 12px;
-  }
-  #stats #statsguru .statsguru-format-tabs button.active {
-    padding: 8px 11px;
-  }
+
+
+
 }
 @media (prefers-reduced-motion: reduce) {
-  #stats #statsguru .statsguru-format-tabs button {
-    transition: none;
-  }
+
 }
 
 /* Explore intro copy: turn the long plain sentence into a deliberate supporting callout. */
-#stats #statsguru .section-heading.explore-heading {
-  align-items: flex-end;
-}
-#stats #statsguru .explore-heading > p {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  box-sizing: border-box;
-  max-width: 360px;
-  margin: 0 0 3px auto;
-  padding: 12px 15px 12px 16px;
-  border: 1px solid rgba(255, 133, 79, 0.28);
-  border-left: 3px solid #ff8050;
-  border-radius: 0 12px 12px 0;
-  background: linear-gradient(120deg, rgba(255, 124, 75, 0.105), rgba(17, 29, 47, 0.64));
-  color: #b9c8dc;
-  font-size: 12px;
-  line-height: 1.55;
-  text-wrap: pretty;
-}
-#stats #statsguru .explore-heading > p strong {
-  color: #fff0df;
-  font-size: 13px;
-  font-weight: 900;
-  letter-spacing: 0.015em;
-  line-height: 1.35;
-}
-#stats #statsguru .explore-heading > p span {
-  display: block;
-}
+
+
+
+
 :root[data-theme-resolved="light"] #stats #statsguru .explore-heading > p,
-:root[data-theme="light"] #stats #statsguru .explore-heading > p {
-  color: #52627a;
-  background: linear-gradient(120deg, #fff5ec, #f4f7fc);
-  border-color: #f0c4a9;
-  border-left-color: #e96a37;
-}
+
 :root[data-theme-resolved="light"] #stats #statsguru .explore-heading > p strong,
-:root[data-theme="light"] #stats #statsguru .explore-heading > p strong {
-  color: #8d3e1e;
-}
+
 @media (max-width: 760px) {
-  #stats #statsguru .section-heading.explore-heading {
-    align-items: flex-start;
-  }
-  #stats #statsguru .explore-heading > p {
-    width: 100%;
-    max-width: none;
-    margin: 4px 0 0;
-    padding: 10px 12px;
-    font-size: 12px;
-  }
-  #stats #statsguru .explore-heading > p strong {
-    font-size: 12px;
-  }
+
+
+
 }
 
 /* VIDEO PLAYER VISIBILITY + NAVBAR PERSISTENCE FIX.
@@ -9155,45 +7867,13 @@ footer > span:last-child {
 }
 
 /* FIX: Stats format choices must wrap into rows on mobile; never make a horizontal scroller. */
-#stats #statsguru .statsguru-format-tabs {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  overflow-x: visible !important;
-  overflow-y: visible !important;
-  white-space: normal !important;
-  max-width: 100% !important;
-  scrollbar-width: none !important;
-  overscroll-behavior-x: auto !important;
-  -webkit-overflow-scrolling: auto !important;
-}
-#stats #statsguru .statsguru-format-tabs::-webkit-scrollbar {
-  display: none !important;
-}
-#stats #statsguru .statsguru-format-tabs button {
-  flex: 0 1 auto !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
-  white-space: normal !important;
-  overflow-wrap: anywhere !important;
-}
+
+
+
 @media (max-width: 760px) {
-  #stats #statsguru .statsguru-format-tabs {
-    flex-wrap: wrap !important;
-    overflow: visible !important;
-    gap: 7px !important;
-    padding: 8px !important;
-    margin-inline: 0 !important;
-  }
-  #stats #statsguru .statsguru-format-tabs button {
-    flex: 0 1 auto !important;
-    min-height: 40px !important;
-    padding: 9px 10px !important;
-    font-size: 11px !important;
-    line-height: 1.2 !important;
-  }
-  #stats #statsguru .statsguru-format-tabs button[data-sg-format="T20"] {
-    flex: 1 1 145px !important;
-  }
+
+
+
 }
 
 /* Graceful fallback for external image hosts that deny hotlinking. */
