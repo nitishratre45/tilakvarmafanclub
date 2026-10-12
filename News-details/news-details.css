@@ -80,3 +80,77 @@
   .article-data-table{min-width:760px;font-size:13px}
   .article-data-table th,.article-data-table td{padding:12px 13px}
 }
+
+
+/* Editorial paragraph design: cleaner reading rhythm across all BCCI articles. */
+.article-body{
+  max-width:78ch;
+  margin-inline:auto;
+  font-size:16px;
+  line-height:1.9;
+  letter-spacing:.005em;
+  color:#243653;
+  overflow-wrap:break-word;
+}
+.article-body p{
+  margin:0 0 1.2em;
+  text-wrap:pretty;
+}
+.article-body p:first-child:not(.article-list-item){
+  color:#243b61;
+  font-size:clamp(16px,1.25vw,18px);
+  line-height:1.85;
+  padding:0 0 18px;
+  margin-bottom:22px;
+  border-bottom:1px solid #e8edf5;
+}
+.article-body p + p{margin-top:0}
+.article-body h2{
+  margin:34px 0 14px;
+  padding:3px 0 3px 14px;
+  border-left:4px solid var(--orange);
+  border-radius:2px;
+  font-size:clamp(21px,2vw,28px);
+  line-height:1.28;
+  letter-spacing:-.025em;
+  color:#09265f;
+  text-wrap:balance;
+}
+.article-body h3{
+  margin:27px 0 11px;
+  font-size:clamp(17px,1.6vw,21px);
+  line-height:1.4;
+  font-weight:900;
+  color:#17468e;
+}
+.article-body strong{font-weight:800;color:#071b4b}
+.article-body .article-list-item{
+  margin:0 0 10px;
+  padding:12px 15px 12px 36px;
+  position:relative;
+  border:1px solid #e5ebf5;
+  border-radius:9px;
+  background:linear-gradient(100deg,#f5f8fe,#fff);
+  line-height:1.75;
+}
+.article-body .article-list-item::first-letter{color:#17468e}
+.article-body .article-recovered-prose{
+  margin:18px 0;
+  padding:15px 17px;
+  border-left:3px solid #8ab4f8;
+  border-radius:0 8px 8px 0;
+  background:#f5f8fd;
+  color:#2b4266;
+  line-height:1.85;
+}
+.article-body .article-table-wrap{margin:25px 0 30px}
+.article-body a{color:#174eaa;text-decoration:underline;text-underline-offset:3px}
+.article-body a:hover{color:#e85d2b}
+@media(max-width:700px){
+  .article-body{font-size:15px;line-height:1.85}
+  .article-body p:first-child:not(.article-list-item){font-size:16px;padding-bottom:15px;margin-bottom:18px}
+  .article-body h2{margin-top:28px;font-size:22px}
+  .article-body h3{margin-top:22px;font-size:18px}
+  .article-body .article-list-item{padding:10px 12px 10px 25px}
+}
+@media(prefers-reduced-motion:reduce){.article-body *{scroll-behavior:auto}}
