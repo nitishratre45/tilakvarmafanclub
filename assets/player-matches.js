@@ -144,10 +144,7 @@
     const sourceLabel = $("player-match-source");
     if (sourceLabel)
       sourceLabel.textContent =
-        "Last updated: " +
-        (data.playerMatchesUpdatedAt ||
-          data.statsguru?.updatedAt ||
-          "waiting for scheduled refresh");
+        "Last updated: " + ((data.playerMatchesUpdatedAt || data.statsguru?.updatedAt) ? new Intl.DateTimeFormat("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true }).format(new Date(data.playerMatchesUpdatedAt || data.statsguru.updatedAt)) + " IST" : "waiting for scheduled refresh");
     const bowlMap = new Map();
     for (const [fmt, entry] of Object.entries(data.bowlingStats?.formats || {}))
       for (const b of Array.isArray(entry?.innings) ? entry.innings : []) {
