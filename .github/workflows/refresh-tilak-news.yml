@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "scripts/newsreader.py"
+      - "scripts/filter_tilak_news.py"
       - "scripts/news.py"
       - ".github/workflows/refresh-tilak-news.yml"
   schedule:
@@ -48,6 +49,8 @@ jobs:
 
             # newsreader merges with the current main archive and removes URL/title duplicates.
             python scripts/newsreader.py
+            python -m json.tool News/raw-news-pages.json > /dev/null
+            python scripts/filter_tilak_news.py
             python -m json.tool News/newsjson.json > /dev/null
             python -m json.tool News/raw-news-pages.json > /dev/null
             NEWS_BYTES=$(wc -c < News/newsjson.json)
