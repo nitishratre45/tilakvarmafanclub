@@ -1410,3 +1410,82 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 @media(prefers-reduced-motion:reduce){
  #admin-app *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
 }
+
+/* CSS stability patch (2026-10-12): scoped guardrails for the final Admin cascade.
+   Keep existing component rules intact; do not delete earlier rules blindly because
+   many repeated selectors intentionally live in different media-query contexts. */
+#admin-app,
+#admin-app * {
+  min-width: 0;
+}
+#admin-app img,
+#admin-app video,
+#admin-app canvas,
+#admin-app svg {
+  max-width: 100%;
+}
+#admin-app .section,
+#admin-app .section-body,
+#admin-app .section-head,
+#admin-app .page-heading,
+#admin-app .topbar,
+#admin-app .hero {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+#admin-app .section .table-wrap,
+#admin-app .section .table-responsive,
+#admin-app .section .dataset-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+#admin-app .section .table-wrap table,
+#admin-app .section .table-responsive table,
+#admin-app .section .dataset-table-wrap table {
+  width: max-content;
+  min-width: 540px;
+}
+#admin-app .section :is(input, select, textarea, button, .btn) {
+  max-width: 100%;
+}
+#admin-app .section :is(input, select, textarea) {
+  min-width: 0;
+}
+#admin-app .section :is(button, .btn):disabled {
+  transform: none;
+  box-shadow: none;
+}
+#admin-app .manual-news-card > * {
+  min-width: 0;
+}
+#admin-app .manual-news-copy,
+#admin-app .manual-news-copy :is(h4, p) {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 720px) {
+  #admin-app .section .table-wrap,
+  #admin-app .section .table-responsive,
+  #admin-app .section .dataset-table-wrap {
+    width: 100%;
+  }
+  #admin-app .section :is(.actions, .dataset-actions, .run-actions) {
+    align-items: stretch;
+  }
+  #admin-app .section :is(.actions, .dataset-actions, .run-actions) > :is(button, .btn, a) {
+    max-width: 100%;
+  }
+  #admin-app .manual-news-card {
+    grid-template-columns: 70px minmax(0, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #admin-app,
+  #admin-app * {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
