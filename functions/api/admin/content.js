@@ -119,6 +119,7 @@ export async function onRequestPost({ request, env }) {
     const id = String(input.id || "")
       .trim()
       .slice(0, 160);
+    let resultId = id;
     if (action === "delete") {
       const existing = archive.news.find((item) => item && item.id === id && item.manual === true);
       if (!existing)
@@ -128,6 +129,7 @@ export async function onRequestPost({ request, env }) {
       );
     } else {
       const safeId = id || "manual-" + crypto.randomUUID();
+      resultId = safeId;
       const existingIndex = archive.news.findIndex(
         (item) => item && item.id === safeId && item.manual === true,
       );
@@ -169,11 +171,7 @@ export async function onRequestPost({ request, env }) {
       return json({
         ok: true,
         action,
-        id:
-          action === "delete"
-            ? id
-            : id ||
-              archive.news.find((item) => item.manual && item.updatedAt === archive.updatedAt)?.id,
+        id: resultId,
         count: archive.news.length,
         commit,
         updatedAt: archive.updatedAt,
