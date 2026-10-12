@@ -55,6 +55,8 @@ def blocks_for(article: dict) -> list[dict]:
         (["no.", "day", "date", "match", "venue"], 5),
         (["no.", "day", "date", "day (to)", "date (to)", "match", "venue"], 7),
     ]
+    # Preserve the complete extracted article as readable prose; real tables are rendered separately.
+    add_prose(re.sub(r"\\s*\\|\\s*", " ", text))
     cursor = 0
     while cursor < len(tokens):
         found = None
@@ -94,12 +96,6 @@ def blocks_for(article: dict) -> list[dict]:
         else:
             cursor = header_start + 1
 
-    if not blocks:
-        add_prose(text)
-    elif len(blocks) < 2:
-        # Ensure article prose isn't lost when the page also contains a table.
-        # The full original text is always preserved in fullText/pageText.
-        pass
     return blocks
 
 
