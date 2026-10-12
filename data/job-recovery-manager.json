@@ -1,64 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T21:11:15.995Z",
+  "checkedAt": "2026-10-12T21:11:26.267Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T09:19:09.433Z",
-      "workflow": "Validate Tilak Varma FC site",
-      "workflowPath": ".github/workflows/site-check.yml",
-      "runId": 38229051068,
-      "runAttempt": 2,
-      "conclusion": "failure",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38229051068",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 1,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "validate",
-          "conclusion": "failure",
-          "startedAt": "2026-10-12T09:18:53Z",
-          "completedAt": "2026-10-12T09:19:00Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38229051068/job/114743787886",
-          "steps": [
-            {
-              "name": "Check JavaScript and embedded page scripts",
-              "conclusion": "failure",
-              "number": 4
-            },
-            {
-              "name": "Validate JSON data",
-              "conclusion": "skipped",
-              "number": 5
-            },
-            {
-              "name": "Check page anchors and local asset references",
-              "conclusion": "skipped",
-              "number": 6
-            },
-            {
-              "name": "Verify feature modules are linked",
-              "conclusion": "skipped",
-              "number": 7
-            },
-            {
-              "name": "Post Set up Node.js",
-              "conclusion": "skipped",
-              "number": 13
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T09:19:18.082Z",
       "workflow": "Validate Tilak Varma FC site",
@@ -12536,6 +12480,47 @@
         "skipped": 0
       },
       "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T21:11:26.267Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38308973446,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38308973446",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 1,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Desktop and mobile interaction checks",
+          "conclusion": "cancelled",
+          "startedAt": "2026-10-12T21:10:41Z",
+          "completedAt": "2026-10-12T21:11:12Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38308973446/job/115009782594",
+          "steps": [
+            {
+              "name": "Test real browser interactions",
+              "conclusion": "failure",
+              "number": 6
+            },
+            {
+              "name": "Post Set up Node.js",
+              "conclusion": "skipped",
+              "number": 13
+            }
+          ]
+        }
+      ]
     }
   ]
 }
