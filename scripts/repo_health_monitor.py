@@ -112,7 +112,7 @@ def main():
                 for ref in parser.refs:
                     if not ref or ref.startswith(("https:", "http:")):
                         continue
-                    target = (path.parent / ref).resolve()
+                    target = (ROOT / ref.lstrip("/")).resolve() if ref.startswith("/") else (path.parent / ref).resolve()
                     try:
                         target.relative_to(ROOT.resolve())
                     except ValueError:
