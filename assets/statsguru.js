@@ -338,7 +338,7 @@
       ["RUNS", s.runs],
       ["HIGHEST", s.highestScore],
       ["AVERAGE", s.average],
-      ["BALLS FACED", s.balls],
+      [s.ballsInferred ? "BALLS FACED (EST.)" : "BALLS FACED", s.balls],
       ["STRIKE RATE", s.strikeRate],
       ["HUNDREDS", s.hundreds],
       ["FIFTIES", s.fifties],
@@ -347,6 +347,10 @@
     ]
       .map((x) => metric(x[0], x[1]))
       .join("");
+    if (s.ballsInferred) {
+      $("statsguru-note").textContent =
+        "Warning: balls faced is estimated from runs and published strike rate because the source did not provide exact balls. Strike rate and any combined-format totals using this estimate are approximate, not verified ball-by-ball totals.";
+    }
   }
   function renderAdditional(source) {
     const category = selectedCategory;
