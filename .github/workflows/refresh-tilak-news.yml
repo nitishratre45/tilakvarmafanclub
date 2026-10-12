@@ -1,6 +1,12 @@
 name: Refresh Tilak Varma news
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/newsreader.py"
+      - "scripts/news.py"
+      - ".github/workflows/refresh-tilak-news.yml"
   schedule:
     - cron: "23 2 * * *"
 permissions:
@@ -44,6 +50,12 @@ jobs:
             python scripts/newsreader.py
             python -m json.tool News/newsjson.json > /dev/null
             python -m json.tool News/raw-news-pages.json > /dev/null
+            NEWS_BYTES=$(wc -c < News/newsjson.json)
+            echo "Filtered news archive size: $NEWS_BYTES bytes"
+            if [ "$NEWS_BYTES" -ge 20000000 ]; then
+              echo "::error::News archive is still too large for Cloudflare Pages. Refusing to publish."
+              exit 1
+            fi
 
             git add News/raw-news-pages.json News/newsjson.json
             if git diff --cached --quiet; then
