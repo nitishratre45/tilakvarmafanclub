@@ -131,14 +131,44 @@
     }
   };
 
+  const normalizeForDedup = (value) => String(value || "")
+    .toLocaleLowerCase()
+    .replace(/[^\\p{L}\\p{N}]+/gu, " ")
+    .replace(/\\s+/g, " ")
+    .trim();
+
   const renderBody = (host, item) => {
     host.replaceChildren();
     const blocks = Array.isArray(item.contentBlocks) ? item.contentBlocks : [];
     if (blocks.length) {
+      // BCCI's flattened page text can contain a table and then repeat its
+      // last row as ordinary prose. Build signatures from meaningful table
+      // cells and suppress only exact/near-exact duplicate content.
+      const tableSignatures = [];
+      blocks.forEach((block) => {
+        if (block && block.type === "table" && Array.isArray(block.rows)) {
+          block.rows.forEach((row) => {
+            if (!Array.isArray(row)) return;
+            row.forEach((cell) => {
+              const normalized = normalizeForDedup(cell);
+              if (normalized.length >= 45) tableSignatures.push(normalized);
+            });
+          });
+        }
+      });
+      const seen = new Set();
       blocks.forEach((block) => {
         if (!block || typeof block !== "object") return;
         if (block.type === "table") { appendTable(host, block.rows); return; }
         const value=String(block.text||"").trim(); if(!value) return;
+        const normalized = normalizeForDedup(value);
+        if (!normalized) return;
+        if (seen.has(normalized)) return;
+        // Avoid repeating long squad/venue notes already shown inside a table.
+        if (normalized.length >= 45 && tableSignatures.some((cell) =>
+          cell === normalized || cell.includes(normalized) || normalized.includes(cell)
+        )) return;
+        seen.add(normalized);
         if(block.type==="heading"){const h=document.createElement("h2");appendRichText(h,value);host.appendChild(h);}
         else if(block.type==="list"){const li=document.createElement("p");li.className="article-list-item";li.textContent="• "+value;host.appendChild(li);}
         else {const p=document.createElement("p");appendRichText(p,value);host.appendChild(p);}
