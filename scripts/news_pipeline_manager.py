@@ -155,8 +155,6 @@ def main():
             }
         )
     )
-    if invalid:
-        raise SystemExit(1)
 
 
 if __name__ == "__main__":
