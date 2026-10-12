@@ -350,6 +350,13 @@ def main() -> None:
                 if lower.count("{") > 2 or lower.count("}") > 2:
                     continue
                 clean_lines.append(line[:500])
+            const navigationLabels = new Set(["news", "videos", "photos", "matches", "players", "more", "home", "search", "menu", "sign in", "login"]);
+                        clean_lines = clean_lines.filter((line) => {
+                            const normalized = line.toLowerCase().replace(/[•·|]/g, " ").replace(/\\s+/g, " ").trim();
+                            if (navigationLabels.has(normalized)) return false;
+                            if (normalized === String(article.title || "").toLowerCase().replace(/\\s+/g, " ").trim()) return false;
+                            return normalized.length >= 35;
+                        });
             matched_lines = [line for line in clean_lines if NAME_PATTERN.search(line)]
             title_match = bool(NAME_PATTERN.search(article["title"]))
             record = article.get("apiRecord", {})
@@ -357,8 +364,12 @@ def main() -> None:
             api_match = bool(NAME_PATTERN.search(api_text_fields))
             if matched_lines or title_match or api_match:
                 article["matchedLines"] = matched_lines[:12]
-                if clean_lines:
-                    article["articleText"] = clean_lines[:12]
+                # Only publish genuine, substantial body lines. BCCI's JS shell often
+                # returns navigation-only HTML to simple HTTP clients; never save that as article copy.
+                if len(clean_lines) >= 2 and sum(len(line) for line in clean_lines) >= 180:
+                    article["articleText"] = clean_lines[:30]
+                else:
+                    article.pop("articleText", None)
                 article["matchFoundIn"] = [
                     name for name, found in (("article", bool(matched_lines)), ("title", title_match), ("apiRecord", api_match))
                     if found
@@ -392,7 +403,17 @@ def main() -> None:
         item["title"] = str(item.get("title") or "")[:300]
         item["imageUrl"] = str(item.get("imageUrl") or "")[:1500]
         if isinstance(item.get("articleText"), list):
-            item["articleText"] = [str(line)[:500] for line in item["articleText"][:12]]
+            navigation_labels = {"news", "videos", "photos", "matches", "players", "more", "home", "menu"}
+            cleaned_body = [
+                str(line).strip()[:1000] for line in item["articleText"]
+                if str(line).strip().lower() not in navigation_labels
+                and len(str(line).strip()) >= 35
+                and normalize_title(str(line)) != normalize_title(str(item.get("title") or ""))
+            ]
+            if len(cleaned_body) >= 2 and sum(map(len, cleaned_body)) >= 180:
+                item["articleText"] = cleaned_body[:30]
+            else:
+                item.pop("articleText", None)
         elif isinstance(item.get("articleText"), str):
             item["articleText"] = item["articleText"][:4000]
         item.pop("apiRecord", None)
