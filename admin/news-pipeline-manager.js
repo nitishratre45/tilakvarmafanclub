@@ -33,6 +33,7 @@
       <div class="nph-stat"><strong id="nph-news">—</strong><span>Filtered Tilak stories</span></div>
       <div class="nph-stat"><strong id="nph-pages">—</strong><span>Article pages fetched</span></div>
       <div class="nph-stat"><strong id="nph-errors">—</strong><span>Errors / warnings</span></div>
+      <div class="nph-stat"><strong id="nph-verified">—</strong><span>Live article URLs verified</span></div>
     </div>
     <div class="nph-actions"><button class="btn" id="nph-refresh" type="button">↻ Refresh report</button><a href="../News/news-pipeline-report.json" target="_blank" rel="noopener">Open full report ↗</a><a href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/refresh-tilak-news.yml" target="_blank" rel="noopener">Workflow logs ↗</a></div>
     <div class="nph-body"><div class="nph-muted" id="nph-time">Waiting for manager report…</div><div class="nph-findings" id="nph-findings"></div></div>`;
@@ -54,12 +55,14 @@
       text("nph-news", report.news?.records ?? 0);
       text("nph-pages", report.raw?.articlePagesFetched ?? 0);
       text("nph-errors", (report.news?.errors ?? 0) + " / " + (report.news?.warnings ?? 0));
-      text("nph-time", "Last manager check: " + (report.generatedAt || "unknown") + " · Raw article URL count: " + (report.raw?.articleUrls ?? 0) + " · Read errors: " + (report.raw?.articleFetchErrors ?? 0));
+      text("nph-verified", report.contentVerification?.liveUrlsMatched ?? 0);
+      text("nph-time", "Last manager check: " + (report.generatedAt || "unknown") + " · Raw article URLs: " + (report.raw?.articleUrls ?? 0) + " · Page fetch errors: " + (report.raw?.articleFetchErrors ?? 0) + " · Live URL checks: " + (report.contentVerification?.findings?.length ?? 0));
       const findings = $("nph-findings");
       findings.replaceChildren();
       const list = [];
       (report.invalidJsonFiles || []).forEach(x => list.push({severity:"error",label:"Invalid JSON",detail:x.path + " — " + x.error}));
       (report.news?.findings || []).forEach(x => list.push({severity:x.severity || "warning",label:"News record " + (Number(x.record)+1),detail:x.issue}));
+      (report.contentVerification?.findings || []).forEach(x => list.push({severity:x.severity || "warning",label:"Live article check " + (Number(x.record)+1),detail:x.issue}));
       if (!list.length) {
         const item=document.createElement("div"); item.className="nph-item"; item.textContent="✓ No JSON syntax errors or news-record validation findings in the latest report."; findings.appendChild(item);
       } else {
