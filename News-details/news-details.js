@@ -55,17 +55,55 @@
       else host.appendChild(document.createTextNode(part));
     });
   };
-  const appendTable = (host, rows) => {
-    if (!Array.isArray(rows) || !rows.length) return;
-    const wrap=document.createElement("div");wrap.className="article-table-wrap";
-    const table=document.createElement("table");table.className="article-data-table";
-    rows.filter(Array.isArray).forEach((cells,rowIndex)=>{
-      const tr=document.createElement("tr");
-      cells.forEach((cell)=>{const td=document.createElement(rowIndex===0?"th":"td");appendRichText(td,cell);tr.appendChild(td);});
+  const appendTable = (host, inputRows) => {
+    if (!Array.isArray(inputRows) || !inputRows.length) return;
+    let rows = inputRows.filter(Array.isArray).map(row => row.map(cell => String(cell ?? "").trim()));
+    // Legacy JSON sometimes stores an entire article paragraph as one table row.
+    // Keep prose readable rather than creating dozens of one-character columns.
+    if (rows.length === 1 && rows[0].length > 8) {
+      const cells = rows[0];
+      const headerIndex = cells.findIndex(cell => ["no.", "no", "s.no.", "s.no"].includes(cell.toLowerCase()));
+      if (headerIndex < 0) {
+        const p = document.createElement("p");
+        p.className = "article-recovered-prose";
+        p.textContent = cells.filter(Boolean).join(" ");
+        host.appendChild(p);
+        return;
+      }
+      const tail = cells.slice(headerIndex);
+      const venueIndex = tail.findIndex(cell => cell.toLowerCase() === "venue");
+      const columnCount = venueIndex >= 0 ? venueIndex + 1 : 5;
+      const recovered = [tail.slice(0, columnCount)];
+      for (let i = columnCount; i + columnCount <= tail.length; i += columnCount) {
+        const row = tail.slice(i, i + columnCount);
+        if (row.some(Boolean)) recovered.push(row);
+      }
+      rows = recovered;
+    }
+    if (rows.some(row => row.length > 8)) {
+      const p = document.createElement("p");
+      p.className = "article-recovered-prose";
+      p.textContent = rows.flat().filter(Boolean).join(" ");
+      host.appendChild(p);
+      return;
+    }
+    const wrap = document.createElement("div");
+    wrap.className = "article-table-wrap";
+    const table = document.createElement("table");
+    table.className = "article-data-table";
+    rows.forEach((cells, rowIndex) => {
+      const tr = document.createElement("tr");
+      cells.forEach(cell => {
+        const td = document.createElement(rowIndex === 0 ? "th" : "td");
+        appendRichText(td, cell);
+        tr.appendChild(td);
+      });
       table.appendChild(tr);
     });
-    wrap.appendChild(table);host.appendChild(wrap);
+    wrap.appendChild(table);
+    host.appendChild(wrap);
   };
+
   const renderBody = (host, item) => {
     host.replaceChildren();
     const blocks = Array.isArray(item.contentBlocks) ? item.contentBlocks : [];
