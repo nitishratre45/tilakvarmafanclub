@@ -88,7 +88,7 @@
       // route, otherwise their hashes become /stats#news and reload as Stats.
       const statsPath = useStatsPath || id === "stats";
       const onStatsPath = location.pathname.replace(/\/$/, "") === "/stats";
-      const target = statsPath ? "/stats" : (onStatsPath ? "/#" : "") + "#" + id;
+      const target = statsPath ? "/stats" : onStatsPath ? "/#" + id : "#" + id;
       const alreadyThere = statsPath
         ? onStatsPath && !location.hash
         : location.hash === "#" + id && (!onStatsPath || location.pathname === "/");
@@ -144,6 +144,17 @@
       if (location.pathname.replace(/\/$/, "") !== "/stats")
         history.pushState({ section: "stats", statsView: button.dataset.statsTab }, "", "/stats");
     });
+  });
+
+  // Stats markup is mounted asynchronously; restore the chosen sub-view after it exists.
+  window.addEventListener("tilak:stats-mounted", () => {
+    const isStatsRoute = location.pathname.replace(/\/$/, "") === "/stats";
+    if (!isStatsRoute && location.hash !== "#stats") return;
+    let savedView = null;
+    try {
+      savedView = sessionStorage.getItem("tilak-stats-view");
+    } catch (_) {}
+    setStatsView(savedView || "stats-overview");
   });
 
   window.addEventListener("popstate", (event) => {
