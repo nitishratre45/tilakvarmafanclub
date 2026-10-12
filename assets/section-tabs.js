@@ -160,7 +160,8 @@
   window.addEventListener("popstate", (event) => {
     // A section hash wins over /stats so old links such as /stats#news
     // still open News after reload instead of silently reopening Stats.
-    const id = location.hash.slice(1) ||
+    const id =
+      location.hash.slice(1) ||
       (location.pathname.replace(/\/$/, "") === "/stats" ? "stats" : "profile");
     let saved = null;
     try {
@@ -169,7 +170,8 @@
     show(id, false, event.state?.statsView || legacyViews[id] || (id === "stats" ? saved : null));
   });
   window.addEventListener("hashchange", () => {
-    const id = location.hash.slice(1) ||
+    const id =
+      location.hash.slice(1) ||
       (location.pathname.replace(/\/$/, "") === "/stats" ? "stats" : "profile");
     show(id, false, legacyViews[id] || null);
   });
@@ -179,7 +181,8 @@
     saved = sessionStorage.getItem("tilak-stats-view");
   } catch (_) {}
   // Hash destinations take priority, including older /stats#section links.
-  const initial = location.hash.slice(1) ||
+  const initial =
+    location.hash.slice(1) ||
     (location.pathname.replace(/\/$/, "") === "/stats" ? "stats" : "profile");
   show(initial, false, legacyViews[initial] || (initial === "stats" ? saved : null));
 })();
