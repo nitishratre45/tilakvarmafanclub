@@ -1,49 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T13:22:16.182Z",
+  "checkedAt": "2026-10-12T13:22:25.715Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T06:30:50.001Z",
-      "workflow": "Validate Tilak Varma FC site",
-      "workflowPath": ".github/workflows/site-check.yml",
-      "runId": 38212815254,
-      "runAttempt": 2,
-      "conclusion": "failure",
-      "event": "pull_request",
-      "branch": "feature/empty-news-section",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38212815254",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 1,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "validate",
-          "conclusion": "failure",
-          "startedAt": "2026-10-12T06:30:30Z",
-          "completedAt": "2026-10-12T06:30:38Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38212815254/job/114690725142",
-          "steps": [
-            {
-              "name": "Verify feature modules are linked",
-              "conclusion": "failure",
-              "number": 7
-            },
-            {
-              "name": "Post Set up Node.js",
-              "conclusion": "skipped",
-              "number": 13
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T06:30:58.984Z",
       "workflow": "Validate Tilak Varma FC site",
@@ -13175,6 +13134,27 @@
           "steps": []
         }
       ]
+    },
+    {
+      "checkedAt": "2026-10-12T13:22:25.715Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38255068095,
+      "runAttempt": 1,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38255068095",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 0,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
     }
   ]
 }
