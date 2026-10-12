@@ -120,6 +120,16 @@ export async function onRequest({ request, env }) {
           202,
         );
       }
+      if (body.action === "news-refresh") {
+        await github(env, "/actions/workflows/refresh-tilak-news.yml/dispatches", {
+          method: "POST",
+          body: JSON.stringify({ ref: "main" }),
+        });
+        return json(
+          { ok: true, message: "News refresh queued. BCCI, Google News RSS, and ESPNcricinfo sources will be processed sequentially; failed sources are logged without stopping the next source." },
+          202,
+        );
+      }
       return json({ error: "Unsupported action." }, 400);
     } catch (error) {
       return json({ error: error.message }, 502);
