@@ -201,9 +201,12 @@ def editorial_copy(title: str, description: str, body: str) -> dict:
     if len(summary) < 45 or summary.casefold() == str(title or "").strip().casefold():
         candidates = SENTENCE_SPLIT_RE.split(clean)
         summary = next(
-            (part.strip(" |") for part in candidates
-             if len(part.strip(" |")) >= 45
-             and part.strip(" |").casefold() != str(title or "").strip().casefold()),
+            (
+                part.strip(" |")
+                for part in candidates
+                if len(part.strip(" |")) >= 45
+                and part.strip(" |").casefold() != str(title or "").strip().casefold()
+            ),
             "",
         )
     if not summary:
@@ -216,7 +219,11 @@ def editorial_copy(title: str, description: str, body: str) -> dict:
         part = part.strip(" |")
         if not 35 <= len(part) <= 260:
             continue
-        if re.search(r"\\b(Tilak Varma|squad|vice.?captain|captain|T20I|New Zealand|selection committee|fitness)\\b", part, re.I):
+        if re.search(
+            r"\\b(Tilak Varma|squad|vice.?captain|captain|T20I|New Zealand|selection committee|fitness)\\b",
+            part,
+            re.I,
+        ):
             if part not in points:
                 points.append(part)
         if len(points) == 3:
