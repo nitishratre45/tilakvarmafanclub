@@ -309,7 +309,7 @@ def main():
             old_format = previous_formats.get(key, {})
             if (
                 candidate is None
-                or not candidate.get("innings")
+                or (not candidate.get("innings") and key != "test")
                 or candidate.get("readErrors", 0) > 0
             ):
                 reason = "; ".join(attempt_errors) or "No usable archive response"
