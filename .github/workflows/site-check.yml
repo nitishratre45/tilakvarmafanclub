@@ -146,7 +146,8 @@ jobs:
                   parsed = urlsplit(ref)
                   if parsed.scheme or parsed.netloc or ref.startswith("#") or not parsed.path:
                       continue
-                  # Root-relative URLs such as /manifest.json resolve from the repository root on Pages, not the runner filesystem root.\n                  target = (Path(".") / parsed.path.lstrip("/")).resolve() if parsed.path.startswith("/") else (page.parent / parsed.path).resolve()
+                  # Root-relative URLs such as /manifest.json resolve from the repository root on Pages, not the runner filesystem root.
+                  target = (Path(".") / parsed.path.lstrip("/")).resolve() if parsed.path.startswith("/") else (page.parent / parsed.path).resolve()
                   if not target.exists():
                       raise SystemExit(f"{page} references missing local asset: {ref}")
               print(f"Validated IDs, anchors and local assets in {page}.")
