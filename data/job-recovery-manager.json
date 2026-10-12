@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T13:00:15.765Z",
+  "checkedAt": "2026-10-12T13:00:25.640Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T04:08:40.596Z",
-      "workflow": "Browser smoke tests",
-      "workflowPath": ".github/workflows/browser-smoke.yml",
-      "runId": 38202535037,
-      "runAttempt": 1,
-      "conclusion": "success",
-      "event": "pull_request",
-      "branch": "fix/all-workflow-stability",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38202535037",
-      "action": "no_recovery_needed",
-      "reason": "No failed, cancelled, or skipped jobs require this manager.",
-      "jobCounts": {
-        "total": 1,
-        "success": 1,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T04:12:11.587Z",
       "workflow": "Admin data editor tests",
@@ -13384,6 +13363,36 @@
         "skipped": 0
       },
       "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T13:00:25.640Z",
+      "workflow": "Format source code",
+      "workflowPath": ".github/workflows/format-code.yml",
+      "runId": 38252616296,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252616296",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 1,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "format",
+          "conclusion": "cancelled",
+          "startedAt": "2026-10-12T12:59:58Z",
+          "completedAt": "2026-10-12T13:00:17Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252616296/job/114822515723",
+          "steps": []
+        }
+      ]
     }
   ]
 }
