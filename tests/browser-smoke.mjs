@@ -226,33 +226,28 @@ check("News Details opens article and returns safely on desktop and mobile", asy
     await page.route("**/News/newsjson.json*", (route) => route.fulfill({
       status: 200,
       contentType: "application/json",
-      body: JSON.stringify([
-        { title: "Browser test Tilak story", description: "News summary for interaction test.", url: "https://example.com/tilak-story", publishedAt: "2026-10-12T08:00:00Z", source: "Test source" }
-      ]),
+      body: JSON.stringify({ news: [{
+        id: "browser-test-tilak-story",
+        title: "Browser test Tilak story",
+        description: "News summary for interaction test.",
+        webviewUrl: "https://example.com/tilak-story",
+        publishedAt: "2026-10-12T08:00:00Z",
+        sourceName: "Test source",
+        contentBlocks: [{ type: "paragraph", text: "Article body for the browser test." }]
+      }] }),
     }));
-    await page.route("**/News/newsjson.json", (route) => route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify([
-        { title: "Browser test Tilak story", description: "News summary for interaction test.", url: "https://example.com/tilak-story", publishedAt: "2026-10-12T08:00:00Z", source: "Test source" }
-      ]),
-    }));
-    await page.goto(baseURL + "/News-details/index.html?url=" + encodeURIComponent("https://example.com/tilak-story"), { waitUntil: "domcontentloaded" });
-    await page.waitForFunction(() => document.readyState === "interactive" || document.readyState === "complete");
-    const back = page.locator('a[href="/#news"], a[href="../#news"], a[href*="#news"], [data-news-back], .news-back').first();
-    if (await back.count()) {
-      await back.click();
-      await page.waitForTimeout(150);
-      assert(/#news/.test(new URL(page.url()).hash) || /#news/.test(await back.getAttribute("href") || ""),
-        "News Details back link should target the News section");
-    } else {
-      const hasBackControl = await page.locator("a,button").evaluateAll((nodes) => nodes.some((node) => /back|news/i.test(node.textContent || "") || /back|news/i.test(node.getAttribute("aria-label") || "")));
-      assert(hasBackControl, "News Details should expose an accessible back/news navigation control");
-    }
+    await page.goto(baseURL + "/News-details/index.html?id=browser-test-tilak-story", { waitUntil: "domcontentloaded" });
+    await page.locator("#news-article").waitFor({ state: "visible" });
+    assert.equal(await page.locator("#detail-title").innerText(), "Browser test Tilak story");
+    assert.match(await page.locator("#detail-excerpt").innerText(), /Article body for the browser test/);
+    const back = page.locator(".mobile-back");
+    await back.waitFor({ state: "visible" });
+    await back.click();
+    await page.waitForURL(/#news$/);
+    assert.match(new URL(page.url()).hash, /#news$/, "Back link should return to the News section");
     await page.close();
   }
 });
-
 check("Admin Studio warns before discarding unsaved edits", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
