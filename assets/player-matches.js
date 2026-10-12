@@ -176,7 +176,6 @@
     if (table)
       table.innerHTML = listed.length
         ? listed
-            .slice(0, 100)
             .map((r) => {
               const fmt = r.format || "T20I",
                 key = [fmt, r.date || "", r.opposition || "", r.ground || r.venue || ""]
