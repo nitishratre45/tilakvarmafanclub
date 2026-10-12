@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T09:22:19.194Z",
+  "checkedAt": "2026-10-12T09:22:38.492Z",
   "retentionHours": 15,
   "events": [
     {
@@ -11936,6 +11936,27 @@
           ]
         }
       ]
+    },
+    {
+      "checkedAt": "2026-10-12T09:22:38.492Z",
+      "workflow": "Validate Tilak Varma FC site",
+      "workflowPath": ".github/workflows/site-check.yml",
+      "runId": 38229454992,
+      "runAttempt": 1,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38229454992",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 0,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
     }
   ]
 }
