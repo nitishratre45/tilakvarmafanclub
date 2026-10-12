@@ -1,38 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T11:42:44.134Z",
+  "checkedAt": "2026-10-12T11:42:53.341Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-11T22:23:17.656Z",
-      "workflow": "Auto-rerun failed GitHub Actions jobs",
-      "workflowPath": ".github/workflows/auto-rerun-failed.yml",
-      "runId": 38180204192,
-      "runAttempt": 1,
-      "conclusion": "skipped",
-      "event": "workflow_run",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38180204192",
-      "action": "skipped_diagnosed",
-      "reason": "Skipped jobs are not automatically rerun: inspect their if/needs conditions and dependency outcomes.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 1
-      },
-      "jobs": [
-        {
-          "name": "Retry failed jobs once",
-          "conclusion": "skipped",
-          "startedAt": "2026-10-11T22:23:04Z",
-          "completedAt": "2026-10-11T22:23:03Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38180204192/job/114590949527",
-          "steps": []
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-11T22:24:02.111Z",
       "workflow": "Self-healing code guard",
@@ -13813,6 +13783,27 @@
           "steps": []
         }
       ]
+    },
+    {
+      "checkedAt": "2026-10-12T11:42:53.341Z",
+      "workflow": "Validate Admin Studio and Site Data",
+      "workflowPath": ".github/workflows/validate-admin-studio.yml",
+      "runId": 38244386296,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38244386296",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
     }
   ]
 }
