@@ -157,3 +157,52 @@
 
 /* Source-grounded editorial summary card */
 .news-desk-card{margin:0 0 28px;padding:22px 24px;background:linear-gradient(135deg,#f0f6ff,#fff8f3);border:1px solid #dbe6f7;border-left:4px solid #ff6a35;border-radius:10px}.news-desk-label{display:block;margin-bottom:10px;color:#0b3a91;font:800 10px "DM Mono",monospace;letter-spacing:.13em}.news-desk-summary{margin:0 0 12px!important;font-size:17px;font-weight:700;line-height:1.7;color:#102c60}.news-desk-points{margin:0;padding-left:20px;color:#304568;font-size:13px;line-height:1.75}.news-desk-points li{padding:3px 0}.news-desk-card small{display:block;margin-top:12px;color:#75829a;font-size:10px;line-height:1.6}@media(max-width:600px){.news-desk-card{padding:17px;margin-bottom:22px}.news-desk-summary{font-size:15px}}
+
+
+/* News detail navigation refresh: larger touch targets and consistent site-wide navigation. */
+.topbar{
+  min-height:88px;height:auto;padding:14px clamp(18px,4.5vw,76px);
+  background:#041a3c;border-bottom:1px solid #153a69;color:#fff;
+}
+.brand{gap:14px;color:#fff;font-size:clamp(15px,1.7vw,22px);letter-spacing:.045em}
+.brand-mark{width:54px;height:54px;border-radius:14px;background:linear-gradient(145deg,#0a2b61,#061332);border:1px solid #1b69b7;box-shadow:0 0 0 1px #ff6a3538;color:#fff;font-size:30px}
+.brand small{font:11px Manrope,Arial,sans-serif;letter-spacing:.16em;color:#a9c4e8;margin-top:5px}
+.header-tools{display:flex;align-items:center;gap:18px}
+.search-link,.menu-toggle{width:58px;height:58px;display:flex;align-items:center;justify-content:center;border:1px solid #194577;border-radius:15px;color:#fff;background:#071f45;font-size:37px;line-height:1}
+.search-link:hover,.menu-toggle:hover{border-color:#2da7ff;background:#0b2b59}
+.menu-toggle{cursor:pointer;flex-direction:column;gap:6px}
+.menu-toggle span{display:block;width:26px;height:3px;border-radius:4px;background:#fff;transition:transform .18s,opacity .18s}
+.menu-toggle[aria-expanded="true"] span:first-child{transform:translateY(9px) rotate(45deg)}
+.menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.menu-toggle[aria-expanded="true"] span:last-child{transform:translateY(-9px) rotate(-45deg)}
+.site-navigation{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));align-items:stretch;background:#04172f;border-bottom:1px solid #12345d;padding:0 clamp(10px,3vw,52px)}
+.site-navigation a{position:relative;min-height:78px;display:flex;align-items:center;justify-content:center;gap:9px;flex-direction:column;padding:12px 8px;color:#aebfdb;font-size:25px;font-weight:800;transition:color .2s,background .2s}
+.site-navigation a span{font-size:13px;letter-spacing:.015em}
+.site-navigation a:hover,.site-navigation a.active{color:#39adff;background:linear-gradient(180deg,#0c2a5010,#1e91ed12)}
+.site-navigation a.active:after{content:"";position:absolute;bottom:0;left:18%;right:18%;height:4px;border-radius:4px 4px 0 0;background:#28a9ff}
+.article-hero{padding-top:42px}
+.page-layout{margin-top:-24px}
+.mobile-back{display:inline-flex;align-items:center;justify-content:center;gap:15px;min-height:62px;margin:0 0 24px;padding:14px 26px;border:2px solid #168fe8;border-radius:999px;background:linear-gradient(120deg,#0a2c57,#071a39);color:#fff;font-size:clamp(15px,1.35vw,19px);font-weight:900;box-shadow:0 8px 22px #06174718;transition:transform .18s,background .18s,border-color .18s}
+.mobile-back:hover{transform:translateY(-2px);background:#0c3970;border-color:#57c4ff}
+.back-arrow{display:grid;place-items:center;font-size:32px;line-height:1;width:28px}
+@media(min-width:601px){.mobile-back{display:inline-flex}}
+@media(max-width:700px){
+  .topbar{min-height:76px;padding:10px 14px}
+  .brand{font-size:15px;gap:10px}
+  .brand-mark{width:46px;height:46px;font-size:26px}
+  .brand small{font-size:9px}
+  .header-tools{gap:10px}
+  .search-link,.menu-toggle{width:46px;height:46px;border-radius:12px}
+  .search-link{font-size:31px}
+  .menu-toggle span{width:23px}
+  .site-navigation{display:none;grid-template-columns:repeat(3,minmax(0,1fr));padding:8px 10px 10px;gap:4px}
+  .site-navigation.is-open{display:grid}
+  .site-navigation a{min-height:66px;border-radius:9px;font-size:22px}
+  .site-navigation a span{font-size:12px}
+  .site-navigation a.active:after{left:25%;right:25%;height:3px}
+  .article-hero{padding:30px 17px 53px}
+  .page-layout{margin-top:-17px}
+  .mobile-back{display:inline-flex;width:auto;min-height:58px;max-width:100%;gap:12px;margin-bottom:17px;padding:12px 20px;font-size:15px}
+  .back-arrow{font-size:29px}
+}
+@media(min-width:701px){.site-navigation{display:grid!important}}
