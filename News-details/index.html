@@ -3,31 +3,57 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#07101f">
+  <meta name="theme-color" content="#061b59">
+  <meta name="description" content="Tilak Varma news, updates and BCCI announcements from The 72 Club.">
   <title>Tilak Varma News | The 72 Club</title>
-  <link rel="stylesheet" href="news-details.css">
+  <link rel="stylesheet" href="news-details.css?v=2">
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="../index.html#news"><span class="brand-mark">72</span><span>TILAK VARMA <small>FAN CLUB</small></span></a>
-    <a class="back-link" href="../index.html#news">← All News</a>
+    <a class="brand" href="../index.html#news" aria-label="The 72 Club home"><span class="brand-mark">72</span><span>THE 72 CLUB<small>TILAK VARMA FAN CLUB</small></span></a>
+    <nav class="top-actions" aria-label="Page navigation">
+      <a href="../index.html#news">All News</a>
+      <a class="top-cta" href="../index.html#news">Explore stories ↗</a>
+    </nav>
   </header>
-  <main class="detail-wrap">
-    <a class="back-link mobile-back" href="../index.html#news">← Back to News</a>
-    <p class="eyebrow">THE 72 CLUB · NEWS DESK</p>
-    <div id="detail-status" class="status">Loading article…</div>
-    <article id="news-article" hidden>
-      <div class="hero-image-wrap"><img id="detail-image" alt="" hidden></div>
-      <p class="meta" id="detail-date"></p>
-      <h1 id="detail-title"></h1>
-      <div id="detail-excerpt" class="excerpt"></div>
-      <div class="article-actions">
-        <a id="original-link" class="button" target="_blank" rel="noopener noreferrer">Read on BCCI ↗</a>
-        <a class="button secondary" href="../index.html#news">More Tilak News</a>
-      </div>
-      <p class="source-note">Article source: BCCI. This fan page highlights stories mentioning Tilak Varma and does not claim ownership of the original article.</p>
-    </article>
+
+  <div class="article-hero">
+    <div class="hero-pattern" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <a class="category" href="../index.html#news"><span></span> PRESS RELEASES · TILAK WATCH</a>
+      <h1 id="detail-title">Loading article…</h1>
+      <div class="hero-meta"><button id="share-article" type="button" class="share-button">↗ Share</button><span id="detail-relative-date">BCCI · News</span><span class="hero-meta-divider">THE 72 CLUB</span></div>
+    </div>
+  </div>
+
+  <main class="page-layout">
+    <div class="article-column">
+      <a class="mobile-back" href="../index.html#news">← Back to all news</a>
+      <div id="detail-status" class="status">Loading article details…</div>
+      <article id="news-article" hidden>
+        <figure class="hero-image-wrap" id="hero-image-wrap">
+          <img id="detail-image" alt="" hidden>
+          <div class="image-fallback" id="image-fallback"><span>72</span><small>THE 72 CLUB · NEWS DESK</small></div>
+        </figure>
+        <div class="article-paper">
+          <div class="article-kicker">BCCI NEWS DESK <span class="kicker-dot">•</span> <span id="detail-date"></span></div>
+          <div class="article-body" id="detail-excerpt"></div>
+          <div class="article-actions">
+            <a id="original-link" class="button" target="_blank" rel="noopener noreferrer">Read original on BCCI ↗</a>
+            <a class="button secondary" href="../index.html#news">More Tilak News</a>
+          </div>
+          <p class="source-note">Source: BCCI. This fan page highlights news mentioning Tilak Varma and does not claim ownership of the original article. For the official article and full context, visit BCCI.</p>
+        </div>
+      </article>
+    </div>
+    <aside class="related-panel" aria-labelledby="related-title">
+      <div class="related-heading"><div><span class="related-eyebrow">KEEP READING</span><h2 id="related-title">Related Stories</h2></div><span class="related-count" id="related-count">NEWS</span></div>
+      <div id="related-stories" class="related-list"><p class="related-loading">Finding more stories…</p></div>
+      <a class="all-stories-link" href="../index.html#news">View all Tilak news <span>↗</span></a>
+    </aside>
   </main>
-  <script src="news-details.js"></script>
+
+  <footer class="site-footer"><a href="../index.html#news"><span class="footer-mark">72</span> THE 72 CLUB</a><span>Built for the fans. Focused on Tilak.</span><a href="../index.html#news">Back to News ↑</a></footer>
+  <script src="news-details.js?v=2"></script>
 </body>
 </html>
