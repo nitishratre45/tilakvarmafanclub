@@ -103,6 +103,8 @@ class ArticleParser(HTMLParser):
             self._jsonld_buffer = []
         elif tag in {"p", "div", "br", "li", "h1", "h2", "h3", "article", "section"}:
             self.parts.append("\n")
+            if self._article_depth:
+                self.article_parts.append("\n")
 
     def handle_endtag(self, tag):
         if tag in {"style", "svg", "noscript", "template"} and self._ignored_depth:
@@ -120,6 +122,13 @@ class ArticleParser(HTMLParser):
             self._jsonld_buffer = []
         elif tag in {"p", "div", "li", "h1", "h2", "h3", "article", "section"}:
             self.parts.append("\n")
+            if self._article_depth:
+                self.article_parts.append("\n")
+        if tag == "article" and self._article_depth:
+            self._article_depth -= 1
+            if self._article_depth == 0 and self.article_parts:
+                self.article_candidates.append(self.article_parts[:])
+                self.article_parts = []
 
     def handle_data(self, data):
         if self._ignored_depth:
@@ -243,7 +252,8 @@ def parse_page(raw: str) -> tuple[str, dict]:
     parser = ArticleParser()
     parser.feed(raw)
     metadata = dict(parser.meta)
-    metadata["text"] = html.unescape("\n".join(parser.parts))
+    selected_parts = max(parser.article_candidates, key=len, default=[])
+    metadata["text"] = html.unescape("\n".join(selected_parts or parser.parts))
     structured = []
     for blob in parser.jsonld:
         try:
