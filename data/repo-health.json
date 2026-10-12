@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T13:52:58+00:00",
+  "checkedAt": "2026-10-12T19:24:12+00:00",
   "intervalMinutes": 10,
   "status": "warning",
   "summary": {
-    "filesScanned": 116,
-    "checksPassed": 66,
+    "filesScanned": 128,
+    "checksPassed": 74,
     "issues": 0,
-    "warnings": 8
+    "warnings": 12
   },
   "items": [
     {
@@ -22,7 +22,27 @@
     },
     {
       "level": "warning",
-      "message": "106 repeated CSS selector(s); review cascade/overrides: .sidebar (13x), .topbar (13x), .main (12x), .stats (12x), .stat (11x), .section-head (11x), .sidebar .nav a (10x), body (9x)",
+      "message": "36 repeated CSS selector(s); review cascade/overrides: #career-formats .format-card (10x), #career-formats.career-formats (8x), .stats-grid:not(.career-formats) .stat-feature (7x), #career-formats .format-main-row (7x), #career-formats .format-fact (7x), #career-formats .format-fact strong (7x), .stats-grid (6x), #career-formats .format-batting-facts (5x)",
+      "file": "Stats/Batting/Style/batting.css"
+    },
+    {
+      "level": "warning",
+      "message": "4 repeated CSS selector(s); review cascade/overrides: .bowling-format-tabs button (4x), .bowling-format-tabs (3x), .bowling-innings-wrap (3x), .stats-section .bowling-stats-view .table-wrap th (2x)",
+      "file": "Stats/Bowling/Style/bowling.css"
+    },
+    {
+      "level": "warning",
+      "message": "71 repeated CSS selector(s); review cascade/overrides: .statsguru-category-grid (11x), .statsguru-category-grid button (10x), .statsguru-format-tabs button (8x), .statsguru-sourcebar (7x), #stats .statsguru-category-grid (7x), #stats #statsguru .statsguru-format-tabs button (7x), .statsguru-section (6x), #stats #statsguru .statsguru-format-tabs (6x)",
+      "file": "Stats/Explore/Style/explore.css"
+    },
+    {
+      "level": "warning",
+      "message": "10 repeated CSS selector(s); review cascade/overrides: .stats-subnav (6x), .stats-section (5x), .stats-subnav button (5x), .stats-subview.section (3x), .stats-subview[hidden] (2x), #stats .stats-subnav (2x), #stats .player-analysis-toggle (2x), #stats .player-analysis-toggle-icon (2x)",
+      "file": "Stats/Style/stats.css"
+    },
+    {
+      "level": "warning",
+      "message": "110 repeated CSS selector(s); review cascade/overrides: .sidebar (13x), .topbar (13x), .main (12x), .stats (12x), .stat (11x), .section-head (11x), .sidebar .nav a (10x), body (9x)",
       "file": "admin/admin-premium.css"
     },
     {
@@ -32,17 +52,17 @@
     },
     {
       "level": "warning",
-      "message": "309 repeated CSS selector(s); review cascade/overrides: #photos .cricinfo-gallery (13x), .topbar (12x), #profile .profile-photo-wrap (11x), #career-formats .format-card (10x), .section (9x), #profile.profile-section (9x), #photos #cricinfo-photo-grid .tv-album-grid (9x), #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid (9x)",
+      "message": "237 repeated CSS selector(s); review cascade/overrides: #photos .cricinfo-gallery (13x), .topbar (12x), #profile .profile-photo-wrap (11x), .section (9x), #profile.profile-section (9x), #photos #cricinfo-photo-grid .tv-album-grid (9x), #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid (9x), #profile .profile-copy h2 (8x)",
       "file": "assets/premium-ui.css"
     },
     {
       "level": "warning",
-      "message": "57 repeated CSS selector(s); review cascade/overrides: #profile .profile-data-grid (6x), #profile .profile-photo-wrap (5x), #profile .profile-copy h2 (5x), .section (4x), #profile .profile-intro (4x), #profile .profile-quick-actions .button (4x), #profile .profile-facts (4x), #profile .profile-teams-panel (4x)",
+      "message": "54 repeated CSS selector(s); review cascade/overrides: #profile .profile-data-grid (6x), #profile .profile-photo-wrap (5x), #profile .profile-copy h2 (5x), .section (4x), #profile .profile-intro (4x), #profile .profile-quick-actions .button (4x), #profile .profile-facts (4x), #profile .profile-teams-panel (4x)",
       "file": "assets/site-refinement.css"
     },
     {
       "level": "warning",
-      "message": "346 repeated CSS selector(s); review cascade/overrides: .profile-section (15x), .profile-photo-wrap (12x), .bcci-player-head-actions .bcci-player-settings-menu (11x), .profile-copy h2 (9x), .bcci-player-options (9x), .fan-zone-grid (8x), .statsguru-category-grid button (8x), .bcci-player-head-actions .bcci-quality-head-button (8x)",
+      "message": "307 repeated CSS selector(s); review cascade/overrides: .profile-section (15x), .profile-photo-wrap (12x), .bcci-player-head-actions .bcci-player-settings-menu (11x), .profile-copy h2 (9x), .bcci-player-options (9x), .fan-zone-grid (8x), .bcci-player-head-actions .bcci-quality-head-button (8x), .topbar (7x)",
       "file": "assets/style.css"
     },
     {
@@ -84,6 +104,46 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "News/raw-news-pages.json"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "Stats/Batting/Script/batting.js"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
+      "file": "Stats/Batting/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "Stats/Bowling/Script/bowling.js"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
+      "file": "Stats/Bowling/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "Stats/Explore/Script/explore.js"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
+      "file": "Stats/Explore/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "Stats/Script/stats.js"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
+      "file": "Stats/index.html"
     },
     {
       "level": "pass",
@@ -386,6 +446,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "f0ac9ab"
+    "branch": "d7e0dbf"
   }
 }
