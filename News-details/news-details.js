@@ -46,6 +46,20 @@
       copy.append(category,link,date);card.append(copy,makeThumb(item.imageUrl,item.title));list.appendChild(card);
     });
   };
+  const renderEditorial = (item) => {
+    const editorial = item && item.editorial && typeof item.editorial === "object" ? item.editorial : {};
+    const summary = String(editorial.summary || item.description || "").trim();
+    const points = Array.isArray(editorial.keyPoints) ? editorial.keyPoints.filter(x => typeof x === "string" && x.trim()).slice(0, 3) : [];
+    const card = document.getElementById("news-desk-card");
+    const summaryNode = document.getElementById("news-desk-summary");
+    const list = document.getElementById("news-desk-points");
+    summaryNode.textContent = summary;
+    list.replaceChildren();
+    points.forEach(value => { const li=document.createElement("li"); li.textContent=value; list.appendChild(li); });
+    card.hidden = !summary && !points.length;
+    summaryNode.hidden = !summary;
+    list.hidden = !points.length;
+  };
   const appendRichText = (host, value) => {
     const text = String(value || "");
     const parts = text.split(/(\*\*[^*]+\*\*|__[^_]+__)/g);
@@ -210,6 +224,7 @@
       document.getElementById("detail-title").textContent=item.title||"Tilak Varma News";
       document.getElementById("detail-date").textContent=formatDate(item.publishedAt)||"BCCI · Tilak Varma news";
       document.getElementById("detail-relative-date").textContent=relativeDate(item.publishedAt);
+      renderEditorial(item);
       renderBody(document.getElementById("detail-excerpt"),item);
       const image=document.getElementById("detail-image");const imageUrl=safeUrl(item.imageUrl);
       if(imageUrl){image.src=imageUrl;image.alt=item.title||"BCCI article image";image.hidden=false;document.getElementById("image-fallback").hidden=true;image.onerror=()=>{image.hidden=true;document.getElementById("image-fallback").hidden=false;};}
