@@ -117,7 +117,7 @@ def main():
         "invalidJsonFiles": invalid,
         "totalJsonBytes": bytes_total,
         "raw": {
-            "candidateRecords": raw.get("candidateCount", 0),
+            "candidateRecords": raw.get("candidateCount", len(articles)),
             "articleUrls": raw.get("articleUrlCount", len(articles)),
             "articlePagesFetched": raw.get(
                 "articlePagesFetched",
