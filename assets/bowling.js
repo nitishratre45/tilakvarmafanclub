@@ -6,6 +6,7 @@
       /[&<>"']/g,
       (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
     );
+  const formatIndiaTimestamp = (value) => { if (!value) return "timestamp unavailable"; const date = new Date(value); return Number.isNaN(date.getTime()) ? String(value) : new Intl.DateTimeFormat("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true }).format(date) + " IST"; };
   const fmt = (v) =>
     v === null || v === undefined || v === ""
       ? "—"
@@ -85,7 +86,7 @@
     if ($("home-bowling-updated"))
       $("home-bowling-updated").textContent =
         "ESPNcricinfo Statsguru · Last update: " +
-        (allData.bowlingStats?.updatedAt || "timestamp unavailable");
+        formatIndiaTimestamp(allData.bowlingStats?.updatedAt);
   }
   function renderBreakdown() {
     const host = $("bowling-breakdown");
@@ -179,7 +180,7 @@
       : '<p class="activity-empty">No verified bowling summary has been published yet. The daily ESPNcricinfo check will populate this section when the source is available.</p>';
     if ($("bowling-updated"))
       $("bowling-updated").textContent =
-        "Last update: " + (allData.bowlingStats?.updatedAt || "Waiting for verified data");
+        "Last update: " + (allData.bowlingStats?.updatedAt ? formatIndiaTimestamp(allData.bowlingStats.updatedAt) : "Waiting for verified data");
     document.querySelectorAll("[data-bowling-format]").forEach((b) => {
       const active = b.dataset.bowlingFormat === selected;
       b.classList.toggle("active", active);
