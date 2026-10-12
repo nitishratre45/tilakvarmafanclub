@@ -420,7 +420,7 @@
             if (!aTime && !bTime) return 0;
             if (!aTime) return 1;
             if (!bTime) return -1;
-            return aTime - bTime;
+            return bTime - aTime;
           });
           return { name, photos, cover: photos[0] || null, customDate: albumDates[name] || "" };
         })
