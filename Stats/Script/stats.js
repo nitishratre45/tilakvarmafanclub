@@ -33,8 +33,11 @@
       window.dispatchEvent(new CustomEvent("tilak:stats-mounted"));
     } catch (error) {
       console.error("[Stats module]", error);
-      moduleMount.innerHTML =
-        '<section class="section stats-section"><div class="section-heading"><div><div class="eyebrow">STATS CENTRE</div><h2>Stats temporarily unavailable</h2></div></div><p role="status">The Stats files could not be loaded. Refresh the page or check the deployment paths.</p><button type="button" class="button" onclick="location.reload()">Retry</button></section>';
+      const activeStats = document.getElementById("stats") || document.getElementById("stats-module-mount");
+      if (activeStats) {
+        activeStats.outerHTML =
+          '<section id="stats" class="section stats-section"><div class="section-heading"><div><div class="eyebrow">STATS CENTRE</div><h2>Stats temporarily unavailable</h2></div></div><p role="status">The Stats files could not be loaded. Refresh the page or check the deployment paths.</p><button type="button" class="button" onclick="location.reload()">Retry</button></section>';
+      }
       await loadSiteScripts();
     }
   }
