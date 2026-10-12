@@ -281,7 +281,7 @@ def main() -> None:
         "news": matches,
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+    OUTPUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Saved {len(matches)} Tilak Varma article(s) to {OUTPUT.relative_to(ROOT)}")
 
 
