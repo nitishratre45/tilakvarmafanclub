@@ -155,6 +155,21 @@ function compactErrors(value) {
   if (typeof value === "string" && value) return [value];
   return [];
 }
+// FC and List A Statsguru failures are intentionally excluded from the
+// admin attention count. Keep the saved summaries untouched and continue
+// surfacing every other source warning/error.
+function relevantSourceIssues(...groups) {
+  return groups
+    .flatMap((value) => compactErrors(value))
+    .filter((message) => !/^(?:FC|List A)\\s*:/i.test(message.trim()));
+}
+function normalizedAttemptStatus(status, rawIssues, visibleIssues) {
+  // Statsguru reports a partial run solely because optional FC/List A calls
+  // fail. If every issue belongs to those excluded formats, don't mark the
+  // shared T20I/ODI/T20 data as partial.
+  if (status === "partial" && rawIssues.length > 0 && visibleIssues.length === 0) return null;
+  return status;
+}
 function getInfo(def, data) {
   if (def.id === "t20i-batting" || def.id === "other-batting") {
     const sg = data.statsguru || {};
@@ -199,11 +214,13 @@ function getInfo(def, data) {
     const timestamps = Object.values(fmt)
       .map((entry) => entry.updatedAt)
       .filter(Boolean);
+    const rawIssues = [...compactErrors(sg.lastAttemptErrors), ...compactErrors(sg.lastAttemptWarnings)];
+    const errors = relevantSourceIssues(rawIssues);
     return {
       updatedAt: timestamps.length ? latestTimestamp(...timestamps) : null,
       attemptAt: sg.lastAttemptAt,
-      attemptStatus: sg.lastAttemptStatus,
-      errors: [...compactErrors(sg.lastAttemptErrors), ...compactErrors(sg.lastAttemptWarnings)],
+      attemptStatus: normalizedAttemptStatus(sg.lastAttemptStatus, rawIssues, errors),
+      errors,
       count: Object.values(fmt).filter((x) => x.available).length,
       total: names.length,
       summary: fmt,
@@ -227,14 +244,13 @@ function getInfo(def, data) {
         },
       ]),
     );
+    const rawIssues = [...compactErrors(section.lastAttemptErrors), ...compactErrors(section.lastAttemptWarnings)];
+    const errors = relevantSourceIssues(rawIssues);
     return {
       updatedAt: section.updatedAt,
       attemptAt: section.lastAttemptAt,
-      attemptStatus: section.lastAttemptStatus,
-      errors: [
-        ...compactErrors(section.lastAttemptErrors),
-        ...compactErrors(section.lastAttemptWarnings),
-      ],
+      attemptStatus: normalizedAttemptStatus(section.lastAttemptStatus, rawIssues, errors),
+      errors,
       count: Object.values(summary).filter((x) => x.available).length,
       total: Object.keys(summary).length,
       summary,
@@ -274,10 +290,7 @@ function getInfo(def, data) {
       updatedAt: latestTimestamp(section.updatedAt, data.iccRecordsUpdated),
       attemptAt: data.iccRecordsCheckedAt || section.lastAttemptAt,
       attemptStatus: section.lastAttemptStatus,
-      errors: [
-        ...compactErrors(section.lastAttemptErrors),
-        ...compactErrors(section.lastAttemptWarnings),
-      ],
+      errors: [...compactErrors(section.lastAttemptErrors), ...compactErrors(section.lastAttemptWarnings)],
       count:
         Object.keys(section).length + (data.iccRecords ? Object.keys(data.iccRecords).length : 0),
       summary: { rankings: section, recordsUpdated: data.iccRecordsUpdated || null },
