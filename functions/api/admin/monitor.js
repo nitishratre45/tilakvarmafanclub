@@ -26,7 +26,10 @@ async function github(env, path, options = {}) {
   }
   if (!response.ok) {
     const detail = await response.text();
-    if (response.status === 429 || (response.status === 403 && response.headers.get("x-ratelimit-remaining") === "0")) {
+    if (
+      response.status === 429 ||
+      (response.status === 403 && response.headers.get("x-ratelimit-remaining") === "0")
+    ) {
       const retryAfter = response.headers.get("retry-after");
       throw new Error(
         "GitHub API rate limit reached." +

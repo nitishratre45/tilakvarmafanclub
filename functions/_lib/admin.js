@@ -20,7 +20,9 @@ export async function fetchWithTimeout(url, options = {}, timeoutMs = 12000) {
   } catch (error) {
     if (error?.name === "TimeoutError" || error?.name === "AbortError") {
       const seconds = Math.ceil(timeoutMs / 1000);
-      throw new Error("GitHub API request timed out after " + seconds + " seconds. Try again shortly.");
+      throw new Error(
+        "GitHub API request timed out after " + seconds + " seconds. Try again shortly.",
+      );
     }
     throw error;
   }
@@ -101,7 +103,11 @@ export async function saveRepoJson(env, path, data, expectedSha = null) {
     "user-agent": "TilakVarmaFanClub-Admin",
   };
   let sha;
-  const current = await fetchWithTimeout(api + "?ref=" + encodeURIComponent(branch), { headers }, 15000);
+  const current = await fetchWithTimeout(
+    api + "?ref=" + encodeURIComponent(branch),
+    { headers },
+    15000,
+  );
   if (current.ok) {
     sha = (await current.json()).sha;
     if (expectedSha && sha !== expectedSha) {
@@ -122,16 +128,20 @@ export async function saveRepoJson(env, path, data, expectedSha = null) {
   }
   const text = JSON.stringify(data, null, 2) + "\n";
   const encoded = btoa(unescape(encodeURIComponent(text)));
-  const response = await fetchWithTimeout(api, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify({
-      message: "chore: update site content from admin studio",
-      content: encoded,
-      ...(sha ? { sha } : {}),
-      branch,
-    }),
-  }, 25000);
+  const response = await fetchWithTimeout(
+    api,
+    {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({
+        message: "chore: update site content from admin studio",
+        content: encoded,
+        ...(sha ? { sha } : {}),
+        branch,
+      }),
+    },
+    25000,
+  );
   if (!response.ok) {
     const detail = await response.text();
     throw new Error("GitHub save failed (" + response.status + "): " + detail.slice(0, 240));
