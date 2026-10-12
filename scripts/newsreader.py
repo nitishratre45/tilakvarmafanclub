@@ -24,8 +24,8 @@ HEADERS = {
 NAME_PATTERN = re.compile(r"\btilak\s+varma\b", re.IGNORECASE)
 URL_KEYS = {"webviewurl", "webview_url", "webview", "url", "articleurl", "canonicalurl"}
 TITLE_KEYS = {"title", "headline", "name", "newstitle", "metatitle"}
-IMAGE_KEYS = {"image", "imageurl", "image_url", "thumbnail", "thumbnailurl", "thumbnail_url", "banner", "coverimage", "featuredimage", "ogimage"}
-DATE_KEYS = {"date", "publishdate", "publishedat", "createdat", "publishedon", "datepublished", "datemodified", "updatedat", "releasedate"}
+IMAGE_KEYS = {"image", "imageurl", "image_url", "thumbnail", "thumbnailurl", "thumbnail_url", "banner", "coverimage", "featuredimage", "featuredimageurl", "ogimage"}
+DATE_KEYS = {"date", "publishdate", "publisheddate", "publishedat", "createdat", "publishedon", "datepublished", "datemodified", "updatedat", "releasedate"}
 
 
 class ArticleParser(HTMLParser):
@@ -134,48 +134,46 @@ def first_value(record: dict, wanted: set[str]):
 
 
 def collect_articles(document: dict) -> list[dict]:
+    """Read direct article records from BCCI API pages; ignore nested image/link objects."""
     articles, seen = [], set()
     for page in document.get("pages", []):
-        page_source = page.get("sourceName") or "BCCI News API"
         for record in walk_records(page.get("payload", {})):
-            url = first_value(record, URL_KEYS)
-            if not url:
+            url = record.get("webviewUrl") or record.get("webview_url")
+            title = record.get("title") or record.get("headline")
+            if not isinstance(url, str) or not isinstance(title, str) or not title.strip():
                 continue
             if url.startswith("/"):
                 url = urljoin("https://www.bcci.tv", url)
             parsed = urlparse(url)
-            if parsed.scheme != "https" or not parsed.netloc:
-                continue
             host = parsed.netloc.lower().split(":")[0]
-            # This archive is intentionally restricted to URLs returned by the supplied BCCI API.
-            if host != "bcci.tv" and not host.endswith(".bcci.tv"):
+            if parsed.scheme != "https" or (host != "bcci.tv" and not host.endswith(".bcci.tv")):
                 continue
-            canonical = url.split("#", 1)[0]
+            if "/news/article/" not in parsed.path and "/webview/news/article/" not in parsed.path:
+                continue
+            slug = str(record.get("slug") or parsed.path.rstrip("/").split("/")[-1])
+            article_url = url.replace("/webview/news/article/", "/news/article/")
+            canonical = article_url.split("#", 1)[0]
             if canonical in seen:
                 continue
             seen.add(canonical)
             image = first_value(record, IMAGE_KEYS) or ""
             if isinstance(image, str) and image.startswith("/"):
                 image = urljoin("https://www.bcci.tv", image)
-            # Google News feed thumbnails are often its generic logo, not the article photo.
-            if image and any(host in image.lower() for host in ("news.google.com", "google.com", "googleusercontent.com")):
+            if isinstance(image, str) and image.startswith("https://") and not urlparse(image).netloc.lower().endswith("bcci.tv"):
                 image = ""
-            title = first_value(record, TITLE_KEYS) or ""
-            if not title:
-                continue
+            published = first_value(record, DATE_KEYS) or ""
             articles.append({
-                "id": re.sub(r"[^a-z0-9]+", "-", parsed.path.lower()).strip("-") or canonical,
+                "id": re.sub(r"[^a-z0-9]+", "-", slug.lower()).strip("-") or canonical,
                 "webviewUrl": canonical,
-                "title": title[:300],
+                "title": title.strip()[:300],
                 "imageUrl": image[:1500] if image else "",
-                "publishedAt": first_value(record, DATE_KEYS) or "",
+                "publishedAt": published,
                 "sourceName": "BCCI",
                 "apiRecord": record,
             })
             if len(articles) >= 250:
                 return articles
     return articles
-
 
 def parse_page(raw: str) -> tuple[str, dict]:
     parser = ArticleParser()
@@ -329,9 +327,8 @@ def main() -> None:
                 image = ""
             published = article["publishedAt"] or metadata_fallback(metadata, ("article:published_time", "datepublished", "datePublished", "publishdate", "publishedat", "date", "dc.date"))
             image = urljoin(url, image) if image and image.startswith("/") else image
-            canonical = metadata.get("canonical") or url
-            if canonical.startswith("/"):
-                canonical = urljoin(url, canonical)
+            # Keep the BCCI API article URL; generic page canonical tags can collapse unrelated stories.
+            canonical = url
             article.update({
                 "sourceName": "BCCI",
                 "id": article.get("id") or re.sub(r"[^a-z0-9]+", "-", urlparse(canonical).path.lower()).strip("-"),
@@ -355,13 +352,15 @@ def main() -> None:
                 clean_lines.append(line[:500])
             matched_lines = [line for line in clean_lines if NAME_PATTERN.search(line)]
             title_match = bool(NAME_PATTERN.search(article["title"]))
-            record_match = bool(NAME_PATTERN.search(json.dumps(article.get("apiRecord", {}), ensure_ascii=False)))
-            if matched_lines or title_match or record_match:
+            record = article.get("apiRecord", {})
+            api_text_fields = " ".join(str(record.get(key) or "") for key in ("description", "summary", "excerpt", "featuredImageAlt", "imageAlt", "seoDescription"))
+            api_match = bool(NAME_PATTERN.search(api_text_fields))
+            if matched_lines or title_match or api_match:
                 article["matchedLines"] = matched_lines[:12]
                 if clean_lines:
                     article["articleText"] = clean_lines[:12]
                 article["matchFoundIn"] = [
-                    name for name, found in (("article", bool(matched_lines)), ("title", title_match), ("apiRecord", record_match))
+                    name for name, found in (("article", bool(matched_lines)), ("title", title_match), ("apiRecord", api_match))
                     if found
                 ]
                 article.pop("apiRecord", None)
