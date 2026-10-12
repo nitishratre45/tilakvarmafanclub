@@ -1,11 +1,11 @@
 {
   "manager": "Tilak News Pipeline Manager",
-  "generatedAt": "2026-10-12T09:16:29.712293+00:00",
-  "status": "healthy",
+  "generatedAt": "2026-10-12T09:23:39.543719+00:00",
+  "status": "error",
   "jsonFilesScanned": 15,
   "validJsonFiles": 15,
   "invalidJsonFiles": [],
-  "totalJsonBytes": 6154340,
+  "totalJsonBytes": 6061814,
   "raw": {
     "candidateRecords": 0,
     "articleUrls": 112,
@@ -14,12 +14,140 @@
     "records": 112
   },
   "news": {
-    "records": 24,
-    "declaredCount": 24,
+    "records": 0,
+    "declaredCount": 0,
     "countConsistent": true,
     "findings": [],
     "errors": 0,
     "warnings": 0
+  },
+  "contentVerification": {
+    "checkedAt": "2026-10-12T09:23:39.442909+00:00",
+    "liveUrlsMatched": 0,
+    "unverifiedRecordsExcluded": 0,
+    "findings": [
+      {
+        "severity": "error",
+        "record": 0,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 1,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 2,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 3,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 4,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 5,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 6,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 7,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 8,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 9,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 10,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 11,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 12,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 13,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 14,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 15,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 16,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 17,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 18,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 19,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 20,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 21,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 22,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      },
+      {
+        "severity": "error",
+        "record": 23,
+        "issue": "live page redirect/canonical is not a BCCI article URL"
+      }
+    ],
+    "format": "paragraphs, headings, and detected HTML tables"
   },
   "workflow": {
     "steps": [
@@ -76,7 +204,7 @@
     },
     {
       "path": "data/job-recovery-manager.json",
-      "bytes": 371975,
+      "bytes": 403134,
       "valid": true
     },
     {
@@ -96,17 +224,17 @@
     },
     {
       "path": "News/newsjson.json",
-      "bytes": 133848,
+      "bytes": 3959,
       "valid": true
     },
     {
       "path": "News/raw-news-pages.json",
-      "bytes": 884752,
+      "bytes": 887326,
       "valid": true
     },
     {
       "path": "News/news-pipeline-report.json",
-      "bytes": 2330,
+      "bytes": 5960,
       "valid": true
     }
   ]
