@@ -118,7 +118,49 @@
         $("home-data-updated").textContent =
           "Last update: " + (stamps[0]?.value || "time unavailable");
       }
-      const rows = Array.isArray(data.recentInnings) ? data.recentInnings.slice(0, 4) : [];
+      const parseMatchDate = (value) => {
+        const raw = String(value || "").trim();
+        const direct = Date.parse(raw);
+        if (Number.isFinite(direct)) return direct;
+        const match = raw.match(/^(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})$/);
+        if (!match) return 0;
+        const parsed = Date.parse(match[1] + " " + match[2] + " " + match[3] + " UTC");
+        return Number.isFinite(parsed) ? parsed : 0;
+      };
+      const normalizeOpponent = (value) =>
+        String(value || "")
+          .toLowerCase()
+          .replace(/^\s*v\s+/, "")
+          .replace(/^india\s+vs\s+/, "")
+          .replace(/[^a-z0-9]+/g, " ")
+          .trim();
+      const recentCandidates = [
+        ...(Array.isArray(data.playerMatches)
+          ? data.playerMatches.filter((row) => row.format === "T20I")
+          : []),
+        ...(Array.isArray(data.recentInnings) ? data.recentInnings : []),
+      ]
+        .filter((row) => row && row.date && row.opposition)
+        .sort((a, b) => parseMatchDate(b.date) - parseMatchDate(a.date));
+      const recentByMatch = new Map();
+      for (const row of recentCandidates) {
+        const timestamp = parseMatchDate(row.date);
+        const key = [timestamp ? Math.floor(timestamp / 86400000) : row.date, normalizeOpponent(row.opposition)].join("|");
+        const previous = recentByMatch.get(key);
+        if (!previous) {
+          recentByMatch.set(key, row);
+          continue;
+        }
+        const quality = (item) =>
+          (item.matchUrl ? 4 : 0) +
+          (Number.isFinite(Number(item.balls)) && Number(item.balls) > 0 ? 2 : 0) +
+          (item.result ? 1 : 0) +
+          (item.score && item.score !== "—" ? 1 : 0);
+        if (quality(row) > quality(previous)) recentByMatch.set(key, { ...previous, ...row });
+      }
+      const rows = [...recentByMatch.values()]
+        .sort((a, b) => parseMatchDate(b.date) - parseMatchDate(a.date))
+        .slice(0, 4);
       if (inningsHost)
         inningsHost.innerHTML = rows.length
           ? rows
