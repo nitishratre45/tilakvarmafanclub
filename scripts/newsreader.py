@@ -64,7 +64,7 @@ class PageText(HTMLParser):
             "section",
             "main",
         }:
-            self.text.append("\\n")
+            self.text.append("\n")
 
     def handle_endtag(self, tag):
         if tag in {"style", "svg", "noscript", "template"} and self.skip:
@@ -84,7 +84,7 @@ class PageText(HTMLParser):
         elif tag == "title":
             self.title = False
         elif tag in {"p", "div", "li", "h1", "h2", "h3", "article", "section", "main"}:
-            self.text.append("\\n")
+            self.text.append("\n")
 
     def handle_data(self, data):
         if self.skip:
@@ -172,8 +172,8 @@ def fetch_article(item):
         final = response.geturl()
     parser = PageText()
     parser.feed(raw.decode(charset, errors="replace"))
-    text = re.sub(r"[ \\t]+", " ", " ".join(parser.text))
-    text = re.sub(r"\\s+", " ", html.unescape(text)).strip()
+    text = re.sub(r"[ \t]+", " ", " ".join(parser.text))
+    text = re.sub(r"\s+", " ", html.unescape(text)).strip()
     # Keep the full extracted text (bounded to protect the static JSON deploy).
     text = text[:60000]
     meta = parser.meta
@@ -232,7 +232,7 @@ def main():
     doc["articleFetchErrors"] = errors
     doc["articles"] = results
     RAW.write_text(
-        json.dumps(doc, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8"
+        json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(
         f"Saved full page details for {len(results)} BCCI article URLs to {RAW.relative_to(ROOT)}",
