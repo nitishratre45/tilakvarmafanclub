@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T12:41:34.192Z",
+  "checkedAt": "2026-10-12T12:41:45.354Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T03:33:04.577Z",
-      "workflow": "Validate Tilak Varma FC site",
-      "workflowPath": ".github/workflows/site-check.yml",
-      "runId": 38200172055,
-      "runAttempt": 1,
-      "conclusion": "failure",
-      "event": "pull_request",
-      "branch": "fix/admin-json-parse-errors",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38200172055",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 0,
-        "success": 0,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T03:33:13.295Z",
       "workflow": "Admin data editor tests",
@@ -13434,6 +13413,27 @@
       "jobCounts": {
         "total": 1,
         "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T12:41:45.354Z",
+      "workflow": "Format source code",
+      "workflowPath": ".github/workflows/format-code.yml",
+      "runId": 38250592750,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38250592750",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 0,
+        "success": 0,
         "failure": 0,
         "cancelled": 0,
         "skipped": 0
