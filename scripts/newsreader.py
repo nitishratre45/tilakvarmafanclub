@@ -23,7 +23,7 @@ HEADERS = {
     "Referer": "https://www.bcci.tv/",
 }
 NAME_PATTERN = re.compile(r"\btilak\s+varma\b", re.IGNORECASE)
-URL_KEYS = {"webviewurl", "webview_url", "webview", "url", "articleurl", "canonicalurl"}
+URL_KEYS = {"weburl", "web_url", "webviewurl", "webview_url", "webview", "url", "articleurl", "canonicalurl"}
 TITLE_KEYS = {"title", "headline", "name", "newstitle", "metatitle"}
 IMAGE_KEYS = {
     "image",
@@ -194,7 +194,14 @@ def collect_articles(document: dict) -> list[dict]:
     articles, seen = [], set()
     for page in document.get("pages", []):
         for record in walk_records(page.get("payload", {})):
-            url = record.get("webviewUrl") or record.get("webview_url")
+            # Prefer the canonical article URL supplied by the BCCI API.
+            # Keep compatibility with payloads that expose only webviewUrl.
+            url = (
+                record.get("webUrl")
+                or record.get("web_url")
+                or record.get("webviewUrl")
+                or record.get("webview_url")
+            )
             title = record.get("title") or record.get("headline")
             if (
                 not isinstance(url, str)
@@ -216,8 +223,10 @@ def collect_articles(document: dict) -> list[dict]:
             ):
                 continue
             slug = str(record.get("slug") or parsed.path.rstrip("/").split("/")[-1])
-            article_url = url.replace("/webview/news/article/", "/news/article/")
-            canonical = article_url.split("#", 1)[0]
+            # Preserve API webUrl; rewrite the legacy webview route only as fallback.
+            if not (record.get("webUrl") or record.get("web_url")):
+                url = url.replace("/webview/news/article/", "/news/article/")
+            canonical = url.split("#", 1)[0]
             if canonical in seen:
                 continue
             seen.add(canonical)
