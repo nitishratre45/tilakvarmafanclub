@@ -25,6 +25,8 @@ class PageText(HTMLParser):
         self.text = []
         self.meta = {}
         self.title = False
+        elif tag == "tr":
+            self.text.append("\\n")
         self.script = 0
         self.skip = 0
         self.jsonld = False
@@ -44,6 +46,8 @@ class PageText(HTMLParser):
             self.jsonbuf = []
         elif tag == "title":
             self.title = True
+        elif tag in {"td", "th"}:
+            self.text.append(" | ")
         elif tag == "meta":
             k = (a.get("property") or a.get("name") or a.get("itemprop") or "").lower()
             if k and a.get("content"):
