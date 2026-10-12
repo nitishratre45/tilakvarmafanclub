@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prune enriched raw article copies already represented in News/newsjson.json.
+"""Prune enriched raw article copies not used by News/newsjson.json.
 
 Keep API page payloads intact: the next refresh needs them to rediscover and fetch
 article URLs. This only removes enriched raw article records whose URL is already
@@ -51,11 +51,11 @@ def main() -> None:
     raw["articles"] = kept
     raw["rawCleanup"] = {
         "ranAt": datetime.now(timezone.utc).isoformat(),
-        "policy": "remove enriched raw article copies already present in newsjson; preserve API payload pages",
+        "policy": "keep only enriched raw article copies used by newsjson; preserve API payload pages",
         "publishedRecordsChecked": len(published),
         "rawArticleRecordsBefore": len(articles),
         "rawArticleRecordsAfter": len(kept),
-        "rawArticleCopiesRemoved": removed,
+        "rawArticleRecordsNotUsedRemoved": removed,
         "apiPagesPreserved": len(raw.get("pages", [])),
         "publishedNewsFileModified": False,
     }
