@@ -123,6 +123,16 @@ def main() -> None:
         raise FileNotFoundError(f"Missing {SOURCE}; run scripts/news.py first")
     document = json.loads(SOURCE.read_text(encoding="utf-8"))
     candidates = collect_articles(document)
+    if not candidates:
+        raise RuntimeError("No article candidates found; keeping the previous filtered news snapshot")
+    previous_news = []
+    if OUTPUT.exists():
+        try:
+            previous_data = json.loads(OUTPUT.read_text(encoding="utf-8"))
+            if isinstance(previous_data.get("news"), list):
+                previous_news = previous_data["news"]
+        except (OSError, json.JSONDecodeError):
+            previous_news = []
     matches, errors = [], []
     for index, article in enumerate(candidates, start=1):
         url = article["webviewUrl"]
@@ -149,6 +159,23 @@ def main() -> None:
             print(f"WARNING: could not read {url}: {exc}")
         if index < len(candidates):
             time.sleep(0.2)
+
+    # If every candidate failed to load and no match could be confirmed, fail
+    # the workflow instead of replacing a previously good snapshot with empty data.
+    if candidates and len(errors) == len(candidates) and not matches:
+        raise RuntimeError(
+            f"All {len(candidates)} article pages failed to load; preserving previous filtered snapshot"
+        )
+
+    # Keep previously saved stories for URLs that failed this run, so transient
+    # BCCI errors do not make already verified articles disappear.
+    failed_urls = {entry.get("webviewUrl") for entry in errors}
+    current_urls = {entry.get("webviewUrl") for entry in matches}
+    preserved = [
+        item for item in previous_news
+        if item.get("webviewUrl") in failed_urls and item.get("webviewUrl") not in current_urls
+    ]
+    matches.extend(preserved)
 
     result = {
         "player": "Tilak Varma",
