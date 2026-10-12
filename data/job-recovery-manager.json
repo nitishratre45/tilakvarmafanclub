@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T19:00:52.174Z",
+  "checkedAt": "2026-10-12T19:02:30.606Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T06:59:12.017Z",
-      "workflow": "Self-healing code guard",
-      "workflowPath": ".github/workflows/self-healing.yml",
-      "runId": 38215226219,
-      "runAttempt": 1,
-      "conclusion": "cancelled",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38215226219",
-      "action": "manual_review_required",
-      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
-      "jobCounts": {
-        "total": 0,
-        "success": 0,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T06:59:20.072Z",
       "workflow": "Validate Tilak Varma FC site",
@@ -12925,6 +12904,27 @@
       "jobCounts": {
         "total": 1,
         "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T19:02:30.606Z",
+      "workflow": "Validate Tilak Varma FC site",
+      "workflowPath": ".github/workflows/site-check.yml",
+      "runId": 38294944528,
+      "runAttempt": 1,
+      "conclusion": "failure",
+      "event": "pull_request",
+      "branch": "refactor/stats-modularization",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38294944528",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 0,
+        "success": 0,
         "failure": 0,
         "cancelled": 0,
         "skipped": 0
