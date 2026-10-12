@@ -226,6 +226,11 @@ check("match history keeps different formats separate and collapses only overlap
   );
   assert.equal(rows.length, 3, "T20I/T20 overlap should collapse, but FC and List A rows must remain: " + JSON.stringify(rows));
   assert.deepEqual(rows.map(row => row.format).sort(), ["FC", "List A", "T20I"]);
+  // The match history lives in the #innings section. Open it before
+  // interacting with its format selector; Playwright cannot select an option
+  // in a hidden section even though the table has already rendered.
+  await page.locator('#main-nav a[href="#innings"]').click();
+  await page.locator("#player-match-format").waitFor({ state: "visible" });
   await page.locator("#player-match-format").selectOption("FC");
   assert.equal(await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).count(), 1,
     "FC filter should show its own match row");
