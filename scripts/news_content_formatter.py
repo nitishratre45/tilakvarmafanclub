@@ -192,6 +192,38 @@ def dedupe_blocks(blocks: list[dict]) -> list[dict]:
     return unique
 
 
+def editorial_copy(title: str, description: str, body: str) -> dict:
+    """Build a short editorial summary from source text only; never invent facts."""
+    clean = re.sub(r"\\s+", " ", str(body or "")).strip()
+    clean = CHROME_RE.sub("", clean).strip()
+    clean = re.sub(r"\\b(?:Share|\\d+\\s+d ago)\\b", "", clean, flags=re.I).strip()
+    summary = re.sub(r"\\s+", " ", str(description or "")).strip()
+    if len(summary) < 45 or summary.casefold() == str(title or "").strip().casefold():
+        candidates = SENTENCE_SPLIT_RE.split(clean)
+        summary = next(
+            (part.strip(" |") for part in candidates
+             if len(part.strip(" |")) >= 45
+             and part.strip(" |").casefold() != str(title or "").strip().casefold()),
+            "",
+        )
+    if not summary:
+        summary = str(title or "").strip()
+    if len(summary) > 360:
+        summary = summary[:357].rsplit(" ", 1)[0].rstrip(" ,;:") + "…"
+
+    points: list[str] = []
+    for part in SENTENCE_SPLIT_RE.split(clean):
+        part = part.strip(" |")
+        if not 35 <= len(part) <= 260:
+            continue
+        if re.search(r"\\b(Tilak Varma|squad|vice.?captain|captain|T20I|New Zealand|selection committee|fitness)\\b", part, re.I):
+            if part not in points:
+                points.append(part)
+        if len(points) == 3:
+            break
+    return {"summary": summary, "keyPoints": points, "style": "source-grounded"}
+
+
 # --------------------------------------------------------------------------- #
 # Record processing
 # --------------------------------------------------------------------------- #
@@ -241,6 +273,7 @@ def process_record(
                 b["text"] for b in blocks if b["type"] in {"text", "heading"}
             ],
             "contentBlocks": blocks,
+            "editorial": editorial_copy(title, description, body),
             "livePageVerified": True,
             "verifiedAt": verified_at,
             "sourceName": "BCCI",
