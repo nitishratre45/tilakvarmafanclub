@@ -50,9 +50,7 @@ def blocks_for(article: dict) -> list[dict]:
     # BCCI HTML extraction flattens table rows to pipe-separated text. Parse a
     # table only when a recognizable header exists; never treat the whole page
     # as a table simply because it contains pipe characters.
-    tokens = [
-        token.strip() for token in re.split(r"\s*\|\s*", text) if token.strip()
-    ]
+    tokens = [token.strip() for token in re.split(r"\s*\|\s*", text) if token.strip()]
     header_sets = [
         (["no.", "day", "date", "match", "venue"], 5),
         (["no.", "day", "date", "day (to)", "date (to)", "match", "venue"], 7),
