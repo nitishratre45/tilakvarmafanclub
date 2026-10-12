@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T19:58:14.777Z",
+  "checkedAt": "2026-10-12T19:59:00.418Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T08:40:38.491Z",
-      "workflow": "Self-healing code guard",
-      "workflowPath": ".github/workflows/self-healing.yml",
-      "runId": 38224955041,
-      "runAttempt": 1,
-      "conclusion": "success",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38224955041",
-      "action": "no_recovery_needed",
-      "reason": "No failed, cancelled, or skipped jobs require this manager.",
-      "jobCounts": {
-        "total": 1,
-        "success": 1,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T08:40:50.829Z",
       "workflow": "Format source code",
@@ -12689,6 +12668,47 @@
           "startedAt": "2026-10-12T19:57:09Z",
           "completedAt": "2026-10-12T19:58:04Z",
           "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38300827202/job/114983702056",
+          "steps": [
+            {
+              "name": "Test real browser interactions",
+              "conclusion": "failure",
+              "number": 6
+            },
+            {
+              "name": "Post Set up Node.js",
+              "conclusion": "skipped",
+              "number": 13
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-10-12T19:59:00.418Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38300959219,
+      "runAttempt": 2,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38300959219",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Desktop and mobile interaction checks",
+          "conclusion": "failure",
+          "startedAt": "2026-10-12T19:57:47Z",
+          "completedAt": "2026-10-12T19:58:47Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38300959219/job/114983929044",
           "steps": [
             {
               "name": "Test real browser interactions",
