@@ -1,124 +1,225 @@
 #!/usr/bin/env python3
-"""Fetch BCCI News API pages sequentially for the Tilak Varma news pipeline.
+"""Scan all fetched BCCI article page text and publish only Tilak Varma matches.
 
-Each BCCI API page is attempted in order. Failures are recorded while later
-pages continue; the previous raw snapshot is preserved if every page fails.
+Reads  News/raw-news-pages.json  (output of scripts/newsreader.py)
+Writes News/newsjson.json        (matches from the last N hours + preserved archive)
 """
 from __future__ import annotations
 
+import argparse
 import json
-import time
-import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
-from email.utils import parsedate_to_datetime
+import logging
+import os
+import re
+import sys
+import tempfile
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
+from typing import Any
+
+log = logging.getLogger("filter_tilak_news")
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "News" / "raw-news-pages.json"
-BCCI_BASE = "https://www.bcci.tv/api/bff/cms/news"
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClub/1.0)",
-    "Accept": "application/json, text/plain, */*",
-    "Referer": "https://www.bcci.tv/",
-}
-BCCI_PAGES = range(1, 8)
-BCCI_TAGS = ("international", "domestic")
+DEFAULT_RAW = ROOT / "News" / "raw-news-pages.json"
+DEFAULT_OUT = ROOT / "News" / "newsjson.json"
+
+PLAYER_NAME = "Tilak Varma"
+NAME_RE = re.compile(r"\btilak\s+varma\b", re.I)
+PARAGRAPH_SPLIT_RE = re.compile(r"(?<=[.!?])\s+|\n+")
+
+DEFAULT_WINDOW_HOURS = 24
+MAX_PARAGRAPHS = 500
+MAX_MATCHED_LINES = 50
+MAX_LINE_CHARS = 1200
+DROP_KEYS = {"meta", "jsonLd", "apiRecord"}
 
 
-def read_url(url: str, accept: str | None = None) -> bytes:
-    headers = dict(HEADERS)
-    if accept:
-        headers["Accept"] = accept
-    request = Request(url, headers=headers)
-    with urlopen(request, timeout=25) as response:
-        if response.status != 200:
-            raise RuntimeError(f"HTTP {response.status}")
-        return response.read(4_000_000)
+# --------------------------------------------------------------------------- #
+# Helpers
+# --------------------------------------------------------------------------- #
+def read_json(path: Path, default: Any) -> Any:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        log.warning("Could not read %s (%s); using default", path, exc)
+        return default
 
 
-def fetch_bcci_page(page: int, tag: str) -> dict:
-    params = {"page": str(page), "tags": tag}
-    url = f"{BCCI_BASE}?{urlencode(params)}"
-    payload = json.loads(
-        read_url(url, "application/json, text/plain, */*").decode("utf-8-sig")
-    )
-    if not isinstance(payload, (dict, list)):
-        raise ValueError(f"Unexpected BCCI API response on page {page}")
-    return {
-        "page": page,
-        "tag": tag,
-        "sourceName": "BCCI News API",
-        "sourceUrl": url,
-        "payload": payload,
+def write_json_atomic(path: Path, data: Any) -> None:
+    """Write via temp file + rename so a crash never leaves a broken archive."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(dir=path.parent, prefix=path.name, suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            json.dump(data, fh, ensure_ascii=False, indent=2)
+            fh.write("\n")
+        os.replace(tmp, path)
+    except BaseException:
+        Path(tmp).unlink(missing_ok=True)
+        raise
+
+
+def parse_published(value: Any) -> datetime | None:
+    """Parse an ISO timestamp (supports trailing 'Z'); naive times are treated as UTC."""
+    try:
+        dt = datetime.fromisoformat(str(value or "").replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+
+def within_window(published: datetime | None, now: datetime, window: timedelta) -> bool:
+    """True if published is not in the future and not older than the window."""
+    if published is None:
+        return False
+    age = now - published
+    return timedelta(0) <= age <= window
+
+
+def record_key(item: dict) -> str:
+    return str(item.get("webviewUrl") or item.get("id") or "")
+
+
+# --------------------------------------------------------------------------- #
+# Core logic
+# --------------------------------------------------------------------------- #
+def build_match(article: dict) -> dict | None:
+    """Return a cleaned record if the article mentions the player, else None."""
+    fields = {
+        "title": str(article.get("title") or ""),
+        "pageText": str(article.get("pageText") or ""),
+        "description": str(article.get("description") or ""),
+        "pageTitle": str(article.get("pageTitle") or ""),
     }
+    found_in = [label for label, value in fields.items() if NAME_RE.search(value)]
+    if not found_in:
+        return None
+
+    page_text = fields["pageText"]
+    paragraphs = [p.strip() for p in PARAGRAPH_SPLIT_RE.split(page_text) if p.strip()]
+
+    clean = {k: v for k, v in article.items() if k not in DROP_KEYS}
+    clean.update(
+        {
+            "fullText": page_text,
+            "articleText": paragraphs[:MAX_PARAGRAPHS],
+            "matchedLines": [p[:MAX_LINE_CHARS] for p in paragraphs if NAME_RE.search(p)][
+                :MAX_MATCHED_LINES
+            ],
+            "matchFoundIn": found_in,
+            "sourceName": "BCCI",
+        }
+    )
+    return clean
 
 
-def fetch_bcci_pages(errors: list[dict]) -> list[dict]:
-    collected = []
-    for tag in BCCI_TAGS:
-        for page in BCCI_PAGES:
-            try:
-                collected.append(fetch_bcci_page(page, tag))
-                print(f"OK source: BCCI News API tag={tag} page {page}", flush=True)
-            except Exception as exc:
-                errors.append(
-                    {
-                        "source": "BCCI News API",
-                        "page": page,
-                        "tag": tag,
-                        "error": str(exc),
-                        "failedAt": datetime.now(timezone.utc).isoformat(),
-                    }
-                )
-                print(
-                    f"WARNING source: BCCI News API tag={tag} page {page} failed: {exc}; continuing to next page",
-                    flush=True,
-                )
-            time.sleep(0.2)
-    return collected
+def merge_archive(previous: list[Any], fresh: list[dict]) -> tuple[list[dict], int]:
+    """Merge archive + fresh matches by key.
+
+    Fresh fields overwrite stale ones, but extra fields added by later pipeline
+    steps (e.g. contentBlocks from news_content_formatter) are kept.
+    Returns (merged list sorted newest-first, count of genuinely new records).
+    """
+    by_key: dict[str, dict] = {}
+    keyless: list[dict] = []
+    for item in previous:
+        if not isinstance(item, dict):
+            continue
+        key = record_key(item)
+        if key:
+            by_key.setdefault(key, item)
+        else:
+            keyless.append(item)
+
+    new_count = 0
+    for item in fresh:
+        key = record_key(item)
+        if not key:
+            keyless.append(item)
+            new_count += 1
+        elif key in by_key:
+            by_key[key] = {**by_key[key], **item}
+        else:
+            by_key[key] = item
+            new_count += 1
+
+    merged = list(by_key.values()) + keyless
+    merged.sort(key=lambda x: str(x.get("publishedAt") or ""), reverse=True)
+    return merged, new_count
 
 
-def main() -> None:
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    errors: list[dict] = []
-    pages = fetch_bcci_pages(errors)
+# --------------------------------------------------------------------------- #
+# Main
+# --------------------------------------------------------------------------- #
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--raw", type=Path, default=DEFAULT_RAW)
+    ap.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    ap.add_argument("--window-hours", type=float, default=DEFAULT_WINDOW_HOURS)
+    ap.add_argument("-v", "--verbose", action="store_true")
+    args = ap.parse_args(argv)
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s: %(message)s",
+    )
 
-    if not pages:
-        raise RuntimeError(
-            "All configured BCCI News API pages failed; preserving the previous raw news snapshot"
-        )
+    if not args.raw.exists():
+        log.error("Raw file not found: %s. Run scripts/newsreader.py first.", args.raw)
+        return 1
+    doc = read_json(args.raw, {})
+    articles = doc.get("articles") if isinstance(doc, dict) else None
+    if not isinstance(articles, list) or not articles:
+        log.error("No enriched article pages found. Run scripts/newsreader.py first.")
+        return 1
 
-    document = {
-        "player": "Tilak Varma",
+    now = datetime.now(timezone.utc)
+    window = timedelta(hours=args.window_hours)
+
+    previous_doc = read_json(args.out, {}) if args.out.exists() else {}
+    previous = previous_doc.get("news", []) if isinstance(previous_doc, dict) else []
+    if not isinstance(previous, list):
+        previous = []
+
+    matches: list[dict] = []
+    outside_window = 0
+    for article in articles:
+        if not isinstance(article, dict):
+            continue
+        record = build_match(article)
+        if record is None:
+            continue
+        if not within_window(parse_published(article.get("publishedAt")), now, window):
+            outside_window += 1
+            continue
+        matches.append(record)
+
+    merged, new_count = merge_archive(previous, matches)
+
+    result = {
+        "player": PLAYER_NAME,
         "source": "BCCI News API only",
-        "sourcesConfigured": 2,
-        "sourceOrder": ["BCCI International API", "BCCI Domestic API"],
-        "tagsRequested": list(BCCI_TAGS),
-        "pagesPerTag": len(BCCI_PAGES),
-        "pagesRequested": len(BCCI_PAGES) * len(BCCI_TAGS),
-        "pagesFetched": len(pages),
-        "fetchedAt": datetime.now(timezone.utc).isoformat(),
-        "errors": errors,
-        "pages": pages,
+        "updatedAt": now.isoformat(),
+        "windowHours": args.window_hours,
+        "candidateCount": len(articles),
+        "matchedCount": len(merged),
+        "newMatches": new_count,
+        "outsideWindowSkipped": outside_window,
+        "sourceErrors": doc.get("errors", []),
+        "readErrors": doc.get("articleFetchErrors", []),
+        "news": merged,
     }
-    OUT.write_text(
-        json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    write_json_atomic(args.out, result)
+
+    print(
+        f"Scanned {len(articles)} full BCCI pages; "
+        f"{len(matches)} Tilak Varma matches in window ({new_count} new), "
+        f"{outside_window} older/undated skipped.",
+        flush=True,
     )
-    print(f"Saved {len(pages)} BCCI API page(s) to {OUT.relative_to(ROOT)}", flush=True)
-
-
-def walk_records(value):
-    if isinstance(value, dict):
-        yield value
-        for child in value.values():
-            if isinstance(child, (dict, list)):
-                yield from walk_records(child)
-    elif isinstance(value, list):
-        for child in value:
-            yield from walk_records(child)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
