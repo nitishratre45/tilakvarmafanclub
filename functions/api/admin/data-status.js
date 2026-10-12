@@ -71,7 +71,7 @@ const DATASETS = [
     name: "Death-overs / over-by-over stats",
     file: "data/death-overs.json",
     section: "death",
-    intervalHours: 12,
+    intervalHours: 6,
     workflow: "refresh-death-overs.yml",
     required: true,
   },
@@ -298,7 +298,10 @@ function getInfo(def, data) {
     return {
       updatedAt: data.updatedAt,
       attemptStatus: data.lastAttemptStatus,
-      errors: compactErrors(data.lastAttemptError || data.readErrors),
+      errors: [
+        ...compactErrors(data.lastAttemptError || data.readErrors),
+        ...Object.entries(data.sourceErrors || {}).map(([format, reason]) => format + ": " + String(reason)),
+      ],
       count: Array.isArray(data.innings) ? data.innings.length : 0,
       summary: {
         matchesFound: data.matchesFound,
