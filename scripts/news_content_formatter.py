@@ -27,76 +27,93 @@ def official_url(value: str) -> bool:
 
 
 def blocks_for(article: dict) -> list[dict]:
-    """Convert extracted BCCI page text into paragraphs and genuine table blocks."""
+    """Render readable prose once and replace flattened schedule text with real tables."""
     text = str(article.get("fullText") or article.get("pageText") or "")
-    text = text.replace("\r", "\n")
+    text = text.replace("\\r", "\\n")
+    tokens = [token.strip() for token in re.split(r"\\s*\\|\\s*", text) if token.strip()]
+    headers = [
+        (["no.", "day", "date", "match", "venue"], 5),
+        (["no.", "day", "date", "day (to)", "date (to)", "match", "venue"], 7),
+    ]
     blocks: list[dict] = []
 
     def add_prose(value: str) -> None:
-        value = re.sub(r"\s+", " ", value).strip()
+        value = re.sub(r"\\s+", " ", value).strip()
         if not value:
             return
-        # Split a flattened article into readable sentence-level paragraphs.
-        parts = re.split(r"(?<=[.!?])\s+(?=[A-Z“‘])", value)
+        # Remove repeated page chrome/headlines at the start of BCCI extraction.
+        value = re.sub(r"^(?:[^.]{0,180}Press Releases\\s+)?", "", value).strip()
+        parts = re.split(r"(?<=[.!?])\\s+(?=[A-Z“‘])", value)
         for part in parts:
-            part = part.strip()
+            part = part.strip(" |")
             if not part:
                 continue
+            # Headings/squad lists remain prose, not table cells.
             if len(part) < 100 and (part.endswith(":") or part.isupper()):
                 blocks.append({"type": "heading", "text": part})
             else:
                 blocks.append({"type": "text", "text": part})
 
-    # BCCI HTML extraction flattens table rows to pipe-separated text. Parse a
-    # table only when a recognizable header exists; never treat the whole page
-    # as a table simply because it contains pipe characters.
-    tokens = [token.strip() for token in re.split(r"\s*\|\s*", text) if token.strip()]
-    header_sets = [
-        (["no.", "day", "date", "match", "venue"], 5),
-        (["no.", "day", "date", "day (to)", "date (to)", "match", "venue"], 7),
-    ]
-    # Preserve the complete extracted article as readable prose; real tables are rendered separately.
-    add_prose(re.sub(r"\s*\|\s*", " ", text))
     cursor = 0
+    prose_start = 0
     while cursor < len(tokens):
         found = None
-        for headers, width in header_sets:
-            end = cursor + len(headers)
-            if [v.lower() for v in tokens[cursor:end]] == headers:
-                found = (headers, width, cursor)
+        for header, width in headers:
+            if [x.lower() for x in tokens[cursor:cursor + width]] == header:
+                found = (header, width)
                 break
         if not found:
             cursor += 1
             continue
-        headers, width, header_start = found
-        # Recover the prose before this table using the original token span.
-        # It is okay if preceding prose has already been represented; cursor
-        # always advances to the next detected table and the original text is
-        # retained in fullText for reference.
-        rows = [tokens[header_start : header_start + width]]
-        pos = header_start + width
+        header, width = found
+        add_prose(" ".join(tokens[prose_start:cursor]))
+        rows = [tokens[cursor:cursor + width]]
+        pos = cursor + width
+        trailing_prose = []
         while pos + width <= len(tokens):
-            candidate = tokens[pos : pos + width]
-            if [v.lower() for v in candidate] in [item[0] for item in header_sets]:
+            candidate = tokens[pos:pos + width]
+            if [x.lower() for x in candidate] in [h for h, _ in headers]:
                 break
-            first = candidate[0]
-            if not re.fullmatch(r"\d{1,2}", first):
+            if not re.fullmatch(r"\\d{1,2}", candidate[0]):
                 break
-            # Require a date-ish value in the expected date column to avoid
-            # swallowing the following article text into the table.
-            if not re.search(r"\d{1,2}[- /][A-Za-z0-9]{2,}|\d{4}", candidate[2]):
+            if not re.search(r"\\d{1,2}[- /][A-Za-z0-9]{2,}|\\d{4}", candidate[2]):
+                break
+            # Some BCCI pages flatten the next squad/paragraph into the Venue cell.
+            venue = candidate[-1]
+            split_match = re.search(
+                r"\\s+(?=(?:India A squad:|Note:|DEVAJIT SAIKIA|The squad for the ODIs))",
+                venue,
+                re.I,
+            )
+            if split_match:
+                candidate[-1] = venue[:split_match.start()].strip()
+                trailing_prose.append(venue[split_match.start():].strip())
+                rows.append(candidate)
+                pos += width
                 break
             rows.append(candidate)
             pos += width
-        # If no data rows follow, this was not a genuine table.
         if len(rows) > 1:
-            add_prose(" ".join(tokens[max(0, header_start - 1) : header_start]).strip())
             blocks.append({"type": "table", "rows": rows})
             cursor = pos
+            prose_start = pos
+            if trailing_prose:
+                add_prose(" ".join(trailing_prose))
+                prose_start = pos
         else:
-            cursor = header_start + 1
-
-    return blocks
+            cursor += 1
+    add_prose(" ".join(tokens[prose_start:]))
+    # Deduplicate identical prose blocks while preserving order.
+    unique = []
+    seen = set()
+    for block in blocks:
+        key = (block.get("type"), re.sub(r"\\W+", "", str(block.get("text", "")).lower())) if block.get("type") != "table" else None
+        if key and key in seen:
+            continue
+        if key:
+            seen.add(key)
+        unique.append(block)
+    return unique
 
 
 def main():
