@@ -392,7 +392,7 @@ def main() -> None:
                 for candidate in content_candidates:
                     if not isinstance(candidate, str):
                         continue
-                    candidate = re.sub(r"\\s+", " ", html.unescape(candidate)).strip()
+                    candidate = re.sub(r"\s+", " ", html.unescape(candidate)).strip()
                     normalized = normalize_title(candidate)
                     if len(candidate) < 35 or len(candidate) > 4000 or not normalized:
                         continue
