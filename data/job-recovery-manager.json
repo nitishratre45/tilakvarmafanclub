@@ -1,44 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T11:51:37.223Z",
+  "checkedAt": "2026-10-12T12:06:02.105Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T03:03:14.285Z",
-      "workflow": "Auto-rerun failed GitHub Actions jobs",
-      "workflowPath": ".github/workflows/auto-rerun-failed.yml",
-      "runId": 38198208763,
-      "runAttempt": 1,
-      "conclusion": "failure",
-      "event": "workflow_run",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38198208763",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 1,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "Retry failed jobs once",
-          "conclusion": "failure",
-          "startedAt": "2026-10-12T03:02:57Z",
-          "completedAt": "2026-10-12T03:03:01Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38198208763/job/114645529085",
-          "steps": [
-            {
-              "name": "Re-run only failed jobs",
-              "conclusion": "failure",
-              "number": 2
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T03:03:25.217Z",
       "workflow": "Refresh ESPNcricinfo Statsguru",
@@ -13688,6 +13652,27 @@
       "event": "push",
       "branch": "main",
       "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38245281388",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T12:06:02.105Z",
+      "workflow": "Refresh Tilak Varma data",
+      "workflowPath": ".github/workflows/refresh-tilak-data.yml",
+      "runId": 38246846155,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "event": "workflow_dispatch",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38246846155",
       "action": "no_recovery_needed",
       "reason": "No failed, cancelled, or skipped jobs require this manager.",
       "jobCounts": {
