@@ -1,9 +1,8 @@
-// Keep /stats/ and any future nested Stats URLs on the same site shell.
-// The browser URL is not redirected; only the internal asset request changes.
+// Keep /stats/ and future nested Stats paths on the same site shell.
+// This is an internal rewrite, not a redirect, so the URL remains unchanged.
 export async function onRequest(context) {
   const url = new URL(context.request.url);
   url.pathname = "/index.html";
   url.search = "";
-  const rewrittenRequest = new Request(url, context.request);
-  return context.env.ASSETS.fetch(rewrittenRequest);
+  return context.next({ request: new Request(url, context.request) });
 }
