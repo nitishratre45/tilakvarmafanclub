@@ -100,7 +100,7 @@ def main():
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "status": (
             "error"
-            if invalid or any(x["severity"] == "error" for x in findings)
+            if invalid or any(x["severity"] == "error" for x in findings) or any(x.get("severity") == "error" for x in newsdoc.get("contentFormatter", {}).get("findings", []))
             else (
                 "warning"
                 if findings or newsdoc.get("contentFormatter", {}).get("findings")
