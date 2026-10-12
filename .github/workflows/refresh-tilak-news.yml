@@ -12,11 +12,6 @@ on:
       - "admin/news-pipeline-manager.js"
       - "scripts/news.py"
       - "scripts/cleanup_raw_news.py"
-      - "News-details/news-details.js"
-      - "News-details/news-details.css"
-      - "News-details/index.html"
-      - "News/news-section.js"
-      - "admin/index.html"
       - ".github/workflows/refresh-tilak-news.yml"
   schedule:
     - cron: "23 2 * * *"
