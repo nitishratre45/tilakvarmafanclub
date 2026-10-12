@@ -16,7 +16,7 @@
     newsLink.href = "#news";
     newsLink.textContent = "News";
     // Keep desktop/mobile navigation order consistent: Matches, News, Records...
-    const matchesLink = nav.querySelector('a[href="#matches"]');
+    const matchesLink = nav.querySelector('a[href="#innings"]');
     if (matchesLink) matchesLink.insertAdjacentElement("afterend", newsLink);
     else nav.appendChild(newsLink);
   }
