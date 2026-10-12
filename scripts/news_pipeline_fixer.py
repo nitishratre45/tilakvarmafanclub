@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "News" / "raw-news-pages.json"
 OUT = ROOT / "News" / "newsjson.json"
-NAME = re.compile(r"\\btilak\\s+varma\\b", re.I)
+NAME = re.compile(r"\btilak\s+varma\b", re.I)
 NAV = {
     "news",
     "videos",
@@ -46,7 +46,7 @@ def valid_bcci_url(value):
 
 def clean_text(value):
     value = html.unescape(str(value or ""))
-    value = re.sub(r"\\s+", " ", value).strip()
+    value = re.sub(r"\s+", " ", value).strip()
     return value
 
 
@@ -75,7 +75,7 @@ def main():
         "recordsChecked": len(articles),
     }
     RAW.write_text(
-        json.dumps(raw, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8"
+        json.dumps(raw, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     existing = {}
     if OUT.exists():
@@ -120,7 +120,7 @@ def main():
         item["title"] = title[:300]
         item["fullText"] = text[:60000]
         item["pageText"] = text[:60000]
-        chunks = [clean_text(x) for x in re.split(r"(?<=[.!?])\\s+|\\n+", text)]
+        chunks = [clean_text(x) for x in re.split(r"(?<=[.!?])\s+|\n+", text)]
         item["articleText"] = [
             x for x in chunks if len(x) >= 25 and x.lower() not in NAV
         ][:500]
@@ -154,7 +154,7 @@ def main():
         "news": news,
     }
     OUT.write_text(
-        json.dumps(result, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8"
+        json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(
         json.dumps(
