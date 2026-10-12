@@ -6,11 +6,14 @@ on:
     paths:
       - "scripts/newsreader.py"
       - "scripts/filter_tilak_news.py"
+      - "scripts/news_content_formatter.py"
       - "scripts/news_pipeline_fixer.py"
       - "scripts/news_pipeline_manager.py"
       - "admin/news-pipeline-manager.js"
       - "scripts/news.py"
       - "News-details/news-details.js"
+      - "News-details/news-details.css"
+      - "News-details/index.html"
       - "News/news-section.js"
       - "admin/index.html"
       - ".github/workflows/refresh-tilak-news.yml"
@@ -61,6 +64,7 @@ jobs:
             python -m json.tool News/raw-news-pages.json > /dev/null
             python scripts/filter_tilak_news.py
             python scripts/news_pipeline_fixer.py
+            python scripts/news_content_formatter.py
             python -m json.tool News/raw-news-pages.json > /dev/null
             python -m json.tool News/newsjson.json > /dev/null
             python scripts/news_pipeline_manager.py
