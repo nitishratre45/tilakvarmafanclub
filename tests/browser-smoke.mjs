@@ -89,7 +89,7 @@ check("Stats Batting, Bowling, and Explore tabs respond", async () => {
     },
     { timeout: 10000 },
   );
-  assert.equal(location.pathname.replace(/\\/$/, ""), "/stats", "Refresh must keep the /stats URL");
+  assert.equal(new URL(page.url()).pathname.replace(/\/$/, ""), "/stats", "Refresh must keep the /stats URL");
   assert.equal(await page.locator("#stats-bowling").isVisible(), true, "Refresh must restore Bowling");
 
   await page.close();
