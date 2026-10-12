@@ -24,7 +24,7 @@
       document.title = (item.title || "Tilak Varma News") + " | The 72 Club";
       document.getElementById("detail-title").textContent = item.title || "Tilak Varma News";
       document.getElementById("detail-date").textContent = formatDate(item.publishedAt) || "BCCI · Tilak Varma news";
-      document.getElementById("detail-excerpt").textContent = (item.matchedLines || []).join("\n\n") || "This BCCI article mentions Tilak Varma. Open the original article for the complete story.";
+      document.getElementById("detail-excerpt").textContent = (item.articleText || []).join("\n\n") || (item.matchedLines || []).join("\n\n") || "This BCCI article mentions Tilak Varma. Open the original article for the complete story.";
       const image = document.getElementById("detail-image");
       const imageUrl = safeUrl(item.imageUrl);
       if (imageUrl) { image.src = imageUrl; image.hidden = false; image.alt = item.title || "BCCI article image"; }
