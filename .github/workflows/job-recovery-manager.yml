@@ -24,7 +24,8 @@ permissions:
   actions: write
   contents: write
 concurrency:
-  group: job-recovery-manager
+  # Give each completed workflow event its own slot so a newer event cannot cancel an older pending run.
+  group: job-recovery-manager-${{ github.event.workflow_run.id || github.run_id }}
   cancel-in-progress: false
 jobs:
   inspect-and-recover:
@@ -44,6 +45,12 @@ jobs:
             const now = new Date();
             const run = context.payload.workflow_run;
             const isManual = context.eventName === 'workflow_dispatch';
+            // Successful workflows do not need recovery records. Avoid repeatedly
+            // writing the shared JSON history for every successful run.
+            if (!isManual && run.conclusion === 'success') {
+              core.notice('Successful workflow: no recovery action or history write needed.');
+              return;
+            }
             let report = { schemaVersion: 1, checkedAt: null, retentionHours: 15, events: [] };
             if (fs.existsSync(path)) {
               try { report = JSON.parse(fs.readFileSync(path, 'utf8')); } catch {}
