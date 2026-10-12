@@ -1,44 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T11:20:15.432Z",
+  "checkedAt": "2026-10-12T11:20:26.423Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-11T21:59:32.687Z",
-      "workflow": "Auto-rerun failed GitHub Actions jobs",
-      "workflowPath": ".github/workflows/auto-rerun-failed.yml",
-      "runId": 38178584046,
-      "runAttempt": 1,
-      "conclusion": "failure",
-      "event": "workflow_run",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38178584046",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 1,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "Retry failed jobs once",
-          "conclusion": "failure",
-          "startedAt": "2026-10-11T21:59:21Z",
-          "completedAt": "2026-10-11T21:59:25Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38178584046/job/114586127304",
-          "steps": [
-            {
-              "name": "Re-run only failed jobs",
-              "conclusion": "failure",
-              "number": 2
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-11T21:59:42.079Z",
       "workflow": "Auto-rerun failed GitHub Actions jobs",
@@ -13857,6 +13821,27 @@
       "event": "push",
       "branch": "main",
       "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38241961000",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T11:20:26.423Z",
+      "workflow": "Format source code",
+      "workflowPath": ".github/workflows/format-code.yml",
+      "runId": 38241961002,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38241961002",
       "action": "no_recovery_needed",
       "reason": "No failed, cancelled, or skipped jobs require this manager.",
       "jobCounts": {
