@@ -146,10 +146,32 @@ export async function onRequest({ request, env }) {
             409,
           );
         }
-        await github(env, "/actions/workflows/run-all-workflows.yml/dispatches", {
-          method: "POST",
-          body: JSON.stringify({ ref: "main" }),
-        });
+        const dispatch = () =>
+          github(env, "/actions/workflows/run-all-workflows.yml/dispatches", {
+            method: "POST",
+            body: JSON.stringify({ ref: "main" }),
+          });
+        try {
+          await dispatch();
+        } catch (firstError) {
+          // GitHub occasionally returns a transient 5xx for workflow dispatch.
+          // Before retrying, check whether the first request actually queued a run.
+          const message = String(firstError?.message || "");
+          if (!/GitHub API returned 5\\d\\d/.test(message)) throw firstError;
+          const verify = await github(
+            env,
+            "/actions/workflows/run-all-workflows.yml/runs?per_page=10",
+          );
+          const recentRun = (verify.workflow_runs || []).find((run) => {
+            const created = Date.parse(run.created_at || "");
+            return (
+              Number.isFinite(created) &&
+              Date.now() - created < 2 * 60 * 1000 &&
+              ["queued", "in_progress", "waiting", "requested", "pending"].includes(run.status)
+            );
+          });
+          if (!recentRun) await dispatch();
+        }
         return json(
           {
             ok: true,
