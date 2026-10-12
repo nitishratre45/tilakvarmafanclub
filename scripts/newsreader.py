@@ -23,7 +23,16 @@ HEADERS = {
     "Referer": "https://www.bcci.tv/",
 }
 NAME_PATTERN = re.compile(r"\btilak\s+varma\b", re.IGNORECASE)
-URL_KEYS = {"weburl", "web_url", "webviewurl", "webview_url", "webview", "url", "articleurl", "canonicalurl"}
+URL_KEYS = {
+    "weburl",
+    "web_url",
+    "webviewurl",
+    "webview_url",
+    "webview",
+    "url",
+    "articleurl",
+    "canonicalurl",
+}
 TITLE_KEYS = {"title", "headline", "name", "newstitle", "metatitle"}
 IMAGE_KEYS = {
     "image",
