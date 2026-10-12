@@ -286,11 +286,7 @@ nav a:hover,
   line-height: 1.8;
   margin: 0 0 4px;
 }
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
+
 .stat-card {
   min-height: 165px;
   padding: 25px;
@@ -512,9 +508,7 @@ footer .brand {
   .section-heading > p {
     margin-top: 20px;
   }
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+
   .stat-card {
     min-height: 145px;
     padding: 20px;
@@ -567,9 +561,7 @@ footer .brand {
   .vertical-label {
     font-size: 7px;
   }
-  .stats-grid {
-    gap: 8px;
-  }
+
   .stat-card {
     padding: 16px;
     min-height: 130px;
@@ -695,10 +687,7 @@ footer .brand {
   }
 }
 
-.career-formats {
-  margin: 18px 0 28px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
+
 .format-card strong {
   font-size: clamp(30px, 4vw, 46px);
 }
@@ -719,9 +708,7 @@ footer .brand {
   margin-top: 60px;
 }
 @media (max-width: 800px) {
-  .career-formats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
 }
 
 /* Profile-first layout and stronger career-run hierarchy */
@@ -733,38 +720,14 @@ footer .brand {
   min-height: 390px;
   box-shadow: 0 24px 70px #0004;
 }
-.stats-section {
-  background: linear-gradient(180deg, #07101f 0%, #091726 100%);
-}
-.stats-section .section-heading:first-child {
-  margin-bottom: 32px;
-}
-.stats-grid:not(.career-formats) .stat-feature {
-  grid-column: span 2;
-  min-height: 190px;
-  padding: 28px 32px;
-  background: linear-gradient(125deg, #ff7847, #e94e2e);
-  box-shadow: 0 16px 38px #ff6a351c;
-}
-.stats-grid:not(.career-formats) .stat-feature strong {
-  font-size: clamp(58px, 7vw, 82px);
-  margin: 16px 0 8px;
-}
-.stats-grid:not(.career-formats) .stat-card:not(.stat-feature) {
-  min-height: 190px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.stats-grid:not(.career-formats) .stat-card:not(.stat-feature) strong {
-  font-size: clamp(42px, 4.5vw, 58px);
-}
-.stats-grid:not(.career-formats) .stat-feature .stat-label {
-  font-size: 11px;
-}
-.stats-grid:not(.career-formats) .stat-feature .stat-note {
-  font-size: 11px;
-}
+
+
+
+
+
+
+
+
 .format-heading {
   padding-top: 8px;
 }
@@ -778,21 +741,12 @@ footer .brand {
     padding-top: 48px;
     padding-bottom: 48px;
   }
-  .stats-grid:not(.career-formats) .stat-feature {
-    grid-column: span 2;
-    min-height: 155px;
-  }
-  .stats-grid:not(.career-formats) .stat-card:not(.stat-feature) {
-    min-height: 135px;
-  }
+
+
 }
 @media (max-width: 430px) {
-  .stats-grid:not(.career-formats) .stat-feature strong {
-    font-size: 58px;
-  }
-  .stats-grid:not(.career-formats) .stat-card:not(.stat-feature) strong {
-    font-size: 38px;
-  }
+
+
 }
 
 /* The 72 Club — responsive polish and match/activity surfaces */
@@ -1748,12 +1702,7 @@ body,
 .analytics-head h3 em {
   color: var(--orange) !important;
 }
-.stats-grid:not(.career-formats) .stat-feature {
-  background: #0d1a2c !important;
-  color: var(--white) !important;
-  border: 1px solid rgba(255, 153, 51, 0.5) !important;
-  box-shadow: none !important;
-}
+
 .stat-feature .stat-label,
 .stat-feature .stat-note {
   color: var(--muted) !important;
@@ -2505,9 +2454,7 @@ body,
     margin: 0;
     max-width: none;
   }
-  .stats-grid {
-    gap: 7px;
-  }
+
   .stat-card {
     min-height: 100px;
     padding: 12px;
@@ -2525,9 +2472,7 @@ body,
     font-size: 9px;
     line-height: 1.45;
   }
-  .career-formats {
-    margin: 10px 0 16px;
-  }
+
   .data-line {
     font-size: 9px;
     gap: 6px;
@@ -2635,9 +2580,7 @@ body,
     font-size: 8px;
     padding: 7px;
   }
-  .stats-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
   .stat-card {
     padding: 10px;
     min-height: 90px;
@@ -2670,164 +2613,41 @@ body,
 }
 
 /* Statsguru analysis */
-.statsguru-section {
-  background: #091523;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-.statsguru-sourcebar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding: 15px 18px;
-  margin-bottom: 18px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  font: 10px var(--mono);
-  color: var(--muted);
-}
-.statsguru-sourcebar b {
-  color: var(--white);
-  font-weight: 500;
-}
+
+
+
 .statsguru-sourcelinks,
-.statsguru-footer-links {
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-}
+
 .statsguru-sourcelinks a,
-.statsguru-footer-links a {
-  color: var(--cyan);
-}
-.statsguru-format-tabs {
-  display: flex;
-  gap: 7px;
-  overflow-x: auto;
-  padding: 0 0 14px;
-}
+
+
 .statsguru-format-tabs button,
-.statsguru-category-grid button {
-  font: 700 11px var(--body);
-  color: #c9d5e4;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  padding: 12px 15px;
-  cursor: pointer;
-  white-space: nowrap;
-}
+
 .statsguru-format-tabs button.active,
-.statsguru-category-grid button.active {
-  background: var(--orange);
-  color: #101522;
-  border-color: var(--orange);
-}
-.statsguru-category-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 18px;
-}
-.statsguru-category-grid button {
-  text-align: left;
-  white-space: normal;
-  min-height: 48px;
-  line-height: 1.4;
-}
-.statsguru-panel {
-  padding: 22px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-}
-.statsguru-panel-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  margin-bottom: 18px;
-}
-.statsguru-panel-head h3 {
-  font: 800 clamp(23px, 3vw, 34px) / 1.1 var(--display);
-  margin: 9px 0 0;
-}
-.statsguru-format-pill {
-  border: 1px solid var(--orange);
-  color: var(--orange);
-  padding: 7px 10px;
-  font: 10px var(--mono);
-}
-.statsguru-summary {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 9px;
-  margin-bottom: 18px;
-}
-.statsguru-metric {
-  padding: 14px;
-  background: var(--panel2);
-  border: 1px solid var(--line);
-  min-width: 0;
-}
-.statsguru-metric span {
-  display: block;
-  color: var(--muted);
-  font: 9px var(--mono);
-  letter-spacing: 0.08em;
-}
-.statsguru-metric strong {
-  display: block;
-  font: 800 clamp(24px, 3vw, 36px) / 1.1 var(--display);
-  margin-top: 10px;
-  overflow-wrap: anywhere;
-}
-.statsguru-note {
-  font-size: 11px;
-  color: var(--muted);
-  line-height: 1.7;
-  margin: 15px 0 0;
-}
-.statsguru-footer-links {
-  font: 11px var(--mono);
-  margin-top: 17px;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width: 760px) {
-  .statsguru-section {
-    padding: 55px 5vw;
-  }
-  .statsguru-category-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 7px;
-  }
-  .statsguru-category-grid button {
-    font-size: 10px;
-    padding: 10px;
-    min-height: 43px;
-  }
-  .statsguru-panel {
-    padding: 12px;
-  }
-  .statsguru-summary {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 7px;
-  }
-  .statsguru-metric {
-    padding: 11px;
-  }
-  .statsguru-sourcebar {
-    align-items: flex-start;
-    padding: 12px;
-  }
-  .statsguru-sourcelinks {
-    gap: 10px;
-  }
-  .statsguru-panel .table-wrap table {
-    min-width: 520px;
-  }
-  .statsguru-format-tabs button {
-    padding: 10px 12px;
-  }
+
+
+
+
+
+
+
+
+
+
 }
 
 /* Section tabs: show only the selected page section */
@@ -3171,47 +2991,14 @@ option {
   background: #0d1a2c;
   color: #f4f7fb;
 }
-.stats-section {
-  padding: 42px 5vw !important;
-}
-.stats-subnav {
-  display: flex;
-  gap: 7px;
-  overflow-x: auto;
-  padding: 0 0 14px;
-  margin: 0 0 8px;
-  border-bottom: 1px solid var(--line);
-  scrollbar-width: thin;
-}
-.stats-subnav button {
-  flex: 0 0 auto;
-  padding: 11px 16px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  color: #c9d5e4;
-  font: 700 11px var(--body);
-  cursor: pointer;
-}
-.stats-subnav button.active {
-  background: var(--orange);
-  border-color: var(--orange);
-  color: #101522;
-}
-.stats-subview[hidden] {
-  display: none !important;
-}
-.stats-subview.section {
-  padding: 30px 0 !important;
-  margin: 0;
-  background: transparent;
-  border: 0;
-}
-.stats-subview .section-heading {
-  margin-bottom: 22px;
-}
-.stats-subview .section h2 {
-  font-size: clamp(30px, 4vw, 46px);
-}
+
+
+
+
+
+
+
+
 .icc-ranking-card {
   display: grid;
   grid-template-columns: 1.25fr 1fr;
@@ -3316,16 +3103,9 @@ option {
   nav.open a.active:after {
     display: none;
   }
-  .stats-section {
-    padding: 28px 4vw !important;
-  }
-  .stats-subnav button {
-    padding: 10px 13px;
-    font-size: 10px;
-  }
-  .stats-subview.section {
-    padding: 23px 0 !important;
-  }
+
+
+
   .icc-ranking-card {
     max-width: none;
     grid-template-columns: 1fr 1fr;
@@ -3364,25 +3144,17 @@ option {
     min-height: 38px;
     padding: 8px;
   }
-  .stats-section {
-    padding: 24px 4vw !important;
-  }
-  .stats-subview.section {
-    padding: 18px 0 !important;
-  }
+
+
   .icc-ranking-card strong {
     font-size: 21px;
   }
 }
 
 /* Keep the focused Statsguru categories balanced on desktop. */
-.statsguru-category-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
+
 @media (max-width: 760px) {
-  .statsguru-category-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
 }
 
 /* Site-wide custom select controls: dark, branded, and consistent on mobile. */
@@ -3908,10 +3680,7 @@ option {
   transform: translateY(-2px);
   border-color: rgba(255, 106, 53, 0.45);
 }
-.statsguru-section {
-  background:
-    radial-gradient(ellipse at 95% 0, rgba(255, 106, 53, 0.075), transparent 34%), #091523;
-}
+
 .explore-heading {
   align-items: flex-end;
 }
@@ -3929,22 +3698,11 @@ option {
   font: 9px var(--mono);
   letter-spacing: 0.11em;
 }
-.statsguru-sourcebar {
-  border-color: rgba(124, 229, 242, 0.22);
-  background: linear-gradient(100deg, rgba(124, 229, 242, 0.065), rgba(13, 26, 44, 0.92));
-}
+
 .statsguru-format-tabs button,
-.statsguru-category-grid button {
-  transition:
-    transform 0.16s ease,
-    border-color 0.16s ease,
-    background 0.16s ease;
-}
+
 .statsguru-format-tabs button:hover,
-.statsguru-category-grid button:hover {
-  transform: translateY(-1px);
-  border-color: var(--orange);
-}
+
 .player-analysis-filter {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
   border-color: rgba(255, 106, 53, 0.35);
@@ -3981,12 +3739,8 @@ option {
   border-radius: 3px;
   background: rgba(124, 229, 242, 0.05);
 }
-.statsguru-panel {
-  border-radius: 5px;
-}
-.statsguru-summary .statsguru-metric {
-  border-top: 2px solid rgba(255, 106, 53, 0.55);
-}
+
+
 .cricinfo-gallery {
   margin: 22px 0 34px;
   padding: 20px;
@@ -4493,179 +4247,50 @@ option {
 }
 
 /* Explore: compact ESPNcricinfo-style batting analysis */
-.statsguru-section {
-  padding-top: 42px !important;
-  padding-bottom: 48px !important;
-}
-.statsguru-sourcebar {
-  padding: 8px 12px;
-  margin-bottom: 10px;
-  font-size: 9px;
-}
-.statsguru-format-tabs {
-  padding-bottom: 9px;
-  gap: 5px;
-}
-.statsguru-format-tabs button {
-  padding: 8px 11px;
-  font-size: 10px;
-}
-.statsguru-category-grid {
-  margin-bottom: 10px;
-  gap: 6px;
-}
-.statsguru-category-grid button {
-  min-height: 36px;
-  padding: 8px 10px;
-  font-size: 10px;
-}
-.statsguru-panel {
-  padding: 14px;
-}
-.statsguru-panel-head {
-  margin-bottom: 10px;
-}
-.statsguru-panel-head h3 {
-  font-size: clamp(20px, 2.5vw, 27px);
-  margin-top: 5px;
-}
-.statsguru-format-pill {
-  padding: 5px 8px;
-  font-size: 9px;
-}
-.statsguru-summary {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 5px;
-  margin-bottom: 12px;
-}
-.statsguru-metric {
-  padding: 8px 9px;
-  border-top-width: 2px !important;
-}
-.statsguru-metric span {
-  font-size: 8px;
-  letter-spacing: 0.045em;
-}
-.statsguru-metric strong {
-  font-size: clamp(17px, 2vw, 23px);
-  margin-top: 4px;
-  line-height: 1.05;
-}
-.statsguru-panel .table-wrap {
-  max-width: 100%;
-  overscroll-behavior-x: contain;
-}
-.statsguru-panel .table-wrap table {
-  min-width: 1020px;
-}
-.statsguru-panel .table-wrap th {
-  padding: 9px 10px;
-  font-size: 9px;
-  white-space: nowrap;
-}
-.statsguru-panel .table-wrap td {
-  padding: 9px 10px;
-  font-size: 11px;
-  white-space: nowrap;
-}
-.statsguru-panel .table-wrap tbody tr:nth-child(even) {
-  background: rgba(255, 255, 255, 0.018);
-}
-.statsguru-panel .table-wrap .sg-cell-date {
-  color: #d4e3f8;
-  font: 10px var(--mono);
-  background: rgba(124, 229, 242, 0.065);
-}
-.statsguru-panel .table-wrap .sg-cell-runs {
-  color: #101522;
-  background: var(--orange);
-  font: 800 13px var(--display);
-  text-align: center;
-  min-width: 54px;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .statsguru-panel .table-wrap .sg-cell-minutes,
-.statsguru-panel .table-wrap .sg-cell-balls {
-  color: var(--cyan);
-  font: 11px var(--mono);
-  text-align: center;
-  background: rgba(124, 229, 242, 0.045);
-}
-.statsguru-panel .table-wrap .sg-scorecard-link {
-  color: var(--orange);
-  font-weight: 800;
-}
-.statsguru-note {
-  font-size: 10px;
-  margin-top: 10px;
-}
-.statsguru-summary .statsguru-metric:nth-child(4) {
-  border-top-color: var(--orange) !important;
-}
-.statsguru-summary .statsguru-metric:nth-child(5) {
-  border-top-color: var(--cyan) !important;
-}
-.statsguru-summary .statsguru-metric:nth-child(6) {
-  border-top-color: var(--cyan) !important;
-}
+
+
+
+
+
+
 @media (max-width: 760px) {
-  .statsguru-section {
-    padding: 28px 3.5vw !important;
-  }
-  .statsguru-sourcebar {
-    padding: 7px 9px;
-    font-size: 8px;
-    gap: 6px;
-  }
-  .statsguru-format-tabs {
-    gap: 4px;
-    padding-bottom: 7px;
-  }
-  .statsguru-format-tabs button {
-    padding: 8px 9px;
-    font-size: 9px;
-  }
-  .statsguru-category-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 4px;
-  }
-  .statsguru-category-grid button {
-    font-size: 9px;
-    padding: 7px 5px;
-    min-height: 34px;
-    text-align: center;
-  }
-  .statsguru-panel {
-    padding: 9px;
-  }
-  .statsguru-panel-head h3 {
-    font-size: 22px;
-  }
-  .statsguru-summary {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 4px;
-  }
-  .statsguru-metric {
-    padding: 7px 6px;
-  }
-  .statsguru-metric span {
-    font-size: 7px;
-    letter-spacing: 0;
-  }
-  .statsguru-metric strong {
-    font-size: 19px;
-    margin-top: 4px;
-  }
-  .statsguru-panel .table-wrap table {
-    min-width: 990px;
-  }
-  .statsguru-panel .table-wrap th {
-    padding: 8px;
-    font-size: 8px;
-  }
-  .statsguru-panel .table-wrap td {
-    padding: 8px;
-    font-size: 10px;
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 /* Compact home theme selector */
@@ -4745,23 +4370,9 @@ option {
   }
 }
 /* Runs should be an accent, not a solid orange column */
-.statsguru-panel .table-wrap th.sg-head-runs {
-  color: var(--orange);
-  background: rgba(255, 106, 53, 0.12);
-  border-bottom: 2px solid var(--orange);
-}
-.statsguru-panel .table-wrap .sg-cell-runs {
-  color: var(--orange);
-  background: rgba(255, 106, 53, 0.12);
-  font: 800 13px var(--display);
-  text-align: center;
-  min-width: 54px;
-  border-left: 1px solid rgba(255, 106, 53, 0.28);
-  border-right: 1px solid rgba(255, 106, 53, 0.28);
-}
-.statsguru-panel .table-wrap tbody tr:hover .sg-cell-runs {
-  background: rgba(255, 106, 53, 0.22);
-}
+
+
+
 /* Light theme, including site components that previously used fixed dark fills */
 :root[data-theme="light"] {
   --bg: #f4f7fb;
@@ -4801,10 +4412,7 @@ option {
 :root[data-theme="light"] .home-snapshot-block,
 :root[data-theme="light"] .statsguru-sourcebar,
 :root[data-theme="light"] .statsguru-format-tabs button,
-:root[data-theme="light"] .statsguru-category-grid button {
-  background: #fff;
-  color: var(--white);
-}
+
 :root[data-theme="light"] .profile-intro,
 :root[data-theme="light"] .section-heading > p,
 :root[data-theme="light"] .home-snapshot-block p,
@@ -4823,29 +4431,14 @@ option {
   border-top-color: rgba(18, 35, 55, 0.13);
   color: #24354a;
 }
-:root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-date {
-  background: #e7f5f7;
-  color: #203c51;
-}
+
 :root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-minutes,
-:root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-balls {
-  background: #edf8fa;
-  color: #087e91;
-}
+
 :root[data-theme="light"] .statsguru-panel .table-wrap th.sg-head-runs,
-:root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-runs {
-  background: #fff0e8;
-  color: #c94c20;
-}
-:root[data-theme="light"] .statsguru-panel .table-wrap tbody tr:nth-child(even) {
-  background: #f7f9fc;
-}
-:root[data-theme="light"] .statsguru-panel .table-wrap tbody tr:hover {
-  background: #eaf3f8;
-}
-:root[data-theme="light"] .statsguru-panel .table-wrap tbody tr:hover .sg-cell-runs {
-  background: #ffe0d0;
-}
+
+
+
+
 :root[data-theme="light"] .home-snapshot-section .button.outline,
 :root[data-theme="light"] .button.outline {
   color: var(--white);
@@ -4855,10 +4448,7 @@ option {
   background: #f4f7fb;
 }
 :root[data-theme="light"] .statsguru-format-tabs button.active,
-:root[data-theme="light"] .statsguru-category-grid button.active {
-  background: var(--orange);
-  color: #fff;
-}
+
 :root[data-theme="light"] .gallery-live-fallback,
 :root[data-theme="light"] .cricinfo-gallery,
 :root[data-theme="light"] .tilak-news-card {
@@ -4910,26 +4500,15 @@ option {
   :root[data-theme="system"] .statsguru-panel,
   :root[data-theme="system"] .statsguru-sourcebar,
   :root[data-theme="system"] .statsguru-format-tabs button,
-  :root[data-theme="system"] .statsguru-category-grid button {
-    background: #fff;
-    color: var(--white);
-  }
+
   :root[data-theme="system"] th {
     background: #e8eef5;
     color: #087e91;
   }
-  :root[data-theme="system"] .statsguru-panel .table-wrap td {
-    color: #24354a;
-  }
-  :root[data-theme="system"] .statsguru-panel .table-wrap .sg-cell-date {
-    background: #e7f5f7;
-    color: #203c51;
-  }
+
+
   :root[data-theme="system"] .statsguru-panel .table-wrap .sg-cell-runs,
-  :root[data-theme="system"] .statsguru-panel .table-wrap th.sg-head-runs {
-    background: #fff0e8;
-    color: #c94c20;
-  }
+
 }
 
 /* Centralised appearance settings and readable theme contrast */
@@ -5138,9 +4717,7 @@ option {
 :root[data-theme-resolved="light"] .gallery-heading > span,
 :root[data-theme-resolved="light"] .tilak-news-meta,
 :root[data-theme-resolved="light"] .player-analysis-help,
-:root[data-theme-resolved="light"] .statsguru-note {
-  color: var(--muted);
-}
+
 :root[data-theme-resolved="light"] input,
 :root[data-theme-resolved="light"] select,
 :root[data-theme-resolved="light"] textarea {
@@ -5161,29 +4738,14 @@ option {
   color: #26374b;
   border-color: var(--line);
 }
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-date {
-  background: #e7f5f7;
-  color: #203c51;
-}
+
 :root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-minutes,
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-balls {
-  background: #edf8fa;
-  color: #087e91;
-}
+
 :root[data-theme-resolved="light"] .statsguru-panel .table-wrap th.sg-head-runs,
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-runs {
-  background: #fff0e8;
-  color: #b84219;
-}
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap tbody tr:nth-child(even) {
-  background: #f7f9fc;
-}
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap tbody tr:hover {
-  background: #eaf3f8;
-}
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap tbody tr:hover .sg-cell-runs {
-  background: #ffe0d0;
-}
+
+
+
+
 :root[data-theme-resolved="light"] .button,
 :root[data-theme-resolved="light"] button {
   color: var(--white);
@@ -5346,9 +4908,7 @@ option {
   color: var(--muted);
   font: 9px/1.5 var(--mono);
 }
-.bowling-stats-view > .section-heading {
-  margin-bottom: 16px;
-}
+
 .bowling-sourcebar {
   display: flex;
   justify-content: space-between;
@@ -5364,26 +4924,9 @@ option {
 .bowling-sourcebar b {
   color: var(--cyan);
 }
-.bowling-format-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-.bowling-format-tabs button {
-  padding: 9px 12px;
-  color: var(--muted);
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  font: 700 10px var(--body);
-  cursor: pointer;
-}
-.bowling-format-tabs button.active {
-  color: #07101f;
-  background: var(--cyan);
-  border-color: var(--cyan);
-}
+
+
+
 .bowling-summary {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -5412,13 +4955,7 @@ option {
   overflow-wrap: anywhere;
 }
 .bowling-breakdown-wrap,
-.bowling-innings-wrap {
-  margin: 18px 0;
-  padding: 14px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 5px;
-}
+
 .bowling-subheading {
   margin-bottom: 12px;
 }
@@ -5429,32 +4966,13 @@ option {
   color: var(--muted);
   font: 9px var(--mono);
 }
-.bowling-stats-view .table-wrap {
-  max-width: 100%;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-}
-.bowling-stats-view table {
-  min-width: 950px;
-}
+
+
 .bowling-stats-view th,
-.bowling-stats-view td {
-  white-space: nowrap;
-}
-.bowling-stats-view .bowling-wickets-cell {
-  color: var(--cyan);
-  font-weight: 800;
-  text-align: center;
-  background: rgba(124, 229, 242, 0.08);
-}
-.bowling-stats-view .bowling-best-cell {
-  color: var(--cyan);
-  font-weight: 800;
-}
-.bowling-stats-view .bowling-card-link {
-  color: var(--orange);
-  font-weight: 800;
-}
+
+
+
+
 .bowling-data-note {
   margin-top: 14px;
   color: var(--muted);
@@ -5483,23 +5001,10 @@ option {
 :root[data-theme-resolved="light"] .bowling-metric span {
   color: #5d6d82;
 }
-:root[data-theme-resolved="light"] .bowling-format-tabs button {
-  background: #fff;
-  color: #34465c;
-  border-color: rgba(18, 35, 55, 0.2);
-}
-:root[data-theme-resolved="light"] .bowling-format-tabs button.active {
-  background: #087e91;
-  color: #fff;
-  border-color: #087e91;
-}
-:root[data-theme-resolved="light"] .bowling-stats-view .bowling-wickets-cell {
-  background: #e7f5f7;
-  color: #087e91;
-}
-:root[data-theme-resolved="light"] .bowling-stats-view .bowling-best-cell {
-  color: #087e91;
-}
+
+
+
+
 @media (max-width: 760px) {
   .home-bowling-card {
     padding: 12px;
@@ -5518,9 +5023,7 @@ option {
   .home-bowling-metric strong {
     font-size: 18px;
   }
-  .bowling-stats-view {
-    padding: 25px 3.5vw !important;
-  }
+
   .bowling-summary {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 5px;
@@ -5532,10 +5035,7 @@ option {
     font-size: 20px;
   }
   .bowling-breakdown-wrap,
-  .bowling-innings-wrap {
-    padding: 9px;
-    margin: 12px 0;
-  }
+
   .bowling-subheading h3 {
     font-size: 21px;
   }
@@ -5543,10 +5043,7 @@ option {
     font-size: 8px;
     padding: 8px;
   }
-  .bowling-format-tabs button {
-    padding: 8px 9px;
-    font-size: 9px;
-  }
+
 }
 @media (max-width: 420px) {
   .home-bowling-heading {
@@ -5710,140 +5207,44 @@ option {
 }
 
 /* Explore: complete Statsguru-style category selector */
-.statsguru-category-grid {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 5px 2px 14px;
-  margin: 18px 0 20px;
-  scroll-snap-type: x proximity;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-}
-.statsguru-category-grid button {
-  flex: 0 0 auto;
-  max-width: 250px;
-  white-space: nowrap;
-  scroll-snap-align: start;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  color: var(--muted);
-  padding: 12px 15px;
-  font: 600 11px var(--body);
-  cursor: pointer;
-  border-radius: 5px;
-}
-.statsguru-category-grid button.active {
-  background: var(--orange);
-  border-color: var(--orange);
-  color: #101522;
-}
-.statsguru-category-grid button:focus-visible {
-  outline: 2px solid var(--cyan);
-  outline-offset: 2px;
-}
-.sg-data-unavailable {
-  padding: 18px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.8;
-}
-.sg-data-unavailable a {
-  display: inline-block;
-  color: var(--cyan);
-  margin-left: 5px;
-}
+
+
+
+
+
+
 @media (max-width: 600px) {
-  .statsguru-category-grid {
-    margin-left: -2vw;
-    margin-right: -2vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
-  }
-  .statsguru-category-grid button {
-    padding: 11px 12px;
-    font-size: 10px;
-  }
-  .statsguru-summary {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
+
+
 }
 
 /* Stats summary: keep the cards uniform; retain the original orange Runs highlight. */
-.statsguru-summary .statsguru-metric {
-  position: relative;
-  overflow: hidden;
-  border-top: 2px solid var(--line);
-  background: var(--panel);
-}
-.statsguru-summary .statsguru-metric span {
-  color: var(--muted);
-}
-.statsguru-summary .statsguru-metric strong {
-  color: var(--white);
-}
-.statsguru-summary .statsguru-metric:nth-child(4) {
-  border-top-color: #ff8a5b;
-  background: color-mix(in srgb, #ff8a5b 7%, var(--panel));
-}
-.statsguru-summary .statsguru-metric:nth-child(4) strong {
-  color: #ff9a70;
-}
+
+
+
+
+
 
 /* Keep the Explore table clean and neutral, with Runs highlighted in orange. */
 .statsguru-panel .table-wrap th,
-.statsguru-panel .table-wrap td {
-  border-bottom-color: color-mix(in srgb, var(--line) 78%, transparent);
-}
-.statsguru-panel .table-wrap th:not(.sg-head-runs) {
-  box-shadow: none;
-}
-.statsguru-panel .table-wrap td:not(.sg-cell-runs) {
-  box-shadow: none;
-}
+
+
+
 .statsguru-panel .table-wrap th.sg-head-runs,
-.statsguru-panel .table-wrap .sg-cell-runs {
-  --column-accent: #ff8a5b;
-}
-.statsguru-panel .table-wrap th.sg-head-runs {
-  box-shadow: inset 0 -2px 0 #ff8a5b;
-}
-.statsguru-panel .table-wrap .sg-cell-runs {
-  background: color-mix(in srgb, #ff8a5b 10%, var(--panel));
-  color: #ff9a70;
-  font-weight: 700;
-}
-.statsguru-panel .table-wrap tbody tr:hover td:not(.sg-cell-runs) {
-  background: var(--panel);
-}
-:root[data-theme-resolved="light"] .statsguru-summary .statsguru-metric {
-  background: #fff;
-}
-:root[data-theme-resolved="light"] .statsguru-summary .statsguru-metric strong {
-  color: #152235;
-}
-:root[data-theme-resolved="light"] .statsguru-summary .statsguru-metric:nth-child(4) {
-  background: #fff0e8;
-}
-:root[data-theme-resolved="light"] .statsguru-summary .statsguru-metric:nth-child(4) strong {
-  color: #b84219;
-}
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-runs {
-  background: #fff0e8;
-  color: #b84219;
-}
+
+
+
+
+
+
+
+
+
 @media (max-width: 600px) {
-  .statsguru-summary .statsguru-metric {
-    padding: 10px 8px;
-  }
-  .statsguru-summary .statsguru-metric span {
-    font-size: 8px;
-  }
-  .statsguru-summary .statsguru-metric strong {
-    font-size: clamp(18px, 5vw, 24px);
-  }
+
+
+
 }
 
 /* Consistent restrained colour accents for tables and cards across every stats section. */
@@ -5856,81 +5257,38 @@ option {
 .stats-section .statsguru-metric,
 .stats-section .bowling-metric,
 .stats-section .bowling-breakdown-wrap,
-.stats-section .bowling-innings-wrap {
-  border-color: var(--line);
-}
+
 .stats-section .stat-card:not(.stat-feature),
 .stats-section .statsguru-metric,
-.stats-section .bowling-metric {
-  border-top: 2px solid var(--stats-accent);
-}
+
 .stats-section .stat-card:not(.stat-feature) .stat-label,
 .stats-section .statsguru-metric span,
-.stats-section .bowling-metric span {
-  color: var(--muted);
-}
-.stats-section .format-card .format-detail {
-  color: var(--muted);
-}
-.stats-section .career-formats .format-card {
-  background: var(--panel);
-  border-top: 2px solid var(--stats-accent);
-}
-.stats-section .career-formats .format-card strong {
-  color: var(--white);
-}
+
+
+
+
 .stats-section .statsguru-panel .table-wrap th,
-.stats-section .bowling-stats-view .table-wrap th {
-  background: var(--panel2);
-  color: #b9cce6;
-  border-bottom: 1px solid var(--line);
-  box-shadow: inset 0 -2px 0 rgba(124, 229, 242, 0.55);
-}
+
 .stats-section .statsguru-panel .table-wrap td,
-.stats-section .bowling-stats-view .table-wrap td {
-  border-bottom: 1px solid var(--line);
-}
+
 .stats-section .statsguru-panel .table-wrap tbody tr:nth-child(even),
-.stats-section .bowling-stats-view .table-wrap tbody tr:nth-child(even) {
-  background: rgba(124, 229, 242, 0.025);
-}
+
 .stats-section .statsguru-panel .table-wrap tbody tr:hover td:not(.sg-cell-runs),
-.stats-section .bowling-stats-view .table-wrap tbody tr:hover td {
-  background: rgba(124, 229, 242, 0.065);
-}
+
 .stats-section .bowling-stats-view .bowling-wickets-cell,
-.stats-section .bowling-stats-view .bowling-best-cell {
-  color: var(--stats-accent);
-  background: var(--stats-accent-soft);
-}
-.stats-section .statsguru-panel .table-wrap th.sg-head-runs {
-  background: var(--panel2);
-  color: #ff9a70;
-  box-shadow: inset 0 -2px 0 #ff8a5b;
-}
-.stats-section .statsguru-panel .table-wrap .sg-cell-runs {
-  background: rgba(255, 138, 91, 0.1);
-  color: #ff9a70;
-  font-weight: 800;
-}
+
+
+
 :root[data-theme-resolved="light"] .stats-section .career-formats .format-card,
 :root[data-theme-resolved="light"] .stats-section .statsguru-metric,
 :root[data-theme-resolved="light"] .stats-section .bowling-metric,
 :root[data-theme-resolved="light"] .stats-section .bowling-breakdown-wrap,
-:root[data-theme-resolved="light"] .stats-section .bowling-innings-wrap {
-  background: #fff;
-}
+
 :root[data-theme-resolved="light"] .stats-section .career-formats .format-card strong,
 :root[data-theme-resolved="light"] .stats-section .statsguru-metric strong,
-:root[data-theme-resolved="light"] .stats-section .bowling-metric strong {
-  color: #152235;
-}
+
 :root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th,
-:root[data-theme-resolved="light"] .stats-section .bowling-stats-view .table-wrap th {
-  background: #edf3f9;
-  color: #34465c;
-  box-shadow: inset 0 -2px 0 rgba(8, 126, 145, 0.4);
-}
+
 :root[data-theme-resolved="light"]
   .stats-section
   .statsguru-panel
@@ -5963,54 +5321,22 @@ option {
 }
 @media (max-width: 600px) {
   .stats-section .statsguru-panel .table-wrap th,
-  .stats-section .bowling-stats-view .table-wrap th {
-    padding: 8px 9px;
-    font-size: 8px;
-  }
+
 }
 
 /* Runs must stay highlighted after the global Stats table theme rules. */
-.stats-section .statsguru-panel .table-wrap th.sg-head-runs {
-  background: color-mix(in srgb, #ff8a5b 18%, var(--panel2)) !important;
-  color: #ffad8b !important;
-  box-shadow: inset 0 -3px 0 #ff8a5b !important;
-  border-bottom-color: #ff8a5b !important;
-}
-.stats-section .statsguru-panel .table-wrap td.sg-cell-runs {
-  background: rgba(255, 138, 91, 0.12) !important;
-  color: #ffad8b !important;
-  font-weight: 800 !important;
-  font-variant-numeric: tabular-nums;
-}
-.stats-section .statsguru-panel .table-wrap tbody tr:hover td.sg-cell-runs {
-  background: rgba(255, 138, 91, 0.22) !important;
-}
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th.sg-head-runs {
-  background: #ffeadf !important;
-  color: #9c3516 !important;
-  box-shadow: inset 0 -3px 0 #d95d30 !important;
-  border-bottom-color: #d95d30 !important;
-}
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap td.sg-cell-runs {
-  background: #fff0e8 !important;
-  color: #a43d1b !important;
-}
+
+
+
+
+
 
 /* Main Batting career summary: Runs card matches the neutral stat cards. */
 .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature,
-.stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature:hover {
-  background: var(--panel) !important;
-  color: var(--white);
-  border-color: var(--line) !important;
-  border-top: 2px solid var(--stats-accent, #7ce5f2) !important;
-}
+
 .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature .stat-label,
-.stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature .stat-note {
-  color: var(--muted) !important;
-}
-.stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature strong {
-  color: var(--white) !important;
-}
+
+
 :root[data-theme-resolved="light"]
   .stats-section
   #stats-overview
@@ -6050,113 +5376,31 @@ option {
 }
 
 /* Explore category menu: wrap onto new rows instead of requiring horizontal scrolling. */
-.statsguru-category-grid {
-  display: flex;
-  flex-wrap: wrap;
-  overflow: visible;
-  scroll-snap-type: none;
-  gap: 8px;
-  padding: 5px 2px 10px;
-}
-.statsguru-category-grid button {
-  flex: 0 1 auto;
-  max-width: 100%;
-  white-space: normal;
-  line-height: 1.35;
-  overflow-wrap: anywhere;
-}
+
+
 @media (max-width: 600px) {
-  .statsguru-category-grid {
-    overflow: visible;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-    gap: 6px;
-  }
-  .statsguru-category-grid button {
-    flex: 0 1 auto;
-    max-width: 100%;
-    white-space: normal;
-    padding: 9px 10px;
-    font-size: 10px;
-  }
+
+
 }
 
 /* Make every Statsguru table header cell clearly highlighted, including on mobile. */
-.stats-section .statsguru-panel .table-wrap th {
-  background: color-mix(in srgb, var(--stats-accent) 16%, var(--panel2));
-  color: #d8f7fb;
-  box-shadow: inset 0 -3px 0 var(--stats-accent);
-  border-bottom-color: var(--stats-accent);
-  font-weight: 800;
-}
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th {
-  background: #dff5f8;
-  color: #16394b;
-  box-shadow: inset 0 -3px 0 #168da0;
-  border-bottom-color: #168da0;
-}
+
+
 
 /* Restore the Runs-column accent across Explore tables (the neutral override was hiding it). */
 .stats-section .statsguru-panel .table-wrap th.sg-head-runs,
-.stats-section .statsguru-panel .table-wrap th:has(+ td.sg-cell-runs) {
-  background: color-mix(in srgb, #ff8a5b 18%, var(--panel2)) !important;
-  color: #ffad8b !important;
-  box-shadow: inset 0 -3px 0 #ff8a5b !important;
-}
-.stats-section .statsguru-panel .table-wrap td.sg-cell-runs {
-  background: rgba(255, 138, 91, 0.12) !important;
-  color: #ffad8b !important;
-  font-weight: 800 !important;
-}
-.stats-section .statsguru-panel .table-wrap tbody tr:hover td.sg-cell-runs {
-  background: rgba(255, 138, 91, 0.2) !important;
-}
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th.sg-head-runs {
-  background: #ffeadf !important;
-  color: #9c3516 !important;
-  box-shadow: inset 0 -3px 0 #d95d30 !important;
-}
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap td.sg-cell-runs {
-  background: #fff0e8 !important;
-  color: #a43d1b !important;
-}
+
+
+
+
+
 
 /* Statsguru: show the complete analysis chooser when the filter is expanded. */
-.sg-analysis-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  margin: 12px 0;
-  padding: 12px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  min-width: 0;
-}
-.sg-analysis-options legend {
-  padding: 0 6px;
-  color: var(--cyan);
-  font: 800 10px var(--mono);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-}
-.sg-analysis-options label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--text);
-  font-size: 11px;
-  line-height: 1.5;
-}
-.sg-analysis-options input {
-  accent-color: var(--orange);
-}
-.sg-view-options {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px 16px;
-}
+
+
+
+
+
 .match-history-summary {
   margin: 18px 0;
   padding: 14px;
@@ -6239,16 +5483,9 @@ option {
   color: #087e91;
 }
 @media (max-width: 650px) {
-  .sg-analysis-options {
-    gap: 9px 12px;
-    padding: 10px;
-  }
-  .sg-view-options {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .sg-analysis-options label {
-    font-size: 10px;
-  }
+
+
+
   .player-match-milestones {
     grid-template-columns: 1fr;
   }
@@ -9120,39 +8357,14 @@ body > .cs-overlay .cs-kicker {
 
 /* Format selectors: keep every option visible on phones without horizontal scrolling. */
 .statsguru-format-tabs,
-.bowling-format-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  overflow-x: visible;
-  overflow-y: visible;
-  max-width: 100%;
-  white-space: normal;
-  align-items: stretch;
-}
+
 .statsguru-format-tabs button,
-.bowling-format-tabs button {
-  flex: 0 1 auto;
-  min-width: 0;
-  max-width: 100%;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  text-align: center;
-}
+
 @media (max-width: 600px) {
   .statsguru-format-tabs,
-  .bowling-format-tabs {
-    gap: 7px;
-    padding: 8px 0 12px;
-  }
+
   .statsguru-format-tabs button,
-  .bowling-format-tabs button {
-    padding: 10px 12px;
-    font-size: 12px;
-    line-height: 1.25;
-    min-height: 42px;
-  }
+
   .statsguru-format-tabs button[data-sg-format="T20"],
-  .bowling-format-tabs button[data-bowling-format="T20"] {
-    flex: 1 1 145px;
-  }
+
 }
