@@ -87,10 +87,15 @@
       const existingIndex = matches.findIndex((item) => {
         const sameOpposition = normalizeText(item.opposition) === normalizedOpposition;
         const dateDistance = Math.abs(day - dayValue(item.date));
-        // Venue labels vary between feeds (city, ground, or stadium name).
-        // One player cannot play two matches against the same opponent on the
-        // same day, so opponent + date is the stable cross-feed identity.
-        return sameOpposition && dateDistance <= 1;
+        const previousFormat = item.format || "T20I";
+        // Only collapse the overlapping T20I/all-T20 feeds. Do not merge
+        // different formats (for example FC and List A) just because the
+        // opponent/date happens to match, and keep other same-date fixtures.
+        const isOverlappingT20Feed =
+          (previousFormat === "T20I" && fmt === "T20") ||
+          (previousFormat === "T20" && fmt === "T20I");
+        const sameFormat = previousFormat === fmt;
+        return sameOpposition && dateDistance <= 1 && (sameFormat || isOverlappingT20Feed);
       });
       if (existingIndex < 0) {
         matches.push({ ...row, format: fmt, ground });
