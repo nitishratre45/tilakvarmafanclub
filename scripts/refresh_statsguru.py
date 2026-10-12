@@ -1162,6 +1162,12 @@ def main():
     optional_warnings = []
     optional_formats = {"FC", "List A"}
     for fmt, match_class in FORMATS.items():
+        # ESPNcricinfo currently returns HTTP 400 for these optional domestic formats.
+        # Preserve verified saved data and avoid repeated failing requests until a
+        # reliable alternate source is configured.
+        if fmt in optional_formats:
+            print(fmt + ": skipped by policy; preserving saved data (no verified domestic records configured).")
+            continue
         try:
             result = scrape_format(fmt, match_class)
             previous = old_formats.get(fmt, {})
@@ -1474,6 +1480,11 @@ def main():
         new_field_formats = dict(old_field_formats)
         field_success, field_errors, field_warnings = [], [], []
         for fmt, match_class in FORMATS.items():
+            # Avoid repeated HTTP 400 requests for unsupported domestic formats.
+            # Existing fielding snapshots remain untouched until a verified source exists.
+            if fmt in optional_formats:
+                print(fmt + ": fielding refresh skipped by policy; preserving saved data.")
+                continue
             try:
                 fresh = scrape_fielding_format(fmt, match_class)
                 previous = old_field_formats.get(fmt, {})
