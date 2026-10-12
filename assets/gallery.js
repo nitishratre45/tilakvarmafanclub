@@ -191,7 +191,7 @@
           (photo.createdAt && !Number.isNaN(Date.parse(photo.createdAt))
             ? '<small class="tv-photo-date">' +
               esc(
-                new Date(photo.createdAt).toLocaleString("en-IN", {
+                new Date(photo.createdAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata",
                   day: "numeric",
                   month: "short",
                   year: "numeric",
@@ -328,7 +328,7 @@
                 "</strong><small>" +
                 esc(
                   album.uploadDate
-                    ? new Date(album.uploadDate).toLocaleDateString("en-IN", {
+                    ? new Date(album.uploadDate).toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata",
                         day: "numeric",
                         month: "short",
                         year: "numeric",
