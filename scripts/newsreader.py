@@ -14,8 +14,8 @@ from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "News" / "newsjson.json"
-OUTPUT = ROOT / "News" / "tilak-news.json"
+SOURCE = ROOT / "News" / "raw-news-pages.json"
+OUTPUT = ROOT / "News" / "newsjson.json"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClub/1.0)",
     "Accept": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
