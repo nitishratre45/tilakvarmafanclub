@@ -420,7 +420,6 @@ def main() -> None:
                             "publishedAt",
                             "matchedLines",
                             "matchFoundIn",
-                            "articleText",
                         )
                         if item.get(key) is not None
                     }
