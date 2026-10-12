@@ -1,4 +1,4 @@
-/* Stats-only styles migrated from the legacy global stylesheets. Shared homepage card/layout styles remain in assets CSS. */
+/* Stats-only styles extracted from global stylesheets. Shared homepage styles remain global. */
 
 .stats-section
 {
@@ -11,6 +11,14 @@
 {
 
   margin-bottom: 32px;
+
+}
+
+.stats-section
+{
+
+  background: #07101f !important;
+  color: var(--white);
 
 }
 
@@ -124,6 +132,42 @@
 }
 }
 
+:root[data-theme="light"] .stats-section
+{
+
+  background: var(--bg);
+  color: var(--white);
+
+}
+
+@media (prefers-color-scheme: light) {
+:root[data-theme="system"] .stats-section
+{
+
+    background: var(--bg);
+    color: var(--white);
+  
+}
+}
+
+:root[data-theme-resolved="light"] .stats-section
+{
+
+  background: var(--bg);
+  color: var(--white);
+
+}
+
+.stats-section .stat-card,
+.stats-section .home-format-card,
+.stats-section .bowling-metric
+{
+
+  border-color: var(--line);
+
+}
+
+.stats-section .stat-card:not(.stat-feature),
 .stats-section .bowling-metric
 {
 
@@ -131,6 +175,7 @@
 
 }
 
+.stats-section .stat-card:not(.stat-feature) .stat-label,
 .stats-section .bowling-metric span
 {
 
@@ -145,10 +190,35 @@
 
 }
 
+:root[data-theme-resolved="light"] .stats-section .bowling-metric
+{
+
+  background: #fff;
+
+}
+
 :root[data-theme-resolved="light"] .stats-section .bowling-metric strong
 {
 
   color: #152235;
+
+}
+
+.stats-subnav
+{
+
+  border-radius: 14px;
+
+}
+
+.stats-subnav button
+{
+
+  border-radius: 10px;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 
 }
 
@@ -163,6 +233,17 @@
   padding: 6px;
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
+
+}
+
+.stats-subnav button[aria-selected="true"],
+.stats-subnav button.active
+{
+
+  background: linear-gradient(135deg, #ff7c45, #e94f2f);
+  color: #180d09;
+  border-color: transparent;
+  font-weight: 900;
 
 }
 
@@ -219,6 +300,28 @@
 
 }
 
+:root[data-theme-resolved="light"] .stats-subnav button[aria-selected="true"],
+:root[data-theme-resolved="light"] .stats-subnav button.active
+{
+
+  color: #fff;
+
+}
+
+.stats-subnav button
+{
+
+  color: #cbd7e7;
+
+}
+
+.stats-subnav button.active
+{
+
+  color: #ffffff;
+
+}
+
 @media (max-width: 760px), (pointer: coarse) and (hover: none) {
 .stats-subnav
 {
@@ -256,6 +359,7 @@
 }
 }
 
+#stats.stats-section[hidden],
 #stats .stats-subview[hidden]
 {
 
@@ -274,6 +378,13 @@
 }
 
 @media (max-width: 760px), (pointer: coarse) and (hover: none) {
+#stats.stats-section
+{
+
+    box-sizing: border-box;
+    padding-inline: 12px;
+  
+}
 #stats .section-heading h2
 {
 
@@ -307,6 +418,7 @@
     touch-action: manipulation;
   
 }
+.stats-subnav button.active,
 .stats-subnav button[aria-selected="true"]
 {
 
@@ -325,6 +437,17 @@
 }
 }
 
+.stats-subnav button
+{
+
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+
+}
+
 #stats.stats-section
 {
 
@@ -340,6 +463,16 @@
   backdrop-filter: blur(16px);
   border: 1px solid var(--stats-card-border);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+}
+
+#stats .stats-subnav button
+{
+
+  min-width: 0;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+  -webkit-tap-highlight-color: transparent;
 
 }
 
@@ -430,6 +563,7 @@
 
 }
 
+#stats .player-analysis-grid select,
 #stats .player-analysis-grid input
 {
 
@@ -446,6 +580,7 @@
 
 }
 
+#stats .player-analysis-grid select:focus-visible,
 #stats .player-analysis-grid input:focus-visible
 {
 
@@ -482,6 +617,7 @@
 
 }
 
+:root[data-theme-resolved="light"] #stats .player-analysis-grid select,
 :root[data-theme-resolved="light"] #stats .player-analysis-grid input
 {
 
@@ -547,4 +683,11 @@
     transition: none;
   
 }
+}
+
+.stats-subnav button
+{
+
+  border-radius: 12px;
+
 }
