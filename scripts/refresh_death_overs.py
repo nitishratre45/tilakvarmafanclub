@@ -120,7 +120,9 @@ def parse_match(data, filename, key, totals, all_male_fallback=False):
     elif key == "ipl" and all_male_fallback:
         # Filter the broad all-men fallback to IPL only.
         event = info.get("event", {}) or {}
-        event_name = str(event.get("name", "") if isinstance(event, dict) else event).lower()
+        event_name = str(
+            event.get("name", "") if isinstance(event, dict) else event
+        ).lower()
         if "indian premier league" not in event_name and event_name.strip() != "ipl":
             return [], None
     elif key not in {"ipl", "overall_t20", "hyderabad"} and classify(info) != key:
@@ -214,7 +216,11 @@ def build(payload, key, all_male_fallback=False):
         for name in (n for n in z.namelist() if n.lower().endswith(".json")):
             try:
                 rows, mid = parse_match(
-                    json.loads(z.read(name).decode("utf-8-sig")), name, key, totals, all_male_fallback
+                    json.loads(z.read(name).decode("utf-8-sig")),
+                    name,
+                    key,
+                    totals,
+                    all_male_fallback,
                 )
                 innings.extend(rows)
                 if mid:
@@ -275,7 +281,11 @@ def main():
                 try:
                     if source_url not in cache:
                         cache[source_url] = download(source_url)
-                    trial = build(cache[source_url], cfg["kind"], all_male_fallback=source_url in cfg.get("fallback_urls", []))
+                    trial = build(
+                        cache[source_url],
+                        cfg["kind"],
+                        all_male_fallback=source_url in cfg.get("fallback_urls", []),
+                    )
                     if trial.get("innings") and trial.get("readErrors", 0) == 0:
                         candidate = trial
                         selected_url = source_url
@@ -290,10 +300,16 @@ def main():
                     attempt_errors.append(f"{source_url}: {source_error}")
 
             old_format = previous_formats.get(key, {})
-            if candidate is None or not candidate.get("innings") or candidate.get("readErrors", 0) > 0:
+            if (
+                candidate is None
+                or not candidate.get("innings")
+                or candidate.get("readErrors", 0) > 0
+            ):
                 reason = "; ".join(attempt_errors) or "No usable archive response"
                 if old_format.get("innings"):
-                    failures[key] = reason + "; retained the previous verified snapshot."
+                    failures[key] = (
+                        reason + "; retained the previous verified snapshot."
+                    )
                     formats[key] = old_format
                     print(f"WARNING {key}: {failures[key]}")
                     continue
