@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T19:59:00.418Z",
+  "checkedAt": "2026-10-12T19:59:54.562Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T08:40:50.829Z",
-      "workflow": "Format source code",
-      "workflowPath": ".github/workflows/format-code.yml",
-      "runId": 38224989522,
-      "runAttempt": 1,
-      "conclusion": "success",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38224989522",
-      "action": "no_recovery_needed",
-      "reason": "No failed, cancelled, or skipped jobs require this manager.",
-      "jobCounts": {
-        "total": 1,
-        "success": 1,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T08:41:02.565Z",
       "workflow": "Validate Tilak Varma FC site",
@@ -12723,6 +12702,27 @@
           ]
         }
       ]
+    },
+    {
+      "checkedAt": "2026-10-12T19:59:54.562Z",
+      "workflow": "Validate Tilak Varma FC site",
+      "workflowPath": ".github/workflows/site-check.yml",
+      "runId": 38301287698,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "event": "pull_request",
+      "branch": "fix/stats-browser-smoke-selector",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38301287698",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
     }
   ]
 }
