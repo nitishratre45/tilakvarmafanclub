@@ -206,3 +206,6 @@
   .back-arrow{font-size:29px}
 }
 @media(min-width:701px){.site-navigation{display:grid!important}}
+
+/* Desktop navigation is already visible; keep the menu toggle for compact layouts only. */
+@media(min-width:701px){.menu-toggle{display:none}}
