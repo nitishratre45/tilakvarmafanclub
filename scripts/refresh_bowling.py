@@ -390,6 +390,12 @@ def main():
     old_formats = old.get("formats") if isinstance(old.get("formats"), dict) else {}
     new_formats, errors = dict(old_formats), []
     for fmt, match_class in FORMATS.items():
+        # FC/List A are intentionally excluded until a verified source is available.
+        # Statsguru returns HTTP 400 for these requests; do not retry them on every run
+        # or overwrite any existing snapshot with guessed/empty data.
+        if fmt in {"FC", "List A"}:
+            print(fmt + ": skipped by policy; preserving saved bowling snapshot.")
+            continue
         try:
             result = scrape(fmt, match_class)
             previous = old_formats.get(fmt, {})
@@ -446,13 +452,9 @@ def main():
             "Bowling refresh incomplete; saved snapshot not updated: "
             + "; ".join(errors)
         )
-    unavailable_details = [
-        fmt
-        for fmt in ("FC", "List A")
-        if fmt in new_formats
-        and not new_formats[fmt].get("careerBreakdown")
-        and not new_formats[fmt].get("innings")
-    ]
+    # Domestic formats were deliberately not requested, so their absence is
+    # not a failed refresh and must not mark the verified core snapshot partial.
+    unavailable_details = []
     attempt_errors = [
         fmt
         + ": summary available, but verified detailed bowling rows were not returned by Statsguru."
