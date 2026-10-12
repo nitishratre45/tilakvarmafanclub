@@ -161,7 +161,7 @@ function compactErrors(value) {
 function relevantSourceIssues(...groups) {
   return groups
     .flatMap((value) => compactErrors(value))
-    .filter((message) => !/^(?:FC|List A)\\s*:/i.test(message.trim()));
+    .filter((message) => !/^(?:FC|List A)\s*:/i.test(message.trim()));
 }
 function normalizedAttemptStatus(status, rawIssues, visibleIssues) {
   // Statsguru reports a partial run solely because optional FC/List A calls
