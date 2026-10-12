@@ -12,7 +12,22 @@
           "'": "&#39;",
         })[ch],
     );
-  const stamp = (...values) => { const value = values.find((v) => typeof v === "string" && v.trim()); if (!value) return "Saved data"; const date = new Date(value); return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true }).format(date) + " IST"; };
+  const stamp = (...values) => {
+    const value = values.find((v) => typeof v === "string" && v.trim());
+    if (!value) return "Saved data";
+    const date = new Date(value);
+    return Number.isNaN(date.getTime())
+      ? value
+      : new Intl.DateTimeFormat("en-IN", {
+          timeZone: "Asia/Kolkata",
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }).format(date) + " IST";
+  };
   try {
     const data = await window.TilakSiteData.load();
 
