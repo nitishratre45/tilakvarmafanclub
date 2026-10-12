@@ -59,7 +59,7 @@ def blocks_for(article: dict) -> list[dict]:
     while cursor < len(tokens):
         found = None
         for header, width in headers:
-            if [x.lower() for x in tokens[cursor:cursor + width]] == header:
+            if [x.lower() for x in tokens[cursor : cursor + width]] == header:
                 found = (header, width)
                 break
         if not found:
@@ -67,11 +67,11 @@ def blocks_for(article: dict) -> list[dict]:
             continue
         header, width = found
         add_prose(" ".join(tokens[prose_start:cursor]))
-        rows = [tokens[cursor:cursor + width]]
+        rows = [tokens[cursor : cursor + width]]
         pos = cursor + width
         trailing_prose = []
         while pos + width <= len(tokens):
-            candidate = tokens[pos:pos + width]
+            candidate = tokens[pos : pos + width]
             if [x.lower() for x in candidate] in [h for h, _ in headers]:
                 break
             if not re.fullmatch(r"\d{1,2}", candidate[0]):
@@ -86,8 +86,8 @@ def blocks_for(article: dict) -> list[dict]:
                 re.I,
             )
             if split_match:
-                candidate[-1] = venue[:split_match.start()].strip()
-                trailing_prose.append(venue[split_match.start():].strip())
+                candidate[-1] = venue[: split_match.start()].strip()
+                trailing_prose.append(venue[split_match.start() :].strip())
                 rows.append(candidate)
                 pos += width
                 break
@@ -107,7 +107,11 @@ def blocks_for(article: dict) -> list[dict]:
     unique = []
     seen = set()
     for block in blocks:
-        key = (block.get("type"), re.sub(r"\W+", "", str(block.get("text", "")).lower())) if block.get("type") != "table" else None
+        key = (
+            (block.get("type"), re.sub(r"\W+", "", str(block.get("text", "")).lower()))
+            if block.get("type") != "table"
+            else None
+        )
         if key and key in seen:
             continue
         if key:
