@@ -102,21 +102,32 @@
       body.replaceChildren();
       const navigationLabels = new Set(["news", "videos", "photos", "matches", "players", "more", "home", "menu", "search", "sign in", "login"]);
       const normalize = (value) => String(value || "").replace(/[•·|]/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
-      const rawParagraphs = Array.isArray(item.articleText) && item.articleText.length
-        ? [...item.articleText, ...(Array.isArray(item.matchedLines) ? item.matchedLines : [])]
-        : (typeof item.fullText === "string" && item.fullText
-          ? item.fullText.split(/(?<=[.!?])\\s+|\\n+/)
-          : (Array.isArray(item.matchedLines) ? item.matchedLines : []));
-      const paragraphs = [...new Set(rawParagraphs
-        .filter((line) => typeof line === "string" && line.trim())
-        .map((line) => line.trim())
-        .filter((line) => !navigationLabels.has(normalize(line)))
-        .filter((line) => normalize(line) !== normalize(item.title))
-        .filter((line) => line.length >= 30))];
+      const rawText = String(item.fullText || item.pageText || "");
+      const rawParagraphs = Array.isArray(item.articleText) && item.articleText.length ? item.articleText : rawText.split(/\\n+/);
+      const paragraphs = [...new Set(rawParagraphs.filter((line) => typeof line === "string" && line.trim()).map((line) => line.trim()).filter((line) => line.length >= 2).filter((line) => !navigationLabels.has(normalize(line)) && normalize(line) !== normalize(item.title)))];
+      const appendFormattedText = (host, value) => {
+        const parts = String(value).split(/(\\*\\*[^*]+\\*\\*)/g);
+        parts.forEach((part) => {
+          const match = part.match(/^\\*\\*(.+)\\*\\*$/);
+          if (match) { const strong = document.createElement("strong"); strong.textContent = match[1]; host.appendChild(strong); }
+          else host.appendChild(document.createTextNode(part));
+        });
+      };
+      const rows = paragraphs.filter((line) => line.includes(" | "));
       if (paragraphs.length) {
+        let table = null;
         paragraphs.forEach((line) => {
+          const cells = line.split(" | ").map((cell) => cell.trim()).filter(Boolean);
+          if (line.includes(" | ") && cells.length >= 2) {
+            if (!table) { table = document.createElement("table"); table.className = "article-data-table"; body.appendChild(table); }
+            const tr = document.createElement("tr");
+            cells.forEach((cell) => { const td = document.createElement("td"); appendFormattedText(td, cell); tr.appendChild(td); });
+            table.appendChild(tr);
+            return;
+          }
+          table = null;
           const p = document.createElement("p");
-          p.textContent = line;
+          appendFormattedText(p, line);
           body.appendChild(p);
         });
       } else {
@@ -124,7 +135,7 @@
         p.textContent = "The saved BCCI feed does not include the full article text yet. Use the official BCCI link below to read the complete story.";
         body.appendChild(p);
       }
-      const image = document.getElementById("detail-image");
+            const image = document.getElementById("detail-image");
       const imageUrl = safeUrl(item.imageUrl);
       if (imageUrl) {
         image.src = imageUrl;
