@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T19:17:17.575Z",
+  "checkedAt": "2026-10-12T19:17:35.701Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T07:37:35.301Z",
-      "workflow": "Self-healing code guard",
-      "workflowPath": ".github/workflows/self-healing.yml",
-      "runId": 38218727762,
-      "runAttempt": 1,
-      "conclusion": "success",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38218727762",
-      "action": "no_recovery_needed",
-      "reason": "No failed, cancelled, or skipped jobs require this manager.",
-      "jobCounts": {
-        "total": 1,
-        "success": 1,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T07:37:43.990Z",
       "workflow": "Format source code",
@@ -12751,6 +12730,67 @@
               "name": "Post Set up Node.js",
               "conclusion": "skipped",
               "number": 13
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-10-12T19:17:35.701Z",
+      "workflow": "Self-healing code guard",
+      "workflowPath": ".github/workflows/self-healing.yml",
+      "runId": 38296544397,
+      "runAttempt": 2,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38296544397",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Apply safe automatic repairs",
+          "conclusion": "failure",
+          "startedAt": "2026-10-12T19:17:12Z",
+          "completedAt": "2026-10-12T19:17:27Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38296544397/job/114969131934",
+          "steps": [
+            {
+              "name": "Apply safe formatting repairs",
+              "conclusion": "failure",
+              "number": 5
+            },
+            {
+              "name": "Run syntax and data-integrity checks",
+              "conclusion": "skipped",
+              "number": 6
+            },
+            {
+              "name": "Report PR creation restriction",
+              "conclusion": "skipped",
+              "number": 9
+            },
+            {
+              "name": "Record validation failure",
+              "conclusion": "skipped",
+              "number": 10
+            },
+            {
+              "name": "Post Set up Python",
+              "conclusion": "skipped",
+              "number": 18
+            },
+            {
+              "name": "Post Set up Node.js",
+              "conclusion": "skipped",
+              "number": 19
             }
           ]
         }
