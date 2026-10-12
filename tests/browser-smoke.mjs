@@ -51,6 +51,20 @@ check("section navigation switches content and keeps one main section visible", 
   await page.close();
 });
 
+check("legacy /#stats URL is normalized to /stats on initial load", async () => {
+  const page = await browser.newPage();
+  page.setDefaultTimeout(8000);
+  await page.goto(baseURL + "/#stats", { waitUntil: "domcontentloaded" });
+  await page.waitForFunction(() => location.pathname.replace(/\\/$/, "") === "/stats");
+  await page.waitForFunction(() => {
+    const section = document.querySelector("#stats");
+    return Boolean(section && !section.hidden && getComputedStyle(section).display !== "none");
+  });
+  assert.equal(new URL(page.url()).pathname, "/stats", "Legacy Stats URL must use the canonical route");
+  assert.equal(await page.locator("#profile").isVisible(), false, "Profile must not replace Stats");
+  await page.close();
+});
+
 check("Stats Batting, Bowling, and Explore tabs respond", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
