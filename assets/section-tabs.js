@@ -4,6 +4,22 @@
   const main = document.querySelector("main");
   const nav = document.getElementById("main-nav");
   const menu = document.querySelector(".menu-toggle");
+  // Keep the News destination ready, but intentionally leave its section empty.
+  if (main && !document.getElementById("news")) {
+    const newsSection = document.createElement("section");
+    newsSection.id = "news";
+    newsSection.setAttribute("aria-label", "News");
+    main.appendChild(newsSection);
+  }
+  if (nav && !nav.querySelector('a[href="#news"]')) {
+    const newsLink = document.createElement("a");
+    newsLink.href = "#news";
+    newsLink.textContent = "News";
+    const videosLink = nav.querySelector('a[href="#tilak-videos"]');
+    if (videosLink) videosLink.insertAdjacentElement("afterend", newsLink);
+    else nav.appendChild(newsLink);
+  }
+
   const sections = [...(main ? main.querySelectorAll(":scope > section[id]") : [])];
   const allowed = new Set(
     sections.map((section) => section.id).filter((id) => id !== "home-snapshot"),
