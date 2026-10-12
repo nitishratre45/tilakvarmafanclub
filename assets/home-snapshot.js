@@ -138,11 +138,25 @@
         }
         return 0;
       };
+      // Calendar-date key avoids timezone drift between ISO dates and text dates.
+      const matchDayKey = (value) => {
+        const raw = String(value || "").trim();
+        const iso = raw.match(/^(\\d{4})-(\\d{2})-(\\d{2})/);
+        if (iso) return iso[1] + "-" + iso[2] + "-" + iso[3];
+        const human = raw.match(/^(\\d{1,2})\\s+([A-Za-z]{3,})\\s+(\\d{4})$/);
+        if (human) {
+          const month = new Date(human[2] + " 1, 2000").getMonth() + 1;
+          if (month >= 1 && month <= 12)
+            return human[3] + "-" + String(month).padStart(2, "0") + "-" + human[1].padStart(2, "0");
+        }
+        const timestamp = parseMatchDate(raw);
+        return timestamp ? new Date(timestamp).toISOString().slice(0, 10) : "";
+      };
       const normalizeOpponent = (value) =>
         String(value || "")
           .toLowerCase()
-          .replace(/^v\s+/, "")
-          .replace(/^india\s+vs\s+/, "")
+          .replace(/^v\\s+/, "")
+          .replace(/^india\\s+vs\\s+/, "")
           .replace(/[^a-z0-9]+/g, " ")
           .trim();
       const candidates = [
@@ -157,10 +171,7 @@
       const seenMatches = new Set();
       const rows = candidates
         .filter((row) => {
-          const key = [
-            Math.floor(parseMatchDate(row.date) / 86400000),
-            normalizeOpponent(row.opposition),
-          ].join("|");
+          const key = [matchDayKey(row.date), normalizeOpponent(row.opposition)].join("|");
           if (seenMatches.has(key)) return false;
           seenMatches.add(key);
           return true;
