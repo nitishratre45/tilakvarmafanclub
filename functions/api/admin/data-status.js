@@ -214,7 +214,10 @@ function getInfo(def, data) {
     const timestamps = Object.values(fmt)
       .map((entry) => entry.updatedAt)
       .filter(Boolean);
-    const rawIssues = [...compactErrors(sg.lastAttemptErrors), ...compactErrors(sg.lastAttemptWarnings)];
+    const rawIssues = [
+      ...compactErrors(sg.lastAttemptErrors),
+      ...compactErrors(sg.lastAttemptWarnings),
+    ];
     const errors = relevantSourceIssues(rawIssues);
     return {
       updatedAt: timestamps.length ? latestTimestamp(...timestamps) : null,
@@ -244,7 +247,10 @@ function getInfo(def, data) {
         },
       ]),
     );
-    const rawIssues = [...compactErrors(section.lastAttemptErrors), ...compactErrors(section.lastAttemptWarnings)];
+    const rawIssues = [
+      ...compactErrors(section.lastAttemptErrors),
+      ...compactErrors(section.lastAttemptWarnings),
+    ];
     const errors = relevantSourceIssues(rawIssues);
     return {
       updatedAt: section.updatedAt,
@@ -290,7 +296,10 @@ function getInfo(def, data) {
       updatedAt: latestTimestamp(section.updatedAt, data.iccRecordsUpdated),
       attemptAt: data.iccRecordsCheckedAt || section.lastAttemptAt,
       attemptStatus: section.lastAttemptStatus,
-      errors: [...compactErrors(section.lastAttemptErrors), ...compactErrors(section.lastAttemptWarnings)],
+      errors: [
+        ...compactErrors(section.lastAttemptErrors),
+        ...compactErrors(section.lastAttemptWarnings),
+      ],
       count:
         Object.keys(section).length + (data.iccRecords ? Object.keys(data.iccRecords).length : 0),
       summary: { rankings: section, recordsUpdated: data.iccRecordsUpdated || null },
