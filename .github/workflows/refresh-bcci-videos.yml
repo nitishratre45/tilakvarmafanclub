@@ -4,12 +4,11 @@ on:
   push:
     paths:
       - 'scripts/refresh_bcci_videos.py'
-      - 'assets/bcci-videos.js'
       - '.github/workflows/refresh-bcci-videos.yml'
       - 'data/video-config.json'
   schedule:
-    # Refresh the BCCI catalogue every 6 hours; avoid the top of the hour to reduce schedule delays.
-    - cron: "23 */6 * * *"
+    # Refresh the BCCI Tilak video catalogue and signed playback URLs every 12 hours (06:00 and 18:00 IST).
+    - cron: "30 0,12 * * *"
   workflow_dispatch:
 
 permissions:
