@@ -30,7 +30,9 @@ def main():
         if not NAME.search(" ".join((title, page_text, description, page_title))):
             continue
         try:
-            published = datetime.fromisoformat(str(a.get("publishedAt") or "").replace("Z", "+00:00"))
+            published = datetime.fromisoformat(
+                str(a.get("publishedAt") or "").replace("Z", "+00:00")
+            )
             if published.tzinfo is None:
                 published = published.replace(tzinfo=timezone.utc)
             age = now - published.astimezone(timezone.utc)
