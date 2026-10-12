@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T21:11:57.012Z",
+  "checkedAt": "2026-10-12T21:12:48.858Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T09:19:44.837Z",
-      "workflow": "Validate Admin Studio and Site Data",
-      "workflowPath": ".github/workflows/validate-admin-studio.yml",
-      "runId": 38229145016,
-      "runAttempt": 1,
-      "conclusion": "success",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38229145016",
-      "action": "no_recovery_needed",
-      "reason": "No failed, cancelled, or skipped jobs require this manager.",
-      "jobCounts": {
-        "total": 1,
-        "success": 1,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T09:19:54.062Z",
       "workflow": "Format source code",
@@ -12456,6 +12435,47 @@
         "skipped": 0
       },
       "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T21:12:48.858Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38309000679,
+      "runAttempt": 2,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38309000679",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Desktop and mobile interaction checks",
+          "conclusion": "failure",
+          "startedAt": "2026-10-12T21:11:56Z",
+          "completedAt": "2026-10-12T21:12:40Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38309000679/job/115010204642",
+          "steps": [
+            {
+              "name": "Test real browser interactions",
+              "conclusion": "failure",
+              "number": 6
+            },
+            {
+              "name": "Post Set up Node.js",
+              "conclusion": "skipped",
+              "number": 13
+            }
+          ]
+        }
+      ]
     }
   ]
 }
