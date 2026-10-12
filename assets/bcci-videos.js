@@ -136,7 +136,7 @@
           new Date(window.__bcciVideosUpdated).toLocaleString("en-IN", {
             dateStyle: "medium",
             timeStyle: "short", timeZone: "Asia/Kolkata",
-          })
+          }) + " IST"
         : "");
     grid.innerHTML = videos
       .map((item) => {
