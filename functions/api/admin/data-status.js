@@ -58,15 +58,6 @@ const DATASETS = [
     required: true,
   },
   {
-    id: "news",
-    name: "BCCI / ESPNcricinfo news",
-    file: "data/tilak-news.json",
-    section: "news",
-    intervalHours: 12,
-    workflow: "refresh-tilak-data.yml",
-    required: false,
-  },
-  {
     id: "death-overs",
     name: "Death-overs / over-by-over stats",
     file: "data/death-overs.json",
@@ -316,17 +307,6 @@ function getInfo(def, data) {
         ),
       },
       source: "Cricsheet archives",
-    };
-  if (def.id === "news")
-    return {
-      updatedAt: data.updatedAt,
-      attemptStatus: data.status,
-      errors: compactErrors(data.errors),
-      count: Array.isArray(data.items) ? data.items.length : 0,
-      summary: (data.items || [])
-        .slice(0, 5)
-        .map((x) => ({ title: x.title, publisher: x.publisher, published: x.published })),
-      source: Array.isArray(data.sources) ? data.sources.join(", ") : "BCCI / ESPNcricinfo",
     };
   if (def.id === "bcci-videos")
     return {
