@@ -140,29 +140,33 @@
   function sourceData() {
     const formats = data?.statsguru?.formats || {};
     if (selectedFormat === "All") {
-      const parts = ["T20", "ODI", "FC", "List A"]
+      // T20 is an aggregate across competitions and overlaps T20I and IPL.
+      // Sum only disjoint format buckets to avoid double-counting runs/matches.
+      const parts = ["T20I", "ODI", "IPL", "FC", "List A"]
         .map((f) => {
-          if (formats[f]) return formats[f];
+          if (formats[f]) return { format: f, ...formats[f] };
           if (f === "FC" && data?.careerFormats?.["First-class"])
-            return { summary: data.careerFormats["First-class"], innings: [], careerBreakdown: [] };
+            return { format: f, summary: data.careerFormats["First-class"], innings: [], careerBreakdown: [] };
           if (f === "List A" && data?.careerFormats?.["List A"])
-            return { summary: data.careerFormats["List A"], innings: [], careerBreakdown: [] };
+            return { format: f, summary: data.careerFormats["List A"], innings: [], careerBreakdown: [] };
           return null;
         })
         .filter(Boolean);
-      const all = parts.flatMap((f) => (Array.isArray(f.innings) ? f.innings : []));
+      const all = parts.flatMap((f) =>
+        (Array.isArray(f.innings) ? f.innings : []).map((row) => ({ ...row, format: row.format || f.format })),
+      );
       const summaries = parts.map((f) => withInferredBalls(f.summary)).filter(Boolean);
-      const sum = (k) => summaries.reduce((n, s) => n + (typeof s[k] === "number" ? s[k] : 0), 0);
+      const sum = (k) => summaries.reduce((n, item) => n + (typeof item[k] === "number" ? item[k] : 0), 0);
       const best = summaries
-        .map((s) => ({
-          score: s.highestScore,
-          n: Number.parseInt(String(s.highestScore || "").replace(/[^0-9]/g, ""), 10) || 0,
+        .map((item) => ({
+          score: item.highestScore,
+          n: Number.parseInt(String(item.highestScore || "").replace(/[^0-9]/g, ""), 10) || 0,
         }))
         .sort((a, b) => b.n - a.n)[0];
-      const runs = sum("runs"),
-        balls = sum("balls"),
-        inn = sum("innings"),
-        no = sum("notOuts");
+      const runs = sum("runs");
+      const balls = summaries.every((item) => typeof item.balls === "number") ? sum("balls") : null;
+      const inn = sum("innings");
+      const no = sum("notOuts");
       const summary = summaries.length
         ? {
             matches: sum("matches"),
@@ -172,7 +176,7 @@
             highestScore: best?.score || "—",
             average: inn > no ? Math.round((runs / (inn - no)) * 100) / 100 : null,
             balls,
-            ballsInferred: summaries.some((s) => s.ballsInferred === true),
+            ballsInferred: summaries.some((item) => item.ballsInferred === true),
             strikeRate: balls ? Math.round(((runs * 100) / balls) * 100) / 100 : null,
             hundreds: sum("hundreds"),
             fifties: sum("fifties"),
