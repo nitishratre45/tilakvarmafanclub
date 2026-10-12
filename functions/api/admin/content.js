@@ -134,7 +134,7 @@ export async function onRequestPost({ request, env }) {
         (item) => item && item.id === safeId && item.manual === true,
       );
       const contentBlocks = bodyText
-        .split(/\\n\\s*\\n/)
+        .split(/\n\s*\n/)
         .map((text) => text.trim())
         .filter(Boolean)
         .map((text) => ({ type: "paragraph", text }));
