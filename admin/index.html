@@ -1983,6 +1983,7 @@
             ><span class="nav-icon">◷</span>Gallery updates</a
           >
           <a href="#video" data-view="video"><span class="nav-icon">▷</span>Video feed</a>
+          <a href="#news" data-view="news"><span class="nav-icon">✦</span>News manager</a>
           <a href="#live-updates" data-view="live-updates"
             ><span class="nav-icon">◉</span>Live updates</a
           >
@@ -2439,6 +2440,32 @@
                 successful refresh depends on BCCI responding successfully.
               </p>
             </div>
+          </div>
+        </section>
+        <section id="news" class="section">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">NEWS PIPELINE · MULTI-SOURCE</div>
+              <h2>News manager</h2>
+              <p>Refresh Tilak Varma news from the configured sources in sequence. Each source is logged separately; one source failing will not prevent the next source from running.</p>
+            </div>
+            <span class="pill" id="news-manager-status">READY</span>
+          </div>
+          <div class="section-body">
+            <div class="stats" style="margin-top:0">
+              <article class="stat"><div class="stat-head">Saved stories</div><div class="stat-number" id="news-count">—</div><div class="stat-foot">Current filtered archive</div></article>
+              <article class="stat"><div class="stat-head">Sources configured</div><div class="stat-number" id="news-sources">3</div><div class="stat-foot">BCCI API · Google News RSS · ESPNcricinfo search</div></article>
+              <article class="stat"><div class="stat-head">Last data update</div><div class="stat-number" id="news-updated" style="font-size:15px">Not checked</div><div class="stat-foot">Timestamp from newsjson.json</div></article>
+            </div>
+            <div class="actions">
+              <button id="news-refresh" class="btn primary" type="button">↻ Refresh all news sources</button>
+              <button id="news-reload" class="btn" type="button">⟳ Reload saved news</button>
+              <a class="btn" href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/refresh-tilak-news.yml" target="_blank" rel="noopener noreferrer">Open workflow logs ↗</a>
+              <a class="btn" href="../news#news" target="_blank" rel="noopener noreferrer">View News section ↗</a>
+            </div>
+            <p class="hint">Refresh starts the GitHub Actions workflow securely through the admin API. Do not add a GitHub token to this page. The website updates after the workflow completes and Cloudflare Pages redeploys.</p>
+            <div id="news-source-results" class="run-list" aria-live="polite"><div class="empty">Load the saved archive or start a refresh to see source status.</div></div>
+            <p id="news-manager-message" class="status" role="status" aria-live="polite"></p>
           </div>
         </section>
         <section id="live-updates" class="section">
@@ -5354,6 +5381,101 @@
           }
         }
         $("automation-refresh")?.addEventListener("click", loadAutomationRepoMonitor);
+
+        async function loadNewsArchive() {
+          const button = $("news-reload");
+          if (button) button.disabled = true;
+          status("news-manager-message", "Loading saved news archive…");
+          try {
+            const response = await fetch("../News/newsjson.json?t=" + Date.now(), { cache: "no-store" });
+            if (!response.ok) throw new Error("Could not read News/newsjson.json (" + response.status + ")");
+            const data = await response.json();
+            const news = Array.isArray(data.news) ? data.news : [];
+            $("news-count").textContent = String(news.length);
+            $("news-updated").textContent = data.updatedAt ? new Date(data.updatedAt).toLocaleString() : "Not available";
+            const host = $("news-source-results");
+            host.replaceChildren();
+            const summary = document.createElement("article");
+            summary.className = "run-card";
+            const heading = document.createElement("strong");
+            heading.textContent = "Saved archive · " + news.length + " Tilak Varma stories";
+            const detail = document.createElement("p");
+            detail.textContent = "Candidates: " + (data.candidateCount ?? "—") + " · read errors: " + (Array.isArray(data.readErrors) ? data.readErrors.length : 0) + " · updated: " + (data.updatedAt || "unknown");
+            summary.append(heading, detail);
+            host.append(summary);
+            news.slice(0, 8).forEach((story) => {
+              const card = document.createElement("article");
+              card.className = "run-card";
+              const title = document.createElement("strong");
+              title.textContent = story.title || story.webviewUrl || "Untitled story";
+              const meta = document.createElement("p");
+              meta.textContent = (story.publishedAt || "Date unavailable") + " · " + (story.sourceName || story.source || "News source");
+              card.append(title, meta);
+              if (story.webviewUrl) {
+                const link = document.createElement("a");
+                link.className = "btn small";
+                link.href = story.webviewUrl;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.textContent = "Open story ↗";
+                card.append(link);
+              }
+              host.append(card);
+            });
+            if (!news.length) host.innerHTML = '<div class="empty">No saved stories yet. Run Refresh all news sources.</div>';
+            status("news-manager-message", "Archive loaded successfully. This is the currently saved data; a running workflow may take a few minutes to publish.");
+          } catch (error) {
+            status("news-manager-message", error.message, true);
+          } finally {
+            if (button) button.disabled = false;
+          }
+        }
+        $("news-reload")?.addEventListener("click", loadNewsArchive);
+        $("news-refresh")?.addEventListener("click", async () => {
+          const button = $("news-refresh");
+          if (!button) return;
+          button.disabled = true;
+          $("news-manager-status").textContent = "RUNNING";
+          status("news-manager-message", "Queueing sequential news refresh…");
+          try {
+            const result = await api("/api/admin/monitor", {
+              method: "POST",
+              body: JSON.stringify({ action: "news-refresh" }),
+            });
+            status("news-manager-message", result.message || "News refresh queued.");
+            $("news-manager-status").textContent = "QUEUED";
+            window.setTimeout(loadLiveNewsStatus, 2500);
+          } catch (error) {
+            status("news-manager-message", error.message, true);
+            $("news-manager-status").textContent = "ERROR";
+          } finally {
+            button.disabled = false;
+          }
+        });
+        async function loadLiveNewsStatus() {
+          try {
+            const data = await api("/api/admin/monitor");
+            const runs = (data.runs || []).filter((run) => /refresh tilak varma news/i.test(run.name || "") || /refresh-tilak-news/i.test(run.url || ""));
+            const host = $("news-source-results");
+            if (!runs.length) return;
+            host.replaceChildren();
+            runs.slice(0, 5).forEach((run) => {
+              const card = document.createElement("article");
+              card.className = "run-card";
+              const title = document.createElement("strong");
+              title.textContent = (run.name || "News refresh") + " · " + (run.status === "completed" ? (run.conclusion || "completed") : run.status);
+              const detail = document.createElement("p");
+              detail.textContent = "Started: " + (run.createdAt ? new Date(run.createdAt).toLocaleString() : "unknown") + " · branch: " + (run.branch || "main");
+              card.append(title, detail);
+              if (run.url) {
+                const link = document.createElement("a");
+                link.href = run.url; link.target = "_blank"; link.rel = "noopener noreferrer"; link.className = "btn small"; link.textContent = "Open run logs ↗";
+                card.append(link);
+              }
+              host.append(card);
+            });
+          } catch {}
+        }
         $("live-updates-refresh")?.addEventListener("click", refreshLiveUpdates);
         const viewLabels = {
           dashboard: "Overview",
@@ -5361,6 +5483,7 @@
           "gallery-updates": "Gallery updates",
           video: "Video feed",
           "live-updates": "Live updates",
+          news: "News manager",
           "repo-health": "Repository health",
           "data-status": "Data freshness",
           "data-editor": "Stats & Death Overs data",
@@ -5397,6 +5520,10 @@
             section.setAttribute("aria-hidden", String(!active));
           });
           $("page-title").textContent = viewLabels[view];
+          if (view === "news") {
+            loadNewsArchive();
+            loadLiveNewsStatus();
+          }
           if (view === "repo-health") {
             refreshRepoHealth();
             if (repoHealthPoll) clearInterval(repoHealthPoll);
