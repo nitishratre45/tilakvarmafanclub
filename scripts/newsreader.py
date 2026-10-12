@@ -21,7 +21,7 @@ HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
     "Referer": "https://www.bcci.tv/",
 }
-NAME_PATTERN = re.compile(r"\\btilak\\s+varma\\b", re.IGNORECASE)
+NAME_PATTERN = re.compile(r"\btilak\s+varma\b", re.IGNORECASE)
 URL_KEYS = {"webviewurl", "webview_url", "webview", "url", "articleurl", "canonicalurl"}
 TITLE_KEYS = {"title", "headline", "name", "newstitle", "metatitle"}
 IMAGE_KEYS = {"image", "imageurl", "image_url", "thumbnail", "thumbnailurl", "thumbnail_url", "banner", "coverimage", "featuredimage", "ogimage"}
@@ -57,7 +57,7 @@ class ArticleParser(HTMLParser):
             self._capture_jsonld = attrs.get("type", "").lower() == "application/ld+json"
             self._jsonld_buffer = []
         elif tag in {"p", "div", "br", "li", "h1", "h2", "h3", "article", "section"}:
-            self.parts.append("\\n")
+            self.parts.append("\n")
 
     def handle_endtag(self, tag):
         if tag == "title":
@@ -69,7 +69,7 @@ class ArticleParser(HTMLParser):
             self._capture_jsonld = False
             self._jsonld_buffer = []
         elif tag in {"p", "div", "li", "h1", "h2", "h3", "article", "section"}:
-            self.parts.append("\\n")
+            self.parts.append("\n")
 
     def handle_data(self, data):
         if self._capture_jsonld:
@@ -123,6 +123,7 @@ def first_value(record: dict, wanted: set[str]):
 def collect_articles(document: dict) -> list[dict]:
     articles, seen = [], set()
     for page in document.get("pages", []):
+        page_source = page.get("sourceName") or "BCCI News API"
         for record in walk_records(page.get("payload", {})):
             url = first_value(record, URL_KEYS)
             if not url:
@@ -145,6 +146,7 @@ def collect_articles(document: dict) -> list[dict]:
                 "title": first_value(record, TITLE_KEYS) or "",
                 "imageUrl": image,
                 "publishedAt": first_value(record, DATE_KEYS) or "",
+                "sourceName": first_value(record, {"sourcename", "source"}) or page_source,
                 "apiRecord": record,
             })
     return articles
@@ -154,7 +156,7 @@ def parse_page(raw: str) -> tuple[str, dict]:
     parser = ArticleParser()
     parser.feed(raw)
     metadata = dict(parser.meta)
-    metadata["text"] = html.unescape("\\n".join(parser.parts))
+    metadata["text"] = html.unescape("\n".join(parser.parts))
     structured = []
     for blob in parser.jsonld:
         try:
@@ -231,6 +233,7 @@ def main() -> None:
             if canonical.startswith("/"):
                 canonical = urljoin(url, canonical)
             article.update({
+                "sourceName": article.get("sourceName") or "BCCI News API",
                 "id": article.get("id") or re.sub(r"[^a-z0-9]+", "-", urlparse(canonical).path.lower()).strip("-"),
                 "webviewUrl": canonical,
                 "title": title or "Tilak Varma mentioned in BCCI news",
