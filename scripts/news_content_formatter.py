@@ -29,8 +29,8 @@ def official_url(value: str) -> bool:
 def blocks_for(article: dict) -> list[dict]:
     """Render readable prose once and replace flattened schedule text with real tables."""
     text = str(article.get("fullText") or article.get("pageText") or "")
-    text = text.replace("\\r", "\\n")
-    tokens = [token.strip() for token in re.split(r"\\s*\\|\\s*", text) if token.strip()]
+    text = text.replace("\r", "\n")
+    tokens = [token.strip() for token in re.split(r"\s*\|\s*", text) if token.strip()]
     headers = [
         (["no.", "day", "date", "match", "venue"], 5),
         (["no.", "day", "date", "day (to)", "date (to)", "match", "venue"], 7),
@@ -38,12 +38,12 @@ def blocks_for(article: dict) -> list[dict]:
     blocks: list[dict] = []
 
     def add_prose(value: str) -> None:
-        value = re.sub(r"\\s+", " ", value).strip()
+        value = re.sub(r"\s+", " ", value).strip()
         if not value:
             return
         # Remove repeated page chrome/headlines at the start of BCCI extraction.
-        value = re.sub(r"^(?:[^.]{0,180}Press Releases\\s+)?", "", value).strip()
-        parts = re.split(r"(?<=[.!?])\\s+(?=[A-Z“‘])", value)
+        value = re.sub(r"^(?:[^.]{0,180}Press Releases\s+)?", "", value).strip()
+        parts = re.split(r"(?<=[.!?])\s+(?=[A-Z“‘])", value)
         for part in parts:
             part = part.strip(" |")
             if not part:
@@ -74,14 +74,14 @@ def blocks_for(article: dict) -> list[dict]:
             candidate = tokens[pos:pos + width]
             if [x.lower() for x in candidate] in [h for h, _ in headers]:
                 break
-            if not re.fullmatch(r"\\d{1,2}", candidate[0]):
+            if not re.fullmatch(r"\d{1,2}", candidate[0]):
                 break
-            if not re.search(r"\\d{1,2}[- /][A-Za-z0-9]{2,}|\\d{4}", candidate[2]):
+            if not re.search(r"\d{1,2}[- /][A-Za-z0-9]{2,}|\d{4}", candidate[2]):
                 break
             # Some BCCI pages flatten the next squad/paragraph into the Venue cell.
             venue = candidate[-1]
             split_match = re.search(
-                r"\\s+(?=(?:India A squad:|Note:|DEVAJIT SAIKIA|The squad for the ODIs))",
+                r"\s+(?=(?:India A squad:|Note:|DEVAJIT SAIKIA|The squad for the ODIs))",
                 venue,
                 re.I,
             )
@@ -107,7 +107,7 @@ def blocks_for(article: dict) -> list[dict]:
     unique = []
     seen = set()
     for block in blocks:
-        key = (block.get("type"), re.sub(r"\\W+", "", str(block.get("text", "")).lower())) if block.get("type") != "table" else None
+        key = (block.get("type"), re.sub(r"\W+", "", str(block.get("text", "")).lower())) if block.get("type") != "table" else None
         if key and key in seen:
             continue
         if key:
