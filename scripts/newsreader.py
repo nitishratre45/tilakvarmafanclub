@@ -410,6 +410,19 @@ def main() -> None:
                         .endswith(".bcci.tv")
                     ):
                         continue
+                    # Do not carry forward unrelated stories from older contaminated archives.
+                    old_title = str(item.get("title") or "")
+                    old_body = " ".join(
+                        str(value or "")
+                        for field in ("articleText", "matchedLines")
+                        for value in (
+                            item.get(field, [])
+                            if isinstance(item.get(field), list)
+                            else [item.get(field, "")]
+                        )
+                    )
+                    if not NAME_PATTERN.search(old_title) and not NAME_PATTERN.search(old_body):
+                        continue
                     clean = {
                         key: item.get(key)
                         for key in (
@@ -496,14 +509,12 @@ def main() -> None:
             api_text_fields = " ".join(
                 str(record.get(key) or "")
                 for key in (
-                    "description",
-                    "summary",
-                    "excerpt",
                     "articleBody",
                     "content",
                     "body",
-                    "featuredImageAlt",
-                    "imageAlt",
+                    "description",
+                    "summary",
+                    "excerpt",
                     "seoDescription",
                 )
             )
