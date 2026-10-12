@@ -51,7 +51,7 @@
     });
   }
 
-  function show(id, push = false, view = null) {
+  function show(id, push = false, view = null, useStatsPath = false) {
     if (legacyViews[id]) {
       view = legacyViews[id];
       id = "stats";
@@ -73,20 +73,45 @@
     });
 
     if (id === "stats") setStatsView(view || "stats-overview");
-    nav?.querySelectorAll('a[href^="#"]').forEach((link) => {
-      const active = link.hash === "#" + id;
+    nav?.querySelectorAll("a").forEach((link) => {
+      const active = id === "stats"
+        ? link.getAttribute("href") === "/stats" || link.hash === "#stats"
+        : link.hash === "#" + id;
       link.classList.toggle("active", active);
       if (active) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
     });
 
-    if (push && location.hash !== "#" + id) {
-      history.pushState({ section: id, statsView: view || "stats-overview" }, "", "#" + id);
+    if (push) {
+      const statsPath = useStatsPath || (id === "stats" && location.pathname.replace(/\/$/, "") === "/stats");
+      const target = statsPath ? "/stats" : "#" + id;
+      const alreadyThere = statsPath
+        ? location.pathname.replace(/\/$/, "") === "/stats" && !location.hash
+        : location.hash === target;
+      if (!alreadyThere) {
+        history.pushState({ section: id, statsView: view || "stats-overview" }, "", target);
+      }
     }
     nav?.classList.remove("open");
     menu?.setAttribute("aria-expanded", "false");
     window.scrollTo(0, 0);
   }
+
+  // The Stats menu is a real /stats route; Cloudflare Pages rewrites it to index.html.
+  document.addEventListener(
+    "click",
+    (event) => {
+      const link = event.target instanceof Element ? event.target.closest('a[href="/stats"]') : null;
+      if (!link) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.dispatchEvent(
+        new CustomEvent("tilak:section-change", { detail: { id: "stats" } }),
+      );
+      show("stats", true, null, true);
+    },
+    true,
+  );
 
   document.addEventListener(
     "click",
@@ -112,13 +137,13 @@
   document.querySelectorAll("[data-stats-tab]").forEach((button) => {
     button.addEventListener("click", () => {
       setStatsView(button.dataset.statsTab);
-      if (location.hash !== "#stats")
+      if (location.pathname.replace(/\/$/, "") !== "/stats" && location.hash !== "#stats")
         history.pushState({ section: "stats", statsView: button.dataset.statsTab }, "", "#stats");
     });
   });
 
   window.addEventListener("popstate", (event) => {
-    const id = location.hash.slice(1) || "profile";
+    const id = location.pathname.replace(/\/$/, "") === "/stats" ? "stats" : location.hash.slice(1) || "profile";
     let saved = null;
     try {
       saved = sessionStorage.getItem("tilak-stats-view");
@@ -126,7 +151,7 @@
     show(id, false, event.state?.statsView || legacyViews[id] || (id === "stats" ? saved : null));
   });
   window.addEventListener("hashchange", () => {
-    const id = location.hash.slice(1) || "profile";
+    const id = location.pathname.replace(/\/$/, "") === "/stats" ? "stats" : location.hash.slice(1) || "profile";
     show(id, false, legacyViews[id] || null);
   });
 
@@ -134,6 +159,6 @@
   try {
     saved = sessionStorage.getItem("tilak-stats-view");
   } catch (_) {}
-  const initial = location.hash.slice(1) || "profile";
+  const initial = location.pathname.replace(/\/$/, "") === "/stats" ? "stats" : location.hash.slice(1) || "profile";
   show(initial, false, legacyViews[initial] || (initial === "stats" ? saved : null));
 })();

@@ -39,8 +39,8 @@ check("section navigation switches content and keeps one main section visible", 
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="#stats"]').click();
-  await page.waitForFunction(() => location.hash === "#stats");
+  await page.locator('#main-nav a[href="/stats"]').click();
+  await page.waitForFunction(() => location.pathname.replace(/\/$/, "") === "/stats");
   assert.equal(await page.locator("#stats").isVisible(), true, "Stats section should be visible");
   assert.equal(await page.locator("#profile").isVisible(), false, "Profile should be hidden");
   const visibleSections = await page.locator("main > section[id]").evaluateAll((nodes) =>
