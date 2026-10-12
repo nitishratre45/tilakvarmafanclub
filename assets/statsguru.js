@@ -6,6 +6,7 @@
       /[&<>"']/g,
       (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
     );
+  const formatIndiaTimestamp = (value) => { if (!value || /waiting for update|timestamp unavailable|saved snapshot/i.test(String(value))) return value || "timestamp unavailable"; const date = new Date(value); return Number.isNaN(date.getTime()) ? String(value) : new Intl.DateTimeFormat("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true }).format(date) + " IST"; };
   const fmt = (v) =>
     typeof v === "number" ? v.toLocaleString("en-IN", { maximumFractionDigits: 2 }) : (v ?? "—");
   const titles = {
@@ -738,7 +739,7 @@
     const sg = data.statsguru || {},
       source = sourceData(),
       rows = source.innings.slice();
-    const stamp = sg.updatedAt || "Waiting for update";
+    const stamp = formatIndiaTimestamp(sg.updatedAt || "Waiting for update");
     $("statsguru-updated").textContent = "Last update: " + stamp;
     $("statsguru-format-label").textContent =
       selectedFormat === "T20" ? "T20 · all competitions" : selectedFormat;
@@ -767,7 +768,7 @@
     if (detailNote) {
       detailNote.style.display = allFormatsSelected ? "" : "";
       if (allFormatsSelected) {
-        const stamp = data?.statsguru?.updatedAt || "timestamp unavailable";
+        const stamp = formatIndiaTimestamp(data?.statsguru?.updatedAt || "timestamp unavailable");
         const allSource = sourceData();
         detailNote.textContent =
           "Last update: " +
@@ -812,7 +813,7 @@
           "Explore category: " +
           (titles[selectedCategory] || selectedCategory) +
           " · " +
-          (data.statsguru?.updatedAt || "saved snapshot");
+          formatIndiaTimestamp(data.statsguru?.updatedAt || "saved snapshot");
       return;
     }
     renderSummary(source);
@@ -826,7 +827,7 @@
             (value === "all" ? "all available values" : value);
       if (appliedFrom || appliedTo)
         text += " · date range " + (appliedFrom || "earliest") + " to " + (appliedTo || "latest");
-      status.textContent = text + " · " + (sg.updatedAt || "snapshot timestamp unavailable");
+      status.textContent = text + " · " + formatIndiaTimestamp(sg.updatedAt || "snapshot timestamp unavailable");
     }
     if (
       selectedCategory === "batting" ||
@@ -1094,7 +1095,7 @@
     note.textContent =
       selectedFormat === "All"
         ? "Last update: " +
-          (sg.updatedAt || "timestamp unavailable") +
+          formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable") +
           ". Automatic refresh checks every 12 hours." +
           (source.summary?.ballsInferred
             ? " Overall-format strike rate is approximate because at least one source format did not provide balls faced; missing balls were estimated from its published strike rate."
