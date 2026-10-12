@@ -20,7 +20,14 @@ export async function onRequestGet({ request, env }) {
     "/" +
     path;
   const response = await fetch(url, { headers: { "cache-control": "no-cache" } });
-  if (response.status === 404) return json(kind === "media" ? { items: [] } : kind === "news" ? { news: [], updatedAt: null } : { feedUrl: "" });
+  if (response.status === 404)
+    return json(
+      kind === "media"
+        ? { items: [] }
+        : kind === "news"
+          ? { news: [], updatedAt: null }
+          : { feedUrl: "" },
+    );
   if (!response.ok) return json({ error: "Could not load saved content." }, 502);
   return json(await response.json());
 }
@@ -45,61 +52,132 @@ export async function onRequestPost({ request, env }) {
     const input = body.item;
     if (!input || typeof input !== "object" || Array.isArray(input))
       return json({ error: "News item is required." }, 400);
-    const title = String(input.title || "").trim().slice(0, 220);
-    const bodyText = String(input.body || input.description || "").trim().slice(0, 30000);
+    const title = String(input.title || "")
+      .trim()
+      .slice(0, 220);
+    const bodyText = String(input.body || input.description || "")
+      .trim()
+      .slice(0, 30000);
     const publishedAt = String(input.publishedAt || "").trim();
-    const category = String(input.category || "Manual News").trim().slice(0, 80);
+    const category = String(input.category || "Manual News")
+      .trim()
+      .slice(0, 80);
     const imageUrl = String(input.imageUrl || "").trim();
     const sourceUrl = String(input.webviewUrl || "").trim();
     if (action === "upsert" && (!title || !bodyText || !publishedAt))
       return json({ error: "Title, article body and publication date/time are required." }, 400);
     if (publishedAt && !Number.isFinite(Date.parse(publishedAt)))
       return json({ error: "Publication date/time is invalid." }, 400);
-    for (const [label, value] of [["Image URL", imageUrl], ["Source URL", sourceUrl]]) {
+    for (const [label, value] of [
+      ["Image URL", imageUrl],
+      ["Source URL", sourceUrl],
+    ]) {
       if (!value) continue;
       let parsed;
-      try { parsed = new URL(value); } catch { return json({ error: label + " must be a valid HTTPS URL." }, 400); }
+      try {
+        parsed = new URL(value);
+      } catch {
+        return json({ error: label + " must be a valid HTTPS URL." }, 400);
+      }
       if (parsed.protocol !== "https:" || parsed.username || parsed.password)
         return json({ error: label + " must be a valid HTTPS URL." }, 400);
     }
     const repo = env.GITHUB_REPOSITORY || "nitishratre45/tilakvarmafanclub";
     const branch = env.GITHUB_BRANCH || "main";
-    const currentUrl = "https://raw.githubusercontent.com/" + repo + "/" + branch + "/News/newsjson.json";
+    const currentUrl =
+      "https://raw.githubusercontent.com/" + repo + "/" + branch + "/News/newsjson.json";
     let archiveResponse;
-    try { archiveResponse = await fetch(currentUrl, { headers: { "cache-control": "no-cache" }, signal: AbortSignal.timeout(15000) }); }
-    catch { return json({ error: "Could not load the latest news archive. No changes were saved." }, 502); }
-    if (!archiveResponse.ok) return json({ error: "Could not load the latest news archive (" + archiveResponse.status + "). No changes were saved." }, 502);
+    try {
+      archiveResponse = await fetch(currentUrl, {
+        headers: { "cache-control": "no-cache" },
+        signal: AbortSignal.timeout(15000),
+      });
+    } catch {
+      return json({ error: "Could not load the latest news archive. No changes were saved." }, 502);
+    }
+    if (!archiveResponse.ok)
+      return json(
+        {
+          error:
+            "Could not load the latest news archive (" +
+            archiveResponse.status +
+            "). No changes were saved.",
+        },
+        502,
+      );
     let archive;
-    try { archive = await archiveResponse.json(); } catch { return json({ error: "The saved news archive is not valid JSON. No changes were saved." }, 502); }
+    try {
+      archive = await archiveResponse.json();
+    } catch {
+      return json(
+        { error: "The saved news archive is not valid JSON. No changes were saved." },
+        502,
+      );
+    }
     if (!archive || typeof archive !== "object" || !Array.isArray(archive.news))
       return json({ error: "Unexpected news archive format. No changes were saved." }, 502);
-    const id = String(input.id || "").trim().slice(0, 160);
+    const id = String(input.id || "")
+      .trim()
+      .slice(0, 160);
     if (action === "delete") {
-      const existing = archive.news.find(item => item && item.id === id && item.manual === true);
-      if (!existing) return json({ error: "Only manually added news entries can be deleted." }, 404);
-      archive.news = archive.news.filter(item => !(item && item.id === id && item.manual === true));
+      const existing = archive.news.find((item) => item && item.id === id && item.manual === true);
+      if (!existing)
+        return json({ error: "Only manually added news entries can be deleted." }, 404);
+      archive.news = archive.news.filter(
+        (item) => !(item && item.id === id && item.manual === true),
+      );
     } else {
-      const safeId = id || ("manual-" + crypto.randomUUID());
-      const existingIndex = archive.news.findIndex(item => item && item.id === safeId && item.manual === true);
-      const contentBlocks = bodyText.split(/\\n\\s*\\n/).map(text => text.trim()).filter(Boolean).map(text => ({ type: "paragraph", text }));
+      const safeId = id || "manual-" + crypto.randomUUID();
+      const existingIndex = archive.news.findIndex(
+        (item) => item && item.id === safeId && item.manual === true,
+      );
+      const contentBlocks = bodyText
+        .split(/\\n\\s*\\n/)
+        .map((text) => text.trim())
+        .filter(Boolean)
+        .map((text) => ({ type: "paragraph", text }));
       const item = {
         ...(existingIndex >= 0 ? archive.news[existingIndex] : {}),
-        id: safeId, manual: true, sourceName: String(input.sourceName || "The 72 Club").trim().slice(0, 100),
-        category, title, webviewUrl: sourceUrl, imageUrl,
+        id: safeId,
+        manual: true,
+        sourceName: String(input.sourceName || "The 72 Club")
+          .trim()
+          .slice(0, 100),
+        category,
+        title,
+        webviewUrl: sourceUrl,
+        imageUrl,
         publishedAt: new Date(publishedAt).toISOString(),
-        description: bodyText.slice(0, 1200), fullText: bodyText, pageText: bodyText,
-        contentBlocks, editorial: input.editorial && typeof input.editorial === "object" ? input.editorial : undefined,
-        updatedAt: new Date().toISOString()
+        description: bodyText.slice(0, 1200),
+        fullText: bodyText,
+        pageText: bodyText,
+        contentBlocks,
+        editorial:
+          input.editorial && typeof input.editorial === "object" ? input.editorial : undefined,
+        updatedAt: new Date().toISOString(),
       };
       if (existingIndex >= 0) archive.news[existingIndex] = item;
       else archive.news.push(item);
     }
-    archive.news.sort((a,b) => (Date.parse(b.publishedAt || "") || 0) - (Date.parse(a.publishedAt || "") || 0));
+    archive.news.sort(
+      (a, b) => (Date.parse(b.publishedAt || "") || 0) - (Date.parse(a.publishedAt || "") || 0),
+    );
     archive.updatedAt = new Date().toISOString();
     archive.manualChangesAt = archive.updatedAt;
     try {
       const commit = await saveRepoJson(env, PATHS.news, archive);
-      return json({ ok: true, action, id: action === "delete" ? id : (id || archive.news.find(item => item.manual && item.updatedAt === archive.updatedAt)?.id), count: archive.news.length, commit, updatedAt: archive.updatedAt });
+      return json({
+        ok: true,
+        action,
+        id:
+          action === "delete"
+            ? id
+            : id ||
+              archive.news.find((item) => item.manual && item.updatedAt === archive.updatedAt)?.id,
+        count: archive.news.length,
+        commit,
+        updatedAt: archive.updatedAt,
+      });
     } catch (error) {
       return json({ error: error.message || "News save failed." }, error.status || 502);
     }
