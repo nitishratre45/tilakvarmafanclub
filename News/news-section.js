@@ -77,7 +77,7 @@
       const title = document.createElement("h3");
       title.textContent = item.title || "Tilak Varma mentioned in BCCI news";
       const excerpt = document.createElement("p");
-      excerpt.textContent = (item.matchedLines || []).join(" ").replace(/\s+/g," ").slice(0,190) || "Open the details for the saved article reference.";
+      excerpt.textContent = ([...(Array.isArray(item.articleText) ? item.articleText : []), ...(item.matchedLines || [])]).join(" ").replace(/\s+/g," ").slice(0,190) || "Open the details for the saved article reference.";
       const action = document.createElement("span");
       action.className = "tv-news-card-more";
       action.textContent = "More details ↗";
