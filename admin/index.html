@@ -2495,22 +2495,93 @@
             </p>
             <section class="news-editor" aria-labelledby="manual-news-heading">
               <div class="news-editor-heading">
-                <div><div class="eyebrow">EDITORIAL STUDIO · MANUAL PUBLISHING</div><h3 id="manual-news-heading">Create & manage news</h3><p>Manually publish a story with its own date, image, category and full article. Existing BCCI stories stay preserved.</p></div>
+                <div>
+                  <div class="eyebrow">EDITORIAL STUDIO · MANUAL PUBLISHING</div>
+                  <h3 id="manual-news-heading">Create & manage news</h3>
+                  <p>
+                    Manually publish a story with its own date, image, category and full article.
+                    Existing BCCI stories stay preserved.
+                  </p>
+                </div>
                 <span class="news-editor-badge">ADMIN ONLY</span>
               </div>
               <form id="manual-news-form" class="news-editor-form">
-                <input type="hidden" id="manual-news-id" value="">
-                <label class="news-field news-field-wide"><span>Headline <b>*</b></span><input id="manual-news-title" maxlength="220" required placeholder="Enter the news headline"></label>
-                <label class="news-field"><span>Publish date & time <b>*</b></span><input id="manual-news-date" type="datetime-local" required></label>
-                <label class="news-field"><span>Category</span><select id="manual-news-category"><option>Team India</option><option>Tilak Varma</option><option>Match Update</option><option>Selection News</option><option>Records & Milestones</option><option>Opinion</option><option>Fan Club Update</option><option selected>Manual News</option></select></label>
-                <label class="news-field"><span>Author / source label</span><input id="manual-news-source" maxlength="100" value="The 72 Club" placeholder="The 72 Club / official source"></label>
-                <label class="news-field"><span>Cover image URL</span><input id="manual-news-image" type="url" placeholder="https://…"></label>
-                <label class="news-field news-field-wide"><span>Original source URL (optional)</span><input id="manual-news-url" type="url" placeholder="https://official-source.example/article"></label>
-                <label class="news-field news-field-wide"><span>Full article <b>*</b></span><textarea id="manual-news-body" rows="9" maxlength="30000" required placeholder="Write the full article. Separate paragraphs with a blank line."></textarea><small>Plain text is supported. Paragraph breaks will be preserved on the news detail page.</small></label>
-                <div class="news-editor-actions news-field-wide"><button class="btn primary" id="manual-news-save" type="submit">＋ Publish news</button><button class="btn" id="manual-news-reset" type="button">Clear form</button><span id="manual-news-form-status" role="status" aria-live="polite"></span></div>
+                <input type="hidden" id="manual-news-id" value="" />
+                <label class="news-field news-field-wide"
+                  ><span>Headline <b>*</b></span
+                  ><input
+                    id="manual-news-title"
+                    maxlength="220"
+                    required
+                    placeholder="Enter the news headline"
+                /></label>
+                <label class="news-field"
+                  ><span>Publish date & time <b>*</b></span
+                  ><input id="manual-news-date" type="datetime-local" required
+                /></label>
+                <label class="news-field"
+                  ><span>Category</span
+                  ><select id="manual-news-category">
+                    <option>Team India</option>
+                    <option>Tilak Varma</option>
+                    <option>Match Update</option>
+                    <option>Selection News</option>
+                    <option>Records & Milestones</option>
+                    <option>Opinion</option>
+                    <option>Fan Club Update</option>
+                    <option selected>Manual News</option>
+                  </select></label
+                >
+                <label class="news-field"
+                  ><span>Author / source label</span
+                  ><input
+                    id="manual-news-source"
+                    maxlength="100"
+                    value="The 72 Club"
+                    placeholder="The 72 Club / official source"
+                /></label>
+                <label class="news-field"
+                  ><span>Cover image URL</span
+                  ><input id="manual-news-image" type="url" placeholder="https://…"
+                /></label>
+                <label class="news-field news-field-wide"
+                  ><span>Original source URL (optional)</span
+                  ><input
+                    id="manual-news-url"
+                    type="url"
+                    placeholder="https://official-source.example/article"
+                /></label>
+                <label class="news-field news-field-wide"
+                  ><span>Full article <b>*</b></span
+                  ><textarea
+                    id="manual-news-body"
+                    rows="9"
+                    maxlength="30000"
+                    required
+                    placeholder="Write the full article. Separate paragraphs with a blank line."
+                  ></textarea
+                  ><small
+                    >Plain text is supported. Paragraph breaks will be preserved on the news detail
+                    page.</small
+                  ></label
+                >
+                <div class="news-editor-actions news-field-wide">
+                  <button class="btn primary" id="manual-news-save" type="submit">
+                    ＋ Publish news</button
+                  ><button class="btn" id="manual-news-reset" type="button">Clear form</button
+                  ><span id="manual-news-form-status" role="status" aria-live="polite"></span>
+                </div>
               </form>
-              <div class="news-list-heading"><div><h3>Manual news archive</h3><p>Edit or remove only stories created manually here.</p></div><button class="btn" id="manual-news-refresh" type="button">↻ Refresh list</button></div>
-              <div id="manual-news-list" class="manual-news-list" aria-live="polite"><div class="empty">Loading manual stories…</div></div>
+              <div class="news-list-heading">
+                <div>
+                  <h3>Manual news archive</h3>
+                  <p>Edit or remove only stories created manually here.</p>
+                </div>
+                <button class="btn" id="manual-news-refresh" type="button">↻ Refresh list</button>
+              </div>
+              <div id="manual-news-list" class="manual-news-list" aria-live="polite">
+                <div class="empty">Loading manual stories…</div>
+              </div>
             </section>
             <div id="news-source-results" class="run-list" aria-live="polite">
               <div class="empty">
