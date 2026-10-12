@@ -130,7 +130,9 @@ def main():
                 }
             )
             continue
-        merged = {k: v for k, v in item.items() if k not in {"meta", "jsonLd", "apiRecord"}}
+        merged = {
+            k: v for k, v in item.items() if k not in {"meta", "jsonLd", "apiRecord"}
+        }
         merged.update(
             {
                 "title": str(item.get("title") or title),
@@ -176,9 +178,9 @@ def main():
         )
         report["contentVerification"] = doc["contentFormatter"]
         report["status"] = (
-            "error" if any(x["severity"] == "error" for x in findings)
-            else "warning" if findings
-            else "healthy"
+            "error"
+            if any(x["severity"] == "error" for x in findings)
+            else "warning" if findings else "healthy"
         )
         REPORT.write_text(
             json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
