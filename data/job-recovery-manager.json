@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T19:16:48.797Z",
+  "checkedAt": "2026-10-12T19:16:57.580Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T07:37:08.127Z",
-      "workflow": "Format source code",
-      "workflowPath": ".github/workflows/format-code.yml",
-      "runId": 38218700603,
-      "runAttempt": 1,
-      "conclusion": "failure",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38218700603",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T07:37:18.262Z",
       "workflow": "Format source code",
@@ -12750,6 +12729,27 @@
       "jobCounts": {
         "total": 1,
         "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T19:16:57.580Z",
+      "workflow": "Self-healing code guard",
+      "workflowPath": ".github/workflows/self-healing.yml",
+      "runId": 38296544397,
+      "runAttempt": 1,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38296544397",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 0,
+        "success": 0,
         "failure": 0,
         "cancelled": 0,
         "skipped": 0
