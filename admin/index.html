@@ -2454,16 +2454,16 @@
           <div class="section-body">
             <div class="stats" style="margin-top:0">
               <article class="stat"><div class="stat-head">Saved stories</div><div class="stat-number" id="news-count">—</div><div class="stat-foot">Current filtered archive</div></article>
-              <article class="stat"><div class="stat-head">Sources configured</div><div class="stat-number" id="news-sources">3</div><div class="stat-foot">BCCI API · Google News RSS · ESPNcricinfo search</div></article>
+              <article class="stat"><div class="stat-head">Sources configured</div><div class="stat-number" id="news-sources">1</div><div class="stat-foot">BCCI News API only · pages 1–7</div></article>
               <article class="stat"><div class="stat-head">Last data update</div><div class="stat-number" id="news-updated" style="font-size:15px">Not checked</div><div class="stat-foot">Timestamp from newsjson.json</div></article>
             </div>
             <div class="actions">
-              <button id="news-refresh" class="btn primary" type="button">↻ Refresh all news sources</button>
+              <button id="news-refresh" class="btn primary" type="button">↻ Refresh BCCI news</button>
               <button id="news-reload" class="btn" type="button">⟳ Reload saved news</button>
               <a class="btn" href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/refresh-tilak-news.yml" target="_blank" rel="noopener noreferrer">Open workflow logs ↗</a>
               <a class="btn" href="../news#news" target="_blank" rel="noopener noreferrer">View News section ↗</a>
             </div>
-            <p class="hint">Refresh starts the GitHub Actions workflow securely through the admin API. Do not add a GitHub token to this page. The website updates after the workflow completes and Cloudflare Pages redeploys.</p>
+            <p class="hint">Refresh runs the BCCI News API pages 1–7 sequentially through GitHub Actions. Only BCCI stories mentioning Tilak Varma are saved. Do not add a GitHub token to this page. The website updates after the workflow completes and Cloudflare Pages redeploys.</p>
             <div id="news-source-results" class="run-list" aria-live="polite"><div class="empty">Load the saved archive or start a refresh to see source status.</div></div>
             <p id="news-manager-message" class="status" role="status" aria-live="polite"></p>
           </div>
@@ -5436,7 +5436,7 @@
           if (!button) return;
           button.disabled = true;
           $("news-manager-status").textContent = "RUNNING";
-          status("news-manager-message", "Queueing sequential news refresh…");
+          status("news-manager-message", "Queueing BCCI-only news refresh…");
           try {
             const result = await api("/api/admin/monitor", {
               method: "POST",
