@@ -51,6 +51,15 @@ check("section navigation switches content and keeps one main section visible", 
   await page.close();
 });
 
+check("direct uppercase /Stats/ folder visit redirects to canonical /stats", async () => {
+  const page = await browser.newPage();
+  page.setDefaultTimeout(8000);
+  await page.goto(baseURL + "/Stats/", { waitUntil: "domcontentloaded" });
+  await page.waitForFunction(() => location.pathname.replace(/\\/$/, "") === "/stats");
+  assert.equal(new URL(page.url()).pathname, "/stats", "Uppercase folder URL must redirect to lowercase route");
+  await page.close();
+});
+
 check("legacy /#stats URL is normalized to /stats on initial load", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
