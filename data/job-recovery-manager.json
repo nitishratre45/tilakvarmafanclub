@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T03:02:39.681Z",
+  "checkedAt": "2026-10-12T03:02:47.473Z",
   "retentionHours": 15,
   "events": [
     {
@@ -1919,6 +1919,47 @@
           "completedAt": "2026-10-12T03:02:30Z",
           "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38198182190/job/114645447481",
           "steps": []
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-10-12T03:02:47.473Z",
+      "workflow": "Refresh Tilak Varma data",
+      "workflowPath": ".github/workflows/refresh-tilak-data.yml",
+      "runId": 38198157212,
+      "runAttempt": 1,
+      "conclusion": "failure",
+      "event": "workflow_dispatch",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38198157212",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "failure",
+          "startedAt": "2026-10-12T03:02:10Z",
+          "completedAt": "2026-10-12T03:02:39Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38198157212/job/114645372301",
+          "steps": [
+            {
+              "name": "Commit updated data when changed",
+              "conclusion": "failure",
+              "number": 4
+            },
+            {
+              "name": "Post Set up Python",
+              "conclusion": "skipped",
+              "number": 7
+            }
+          ]
         }
       ]
     }
