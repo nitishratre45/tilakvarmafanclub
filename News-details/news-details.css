@@ -209,3 +209,54 @@
 
 /* Desktop navigation is already visible; keep the menu toggle for compact layouts only. */
 @media(min-width:701px){.menu-toggle{display:none}}
+
+/* Compact single-row header inspired by the site's Admin Studio navigation. */
+.topbar{
+  min-height:98px;height:auto;padding:12px clamp(18px,4vw,76px);
+  display:flex;align-items:center;gap:clamp(18px,3vw,48px);
+  background:#07101f;border-bottom:1px solid #263a54;
+}
+.brand{flex:0 0 auto;display:flex;align-items:center;gap:12px;min-width:215px;color:#f4f7ff}
+.brand-photo{display:block;width:58px;height:58px;object-fit:cover;object-position:center top;border-radius:15px;border:1px solid #294968;background:#11243a;box-shadow:0 0 0 3px #ffffff08}
+.brand-copy{display:flex;flex-direction:column;gap:4px}
+.brand-copy strong{font-size:clamp(14px,1.3vw,19px);font-weight:900;letter-spacing:.025em;white-space:nowrap}
+.brand-copy small{font-size:11px;letter-spacing:.2em;color:#a9bdd7}
+.site-navigation{
+  flex:1 1 auto;min-width:0;display:flex;align-items:stretch;justify-content:flex-end;gap:clamp(12px,1.65vw,28px);
+  padding:0;background:transparent;border:0;overflow:visible
+}
+.site-navigation a{
+  flex:0 0 auto;position:relative;display:flex;align-items:center;justify-content:center;
+  min-height:74px;padding:0 1px;color:#e0e8f5;background:transparent;border-radius:0;
+  font-size:clamp(10px,.82vw,13px);font-weight:800;white-space:nowrap
+}
+.site-navigation a span{font-size:inherit}
+.site-navigation a:hover,.site-navigation a.active{color:#ff8b48;background:transparent}
+.site-navigation a.active:after{content:"";position:absolute;left:0;right:0;bottom:7px;height:3px;border-radius:3px;background:#ff8b48}
+.header-tools{flex:0 0 auto;display:flex;align-items:center;gap:10px}
+.search-link{width:46px;height:46px;font-size:29px;border-radius:13px;border-color:#263e5b;background:#0b1c31}
+.menu-toggle{display:none;width:44px;height:44px;border-radius:11px;border:1px solid #294968;background:#0b1c31}
+@media(max-width:1180px){
+ .topbar{gap:18px;padding-inline:20px}
+ .brand{min-width:175px}
+ .brand-photo{width:48px;height:48px}
+ .site-navigation{gap:clamp(8px,1.1vw,14px)}
+ .site-navigation a{font-size:11px}
+}
+@media(max-width:900px){
+ .topbar{min-height:80px;padding:10px 15px;justify-content:space-between;flex-wrap:wrap}
+ .brand{min-width:0}
+ .brand-photo{width:45px;height:45px}
+ .brand-copy strong{font-size:14px}
+ .brand-copy small{font-size:9px}
+ .header-tools{margin-left:auto}
+ .menu-toggle{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;cursor:pointer}
+ .menu-toggle span{display:block;width:21px;height:2px;border-radius:3px;background:#f5f8ff;transition:transform .18s,opacity .18s}
+ .menu-toggle[aria-expanded="true"] span:first-child{transform:translateY(7px) rotate(45deg)}
+ .menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+ .menu-toggle[aria-expanded="true"] span:last-child{transform:translateY(-7px) rotate(-45deg)}
+ .site-navigation{display:none;flex:0 0 100%;width:100%;order:3;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:8px 0 2px}
+ .site-navigation.is-open{display:grid}
+ .site-navigation a{min-height:43px;padding:8px 4px;border-radius:7px;font-size:12px;background:#0b1c31}
+ .site-navigation a.active:after{left:22%;right:22%;bottom:0;height:2px}
+}
