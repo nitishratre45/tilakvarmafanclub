@@ -188,7 +188,6 @@
       if (inningsHost)
         inningsHost.innerHTML = '<p class="activity-empty">Recent innings could not be loaded.</p>';
     }
-
   }
   init();
 })();
