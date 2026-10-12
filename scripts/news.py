@@ -58,25 +58,25 @@ def fetch_bcci_page(page: int, tag: str) -> dict:
 def fetch_bcci_pages(errors: list[dict]) -> list[dict]:
     collected = []
     for tag in BCCI_TAGS:
-      for page in BCCI_PAGES:
-        try:
-            collected.append(fetch_bcci_page(page, tag))
-            print(f"OK source: BCCI News API tag={tag} page {page}", flush=True)
-        except Exception as exc:
-            errors.append(
-                {
-                    "source": "BCCI News API",
-                    "page": page,
-                    "tag": tag,
-                    "error": str(exc),
-                    "failedAt": datetime.now(timezone.utc).isoformat(),
-                }
-            )
-            print(
-                f"WARNING source: BCCI News API tag={tag} page {page} failed: {exc}; continuing to next page",
-                flush=True,
-            )
-        time.sleep(0.2)
+        for page in BCCI_PAGES:
+            try:
+                collected.append(fetch_bcci_page(page, tag))
+                print(f"OK source: BCCI News API tag={tag} page {page}", flush=True)
+            except Exception as exc:
+                errors.append(
+                    {
+                        "source": "BCCI News API",
+                        "page": page,
+                        "tag": tag,
+                        "error": str(exc),
+                        "failedAt": datetime.now(timezone.utc).isoformat(),
+                    }
+                )
+                print(
+                    f"WARNING source: BCCI News API tag={tag} page {page} failed: {exc}; continuing to next page",
+                    flush=True,
+                )
+            time.sleep(0.2)
     return collected
 
 
