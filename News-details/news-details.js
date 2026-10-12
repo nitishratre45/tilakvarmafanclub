@@ -94,6 +94,20 @@
       host.appendChild(p);
       return;
     }
+
+    // Prevent article copy accidentally appended to the final table cell
+    // (common in flattened BCCI pages) from stretching the Venue column.
+    let trailingProse = "";
+    rows = rows.map((row, index) => {
+      const copy = [...row];
+      const last = copy.length - 1;
+      if (index > 0 && last >= 0 && copy[last].length > 100) {
+        trailingProse = [trailingProse, copy[last]].filter(Boolean).join("\n\n");
+        copy[last] = "";
+      }
+      return copy;
+    });
+
     const wrap = document.createElement("div");
     wrap.className = "article-table-wrap";
     const table = document.createElement("table");
@@ -109,6 +123,12 @@
     });
     wrap.appendChild(table);
     host.appendChild(wrap);
+    if (trailingProse) {
+      const p = document.createElement("p");
+      p.className = "article-recovered-prose";
+      p.textContent = trailingProse;
+      host.appendChild(p);
+    }
   };
 
   const renderBody = (host, item) => {
