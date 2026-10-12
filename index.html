@@ -757,5 +757,24 @@
       ><span> · <span id="year"></span></span><span>RESPECT THE GAME. BACK THE PLAYER.</span>
     </footer>
     <script src="/Stats/Script/stats.js?v=20261013-modular1"></script>
+    <script>
+      // Never let the branded splash permanently block the site if a third-party
+      // script or a data request stalls. Hide it after load, with a hard timeout.
+      (() => {
+        const hidePageLoader = () => {
+          const loader = document.getElementById("tv-page-loader");
+          if (!loader || loader.dataset.dismissed === "true") return;
+          loader.dataset.dismissed = "true";
+          loader.classList.add("is-leaving");
+          window.setTimeout(() => loader.remove(), 500);
+        };
+        if (document.readyState === "complete") {
+          window.setTimeout(hidePageLoader, 350);
+        } else {
+          window.addEventListener("load", () => window.setTimeout(hidePageLoader, 350), { once: true });
+        }
+        window.setTimeout(hidePageLoader, 4500);
+      })();
+    </script>
   </body>
 </html>
