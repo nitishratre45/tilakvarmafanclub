@@ -203,6 +203,63 @@ def metadata_fallback(metadata: dict, keys: tuple[str, ...]) -> str:
     return ""
 
 
+def normalize_url(value: str) -> str:
+    """Normalize a story URL so tracking parameters do not create duplicates."""
+    from urllib.parse import parse_qsl, urlencode, urlunparse
+    parsed = urlparse((value or "").strip())
+    if not parsed.netloc:
+        return ""
+    host = parsed.netloc.lower()
+    path = re.sub(r"/+", "/", parsed.path or "/").rstrip("/") or "/"
+    ignored = {"fbclid", "gclid", "ocid", "cmpid", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "ved", "usg"}
+    query = urlencode(sorted((k, v) for k, v in parse_qsl(parsed.query, keep_blank_values=True) if k.lower() not in ignored))
+    return urlunparse((parsed.scheme.lower() or "https", host, path, "", query, ""))
+
+
+def normalize_title(value: str) -> str:
+    value = html.unescape(value or "").lower()
+    value = re.sub(r"\bhttps?://\S+", " ", value)
+    value = re.sub(r"[^a-z0-9]+", " ", value)
+    return " ".join(value.split())
+
+
+def merge_unique_news(previous: list[dict], incoming: list[dict]) -> list[dict]:
+    """Merge history and new records; URL or exact normalized title duplicates collapse."""
+    merged: list[dict] = []
+    by_url: dict[str, int] = {}
+    by_title: dict[str, int] = {}
+
+    # Oldest first lets newer incoming metadata update an existing story in place.
+    for item in [*previous, *incoming]:
+        if not isinstance(item, dict):
+            continue
+        url = normalize_url(str(item.get("webviewUrl") or ""))
+        title = normalize_title(str(item.get("title") or ""))
+        if not url and not title:
+            continue
+        url_index = by_url.get(url) if url else None
+        title_index = by_title.get(title) if title else None
+        existing_index = url_index if url_index is not None else title_index
+        clean = dict(item)
+        clean.pop("apiRecord", None)
+        if existing_index is not None:
+            merged[existing_index] = {**merged[existing_index], **clean}
+            final_url = normalize_url(str(merged[existing_index].get("webviewUrl") or ""))
+            final_title = normalize_title(str(merged[existing_index].get("title") or ""))
+            if final_url:
+                by_url[final_url] = existing_index
+            if final_title:
+                by_title[final_title] = existing_index
+            continue
+        index = len(merged)
+        merged.append(clean)
+        if url:
+            by_url[url] = index
+        if title:
+            by_title[title] = index
+    return merged
+
+
 def main() -> None:
     if not SOURCE.exists():
         raise FileNotFoundError(f"Missing {SOURCE}; run scripts/news.py first")
@@ -211,19 +268,20 @@ def main() -> None:
     if not candidates:
         raise RuntimeError("No article candidates found; keeping the previous filtered news snapshot")
 
-    previous_news = []
+    previous_news: list[dict] = []
     if OUTPUT.exists():
         try:
             previous_data = json.loads(OUTPUT.read_text(encoding="utf-8"))
             if isinstance(previous_data.get("news"), list):
                 previous_news = previous_data["news"]
         except (OSError, json.JSONDecodeError):
-            pass
+            print("WARNING: existing filtered archive could not be read; only fresh matches can be saved")
 
     matches, errors = [], []
     for index, article in enumerate(candidates, start=1):
         url = article["webviewUrl"]
         try:
+            # RSS result URLs can be redirect wrappers; retain the publisher/source label.
             text, metadata = fetch_page(url)
             title = article["title"] or metadata_fallback(metadata, ("og:title", "twitter:title", "html:title", "headline", "name"))
             image = article["imageUrl"] or metadata_fallback(metadata, ("og:image", "og:image:url", "twitter:image", "twitter:image:src", "image", "thumbnailUrl", "contentUrl"))
@@ -236,56 +294,66 @@ def main() -> None:
                 "sourceName": article.get("sourceName") or "BCCI News API",
                 "id": article.get("id") or re.sub(r"[^a-z0-9]+", "-", urlparse(canonical).path.lower()).strip("-"),
                 "webviewUrl": canonical,
-                "title": title or "Tilak Varma mentioned in BCCI news",
+                "title": title or "Tilak Varma mentioned in news",
                 "imageUrl": image or "",
                 "publishedAt": published or "",
             })
 
             matched_lines = [line.strip() for line in text.splitlines() if NAME_PATTERN.search(line)]
             title_match = bool(NAME_PATTERN.search(article["title"]))
-            record_match = bool(NAME_PATTERN.search(json.dumps(article["apiRecord"], ensure_ascii=False)))
-            if matched_lines or title_match or record_match:
+            record_match = bool(NAME_PATTERN.search(json.dumps(article.get("apiRecord", {}), ensure_ascii=False)))
+            # Google RSS result titles can prove relevance even when the publisher blocks the crawler.
+            source_title_match = title_match and (
+                "google news" in str(article.get("sourceName", "")).lower()
+                or "espncricinfo" in str(article.get("sourceName", "")).lower()
+                or "bcci" in str(article.get("sourceName", "")).lower()
+            )
+            if matched_lines or title_match or record_match or source_title_match:
                 article["matchedLines"] = matched_lines[:12]
-                article["articleText"] = [line.strip() for line in text.splitlines() if line.strip()][:220]
+                if text.strip():
+                    article["articleText"] = [line.strip() for line in text.splitlines() if line.strip()][:220]
                 article["matchFoundIn"] = [
                     name for name, found in (("article", bool(matched_lines)), ("title", title_match), ("apiRecord", record_match))
                     if found
                 ]
                 article.pop("apiRecord", None)
                 matches.append(article)
-                print(f"MATCH: {article['title']} | date={article['publishedAt'] or 'missing'} | image={'yes' if article['imageUrl'] else 'missing'}")
+                print(f"MATCH: {article['title']} | date={article['publishedAt'] or 'missing'} | source={article['sourceName']}")
             else:
                 print(f"No Tilak mention: {article['title'] or url}")
         except (HTTPError, URLError, TimeoutError, ValueError) as exc:
             errors.append({"webviewUrl": url, "error": str(exc)})
             print(f"WARNING: could not read {url}: {exc}")
+            # If the RSS title itself explicitly names Tilak, keep it even if the linked page blocks bots.
+            if NAME_PATTERN.search(str(article.get("title", ""))):
+                article.pop("apiRecord", None)
+                article["matchFoundIn"] = ["title"]
+                matches.append(article)
+                print(f"MATCH BY TITLE FALLBACK: {article['title']}")
         if index < len(candidates):
             time.sleep(0.2)
 
     if candidates and len(errors) == len(candidates) and not matches:
         raise RuntimeError(f"All {len(candidates)} article pages failed to load; preserving previous filtered snapshot")
 
-    failed_urls = {entry.get("webviewUrl") for entry in errors}
-    current_urls = {entry.get("webviewUrl") for entry in matches}
-    preserved = [
-        item for item in previous_news
-        if item.get("webviewUrl") in failed_urls and item.get("webviewUrl") not in current_urls
-    ]
-    matches.extend(preserved)
-    matches.sort(key=lambda item: item.get("publishedAt", ""), reverse=True)
-
+    # Preserve all previously saved stories, not only stories that happened to be fetched today.
+    # Collapse exact URL/tracking variants and exact normalized-title duplicates across sources.
+    merged = merge_unique_news(previous_news, matches)
+    merged.sort(key=lambda item: str(item.get("publishedAt", "")), reverse=True)
     result = {
         "player": "Tilak Varma",
-        "source": document.get("source", ""),
+        "source": document.get("source", "BCCI + Google News RSS"),
         "updatedAt": datetime.now(timezone.utc).isoformat(),
         "candidateCount": len(candidates),
-        "matchedCount": len(matches),
+        "matchedCount": len(merged),
+        "newMatches": len(matches),
+        "sourceErrors": document.get("errors", []),
         "readErrors": errors,
-        "news": matches,
+        "news": merged,
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Saved {len(matches)} Tilak Varma article(s) to {OUTPUT.relative_to(ROOT)}")
+    print(f"Saved {len(merged)} unique Tilak Varma articles ({len(matches)} current matches) to {OUTPUT.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
