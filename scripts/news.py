@@ -44,9 +44,7 @@ def read_url(url: str, accept: str | None = None) -> bytes:
 
 
 def fetch_bcci_page(page: int) -> dict:
-    params = {"tags": "international"}
-    if page > 1:
-        params["page"] = str(page)
+    params = {"tags": "international", "page": str(page)}
     url = f"{BCCI_BASE}?{urlencode(params)}"
     payload = json.loads(read_url(url, "application/json, text/plain, */*").decode("utf-8-sig"))
     if not isinstance(payload, (dict, list)):
