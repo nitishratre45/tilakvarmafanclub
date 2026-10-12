@@ -22,7 +22,7 @@ permissions:
 
 concurrency:
   group: browser-smoke-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   browser-smoke:
