@@ -168,18 +168,18 @@ jobs:
             fi
           }
           # Accept cache-busted script URLs and whitespace/attribute formatting.
-          require_match 'assets/features[.]js([?"]|$)' index.html
+          require_match 'assets/features[.]js([?"]|$)' Stats/Script/stats.js
           require_match 'News/news-section[.]js' assets/section-tabs.js
-          require_match 'assets/statsguru[.]js([?"]|$)' index.html
-          require_match 'assets/home-snapshot[.]js([?"]|$)' index.html
-          require_match 'assets/section-tabs[.]js([?"]|$)' index.html
-          require_match 'assets/bowling[.]js([?"]|$)' index.html
-          require_match 'data-bowling-format="List A"' index.html
-          require_match 'data-bowling-format="FC"' index.html
+          require_match 'Stats/Explore/Script/explore[.]js' Stats/Script/stats.js
+          require_match 'assets/home-snapshot[.]js([?"]|$)' Stats/Script/stats.js
+          require_match 'assets/section-tabs[.]js([?"]|$)' Stats/Script/stats.js
+          require_match 'Stats/Bowling/Script/bowling[.]js' Stats/Script/stats.js
+          require_match 'data-bowling-format="List A"' Stats/Bowling/index.html
+          require_match 'data-bowling-format="FC"' Stats/Bowling/index.html
           require_match 'id="home-snapshot"' index.html
-          require_match 'data-stats-tab="statsguru"' index.html
-          require_match 'id="icc-ranking-t20i"' index.html
-          require_match 'id="icc-record-highlights"' index.html
+          require_match 'data-stats-tab="statsguru"' Stats/index.html
+          require_match 'id="icc-ranking-t20i"' Stats/Batting/index.html
+          require_match 'id="icc-record-highlights"' Stats/Batting/index.html
           require_match 'scripts/refresh_icc_records[.]py' .github/workflows/refresh-icc-records.yml
           require_match 'scripts/refresh_statsguru[.]py' .github/workflows/refresh-statsguru.yml
           if grep -Eq 'id="activity"|href="#activity"' index.html; then echo "::error::Updates section should be removed"; exit 1; fi
@@ -190,30 +190,30 @@ jobs:
           require_match 'scripts/filter_tilak_news[.]py' .github/workflows/refresh-tilak-news.yml
           require_match 'data/fan-zone[.]json' assets/features.js
           # Shared site-data loader must exist and load before every dependent page module.
-          grep -q 'assets/site-data-store.js' index.html
+          grep -q 'assets/site-data-store.js' Stats/Script/stats.js
           grep -q 'window.TilakSiteData = Object.freeze({ load })' assets/site-data-store.js
           python - <<'PY'
           from pathlib import Path
 
-          html = Path("index.html").read_text(encoding="utf-8")
-          loader = html.find('src="assets/site-data-store.js')
+          html = Path("Stats/Script/stats.js").read_text(encoding="utf-8")
+          loader = html.find('"assets/site-data-store.js')
           if loader < 0:
               raise SystemExit("Shared site-data loader is not linked from index.html")
           dependents = [
               "assets/app.js",
               "assets/records-matches.js",
               "assets/player-matches.js",
-              "assets/career-formats.js",
+              "/Stats/Batting/Script/batting.js",
               "assets/features.js",
               "assets/upgrade.js",
-              "assets/statsguru.js",
+              "/Stats/Explore/Script/explore.js",
               "assets/home-snapshot.js",
-              "assets/bowling.js",
+              "/Stats/Bowling/Script/bowling.js",
           ]
           for script in dependents:
-              position = html.find('src="' + script)
+              position = html.find('"' + script)
               if position < 0:
-                  raise SystemExit("Required data module is not linked: " + script)
+                  raise SystemExit("Required data module is not loaded by Stats bootstrap: " + script)
               if loader > position:
                   raise SystemExit("Shared data loader must precede " + script)
           print("Validated shared data loader order for all dependent modules.")
