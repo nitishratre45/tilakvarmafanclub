@@ -6,6 +6,7 @@ import html
 import json
 import re
 import time
+import textwrap
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
@@ -342,7 +343,10 @@ def main() -> None:
             clean_lines = []
             for raw_line in text.splitlines():
                 line = raw_line.strip()
-                if not line or len(line) > 1200:
+                if not line:
+                    continue
+                if len(line) > 1200:
+                    clean_lines.extend(textwrap.wrap(line, width=1000, break_long_words=False, break_on_hyphens=False))
                     continue
                 lower = line.lower()
                 if any(token in lower for token in ("@font-face", "font-family:", "webkit-", "moz-", "text-size-adjust:", "textarea{", "body{height:", "display:none", "sourceMappingURL")):
