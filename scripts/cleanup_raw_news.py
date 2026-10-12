@@ -26,11 +26,13 @@ def main() -> None:
         raise ValueError("Expected newsjson.news and raw-news-pages.articles arrays")
     used_urls = {
         str(item.get("webviewUrl") or item.get("finalUrl") or "")
-        for item in published if isinstance(item, dict)
+        for item in published
+        if isinstance(item, dict)
     }
     used_ids = {
         str(item.get("id") or "")
-        for item in published if isinstance(item, dict) and item.get("id")
+        for item in published
+        if isinstance(item, dict) and item.get("id")
     }
     kept = []
     removed = 0
@@ -57,7 +59,9 @@ def main() -> None:
         "apiPagesPreserved": len(raw.get("pages", [])),
         "publishedNewsFileModified": False,
     }
-    RAW.write_text(json.dumps(raw, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    RAW.write_text(
+        json.dumps(raw, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     print(json.dumps(raw["rawCleanup"], ensure_ascii=False))
 
 
