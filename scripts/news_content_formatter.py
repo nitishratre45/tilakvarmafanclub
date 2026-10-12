@@ -73,15 +73,17 @@ def blocks_for(article: dict) -> list[dict]:
 
 def main():
     raw = json.loads(RAW.read_text(encoding="utf-8"))
-    doc = json.loads(NEWS.read_text(encoding="utf-8"))
-    fetched = {
-        str(a.get("webviewUrl") or ""): a
-        for a in raw.get("articles", [])
-        if isinstance(a, dict)
-    }
+    try:
+        doc = json.loads(NEWS.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        doc = {}
+    # Rebuild from the latest fetched BCCI pages. Do not depend on the previous
+    # filtered archive, because a bad formatter run may have emptied it.
+    fetched = raw.get("articles", []) if isinstance(raw.get("articles"), list) else []
     findings = []
     output = []
-    for index, item in enumerate(doc.get("news", [])):
+    for index, source in enumerate(fetched):
+        item = source
         if not isinstance(item, dict):
             findings.append(
                 {
@@ -92,7 +94,10 @@ def main():
             )
             continue
         url = str(item.get("webviewUrl") or "")
-        source = fetched.get(url)
+        if not isinstance(item, dict):
+            findings.append({"severity": "error", "record": index, "issue": "raw record is not an object"})
+            continue
+        url = str(item.get("webviewUrl") or "")
         if not official_url(url):
             findings.append(
                 {
@@ -102,18 +107,12 @@ def main():
                 }
             )
             continue
-        if not source:
-            findings.append(
-                {
-                    "severity": "warning",
-                    "record": index,
-                    "issue": "article URL not present in latest fetched raw snapshot",
-                }
-            )
-            continue
-        final_url = str(source.get("finalUrl") or source.get("webviewUrl") or "")
-        canonical = str((source.get("meta") or {}).get("canonical") or "")
-        if not official_url(final_url) or (canonical and not official_url(canonical)):
+        final_url = str(item.get("finalUrl") or item.get("webviewUrl") or "")
+        canonical = str((item.get("meta") or {}).get("canonical") or "")
+        # BCCI currently uses the site root as canonical on some valid article
+        # pages. Validate the actual article URL/redirect, but don't reject a
+        # valid page just because its canonical points to the BCCI homepage.
+        if not official_url(final_url):
             findings.append(
                 {
                     "severity": "error",
@@ -122,15 +121,10 @@ def main():
                 }
             )
             continue
-        body = str(
-            source.get("pageText") or item.get("fullText") or item.get("pageText") or ""
-        )
-        title = str(
-            source.get("pageTitle") or source.get("title") or item.get("title") or ""
-        )
-        if not NAME.search(
-            " ".join((title, body, str(source.get("description") or "")))
-        ):
+        body = str(item.get("pageText") or item.get("fullText") or "")
+        title = str(item.get("pageTitle") or item.get("title") or "")
+        description = str(item.get("description") or "")
+        if not NAME.search(" ".join((title, body, description))):
             findings.append(
                 {
                     "severity": "error",
@@ -139,17 +133,15 @@ def main():
                 }
             )
             continue
-        merged = dict(item)
+        merged = {k: v for k, v in item.items() if k not in {"meta", "jsonLd", "apiRecord"}}
         merged.update(
             {
-                "title": str(source.get("title") or item.get("title") or title),
+                "title": str(item.get("title") or title),
                 "webviewUrl": url,
                 "verifiedLiveUrl": final_url,
                 "canonicalUrl": canonical or final_url,
                 "pageTitle": title,
-                "description": source.get("description")
-                or item.get("description")
-                or "",
+                "description": description,
                 "fullText": body,
                 "pageText": body,
                 "articleText": [
@@ -170,7 +162,7 @@ def main():
     doc["contentFormatter"] = {
         "checkedAt": datetime.now(timezone.utc).isoformat(),
         "liveUrlsMatched": sum(bool(x.get("livePageVerified")) for x in output),
-        "unverifiedRecordsExcluded": max(0, len(doc.get("news", [])) - len(output)),
+        "unverifiedRecordsExcluded": max(0, len(fetched) - len(output)),
         "findings": findings,
         "format": "paragraphs, headings, and detected HTML tables",
     }
