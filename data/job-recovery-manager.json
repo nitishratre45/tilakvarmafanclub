@@ -1,64 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T14:02:34.313Z",
+  "checkedAt": "2026-10-12T14:03:36.817Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T06:48:28.048Z",
-      "workflow": "Format source code",
-      "workflowPath": ".github/workflows/format-code.yml",
-      "runId": 38214286267,
-      "runAttempt": 2,
-      "conclusion": "failure",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38214286267",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 1,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "format",
-          "conclusion": "failure",
-          "startedAt": "2026-10-12T06:48:08Z",
-          "completedAt": "2026-10-12T06:48:19Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38214286267/job/114695387198",
-          "steps": [
-            {
-              "name": "Format HTML, CSS, JavaScript, JSON and Markdown",
-              "conclusion": "failure",
-              "number": 5
-            },
-            {
-              "name": "Format Python scripts",
-              "conclusion": "skipped",
-              "number": 6
-            },
-            {
-              "name": "Commit formatting changes",
-              "conclusion": "skipped",
-              "number": 7
-            },
-            {
-              "name": "Post Set up Python",
-              "conclusion": "skipped",
-              "number": 12
-            },
-            {
-              "name": "Post Set up Node.js",
-              "conclusion": "skipped",
-              "number": 13
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T06:50:39.255Z",
       "workflow": "Validate Tilak Varma FC site",
@@ -13036,6 +12980,47 @@
           "startedAt": "2026-10-12T14:01:26Z",
           "completedAt": "2026-10-12T14:02:24Z",
           "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38259001111/job/114847301430",
+          "steps": [
+            {
+              "name": "Test real browser interactions",
+              "conclusion": "failure",
+              "number": 6
+            },
+            {
+              "name": "Post Set up Node.js",
+              "conclusion": "skipped",
+              "number": 13
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-10-12T14:03:36.817Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38259384931,
+      "runAttempt": 2,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38259384931",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Desktop and mobile interaction checks",
+          "conclusion": "failure",
+          "startedAt": "2026-10-12T14:02:28Z",
+          "completedAt": "2026-10-12T14:03:27Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38259384931/job/114847736386",
           "steps": [
             {
               "name": "Test real browser interactions",
