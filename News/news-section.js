@@ -1,105 +1,220 @@
 (() => {
   "use strict";
+
   const main = document.querySelector("main");
   const section = document.getElementById("news");
-  if (!main || !section) return;
+  if (!main || !section || section.dataset.newsInitialized === "true") return;
+  section.dataset.newsInitialized = "true";
 
-  const style = document.createElement("link");
-  style.rel = "stylesheet";
-  style.href = "News/news-section.css?v=20261012-table-guard1";
-  document.head.appendChild(style);
+  // Load the isolated styles once and use a versioned URL to avoid stale CDN/browser CSS.
+  if (!document.querySelector('link[data-tv-news-styles]')) {
+    const style = document.createElement("link");
+    style.rel = "stylesheet";
+    style.href = "News/news-section.css?v=20261012-news-fix2";
+    style.dataset.tvNewsStyles = "true";
+    document.head.appendChild(style);
+  }
 
-  section.className = "section tv-news-section";
+  section.classList.add("tv-news-section");
   section.innerHTML = `
     <div class="tv-news-heading">
-      <div><div class="tv-news-eyebrow">THE 72 CLUB · NEWS DESK</div><h2>TILAK <em>IN THE NEWS</em></h2><p>Fresh Tilak Varma stories from the official BCCI News API.</p></div>
-      <span class="tv-news-count" id="tv-news-count">SAVED STORIES</span>
+      <div>
+        <div class="tv-news-eyebrow">THE 72 CLUB · NEWS DESK</div>
+        <h2>TILAK <em>IN THE NEWS</em></h2>
+        <p>Stories mentioning Tilak Varma, checked against the official BCCI News API.</p>
+      </div>
+      <span class="tv-news-count" id="tv-news-count">LOADING</span>
     </div>
-    <div class="tv-news-grid" id="tv-news-grid"><p class="tv-news-status">Loading saved Tilak Varma news…</p></div>
-    <div class="tv-news-more-wrap"><button type="button" id="tv-news-more" class="tv-news-more" hidden>More news ↓</button></div>
+    <div class="tv-news-grid" id="tv-news-grid" aria-live="polite">
+      <p class="tv-news-status" role="status">Loading saved Tilak Varma news…</p>
+    </div>
+    <div class="tv-news-more-wrap">
+      <button type="button" id="tv-news-more" class="tv-news-more" hidden>More news ↓</button>
+    </div>
     <p class="tv-news-foot" id="tv-news-updated"></p>`;
-  let allItems = [];
-  let visibleCount = 8;
+
   const grid = section.querySelector("#tv-news-grid");
   const more = section.querySelector("#tv-news-more");
   const count = section.querySelector("#tv-news-count");
-  const safeUrl = (value) => {
-    try { const url = new URL(value, location.href); return url.protocol === "https:" ? url.href : ""; }
-    catch (_) { return ""; }
+  const updated = section.querySelector("#tv-news-updated");
+  let allItems = [];
+  let visibleCount = 8;
+
+  const officialArticleUrl = (value) => {
+    try {
+      const url = new URL(String(value || ""));
+      const officialHost = url.hostname === "bcci.tv" ||
+        url.hostname === "www.bcci.tv" || url.hostname.endsWith(".bcci.tv");
+      const articlePath = /\/(?:webview\/)?news\/article\//i.test(url.pathname);
+      return url.protocol === "https:" && officialHost && articlePath ? url.href : "";
+    } catch (_) {
+      return "";
+    }
   };
+
+  const imageUrlOf = (item) => {
+    const value = item.imageUrl ||
+      item.featuredImageUrl ||
+      (item.featuredImageUrlSet && (item.featuredImageUrlSet.large ||
+        item.featuredImageUrlSet.medium || item.featuredImageUrlSet.small)) || "";
+    try {
+      const url = new URL(String(value || ""));
+      return url.protocol === "https:" ? url.href : "";
+    } catch (_) {
+      return "";
+    }
+  };
+
+  const dateOf = (item) => item.publishedAt || item.publishedDate || item.date || "";
   const dateLabel = (value) => {
     if (!value) return "BCCI · NEWS";
     const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat("en-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true}).format(date) + " IST";
+    if (Number.isNaN(date.getTime())) return "";
+    return new Intl.DateTimeFormat("en-IN", {
+      timeZone: "Asia/Kolkata", day: "numeric", month: "short",
+      year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true
+    }).format(date) + " IST";
   };
-  function render() {
+
+  const plainText = (value) => {
+    if (Array.isArray(value)) return value.map(plainText).filter(Boolean).join(" ");
+    if (value && typeof value === "object") return String(value.text || "");
+    return String(value || "").replace(/\s+/g, " ").trim();
+  };
+
+  const excerptOf = (item) => {
+    const matched = plainText(item.matchedLines);
+    const paragraphs = plainText(item.articleText);
+    const body = plainText(item.description || item.pageText || item.fullText);
+    const excerpt = matched || paragraphs || body;
+    return excerpt.length > 190 ? excerpt.slice(0, 187).trimEnd() + "…" : excerpt;
+  };
+
+  const makePlaceholder = () => {
+    const visual = document.createElement("div");
+    visual.className = "tv-news-image tv-news-placeholder";
+    const number = document.createElement("span");
+    number.textContent = "72";
+    const label = document.createElement("small");
+    label.textContent = "TILAK VARMA";
+    visual.append(number, label);
+    return visual;
+  };
+
+  const showEmpty = (heading, message) => {
     grid.replaceChildren();
-    if (!allItems.length) {
-      const empty = document.createElement("div");
-      empty.className = "tv-news-empty";
-      empty.innerHTML = '<span class="tv-news-empty-mark">72</span><h3>No Tilak stories saved yet</h3><p>The section is ready. It will show articles after the scheduled BCCI news scan finds a Tilak Varma mention.</p>';
-      grid.appendChild(empty);
-      more.hidden = true;
+    const empty = document.createElement("div");
+    empty.className = "tv-news-empty";
+    const mark = document.createElement("span");
+    mark.className = "tv-news-empty-mark";
+    mark.textContent = "72";
+    const title = document.createElement("h3");
+    title.textContent = heading;
+    const note = document.createElement("p");
+    note.textContent = message;
+    empty.append(mark, title, note);
+    grid.appendChild(empty);
+  };
+
+  const render = () => {
+    grid.replaceChildren();
+    const shown = allItems.slice(0, visibleCount);
+    if (!shown.length) {
+      showEmpty("No Tilak Varma stories found", "The section will update when the BCCI-only news scan saves articles whose page text mentions Tilak Varma.");
       count.textContent = "0 STORIES";
+      more.hidden = true;
       return;
     }
-    allItems.slice(0, visibleCount).forEach((item, index) => {
+
+    shown.forEach((item) => {
       const card = document.createElement("article");
       card.className = "tv-news-card";
       const link = document.createElement("a");
       link.className = "tv-news-card-link";
-      link.href = `News-details/index.html?id=${encodeURIComponent(item.id || index)}`;
-      const imageUrl = safeUrl(item.imageUrl);
+      link.href = "News-details/index.html?id=" + encodeURIComponent(item.id);
+      link.setAttribute("aria-label", "Read story: " + (item.title || "Tilak Varma news"));
+
+      const imageUrl = imageUrlOf(item);
       if (imageUrl) {
         const image = document.createElement("img");
         image.className = "tv-news-image";
         image.src = imageUrl;
-        image.alt = "";
+        image.alt = item.featuredImageAlt || item.title || "BCCI news image";
         image.loading = "lazy";
-        image.onerror = () => {
-          const visual = document.createElement("div");
-          visual.className = "tv-news-image tv-news-placeholder";
-          visual.innerHTML = '<span>72</span><small>TILAK VARMA</small>';
-          image.replaceWith(visual);
-        };
+        image.decoding = "async";
+        image.onerror = () => image.replaceWith(makePlaceholder());
         link.appendChild(image);
       } else {
-        const visual = document.createElement("div");
-        visual.className = "tv-news-image tv-news-placeholder";
-        visual.innerHTML = '<span>72</span><small>TILAK VARMA</small>';
-        link.appendChild(visual);
+        link.appendChild(makePlaceholder());
       }
+
       const copy = document.createElement("div");
       copy.className = "tv-news-copy";
-      const date = document.createElement("span");
+      const date = document.createElement("time");
       date.className = "tv-news-date";
-      date.textContent = dateLabel(item.publishedAt);
+      date.dateTime = dateOf(item);
+      date.textContent = dateLabel(dateOf(item)) || "BCCI · NEWS";
+
       const title = document.createElement("h3");
       title.textContent = item.title || "Tilak Varma mentioned in BCCI news";
       const excerpt = document.createElement("p");
-      excerpt.textContent = ([...(Array.isArray(item.articleText) ? item.articleText : []), ...(item.matchedLines || [])]).join(" ").replace(/\s+/g," ").slice(0,190) || "Open the details for the saved article reference.";
+      excerpt.textContent = excerptOf(item) || "Open the saved article for the full verified details.";
       const action = document.createElement("span");
       action.className = "tv-news-card-more";
-      action.textContent = "More details ↗";
-      copy.append(date,title,excerpt,action);
+      action.textContent = "Read full story ↗";
+      copy.append(date, title, excerpt, action);
       link.appendChild(copy);
       card.appendChild(link);
       grid.appendChild(card);
     });
-    count.textContent = `${allItems.length} ${allItems.length === 1 ? "STORY" : "STORIES"}`;
+
+    count.textContent = allItems.length + (allItems.length === 1 ? " STORY" : " STORIES");
     more.hidden = visibleCount >= allItems.length;
-    more.textContent = `More news · ${allItems.length - visibleCount} remaining ↓`;
-  }
-  more.addEventListener("click", () => { visibleCount += 8; render(); });
-  fetch("News/newsjson.json", {cache:"no-store"})
-    .then((response) => { if (!response.ok) throw new Error("Saved news JSON not available"); return response.json(); })
-    .then((data) => {
-      allItems = (Array.isArray(data.news) ? data.news : []).map((item,index) => ({...item,id:item.id || String(index)}));
-      render();
-      const updated = document.getElementById("tv-news-updated");
-      updated.textContent = data.updatedAt ? `Last checked: ${dateLabel(data.updatedAt)} · Source: BCCI News API only` : "News data will appear after the first successful scheduled scan.";
+    more.textContent = "More news · " + (allItems.length - visibleCount) + " remaining ↓";
+  };
+
+  more.addEventListener("click", () => {
+    visibleCount += 8;
+    render();
+  });
+
+  fetch("News/newsjson.json?v=20261012-news-fix2", { cache: "no-store" })
+    .then((response) => {
+      if (!response.ok) throw new Error("News snapshot request failed (" + response.status + ").");
+      return response.json();
     })
-    .catch(() => {
-      grid.innerHTML = '<div class="tv-news-empty"><span class="tv-news-empty-mark">72</span><h3>News snapshot not available</h3><p>The section is ready, but the saved news file could not be loaded.</p></div>';
+    .then((data) => {
+      const source = Array.isArray(data) ? data : (Array.isArray(data.news) ? data.news : []);
+      const unique = new Map();
+      source.forEach((item, index) => {
+        if (!item || typeof item !== "object") return;
+        const url = officialArticleUrl(item.webviewUrl || item.finalUrl || item.url || item.link);
+        if (!url) return;
+        const id = String(item.id || item.slug || url.split("/").filter(Boolean).pop() || index);
+        const normalized = {
+          ...item,
+          id,
+          webviewUrl: url,
+          imageUrl: imageUrlOf(item),
+          publishedAt: dateOf(item)
+        };
+        if (!unique.has(url)) unique.set(url, normalized);
+      });
+
+      allItems = Array.from(unique.values()).sort((a, b) => {
+        const aTime = Date.parse(dateOf(a)) || 0;
+        const bTime = Date.parse(dateOf(b)) || 0;
+        return bTime - aTime;
+      });
+
+      render();
+      updated.textContent = data.updatedAt
+        ? "Last checked: " + dateLabel(data.updatedAt) + " · Source: BCCI News API only"
+        : "Source: BCCI News API only";
+    })
+    .catch((error) => {
+      showEmpty("News snapshot unavailable", "The saved BCCI news file could not be loaded. Please try again after the next successful news refresh.");
+      count.textContent = "NEWS ERROR";
+      updated.textContent = error && error.message ? error.message : "Could not load the saved news data.";
     });
 })();
