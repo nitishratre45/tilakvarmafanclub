@@ -199,15 +199,15 @@ nav a:focus-visible::after {
   border-color: var(--cyan);
   color: var(--cyan);
   background: rgba(117, 227, 255, 0.06);
-}
-.home-quick-stats,
+}.home-quick-stats,
 .home-format-stats,
 .home-bowling-stats,
 .activity-feed,
 .tilak-news-grid,
 .cricinfo-photo-grid,
 .bcci-video-grid,
-.upcoming-matches-grid {
+.upcoming-matches-grid
+{
   gap: 14px;
 }
 .stat-card,
@@ -255,9 +255,9 @@ nav a:focus-visible::after {
 .stat-feature .stat-label,
 .stat-feature .stat-note {
   color: #35151c;
-}
-.data-line,
-.table-foot {
+}.data-line,
+.table-foot
+{
   border-radius: 14px;
 }
 input,
@@ -332,14 +332,15 @@ img {
 }
 [hidden] {
   display: none !important;
-}
-@media (min-width: 1400px) {
+}@media (min-width: 1400px) {
+
   .section {
     padding-left: max(8vw, calc((100vw - 1380px) / 2));
     padding-right: max(8vw, calc((100vw - 1380px) / 2));
   }
-}
-@media (max-width: 1000px) {
+
+}@media (max-width: 1000px) {
+
   .topbar {
     padding-inline: 22px;
   }
@@ -349,8 +350,9 @@ img {
   nav a {
     font-size: 11px;
   }
-}
-@media (max-width: 900px) {
+
+}@media (max-width: 900px) {
+
   .topbar {
     min-height: 68px;
   }
@@ -381,8 +383,9 @@ img {
   .section {
     padding: 66px 5vw;
   }
-}
-@media (max-width: 640px) {
+
+}@media (max-width: 640px) {
+
   html {
     scroll-padding-top: 76px;
   }
@@ -486,8 +489,9 @@ img {
   .button {
     max-width: 100%;
   }
-}
-@media (max-width: 380px) {
+
+}@media (max-width: 380px) {
+
   .section {
     padding-inline: 14px;
   }
@@ -506,8 +510,9 @@ img {
   .settings-theme-options {
     grid-template-columns: 1fr;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -516,6 +521,7 @@ img {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
 }
 
 /* SECTION FINISHING PASS — stronger hierarchy, cleaner grids, and consistent orange accents. */
@@ -655,9 +661,9 @@ img {
     radial-gradient(ellipse at 100% 0%, rgba(124, 229, 242, 0.075), transparent 22rem),
     linear-gradient(145deg, #101d30, #0a111d);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.16);
-}
-.home-snapshot-foot,
-.data-line {
+}.home-snapshot-foot,
+.data-line
+{
   line-height: 1.7;
 }
 .table-wrap {
@@ -680,8 +686,8 @@ select:focus-visible,
 textarea:focus-visible {
   outline: 2px solid var(--cyan);
   outline-offset: 3px;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   .section-heading {
     align-items: flex-start;
     flex-direction: column;
@@ -689,8 +695,8 @@ textarea:focus-visible {
   }
   .section-heading > p {
     max-width: 62ch;
-  }
-  .data-line {
+  }.data-line
+{
     align-items: flex-start;
     flex-direction: column;
     gap: 8px;
@@ -708,8 +714,9 @@ textarea:focus-visible {
   .settings-section .button {
     width: 100%;
   }
-}
-@media (max-width: 420px) {
+
+}@media (max-width: 420px) {
+
   .section h2 {
     overflow-wrap: anywhere;
   }
@@ -722,8 +729,10 @@ textarea:focus-visible {
   .home-mini-stat strong {
     font-size: clamp(25px, 8vw, 34px);
   }
-} /* Distinct, coordinated stat accents — Runs remains the hero metric. */
-.home-format-card {
+
+}/* Distinct, coordinated stat accents — Runs remains the hero metric. */
+.home-format-card
+{
   border-left: 2px solid rgba(124, 229, 242, 0.55);
 }
 .records-section .record-card:nth-child(3n + 1) {
@@ -860,16 +869,16 @@ textarea:focus-visible {
 .upcoming-matches-heading h3 {
   letter-spacing: -0.02em;
   text-wrap: balance;
-}
-.player-analysis-content {
+}.player-analysis-content
+{
   border-radius: 18px;
   border-color: rgba(169, 194, 229, 0.16);
   background: linear-gradient(145deg, rgba(15, 27, 45, 0.86), rgba(8, 14, 24, 0.82));
-}
-.player-analysis-grid {
+}.player-analysis-grid
+{
   gap: 12px;
-}
-.player-analysis-grid > * {
+}.player-analysis-grid > *
+{
   border-radius: 13px;
 }
 .records-section {
@@ -1147,16 +1156,17 @@ textarea:focus-visible {
 footer {
   background: #060a12;
   padding-block: 26px;
-}
-@media (min-width: 1000px) {
+}@media (min-width: 1000px) {
+
   .fan-zone-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .fan-card {
     padding: clamp(20px, 2.2vw, 30px);
   }
-}
-@media (max-width: 760px) {
+
+}@media (max-width: 760px) {
+
   .profile-section::after {
     right: -12vw;
     bottom: -8vw;
@@ -1177,8 +1187,9 @@ footer {
     gap: 10px;
     flex-direction: column;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   .fan-card,
   .upcoming-matches-grid > *,
   .cricinfo-photo-grid img,
@@ -1186,6 +1197,7 @@ footer {
   .settings-theme-options button {
     transition: none !important;
   }
+
 }
 
 /* Style expansion: stronger section identity and richer matchday cards. */
@@ -1485,16 +1497,17 @@ footer {
 footer {
   background: #060a12;
   padding-block: 26px;
-}
-@media (min-width: 1000px) {
+}@media (min-width: 1000px) {
+
   .fan-zone-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .fan-card {
     padding: clamp(20px, 2.2vw, 30px);
   }
-}
-@media (max-width: 760px) {
+
+}@media (max-width: 760px) {
+
   .profile-section::after {
     right: -12vw;
     bottom: -8vw;
@@ -1515,8 +1528,9 @@ footer {
     gap: 10px;
     flex-direction: column;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   .fan-card,
   .upcoming-matches-grid > *,
   .cricinfo-photo-grid img,
@@ -1524,7 +1538,8 @@ footer {
   .settings-theme-options button {
     transition: none !important;
   }
-} /* Keep the existing Light/System appearance switch fully supported after the new visual layer. */
+
+}/* Keep the existing Light/System appearance switch fully supported after the new visual layer. */
 :root[data-theme-resolved="light"] .records-section,
 :root[data-theme-resolved="light"] .fan-zone-section,
 :root[data-theme-resolved="light"] .tilak-photos-section,
@@ -1532,7 +1547,8 @@ footer {
 :root[data-theme-resolved="light"] .tilak-videos-section,
 :root[data-theme-resolved="light"] .settings-section,
 :root[data-theme-resolved="light"] .about-section,
-:root[data-theme-resolved="light"] .innings-section {
+:root[data-theme-resolved="light"] .innings-section
+{
   background: var(--bg) !important;
   color: var(--white);
 }
@@ -1552,10 +1568,10 @@ footer {
   color: #152235;
   border-color: rgba(18, 35, 55, 0.16);
   box-shadow: 0 8px 24px rgba(25, 45, 70, 0.06);
-}
-:root[data-theme-resolved="light"] .home-snapshot-block,
+}:root[data-theme-resolved="light"] .home-snapshot-block,
 :root[data-theme-resolved="light"] .match-history-summary,
-:root[data-theme-resolved="light"] .player-analysis-content {
+:root[data-theme-resolved="light"] .player-analysis-content
+{
   background: #fff;
   color: #152235;
   border-color: rgba(18, 35, 55, 0.16);
@@ -1582,8 +1598,8 @@ footer {
 :root[data-theme-resolved="light"] .fan-badge-preview {
   background: linear-gradient(135deg, #fff3eb, #fff);
   color: #152235;
-}
-:root[data-theme-resolved="light"] .data-line {
+}:root[data-theme-resolved="light"] .data-line
+{
   background: #edf3f8;
   color: #152235;
   border-color: rgba(18, 35, 55, 0.14);
@@ -1595,14 +1611,10 @@ footer {
 :root[data-theme-resolved="light"] .bcci-video-panel {
   background: #fff;
   color: #152235;
-} /* FORMAT-WISE CAREER — compact dashboard cards on phones, roomier grid on desktop. */
-@media (min-width: 1200px) {
-}
-@media (max-width: 760px) {
-}
-@media (max-width: 350px) {
-} /* MOBILE NAV FIX — fully opaque menu surface, above page content, scroll-safe. */
+}/* FORMAT-WISE CAREER — compact dashboard cards on phones, roomier grid on desktop. */
+/* MOBILE NAV FIX — fully opaque menu surface, above page content, scroll-safe. */
 @media (max-width: 800px) {
+
   .topbar,
   .death-topbar {
     position: sticky;
@@ -1641,6 +1653,7 @@ footer {
   .death-topbar nav a[aria-current="page"] {
     color: var(--orange) !important;
   }
+
 }
 
 /* RESPONSIVE POLISH PASS — unified rhythm, safer mobile spacing and accessible controls. */
@@ -1656,15 +1669,15 @@ svg {
 }
 body {
   overflow-wrap: break-word;
-}
-.section,
+}.section,
 .section > *,
 .section-heading,
 .profile-section > *,
 .records-section > *,
 .upcoming-matches-grid > *,
 .tilak-news-grid > *,
-.bcci-video-grid > * {
+.bcci-video-grid > *
+{
   min-width: 0;
 }
 .stat-card,
@@ -1677,15 +1690,15 @@ body {
 .tilak-news-card,
 .bcci-video-card {
   overflow-wrap: anywhere;
-}
-.table-wrap,
-.match-history-table-wrap {
+}.table-wrap,
+.match-history-table-wrap
+{
   max-width: 100%;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
   -webkit-overflow-scrolling: touch;
-}
-@media (min-width: 1100px) {
+}@media (min-width: 1100px) {
+
   .section {
     padding-inline: clamp(48px, 7.5vw, 120px);
   }
@@ -1696,8 +1709,9 @@ body {
   .profile-section {
     padding-inline: clamp(48px, 7.5vw, 120px);
   }
-}
-@media (max-width: 800px) {
+
+}@media (max-width: 800px) {
+
   html {
     scroll-padding-top: 82px;
   }
@@ -1752,15 +1766,16 @@ body {
     min-width: 0;
     max-width: 100%;
   }
-}
-@media (max-width: 480px) {
+
+}@media (max-width: 480px) {
+
   .section {
     padding: 42px 15px;
   }
   .section h2 {
     overflow-wrap: anywhere;
-  }
-  .home-quick-stats {
+  }.home-quick-stats
+{
     gap: 9px;
   }
   .stat-card {
@@ -1785,16 +1800,15 @@ body {
   footer {
     gap: 12px;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   html {
     scroll-behavior: auto;
   }
-} /* Career format cards: use the right-hand space for key batting milestones. */
-@media (max-width: 760px) {
-}
-@media (max-width: 360px) {
-}
+
+}/* Career format cards: use the right-hand space for key batting milestones. */
+
 
 /* NAVBAR BLUE FINISH — mobile-first, consistent with The 72 Club navy/cyan palette */
 .topbar {
@@ -1824,8 +1838,8 @@ body {
 }
 .topbar nav a::after {
   background: #75e3ff;
-}
-@media (max-width: 900px) {
+}@media (max-width: 900px) {
+
   .topbar nav,
   nav.open {
     background: linear-gradient(155deg, rgba(8, 35, 64, 0.99), rgba(7, 20, 39, 0.99)) !important;
@@ -1837,6 +1851,7 @@ body {
     background: rgba(58, 153, 230, 0.15) !important;
     border-color: rgba(117, 227, 255, 0.24) !important;
   }
+
 }
 
 /* Keep the quick format cards informative, matching the full career stats section */
@@ -1869,8 +1884,8 @@ body {
 .home-format-card > small {
   font-size: 8px;
   line-height: 1.55;
-}
-@media (max-width: 420px) {
+}@media (max-width: 420px) {
+
   .home-format-card .home-format-facts {
     gap: 4px;
   }
@@ -1883,11 +1898,9 @@ body {
   .home-format-card .home-format-fact strong {
     font-size: 10px;
   }
-} /* MOBILE CAREER CARDS — prevent labels and multi-digit values breaking across lines */
-@media (max-width: 760px) {
-}
-@media (max-width: 390px) {
-}
+
+}/* MOBILE CAREER CARDS — prevent labels and multi-digit values breaking across lines */
+
 
 /* Main-page Death Overs section: keep the analyser visually integrated with the site. */
 .death-overs-section {
@@ -1915,8 +1928,8 @@ body {
   border: 0;
   background: #070b14;
   overflow: hidden;
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
+
   .death-overs-section {
     padding-inline: 14px !important;
   }
@@ -1926,6 +1939,7 @@ body {
   #death-overs-embed {
     min-height: 1000px;
   }
+
 }
 
 /* ACCESSIBLE TEXT COLOURS — stronger contrast and consistent hierarchy across the site */
@@ -1991,11 +2005,11 @@ nav a,
 footer,
 footer .brand small {
   color: #d4deec;
-}
-.home-format-card .home-format-fact span {
+}.home-format-card .home-format-fact span
+{
   color: #b8c9dd;
-}
-.home-format-card .home-format-fact strong {
+}.home-format-card .home-format-fact strong
+{
   color: #f5f9ff;
 }
 .home-format-card > small {
@@ -2010,8 +2024,8 @@ footer .brand small {
 :focus-visible {
   outline: 2px solid #80e8ff;
   outline-offset: 3px;
-}
-@media (prefers-contrast: more) {
+}@media (prefers-contrast: more) {
+
   body,
   p,
   small,
@@ -2021,6 +2035,7 @@ footer .brand small {
   .format-meta-row {
     color: #f4f8ff !important;
   }
+
 }
 
 /* Death Overs section refresh: remove the duplicate intro and give the tool a cleaner premium frame. */
@@ -2049,8 +2064,8 @@ footer .brand small {
 }
 #death-overs-embed {
   background: #070b14 !important;
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
+
   .death-overs-section {
     padding-top: 12px !important;
     padding-bottom: 24px !important;
@@ -2061,6 +2076,7 @@ footer .brand small {
     border-color: rgba(82, 159, 211, 0.24) !important;
     box-shadow: 0 14px 36px rgba(0, 0, 0, 0.3) !important;
   }
+
 }
 
 /* 72 CLUB PROFILE REFRESH */
@@ -2250,8 +2266,8 @@ footer .brand small {
   transform: translateY(-2px);
   filter: brightness(1.04);
   box-shadow: 0 14px 30px rgba(255, 112, 73, 0.22);
-}
-@media (max-width: 800px) {
+}@media (max-width: 800px) {
+
   #profile.profile-section {
     grid-template-columns: minmax(145px, 0.72fr) minmax(0, 1.28fr);
     gap: 17px;
@@ -2276,8 +2292,9 @@ footer .brand small {
     padding: 10px;
     border-radius: 12px;
   }
-}
-@media (max-width: 520px) {
+
+}@media (max-width: 520px) {
+
   #profile.profile-section {
     grid-template-columns: minmax(104px, 34%) minmax(0, 1fr);
     align-items: start;
@@ -2368,8 +2385,9 @@ footer .brand small {
     border-radius: 10px;
     font-size: 10px;
   }
-}
-@media (max-width: 360px) {
+
+}@media (max-width: 360px) {
+
   #profile.profile-section {
     grid-template-columns: minmax(92px, 32%) minmax(0, 1fr);
     gap: 9px;
@@ -2381,12 +2399,14 @@ footer .brand small {
   #profile .profile-intro {
     font-size: 9px;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   #profile .profile-facts > div,
   #profile .profile-quick-actions .button {
     transition: none !important;
   }
+
 }
 
 /* PROFILE UI UPDATE — larger mobile portrait, clean photo crop, richer team panel. */
@@ -2470,13 +2490,14 @@ footer .brand small {
   font-size: 10px;
   letter-spacing: 0.025em;
   line-height: 1.5;
-}
-@media (max-width: 800px) {
+}@media (max-width: 800px) {
+
   #profile .profile-teams-panel {
     padding: 13px;
   }
-}
-@media (max-width: 520px) {
+
+}@media (max-width: 520px) {
+
   /* Give the player the first, wide visual block; text no longer gets squeezed beside him. */
   #profile.profile-section {
     grid-template-columns: minmax(0, 1fr);
@@ -2574,8 +2595,9 @@ footer .brand small {
     padding: 11px 15px;
     font-size: 13px;
   }
-}
-@media (max-width: 360px) {
+
+}@media (max-width: 360px) {
+
   #profile .profile-photo-wrap {
     height: 300px;
   }
@@ -2583,6 +2605,7 @@ footer .brand small {
     font-size: 9px;
     padding: 7px 8px;
   }
+
 }
 
 /* PROFILE COMPACT PASS — remove dead space at tablet/mobile widths and balance desktop columns. */
@@ -2640,8 +2663,8 @@ footer .brand small {
 }
 #profile .profile-quick-actions {
   margin-top: 12px;
-}
-@media (max-width: 800px) {
+}@media (max-width: 800px) {
+
   #profile.profile-section {
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
@@ -2747,8 +2770,9 @@ footer .brand small {
     padding: 10px 15px;
     font-size: 13px;
   }
-}
-@media (max-width: 380px) {
+
+}@media (max-width: 380px) {
+
   #profile.profile-section {
     padding-inline: 12px;
     gap: 15px;
@@ -2763,8 +2787,11 @@ footer .brand small {
   #profile .profile-teams-heading .eyebrow {
     font-size: 9px;
   }
-} /* MOBILE RECOVERY — keep touch-screen layout compact and prevent sticky tabs covering content. */
+
+}/* MOBILE RECOVERY — keep touch-screen layout compact and prevent sticky tabs covering content. */
 @media (max-width: 760px), (pointer: coarse) and (hover: none) {
+
+
   #profile.profile-section {
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 13px !important;
@@ -2826,6 +2853,7 @@ footer .brand small {
   #profile .profile-quick-actions {
     margin-top: 10px !important;
   }
+
 }
 
 /* Touch devices may request desktop-site mode; keep the site navigation phone-friendly. */
@@ -2850,9 +2878,10 @@ footer .brand small {
     max-height: calc(100dvh - 76px) !important;
     overflow-y: auto !important;
   }
-} /* Mobile navigation recovery: handle Android Chrome's "Desktop site" viewport. */
+}/* Mobile navigation recovery: handle Android Chrome's "Desktop site" viewport. */
 @media (pointer: coarse) and (hover: none) {
-  main > section[hidden] {
+main > section[hidden]
+{
     display: none !important;
   }
 
@@ -2917,7 +2946,8 @@ footer .brand small {
     border-radius: 9px !important;
     touch-action: manipulation;
   }
-} /* MOBILE AUDIT FIX: selected sections must stay hidden even when section styles are specific. */
+
+}/* MOBILE AUDIT FIX: selected sections must stay hidden even when section styles are specific. */
 main > section[id][hidden],
 #profile.profile-section[hidden],
 #death-overs[hidden],
@@ -2928,10 +2958,12 @@ main > section[id][hidden],
 #news[hidden],
 #tilak-videos[hidden],
 #settings[hidden],
-#about[hidden] {
+#about[hidden]
+{
   display: none !important;
-} /* Keep touch devices compact even when Android Chrome requests Desktop site. */
+}/* Keep touch devices compact even when Android Chrome requests Desktop site. */
 @media (pointer: coarse) and (hover: none), (max-width: 760px) {
+
   .topbar {
     position: sticky !important;
     top: 0 !important;
@@ -2986,8 +3018,10 @@ main > section[id][hidden],
     max-height: 270px !important;
     margin: 0 auto !important;
   }
-} /* Final mobile polish: preserve desktop rules, tighten touch layouts only. */
+
+}/* Final mobile polish: preserve desktop rules, tighten touch layouts only. */
 @media (max-width: 760px), (pointer: coarse) and (hover: none) {
+
   html,
   body {
     max-width: 100%;
@@ -3070,8 +3104,8 @@ main > section[id][hidden],
   }
   #profile .profile-quick-actions .button {
     min-height: 42px;
-  }
-  main > section.section:not(#profile):not(#home-snapshot) {
+  }main > section.section:not(#profile):not(#home-snapshot)
+{
     box-sizing: border-box;
     padding-inline: 12px;
   }
@@ -3102,8 +3136,9 @@ main > section[id][hidden],
   button {
     max-width: 100%;
   }
-}
-@media (max-width: 380px) {
+
+}@media (max-width: 380px) {
+
   #profile.profile-section {
     width: calc(100% - 16px) !important;
     padding-inline: 10px !important;
@@ -3119,6 +3154,7 @@ main > section[id][hidden],
   .stat-card {
     padding: 11px !important;
   }
+
 }
 
 /* 72 CLUB — colourful motion polish (progressive, non-destructive) */
@@ -3193,9 +3229,9 @@ body {
   box-shadow:
     0 16px 38px rgba(0, 0, 0, 0.2),
     0 0 24px rgba(155, 123, 255, 0.07);
-}
-.button,
-button {
+}.button,
+button
+{
   transition:
     transform 0.18s ease,
     filter 0.18s ease,
@@ -3278,8 +3314,8 @@ main > section:not([hidden]) {
 }
 .live-dot {
   box-shadow: 0 0 0 4px rgba(115, 224, 174, 0.09);
-}
-@media (prefers-reduced-motion: reduce) {
+}@media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -3288,8 +3324,9 @@ main > section:not([hidden]) {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
-}
-@media (max-width: 720px) {
+
+}@media (max-width: 720px) {
+
   .topbar {
     border-image: none;
   }
@@ -3306,33 +3343,13 @@ main > section:not([hidden]) {
   button {
     min-height: 42px;
   }
-} /* Stats Centre / Explore refresh — scoped to the stats area to avoid site-wide regressions. */
-@media (max-width: 900px) {
-}
-@media (max-width: 600px) {
-}
-@media (max-width: 360px) {
-}
-@media (prefers-reduced-motion: reduce) {
-} /* Explore compact layout: reduce vertical scrolling without changing data or behavior. */
-@media (max-width: 900px) {
-}
-@media (max-width: 600px) {
-}
-@media (max-width: 360px) {
-} /* STATS / BATTING OVERVIEW — polished cards, restrained accents, scoped away from other sections. */
-@media (max-width: 700px) {
-}
-@media (max-width: 360px) {
-}
-@media (prefers-reduced-motion: reduce) {
-} /* EXPLORE format selector — make the selected format unmistakable. */
-@media (max-width: 760px) {
-}
-@media (prefers-reduced-motion: reduce) {
-} /* Explore intro copy: turn the long plain sentence into a deliberate supporting callout. */
-@media (max-width: 760px) {
-}
+
+}/* Stats Centre / Explore refresh — scoped to the stats area to avoid site-wide regressions. */
+/* Explore compact layout: reduce vertical scrolling without changing data or behavior. */
+/* STATS / BATTING OVERVIEW — polished cards, restrained accents, scoped away from other sections. */
+/* EXPLORE format selector — make the selected format unmistakable. */
+/* Explore intro copy: turn the long plain sentence into a deliberate supporting callout. */
+
 
 /* VIDEO PLAYER VISIBILITY + NAVBAR PERSISTENCE FIX.
    Keep the original player, feed, controls and page structure intact. */
@@ -3386,8 +3403,8 @@ body.bcci-player-open .topbar {
   position: sticky !important;
   top: 0 !important;
   z-index: 7005 !important;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   #bcci-video-player-modal:not([hidden]) {
     padding: 8px;
     align-items: start;
@@ -3408,6 +3425,7 @@ body.bcci-player-open .topbar {
     position: sticky;
     top: 0;
   }
+
 }
 
 /* HOTFIX: keep the actual player panel above its dim/blur backdrop on desktop Chrome. */
@@ -3475,8 +3493,8 @@ body.bcci-player-open .topbar {
 .topbar,
 body.bcci-player-open .topbar {
   z-index: 10000 !important;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   #bcci-video-player-modal:not([hidden]) {
     padding: 8px !important;
     place-items: start center !important;
@@ -3488,6 +3506,7 @@ body.bcci-player-open .topbar {
   #bcci-video-player-modal .bcci-player-page-content {
     grid-template-columns: minmax(0, 1fr) !important;
   }
+
 }
 
 /* Quality control redesign: visible over the video, desktop + mobile. */
@@ -3597,8 +3616,8 @@ body.bcci-player-open .topbar {
   font-size: 11px;
   line-height: 1.5;
   overflow-wrap: anywhere;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   #bcci-video-player-modal .bcci-player-quality-control {
     right: 9px !important;
     bottom: 50px !important;
@@ -3613,6 +3632,7 @@ body.bcci-player-open .topbar {
     max-height: 42dvh !important;
     padding: 12px !important;
   }
+
 }
 
 /* Final fix: keep the quality menu as a compact panel and hide the native select face. */
@@ -3661,11 +3681,12 @@ body.bcci-player-open .topbar {
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-quality-head-button {
   min-width: 88px !important;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu:not([hidden]) {
     padding: 12px !important;
   }
+
 }
 
 /* Quality selector placement correction from desktop screenshot. */
@@ -3727,8 +3748,8 @@ body.bcci-player-open .topbar {
 #bcci-video-player-modal .bcci-player-quality-control #bcci-player-error {
   max-width: 100% !important;
   margin-top: 8px !important;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   #bcci-video-player-modal .bcci-player-quality-control {
     right: 8px !important;
     bottom: 8px !important;
@@ -3737,6 +3758,7 @@ body.bcci-player-open .topbar {
     width: 205px !important;
     min-width: 205px !important;
   }
+
 }
 
 /* Plyr player skin adapted to the Tilak Varma Video Hub. */
@@ -3800,8 +3822,8 @@ body.bcci-player-open .topbar {
 }
 #bcci-video-player-modal .bcci-player-screen .plyr__control--overlaid:hover {
   transform: scale(1.06);
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   #bcci-video-player-modal .bcci-player-screen .plyr video {
     max-height: calc(100dvh - 250px) !important;
   }
@@ -3811,6 +3833,7 @@ body.bcci-player-open .topbar {
   #bcci-video-player-modal .bcci-player-screen .plyr__time {
     font-size: 10px;
   }
+
 }
 
 /* Keep quality controls below the video, never floating over the playing picture. */
@@ -3853,8 +3876,8 @@ body.bcci-player-open .topbar {
 #bcci-video-player-modal .bcci-player-title-block .bcci-player-settings-menu:not([hidden]) label {
   display: grid !important;
   gap: 8px !important;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   #bcci-video-player-modal .bcci-player-title-block .bcci-player-quality-control {
     margin-bottom: 10px !important;
   }
@@ -3862,6 +3885,7 @@ body.bcci-player-open .topbar {
     width: 205px !important;
     min-width: 205px !important;
   }
+
 }
 
 /* THE 72 CLUB — final cohesive visual pass; presentation only, existing features/data untouched. */
@@ -3960,8 +3984,8 @@ textarea:focus-visible {
 ::selection {
   background: rgba(255, 106, 53, 0.32);
   color: #fff;
-}
-@media (max-width: 800px) {
+}@media (max-width: 800px) {
+
   .topbar {
     gap: 10px;
   }
@@ -3971,8 +3995,9 @@ textarea:focus-visible {
   :where(.match-card, .bcci-video-card, .tilak-news-card) {
     overflow-wrap: anywhere;
   }
-}
-@media (max-width: 480px) {
+
+}@media (max-width: 480px) {
+
   .section {
     scroll-margin-top: 82px;
   }
@@ -3982,8 +4007,9 @@ textarea:focus-visible {
   :where(.match-card, .bcci-video-card, .tilak-news-card) {
     border-radius: 14px;
   }
-}
-@media (hover: none) {
+
+}@media (hover: none) {
+
   :where(
     .stat-card,
     .home-mini-stat,
@@ -3998,8 +4024,9 @@ textarea:focus-visible {
   ):hover {
     transform: none;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -4007,6 +4034,7 @@ textarea:focus-visible {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+
 }
 
 /* Series-wise photo albums and same-page glowing lightbox */
@@ -4312,8 +4340,8 @@ textarea:focus-visible {
   to {
     opacity: 1;
   }
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
+
   .tv-album-grid,
   .tv-album-photo-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -4388,8 +4416,9 @@ textarea:focus-visible {
     align-items: stretch;
     flex-direction: column;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   .tv-album-card,
   .tv-album-cover > img,
   .tv-album-photo img,
@@ -4400,6 +4429,7 @@ textarea:focus-visible {
   .tv-photo-lightbox.is-open {
     animation: none;
   }
+
 }
 
 /* Gallery layout repair: balanced cards, consistent cover crops, desktop + mobile */
@@ -4504,16 +4534,17 @@ textarea:focus-visible {
 #cricinfo-photo-grid .tv-album-back-row {
   width: 100%;
   box-sizing: border-box;
-}
-@media (min-width: 1100px) {
+}@media (min-width: 1100px) {
+
   #cricinfo-photo-grid .tv-album-card {
     max-width: none;
   }
   #cricinfo-photo-grid .tv-album-cover {
     aspect-ratio: 4/3 !important;
   }
-}
-@media (max-width: 760px) {
+
+}@media (max-width: 760px) {
+
   #photos.section {
     padding: 54px 14px;
   }
@@ -4590,8 +4621,9 @@ textarea:focus-visible {
   #cricinfo-photo-grid .tv-album-back {
     min-height: 40px;
   }
-}
-@media (max-width: 360px) {
+
+}@media (max-width: 360px) {
+
   #cricinfo-photo-grid .tv-album-grid {
     gap: 5px !important;
   }
@@ -4604,6 +4636,7 @@ textarea:focus-visible {
   #cricinfo-photo-grid .tv-album-open {
     font-size: 6px;
   }
+
 }
 
 /* PHOTO SECTION — premium responsive gallery refresh */
@@ -4878,16 +4911,17 @@ textarea:focus-visible {
   border: 1px dashed rgba(124, 229, 242, 0.25);
   border-radius: 14px;
   background: rgba(9, 22, 37, 0.55);
-}
-@media (min-width: 1200px) {
+}@media (min-width: 1200px) {
+
   #cricinfo-photo-grid .tv-album-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
   #cricinfo-photo-grid .tv-album-cover {
     aspect-ratio: 1.28/1 !important;
   }
-}
-@media (max-width: 760px) {
+
+}@media (max-width: 760px) {
+
   #photos.tilak-photos-section {
     padding: 38px 12px !important;
     scroll-margin-top: 72px;
@@ -4981,8 +5015,9 @@ textarea:focus-visible {
     font-size: 8px;
     letter-spacing: 0.06em;
   }
-}
-@media (max-width: 380px) {
+
+}@media (max-width: 380px) {
+
   #photos .cricinfo-gallery {
     padding: 10px !important;
   }
@@ -4995,13 +5030,15 @@ textarea:focus-visible {
   #cricinfo-photo-grid .tv-album-info small {
     display: none !important;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   #cricinfo-photo-grid .tv-album-card,
   #cricinfo-photo-grid .tv-album-cover > img,
   #cricinfo-photo-grid .tv-album-photo img {
     transition: none !important;
   }
+
 }
 
 /* Album card width hotfix: override inherited compact button sizing */
@@ -5046,13 +5083,14 @@ textarea:focus-visible {
   white-space: normal !important;
   word-break: normal !important;
   overflow-wrap: anywhere !important;
-}
-@media (min-width: 761px) {
+}@media (min-width: 761px) {
+
   #photos #cricinfo-photo-grid .tv-album-grid {
     grid-template-columns: repeat(3, minmax(220px, 1fr)) !important;
   }
-}
-@media (max-width: 760px) {
+
+}@media (max-width: 760px) {
+
   #photos #cricinfo-photo-grid .tv-album-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 10px !important;
@@ -5061,12 +5099,14 @@ textarea:focus-visible {
     font-size: 13px !important;
     line-height: 1.3 !important;
   }
-}
-@media (max-width: 380px) {
+
+}@media (max-width: 380px) {
+
   #photos #cricinfo-photo-grid .tv-album-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 7px !important;
   }
+
 }
 
 /* Final album-card polish: compact natural height and refined Explore Photos action */
@@ -5121,8 +5161,8 @@ textarea:focus-visible {
 #photos #cricinfo-photo-grid .tv-album-card:hover .tv-album-open {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(255, 105, 72, 0.4) !important;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   #photos #cricinfo-photo-grid .tv-album-card .tv-album-info {
     padding: 10px !important;
   }
@@ -5132,6 +5172,7 @@ textarea:focus-visible {
     font-size: 8px !important;
     letter-spacing: 0.035em !important;
   }
+
 }
 
 /* Mobile-first album/folder gallery: readable cards, inline folder contents */
@@ -5188,8 +5229,8 @@ textarea:focus-visible {
 #photos #cricinfo-photo-grid .tv-album-photo-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 8px !important;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   #photos.tilak-photos-section {
     padding: 32px 12px !important;
   }
@@ -5272,8 +5313,9 @@ textarea:focus-visible {
     aspect-ratio: 1/1 !important;
     border-radius: 6px !important;
   }
-}
-@media (max-width: 380px) {
+
+}@media (max-width: 380px) {
+
   #photos #cricinfo-photo-grid .tv-album-grid {
     gap: 7px !important;
   }
@@ -5292,6 +5334,7 @@ textarea:focus-visible {
   #photos #cricinfo-photo-grid .tv-album-photo-grid {
     gap: 4px !important;
   }
+
 }
 
 /* Album detail view: compact back row + balanced 3-column photo gallery */
@@ -5371,8 +5414,8 @@ textarea:focus-visible {
   bottom: 7px !important;
   width: 27px !important;
   height: 27px !important;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   #photos #cricinfo-photo-grid .tv-album-back-row {
     flex-direction: row !important;
     align-items: center !important;
@@ -5408,8 +5451,9 @@ textarea:focus-visible {
     height: 22px !important;
     font-size: 12px !important;
   }
-}
-@media (max-width: 360px) {
+
+}@media (max-width: 360px) {
+
   #photos #cricinfo-photo-grid .tv-album-back-row {
     gap: 7px !important;
   }
@@ -5425,6 +5469,7 @@ textarea:focus-visible {
   #photos #cricinfo-photo-grid .tv-album-photo-grid {
     gap: 4px !important;
   }
+
 }
 
 /* Definitive album-detail layout: header above a full-width 3x3 photo grid */
@@ -5519,8 +5564,8 @@ textarea:focus-visible {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   #photos #cricinfo-photo-grid .tv-album-detail .tv-album-back-row {
     gap: 8px !important;
     margin-bottom: 11px !important;
@@ -5547,6 +5592,7 @@ textarea:focus-visible {
   #photos #cricinfo-photo-grid .tv-album-detail .tv-album-photo {
     border-radius: 6px !important;
   }
+
 }
 
 /* BCCI-inspired photo gallery redesign: light editorial canvas, wide image cards */
@@ -5835,16 +5881,17 @@ textarea:focus-visible {
 }
 #photos .gallery-attribution {
   color: #778197 !important;
-}
-@media (max-width: 1000px) {
+}@media (max-width: 1000px) {
+
   #photos #cricinfo-photo-grid .tv-album-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
   #photos #cricinfo-photo-grid .tv-album-detail .tv-album-photo-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
-}
-@media (max-width: 640px) {
+
+}@media (max-width: 640px) {
+
   #photos.tilak-photos-section {
     padding: 25px 10px !important;
   }
@@ -5925,13 +5972,15 @@ textarea:focus-visible {
   #photos #cricinfo-photo-grid .tv-album-detail .tv-album-photo {
     border-radius: 2px !important;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   #photos #cricinfo-photo-grid .tv-album-card,
   #photos #cricinfo-photo-grid .tv-album-cover > img,
   #photos #cricinfo-photo-grid .tv-album-detail .tv-album-photo img {
     transition: none !important;
   }
+
 }
 
 /* Hotfix: neutralize legacy narrow album-card rules that caused vertical text */
@@ -6052,14 +6101,15 @@ textarea:focus-visible {
   overflow-wrap: anywhere !important;
   white-space: normal !important;
   box-sizing: border-box !important;
-}
-@media (max-width: 1000px) {
+}@media (max-width: 1000px) {
+
   #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     gap: 14px !important;
   }
-}
-@media (max-width: 640px) {
+
+}@media (max-width: 640px) {
+
   #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 10px !important;
@@ -6080,6 +6130,7 @@ textarea:focus-visible {
     > .tv-album-info {
     padding: 9px 0 !important;
   }
+
 }
 
 /* Album-open state: preserve the gallery's original listing palette; use BCCI-style series page only inside an opened album */
@@ -6223,13 +6274,14 @@ textarea:focus-visible {
   border-radius: 50% !important;
   background: rgba(5, 20, 61, 0.78) !important;
   color: #fff !important;
-}
-@media (max-width: 900px) {
+}@media (max-width: 900px) {
+
   #photos.tv-album-view-active .tv-album-photo-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
-}
-@media (max-width: 600px) {
+
+}@media (max-width: 600px) {
+
   #photos.tv-album-view-active {
     padding: 12px 0 !important;
   }
@@ -6262,6 +6314,7 @@ textarea:focus-visible {
     width: 24px !important;
     height: 24px !important;
   }
+
 }
 
 /* Preserve the fan club's original navy, cyan and orange palette in album view */
@@ -6304,11 +6357,12 @@ textarea:focus-visible {
 #photos.tv-album-view-active .tv-album-photo:hover .tv-photo-open-icon {
   border-color: #ff6a35 !important;
   color: #ff8a52 !important;
-}
-@media (max-width: 600px) {
+}@media (max-width: 600px) {
+
   #photos.tv-album-view-active .tv-album-hero {
     background: linear-gradient(145deg, #0d2238, #091525 72%, #171421) !important;
   }
+
 }
 
 /* Final photo gallery listing fix: retain original dark navy/cyan/orange theme and remove empty oversized panel */
@@ -6448,14 +6502,15 @@ textarea:focus-visible {
     0 12px 28px rgba(0, 0, 0, 0.25),
     0 0 20px rgba(117, 227, 255, 0.06) !important;
   transform: translateY(-3px) !important;
-}
-@media (max-width: 1000px) {
+}@media (max-width: 1000px) {
+
   #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     gap: 13px !important;
   }
-}
-@media (max-width: 640px) {
+
+}@media (max-width: 640px) {
+
   #photos .cricinfo-gallery {
     padding: 14px !important;
   }
@@ -6480,6 +6535,7 @@ textarea:focus-visible {
     strong {
     font-size: 14px !important;
   }
+
 }
 
 /* Image visibility recovery: keep real image elements visible in both album cards and opened albums */
@@ -6794,14 +6850,15 @@ textarea:focus-visible {
 }
 #photos .cricinfo-gallery .gallery-attribution {
   color: #839ab9 !important;
-}
-@media (max-width: 1050px) {
+}@media (max-width: 1050px) {
+
   #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     gap: 13px !important;
   }
-}
-@media (max-width: 650px) {
+
+}@media (max-width: 650px) {
+
   #photos.tilak-photos-section {
     padding: 24px 10px !important;
   }
@@ -6859,6 +6916,7 @@ textarea:focus-visible {
     small {
     font-size: 10px !important;
   }
+
 }
 
 /* BCCI-inspired all-blue photo album detail page */
@@ -6905,12 +6963,13 @@ textarea:focus-visible {
 #photos .cricinfo-gallery .tv-photo-detail .tv-photo-grid,
 #photos .cricinfo-gallery .tv-photo-grid {
   background: transparent !important;
-}
-@media (max-width: 650px) {
+}@media (max-width: 650px) {
+
   #photos .cricinfo-gallery .tv-album-detail,
   #photos .cricinfo-gallery .tv-photo-detail {
     border-radius: 15px !important;
   }
+
 }
 
 /* Fix album detail: blue the actual rendered hero, not unrelated selectors */
@@ -7017,8 +7076,8 @@ textarea:focus-visible {
   box-shadow:
     0 0 0 2px rgba(141, 234, 255, 0.2),
     0 10px 24px rgba(0, 15, 55, 0.3) !important;
-}
-@media (max-width: 650px) {
+}@media (max-width: 650px) {
+
   #photos.tv-album-view-active .tv-album-detail {
     border-radius: 14px !important;
   }
@@ -7033,6 +7092,7 @@ textarea:focus-visible {
   #photos.tv-album-view-active .tv-album-photo {
     border-radius: 9px !important;
   }
+
 }
 
 /* Keep album photo area blue, make the upper album header white as requested */
@@ -7119,8 +7179,8 @@ textarea:focus-visible {
 }
 #photos .cricinfo-gallery .gallery-attribution {
   color: #7186a3 !important;
-}
-@media (max-width: 650px) {
+}@media (max-width: 650px) {
+
   #photos.tilak-photos-section {
     padding: 22px 10px !important;
   }
@@ -7128,6 +7188,7 @@ textarea:focus-visible {
     padding: 12px !important;
     border-radius: 16px !important;
   }
+
 }
 
 /* Requested: royal-blue background for the entire Photos page */
@@ -7161,8 +7222,9 @@ textarea:focus-visible {
 }
 #photos .cricinfo-gallery .gallery-attribution {
   color: #bdd2ef !important;
-} /* Mobile photo gallery: remove Explore Photos overlay and use a single-column layout */
+}/* Mobile photo gallery: remove Explore Photos overlay and use a single-column layout */
 @media (max-width: 650px) {
+
   #photos .tv-album-card .tv-album-cover .tv-album-explore,
   #photos .tv-album-card .tv-album-cover .tv-album-open,
   #photos .tv-album-card .tv-album-cover [class*="explore"],
@@ -7230,8 +7292,10 @@ textarea:focus-visible {
   #photos.tv-album-view-active .tv-album-photo {
     aspect-ratio: 4/3 !important;
   }
-} /* Album detail: show two photos per row on phones */
+
+}/* Album detail: show two photos per row on phones */
 @media (max-width: 650px) {
+
   #photos.tv-album-view-active .tv-album-photo-grid,
   #photos.tv-album-view-active .tv-album-photo-grid#cricinfo-photo-grid,
   #photos.tv-album-view-active #cricinfo-photo-grid {
@@ -7254,6 +7318,7 @@ textarea:focus-visible {
     height: 100% !important;
     object-fit: cover !important;
   }
+
 }
 
 /* Hide the redundant Photos page intro/header; retain the gallery itself */
@@ -7397,8 +7462,8 @@ footer > span:last-child {
   padding-top: 12px !important;
   border-top: 1px solid rgba(105, 177, 255, 0.13) !important;
   text-align: center !important;
-}
-@media (max-width: 650px) {
+}@media (max-width: 650px) {
+
   #photos.tv-album-view-active .cricinfo-gallery {
     border-radius: 17px !important;
   }
@@ -7442,6 +7507,7 @@ footer > span:last-child {
     padding-top: 12px !important;
     text-align: left !important;
   }
+
 }
 
 /* Photo gallery: static presentation, no motion or hover animation. */
@@ -7467,18 +7533,16 @@ footer > span:last-child {
 }
 #photos .tv-photo-lightbox.is-open {
   animation: none !important;
-}
-@media (prefers-reduced-motion: no-preference) {
+}@media (prefers-reduced-motion: no-preference) {
+
   #photos,
   #photos * {
     scroll-behavior: auto !important;
   }
-}
-
-/* FIX: Stats format choices must wrap into rows on mobile;@media (max-width: 760px) {
-
 
 }
+
+/* FIX: Stats format choices must wrap into rows on mobile;
 
 /* Graceful fallback for external image hosts that deny hotlinking. */
 #photos .tv-photo-source-fallback {
