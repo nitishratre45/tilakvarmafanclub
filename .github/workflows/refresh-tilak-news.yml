@@ -11,6 +11,7 @@ on:
       - "scripts/news_pipeline_manager.py"
       - "admin/news-pipeline-manager.js"
       - "scripts/news.py"
+      - "scripts/cleanup_raw_news.py"
       - "News-details/news-details.js"
       - "News-details/news-details.css"
       - "News-details/index.html"
@@ -68,6 +69,7 @@ jobs:
             python -m json.tool News/raw-news-pages.json > /dev/null
             python -m json.tool News/newsjson.json > /dev/null
             python scripts/news_pipeline_manager.py
+            python scripts/cleanup_raw_news.py
             python -m json.tool News/news-pipeline-report.json > /dev/null
             python -m json.tool News/raw-news-pages.json > /dev/null
             python -m json.tool News/newsjson.json > /dev/null
