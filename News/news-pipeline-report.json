@@ -1,0 +1,108 @@
+{
+  "manager": "Tilak News Pipeline Manager",
+  "generatedAt": "2026-10-12T08:58:14.320755+00:00",
+  "status": "healthy",
+  "jsonFilesScanned": 14,
+  "validJsonFiles": 14,
+  "invalidJsonFiles": [],
+  "totalJsonBytes": 6491439,
+  "raw": {
+    "candidateRecords": 0,
+    "articleUrls": 112,
+    "articlePagesFetched": 112,
+    "articleFetchErrors": 0,
+    "records": 112
+  },
+  "news": {
+    "records": 24,
+    "declaredCount": 24,
+    "countConsistent": true,
+    "findings": [],
+    "errors": 0,
+    "warnings": 0
+  },
+  "workflow": {
+    "steps": [
+      "Fetch BCCI API pages",
+      "Read full article URLs",
+      "Repair/filter JSON records",
+      "Validate every repository JSON",
+      "Publish report"
+    ],
+    "autoFixScript": "scripts/news_pipeline_fixer.py",
+    "fullTextScript": "scripts/newsreader.py",
+    "filterScript": "scripts/filter_tilak_news.py"
+  },
+  "files": [
+    {
+      "path": "manifest.json",
+      "bytes": 704,
+      "valid": true
+    },
+    {
+      "path": ".prettierrc.json",
+      "bytes": 154,
+      "valid": true
+    },
+    {
+      "path": "assets/bcci-videos.json",
+      "bytes": 117376,
+      "valid": true
+    },
+    {
+      "path": "assets/bcci-video-refresh-report.json",
+      "bytes": 232,
+      "valid": true
+    },
+    {
+      "path": "data/video-config.json",
+      "bytes": 493,
+      "valid": true
+    },
+    {
+      "path": "data/repo-health.json",
+      "bytes": 9254,
+      "valid": true
+    },
+    {
+      "path": "data/automation-repo-monitor.json",
+      "bytes": 31290,
+      "valid": true
+    },
+    {
+      "path": "data/death-overs.json",
+      "bytes": 3792659,
+      "valid": true
+    },
+    {
+      "path": "data/job-recovery-manager.json",
+      "bytes": 329357,
+      "valid": true
+    },
+    {
+      "path": "data/site-data.json",
+      "bytes": 792499,
+      "valid": true
+    },
+    {
+      "path": "data/fan-zone.json",
+      "bytes": 2151,
+      "valid": true
+    },
+    {
+      "path": "data/admin-media.json",
+      "bytes": 6868,
+      "valid": true
+    },
+    {
+      "path": "News/newsjson.json",
+      "bytes": 291677,
+      "valid": true
+    },
+    {
+      "path": "News/raw-news-pages.json",
+      "bytes": 1116725,
+      "valid": true
+    }
+  ]
+}
