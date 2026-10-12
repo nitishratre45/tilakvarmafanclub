@@ -5795,6 +5795,29 @@
         manualNewsReset();
         loadManualNews();
 
+        $("run-all-workflows")?.addEventListener("click", async () => {
+          const button = $("run-all-workflows");
+          if (!button || button.disabled) return;
+          const confirmed = window.confirm(
+            "Run all 18 manually runnable GitHub Actions workflows now? This starts multiple jobs that may refresh data, run diagnostics, and update repository files. The event-driven auto-rerun workflow is excluded.",
+          );
+          if (!confirmed) return;
+          button.disabled = true;
+          button.textContent = "Queueing workflows…";
+          status("run-all-workflows-status", "Checking for an active batch and queueing workflows…");
+          try {
+            const result = await api("/api/admin/monitor", {
+              method: "POST",
+              body: JSON.stringify({ action: "run-all-workflows" }),
+            });
+            status("run-all-workflows-status", result.message || "Workflow batch queued.");
+          } catch (error) {
+            status("run-all-workflows-status", error.message || "Could not queue workflows.", true);
+          } finally {
+            button.disabled = false;
+            button.textContent = "Run All Workflows";
+          }
+        });
         $("news-reload")?.addEventListener("click", loadNewsArchive);
         $("news-refresh")?.addEventListener("click", async () => {
           const button = $("news-refresh");
