@@ -1,4 +1,4 @@
-const CACHE_NAME = "tilak-varma-fc-shell-v1";
+const CACHE_NAME = "tilak-varma-fc-shell-v2";
 const APP_SHELL = ["/", "/manifest.json", "/assets/tilak-app-icon.svg"];
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
@@ -11,7 +11,7 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET" || new URL(request.url).origin !== self.location.origin) return;
   if (request.mode === "navigate") {
     event.respondWith(fetch(request).then((response) => {
-      if (response.ok) caches.open(CACHE_NAME).then((cache) => cache.put("/", response.clone()));
+      if (response.ok) caches.open(CACHE_NAME).then((cache) => cache.put(request, response.clone()));
       return response;
     }).catch(async () => (await caches.match(request)) || (await caches.match("/")) || Response.error()));
   }
