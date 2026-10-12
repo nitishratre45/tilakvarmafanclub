@@ -300,7 +300,9 @@ function getInfo(def, data) {
       attemptStatus: data.lastAttemptStatus,
       errors: [
         ...compactErrors(data.lastAttemptError || data.readErrors),
-        ...Object.entries(data.sourceErrors || {}).map(([format, reason]) => format + ": " + String(reason)),
+        ...Object.entries(data.sourceErrors || {}).map(
+          ([format, reason]) => format + ": " + String(reason),
+        ),
       ],
       count: Array.isArray(data.innings) ? data.innings.length : 0,
       summary: {

@@ -289,7 +289,11 @@ def main():
                     # An empty Test archive is expected for Tilak: he has no Test
                     # appearances. Treat a clean zero-match archive as a valid empty
                     # format rather than marking the whole refresh PARTIAL.
-                    if key == "test" and not trial.get("innings") and trial.get("readErrors", 0) == 0:
+                    if (
+                        key == "test"
+                        and not trial.get("innings")
+                        and trial.get("readErrors", 0) == 0
+                    ):
                         candidate = trial
                         selected_url = source_url
                         break
