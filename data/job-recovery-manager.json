@@ -1,49 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T19:52:22.276Z",
+  "checkedAt": "2026-10-12T19:53:14.131Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T08:23:11.407Z",
-      "workflow": "Validate Tilak Varma FC site",
-      "workflowPath": ".github/workflows/site-check.yml",
-      "runId": 38223159026,
-      "runAttempt": 2,
-      "conclusion": "failure",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38223159026",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 1,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "validate",
-          "conclusion": "failure",
-          "startedAt": "2026-10-12T08:22:44Z",
-          "completedAt": "2026-10-12T08:22:52Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38223159026/job/114724206334",
-          "steps": [
-            {
-              "name": "Verify feature modules are linked",
-              "conclusion": "failure",
-              "number": 7
-            },
-            {
-              "name": "Post Set up Node.js",
-              "conclusion": "skipped",
-              "number": 13
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T08:32:24.382Z",
       "workflow": "Validate Tilak Varma FC site",
@@ -12688,6 +12647,27 @@
           "steps": []
         }
       ]
+    },
+    {
+      "checkedAt": "2026-10-12T19:53:14.131Z",
+      "workflow": "Refresh ESPNcricinfo Statsguru",
+      "workflowPath": ".github/workflows/refresh-statsguru.yml",
+      "runId": 38300563020,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "event": "schedule",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38300563020",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
     }
   ]
 }
