@@ -79,6 +79,34 @@ check("Stats Batting, Bowling, and Explore tabs respond", async () => {
     assert.equal(await page.locator(item.view).isVisible(), true, item.label + " view did not open");
   }
 
+  // Reload on the real /stats route must keep the selected sub-view.
+  await page.locator('#stats [data-stats-tab="stats-bowling"]').click();
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.waitForFunction(
+    () => {
+      const view = document.querySelector("#stats-bowling");
+      return Boolean(view && !view.hidden && getComputedStyle(view).display !== "none");
+    },
+    { timeout: 10000 },
+  );
+  assert.equal(location.pathname.replace(/\\/$/, ""), "/stats", "Refresh must keep the /stats URL");
+  assert.equal(await page.locator("#stats-bowling").isVisible(), true, "Refresh must restore Bowling");
+
+  await page.close();
+});
+
+check("direct /stats route survives refresh without redirecting home", async () => {
+  const page = await browser.newPage();
+  page.setDefaultTimeout(10000);
+  await page.goto(baseURL + "/stats", { waitUntil: "domcontentloaded" });
+  await page.waitForSelector("#main-nav");
+  await page.waitForFunction(() => document.querySelector("#stats") !== null, { timeout: 10000 });
+  assert.equal(new URL(page.url()).pathname, "/stats", "Direct /stats navigation should preserve the URL");
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.waitForSelector("#main-nav");
+  assert.equal(new URL(page.url()).pathname, "/stats", "Refreshing /stats should not redirect to the homepage");
+  await page.waitForFunction(() => document.querySelector("#stats") !== null, { timeout: 10000 });
+  assert.equal(await page.locator("#stats").isVisible(), true, "Stats should render after direct-route refresh");
   await page.close();
 });
 
