@@ -489,64 +489,8 @@ def main() -> None:
             )
 
             # Drop stylesheet/script-like content defensively in case a publisher returns app markup.
-            clean_lines = []
-            for raw_line in text.splitlines():
-                line = raw_line.strip()
-                if not line:
-                    continue
-                if len(line) > 1200:
-                    clean_lines.extend(
-                        textwrap.wrap(
-                            line,
-                            width=1000,
-                            break_long_words=False,
-                            break_on_hyphens=False,
-                        )
-                    )
-                    continue
-                lower = line.lower()
-                if any(
-                    token in lower
-                    for token in (
-                        "@font-face",
-                        "font-family:",
-                        "webkit-",
-                        "moz-",
-                        "text-size-adjust:",
-                        "textarea{",
-                        "body{height:",
-                        "display:none",
-                        "sourceMappingURL",
-                    )
-                ):
-                    continue
-                if lower.count("{") > 2 or lower.count("}") > 2:
-                    continue
-                clean_lines.append(line[:500])
-            navigation_labels = {
-                "news",
-                "videos",
-                "photos",
-                "matches",
-                "players",
-                "more",
-                "home",
-                "search",
-                "menu",
-                "sign in",
-                "login",
-            }
-            normalized_title = re.sub(
-                r"\s+", " ", str(article.get("title") or "").lower()
-            ).strip()
-            clean_lines = [
-                line
-                for line in clean_lines
-                if re.sub(r"[•·|]", " ", line.lower()).strip() not in navigation_labels
-                and re.sub(r"\s+", " ", line.lower()).strip() != normalized_title
-                and len(line.strip()) >= 35
-            ]
-            matched_lines = [line for line in clean_lines if NAME_PATTERN.search(line)]
+            # Do not use generic page text here: BCCI pages can include other stories.
+            # Only article-scoped API fields or JSON-LD matching this exact URL/title are trusted.
             title_match = bool(NAME_PATTERN.search(article["title"]))
             record = article.get("apiRecord", {})
             api_text_fields = " ".join(
@@ -588,62 +532,45 @@ def main() -> None:
                         )
                     )
                     record_url_norm = normalize_url(str(record_url))
-                    if (
-                        record_url_norm
-                        and record_url_norm != target_url
-                        and record_title != target_title
-                    ):
-                        continue
-                    if (
-                        record_title
-                        and target_title
-                        and record_title != target_title
-                        and record_url_norm != target_url
+                    # A JSON-LD object must explicitly identify this article by URL or title.
+                    # Generic site-wide NewsArticle/list objects are not accepted.
+                    if not (
+                        (record_url_norm and record_url_norm == target_url)
+                        or (record_title and target_title and record_title == target_title)
                     ):
                         continue
                     for key in ("articleBody", "description", "text"):
                         value = structured_record.get(key)
                         if isinstance(value, str) and value.strip():
                             structured_body.append(value.strip())
-            meta_description = " ".join(
-                str(metadata.get(key) or "")
-                for key in (
-                    "description",
-                    "og:description",
-                    "twitter:description",
-                    "article:tag",
-                )
-            )
-            api_match = bool(
-                NAME_PATTERN.search(
-                    api_text_fields
-                    + " "
-                    + " ".join(structured_body)
-                    + " "
-                    + meta_description
-                )
-            )
+            # The page-level meta description may belong to a generic shell; don't use it
+            # as proof that this individual article mentions Tilak.
+            api_match = bool(NAME_PATTERN.search(api_text_fields + " " + " ".join(structured_body)))
+            verified_body = []
+            for candidate in (
+                structured_body
+                + [
+                    str(record.get(key) or "").strip()
+                    for key in (
+                        "articleBody", "content", "body", "description",
+                        "summary", "excerpt", "seoDescription"
+                    )
+                ]
+            ):
+                if not isinstance(candidate, str):
+                    continue
+                candidate = re.sub(r"\s+", " ", html.unescape(candidate)).strip()
+                normalized = normalize_title(candidate)
+                if len(candidate) < 35 or len(candidate) > 4000 or not normalized:
+                    continue
+                if normalized == normalize_title(article.get("title", "")):
+                    continue
+                if normalized not in {normalize_title(x) for x in verified_body}:
+                    verified_body.append(candidate[:1000])
+            matched_lines = [line for line in verified_body if NAME_PATTERN.search(line)]
             if matched_lines or title_match or api_match:
                 article["matchedLines"] = matched_lines[:12]
-                # Prefer actual article paragraphs, then BCCI API/JSON-LD descriptions.
-                # Never store menu labels or the title itself as article copy.
-                content_candidates = (
-                    clean_lines
-                    + structured_body
-                    + [
-                        str(record.get(key) or "").strip()
-                        for key in (
-                            "articleBody",
-                            "content",
-                            "body",
-                            "description",
-                            "summary",
-                            "excerpt",
-                            "seoDescription",
-                        )
-                    ]
-                    + [meta_description]
-                )
+                content_candidates = verified_body
                 normalized_title = normalize_title(article.get("title", ""))
                 navigation_labels = {
                     "news",
