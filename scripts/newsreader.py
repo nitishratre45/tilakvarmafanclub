@@ -559,15 +559,38 @@ def main() -> None:
             target_title = normalize_title(article.get("title", ""))
             for structured in metadata.get("jsonld", []):
                 for structured_record in walk_records(structured):
-                    record_url = structured_record.get("url") or structured_record.get("@id") or ""
+                    record_url = (
+                        structured_record.get("url")
+                        or structured_record.get("@id")
+                        or ""
+                    )
                     record_main = structured_record.get("mainEntityOfPage")
                     if isinstance(record_main, dict):
-                        record_url = record_main.get("@id") or record_main.get("url") or record_url
-                    record_title = normalize_title(str(structured_record.get("headline") or structured_record.get("name") or ""))
+                        record_url = (
+                            record_main.get("@id")
+                            or record_main.get("url")
+                            or record_url
+                        )
+                    record_title = normalize_title(
+                        str(
+                            structured_record.get("headline")
+                            or structured_record.get("name")
+                            or ""
+                        )
+                    )
                     record_url_norm = normalize_url(str(record_url))
-                    if record_url_norm and record_url_norm != target_url and record_title != target_title:
+                    if (
+                        record_url_norm
+                        and record_url_norm != target_url
+                        and record_title != target_title
+                    ):
                         continue
-                    if record_title and target_title and record_title != target_title and record_url_norm != target_url:
+                    if (
+                        record_title
+                        and target_title
+                        and record_title != target_title
+                        and record_url_norm != target_url
+                    ):
                         continue
                     for key in ("articleBody", "description", "text"):
                         value = structured_record.get(key)
