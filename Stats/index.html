@@ -1,0 +1,30 @@
+<section id="stats" class="section stats-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">TILAK VARMA · STATS CENTRE</div>
+            <h2><em>STATS</em></h2>
+          </div>
+        </div>
+        <div class="stats-subnav" role="tablist" aria-label="Stats sections">
+          <button
+            type="button"
+            class="active"
+            role="tab"
+            aria-selected="true"
+            data-stats-tab="stats-overview"
+          >
+            Batting
+          </button>
+          <button type="button" role="tab" aria-selected="false" data-stats-tab="stats-bowling">
+            Bowling
+          </button>
+          <button type="button" role="tab" aria-selected="false" data-stats-tab="statsguru">
+            Explore
+          </button>
+        </div>
+                <div id="stats-subview-mounts">
+          <div data-stats-partial="/Stats/Batting/index.html" aria-live="polite"></div>
+          <div data-stats-partial="/Stats/Explore/index.html" aria-live="polite"></div>
+          <div data-stats-partial="/Stats/Bowling/index.html" aria-live="polite"></div>
+        </div>
+      </section>

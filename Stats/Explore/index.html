@@ -1,0 +1,198 @@
+<div id="statsguru" class="stats-subview section statsguru-section">
+          <div class="section-heading explore-heading">
+            <div>
+              <div class="eyebrow">EXPLORE · PLAYER ANALYSIS</div>
+              <h2>EXPLORE THE <em>NUMBERS</em></h2>
+              <span class="explore-accent-pill">FILTER · COMPARE · DISCOVER</span>
+            </div>
+            <p>
+              <strong>Every innings. Every format. Deeper insights.</strong>
+              <span
+                >Explore Tilak Varma’s career stats, match-by-match numbers and advanced filters in
+                one place.</span
+              >
+            </p>
+          </div>
+          <div class="statsguru-sourcebar">
+            <span
+              ><i class="live-dot"></i> EXPLORE SNAPSHOT ·
+              <b id="statsguru-updated">Checking update…</b></span
+            ><span>Auto-updates every 12 hours</span>
+          </div>
+          <div class="statsguru-format-tabs" role="group" aria-label="Match format">
+            <button class="active" data-sg-format="T20I">T20I</button
+            ><button data-sg-format="IPL">IPL</button><button data-sg-format="ODI">ODI</button
+            ><button data-sg-format="FC">FC</button><button data-sg-format="List A">List A</button
+            ><button data-sg-format="T20">T20 · all competitions</button
+            ><button data-sg-format="All">All formats</button>
+          </div>
+          <details class="player-analysis-filter">
+            <summary class="player-analysis-toggle">
+              <span
+                ><span class="eyebrow">EXPLORE · ESPNCRICINFO</span
+                ><strong>Player Analysis Menu / Filter</strong
+                ><small>Tap to open filters and date range</small></span
+              ><span class="player-analysis-toggle-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="player-analysis-content">
+              <div class="player-analysis-head">
+                <div>
+                  <div class="eyebrow">ADVANCED FILTERS</div>
+                  <h3 id="player-analysis-title">Player analysis <em>menu / filter</em></h3>
+                </div>
+                <span class="player-analysis-badge">LIVE FILTER CONTROLS</span>
+              </div>
+              <div class="player-analysis-grid">
+                <label
+                  >Filter category<select id="sg-filter-type">
+                    <option value="all">All-round / general</option>
+                    <option value="opposition">Opposition</option>
+                    <option value="home-away">Home or away</option>
+                    <option value="country">Host country / region</option>
+                    <option value="ground">Ground</option>
+                    <option value="year">Year</option>
+                    <option value="season">Season</option>
+                    <option value="result">Match result</option>
+                    <option value="position">Batting position</option>
+                    <option value="innings">Match innings</option>
+                    <option value="daynight">Day / night</option>
+                    <option value="series">Series / tournament</option>
+                  </select></label
+                >
+                <label
+                  >Filter value<select id="sg-filter-value">
+                    <option value="all">All available values</option>
+                  </select></label
+                >
+                <label>Starting date<input id="sg-date-from" type="date" /></label>
+                <label>Ending date<input id="sg-date-to" type="date" /></label>
+              </div>
+              <div class="player-analysis-actions">
+                <button type="button" class="button primary" id="sg-apply-filter">
+                  Apply filter ↗</button
+                ><button type="button" class="button" id="sg-reset-filter">Reset filter ↻</button
+                ><span id="sg-filter-status" aria-live="polite"
+                  >Choose a category and apply a filter.</span
+                >
+              </div>
+              <fieldset class="sg-analysis-options">
+                <legend>Analysis category</legend>
+                <label
+                  ><input type="radio" name="sg-analysis-scope" value="all" checked /> All-round /
+                  general</label
+                >
+                <label
+                  ><input type="radio" name="sg-analysis-scope" value="batting" /> Batting
+                  formats</label
+                >
+                <label
+                  ><input type="radio" name="sg-analysis-scope" value="bowling" /> Bowling
+                  formats</label
+                >
+                <label
+                  ><input type="radio" name="sg-analysis-scope" value="fielding" /> Fielding
+                  formats</label
+                >
+              </fieldset>
+              <fieldset class="sg-analysis-options sg-view-options">
+                <legend>View format</legend>
+                <label
+                  ><input type="radio" name="sg-analysis-view" value="batting" checked /> Career
+                  summary</label
+                >
+                <label
+                  ><input type="radio" name="sg-analysis-view" value="cumulative" /> Cumulative
+                  averages</label
+                >
+                <label
+                  ><input type="radio" name="sg-analysis-view" value="results" /> Match
+                  results</label
+                >
+                <label
+                  ><input type="radio" name="sg-analysis-view" value="innings" /> Innings by innings
+                  list</label
+                >
+                <label
+                  ><input type="radio" name="sg-analysis-view" value="reverse" /> Reverse
+                  cumulative</label
+                >
+                <label
+                  ><input type="radio" name="sg-analysis-view" value="awards" /> Match awards</label
+                >
+                <label
+                  ><input type="radio" name="sg-analysis-view" value="matchlist" /> Match by match
+                  list</label
+                >
+                <label
+                  ><input type="radio" name="sg-analysis-view" value="series" /> Series
+                  averages</label
+                >
+                <label
+                  ><input type="radio" name="sg-analysis-view" value="seriesawards" /> Series
+                  awards</label
+                >
+                <label
+                  ><input type="radio" name="sg-analysis-view" value="ground" /> Ground
+                  averages</label
+                >
+              </fieldset>
+              <p class="player-analysis-help">
+                Filters and analysis views use saved ESPNcricinfo Statsguru data. Views without a
+                verified source table are labelled unavailable instead of showing guessed figures.
+              </p>
+            </div>
+          </details>
+          <div
+            class="statsguru-category-grid"
+            role="group"
+            aria-label="Explore statistics category"
+          >
+            <button class="active" data-sg-category="batting">Batting career summary</button>
+            <button data-sg-category="matchlist">Match by match list</button>
+            <button data-sg-category="innings">Batting innings list</button>
+            <button data-sg-category="highscores">High scores</button>
+            <button data-sg-category="battingseries">Batting series averages</button>
+            <button data-sg-category="bowling">Bowling career summary</button>
+            <button data-sg-category="bowlinginnings">Bowling innings list</button>
+            <button data-sg-category="bowlingmatches">Bowling match list</button>
+            <button data-sg-category="bestinningsbowling">Best innings bowling</button>
+            <button data-sg-category="bestmatchbowling">Best match bowling</button>
+            <button data-sg-category="bowlingseries">Bowling series averages</button>
+            <button data-sg-category="fielding">Fielding career summary</button>
+            <button data-sg-category="fieldinginnings">Fielding innings list</button>
+            <button data-sg-category="mostcatches">Most catches in an innings</button>
+            <button data-sg-category="fieldingseries">Fielding series statistics</button>
+          </div>
+          <div class="statsguru-panel">
+            <div class="statsguru-panel-head">
+              <div>
+                <div class="eyebrow" id="statsguru-eyebrow">CAREER OVERVIEW</div>
+                <h3 id="statsguru-title">Batting career summary</h3>
+              </div>
+              <span class="statsguru-format-pill" id="statsguru-format-label">T20I</span>
+            </div>
+            <div id="statsguru-summary" class="statsguru-summary"></div>
+            <div class="table-wrap">
+              <table>
+                <thead id="statsguru-thead">
+                  <tr>
+                    <th>DATE</th>
+                    <th>OPPOSITION</th>
+                    <th>RUNS</th>
+                    <th>BALLS</th>
+                    <th>STRIKE RATE</th>
+                  </tr>
+                </thead>
+                <tbody id="statsguru-tbody">
+                  <tr>
+                    <td colspan="5" class="empty">Loading available data…</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p id="statsguru-note" class="statsguru-note">
+              Stats reflect saved site data. Historical bowling, fielding and series details appear
+              only when a verified dataset is available.
+            </p>
+          </div>
+        </div>
