@@ -9,6 +9,7 @@
   let site = {},
     fan = {},
     rows = [];
+  const formatIndiaTimestamp = (value) => { if (!value) return "time unavailable"; const date = new Date(value); return Number.isNaN(date.getTime()) ? String(value) : new Intl.DateTimeFormat("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true }).format(date) + " IST"; };
   const num = (r) => (typeof r.runs === "number" && Number.isFinite(r.runs) ? r.runs : null);
   async function init() {
     try {
@@ -201,9 +202,9 @@
     if (updated)
       updated.textContent =
         "Last update: " +
-        (fan.updatedAt || site.lastUpdated || "time unavailable") +
+        formatIndiaTimestamp(fan.updatedAt || site.lastUpdated) +
         " · Stats last checked: " +
-        (site.lastUpdated || "time unavailable") +
+        formatIndiaTimestamp(site.lastUpdated) +
         " · Automatic refresh runs every 12 hours.";
     if (!questions.length) {
       $("quiz-question").textContent = "Quiz is taking a break";
