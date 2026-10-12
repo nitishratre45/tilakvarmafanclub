@@ -3421,7 +3421,7 @@
                 (video ? "VIDEO" : "PHOTO") +
                 " · " +
                 escapeHtml(
-                  x.createdAt ? new Date(x.createdAt).toLocaleDateString() : "Saved media",
+                  x.createdAt ? new Date(x.createdAt).toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" }) : "Saved media",
                 ) +
                 '</div><div class="actions"><a class="btn small" href="' +
                 url +
@@ -3710,7 +3710,7 @@
         function formatTime(value) {
           if (!value) return "time unavailable";
           const date = new Date(value);
-          return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+          return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true }).format(date) + " IST";
         }
         function renderMonitor(data) {
           const host = $("monitor-runs");
@@ -5073,7 +5073,7 @@
             $("repo-health-warnings").textContent = summary.warnings ?? 0;
             $("repo-health-checked").textContent = report.checkedAt
               ? "Last scan: " +
-                new Date(report.checkedAt).toLocaleString() +
+                new Date(report.checkedAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) + " IST" +
                 " · scheduled every 10 minutes"
               : "Waiting for first scheduled scan";
             $("repo-health-repair").textContent =
@@ -5152,12 +5152,12 @@
             $("bcci-live-previous").textContent = videoReport?.previousTotal ?? "—";
             $("bcci-live-updated").textContent = videoReport?.updatedAt
               ? "Last video refresh: " +
-                new Date(videoReport.updatedAt).toLocaleString() +
+                new Date(videoReport.updatedAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) + " IST" +
                 " · duplicates removed: " +
                 Number(videoReport.duplicateEntriesRemoved || 0)
               : videoFeed?.updatedAt
                 ? "Feed updated: " +
-                  new Date(videoFeed.updatedAt).toLocaleString() +
+                  new Date(videoFeed.updatedAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) + " IST" +
                   " · refresh report not available yet"
                 : "Video refresh report unavailable";
             const newVideoHost = $("bcci-live-new-list");
@@ -5185,7 +5185,7 @@
             }
             if (report) {
               $("live-updates-scan").textContent = report.checkedAt
-                ? new Date(report.checkedAt).toLocaleString()
+                ? new Date(report.checkedAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) + " IST"
                 : "Not scanned yet";
               $("live-updates-errors").textContent = report.summary?.issues ?? "—";
               const warningCount = Number(report.summary?.warnings ?? 0);
