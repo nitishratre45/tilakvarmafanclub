@@ -3,6 +3,26 @@
 
   const moduleMount = document.getElementById("stats-module-mount");
   const root = "/Stats/";
+  const SCRIPT_LOAD_TIMEOUT_MS = 6000;
+  const PAGE_LOADER_MAX_WAIT_MS = 10000;
+  let pageLoaderDismissStarted = false;
+
+  // The page loader must never depend on the whole optional script chain finishing.
+  // Start this watchdog immediately, before any asynchronous fetches or CDN loads.
+  function dismissPageLoader() {
+    const loader = document.getElementById("tv-page-loader");
+    if (!loader || pageLoaderDismissStarted) return;
+    pageLoaderDismissStarted = true;
+    loader.classList.add("is-leaving");
+    window.setTimeout(() => loader.remove(), 450);
+  }
+
+  window.setTimeout(dismissPageLoader, PAGE_LOADER_MAX_WAIT_MS);
+  window.addEventListener(
+    "load",
+    () => window.setTimeout(dismissPageLoader, 800),
+    { once: true },
+  );
 
   async function fetchMarkup(path) {
     const response = await fetch(path, { cache: "no-cache" });
@@ -47,12 +67,28 @@
   function loadScript(src) {
     return new Promise((resolve) => {
       const script = document.createElement("script");
-      script.src = src;
-      script.onload = () => resolve(true);
-      script.onerror = () => {
-        console.warn("[Site bootstrap] Script failed to load:", src);
-        resolve(false);
+      let settled = false;
+      const finish = (loaded, reason = "") => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timeoutId);
+        if (!loaded) {
+          console.warn(
+            "[Site bootstrap] Script " + (reason || "failed to load") + ":",
+            src,
+          );
+          script.remove();
+        }
+        resolve(loaded);
       };
+
+      script.src = src;
+      script.onload = () => finish(true);
+      script.onerror = () => finish(false);
+      const timeoutId = window.setTimeout(
+        () => finish(false, "timed out after " + SCRIPT_LOAD_TIMEOUT_MS + "ms"),
+        SCRIPT_LOAD_TIMEOUT_MS,
+      );
       document.body.appendChild(script);
     });
   }
@@ -120,19 +156,7 @@
     if (document.readyState === "complete") registerWorker();
     else window.addEventListener("load", registerWorker, { once: true });
 
-    const loader = document.getElementById("tv-page-loader");
-    if (loader) {
-      let closed = false;
-      const closeLoader = () => {
-        if (closed) return;
-        closed = true;
-        loader.classList.add("is-leaving");
-        window.setTimeout(() => loader.remove(), 450);
-      };
-      if (document.readyState === "complete") window.setTimeout(closeLoader, 180);
-      else window.addEventListener("load", () => window.setTimeout(closeLoader, 180), { once: true });
-      window.setTimeout(closeLoader, 6500);
-    }
+    dismissPageLoader();
   }
 
   mountStats();
