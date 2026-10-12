@@ -44,9 +44,12 @@ jobs:
           npm install --no-save --no-package-lock playwright@1.55.0
           npx playwright install --with-deps chromium
 
-      - name: Start static site server
+      - name: Test Cloudflare Stats route handler
+        run: node tests/stats-route.test.mjs
+
+      - name: Start Stats-aware static site server
         run: |
-          python3 -m http.server 8000 --bind 127.0.0.1 > /tmp/tilak-fc-http.log 2>&1 &
+          node tests/site-server.mjs > /tmp/tilak-fc-http.log 2>&1 &
           echo $! > /tmp/tilak-fc-http.pid
           for attempt in $(seq 1 30); do
             if curl --fail --silent http://127.0.0.1:8000/ > /dev/null; then
