@@ -153,9 +153,9 @@
       const profileDate = profile.photoCheckedAt || profile.photoUpdated || data.lastUpdated;
       profileStamp.textContent =
         "Profile snapshot: " +
-        (profileDate || "date unavailable") +
+        (profileDate ? formatIndiaTimestamp(profileDate) : "date unavailable") +
         " · Site data: " +
-        (data.lastUpdated || "date unavailable");
+        (data.lastUpdated ? formatIndiaTimestamp(data.lastUpdated) : "date unavailable");
     }
     document.querySelectorAll("[data-stat]").forEach((el) => {
       const key = el.dataset.stat;
@@ -186,7 +186,7 @@
     set(
       "icc-ranking-updated",
       rankings.updatedAt
-        ? "Ranking snapshot · " + rankings.updatedAt
+        ? "Ranking snapshot · " + formatIndiaTimestamp(rankings.updatedAt)
         : "Saved ICC ranking date unavailable",
     );
   } catch (error) {
