@@ -135,48 +135,12 @@ summary:focus-visible {
 }
 .data-line,
 .home-snapshot-foot,
-.statsguru-sourcebar {
-  border-color: var(--tv-line);
-}
-#stats .statsguru-format-tabs {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: stretch;
-  gap: 8px !important;
-  max-width: 100%;
-  overflow: visible !important;
-  overflow-x: visible !important;
-  overflow-y: visible !important;
-  white-space: normal !important;
-  scrollbar-width: none !important;
-  overscroll-behavior-x: auto !important;
-  background: linear-gradient(135deg, rgba(10, 33, 61, 0.9), rgba(12, 26, 47, 0.92));
-  border: 1px solid var(--tv-line);
-}
-#stats .statsguru-format-tabs button {
-  flex: 0 1 auto !important;
-  min-width: 0;
-  max-width: 100%;
-  white-space: normal !important;
-  overflow-wrap: anywhere;
-  line-height: 1.25;
-}
-#stats .statsguru-format-tabs button.active {
-  box-shadow:
-    0 0 0 2px rgba(255, 116, 75, 0.16),
-    0 8px 20px rgba(255, 116, 75, 0.18);
-}
-#stats .statsguru-category-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 9px;
-}
-#stats .statsguru-category-grid button {
-  min-width: 0;
-  text-align: left;
-  white-space: normal;
-  line-height: 1.35;
-}
+
+
+
+
+
+
 .table-wrap,
 .statsguru-table-wrap,
 .match-history-table-wrap {
@@ -232,10 +196,7 @@ footer {
   border-color: #d4e2f4;
   box-shadow: 0 12px 30px rgba(29, 71, 122, 0.08);
 }
-:root[data-theme-resolved="light"] #stats .statsguru-format-tabs {
-  background: linear-gradient(135deg, #e9f2ff, #f8fbff);
-  border-color: #c9dbf2;
-}
+
 @media (max-width: 900px) {
   .section {
     padding: 44px 22px;
@@ -243,9 +204,7 @@ footer {
   .section-heading {
     align-items: flex-start;
   }
-  #stats .statsguru-category-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
 }
 @media (max-width: 650px) {
   html {
@@ -278,28 +237,11 @@ footer {
     min-width: 0;
     padding: 15px 13px;
   }
-  #stats .statsguru-format-tabs {
-    gap: 7px !important;
-    padding: 8px !important;
-    margin-inline: 0 !important;
-  }
-  #stats .statsguru-format-tabs button {
-    flex: 0 1 auto !important;
-    min-height: 40px;
-    padding: 9px 10px !important;
-    font-size: 11px;
-  }
-  #stats .statsguru-format-tabs button[data-sg-format="T20"] {
-    flex: 1 1 145px !important;
-  }
-  #stats .statsguru-category-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 7px;
-  }
-  #stats .statsguru-category-grid button {
-    padding: 10px;
-    font-size: 12px;
-  }
+
+
+
+
+
   .home-snapshot-heading,
   .home-bowling-heading {
     align-items: flex-start;
@@ -325,9 +267,7 @@ footer {
   .stat-card {
     padding: 12px 10px;
   }
-  #stats .statsguru-format-tabs button {
-    padding-inline: 8px !important;
-  }
+
 }
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -387,13 +327,9 @@ main > section[id] {
   :where(h2, h3, p, small, strong, span) {
   overflow-wrap: anywhere;
 }
-:where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap) table {
-  min-width: 100%;
-}
+
 :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap) th,
-:where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap) td {
-  white-space: normal;
-}
+
 @media (max-width: 760px) {
   .topbar {
     gap: 10px;
