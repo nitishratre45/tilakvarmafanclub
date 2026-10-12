@@ -771,7 +771,9 @@
         if (document.readyState === "complete") {
           window.setTimeout(hidePageLoader, 350);
         } else {
-          window.addEventListener("load", () => window.setTimeout(hidePageLoader, 350), { once: true });
+          window.addEventListener("load", () => window.setTimeout(hidePageLoader, 350), {
+            once: true,
+          });
         }
         window.setTimeout(hidePageLoader, 4500);
       })();
