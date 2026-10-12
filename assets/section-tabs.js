@@ -162,6 +162,18 @@
     show(id, false, legacyViews[id] || null);
   });
 
+  // Stats is mounted asynchronously. Reapply the saved sub-tab after its
+  // markup exists, otherwise a refresh briefly falls back to Batting.
+  window.addEventListener("tilak:stats-mounted", () => {
+    const isStatsRoute = location.pathname.replace(/\/$/, "") === "/stats";
+    if (!isStatsRoute && location.hash !== "#stats") return;
+    let savedView = null;
+    try {
+      savedView = sessionStorage.getItem("tilak-stats-view");
+    } catch (_) {}
+    setStatsView(savedView || "stats-overview");
+  });
+
   let saved = null;
   try {
     saved = sessionStorage.getItem("tilak-stats-view");
