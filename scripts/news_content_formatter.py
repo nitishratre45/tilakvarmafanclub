@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "News" / "raw-news-pages.json"
 NEWS = ROOT / "News" / "newsjson.json"
 REPORT = ROOT / "News" / "news-pipeline-report.json"
-NAME = re.compile(r"\\btilak\\s+varma\\b", re.I)
+NAME = re.compile(r"\btilak\s+varma\b", re.I)
 
 
 def official_url(value: str) -> bool:
@@ -25,7 +25,7 @@ def official_url(value: str) -> bool:
 def blocks_for(article: dict) -> list[dict]:
     text = str(article.get("fullText") or article.get("pageText") or "")
     blocks: list[dict] = []
-    lines = [re.sub(r"\\s+", " ", line).strip() for line in text.splitlines()]
+    lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines()]
     table_rows: list[list[str]] = []
 
     def flush_table():
@@ -38,7 +38,7 @@ def blocks_for(article: dict) -> list[dict]:
         if not line:
             flush_table()
             continue
-        marker = re.fullmatch(r"\\[TABLE\\](.*?)\\[/TABLE\\]", line, flags=re.S)
+        marker = re.fullmatch(r"\[TABLE\](.*?)\[/TABLE\]", line, flags=re.S)
         if marker:
             flush_table()
             try:
@@ -48,7 +48,7 @@ def blocks_for(article: dict) -> list[dict]:
             except json.JSONDecodeError:
                 pass
             continue
-        cells = [cell.strip() for cell in re.split(r"\\s+\\|\\s+", line) if cell.strip()]
+        cells = [cell.strip() for cell in re.split(r"\s+\|\s+", line) if cell.strip()]
         if len(cells) >= 2:
             table_rows.append(cells)
             continue
@@ -116,12 +116,12 @@ def main():
         "findings": findings,
         "format": "paragraphs, headings, and detected HTML tables",
     }
-    NEWS.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+    NEWS.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     try:
         report = json.loads(REPORT.read_text(encoding="utf-8")) if REPORT.exists() else {}
         report["contentVerification"] = doc["contentFormatter"]
         report["status"] = "error" if any(x["severity"] == "error" for x in findings) else report.get("status", "healthy")
-        REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+        REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     except (OSError, json.JSONDecodeError):
         pass
     print(json.dumps({"verified": doc["contentFormatter"]["liveUrlsMatched"], "published": len(output), "findings": len(findings)}))
