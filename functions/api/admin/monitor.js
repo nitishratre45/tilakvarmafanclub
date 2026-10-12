@@ -12,12 +12,27 @@ const repoName = (env) => env.GITHUB_REPOSITORY || "nitishratre45/tilakvarmafanc
 
 async function github(env, path, options = {}) {
   if (!env.GITHUB_TOKEN) throw new Error("GITHUB_TOKEN is missing in Cloudflare Pages secrets.");
-  const response = await fetch(API + "/repos/" + repoName(env) + path, {
-    ...options,
-    headers: { ...headers(env), ...(options.headers || {}) },
-  });
+  let response;
+  try {
+    response = await fetch(API + "/repos/" + repoName(env) + path, {
+      ...options,
+      headers: { ...headers(env), ...(options.headers || {}) },
+      signal: options.signal || AbortSignal.timeout(12000),
+    });
+  } catch (error) {
+    if (error?.name === "TimeoutError" || error?.name === "AbortError")
+      throw new Error("GitHub Actions API timed out after 12 seconds. Try again shortly.");
+    throw error;
+  }
   if (!response.ok) {
     const detail = await response.text();
+    if (response.status === 429 || (response.status === 403 && response.headers.get("x-ratelimit-remaining") === "0")) {
+      const retryAfter = response.headers.get("retry-after");
+      throw new Error(
+        "GitHub API rate limit reached." +
+          (retryAfter ? " Retry after " + retryAfter + " seconds." : " Wait briefly and retry."),
+      );
+    }
     if (response.status === 403)
       throw new Error(
         "GitHub denied this action. Check the GITHUB_TOKEN Actions: read/write permission.",
