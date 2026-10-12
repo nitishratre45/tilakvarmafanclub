@@ -242,9 +242,14 @@ check("News Details opens article and returns safely on desktop and mobile", asy
     assert.match(await page.locator("#detail-excerpt").innerText(), /Article body for the browser test/);
     const back = page.locator(".mobile-back");
     await back.waitFor({ state: "visible" });
+    const backHref = await back.getAttribute("href");
+    assert(backHref && /#news$/.test(backHref), "Back link must target the News section; got: " + backHref);
     await back.click();
-    await page.waitForURL(/#news$/);
-    assert.match(new URL(page.url()).hash, /#news$/, "Back link should return to the News section");
+    await page.waitForFunction(() => location.hash === "#news", { timeout: 5000 }).catch(async () => {
+      const current = new URL(page.url());
+      assert.equal(current.hash, "#news", "Back navigation should return to News; current URL: " + current.href);
+    });
+    assert.equal(new URL(page.url()).hash, "#news", "Back navigation should return to the News section");
     await page.close();
   }
 });
