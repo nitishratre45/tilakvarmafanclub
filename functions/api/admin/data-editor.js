@@ -1,4 +1,4 @@
-import { json, requireAdmin, saveRepoJson } from "../../_lib/admin.js";
+import { json, requireAdmin, saveRepoJson, fetchWithTimeout } from "../../_lib/admin.js";
 
 const FILES = {
   stats: {
@@ -23,7 +23,7 @@ async function readFile(env, path) {
     "x-github-api-version": "2022-11-28",
     "user-agent": "TilakVarmaFanClub-Admin",
   };
-  const response = await fetch(
+  const response = await fetchWithTimeout(
     "https://api.github.com/repos/" +
       repo +
       "/contents/" +
@@ -31,6 +31,7 @@ async function readFile(env, path) {
       "?ref=" +
       encodeURIComponent(branch),
     { headers },
+    15000,
   );
   if (!response.ok) throw new Error("Could not read " + path + " (" + response.status + ").");
   const file = await response.json();
@@ -38,9 +39,10 @@ async function readFile(env, path) {
     throw new Error("GitHub did not return a versioned file snapshot for " + path + ".");
   let encoded = file.content;
   if (!encoded) {
-    const blobResponse = await fetch(
+    const blobResponse = await fetchWithTimeout(
       "https://api.github.com/repos/" + repo + "/git/blobs/" + file.sha,
       { headers },
+      20000,
     );
     if (!blobResponse.ok)
       throw new Error("Could not read the full file contents (" + blobResponse.status + ").");
