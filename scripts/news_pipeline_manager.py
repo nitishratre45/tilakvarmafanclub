@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "News" / "news-pipeline-report.json"
-NAME = re.compile(r"\\btilak\\s+varma\\b", re.I)
+NAME = re.compile(r"\btilak\s+varma\b", re.I)
 SKIP = {".git", "node_modules", ".venv", "venv", "dist", "build"}
 
 
@@ -141,7 +141,7 @@ def main():
     }
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     REPORT.write_text(
-        json.dumps(report, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8"
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(
         json.dumps(
