@@ -101,7 +101,7 @@
       const body = document.getElementById("detail-excerpt");
       body.replaceChildren();
       const navigationLabels = new Set(["news", "videos", "photos", "matches", "players", "more", "home", "menu", "search", "sign in", "login"]);
-      const normalize = (value) => String(value || "").replace(/[•·|]/g, " ").replace(/\\s+/g, " ").trim().toLowerCase();
+      const normalize = (value) => String(value || "").replace(/[•·|]/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
       const rawParagraphs = [
         ...(Array.isArray(item.articleText) ? item.articleText : []),
         ...(Array.isArray(item.matchedLines) ? item.matchedLines : [])
