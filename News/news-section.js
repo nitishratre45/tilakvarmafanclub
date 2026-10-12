@@ -213,7 +213,7 @@
 
       render();
       updated.textContent = data.updatedAt
-        ? "Last checked: " + dateLabel(data.updatedAt)"
+        ? "Last checked: " + dateLabel(data.updatedAt)
         : "";
     })
     .catch((error) => {
