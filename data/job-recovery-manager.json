@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T06:29:22.353Z",
+  "checkedAt": "2026-10-12T06:29:32.302Z",
   "retentionHours": 15,
   "events": [
     {
@@ -5120,6 +5120,36 @@
           "startedAt": "2026-10-12T06:29:05Z",
           "completedAt": "2026-10-12T06:29:05Z",
           "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38212731721/job/114690355778",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-10-12T06:29:32.302Z",
+      "workflow": "Admin data editor tests",
+      "workflowPath": ".github/workflows/admin-data-editor-tests.yml",
+      "runId": 38212746952,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "pull_request",
+      "branch": "feature/empty-news-section",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38212746952",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 1,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Admin save validation and API safety",
+          "conclusion": "cancelled",
+          "startedAt": "2026-10-12T06:29:17Z",
+          "completedAt": "2026-10-12T06:29:23Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38212746952/job/114690400177",
           "steps": []
         }
       ]
