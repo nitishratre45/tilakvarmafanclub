@@ -58,6 +58,9 @@ class ArticleParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.parts: list[str] = []
+        self.article_parts: list[str] = []
+        self.article_candidates: list[list[str]] = []
+        self._article_depth = 0
         self.meta: dict[str, str] = {}
         self.jsonld: list[str] = []
         self._capture_title = False
@@ -73,6 +76,10 @@ class ArticleParser(HTMLParser):
             return
         if self._ignored_depth:
             return
+        if tag == "article":
+            if self._article_depth == 0:
+                self.article_parts = []
+            self._article_depth += 1
         if tag == "meta":
             key = (
                 attrs.get("property")
@@ -125,6 +132,8 @@ class ArticleParser(HTMLParser):
                 if self._capture_title:
                     self.meta["html:title"] = value
                 self.parts.append(value)
+                if self._article_depth:
+                    self.article_parts.append(value)
 
 
 def keynorm(value: str) -> str:
@@ -546,8 +555,20 @@ def main() -> None:
                 )
             )
             structured_body = []
+            target_url = normalize_url(url)
+            target_title = normalize_title(article.get("title", ""))
             for structured in metadata.get("jsonld", []):
                 for structured_record in walk_records(structured):
+                    record_url = structured_record.get("url") or structured_record.get("@id") or ""
+                    record_main = structured_record.get("mainEntityOfPage")
+                    if isinstance(record_main, dict):
+                        record_url = record_main.get("@id") or record_main.get("url") or record_url
+                    record_title = normalize_title(str(structured_record.get("headline") or structured_record.get("name") or ""))
+                    record_url_norm = normalize_url(str(record_url))
+                    if record_url_norm and record_url_norm != target_url and record_title != target_title:
+                        continue
+                    if record_title and target_title and record_title != target_title and record_url_norm != target_url:
+                        continue
                     for key in ("articleBody", "description", "text"):
                         value = structured_record.get(key)
                         if isinstance(value, str) and value.strip():
