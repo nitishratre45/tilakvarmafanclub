@@ -180,9 +180,17 @@
   try {
     saved = sessionStorage.getItem("tilak-stats-view");
   } catch (_) {}
-  // Hash destinations take priority, including older /stats#section links.
+  // Canonicalize the legacy /#stats URL to the real /stats route.
+  // This also repairs stale bookmarks and browser-restored hash URLs.
   const initial =
     location.hash.slice(1) ||
     (location.pathname.replace(/\/$/, "") === "/stats" ? "stats" : "profile");
+  if (initial === "stats" && location.pathname.replace(/\/$/, "") !== "/stats") {
+    history.replaceState(
+      { section: "stats", statsView: saved || "stats-overview" },
+      "",
+      "/stats",
+    );
+  }
   show(initial, false, legacyViews[initial] || (initial === "stats" ? saved : null));
 })();
