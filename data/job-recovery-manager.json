@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T13:07:56.112Z",
+  "checkedAt": "2026-10-12T13:09:13.403Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T05:32:00.705Z",
-      "workflow": "Admin Python diagnostics",
-      "workflowPath": ".github/workflows/admin-diagnostics.yml",
-      "runId": 38208324324,
-      "runAttempt": 1,
-      "conclusion": "success",
-      "event": "workflow_dispatch",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38208324324",
-      "action": "no_recovery_needed",
-      "reason": "No failed, cancelled, or skipped jobs require this manager.",
-      "jobCounts": {
-        "total": 1,
-        "success": 1,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T05:53:21.711Z",
       "workflow": "Photo Section Guardian",
@@ -13343,6 +13322,27 @@
       "jobCounts": {
         "total": 0,
         "success": 0,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T13:09:13.403Z",
+      "workflow": "Validate Tilak Varma FC site",
+      "workflowPath": ".github/workflows/site-check.yml",
+      "runId": 38253655247,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253655247",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
         "failure": 0,
         "cancelled": 0,
         "skipped": 0
