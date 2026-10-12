@@ -1,38 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T11:43:49.954Z",
+  "checkedAt": "2026-10-12T11:43:57.879Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-11T22:25:48.941Z",
-      "workflow": "Auto-rerun failed GitHub Actions jobs",
-      "workflowPath": ".github/workflows/auto-rerun-failed.yml",
-      "runId": 38180370254,
-      "runAttempt": 1,
-      "conclusion": "skipped",
-      "event": "workflow_run",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38180370254",
-      "action": "skipped_diagnosed",
-      "reason": "Skipped jobs are not automatically rerun: inspect their if/needs conditions and dependency outcomes.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 1
-      },
-      "jobs": [
-        {
-          "name": "Retry failed jobs once",
-          "conclusion": "skipped",
-          "startedAt": "2026-10-11T22:25:33Z",
-          "completedAt": "2026-10-11T22:25:33Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38180370254/job/114591447060",
-          "steps": []
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-11T22:25:58.547Z",
       "workflow": "Refresh ESPNcricinfo Bowling Stats",
@@ -13795,6 +13765,36 @@
         "skipped": 0
       },
       "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T11:43:57.879Z",
+      "workflow": "Format source code",
+      "workflowPath": ".github/workflows/format-code.yml",
+      "runId": 38244495384,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38244495384",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 1,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "format",
+          "conclusion": "cancelled",
+          "startedAt": "2026-10-12T11:43:34Z",
+          "completedAt": "2026-10-12T11:43:49Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38244495384/job/114794893135",
+          "steps": []
+        }
+      ]
     }
   ]
 }
