@@ -1,49 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T19:02:49.448Z",
+  "checkedAt": "2026-10-12T19:03:01.910Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T06:59:36.544Z",
-      "workflow": "Validate Tilak Varma FC site",
-      "workflowPath": ".github/workflows/site-check.yml",
-      "runId": 38215255688,
-      "runAttempt": 2,
-      "conclusion": "failure",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38215255688",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 1,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "validate",
-          "conclusion": "failure",
-          "startedAt": "2026-10-12T06:59:18Z",
-          "completedAt": "2026-10-12T06:59:24Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38215255688/job/114698468539",
-          "steps": [
-            {
-              "name": "Verify feature modules are linked",
-              "conclusion": "failure",
-              "number": 7
-            },
-            {
-              "name": "Post Set up Node.js",
-              "conclusion": "skipped",
-              "number": 13
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T06:59:44.744Z",
       "workflow": "Format source code",
@@ -12955,6 +12914,27 @@
           ]
         }
       ]
+    },
+    {
+      "checkedAt": "2026-10-12T19:03:01.910Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38295011287,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "pull_request",
+      "branch": "refactor/stats-modularization",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38295011287",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 0,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
     }
   ]
 }
