@@ -85,8 +85,15 @@ export async function onRequestPost({ request, env }) {
     const repo = env.GITHUB_REPOSITORY || "nitishratre45/tilakvarmafanclub";
     const branch = env.GITHUB_BRANCH || "main";
     if (!env.GITHUB_TOKEN)
-      return json({ error: "GITHUB_TOKEN is missing from Cloudflare Pages environment variables." }, 503);
-    const currentUrl = "https://api.github.com/repos/" + repo + "/contents/News/newsjson.json?ref=" + encodeURIComponent(branch);
+      return json(
+        { error: "GITHUB_TOKEN is missing from Cloudflare Pages environment variables." },
+        503,
+      );
+    const currentUrl =
+      "https://api.github.com/repos/" +
+      repo +
+      "/contents/News/newsjson.json?ref=" +
+      encodeURIComponent(branch);
     let archiveResponse;
     try {
       archiveResponse = await fetch(currentUrl, {
@@ -94,7 +101,7 @@ export async function onRequestPost({ request, env }) {
           authorization: "Bearer " + env.GITHUB_TOKEN,
           accept: "application/vnd.github+json",
           "x-github-api-version": "2022-11-28",
-          "user-agent": "TilakVarmaFanClub-Admin"
+          "user-agent": "TilakVarmaFanClub-Admin",
         },
         signal: AbortSignal.timeout(15000),
       });
@@ -102,17 +109,28 @@ export async function onRequestPost({ request, env }) {
       return json({ error: "Could not load the latest news archive. No changes were saved." }, 502);
     }
     if (!archiveResponse.ok)
-      return json({ error: "Could not load the latest news archive (" + archiveResponse.status + "). No changes were saved." }, 502);
+      return json(
+        {
+          error:
+            "Could not load the latest news archive (" +
+            archiveResponse.status +
+            "). No changes were saved.",
+        },
+        502,
+      );
     let archive;
     let archiveSha;
     try {
       const file = await archiveResponse.json();
       archiveSha = file.sha;
       const binary = atob(String(file.content || "").replace(/\\s/g, ""));
-      const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+      const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
       archive = JSON.parse(new TextDecoder().decode(bytes));
     } catch {
-      return json({ error: "The saved news archive is not valid JSON. No changes were saved." }, 502);
+      return json(
+        { error: "The saved news archive is not valid JSON. No changes were saved." },
+        502,
+      );
     }
     if (!archive || typeof archive !== "object" || !Array.isArray(archive.news))
       return json({ error: "Unexpected news archive format. No changes were saved." }, 502);
