@@ -11,7 +11,7 @@
   const formatDate = (value) => {
     if (!value) return "";
     const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat("en-IN",{day:"numeric",month:"long",year:"numeric"}).format(date);
+    return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat("en-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true}).format(date) + " IST";
   };
   const relativeDate = (value) => {
     if (!value) return "BCCI · News";
