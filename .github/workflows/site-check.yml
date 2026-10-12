@@ -154,27 +154,36 @@ jobs:
           PY
       - name: Verify feature modules are linked
         run: |
-          grep -q 'assets/features.js' index.html
-          grep -q 'News/news-section.js' assets/section-tabs.js
-          grep -q 'assets/statsguru.js' index.html
-          grep -q 'assets/home-snapshot.js' index.html
-          grep -q 'assets/section-tabs.js' index.html
-          grep -q 'assets/bowling.js' index.html
-          grep -q 'data-bowling-format="List A"' index.html
-          grep -q 'data-bowling-format="FC"' index.html
-          grep -q 'id="home-snapshot"' index.html
-          grep -q 'data-stats-tab="statsguru"' index.html
-          grep -q 'id="icc-ranking-t20i"' index.html
-          grep -q 'id="icc-record-highlights"' index.html
-          grep -q 'scripts/refresh_icc_records.py' .github/workflows/refresh-icc-records.yml
-          grep -q 'scripts/refresh_statsguru.py' .github/workflows/refresh-statsguru.yml
-          if grep -q 'id="activity"\|href="#activity"' index.html; then echo "Updates section should be removed"; exit 1; fi
-          grep -q 'tv-news-grid' News/news-section.js
-          grep -q 'News/newsjson.json' News/news-section.js
-          grep -q 'News-details/index.html' News/news-section.js
-          grep -q 'scripts/news.py' .github/workflows/refresh-tilak-news.yml
-          grep -q 'scripts/filter_tilak_news.py' .github/workflows/refresh-tilak-news.yml
-          grep -q 'data/fan-zone.json' assets/features.js
+          set -euo pipefail
+          require_match() {
+            local pattern="$1" file="$2"
+            if ! grep -Eq "$pattern" "$file"; then
+              echo "::error file=$file::Expected pattern not found: $pattern"
+              exit 1
+            fi
+          }
+          # Accept cache-busted script URLs and whitespace/attribute formatting.
+          require_match 'assets/features[.]js([?"]|$)' index.html
+          require_match 'News/news-section[.]js' assets/section-tabs.js
+          require_match 'assets/statsguru[.]js([?"]|$)' index.html
+          require_match 'assets/home-snapshot[.]js([?"]|$)' index.html
+          require_match 'assets/section-tabs[.]js([?"]|$)' index.html
+          require_match 'assets/bowling[.]js([?"]|$)' index.html
+          require_match 'data-bowling-format="List A"' index.html
+          require_match 'data-bowling-format="FC"' index.html
+          require_match 'id="home-snapshot"' index.html
+          require_match 'data-stats-tab="statsguru"' index.html
+          require_match 'id="icc-ranking-t20i"' index.html
+          require_match 'id="icc-record-highlights"' index.html
+          require_match 'scripts/refresh_icc_records[.]py' .github/workflows/refresh-icc-records.yml
+          require_match 'scripts/refresh_statsguru[.]py' .github/workflows/refresh-statsguru.yml
+          if grep -Eq 'id="activity"|href="#activity"' index.html; then echo "::error::Updates section should be removed"; exit 1; fi
+          require_match 'tv-news-grid' News/news-section.js
+          require_match 'News/newsjson[.]json' News/news-section.js
+          require_match 'News-details/index[.]html' News/news-section.js
+          require_match 'scripts/news[.]py' .github/workflows/refresh-tilak-news.yml
+          require_match 'scripts/filter_tilak_news[.]py' .github/workflows/refresh-tilak-news.yml
+          require_match 'data/fan-zone[.]json' assets/features.js
           # Shared site-data loader must exist and load before every dependent page module.
           grep -q 'assets/site-data-store.js' index.html
           grep -q 'window.TilakSiteData = Object.freeze({ load })' assets/site-data-store.js
