@@ -20,6 +20,12 @@
     else nav.appendChild(newsLink);
   }
 
+  // News UI is maintained separately from index.html.
+  const newsLoader = document.createElement("script");
+  newsLoader.src = "News/news-section.js?v=20261012-news-ui1";
+  newsLoader.defer = true;
+  document.body.appendChild(newsLoader);
+
   const sections = [...(main ? main.querySelectorAll(":scope > section[id]") : [])];
   const allowed = new Set(
     sections.map((section) => section.id).filter((id) => id !== "home-snapshot"),
