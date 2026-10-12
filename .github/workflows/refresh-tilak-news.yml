@@ -6,6 +6,9 @@ on:
     paths:
       - "scripts/newsreader.py"
       - "scripts/filter_tilak_news.py"
+      - "scripts/news_pipeline_fixer.py"
+      - "scripts/news_pipeline_manager.py"
+      - "admin/news-pipeline-manager.js"
       - "scripts/news.py"
       - ".github/workflows/refresh-tilak-news.yml"
   schedule:
@@ -51,7 +54,11 @@ jobs:
             python scripts/newsreader.py
             python -m json.tool News/raw-news-pages.json > /dev/null
             python scripts/filter_tilak_news.py
+            python scripts/news_pipeline_fixer.py
+            python -m json.tool News/raw-news-pages.json > /dev/null
             python -m json.tool News/newsjson.json > /dev/null
+            python scripts/news_pipeline_manager.py
+            python -m json.tool News/news-pipeline-report.json > /dev/null
             python -m json.tool News/raw-news-pages.json > /dev/null
             NEWS_BYTES=$(wc -c < News/newsjson.json)
             echo "Filtered news archive size: $NEWS_BYTES bytes"
@@ -60,7 +67,7 @@ jobs:
               exit 1
             fi
 
-            git add News/raw-news-pages.json News/newsjson.json
+            git add News/raw-news-pages.json News/newsjson.json News/news-pipeline-report.json
             if git diff --cached --quiet; then
               echo "News archive is already current; no commit required."
               exit 0
