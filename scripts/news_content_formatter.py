@@ -54,7 +54,11 @@ def blocks_for(article: dict) -> list[dict]:
             except json.JSONDecodeError:
                 pass
             continue
-        cells = [cell.strip() for cell in re.split(r"\s*\|\s*", line.strip().strip("|")) if cell.strip()]
+        cells = [
+            cell.strip()
+            for cell in re.split(r"\s*\|\s*", line.strip().strip("|"))
+            if cell.strip()
+        ]
         if len(cells) >= 2:
             table_rows.append(cells)
             continue
