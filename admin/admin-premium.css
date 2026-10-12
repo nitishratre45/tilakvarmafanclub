@@ -1313,3 +1313,46 @@ body {
  #news .manual-news-card-actions .btn{flex:1}
 }
 @media(prefers-reduced-motion:reduce){#news .news-editor *{transition:none!important}}
+
+
+/* Admin-wide finishing pass: consistent controls, surfaces, focus and responsive rhythm. */
+:root{--admin-accent:#ff963f;--admin-cyan:#78e4ef;--admin-line:rgba(169,194,229,.16);--admin-muted:#9eafc6}
+html{scroll-padding-top:24px}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:rgba(120,228,239,.24);color:#fff}
+:where(button,input,select,textarea,a){outline-offset:3px}
+:where(button,input,select,textarea,a):focus-visible{outline:2px solid var(--admin-cyan);outline-offset:3px}
+.main .section-head{gap:18px}
+.main .section-head h2{letter-spacing:-.035em;text-wrap:balance}
+.main .section-head p{max-width:76ch;line-height:1.7}
+.main .section-body{min-width:0}
+.main .actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.main .btn{min-height:39px;border-radius:10px;font-weight:800;transition:transform .16s ease,background .16s ease,border-color .16s ease,box-shadow .16s ease}
+.main .btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 7px 18px rgba(0,0,0,.15)}
+.main .btn:active:not(:disabled){transform:translateY(0)}
+.main .btn:disabled{opacity:.55;cursor:wait}
+.main :is(input,select,textarea){max-width:100%}
+.main :is(input,select,textarea):focus-visible{border-color:var(--admin-cyan);box-shadow:0 0 0 3px rgba(120,228,239,.1)}
+.main .stat,.main .run-card,.main .source-registry,.main .repo-health-summary>article{transition:border-color .18s ease,background .18s ease}
+.main .stat:hover,.main .run-card:hover{border-color:rgba(120,228,239,.25)}
+.main .run-card strong,.main .run-card p,.main .hint{overflow-wrap:anywhere}
+.main :is(table,.data-table,.table-wrap){max-width:100%}
+.main table{border-collapse:separate;border-spacing:0}
+.main th{color:#dce9f8}
+.main td,.main th{overflow-wrap:anywhere}
+.main .pill{font-weight:900;letter-spacing:.045em}
+.main .empty{border:1px dashed rgba(169,194,229,.2);border-radius:13px;padding:18px;color:#9eafc6;line-height:1.7}
+.sidebar .nav a{min-height:42px}
+.sidebar .nav a:focus-visible{outline-color:var(--admin-cyan)}
+.main .page-heading{gap:12px}
+.main .page-heading h1{letter-spacing:-.04em}
+.main .monitor-meta{font-variant-numeric:tabular-nums}
+@media(max-width:720px){
+ .main .actions{align-items:stretch}
+ .main .actions>.btn,.main .actions>a.btn{flex:1 1 100%;justify-content:center}
+ .main .section-head{gap:12px}
+ .main .page-heading h1{font-size:clamp(24px,7vw,34px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .main .btn,.main .stat,.main .run-card{transition:none!important}
+}
