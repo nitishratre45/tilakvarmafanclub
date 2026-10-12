@@ -1,49 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T12:20:22.655Z",
+  "checkedAt": "2026-10-12T12:20:33.069Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T03:05:24.343Z",
-      "workflow": "Refresh Tilak Varma data",
-      "workflowPath": ".github/workflows/refresh-tilak-data.yml",
-      "runId": 38198323754,
-      "runAttempt": 1,
-      "conclusion": "failure",
-      "event": "workflow_dispatch",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38198323754",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 1,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "refresh",
-          "conclusion": "failure",
-          "startedAt": "2026-10-12T03:04:40Z",
-          "completedAt": "2026-10-12T03:05:17Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38198323754/job/114645886996",
-          "steps": [
-            {
-              "name": "Commit updated data when changed",
-              "conclusion": "failure",
-              "number": 4
-            },
-            {
-              "name": "Post Set up Python",
-              "conclusion": "skipped",
-              "number": 7
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T03:05:35.604Z",
       "workflow": "Auto-rerun failed GitHub Actions jobs",
@@ -13600,6 +13559,27 @@
       "event": "push",
       "branch": "main",
       "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38248356777",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T12:20:33.069Z",
+      "workflow": "Self-healing code guard",
+      "workflowPath": ".github/workflows/self-healing.yml",
+      "runId": 38248356801,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38248356801",
       "action": "no_recovery_needed",
       "reason": "No failed, cancelled, or skipped jobs require this manager.",
       "jobCounts": {
