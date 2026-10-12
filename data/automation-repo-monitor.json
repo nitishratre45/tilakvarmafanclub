@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T12:55:04.164Z",
+  "checkedAt": "2026-10-12T13:07:43.810Z",
   "retentionHours": 15,
   "intervalMinutes": 60,
   "summary": {
-    "workflows": 19,
-    "enabled": 19,
-    "running": 2,
+    "workflows": 20,
+    "enabled": 20,
+    "running": 8,
     "failedLatest": 0,
-    "successfulLatest": 9,
-    "noRecentRun": 8
+    "successfulLatest": 4,
+    "noRecentRun": 7
   },
   "workflows": [
     {
@@ -25,11 +25,33 @@
         "pull_request",
         "workflow_dispatch"
       ],
-      "latest": null,
-      "recentRuns": [],
+      "latest": {
+        "id": 38253499311,
+        "status": "completed",
+        "conclusion": "success",
+        "event": "workflow_dispatch",
+        "branch": "main",
+        "createdAt": "2026-10-12T13:07:33Z",
+        "updatedAt": "2026-10-12T13:07:43Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253499311",
+        "title": "Admin data editor tests"
+      },
+      "recentRuns": [
+        {
+          "id": 38253499311,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "workflow_dispatch",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:07:33Z",
+          "updatedAt": "2026-10-12T13:07:43Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253499311",
+          "title": "Admin data editor tests"
+        }
+      ],
       "counts": {
-        "recent": 0,
-        "successful": 0,
+        "recent": 1,
+        "successful": 1,
         "failed": 0,
         "running": 0
       }
@@ -50,45 +72,67 @@
         "push"
       ],
       "latest": {
-        "id": 38251871019,
-        "status": "completed",
-        "conclusion": "success",
-        "event": "push",
+        "id": 38253502261,
+        "status": "in_progress",
+        "conclusion": null,
+        "event": "workflow_dispatch",
         "branch": "main",
-        "createdAt": "2026-10-12T12:53:08Z",
-        "updatedAt": "2026-10-12T12:53:18Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251871019",
-        "title": "chore: bust cache for video expiry guard"
+        "createdAt": "2026-10-12T13:07:34Z",
+        "updatedAt": "2026-10-12T13:07:39Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253502261",
+        "title": "Admin Python diagnostics"
       },
       "recentRuns": [
         {
-          "id": 38251871019,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
+          "id": 38253502261,
+          "status": "in_progress",
+          "conclusion": null,
+          "event": "workflow_dispatch",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:08Z",
-          "updatedAt": "2026-10-12T12:53:18Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251871019",
-          "title": "chore: bust cache for video expiry guard"
+          "createdAt": "2026-10-12T13:07:34Z",
+          "updatedAt": "2026-10-12T13:07:39Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253502261",
+          "title": "Admin Python diagnostics"
         },
         {
-          "id": 38251844990,
+          "id": 38253081916,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:52:54Z",
-          "updatedAt": "2026-10-12T12:53:04Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251844990",
-          "title": "fix: prevent expired signed video links from being played"
+          "createdAt": "2026-10-12T13:03:49Z",
+          "updatedAt": "2026-10-12T13:04:05Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253081916",
+          "title": "Bust cached match history script after deduplication fix"
+        },
+        {
+          "id": 38253040546,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:03:27Z",
+          "updatedAt": "2026-10-12T13:03:38Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253040546",
+          "title": "Show complete match history instead of truncating at 100 rows"
+        },
+        {
+          "id": 38252957088,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:02:44Z",
+          "updatedAt": "2026-10-12T13:02:57Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252957088",
+          "title": "Fix match history deduplication across formats"
         }
       ],
       "counts": {
-        "recent": 2,
-        "successful": 2,
+        "recent": 4,
+        "successful": 3,
         "failed": 0,
-        "running": 0
+        "running": 1
       }
     },
     {
@@ -103,133 +147,133 @@
         "workflow_run"
       ],
       "latest": {
-        "id": 38252045160,
-        "status": "completed",
-        "conclusion": "success",
+        "id": 38253515811,
+        "status": "queued",
+        "conclusion": null,
         "event": "workflow_run",
         "branch": "main",
-        "createdAt": "2026-10-12T12:54:42Z",
-        "updatedAt": "2026-10-12T12:54:52Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252045160",
+        "createdAt": "2026-10-12T13:07:42Z",
+        "updatedAt": "2026-10-12T13:07:42Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253515811",
         "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
       },
       "recentRuns": [
         {
-          "id": 38252045160,
-          "status": "completed",
-          "conclusion": "success",
+          "id": 38253515811,
+          "status": "queued",
+          "conclusion": null,
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:54:42Z",
-          "updatedAt": "2026-10-12T12:54:52Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252045160",
+          "createdAt": "2026-10-12T13:07:42Z",
+          "updatedAt": "2026-10-12T13:07:42Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253515811",
           "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
         },
         {
-          "id": 38252012576,
+          "id": 38253265698,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:54:24Z",
-          "updatedAt": "2026-10-12T12:54:30Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252012576",
+          "createdAt": "2026-10-12T13:05:28Z",
+          "updatedAt": "2026-10-12T13:05:37Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253265698",
           "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
         },
         {
-          "id": 38251951982,
+          "id": 38253252555,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:52Z",
-          "updatedAt": "2026-10-12T12:54:06Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251951982",
+          "createdAt": "2026-10-12T13:05:21Z",
+          "updatedAt": "2026-10-12T13:05:30Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253252555",
           "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
         },
         {
-          "id": 38251933438,
+          "id": 38253246073,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:42Z",
-          "updatedAt": "2026-10-12T12:53:52Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251933438",
+          "createdAt": "2026-10-12T13:05:17Z",
+          "updatedAt": "2026-10-12T13:05:24Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253246073",
           "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
         },
         {
-          "id": 38251916854,
+          "id": 38253221795,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:33Z",
-          "updatedAt": "2026-10-12T12:53:40Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251916854",
+          "createdAt": "2026-10-12T13:05:06Z",
+          "updatedAt": "2026-10-12T13:05:16Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253221795",
           "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
         },
         {
-          "id": 38251915643,
+          "id": 38253135854,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:32Z",
-          "updatedAt": "2026-10-12T12:53:39Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251915643",
+          "createdAt": "2026-10-12T13:04:19Z",
+          "updatedAt": "2026-10-12T13:04:25Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253135854",
           "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
         },
         {
-          "id": 38251893869,
+          "id": 38253131642,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:20Z",
-          "updatedAt": "2026-10-12T12:53:28Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251893869",
+          "createdAt": "2026-10-12T13:04:16Z",
+          "updatedAt": "2026-10-12T13:04:24Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253131642",
           "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
         },
         {
-          "id": 38251893524,
+          "id": 38253114060,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:20Z",
-          "updatedAt": "2026-10-12T12:53:27Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251893524",
+          "createdAt": "2026-10-12T13:04:07Z",
+          "updatedAt": "2026-10-12T13:04:15Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253114060",
           "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
         },
         {
-          "id": 38251892690,
+          "id": 38253113939,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:20Z",
-          "updatedAt": "2026-10-12T12:53:30Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251892690",
+          "createdAt": "2026-10-12T13:04:07Z",
+          "updatedAt": "2026-10-12T13:04:17Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253113939",
           "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
         },
         {
-          "id": 38251890534,
+          "id": 38253113574,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:18Z",
-          "updatedAt": "2026-10-12T12:53:26Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251890534",
+          "createdAt": "2026-10-12T13:04:06Z",
+          "updatedAt": "2026-10-12T13:04:13Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253113574",
           "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 10,
+        "successful": 9,
         "failed": 0,
-        "running": 0
+        "running": 1
       }
     },
     {
@@ -248,26 +292,26 @@
         "push"
       ],
       "latest": {
-        "id": 38252063930,
+        "id": 38253504747,
         "status": "in_progress",
         "conclusion": null,
         "event": "workflow_dispatch",
         "branch": "main",
-        "createdAt": "2026-10-12T12:54:53Z",
-        "updatedAt": "2026-10-12T12:54:58Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252063930",
+        "createdAt": "2026-10-12T13:07:36Z",
+        "updatedAt": "2026-10-12T13:07:40Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253504747",
         "title": "Automation repository monitor (hourly)"
       },
       "recentRuns": [
         {
-          "id": 38252063930,
+          "id": 38253504747,
           "status": "in_progress",
           "conclusion": null,
           "event": "workflow_dispatch",
           "branch": "main",
-          "createdAt": "2026-10-12T12:54:53Z",
-          "updatedAt": "2026-10-12T12:54:58Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252063930",
+          "createdAt": "2026-10-12T13:07:36Z",
+          "updatedAt": "2026-10-12T13:07:40Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253504747",
           "title": "Automation repository monitor (hourly)"
         }
       ],
@@ -292,78 +336,89 @@
         "workflow_dispatch"
       ],
       "latest": {
-        "id": 38251871686,
-        "status": "completed",
-        "conclusion": "success",
-        "event": "push",
+        "id": 38253507959,
+        "status": "pending",
+        "conclusion": null,
+        "event": "workflow_dispatch",
         "branch": "main",
-        "createdAt": "2026-10-12T12:53:08Z",
-        "updatedAt": "2026-10-12T12:54:41Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251871686",
-        "title": "chore: bust cache for video expiry guard"
+        "createdAt": "2026-10-12T13:07:38Z",
+        "updatedAt": "2026-10-12T13:07:40Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253507959",
+        "title": "Browser smoke tests"
       },
       "recentRuns": [
         {
-          "id": 38251871686,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
+          "id": 38253507959,
+          "status": "pending",
+          "conclusion": null,
+          "event": "workflow_dispatch",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:08Z",
-          "updatedAt": "2026-10-12T12:54:41Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251871686",
-          "title": "chore: bust cache for video expiry guard"
+          "createdAt": "2026-10-12T13:07:38Z",
+          "updatedAt": "2026-10-12T13:07:40Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253507959",
+          "title": "Browser smoke tests"
         },
         {
-          "id": 38251845170,
-          "status": "completed",
-          "conclusion": "success",
+          "id": 38253221530,
+          "status": "in_progress",
+          "conclusion": null,
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:52:54Z",
-          "updatedAt": "2026-10-12T12:53:40Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251845170",
-          "title": "fix: prevent expired signed video links from being played"
+          "createdAt": "2026-10-12T13:05:06Z",
+          "updatedAt": "2026-10-12T13:05:09Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253221530",
+          "title": "fix(admin): add scoped responsive CSS stability guards"
         },
         {
-          "id": 38251070723,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-12T12:45:46Z",
-          "updatedAt": "2026-10-12T12:46:42Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251070723",
-          "title": "ci: let browser smoke tests finish during rapid commits"
-        },
-        {
-          "id": 38250803674,
+          "id": 38253081930,
           "status": "completed",
           "conclusion": "cancelled",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:43:22Z",
-          "updatedAt": "2026-10-12T12:44:58Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38250803674",
-          "title": "chore: bust News Details script cache after text fix"
+          "createdAt": "2026-10-12T13:03:49Z",
+          "updatedAt": "2026-10-12T13:07:40Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253081930",
+          "title": "Bust cached match history script after deduplication fix"
         },
         {
-          "id": 38250796506,
+          "id": 38253040538,
+          "status": "completed",
+          "conclusion": "cancelled",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:03:27Z",
+          "updatedAt": "2026-10-12T13:03:50Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253040538",
+          "title": "Show complete match history instead of truncating at 100 rows"
+        },
+        {
+          "id": 38253000648,
+          "status": "completed",
+          "conclusion": "cancelled",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:03:06Z",
+          "updatedAt": "2026-10-12T13:03:28Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253000648",
+          "title": "Add match history cross-format regression test"
+        },
+        {
+          "id": 38252957015,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:43:17Z",
-          "updatedAt": "2026-10-12T12:45:49Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38250796506",
-          "title": "fix: preserve article text in News Details deduplication"
+          "createdAt": "2026-10-12T13:02:44Z",
+          "updatedAt": "2026-10-12T13:04:04Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252957015",
+          "title": "Fix match history deduplication across formats"
         }
       ],
       "counts": {
-        "recent": 5,
-        "successful": 4,
+        "recent": 6,
+        "successful": 1,
         "failed": 0,
-        "running": 0
+        "running": 1
       }
     },
     {
@@ -379,76 +434,76 @@
         "workflow_dispatch"
       ],
       "latest": {
-        "id": 38251871293,
+        "id": 38253510721,
         "status": "completed",
-        "conclusion": "success",
-        "event": "push",
+        "conclusion": "skipped",
+        "event": "workflow_dispatch",
         "branch": "main",
-        "createdAt": "2026-10-12T12:53:08Z",
-        "updatedAt": "2026-10-12T12:53:30Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251871293",
-        "title": "chore: bust cache for video expiry guard"
+        "createdAt": "2026-10-12T13:07:39Z",
+        "updatedAt": "2026-10-12T13:07:41Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253510721",
+        "title": "Format source code"
       },
       "recentRuns": [
         {
-          "id": 38251871293,
+          "id": 38253510721,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_dispatch",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:07:39Z",
+          "updatedAt": "2026-10-12T13:07:41Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253510721",
+          "title": "Format source code"
+        },
+        {
+          "id": 38253223930,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:08Z",
-          "updatedAt": "2026-10-12T12:53:30Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251871293",
-          "title": "chore: bust cache for video expiry guard"
+          "createdAt": "2026-10-12T13:05:07Z",
+          "updatedAt": "2026-10-12T13:05:25Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253223930",
+          "title": "fix(admin): add scoped responsive CSS stability guards"
         },
         {
-          "id": 38251857981,
-          "status": "completed",
-          "conclusion": "cancelled",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-12T12:53:01Z",
-          "updatedAt": "2026-10-12T12:53:09Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251857981",
-          "title": "fix: refresh BCCI playback links every six hours"
-        },
-        {
-          "id": 38251844877,
-          "status": "completed",
-          "conclusion": "cancelled",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-12T12:52:54Z",
-          "updatedAt": "2026-10-12T12:53:02Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251844877",
-          "title": "fix: prevent expired signed video links from being played"
-        },
-        {
-          "id": 38251828851,
-          "status": "completed",
-          "conclusion": "cancelled",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-12T12:52:45Z",
-          "updatedAt": "2026-10-12T12:53:16Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251828851",
-          "title": "fix: report expired signed BCCI playback URLs"
-        },
-        {
-          "id": 38251070515,
+          "id": 38253082009,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:45:46Z",
-          "updatedAt": "2026-10-12T12:46:04Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251070515",
-          "title": "ci: let browser smoke tests finish during rapid commits"
+          "createdAt": "2026-10-12T13:03:49Z",
+          "updatedAt": "2026-10-12T13:04:16Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253082009",
+          "title": "Bust cached match history script after deduplication fix"
+        },
+        {
+          "id": 38253040480,
+          "status": "completed",
+          "conclusion": "cancelled",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:03:27Z",
+          "updatedAt": "2026-10-12T13:03:54Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253040480",
+          "title": "Show complete match history instead of truncating at 100 rows"
+        },
+        {
+          "id": 38252957095,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:02:44Z",
+          "updatedAt": "2026-10-12T13:03:05Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252957095",
+          "title": "Fix match history deduplication across formats"
         }
       ],
       "counts": {
         "recent": 5,
-        "successful": 2,
+        "successful": 3,
         "failed": 0,
         "running": 0
       }
@@ -466,125 +521,125 @@
         "workflow_dispatch"
       ],
       "latest": {
-        "id": 38252045164,
-        "status": "completed",
-        "conclusion": "success",
+        "id": 38253515825,
+        "status": "pending",
+        "conclusion": null,
         "event": "workflow_run",
         "branch": "main",
-        "createdAt": "2026-10-12T12:54:42Z",
-        "updatedAt": "2026-10-12T12:54:53Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252045164",
+        "createdAt": "2026-10-12T13:07:42Z",
+        "updatedAt": "2026-10-12T13:07:43Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253515825",
         "title": "Job recovery manager"
       },
       "recentRuns": [
         {
-          "id": 38252045164,
+          "id": 38253515825,
+          "status": "pending",
+          "conclusion": null,
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:07:42Z",
+          "updatedAt": "2026-10-12T13:07:43Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253515825",
+          "title": "Job recovery manager"
+        },
+        {
+          "id": 38253512884,
+          "status": "queued",
+          "conclusion": null,
+          "event": "workflow_dispatch",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:07:40Z",
+          "updatedAt": "2026-10-12T13:07:40Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253512884",
+          "title": "Job recovery manager"
+        },
+        {
+          "id": 38253265780,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:54:42Z",
-          "updatedAt": "2026-10-12T12:54:53Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252045164",
+          "createdAt": "2026-10-12T13:05:28Z",
+          "updatedAt": "2026-10-12T13:05:47Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253265780",
           "title": "Job recovery manager"
         },
         {
-          "id": 38252012602,
+          "id": 38253252464,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:54:24Z",
-          "updatedAt": "2026-10-12T12:54:36Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252012602",
+          "createdAt": "2026-10-12T13:05:21Z",
+          "updatedAt": "2026-10-12T13:05:38Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253252464",
           "title": "Job recovery manager"
         },
         {
-          "id": 38251951853,
+          "id": 38253246062,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:52Z",
-          "updatedAt": "2026-10-12T12:54:07Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251951853",
+          "createdAt": "2026-10-12T13:05:17Z",
+          "updatedAt": "2026-10-12T13:05:26Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253246062",
           "title": "Job recovery manager"
         },
         {
-          "id": 38251933316,
+          "id": 38253221732,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:42Z",
-          "updatedAt": "2026-10-12T12:53:58Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251933316",
+          "createdAt": "2026-10-12T13:05:06Z",
+          "updatedAt": "2026-10-12T13:05:14Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253221732",
           "title": "Job recovery manager"
         },
         {
-          "id": 38251917006,
+          "id": 38253135429,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:04:18Z",
+          "updatedAt": "2026-10-12T13:04:30Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253135429",
+          "title": "Job recovery manager"
+        },
+        {
+          "id": 38253131652,
           "status": "completed",
           "conclusion": "cancelled",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:33Z",
-          "updatedAt": "2026-10-12T12:53:43Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251917006",
+          "createdAt": "2026-10-12T13:04:16Z",
+          "updatedAt": "2026-10-12T13:04:20Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253131652",
           "title": "Job recovery manager"
         },
         {
-          "id": 38251915656,
+          "id": 38253114059,
           "status": "completed",
           "conclusion": "success",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:32Z",
-          "updatedAt": "2026-10-12T12:53:46Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251915656",
+          "createdAt": "2026-10-12T13:04:07Z",
+          "updatedAt": "2026-10-12T13:04:21Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253114059",
           "title": "Job recovery manager"
         },
         {
-          "id": 38251893847,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-12T12:53:20Z",
-          "updatedAt": "2026-10-12T12:53:33Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251893847",
-          "title": "Job recovery manager"
-        },
-        {
-          "id": 38251893385,
+          "id": 38253113933,
           "status": "completed",
           "conclusion": "cancelled",
           "event": "workflow_run",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:20Z",
-          "updatedAt": "2026-10-12T12:53:21Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251893385",
-          "title": "Job recovery manager"
-        },
-        {
-          "id": 38251892678,
-          "status": "completed",
-          "conclusion": "cancelled",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-12T12:53:20Z",
-          "updatedAt": "2026-10-12T12:53:21Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251892678",
-          "title": "Job recovery manager"
-        },
-        {
-          "id": 38251890938,
-          "status": "completed",
-          "conclusion": "cancelled",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-12T12:53:19Z",
-          "updatedAt": "2026-10-12T12:53:21Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251890938",
+          "createdAt": "2026-10-12T13:04:07Z",
+          "updatedAt": "2026-10-12T13:04:08Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253113933",
           "title": "Job recovery manager"
         }
       ],
@@ -592,7 +647,7 @@
         "recent": 10,
         "successful": 6,
         "failed": 0,
-        "running": 0
+        "running": 1
       }
     },
     {
@@ -611,34 +666,45 @@
         "push"
       ],
       "latest": {
-        "id": 38251871657,
-        "status": "completed",
-        "conclusion": "success",
-        "event": "push",
+        "id": 38253515719,
+        "status": "queued",
+        "conclusion": null,
+        "event": "workflow_dispatch",
         "branch": "main",
-        "createdAt": "2026-10-12T12:53:08Z",
-        "updatedAt": "2026-10-12T12:53:19Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251871657",
-        "title": "chore: bust cache for video expiry guard"
+        "createdAt": "2026-10-12T13:07:42Z",
+        "updatedAt": "2026-10-12T13:07:42Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253515719",
+        "title": "Photo Section Guardian"
       },
       "recentRuns": [
         {
-          "id": 38251871657,
+          "id": 38253515719,
+          "status": "queued",
+          "conclusion": null,
+          "event": "workflow_dispatch",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:07:42Z",
+          "updatedAt": "2026-10-12T13:07:42Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253515719",
+          "title": "Photo Section Guardian"
+        },
+        {
+          "id": 38253081936,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:08Z",
-          "updatedAt": "2026-10-12T12:53:19Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251871657",
-          "title": "chore: bust cache for video expiry guard"
+          "createdAt": "2026-10-12T13:03:49Z",
+          "updatedAt": "2026-10-12T13:04:04Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253081936",
+          "title": "Bust cached match history script after deduplication fix"
         }
       ],
       "counts": {
-        "recent": 1,
+        "recent": 2,
         "successful": 1,
         "failed": 0,
-        "running": 0
+        "running": 1
       }
     },
     {
@@ -657,42 +723,31 @@
         "workflow_dispatch"
       ],
       "latest": {
-        "id": 38251857963,
-        "status": "in_progress",
+        "id": 38253517840,
+        "status": "queued",
         "conclusion": null,
-        "event": "push",
+        "event": "workflow_dispatch",
         "branch": "main",
-        "createdAt": "2026-10-12T12:53:01Z",
-        "updatedAt": "2026-10-12T12:54:22Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251857963",
-        "title": "fix: refresh BCCI playback links every six hours"
+        "createdAt": "2026-10-12T13:07:43Z",
+        "updatedAt": "2026-10-12T13:07:43Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253517840",
+        "title": "Refresh BCCI Tilak Videos"
       },
       "recentRuns": [
         {
-          "id": 38251857963,
-          "status": "in_progress",
+          "id": 38253517840,
+          "status": "queued",
           "conclusion": null,
-          "event": "push",
+          "event": "workflow_dispatch",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:01Z",
-          "updatedAt": "2026-10-12T12:54:22Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251857963",
-          "title": "fix: refresh BCCI playback links every six hours"
-        },
-        {
-          "id": 38251828719,
-          "status": "completed",
-          "conclusion": "cancelled",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-12T12:52:45Z",
-          "updatedAt": "2026-10-12T12:54:19Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251828719",
-          "title": "fix: report expired signed BCCI playback URLs"
+          "createdAt": "2026-10-12T13:07:43Z",
+          "updatedAt": "2026-10-12T13:07:43Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253517840",
+          "title": "Refresh BCCI Tilak Videos"
         }
       ],
       "counts": {
-        "recent": 2,
+        "recent": 1,
         "successful": 0,
         "failed": 0,
         "running": 1
@@ -867,6 +922,48 @@
       }
     },
     {
+      "id": 382153983,
+      "name": "Run all workflows",
+      "path": ".github/workflows/run-all-workflows.yml",
+      "state": "active",
+      "url": "https://github.com/nitishratre45/tilakvarmafanclub/blob/main/.github/workflows/run-all-workflows.yml",
+      "badgeUrl": "https://github.com/nitishratre45/tilakvarmafanclub/workflows/Run%20all%20workflows/badge.svg",
+      "schedule": [],
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "latest": {
+        "id": 38253480451,
+        "status": "in_progress",
+        "conclusion": null,
+        "event": "workflow_dispatch",
+        "branch": "main",
+        "createdAt": "2026-10-12T13:07:23Z",
+        "updatedAt": "2026-10-12T13:07:30Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253480451",
+        "title": "Run all workflows"
+      },
+      "recentRuns": [
+        {
+          "id": 38253480451,
+          "status": "in_progress",
+          "conclusion": null,
+          "event": "workflow_dispatch",
+          "branch": "main",
+          "createdAt": "2026-10-12T13:07:23Z",
+          "updatedAt": "2026-10-12T13:07:30Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253480451",
+          "title": "Run all workflows"
+        }
+      ],
+      "counts": {
+        "recent": 1,
+        "successful": 0,
+        "failed": 0,
+        "running": 1
+      }
+    },
+    {
       "id": 381415069,
       "name": "Self-healing code guard",
       "path": ".github/workflows/self-healing.yml",
@@ -882,49 +979,49 @@
         "push"
       ],
       "latest": {
-        "id": 38251871004,
+        "id": 38253081969,
         "status": "completed",
         "conclusion": "success",
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-12T12:53:08Z",
-        "updatedAt": "2026-10-12T12:53:50Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251871004",
-        "title": "chore: bust cache for video expiry guard"
+        "createdAt": "2026-10-12T13:03:49Z",
+        "updatedAt": "2026-10-12T13:04:15Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253081969",
+        "title": "Bust cached match history script after deduplication fix"
       },
       "recentRuns": [
         {
-          "id": 38251871004,
+          "id": 38253081969,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:08Z",
-          "updatedAt": "2026-10-12T12:53:50Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251871004",
-          "title": "chore: bust cache for video expiry guard"
+          "createdAt": "2026-10-12T13:03:49Z",
+          "updatedAt": "2026-10-12T13:04:15Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253081969",
+          "title": "Bust cached match history script after deduplication fix"
         },
         {
-          "id": 38251844942,
+          "id": 38253040541,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:52:54Z",
-          "updatedAt": "2026-10-12T12:53:31Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251844942",
-          "title": "fix: prevent expired signed video links from being played"
+          "createdAt": "2026-10-12T13:03:27Z",
+          "updatedAt": "2026-10-12T13:03:54Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253040541",
+          "title": "Show complete match history instead of truncating at 100 rows"
         },
         {
-          "id": 38251828796,
+          "id": 38252957076,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:52:45Z",
-          "updatedAt": "2026-10-12T12:53:07Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251828796",
-          "title": "fix: report expired signed BCCI playback URLs"
+          "createdAt": "2026-10-12T13:02:44Z",
+          "updatedAt": "2026-10-12T13:03:17Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252957076",
+          "title": "Fix match history deduplication across formats"
         }
       ],
       "counts": {
@@ -948,98 +1045,76 @@
         "workflow_dispatch"
       ],
       "latest": {
-        "id": 38251871079,
+        "id": 38253221533,
         "status": "completed",
         "conclusion": "success",
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-12T12:53:08Z",
-        "updatedAt": "2026-10-12T12:53:18Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251871079",
-        "title": "chore: bust cache for video expiry guard"
+        "createdAt": "2026-10-12T13:05:06Z",
+        "updatedAt": "2026-10-12T13:05:15Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253221533",
+        "title": "fix(admin): add scoped responsive CSS stability guards"
       },
       "recentRuns": [
         {
-          "id": 38251871079,
+          "id": 38253221533,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:08Z",
-          "updatedAt": "2026-10-12T12:53:18Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251871079",
-          "title": "chore: bust cache for video expiry guard"
+          "createdAt": "2026-10-12T13:05:06Z",
+          "updatedAt": "2026-10-12T13:05:15Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253221533",
+          "title": "fix(admin): add scoped responsive CSS stability guards"
         },
         {
-          "id": 38251857976,
+          "id": 38253081926,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:01Z",
-          "updatedAt": "2026-10-12T12:53:10Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251857976",
-          "title": "fix: refresh BCCI playback links every six hours"
+          "createdAt": "2026-10-12T13:03:49Z",
+          "updatedAt": "2026-10-12T13:04:04Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253081926",
+          "title": "Bust cached match history script after deduplication fix"
         },
         {
-          "id": 38251845069,
+          "id": 38253040540,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:52:54Z",
-          "updatedAt": "2026-10-12T12:53:06Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251845069",
-          "title": "fix: prevent expired signed video links from being played"
+          "createdAt": "2026-10-12T13:03:27Z",
+          "updatedAt": "2026-10-12T13:03:37Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253040540",
+          "title": "Show complete match history instead of truncating at 100 rows"
         },
         {
-          "id": 38251828802,
+          "id": 38253000650,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:52:45Z",
-          "updatedAt": "2026-10-12T12:53:01Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251828802",
-          "title": "fix: report expired signed BCCI playback URLs"
+          "createdAt": "2026-10-12T13:03:06Z",
+          "updatedAt": "2026-10-12T13:03:14Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253000650",
+          "title": "Add match history cross-format regression test"
         },
         {
-          "id": 38251070946,
+          "id": 38252956992,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:45:46Z",
-          "updatedAt": "2026-10-12T12:45:57Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251070946",
-          "title": "ci: let browser smoke tests finish during rapid commits"
-        },
-        {
-          "id": 38250803637,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-12T12:43:22Z",
-          "updatedAt": "2026-10-12T12:43:35Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38250803637",
-          "title": "chore: bust News Details script cache after text fix"
-        },
-        {
-          "id": 38250796626,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-12T12:43:17Z",
-          "updatedAt": "2026-10-12T12:43:32Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38250796626",
-          "title": "fix: preserve article text in News Details deduplication"
+          "createdAt": "2026-10-12T13:02:44Z",
+          "updatedAt": "2026-10-12T13:02:59Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38252956992",
+          "title": "Fix match history deduplication across formats"
         }
       ],
       "counts": {
-        "recent": 7,
-        "successful": 7,
+        "recent": 5,
+        "successful": 5,
         "failed": 0,
         "running": 0
       }
@@ -1057,54 +1132,32 @@
         "workflow_dispatch"
       ],
       "latest": {
-        "id": 38251857989,
+        "id": 38253221576,
         "status": "completed",
         "conclusion": "success",
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-12T12:53:01Z",
-        "updatedAt": "2026-10-12T12:53:13Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251857989",
-        "title": "fix: refresh BCCI playback links every six hours"
+        "createdAt": "2026-10-12T13:05:06Z",
+        "updatedAt": "2026-10-12T13:05:18Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253221576",
+        "title": "fix(admin): add scoped responsive CSS stability guards"
       },
       "recentRuns": [
         {
-          "id": 38251857989,
+          "id": 38253221576,
           "status": "completed",
           "conclusion": "success",
           "event": "push",
           "branch": "main",
-          "createdAt": "2026-10-12T12:53:01Z",
-          "updatedAt": "2026-10-12T12:53:13Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251857989",
-          "title": "fix: refresh BCCI playback links every six hours"
-        },
-        {
-          "id": 38251845329,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-12T12:52:54Z",
-          "updatedAt": "2026-10-12T12:53:05Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251845329",
-          "title": "fix: prevent expired signed video links from being played"
-        },
-        {
-          "id": 38251828879,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-12T12:52:45Z",
-          "updatedAt": "2026-10-12T12:53:00Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38251828879",
-          "title": "fix: report expired signed BCCI playback URLs"
+          "createdAt": "2026-10-12T13:05:06Z",
+          "updatedAt": "2026-10-12T13:05:18Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38253221576",
+          "title": "fix(admin): add scoped responsive CSS stability guards"
         }
       ],
       "counts": {
-        "recent": 3,
-        "successful": 3,
+        "recent": 1,
+        "successful": 1,
         "failed": 0,
         "running": 0
       }
@@ -1146,6 +1199,15 @@
       "failedLatest": 0,
       "successfulLatest": 9,
       "noRecentRun": 8
+    },
+    {
+      "checkedAt": "2026-10-12T13:07:43.810Z",
+      "workflows": 20,
+      "enabled": 20,
+      "running": 8,
+      "failedLatest": 0,
+      "successfulLatest": 4,
+      "noRecentRun": 7
     }
   ]
 }
