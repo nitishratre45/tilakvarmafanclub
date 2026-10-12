@@ -1489,3 +1489,105 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Dashboard hero/text clipping fix (2026-10-12).
+   The hero previously had vertical padding only, so its eyebrow/status touched
+   the container edge and could look cropped at the left/right on desktop. */
+#admin-app #dashboard.hero {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: clamp(20px, 2.4vw, 34px);
+  margin: 8px 0 24px;
+  align-items: flex-start;
+  gap: clamp(16px, 2vw, 28px);
+  border: 1px solid rgba(120, 228, 239, .2);
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at 85% 0%, rgba(120, 228, 239, .08), transparent 48%),
+    linear-gradient(145deg, rgba(18, 41, 64, .98), rgba(7, 20, 35, .98));
+  overflow: visible;
+}
+#admin-app #dashboard.hero > div {
+  flex: 1 1 520px;
+  min-width: 0;
+  max-width: 100%;
+}
+#admin-app #dashboard.hero .eyebrow,
+#admin-app #dashboard.hero h1,
+#admin-app #dashboard.hero p,
+#admin-app #dashboard.hero .status {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+#admin-app #dashboard.hero .eyebrow {
+  line-height: 1.65;
+  margin-bottom: 6px;
+}
+#admin-app #dashboard.hero h1 {
+  line-height: 1.12;
+  padding-block: 2px 4px;
+}
+#admin-app #dashboard.hero p {
+  line-height: 1.75;
+}
+#admin-app #dashboard.hero #run-all-workflows-status {
+  box-sizing: border-box;
+  width: min(100%, 660px);
+  white-space: normal;
+  line-height: 1.65;
+  padding: 10px 12px;
+  margin-top: 12px;
+}
+#admin-app #dashboard.hero .hero-badge {
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+#admin-app .topbar,
+#admin-app .top-meta,
+#admin-app #page-title {
+  min-width: 0;
+}
+#admin-app .topbar {
+  flex-wrap: wrap;
+  padding-block: 14px;
+}
+#admin-app .top-meta {
+  flex: 1 1 260px;
+  flex-wrap: wrap;
+  line-height: 1.6;
+}
+#admin-app #page-title {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 760px) {
+  #admin-app #dashboard.hero {
+    padding: 18px 15px;
+    margin-top: 8px;
+    border-radius: 16px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #admin-app #dashboard.hero > div {
+    flex-basis: auto;
+    width: 100%;
+  }
+  #admin-app #dashboard.hero h1 {
+    font-size: clamp(29px, 8vw, 42px);
+    letter-spacing: -.045em;
+  }
+  #admin-app #dashboard.hero .hero-badge {
+    align-self: flex-start;
+  }
+  #admin-app .topbar {
+    align-items: flex-start;
+    gap: 10px;
+  }
+  #admin-app .top-actions {
+    max-width: 100%;
+  }
+}
