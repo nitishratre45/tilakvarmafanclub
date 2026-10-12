@@ -10,6 +10,7 @@ import json
 import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -63,6 +64,12 @@ def fetch_google_rss(label: str, query: str) -> dict:
         title = (item.findtext("title") or "").strip()
         link = (item.findtext("link") or "").strip()
         published = (item.findtext("pubDate") or "").strip()
+        if published:
+            try:
+                parsed_date = parsedate_to_datetime(published)
+                published = parsed_date.astimezone(timezone.utc).isoformat()
+            except (TypeError, ValueError, OverflowError):
+                pass
         source_node = item.find("source")
         publisher = (source_node.text or "").strip() if source_node is not None else label
         if not link:
@@ -77,11 +84,24 @@ def fetch_google_rss(label: str, query: str) -> dict:
     return {"page": 1, "sourceName": label, "sourceUrl": url, "payload": {"articles": records}}
 
 
+def fetch_bcci_pages(errors: list[dict]) -> list[dict]:
+    collected = []
+    for page in BCCI_PAGES:
+        try:
+            collected.append(fetch_bcci_page(page))
+            print(f"OK source: BCCI News API page {page}", flush=True)
+        except Exception as exc:
+            errors.append({"source": "BCCI News API", "page": page, "error": str(exc), "failedAt": datetime.now(timezone.utc).isoformat()})
+            print(f"WARNING source: BCCI News API page {page} failed: {exc}; continuing to next page", flush=True)
+        time.sleep(0.2)
+    return collected
+
+
 def main() -> None:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     pages, errors = [], []
     sources = [
-        ("BCCI News API", lambda: [fetch_bcci_page(page) for page in BCCI_PAGES]),
+        ("BCCI News API", lambda: fetch_bcci_pages(errors)),
         *[(label, lambda label=label, query=query: [fetch_google_rss(label, query)])
           for label, query in GOOGLE_QUERIES],
     ]
