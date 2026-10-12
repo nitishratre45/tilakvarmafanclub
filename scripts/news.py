@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Collect BCCI international news pages 1–7 into News/newsjson.json.
+"""Collect BCCI international news pages 1–7 into News/raw-news-pages.json.
 
 This stage stores the API records only. scripts/newsreader.py filters those
 records to articles whose webview content mentions Tilak Varma.
@@ -15,7 +15,7 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "News" / "newsjson.json"
+OUT = ROOT / "News" / "raw-news-pages.json"
 BASE_URL = "https://www.bcci.tv/api/bff/cms/news"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClub/1.0)",
