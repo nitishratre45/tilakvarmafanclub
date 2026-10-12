@@ -26,7 +26,6 @@
   async function init() {
     const statsHost = $("home-quick-stats");
     const inningsHost = $("home-recent-innings");
-    const newsHost = $("home-latest-news");
     try {
       const data = await window.TilakSiteData.load();
       const career = data.careerFormats?.T20I || data.careerStats || {};
@@ -189,37 +188,7 @@
       if (inningsHost)
         inningsHost.innerHTML = '<p class="activity-empty">Recent innings could not be loaded.</p>';
     }
-    try {
-      const response = await fetch("data/tilak-news.json", { cache: "no-store" });
-      if (!response.ok) throw new Error("News unavailable");
-      const data = await response.json();
-      const items = Array.isArray(data.items) ? data.items.slice(0, 2) : [];
-      if (newsHost)
-        newsHost.innerHTML = items.length
-          ? items
-              .map((item) => {
-                const url = safeUrl(item.url);
-                return (
-                  '<article class="home-news-item"><span>' +
-                  esc(item.publisher || "Cricket news") +
-                  " · " +
-                  esc(item.published || "Latest") +
-                  "</span><h4>" +
-                  '<a href="#news" aria-label="Open all Tilak Varma news">' +
-                  esc(item.title) +
-                  "</a>" +
-                  "</h4><p>" +
-                  esc(item.summary || "") +
-                  "</p></article>"
-                );
-              })
-              .join("")
-          : '<p class="activity-empty">No recent stories available. Check Photos & News for more.</p>';
-    } catch (error) {
-      if (newsHost)
-        newsHost.innerHTML =
-          '<p class="activity-empty">Latest news is temporarily unavailable.</p>';
-    }
+
   }
   init();
 })();
