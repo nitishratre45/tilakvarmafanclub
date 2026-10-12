@@ -7,7 +7,6 @@ are refreshed every twelve hours; no video files are mirrored.
 """
 from __future__ import annotations
 
-import base64
 import hashlib
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -41,18 +40,6 @@ def fetch_json(params: dict[str, str]) -> object:
     with urllib.request.urlopen(request, timeout=15) as response:
         if response.status != 200:
             raise RuntimeError(f"BCCI API returned HTTP {response.status} for {url}")
-        return json.loads(response.read().decode("utf-8"))
-
-
-def fetch_video_detail(slug: str) -> object:
-    """Fetch the official BCCI detail record to renew expired signed playback URLs."""
-    safe_slug = urllib.parse.quote(slug.strip(), safe="")
-    if not safe_slug:
-        raise ValueError("Missing BCCI video slug")
-    request = urllib.request.Request(API_BASE + "/" + safe_slug, headers=HEADERS)
-    with urllib.request.urlopen(request, timeout=20) as response:
-        if response.status != 200:
-            raise RuntimeError(f"BCCI video detail returned HTTP {response.status}")
         return json.loads(response.read().decode("utf-8"))
 
 
@@ -164,35 +151,6 @@ def is_valid_playback_url(value: str) -> bool:
         and not parsed.password
         and parsed.path.lower().endswith((".m3u8", ".mpd", ".mp4"))
     )
-
-
-def playback_url_expiry(value: str) -> datetime | None:
-    """Read a signed JWT expiry when the media URL carries one.
-
-    URLs without a JWT expiry remain unknown rather than being guessed expired.
-    """
-    try:
-        token = urllib.parse.parse_qs(urllib.parse.urlparse(value).query).get(
-            "token", [""]
-        )[0]
-        parts = token.split(".")
-        if len(parts) < 2:
-            return None
-        payload = parts[1]
-        payload += "=" * (-len(payload) % 4)
-        decoded = base64.urlsafe_b64decode(payload.encode("ascii"))
-        claims = json.loads(decoded.decode("utf-8"))
-        exp = claims.get("exp")
-        if isinstance(exp, (int, float)):
-            return datetime.fromtimestamp(exp, tz=timezone.utc)
-    except (ValueError, TypeError, UnicodeDecodeError, json.JSONDecodeError):
-        return None
-    return None
-
-
-def is_playback_url_expired(value: str, now: datetime | None = None) -> bool:
-    expiry = playback_url_expiry(value)
-    return expiry is not None and expiry <= (now or datetime.now(timezone.utc))
 
 
 def infer_format(item: dict) -> str:
@@ -649,7 +607,6 @@ def main() -> int:
             else []
         )
         if isinstance(previous_videos, list):
-            expired_history = []
             for previous in previous_videos:
                 if not isinstance(previous, dict):
                     continue
@@ -658,43 +615,9 @@ def main() -> int:
                 playback = first_text(previous.get("playbackUrl"))
                 if not video_id or not title or not is_valid_playback_url(playback):
                     continue
-                if video_id not in collected and is_playback_url_expired(playback):
-                    slug = first_text(previous.get("slug"))
-                    if slug:
-                        expired_history.append((video_id, slug))
                 if video_id not in collected:
                     collected[video_id] = previous
                     previous_count += 1
-
-            def refresh_expired_history(entry):
-                video_id, slug = entry
-                try:
-                    payload = fetch_video_detail(slug)
-                    for raw in walk_video_objects(payload):
-                        refreshed = normalize(raw)
-                        if refreshed and (
-                            refreshed["id"] == video_id or refreshed.get("slug") == slug
-                        ):
-                            return video_id, refreshed
-                except Exception as exc:
-                    print(
-                        f"Could not refresh old BCCI clip {slug}: {exc}",
-                        file=sys.stderr,
-                    )
-                return video_id, None
-
-            if expired_history:
-                refreshed_count = 0
-                with ThreadPoolExecutor(max_workers=6) as pool:
-                    for video_id, refreshed in pool.map(
-                        refresh_expired_history, expired_history
-                    ):
-                        if refreshed:
-                            collected[video_id] = refreshed
-                            refreshed_count += 1
-                print(
-                    f"Expired historical playback URLs renewed from BCCI detail pages: {refreshed_count}/{len(expired_history)}."
-                )
     except (OSError, json.JSONDecodeError) as exc:
         print(
             f"Could not read prior video history; using newly collected clips only: {exc}",
@@ -787,27 +710,12 @@ def main() -> int:
     added_videos = [
         video for video in videos if first_text(video.get("id")) not in previous_ids
     ]
-    expired_videos = [
-        video
-        for video in videos
-        if is_playback_url_expired(first_text(video.get("playbackUrl")))
-    ]
-    unknown_expiry_count = sum(
-        1
-        for video in videos
-        if playback_url_expiry(first_text(video.get("playbackUrl"))) is None
-    )
     report = {
         "source": "BCCI official video refresh",
         "updatedAt": output["updatedAt"],
         "totalVideos": len(videos),
         "previousTotal": len(previous_ids),
         "addedCount": len(current_ids - previous_ids),
-        "expiredPlaybackCount": len(expired_videos),
-        "expiredPlaybackIds": [
-            first_text(video.get("id")) for video in expired_videos[:100]
-        ],
-        "unknownPlaybackExpiryCount": unknown_expiry_count,
         "addedVideos": [
             {
                 "id": first_text(video.get("id")),
