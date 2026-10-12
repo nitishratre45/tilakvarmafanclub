@@ -172,6 +172,53 @@ check("mobile photo gallery shows ten albums at a time and filters by year/month
   await page.close();
 });
 
+check("Death Overs page loads the saved dataset and matches its innings count", async () => {
+  const data = JSON.parse(await readFile(new URL("../data/death-overs.json", import.meta.url), "utf8"));
+  assert(Array.isArray(data.innings) && data.innings.length > 0, "Saved Death Overs innings must not be empty");
+  assert(data.updatedAt, "Death Overs dataset should include its update timestamp");
+  const page = await browser.newPage();
+  page.setDefaultTimeout(12000);
+  await page.goto(baseURL + "/death-overs/index.html", { waitUntil: "domcontentloaded" });
+  await page.waitForFunction(() => document.querySelector("#feed-status")?.textContent === "STATS LOADED");
+  const displayed = Number((await page.locator("#total-innings").innerText()).replace(/,/g, ""));
+  assert.equal(displayed, Number(data.inningsFound || data.innings.length), "Displayed innings count must match saved JSON");
+  await page.close();
+});
+
+check("photo album cover uses the newest photo in that album", async () => {
+  const page = await browser.newPage();
+  page.setDefaultTimeout(10000);
+  const items = [
+    { title: "Older photo", album: "Sort Order Test", url: "https://example.com/older.jpg", type: "image", createdAt: "2026-01-01T00:00:00.000Z" },
+    { title: "Newest photo", album: "Sort Order Test", url: "https://example.com/newest.jpg", type: "image", createdAt: "2026-10-12T00:00:00.000Z" },
+  ];
+  await page.route("**/data/admin-media.json*", (route) => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({ items, albums: ["Sort Order Test"], updatedAt: "2026-10-12T00:00:00.000Z" }),
+  }));
+  await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+  await page.locator('#main-nav a[href="#tv-gallery-hub"]').click();
+  const album = page.locator(".tv-album-card").filter({ hasText: "Sort Order Test" });
+  await album.waitFor();
+  assert.match(await album.locator("img").getAttribute("src"), /newest\.jpg$/, "Album cover should use the newest photo");
+  await page.close();
+});
+
+check("video hub puts the newest published BCCI video first", async () => {
+  const data = JSON.parse(await readFile(new URL("../assets/bcci-videos.json", import.meta.url), "utf8"));
+  const newest = [...data.videos].sort((a, b) => (Date.parse(b.publishedDate || "") || 0) - (Date.parse(a.publishedDate || "") || 0))[0];
+  assert(newest?.id, "Video feed should contain a published video");
+  const page = await browser.newPage();
+  page.setDefaultTimeout(10000);
+  await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+  await page.locator('#main-nav a[href="#tilak-videos"]').click();
+  const firstVideo = page.locator(".bcci-video-card button[data-bcci-video]").first();
+  await firstVideo.waitFor();
+  assert.equal(await firstVideo.getAttribute("data-bcci-video"), newest.id, "Video cards should be sorted newest-first");
+  await page.close();
+});
+
 check("Admin Studio warns before discarding unsaved edits", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
