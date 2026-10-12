@@ -576,7 +576,7 @@
       }
       $("statsguru-note").textContent =
         "Source: ESPNcricinfo Statsguru. Updated " +
-        (data.bowlingStats?.updatedAt || "timestamp unavailable") +
+        formatIndiaTimestamp(data.bowlingStats?.updatedAt || "timestamp unavailable") +
         ". Missing figures are not estimated.";
       return true;
     }
@@ -1111,7 +1111,7 @@
     note.textContent =
       selectedFormat === "All"
         ? "Last update: " +
-          formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable") +
+          formatIndiaTimestampformatIndiaTimestamp(sg.updatedAt || "timestamp unavailable") +
           ". Automatic refresh checks every 12 hours." +
           (source.summary?.ballsInferred
             ? " Overall-format strike rate is approximate because at least one source format did not provide balls faced; missing balls were estimated from its published strike rate."
