@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T08:56:43.156Z",
+  "checkedAt": "2026-10-12T08:56:59.156Z",
   "retentionHours": 15,
   "events": [
     {
@@ -9697,6 +9697,47 @@
           "startedAt": "2026-10-12T08:55:55Z",
           "completedAt": "2026-10-12T08:56:00Z",
           "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38226518866/job/114735578553",
+          "steps": [
+            {
+              "name": "Verify feature modules are linked",
+              "conclusion": "failure",
+              "number": 7
+            },
+            {
+              "name": "Post Set up Node.js",
+              "conclusion": "skipped",
+              "number": 13
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-10-12T08:56:59.156Z",
+      "workflow": "Validate Tilak Varma FC site",
+      "workflowPath": ".github/workflows/site-check.yml",
+      "runId": 38226609519,
+      "runAttempt": 2,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38226609519",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "validate",
+          "conclusion": "failure",
+          "startedAt": "2026-10-12T08:56:41Z",
+          "completedAt": "2026-10-12T08:56:50Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38226609519/job/114735846705",
           "steps": [
             {
               "name": "Verify feature modules are linked",
