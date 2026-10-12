@@ -421,7 +421,9 @@ def main() -> None:
                             else [item.get(field, "")]
                         )
                     )
-                    if not NAME_PATTERN.search(old_title) and not NAME_PATTERN.search(old_body):
+                    if not NAME_PATTERN.search(old_title) and not NAME_PATTERN.search(
+                        old_body
+                    ):
                         continue
                     clean = {
                         key: item.get(key)
