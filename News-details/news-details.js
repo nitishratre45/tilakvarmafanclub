@@ -148,8 +148,8 @@
 
   const normalizeForDedup = (value) => String(value || "")
     .toLocaleLowerCase()
-    .replace(/[^\\p{L}\\p{N}]+/gu, " ")
-    .replace(/\\s+/g, " ")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .replace(/\s+/g, " ")
     .trim();
 
   const renderBody = (host, item) => {
