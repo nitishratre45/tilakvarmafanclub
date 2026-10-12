@@ -79,6 +79,16 @@ check("Stats Batting, Bowling, and Explore tabs respond", async () => {
     assert.equal(await page.locator(item.view).isVisible(), true, item.label + " view did not open");
   }
 
+  // Refresh on /stats must restore the selected sub-tab after asynchronous mount.
+  await page.locator('#stats [data-stats-tab="stats-bowling"]').click();
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.waitForFunction(() => {
+    const view = document.querySelector("#stats-bowling");
+    return Boolean(view && !view.hidden && getComputedStyle(view).display !== "none");
+  }, { timeout: 10000 });
+  assert.equal(await page.locator("#stats-bowling").isVisible(), true,
+    "Refreshing /stats should keep Bowling selected");
+
   await page.close();
 });
 
