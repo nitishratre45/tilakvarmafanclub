@@ -3,6 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <script>
+      // Normalize legacy Stats hash URLs before asynchronous app scripts initialize.
+      if (location.pathname === "/" && location.hash === "#stats") {
+        history.replaceState(
+          { section: "stats", statsView: "stats-overview" },
+          "",
+          "/stats",
+        );
+      }
+    </script>
     <meta name="theme-color" content="#070b14" />
     <meta name="application-name" content="Tilak Varma Fan Club" />
     <link rel="manifest" href="/manifest.json" />
