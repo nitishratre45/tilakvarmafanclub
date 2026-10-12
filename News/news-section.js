@@ -10,7 +10,7 @@
   if (!document.querySelector('link[data-tv-news-styles]')) {
     const style = document.createElement("link");
     style.rel = "stylesheet";
-    style.href = "News/news-section.css?v=20261012-news-fix2";
+    style.href = "News/news-section.css?v=20261012-mobile-news2";
     style.dataset.tvNewsStyles = "true";
     document.head.appendChild(style);
   }
