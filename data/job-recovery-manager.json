@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T12:42:07.196Z",
+  "checkedAt": "2026-10-12T12:42:16.341Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T03:33:53.938Z",
-      "workflow": "Browser smoke tests",
-      "workflowPath": ".github/workflows/browser-smoke.yml",
-      "runId": 38200172114,
-      "runAttempt": 1,
-      "conclusion": "success",
-      "event": "pull_request",
-      "branch": "fix/admin-json-parse-errors",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38200172114",
-      "action": "no_recovery_needed",
-      "reason": "No failed, cancelled, or skipped jobs require this manager.",
-      "jobCounts": {
-        "total": 1,
-        "success": 1,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T03:34:04.814Z",
       "workflow": "Refresh ESPNcricinfo Statsguru",
@@ -13404,6 +13383,27 @@
       "event": "push",
       "branch": "main",
       "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38250632442",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T12:42:16.341Z",
+      "workflow": "Validate Tilak Varma FC site",
+      "workflowPath": ".github/workflows/site-check.yml",
+      "runId": 38250658234,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38250658234",
       "action": "no_recovery_needed",
       "reason": "No failed, cancelled, or skipped jobs require this manager.",
       "jobCounts": {
