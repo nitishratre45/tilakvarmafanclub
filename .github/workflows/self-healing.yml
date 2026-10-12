@@ -81,6 +81,12 @@ jobs:
           print("Core snapshots parsed successfully; generated data was not modified.")
           PY
 
+      - name: Remove generated Python cache files
+        if: always()
+        run: |
+          find . -type d -name '__pycache__' -prune -exec rm -rf {} +
+          find . -type f -name '*.pyc' -not -path './.git/*' -delete
+
       - name: Open a review PR for safe repairs
         id: create_pr
         if: always() && steps.checks.outcome != 'cancelled'
