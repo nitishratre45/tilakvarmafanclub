@@ -286,11 +286,6 @@ nav a:hover,
   line-height: 1.8;
   margin: 0 0 4px;
 }
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
 .stat-card {
   min-height: 165px;
   padding: 25px;
@@ -470,8 +465,8 @@ footer {
 }
 footer .brand {
   color: var(--white);
-}
-@media (max-width: 800px) {
+}@media (max-width: 800px) {
+
   .topbar {
     padding: 0 6vw;
   }
@@ -512,9 +507,6 @@ footer .brand {
   .section-heading > p {
     margin-top: 20px;
   }
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .stat-card {
     min-height: 145px;
     padding: 20px;
@@ -543,8 +535,9 @@ footer .brand {
   footer > span:last-child {
     display: none;
   }
-}
-@media (max-width: 430px) {
+
+}@media (max-width: 430px) {
+
   .hero h1 {
     font-size: 54px;
   }
@@ -566,9 +559,6 @@ footer .brand {
   }
   .vertical-label {
     font-size: 7px;
-  }
-  .stats-grid {
-    gap: 8px;
   }
   .stat-card {
     padding: 16px;
@@ -592,6 +582,7 @@ footer .brand {
   footer .brand {
     font-size: 11px;
   }
+
 }
 .profile-section {
   display: grid;
@@ -681,8 +672,8 @@ footer .brand {
   color: var(--cyan);
   font: 10px var(--mono);
   margin-bottom: 4px;
-}
-@media (max-width: 800px) {
+}@media (max-width: 800px) {
+
   .profile-section {
     grid-template-columns: 1fr;
   }
@@ -693,11 +684,7 @@ footer .brand {
   .profile-facts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
 
-.career-formats {
-  margin: 18px 0 28px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .format-card strong {
   font-size: clamp(30px, 4vw, 46px);
@@ -717,11 +704,9 @@ footer .brand {
 }
 .format-heading {
   margin-top: 60px;
-}
-@media (max-width: 800px) {
-  .career-formats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+}@media (max-width: 800px) {
+
+
 }
 
 /* Profile-first layout and stronger career-run hierarchy */
@@ -733,38 +718,6 @@ footer .brand {
   min-height: 390px;
   box-shadow: 0 24px 70px #0004;
 }
-.stats-section {
-  background: linear-gradient(180deg, #07101f 0%, #091726 100%);
-}
-.stats-section .section-heading:first-child {
-  margin-bottom: 32px;
-}
-.stats-grid:not(.career-formats) .stat-feature {
-  grid-column: span 2;
-  min-height: 190px;
-  padding: 28px 32px;
-  background: linear-gradient(125deg, #ff7847, #e94e2e);
-  box-shadow: 0 16px 38px #ff6a351c;
-}
-.stats-grid:not(.career-formats) .stat-feature strong {
-  font-size: clamp(58px, 7vw, 82px);
-  margin: 16px 0 8px;
-}
-.stats-grid:not(.career-formats) .stat-card:not(.stat-feature) {
-  min-height: 190px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.stats-grid:not(.career-formats) .stat-card:not(.stat-feature) strong {
-  font-size: clamp(42px, 4.5vw, 58px);
-}
-.stats-grid:not(.career-formats) .stat-feature .stat-label {
-  font-size: 11px;
-}
-.stats-grid:not(.career-formats) .stat-feature .stat-note {
-  font-size: 11px;
-}
 .format-heading {
   padding-top: 8px;
 }
@@ -772,27 +725,16 @@ footer .brand {
   padding: 15px 17px;
   background: #0d1a2c;
   border: 1px solid var(--line);
-}
-@media (max-width: 800px) {
+}@media (max-width: 800px) {
+
   .profile-section {
     padding-top: 48px;
     padding-bottom: 48px;
   }
-  .stats-grid:not(.career-formats) .stat-feature {
-    grid-column: span 2;
-    min-height: 155px;
-  }
-  .stats-grid:not(.career-formats) .stat-card:not(.stat-feature) {
-    min-height: 135px;
-  }
-}
-@media (max-width: 430px) {
-  .stats-grid:not(.career-formats) .stat-feature strong {
-    font-size: 58px;
-  }
-  .stats-grid:not(.career-formats) .stat-card:not(.stat-feature) strong {
-    font-size: 38px;
-  }
+
+}@media (max-width: 430px) {
+
+
 }
 
 /* The 72 Club — responsive polish and match/activity surfaces */
@@ -1029,16 +971,17 @@ img {
 }
 .activity-footer a {
   color: var(--cyan);
-}
-@media (max-width: 900px) {
+}@media (max-width: 900px) {
+
   .activity-feed {
     grid-template-columns: 1fr 1fr;
   }
   .featured-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
-@media (max-width: 600px) {
+
+}@media (max-width: 600px) {
+
   .featured-match-card {
     padding: 18px;
   }
@@ -1084,8 +1027,9 @@ img {
   footer {
     gap: 12px;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -1094,8 +1038,10 @@ img {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
-}
-@media (max-width: 600px) {
+
+}@media (max-width: 600px) {
+
+
 }
 
 /* India theme + interactive feature modules */
@@ -1543,8 +1489,8 @@ img {
   height: auto;
   aspect-ratio: 4/5;
   background: #f7f8fc;
-}
-@media (max-width: 900px) {
+}@media (max-width: 900px) {
+
   .search-results {
     grid-template-columns: 1fr 1fr;
   }
@@ -1555,8 +1501,9 @@ img {
   .analytics-grid {
     grid-template-columns: 1fr 1fr;
   }
-}
-@media (max-width: 600px) {
+
+}@media (max-width: 600px) {
+
   .search-top {
     display: block;
   }
@@ -1595,8 +1542,10 @@ img {
   .poster-controls {
     padding: 17px;
   }
-}
-@media (max-width: 650px) {
+
+}@media (max-width: 650px) {
+
+
 }
 
 /* Refined editorial layout: compact search, restrained labels, less template-like chrome */
@@ -1673,8 +1622,8 @@ img {
 .profile-section {
   padding-top: clamp(36px, 5vw, 70px) !important;
   padding-bottom: clamp(38px, 5vw, 70px) !important;
-}
-@media (max-width: 700px) {
+}@media (max-width: 700px) {
+
   .search-section {
     padding: 16px 18px !important;
   }
@@ -1696,6 +1645,7 @@ img {
   .search-box kbd {
     display: none;
   }
+
 }
 
 /* Final visual system: one consistent navy canvas, warm India-orange accent */
@@ -1709,11 +1659,9 @@ img {
   --cyan: #b8d4f7;
   --line: rgba(184, 212, 247, 0.14);
   --india-green: #138808;
-}
-body,
+}body,
 .hero,
 .profile-section,
-.stats-section,
 .feature-section,
 .records-section,
 .fan-zone-section,
@@ -1721,7 +1669,8 @@ body,
 .innings-section,
 .activity-section,
 .impact-section,
-.about-section {
+.about-section
+{
   background: #07101f !important;
   color: var(--white);
 }
@@ -1747,12 +1696,6 @@ body,
 .records-section h2 em,
 .analytics-head h3 em {
   color: var(--orange) !important;
-}
-.stats-grid:not(.career-formats) .stat-feature {
-  background: #0d1a2c !important;
-  color: var(--white) !important;
-  border: 1px solid rgba(255, 153, 51, 0.5) !important;
-  box-shadow: none !important;
 }
 .stat-feature .stat-label,
 .stat-feature .stat-note {
@@ -1921,13 +1864,14 @@ body,
 }
 .fan-quiz-card {
   border-top: 2px solid var(--orange) !important;
-}
-@media (max-width: 900px) {
+}@media (max-width: 900px) {
+
   .fan-zone-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
-@media (max-width: 650px) {
+
+}@media (max-width: 650px) {
+
   .fan-zone-grid {
     grid-template-columns: 1fr;
   }
@@ -1939,21 +1883,24 @@ body,
     padding-top: 42px !important;
     padding-bottom: 42px !important;
   }
+
 }
 
 /* Three balanced Fan Zone panels on desktop */
 .fan-zone-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-@media (max-width: 900px) {
+}@media (max-width: 900px) {
+
   .fan-zone-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
-@media (max-width: 650px) {
+
+}@media (max-width: 650px) {
+
   .fan-zone-grid {
     grid-template-columns: 1fr;
   }
+
 }
 
 /* The 72 Dashboard + Moments Archive */
@@ -2053,16 +2000,17 @@ body,
   padding: 6px 8px;
   border: 1px solid var(--line);
   color: #d9e4f3;
-}
-@media (max-width: 900px) {
+}@media (max-width: 900px) {
+
   .upgrade-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .moments-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
-@media (max-width: 600px) {
+
+}@media (max-width: 600px) {
+
   .upgrade-grid,
   .moments-grid {
     grid-template-columns: 1fr;
@@ -2081,6 +2029,7 @@ body,
   .moment-card {
     padding: 19px;
   }
+
 }
 
 /* Personal, browser-only fan streak */
@@ -2212,8 +2161,8 @@ body,
 .moment-card .moment-tags {
   margin-top: auto;
   padding-top: 14px;
-}
-@media (max-width: 1050px) {
+}@media (max-width: 1050px) {
+
   .topbar {
     height: auto;
     min-height: 78px;
@@ -2226,8 +2175,9 @@ body,
   .format-snapshot-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-}
-@media (max-width: 650px) {
+
+}@media (max-width: 650px) {
+
   .topbar {
     gap: 10px;
   }
@@ -2244,6 +2194,7 @@ body,
   .upgrade-section .section-heading {
     align-items: flex-start;
   }
+
 }
 
 /* Format-aware delivery archive snapshot on the homepage */
@@ -2283,19 +2234,21 @@ body,
   font-size: 11px;
   line-height: 1.6;
   overflow-wrap: anywhere;
-}
-@media (max-width: 900px) {
+}@media (max-width: 900px) {
+
   .archive-snapshot-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-}
-@media (max-width: 600px) {
+
+}@media (max-width: 600px) {
+
   .archive-snapshot-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .archive-snapshot-card {
     padding: 14px;
   }
+
 }
 
 /* Compact, source-led homepage refresh */
@@ -2421,8 +2374,8 @@ body,
 .impact-section,
 .fan-streak-panel {
   display: none !important;
-}
-@media (max-width: 800px) {
+}@media (max-width: 800px) {
+
   .profile-section {
     grid-template-columns: 112px minmax(0, 1fr);
     gap: 16px;
@@ -2505,9 +2458,6 @@ body,
     margin: 0;
     max-width: none;
   }
-  .stats-grid {
-    gap: 7px;
-  }
   .stat-card {
     min-height: 100px;
     padding: 12px;
@@ -2524,9 +2474,6 @@ body,
   .format-detail {
     font-size: 9px;
     line-height: 1.45;
-  }
-  .career-formats {
-    margin: 10px 0 16px;
   }
   .data-line {
     font-size: 9px;
@@ -2591,8 +2538,9 @@ body,
   .fan-card {
     padding: 13px;
   }
-}
-@media (max-width: 430px) {
+
+}@media (max-width: 430px) {
+
   .topbar {
     min-height: 56px;
     padding: 0 4vw;
@@ -2635,9 +2583,6 @@ body,
     font-size: 8px;
     padding: 7px;
   }
-  .stats-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .stat-card {
     padding: 10px;
     min-height: 90px;
@@ -2667,167 +2612,11 @@ body,
     gap: 10px;
     font-size: 9px;
   }
-}
 
-/* Statsguru analysis */
-.statsguru-section {
-  background: #091523;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-.statsguru-sourcebar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding: 15px 18px;
-  margin-bottom: 18px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  font: 10px var(--mono);
-  color: var(--muted);
-}
-.statsguru-sourcebar b {
-  color: var(--white);
-  font-weight: 500;
-}
-.statsguru-sourcelinks,
-.statsguru-footer-links {
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-.statsguru-sourcelinks a,
-.statsguru-footer-links a {
-  color: var(--cyan);
-}
-.statsguru-format-tabs {
-  display: flex;
-  gap: 7px;
-  overflow-x: auto;
-  padding: 0 0 14px;
-}
-.statsguru-format-tabs button,
-.statsguru-category-grid button {
-  font: 700 11px var(--body);
-  color: #c9d5e4;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  padding: 12px 15px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.statsguru-format-tabs button.active,
-.statsguru-category-grid button.active {
-  background: var(--orange);
-  color: #101522;
-  border-color: var(--orange);
-}
-.statsguru-category-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 18px;
-}
-.statsguru-category-grid button {
-  text-align: left;
-  white-space: normal;
-  min-height: 48px;
-  line-height: 1.4;
-}
-.statsguru-panel {
-  padding: 22px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-}
-.statsguru-panel-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  margin-bottom: 18px;
-}
-.statsguru-panel-head h3 {
-  font: 800 clamp(23px, 3vw, 34px) / 1.1 var(--display);
-  margin: 9px 0 0;
-}
-.statsguru-format-pill {
-  border: 1px solid var(--orange);
-  color: var(--orange);
-  padding: 7px 10px;
-  font: 10px var(--mono);
-}
-.statsguru-summary {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 9px;
-  margin-bottom: 18px;
-}
-.statsguru-metric {
-  padding: 14px;
-  background: var(--panel2);
-  border: 1px solid var(--line);
-  min-width: 0;
-}
-.statsguru-metric span {
-  display: block;
-  color: var(--muted);
-  font: 9px var(--mono);
-  letter-spacing: 0.08em;
-}
-.statsguru-metric strong {
-  display: block;
-  font: 800 clamp(24px, 3vw, 36px) / 1.1 var(--display);
-  margin-top: 10px;
-  overflow-wrap: anywhere;
-}
-.statsguru-note {
-  font-size: 11px;
-  color: var(--muted);
-  line-height: 1.7;
-  margin: 15px 0 0;
-}
-.statsguru-footer-links {
-  font: 11px var(--mono);
-  margin-top: 17px;
-}
+}/* Statsguru analysis */
 @media (max-width: 760px) {
-  .statsguru-section {
-    padding: 55px 5vw;
-  }
-  .statsguru-category-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 7px;
-  }
-  .statsguru-category-grid button {
-    font-size: 10px;
-    padding: 10px;
-    min-height: 43px;
-  }
-  .statsguru-panel {
-    padding: 12px;
-  }
-  .statsguru-summary {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 7px;
-  }
-  .statsguru-metric {
-    padding: 11px;
-  }
-  .statsguru-sourcebar {
-    align-items: flex-start;
-    padding: 12px;
-  }
-  .statsguru-sourcelinks {
-    gap: 10px;
-  }
-  .statsguru-panel .table-wrap table {
-    min-width: 520px;
-  }
-  .statsguru-format-tabs button {
-    padding: 10px 12px;
-  }
+
+
 }
 
 /* Section tabs: show only the selected page section */
@@ -2852,8 +2641,8 @@ main > section[hidden] {
 .profile-section {
   min-height: 0;
   align-content: center;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   .profile-section {
     min-height: 0;
     padding: 26px 5vw !important;
@@ -2886,6 +2675,7 @@ main > section[hidden] {
     padding: 10px 11px !important;
     font-size: 10px !important;
   }
+
 }
 
 /* Compact home snapshot: useful content stays on Home without duplicating full stats */
@@ -3050,8 +2840,8 @@ main > section[hidden] {
 }
 .home-snapshot-foot > a {
   color: var(--cyan);
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   .home-snapshot-section {
     padding: 27px 5vw;
   }
@@ -3088,14 +2878,16 @@ main > section[hidden] {
     font-size: 8px;
     align-items: flex-start;
   }
-}
-@media (max-width: 390px) {
+
+}@media (max-width: 390px) {
+
   .home-snapshot-heading {
     display: block;
   }
   .home-snapshot-heading .button {
     margin-top: 12px;
   }
+
 }
 
 .home-format-heading {
@@ -3137,8 +2929,8 @@ main > section[hidden] {
   display: block;
   color: var(--muted);
   font: 9px/1.6 var(--mono);
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   .home-format-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 7px;
@@ -3152,6 +2944,7 @@ main > section[hidden] {
   .profile-section {
     padding-bottom: 24px !important;
   }
+
 }
 
 /* Compact navigation, nested stats views, ICC data cards and accessible dark controls */
@@ -3170,47 +2963,6 @@ select {
 option {
   background: #0d1a2c;
   color: #f4f7fb;
-}
-.stats-section {
-  padding: 42px 5vw !important;
-}
-.stats-subnav {
-  display: flex;
-  gap: 7px;
-  overflow-x: auto;
-  padding: 0 0 14px;
-  margin: 0 0 8px;
-  border-bottom: 1px solid var(--line);
-  scrollbar-width: thin;
-}
-.stats-subnav button {
-  flex: 0 0 auto;
-  padding: 11px 16px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  color: #c9d5e4;
-  font: 700 11px var(--body);
-  cursor: pointer;
-}
-.stats-subnav button.active {
-  background: var(--orange);
-  border-color: var(--orange);
-  color: #101522;
-}
-.stats-subview[hidden] {
-  display: none !important;
-}
-.stats-subview.section {
-  padding: 30px 0 !important;
-  margin: 0;
-  background: transparent;
-  border: 0;
-}
-.stats-subview .section-heading {
-  margin-bottom: 22px;
-}
-.stats-subview .section h2 {
-  font-size: clamp(30px, 4vw, 46px);
 }
 .icc-ranking-card {
   display: grid;
@@ -3287,8 +3039,8 @@ option {
   font-size: 12px;
   line-height: 1.45;
   margin: 8px 0 0;
-}
-@media (max-width: 800px) {
+}@media (max-width: 800px) {
+
   .topbar {
     z-index: 30;
   }
@@ -3316,16 +3068,6 @@ option {
   nav.open a.active:after {
     display: none;
   }
-  .stats-section {
-    padding: 28px 4vw !important;
-  }
-  .stats-subnav button {
-    padding: 10px 13px;
-    font-size: 10px;
-  }
-  .stats-subview.section {
-    padding: 23px 0 !important;
-  }
   .icc-ranking-card {
     max-width: none;
     grid-template-columns: 1fr 1fr;
@@ -3351,8 +3093,9 @@ option {
   .official-records-head > span {
     text-align: left;
   }
-}
-@media (max-width: 430px) {
+
+}@media (max-width: 430px) {
+
   nav.open {
     top: 100%;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3364,25 +3107,14 @@ option {
     min-height: 38px;
     padding: 8px;
   }
-  .stats-section {
-    padding: 24px 4vw !important;
-  }
-  .stats-subview.section {
-    padding: 18px 0 !important;
-  }
   .icc-ranking-card strong {
     font-size: 21px;
   }
-}
 
-/* Keep the focused Statsguru categories balanced on desktop. */
-.statsguru-category-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
+}/* Keep the focused Statsguru categories balanced on desktop. */
 @media (max-width: 760px) {
-  .statsguru-category-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
+
 }
 
 /* Site-wide custom select controls: dark, branded, and consistent on mobile. */
@@ -3573,8 +3305,8 @@ option {
   color: transparent;
   background: #101e31;
   border: 1px solid #465c76;
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
+
   .cs-overlay {
     display: flex;
     align-items: flex-end;
@@ -3617,6 +3349,7 @@ option {
     width: 25px;
     height: 25px;
   }
+
 }
 @keyframes cs-fade-in {
   from {
@@ -3635,8 +3368,8 @@ option {
     transform: translateY(0);
     opacity: 1;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+}@media (prefers-reduced-motion: reduce) {
+
   .cs-overlay,
   .cs-dialog {
     animation: none !important;
@@ -3645,6 +3378,7 @@ option {
   .cs-trigger-arrow {
     transition: none !important;
   }
+
 }
 
 /* ESPNcricinfo-style player analysis filter, adapted to the fan site's dark UI. */
@@ -3780,14 +3514,15 @@ option {
   color: var(--muted);
   font-size: 10px;
   line-height: 1.7;
-}
-@media (max-width: 850px) {
+}@media (max-width: 850px) {
+
   .player-analysis-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
-}
-@media (max-width: 560px) {
+
+}@media (max-width: 560px) {
+
   .player-analysis-filter {
     padding: 0;
     margin-bottom: 14px;
@@ -3846,14 +3581,16 @@ option {
   .player-analysis-help {
     font-size: 9px;
   }
-}
-@media (max-width: 360px) {
+
+}@media (max-width: 360px) {
+
   .player-analysis-grid {
     grid-template-columns: 1fr;
   }
   .player-analysis-actions {
     grid-template-columns: 1fr;
   }
+
 }
 
 /* Final polish: mobile-first player hero, highlighted Explore controls, and photo gallery. */
@@ -3908,10 +3645,6 @@ option {
   transform: translateY(-2px);
   border-color: rgba(255, 106, 53, 0.45);
 }
-.statsguru-section {
-  background:
-    radial-gradient(ellipse at 95% 0, rgba(255, 106, 53, 0.075), transparent 34%), #091523;
-}
 .explore-heading {
   align-items: flex-end;
 }
@@ -3928,22 +3661,6 @@ option {
   color: var(--orange);
   font: 9px var(--mono);
   letter-spacing: 0.11em;
-}
-.statsguru-sourcebar {
-  border-color: rgba(124, 229, 242, 0.22);
-  background: linear-gradient(100deg, rgba(124, 229, 242, 0.065), rgba(13, 26, 44, 0.92));
-}
-.statsguru-format-tabs button,
-.statsguru-category-grid button {
-  transition:
-    transform 0.16s ease,
-    border-color 0.16s ease,
-    background 0.16s ease;
-}
-.statsguru-format-tabs button:hover,
-.statsguru-category-grid button:hover {
-  transform: translateY(-1px);
-  border-color: var(--orange);
 }
 .player-analysis-filter {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
@@ -3980,12 +3697,6 @@ option {
 .player-analysis-badge {
   border-radius: 3px;
   background: rgba(124, 229, 242, 0.05);
-}
-.statsguru-panel {
-  border-radius: 5px;
-}
-.statsguru-summary .statsguru-metric {
-  border-top: 2px solid rgba(255, 106, 53, 0.55);
 }
 .cricinfo-gallery {
   margin: 22px 0 34px;
@@ -4174,8 +3885,8 @@ option {
   border-radius: 3px;
   font: 700 10px var(--body);
   cursor: pointer;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   .profile-section {
     grid-template-columns: 112px minmax(0, 1fr) !important;
     gap: 14px !important;
@@ -4285,8 +3996,9 @@ option {
   .article-reader-foot {
     padding: 9px 12px;
   }
-}
-@media (max-width: 390px) {
+
+}@media (max-width: 390px) {
+
   .profile-section {
     grid-template-columns: 96px minmax(0, 1fr) !important;
     gap: 11px !important;
@@ -4311,20 +4023,20 @@ option {
   .tilak-news-grid {
     grid-template-columns: 1fr;
   }
-}
-@media (prefers-reduced-motion: reduce) {
-  .profile-facts > div,
-  .home-mini-stat,
-  .home-format-card,
-  .statsguru-format-tabs button,
-  .statsguru-category-grid button,
-  .cricinfo-photo-card,
-  .cricinfo-photo-card img,
-  .tilak-news-card,
-  .player-analysis-content {
+
+}@media (prefers-reduced-motion: reduce) {
+.profile-facts > div,
+.home-mini-stat,
+.home-format-card,
+.cricinfo-photo-card,
+.cricinfo-photo-card img,
+.tilak-news-card,
+.player-analysis-content
+{
     transition: none !important;
     animation: none !important;
   }
+
 }
 
 .cricinfo-photo-open {
@@ -4416,8 +4128,8 @@ option {
   border-radius: 50%;
   font-size: 24px;
   cursor: pointer;
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
+
   .photo-lightbox {
     padding: 10px;
   }
@@ -4427,6 +4139,7 @@ option {
   .photo-lightbox-panel img {
     max-height: 75dvh;
   }
+
 }
 
 .gallery-live-fallback {
@@ -4471,8 +4184,8 @@ option {
   border-radius: 3px;
   font: 800 10px var(--body);
   cursor: pointer;
-}
-@media (max-width: 560px) {
+}@media (max-width: 560px) {
+
   .gallery-live-fallback {
     align-items: flex-start;
     gap: 11px;
@@ -4490,182 +4203,11 @@ option {
   .gallery-live-fallback p {
     font-size: 10px;
   }
-}
 
-/* Explore: compact ESPNcricinfo-style batting analysis */
-.statsguru-section {
-  padding-top: 42px !important;
-  padding-bottom: 48px !important;
-}
-.statsguru-sourcebar {
-  padding: 8px 12px;
-  margin-bottom: 10px;
-  font-size: 9px;
-}
-.statsguru-format-tabs {
-  padding-bottom: 9px;
-  gap: 5px;
-}
-.statsguru-format-tabs button {
-  padding: 8px 11px;
-  font-size: 10px;
-}
-.statsguru-category-grid {
-  margin-bottom: 10px;
-  gap: 6px;
-}
-.statsguru-category-grid button {
-  min-height: 36px;
-  padding: 8px 10px;
-  font-size: 10px;
-}
-.statsguru-panel {
-  padding: 14px;
-}
-.statsguru-panel-head {
-  margin-bottom: 10px;
-}
-.statsguru-panel-head h3 {
-  font-size: clamp(20px, 2.5vw, 27px);
-  margin-top: 5px;
-}
-.statsguru-format-pill {
-  padding: 5px 8px;
-  font-size: 9px;
-}
-.statsguru-summary {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 5px;
-  margin-bottom: 12px;
-}
-.statsguru-metric {
-  padding: 8px 9px;
-  border-top-width: 2px !important;
-}
-.statsguru-metric span {
-  font-size: 8px;
-  letter-spacing: 0.045em;
-}
-.statsguru-metric strong {
-  font-size: clamp(17px, 2vw, 23px);
-  margin-top: 4px;
-  line-height: 1.05;
-}
-.statsguru-panel .table-wrap {
-  max-width: 100%;
-  overscroll-behavior-x: contain;
-}
-.statsguru-panel .table-wrap table {
-  min-width: 1020px;
-}
-.statsguru-panel .table-wrap th {
-  padding: 9px 10px;
-  font-size: 9px;
-  white-space: nowrap;
-}
-.statsguru-panel .table-wrap td {
-  padding: 9px 10px;
-  font-size: 11px;
-  white-space: nowrap;
-}
-.statsguru-panel .table-wrap tbody tr:nth-child(even) {
-  background: rgba(255, 255, 255, 0.018);
-}
-.statsguru-panel .table-wrap .sg-cell-date {
-  color: #d4e3f8;
-  font: 10px var(--mono);
-  background: rgba(124, 229, 242, 0.065);
-}
-.statsguru-panel .table-wrap .sg-cell-runs {
-  color: #101522;
-  background: var(--orange);
-  font: 800 13px var(--display);
-  text-align: center;
-  min-width: 54px;
-}
-.statsguru-panel .table-wrap .sg-cell-minutes,
-.statsguru-panel .table-wrap .sg-cell-balls {
-  color: var(--cyan);
-  font: 11px var(--mono);
-  text-align: center;
-  background: rgba(124, 229, 242, 0.045);
-}
-.statsguru-panel .table-wrap .sg-scorecard-link {
-  color: var(--orange);
-  font-weight: 800;
-}
-.statsguru-note {
-  font-size: 10px;
-  margin-top: 10px;
-}
-.statsguru-summary .statsguru-metric:nth-child(4) {
-  border-top-color: var(--orange) !important;
-}
-.statsguru-summary .statsguru-metric:nth-child(5) {
-  border-top-color: var(--cyan) !important;
-}
-.statsguru-summary .statsguru-metric:nth-child(6) {
-  border-top-color: var(--cyan) !important;
-}
+}/* Explore: compact ESPNcricinfo-style batting analysis */
 @media (max-width: 760px) {
-  .statsguru-section {
-    padding: 28px 3.5vw !important;
-  }
-  .statsguru-sourcebar {
-    padding: 7px 9px;
-    font-size: 8px;
-    gap: 6px;
-  }
-  .statsguru-format-tabs {
-    gap: 4px;
-    padding-bottom: 7px;
-  }
-  .statsguru-format-tabs button {
-    padding: 8px 9px;
-    font-size: 9px;
-  }
-  .statsguru-category-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 4px;
-  }
-  .statsguru-category-grid button {
-    font-size: 9px;
-    padding: 7px 5px;
-    min-height: 34px;
-    text-align: center;
-  }
-  .statsguru-panel {
-    padding: 9px;
-  }
-  .statsguru-panel-head h3 {
-    font-size: 22px;
-  }
-  .statsguru-summary {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 4px;
-  }
-  .statsguru-metric {
-    padding: 7px 6px;
-  }
-  .statsguru-metric span {
-    font-size: 7px;
-    letter-spacing: 0;
-  }
-  .statsguru-metric strong {
-    font-size: 19px;
-    margin-top: 4px;
-  }
-  .statsguru-panel .table-wrap table {
-    min-width: 990px;
-  }
-  .statsguru-panel .table-wrap th {
-    padding: 8px;
-    font-size: 8px;
-  }
-  .statsguru-panel .table-wrap td {
-    padding: 8px;
-    font-size: 10px;
-  }
+
+
 }
 
 /* Compact home theme selector */
@@ -4714,8 +4256,8 @@ option {
 }
 .home-all-stats {
   white-space: nowrap;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   .home-snapshot-heading {
     align-items: flex-start;
     flex-direction: column;
@@ -4743,25 +4285,9 @@ option {
     font-size: 9px;
     gap: 6px;
   }
-}
-/* Runs should be an accent, not a solid orange column */
-.statsguru-panel .table-wrap th.sg-head-runs {
-  color: var(--orange);
-  background: rgba(255, 106, 53, 0.12);
-  border-bottom: 2px solid var(--orange);
-}
-.statsguru-panel .table-wrap .sg-cell-runs {
-  color: var(--orange);
-  background: rgba(255, 106, 53, 0.12);
-  font: 800 13px var(--display);
-  text-align: center;
-  min-width: 54px;
-  border-left: 1px solid rgba(255, 106, 53, 0.28);
-  border-right: 1px solid rgba(255, 106, 53, 0.28);
-}
-.statsguru-panel .table-wrap tbody tr:hover .sg-cell-runs {
-  background: rgba(255, 106, 53, 0.22);
-}
+
+}/* Runs should be an accent, not a solid orange column */
+
 /* Light theme, including site components that previously used fixed dark fills */
 :root[data-theme="light"] {
   --bg: #f4f7fb;
@@ -4777,14 +4303,12 @@ option {
 :root[data-theme="light"] body {
   background: var(--bg);
   color: var(--white);
-}
-:root[data-theme="light"] .topbar,
+}:root[data-theme="light"] .topbar,
 :root[data-theme="light"] nav,
-:root[data-theme="light"] .stats-section,
-:root[data-theme="light"] .statsguru-section,
 :root[data-theme="light"] .innings-section,
 :root[data-theme="light"] .about-section,
-:root[data-theme="light"] footer {
+:root[data-theme="light"] footer
+{
   background: var(--bg);
   color: var(--white);
 }
@@ -4792,16 +4316,12 @@ option {
   background:
     radial-gradient(ellipse at 75% 45%, rgba(32, 120, 155, 0.1), transparent 48%),
     linear-gradient(115deg, #f4f7fb, #eaf0f7);
-}
-:root[data-theme="light"] .home-snapshot-section,
-:root[data-theme="light"] .statsguru-panel,
+}:root[data-theme="light"] .home-snapshot-section,
 :root[data-theme="light"] .stat-card,
 :root[data-theme="light"] .home-mini-stat,
 :root[data-theme="light"] .home-format-card,
-:root[data-theme="light"] .home-snapshot-block,
-:root[data-theme="light"] .statsguru-sourcebar,
-:root[data-theme="light"] .statsguru-format-tabs button,
-:root[data-theme="light"] .statsguru-category-grid button {
+:root[data-theme="light"] .home-snapshot-block
+{
   background: #fff;
   color: var(--white);
 }
@@ -4812,39 +4332,14 @@ option {
 :root[data-theme="light"] .stat-note,
 :root[data-theme="light"] td {
   color: #425269;
-}
-:root[data-theme="light"] .statsguru-panel .table-wrap th,
-:root[data-theme="light"] th {
+}:root[data-theme="light"] th
+{
   background: #e8eef5;
   color: #087e91;
-}
-:root[data-theme="light"] .statsguru-panel .table-wrap td,
-:root[data-theme="light"] td {
+}:root[data-theme="light"] td
+{
   border-top-color: rgba(18, 35, 55, 0.13);
   color: #24354a;
-}
-:root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-date {
-  background: #e7f5f7;
-  color: #203c51;
-}
-:root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-minutes,
-:root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-balls {
-  background: #edf8fa;
-  color: #087e91;
-}
-:root[data-theme="light"] .statsguru-panel .table-wrap th.sg-head-runs,
-:root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-runs {
-  background: #fff0e8;
-  color: #c94c20;
-}
-:root[data-theme="light"] .statsguru-panel .table-wrap tbody tr:nth-child(even) {
-  background: #f7f9fc;
-}
-:root[data-theme="light"] .statsguru-panel .table-wrap tbody tr:hover {
-  background: #eaf3f8;
-}
-:root[data-theme="light"] .statsguru-panel .table-wrap tbody tr:hover .sg-cell-runs {
-  background: #ffe0d0;
 }
 :root[data-theme="light"] .home-snapshot-section .button.outline,
 :root[data-theme="light"] .button.outline {
@@ -4853,11 +4348,6 @@ option {
 }
 :root[data-theme="light"] .profile-section {
   background: #f4f7fb;
-}
-:root[data-theme="light"] .statsguru-format-tabs button.active,
-:root[data-theme="light"] .statsguru-category-grid button.active {
-  background: var(--orange);
-  color: #fff;
 }
 :root[data-theme="light"] .gallery-live-fallback,
 :root[data-theme="light"] .cricinfo-gallery,
@@ -4875,8 +4365,8 @@ option {
 :root[data-theme="light"] .article-reader-head h3,
 :root[data-theme="light"] .photo-lightbox-panel p {
   color: #152235;
-}
-@media (prefers-color-scheme: light) {
+}@media (prefers-color-scheme: light) {
+
   :root[data-theme="system"] {
     --bg: #f4f7fb;
     --panel: #fff;
@@ -4891,26 +4381,20 @@ option {
   :root[data-theme="system"] body {
     background: var(--bg);
     color: var(--white);
-  }
-  :root[data-theme="system"] .topbar,
-  :root[data-theme="system"] nav,
-  :root[data-theme="system"] .stats-section,
-  :root[data-theme="system"] .statsguru-section,
-  :root[data-theme="system"] .innings-section,
-  :root[data-theme="system"] footer {
+  }:root[data-theme="system"] .topbar,
+:root[data-theme="system"] nav,
+:root[data-theme="system"] .innings-section,
+:root[data-theme="system"] footer
+{
     background: var(--bg);
     color: var(--white);
   }
   :root[data-theme="system"] .hero {
     background: linear-gradient(115deg, #f4f7fb, #eaf0f7);
-  }
-  :root[data-theme="system"] .stat-card,
-  :root[data-theme="system"] .home-mini-stat,
-  :root[data-theme="system"] .home-format-card,
-  :root[data-theme="system"] .statsguru-panel,
-  :root[data-theme="system"] .statsguru-sourcebar,
-  :root[data-theme="system"] .statsguru-format-tabs button,
-  :root[data-theme="system"] .statsguru-category-grid button {
+  }:root[data-theme="system"] .stat-card,
+:root[data-theme="system"] .home-mini-stat,
+:root[data-theme="system"] .home-format-card
+{
     background: #fff;
     color: var(--white);
   }
@@ -4918,18 +4402,7 @@ option {
     background: #e8eef5;
     color: #087e91;
   }
-  :root[data-theme="system"] .statsguru-panel .table-wrap td {
-    color: #24354a;
-  }
-  :root[data-theme="system"] .statsguru-panel .table-wrap .sg-cell-date {
-    background: #e7f5f7;
-    color: #203c51;
-  }
-  :root[data-theme="system"] .statsguru-panel .table-wrap .sg-cell-runs,
-  :root[data-theme="system"] .statsguru-panel .table-wrap th.sg-head-runs {
-    background: #fff0e8;
-    color: #c94c20;
-  }
+
 }
 
 /* Centralised appearance settings and readable theme contrast */
@@ -5058,17 +4531,15 @@ option {
 :root[data-theme-resolved="light"] .topbar nav {
   background: var(--panel);
   color: var(--white);
-}
-:root[data-theme-resolved="light"] .profile-section,
+}:root[data-theme-resolved="light"] .profile-section,
 :root[data-theme-resolved="light"] .home-snapshot-section,
-:root[data-theme-resolved="light"] .stats-section,
-:root[data-theme-resolved="light"] .statsguru-section,
 :root[data-theme-resolved="light"] .records-section,
 :root[data-theme-resolved="light"] .fan-zone-section,
 :root[data-theme-resolved="light"] .innings-section,
 :root[data-theme-resolved="light"] .tilak-news-section,
 :root[data-theme-resolved="light"] .settings-section,
-:root[data-theme-resolved="light"] .about-section {
+:root[data-theme-resolved="light"] .about-section
+{
   background: var(--bg);
   color: var(--white);
 }
@@ -5076,13 +4547,10 @@ option {
   background:
     radial-gradient(ellipse at 75% 45%, rgba(32, 120, 155, 0.1), transparent 48%),
     linear-gradient(115deg, #f4f7fb, #eaf0f7);
-}
-:root[data-theme-resolved="light"] .stat-card,
+}:root[data-theme-resolved="light"] .stat-card,
 :root[data-theme-resolved="light"] .home-mini-stat,
 :root[data-theme-resolved="light"] .home-format-card,
 :root[data-theme-resolved="light"] .home-snapshot-block,
-:root[data-theme-resolved="light"] .statsguru-panel,
-:root[data-theme-resolved="light"] .statsguru-sourcebar,
 :root[data-theme-resolved="light"] .settings-card,
 :root[data-theme-resolved="light"] .fan-card,
 :root[data-theme-resolved="light"] .milestone-card,
@@ -5093,20 +4561,19 @@ option {
 :root[data-theme-resolved="light"] .cricinfo-gallery,
 :root[data-theme-resolved="light"] .cricinfo-photo-card,
 :root[data-theme-resolved="light"] .tilak-news-card,
-:root[data-theme-resolved="light"] .gallery-live-fallback {
+:root[data-theme-resolved="light"] .gallery-live-fallback
+{
   background: #fff;
   color: var(--white);
   border-color: var(--line);
-}
-:root[data-theme-resolved="light"] .statsguru-format-tabs button,
-:root[data-theme-resolved="light"] .statsguru-category-grid button,
-:root[data-theme-resolved="light"] .player-analysis-filter,
+}:root[data-theme-resolved="light"] .player-analysis-filter,
 :root[data-theme-resolved="light"] .player-analysis-toggle,
 :root[data-theme-resolved="light"] .player-analysis-content,
 :root[data-theme-resolved="light"] .poll-option,
 :root[data-theme-resolved="light"] .fan-link,
 :root[data-theme-resolved="light"] .ticker,
-:root[data-theme-resolved="light"] .data-line {
+:root[data-theme-resolved="light"] .data-line
+{
   background: var(--panel2);
   color: var(--white);
   border-color: var(--line);
@@ -5124,8 +4591,7 @@ option {
 :root[data-theme-resolved="light"] .analytics-head,
 :root[data-theme-resolved="light"] .official-records-head {
   color: var(--white);
-}
-:root[data-theme-resolved="light"] .eyebrow,
+}:root[data-theme-resolved="light"] .eyebrow,
 :root[data-theme-resolved="light"] .stat-label,
 :root[data-theme-resolved="light"] .stat-note,
 :root[data-theme-resolved="light"] .activity-empty,
@@ -5137,8 +4603,8 @@ option {
 :root[data-theme-resolved="light"] .gallery-attribution,
 :root[data-theme-resolved="light"] .gallery-heading > span,
 :root[data-theme-resolved="light"] .tilak-news-meta,
-:root[data-theme-resolved="light"] .player-analysis-help,
-:root[data-theme-resolved="light"] .statsguru-note {
+:root[data-theme-resolved="light"] .player-analysis-help
+{
   color: var(--muted);
 }
 :root[data-theme-resolved="light"] input,
@@ -5160,29 +4626,6 @@ option {
 :root[data-theme-resolved="light"] td {
   color: #26374b;
   border-color: var(--line);
-}
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-date {
-  background: #e7f5f7;
-  color: #203c51;
-}
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-minutes,
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-balls {
-  background: #edf8fa;
-  color: #087e91;
-}
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap th.sg-head-runs,
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-runs {
-  background: #fff0e8;
-  color: #b84219;
-}
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap tbody tr:nth-child(even) {
-  background: #f7f9fc;
-}
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap tbody tr:hover {
-  background: #eaf3f8;
-}
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap tbody tr:hover .sg-cell-runs {
-  background: #ffe0d0;
 }
 :root[data-theme-resolved="light"] .button,
 :root[data-theme-resolved="light"] button {
@@ -5246,8 +4689,8 @@ option {
 }
 :root[data-theme-resolved="light"] .settings-theme-options button[aria-pressed="true"] strong {
   color: #b84219;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   .settings-section {
     padding: 28px 4vw !important;
   }
@@ -5266,8 +4709,9 @@ option {
   .settings-card h3 {
     font-size: 21px;
   }
-}
-@media (max-width: 390px) {
+
+}@media (max-width: 390px) {
+
   .settings-theme-options {
     gap: 5px;
   }
@@ -5280,6 +4724,7 @@ option {
   .settings-theme-options button small {
     font-size: 8px;
   }
+
 }
 
 /* Bowling career: compact home preview and full Stats subview */
@@ -5346,9 +4791,6 @@ option {
   color: var(--muted);
   font: 9px/1.5 var(--mono);
 }
-.bowling-stats-view > .section-heading {
-  margin-bottom: 16px;
-}
 .bowling-sourcebar {
   display: flex;
   justify-content: space-between;
@@ -5363,26 +4805,6 @@ option {
 }
 .bowling-sourcebar b {
   color: var(--cyan);
-}
-.bowling-format-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-.bowling-format-tabs button {
-  padding: 9px 12px;
-  color: var(--muted);
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  font: 700 10px var(--body);
-  cursor: pointer;
-}
-.bowling-format-tabs button.active {
-  color: #07101f;
-  background: var(--cyan);
-  border-color: var(--cyan);
 }
 .bowling-summary {
   display: grid;
@@ -5411,14 +4833,6 @@ option {
   font: 800 clamp(18px, 2vw, 25px) / 1.05 var(--display);
   overflow-wrap: anywhere;
 }
-.bowling-breakdown-wrap,
-.bowling-innings-wrap {
-  margin: 18px 0;
-  padding: 14px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 5px;
-}
 .bowling-subheading {
   margin-bottom: 12px;
 }
@@ -5429,42 +4843,14 @@ option {
   color: var(--muted);
   font: 9px var(--mono);
 }
-.bowling-stats-view .table-wrap {
-  max-width: 100%;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-}
-.bowling-stats-view table {
-  min-width: 950px;
-}
-.bowling-stats-view th,
-.bowling-stats-view td {
-  white-space: nowrap;
-}
-.bowling-stats-view .bowling-wickets-cell {
-  color: var(--cyan);
-  font-weight: 800;
-  text-align: center;
-  background: rgba(124, 229, 242, 0.08);
-}
-.bowling-stats-view .bowling-best-cell {
-  color: var(--cyan);
-  font-weight: 800;
-}
-.bowling-stats-view .bowling-card-link {
-  color: var(--orange);
-  font-weight: 800;
-}
 .bowling-data-note {
   margin-top: 14px;
   color: var(--muted);
   font-size: 10px;
   line-height: 1.6;
-}
-:root[data-theme-resolved="light"] .home-bowling-card,
-:root[data-theme-resolved="light"] .bowling-breakdown-wrap,
-:root[data-theme-resolved="light"] .bowling-innings-wrap,
-:root[data-theme-resolved="light"] .bowling-metric {
+}:root[data-theme-resolved="light"] .home-bowling-card,
+:root[data-theme-resolved="light"] .bowling-metric
+{
   background: #fff;
   color: #152235;
   border-color: rgba(18, 35, 55, 0.16);
@@ -5482,25 +4868,8 @@ option {
 :root[data-theme-resolved="light"] .home-bowling-metric span,
 :root[data-theme-resolved="light"] .bowling-metric span {
   color: #5d6d82;
-}
-:root[data-theme-resolved="light"] .bowling-format-tabs button {
-  background: #fff;
-  color: #34465c;
-  border-color: rgba(18, 35, 55, 0.2);
-}
-:root[data-theme-resolved="light"] .bowling-format-tabs button.active {
-  background: #087e91;
-  color: #fff;
-  border-color: #087e91;
-}
-:root[data-theme-resolved="light"] .bowling-stats-view .bowling-wickets-cell {
-  background: #e7f5f7;
-  color: #087e91;
-}
-:root[data-theme-resolved="light"] .bowling-stats-view .bowling-best-cell {
-  color: #087e91;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   .home-bowling-card {
     padding: 12px;
     margin: 10px 0 18px;
@@ -5518,9 +4887,6 @@ option {
   .home-bowling-metric strong {
     font-size: 18px;
   }
-  .bowling-stats-view {
-    padding: 25px 3.5vw !important;
-  }
   .bowling-summary {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 5px;
@@ -5531,11 +4897,6 @@ option {
   .bowling-metric strong {
     font-size: 20px;
   }
-  .bowling-breakdown-wrap,
-  .bowling-innings-wrap {
-    padding: 9px;
-    margin: 12px 0;
-  }
   .bowling-subheading h3 {
     font-size: 21px;
   }
@@ -5543,12 +4904,9 @@ option {
     font-size: 8px;
     padding: 8px;
   }
-  .bowling-format-tabs button {
-    padding: 8px 9px;
-    font-size: 9px;
-  }
-}
-@media (max-width: 420px) {
+
+}@media (max-width: 420px) {
+
   .home-bowling-heading {
     align-items: flex-start;
     flex-direction: column;
@@ -5571,6 +4929,7 @@ option {
   .bowling-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
 }
 
 /* Mobile custom-select readability fix (2026-10). */
@@ -5619,8 +4978,8 @@ option {
 }
 .cs-option-mark {
   flex-shrink: 0;
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
+
   .cs-dialog {
     width: 100%;
   }
@@ -5637,6 +4996,7 @@ option {
   .cs-option-label {
     font-size: 13px;
   }
+
 }
 
 /* Homepage bowling snapshot: match the batting format cards and stay readable on phones. */
@@ -5684,8 +5044,8 @@ option {
 }
 :root[data-theme-resolved="light"] .home-bowling-format-wickets {
   color: #152235;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   .home-bowling-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 7px;
@@ -5699,464 +5059,45 @@ option {
   .home-bowling-format-detail {
     font-size: 8px;
   }
-}
-@media (max-width: 360px) {
+
+}@media (max-width: 360px) {
+
   .home-bowling-stats {
     grid-template-columns: 1fr 1fr;
   }
   .home-bowling-format-name {
     font-size: 8px;
   }
-}
 
-/* Explore: complete Statsguru-style category selector */
-.statsguru-category-grid {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 5px 2px 14px;
-  margin: 18px 0 20px;
-  scroll-snap-type: x proximity;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-}
-.statsguru-category-grid button {
-  flex: 0 0 auto;
-  max-width: 250px;
-  white-space: nowrap;
-  scroll-snap-align: start;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  color: var(--muted);
-  padding: 12px 15px;
-  font: 600 11px var(--body);
-  cursor: pointer;
-  border-radius: 5px;
-}
-.statsguru-category-grid button.active {
-  background: var(--orange);
-  border-color: var(--orange);
-  color: #101522;
-}
-.statsguru-category-grid button:focus-visible {
-  outline: 2px solid var(--cyan);
-  outline-offset: 2px;
-}
-.sg-data-unavailable {
-  padding: 18px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.8;
-}
-.sg-data-unavailable a {
-  display: inline-block;
-  color: var(--cyan);
-  margin-left: 5px;
-}
+}/* Explore: complete Statsguru-style category selector */
 @media (max-width: 600px) {
-  .statsguru-category-grid {
-    margin-left: -2vw;
-    margin-right: -2vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
-  }
-  .statsguru-category-grid button {
-    padding: 11px 12px;
-    font-size: 10px;
-  }
-  .statsguru-summary {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
+
 }
 
-/* Stats summary: keep the cards uniform; retain the original orange Runs highlight. */
-.statsguru-summary .statsguru-metric {
-  position: relative;
-  overflow: hidden;
-  border-top: 2px solid var(--line);
-  background: var(--panel);
-}
-.statsguru-summary .statsguru-metric span {
-  color: var(--muted);
-}
-.statsguru-summary .statsguru-metric strong {
-  color: var(--white);
-}
-.statsguru-summary .statsguru-metric:nth-child(4) {
-  border-top-color: #ff8a5b;
-  background: color-mix(in srgb, #ff8a5b 7%, var(--panel));
-}
-.statsguru-summary .statsguru-metric:nth-child(4) strong {
-  color: #ff9a70;
-}
-
-/* Keep the Explore table clean and neutral, with Runs highlighted in orange. */
-.statsguru-panel .table-wrap th,
-.statsguru-panel .table-wrap td {
-  border-bottom-color: color-mix(in srgb, var(--line) 78%, transparent);
-}
-.statsguru-panel .table-wrap th:not(.sg-head-runs) {
-  box-shadow: none;
-}
-.statsguru-panel .table-wrap td:not(.sg-cell-runs) {
-  box-shadow: none;
-}
-.statsguru-panel .table-wrap th.sg-head-runs,
-.statsguru-panel .table-wrap .sg-cell-runs {
-  --column-accent: #ff8a5b;
-}
-.statsguru-panel .table-wrap th.sg-head-runs {
-  box-shadow: inset 0 -2px 0 #ff8a5b;
-}
-.statsguru-panel .table-wrap .sg-cell-runs {
-  background: color-mix(in srgb, #ff8a5b 10%, var(--panel));
-  color: #ff9a70;
-  font-weight: 700;
-}
-.statsguru-panel .table-wrap tbody tr:hover td:not(.sg-cell-runs) {
-  background: var(--panel);
-}
-:root[data-theme-resolved="light"] .statsguru-summary .statsguru-metric {
-  background: #fff;
-}
-:root[data-theme-resolved="light"] .statsguru-summary .statsguru-metric strong {
-  color: #152235;
-}
-:root[data-theme-resolved="light"] .statsguru-summary .statsguru-metric:nth-child(4) {
-  background: #fff0e8;
-}
-:root[data-theme-resolved="light"] .statsguru-summary .statsguru-metric:nth-child(4) strong {
-  color: #b84219;
-}
-:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-runs {
-  background: #fff0e8;
-  color: #b84219;
-}
+/* Stats summary: keep the cards uniform;/* Keep the Explore table clean and neutral, with Runs highlighted in orange. */
 @media (max-width: 600px) {
-  .statsguru-summary .statsguru-metric {
-    padding: 10px 8px;
-  }
-  .statsguru-summary .statsguru-metric span {
-    font-size: 8px;
-  }
-  .statsguru-summary .statsguru-metric strong {
-    font-size: clamp(18px, 5vw, 24px);
-  }
+
+
 }
 
 /* Consistent restrained colour accents for tables and cards across every stats section. */
 :root {
   --stats-accent: #7ce5f2;
   --stats-accent-soft: rgba(124, 229, 242, 0.075);
-}
-.stats-section .stat-card,
-.stats-section .home-format-card,
-.stats-section .statsguru-metric,
-.stats-section .bowling-metric,
-.stats-section .bowling-breakdown-wrap,
-.stats-section .bowling-innings-wrap {
-  border-color: var(--line);
-}
-.stats-section .stat-card:not(.stat-feature),
-.stats-section .statsguru-metric,
-.stats-section .bowling-metric {
-  border-top: 2px solid var(--stats-accent);
-}
-.stats-section .stat-card:not(.stat-feature) .stat-label,
-.stats-section .statsguru-metric span,
-.stats-section .bowling-metric span {
-  color: var(--muted);
-}
-.stats-section .format-card .format-detail {
-  color: var(--muted);
-}
-.stats-section .career-formats .format-card {
-  background: var(--panel);
-  border-top: 2px solid var(--stats-accent);
-}
-.stats-section .career-formats .format-card strong {
-  color: var(--white);
-}
-.stats-section .statsguru-panel .table-wrap th,
-.stats-section .bowling-stats-view .table-wrap th {
-  background: var(--panel2);
-  color: #b9cce6;
-  border-bottom: 1px solid var(--line);
-  box-shadow: inset 0 -2px 0 rgba(124, 229, 242, 0.55);
-}
-.stats-section .statsguru-panel .table-wrap td,
-.stats-section .bowling-stats-view .table-wrap td {
-  border-bottom: 1px solid var(--line);
-}
-.stats-section .statsguru-panel .table-wrap tbody tr:nth-child(even),
-.stats-section .bowling-stats-view .table-wrap tbody tr:nth-child(even) {
-  background: rgba(124, 229, 242, 0.025);
-}
-.stats-section .statsguru-panel .table-wrap tbody tr:hover td:not(.sg-cell-runs),
-.stats-section .bowling-stats-view .table-wrap tbody tr:hover td {
-  background: rgba(124, 229, 242, 0.065);
-}
-.stats-section .bowling-stats-view .bowling-wickets-cell,
-.stats-section .bowling-stats-view .bowling-best-cell {
-  color: var(--stats-accent);
-  background: var(--stats-accent-soft);
-}
-.stats-section .statsguru-panel .table-wrap th.sg-head-runs {
-  background: var(--panel2);
-  color: #ff9a70;
-  box-shadow: inset 0 -2px 0 #ff8a5b;
-}
-.stats-section .statsguru-panel .table-wrap .sg-cell-runs {
-  background: rgba(255, 138, 91, 0.1);
-  color: #ff9a70;
-  font-weight: 800;
-}
-:root[data-theme-resolved="light"] .stats-section .career-formats .format-card,
-:root[data-theme-resolved="light"] .stats-section .statsguru-metric,
-:root[data-theme-resolved="light"] .stats-section .bowling-metric,
-:root[data-theme-resolved="light"] .stats-section .bowling-breakdown-wrap,
-:root[data-theme-resolved="light"] .stats-section .bowling-innings-wrap {
-  background: #fff;
-}
-:root[data-theme-resolved="light"] .stats-section .career-formats .format-card strong,
-:root[data-theme-resolved="light"] .stats-section .statsguru-metric strong,
-:root[data-theme-resolved="light"] .stats-section .bowling-metric strong {
-  color: #152235;
-}
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th,
-:root[data-theme-resolved="light"] .stats-section .bowling-stats-view .table-wrap th {
-  background: #edf3f9;
-  color: #34465c;
-  box-shadow: inset 0 -2px 0 rgba(8, 126, 145, 0.4);
-}
-:root[data-theme-resolved="light"]
-  .stats-section
-  .statsguru-panel
-  .table-wrap
-  tbody
-  tr:nth-child(even),
-:root[data-theme-resolved="light"]
-  .stats-section
-  .bowling-stats-view
-  .table-wrap
-  tbody
-  tr:nth-child(even) {
-  background: #f7fafc;
-}
-:root[data-theme-resolved="light"]
-  .stats-section
-  .statsguru-panel
-  .table-wrap
-  tbody
-  tr:hover
-  td:not(.sg-cell-runs),
-:root[data-theme-resolved="light"]
-  .stats-section
-  .bowling-stats-view
-  .table-wrap
-  tbody
-  tr:hover
-  td {
-  background: #eaf5f8;
-}
-@media (max-width: 600px) {
-  .stats-section .statsguru-panel .table-wrap th,
-  .stats-section .bowling-stats-view .table-wrap th {
-    padding: 8px 9px;
-    font-size: 8px;
-  }
-}
+}@media (max-width: 600px) {
 
-/* Runs must stay highlighted after the global Stats table theme rules. */
-.stats-section .statsguru-panel .table-wrap th.sg-head-runs {
-  background: color-mix(in srgb, #ff8a5b 18%, var(--panel2)) !important;
-  color: #ffad8b !important;
-  box-shadow: inset 0 -3px 0 #ff8a5b !important;
-  border-bottom-color: #ff8a5b !important;
-}
-.stats-section .statsguru-panel .table-wrap td.sg-cell-runs {
-  background: rgba(255, 138, 91, 0.12) !important;
-  color: #ffad8b !important;
-  font-weight: 800 !important;
-  font-variant-numeric: tabular-nums;
-}
-.stats-section .statsguru-panel .table-wrap tbody tr:hover td.sg-cell-runs {
-  background: rgba(255, 138, 91, 0.22) !important;
-}
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th.sg-head-runs {
-  background: #ffeadf !important;
-  color: #9c3516 !important;
-  box-shadow: inset 0 -3px 0 #d95d30 !important;
-  border-bottom-color: #d95d30 !important;
-}
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap td.sg-cell-runs {
-  background: #fff0e8 !important;
-  color: #a43d1b !important;
-}
 
+}/* Runs must stay highlighted after the global Stats table theme rules. */
 /* Main Batting career summary: Runs card matches the neutral stat cards. */
-.stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature,
-.stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature:hover {
-  background: var(--panel) !important;
-  color: var(--white);
-  border-color: var(--line) !important;
-  border-top: 2px solid var(--stats-accent, #7ce5f2) !important;
-}
-.stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature .stat-label,
-.stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature .stat-note {
-  color: var(--muted) !important;
-}
-.stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature strong {
-  color: var(--white) !important;
-}
-:root[data-theme-resolved="light"]
-  .stats-section
-  #stats-overview
-  .stats-grid:not(.career-formats)
-  .stat-feature,
-:root[data-theme-resolved="light"]
-  .stats-section
-  #stats-overview
-  .stats-grid:not(.career-formats)
-  .stat-feature:hover {
-  background: #fff !important;
-  color: #152235;
-  border-color: rgba(18, 35, 55, 0.16) !important;
-  border-top-color: #7ce5f2 !important;
-}
-:root[data-theme-resolved="light"]
-  .stats-section
-  #stats-overview
-  .stats-grid:not(.career-formats)
-  .stat-feature
-  strong {
-  color: #152235 !important;
-}
-:root[data-theme-resolved="light"]
-  .stats-section
-  #stats-overview
-  .stats-grid:not(.career-formats)
-  .stat-feature
-  .stat-label,
-:root[data-theme-resolved="light"]
-  .stats-section
-  #stats-overview
-  .stats-grid:not(.career-formats)
-  .stat-feature
-  .stat-note {
-  color: #5d6d82 !important;
-}
-
 /* Explore category menu: wrap onto new rows instead of requiring horizontal scrolling. */
-.statsguru-category-grid {
-  display: flex;
-  flex-wrap: wrap;
-  overflow: visible;
-  scroll-snap-type: none;
-  gap: 8px;
-  padding: 5px 2px 10px;
-}
-.statsguru-category-grid button {
-  flex: 0 1 auto;
-  max-width: 100%;
-  white-space: normal;
-  line-height: 1.35;
-  overflow-wrap: anywhere;
-}
 @media (max-width: 600px) {
-  .statsguru-category-grid {
-    overflow: visible;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-    gap: 6px;
-  }
-  .statsguru-category-grid button {
-    flex: 0 1 auto;
-    max-width: 100%;
-    white-space: normal;
-    padding: 9px 10px;
-    font-size: 10px;
-  }
-}
 
-/* Make every Statsguru table header cell clearly highlighted, including on mobile. */
-.stats-section .statsguru-panel .table-wrap th {
-  background: color-mix(in srgb, var(--stats-accent) 16%, var(--panel2));
-  color: #d8f7fb;
-  box-shadow: inset 0 -3px 0 var(--stats-accent);
-  border-bottom-color: var(--stats-accent);
-  font-weight: 800;
-}
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th {
-  background: #dff5f8;
-  color: #16394b;
-  box-shadow: inset 0 -3px 0 #168da0;
-  border-bottom-color: #168da0;
-}
 
+}/* Make every Statsguru table header cell clearly highlighted, including on mobile. */
 /* Restore the Runs-column accent across Explore tables (the neutral override was hiding it). */
-.stats-section .statsguru-panel .table-wrap th.sg-head-runs,
-.stats-section .statsguru-panel .table-wrap th:has(+ td.sg-cell-runs) {
-  background: color-mix(in srgb, #ff8a5b 18%, var(--panel2)) !important;
-  color: #ffad8b !important;
-  box-shadow: inset 0 -3px 0 #ff8a5b !important;
-}
-.stats-section .statsguru-panel .table-wrap td.sg-cell-runs {
-  background: rgba(255, 138, 91, 0.12) !important;
-  color: #ffad8b !important;
-  font-weight: 800 !important;
-}
-.stats-section .statsguru-panel .table-wrap tbody tr:hover td.sg-cell-runs {
-  background: rgba(255, 138, 91, 0.2) !important;
-}
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th.sg-head-runs {
-  background: #ffeadf !important;
-  color: #9c3516 !important;
-  box-shadow: inset 0 -3px 0 #d95d30 !important;
-}
-:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap td.sg-cell-runs {
-  background: #fff0e8 !important;
-  color: #a43d1b !important;
-}
-
 /* Statsguru: show the complete analysis chooser when the filter is expanded. */
-.sg-analysis-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  margin: 12px 0;
-  padding: 12px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  min-width: 0;
-}
-.sg-analysis-options legend {
-  padding: 0 6px;
-  color: var(--cyan);
-  font: 800 10px var(--mono);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-}
-.sg-analysis-options label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--text);
-  font-size: 11px;
-  line-height: 1.5;
-}
-.sg-analysis-options input {
-  accent-color: var(--orange);
-}
-.sg-view-options {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px 16px;
-}
+
 .match-history-summary {
   margin: 18px 0;
   padding: 14px;
@@ -6229,26 +5170,15 @@ option {
 }
 .recent-innings-table-wrap {
   margin-top: 18px;
-}
-:root[data-theme-resolved="light"] .sg-analysis-options,
-:root[data-theme-resolved="light"] .match-history-summary,
-:root[data-theme-resolved="light"] .player-match-milestone {
+}:root[data-theme-resolved="light"] .match-history-summary,
+:root[data-theme-resolved="light"] .player-match-milestone
+{
   background: #fff;
 }
 :root[data-theme-resolved="light"] .player-match-milestone > b {
   color: #087e91;
-}
-@media (max-width: 650px) {
-  .sg-analysis-options {
-    gap: 9px 12px;
-    padding: 10px;
-  }
-  .sg-view-options {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .sg-analysis-options label {
-    font-size: 10px;
-  }
+}@media (max-width: 650px) {
+
   .player-match-milestones {
     grid-template-columns: 1fr;
   }
@@ -6266,10 +5196,10 @@ option {
   .match-history-head select {
     flex: 1;
   }
-}
 
-/* Compact phone profile: keep the player portrait prominent without letting copy dominate. */
+}/* Compact phone profile: keep the player portrait prominent without letting copy dominate. */
 @media (max-width: 650px) {
+
   .profile-section {
     display: grid;
     grid-template-columns: 104px minmax(0, 1fr);
@@ -6416,8 +5346,9 @@ option {
     font-size: clamp(23px, 6.5vw, 30px);
     line-height: 1.05;
   }
-}
-@media (max-width: 390px) {
+
+}@media (max-width: 390px) {
+
   .profile-section {
     grid-template-columns: 92px minmax(0, 1fr);
     gap: 10px;
@@ -6448,10 +5379,10 @@ option {
   .home-snapshot-heading h2 {
     font-size: 25px !important;
   }
-}
 
-/* Strong compact mode for narrow phone viewports: prioritize the cricket content. */
+}/* Strong compact mode for narrow phone viewports: prioritize the cricket content. */
 @media (max-width: 650px) {
+
   main #profile.profile-section {
     grid-template-columns: 86px minmax(0, 1fr) !important;
     gap: 10px !important;
@@ -6555,8 +5486,9 @@ option {
   #home-snapshot .home-mini-stat strong {
     font-size: 25px !important;
   }
-}
-@media (max-width: 390px) {
+
+}@media (max-width: 390px) {
+
   main #profile.profile-section {
     grid-template-columns: 78px minmax(0, 1fr) !important;
     gap: 8px !important;
@@ -6578,10 +5510,10 @@ option {
     font-size: 8px !important;
     padding: 6px !important;
   }
-}
 
-/* Restore a large, prominent Tilak portrait on mobile while keeping text compact. */
+}/* Restore a large, prominent Tilak portrait on mobile while keeping text compact. */
 @media (max-width: 650px) {
+
   main #profile.profile-section {
     grid-template-columns: minmax(118px, 34%) minmax(0, 1fr) !important;
     gap: 12px !important;
@@ -6602,8 +5534,9 @@ option {
     object-fit: cover !important;
     object-position: center 18% !important;
   }
-}
-@media (max-width: 390px) {
+
+}@media (max-width: 390px) {
+
   main #profile.profile-section {
     grid-template-columns: minmax(108px, 34%) minmax(0, 1fr) !important;
     gap: 9px !important;
@@ -6612,6 +5545,7 @@ option {
     height: clamp(166px, 50vw, 200px) !important;
     min-height: 166px !important;
   }
+
 }
 
 /* Squad-confirmed upcoming fixtures in the Matches section. */
@@ -6708,8 +5642,8 @@ option {
 .upcoming-matches-foot {
   margin-top: 13px;
   font-size: 10px;
-}
-@media (max-width: 650px) {
+}@media (max-width: 650px) {
+
   .upcoming-matches-panel {
     padding: 14px;
     border-radius: 14px;
@@ -6732,6 +5666,7 @@ option {
   .upcoming-match-teams {
     font-size: 16px;
   }
+
 }
 
 /* Keep debut/last-match cards grouped directly beneath the upcoming fixtures. */
@@ -6752,12 +5687,13 @@ option {
 }
 .upcoming-matches-panel .match-history-summary-nested .home-bowling-updated {
   margin-bottom: 0;
-}
-@media (max-width: 650px) {
+}@media (max-width: 650px) {
+
   .upcoming-matches-panel .match-history-summary-nested {
     margin-top: 16px;
     padding-top: 14px;
   }
+
 }
 
 /* Debut/last-match cards sit below, not inside, the upcoming fixtures panel. */
@@ -6947,13 +5883,14 @@ option {
   margin: 18px 0 0;
   color: var(--muted);
   font: 10px/1.8 var(--mono);
-}
-@media (max-width: 900px) {
+}@media (max-width: 900px) {
+
   .fan-zone-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
-@media (max-width: 600px) {
+
+}@media (max-width: 600px) {
+
   .fan-zone-grid {
     grid-template-columns: 1fr;
     gap: 11px;
@@ -6972,6 +5909,7 @@ option {
   .fan-chant-line {
     font-size: 24px;
   }
+
 }
 
 /* Official BCCI video hub */
@@ -7171,13 +6109,14 @@ option {
 }
 body.bcci-player-open {
   overflow: hidden;
-}
-@media (max-width: 900px) {
+}@media (max-width: 900px) {
+
   .bcci-video-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
-@media (max-width: 560px) {
+
+}@media (max-width: 560px) {
+
   .bcci-video-grid {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -7220,6 +6159,7 @@ body.bcci-player-open {
   .bcci-video-panel {
     padding: 10px;
   }
+
 }
 
 /* Full-page style BCCI/Shaka experience with a Tilak-only Up Next queue */
@@ -7433,8 +6373,8 @@ body.bcci-player-open {
 .bcci-up-next-empty {
   color: #a9bee9;
   font-size: 13px;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   .bcci-video-modal {
     padding: 0;
     place-items: stretch;
@@ -7470,6 +6410,7 @@ body.bcci-player-open {
   .bcci-up-next-copy strong {
     font-size: 14px;
   }
+
 }
 
 /* Fan gallery: two columns on phones and four on desktop. */
@@ -7486,17 +6427,19 @@ body.bcci-player-open {
   aspect-ratio: 4 / 3;
   object-fit: cover;
   background: #030812;
-}
-@media (max-width: 700px) {
+}@media (max-width: 700px) {
+
   .cricinfo-photo-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
   }
-}
-@media (min-width: 701px) and (max-width: 1000px) {
+
+}@media (min-width: 701px) and (max-width: 1000px) {
+
   .cricinfo-photo-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
 }
 .bcci-profile-photo-card {
   overflow: hidden;
@@ -7575,8 +6518,8 @@ body.bcci-player-open {
   color: var(--muted);
   font-size: 12px;
   line-height: 1.6;
-}
-@media (max-width: 560px) {
+}@media (max-width: 560px) {
+
   .cricinfo-photo-grid {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -7586,12 +6529,16 @@ body.bcci-player-open {
   .bcci-profile-photo-open {
     max-height: 520px;
   }
-}
-@media (max-width: 900px) {
-}
-@media (max-width: 600px) {
-}
-@media (max-width: 600px) {
+
+}@media (max-width: 900px) {
+
+
+}@media (max-width: 600px) {
+
+
+}@media (max-width: 600px) {
+
+
 }
 @keyframes mc-live-pulse {
   0%,
@@ -7611,29 +6558,38 @@ body.bcci-player-open {
   to {
     width: 88%;
   }
-}
-@media (prefers-reduced-motion: reduce) {
-}
-@media (max-width: 600px) {
-}
-@media (max-width: 520px) {
-}
-@media (min-width: 900px) {
-}
-@media (max-width: 760px) {
-}
-@media (max-width: 420px) {
-}
-@media (max-height: 540px) and (min-width: 761px) {
+}@media (prefers-reduced-motion: reduce) {
+
+
+}@media (max-width: 600px) {
+
+
+}@media (max-width: 520px) {
+
+
+}@media (min-width: 900px) {
+
+
+}@media (max-width: 760px) {
+
+
+}@media (max-width: 420px) {
+
+
+}@media (max-height: 540px) and (min-width: 761px) {
+
+
 }
 
 /* Compact innings scorecards: one clean scroll{
   align-items: start;
   gap: 12px;
-}
-@media (max-width: 760px) {
-}
-@media (min-width: 761px) {
+}@media (max-width: 760px) {
+
+
+}@media (min-width: 761px) {
+
+
 }
 .home-debut-history {
   margin: 24px 0;
@@ -7649,12 +6605,13 @@ body.bcci-player-open {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
   gap: 10px;
-}
-@media (max-width: 700px) {
+}@media (max-width: 700px) {
+
   .home-debut-history {
     padding: 14px;
     margin: 18px 0;
   }
+
 }
 
 /* Compact playback quality control over the Shaka video surface. */
@@ -7702,8 +6659,8 @@ body.bcci-player-open {
 }
 #bcci-player-error {
   display: none;
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
+
   .bcci-player-options {
     left: 8px;
     bottom: 48px;
@@ -7719,6 +6676,7 @@ body.bcci-player-open {
     min-width: 112px;
     font-size: 11px;
   }
+
 }
 
 /* Player settings: compact gear button; quality menu opens on demand. */
@@ -7821,8 +6779,8 @@ body.bcci-player-open {
   color: #91a8c5;
   font-size: 11px;
   line-height: 1.45;
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
+
   .bcci-player-options {
     right: 9px;
     bottom: 46px;
@@ -7840,6 +6798,7 @@ body.bcci-player-open {
     bottom: 46px;
     padding: 12px;
   }
+
 }
 
 /* Keep video settings in the top player bar, away from the playing picture. */
@@ -7925,8 +6884,8 @@ body.bcci-player-open {
 .bcci-video-download-button:disabled {
   opacity: 0.6;
   cursor: wait;
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
+
   .bcci-player-head-actions {
     gap: 6px;
   }
@@ -7947,6 +6906,7 @@ body.bcci-player-open {
     top: 8px;
     right: 8px;
   }
+
 }
 
 /* Settings popover is anchored to the header, never over the playing picture. */
@@ -7963,12 +6923,13 @@ body.bcci-player-open {
 }
 .bcci-player-options {
   display: none !important;
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
+
   .bcci-player-head-actions .bcci-player-settings-menu {
     top: calc(100% + 8px);
     right: 42px;
   }
+
 }
 
 /* Center the quality control in the video header; keep close at the far right. */
@@ -8002,8 +6963,8 @@ body.bcci-player-open {
   bottom: auto;
   transform: translateX(-50%);
   width: min(260px, calc(100vw - 34px));
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
+
   .bcci-player-head-actions .bcci-quality-head-button {
     min-height: 32px;
     padding: 5px 8px;
@@ -8019,6 +6980,7 @@ body.bcci-player-open {
     left: 50%;
     right: auto;
   }
+
 }
 
 /* Video hub quality popover: tidy, readable and anchored below the centered header control. */
@@ -8119,8 +7081,8 @@ body.bcci-player-open {
 .bcci-player-head-actions .bcci-quality-head-button svg {
   width: 17px;
   height: 17px;
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
+
   .bcci-player-head-actions .bcci-player-settings-menu {
     top: calc(100% + 8px);
     left: 50%;
@@ -8134,6 +7096,7 @@ body.bcci-player-open {
     padding: 7px 10px;
     font-size: 11px;
   }
+
 }
 
 /* Video Hub quality menu: clean compact dropdown anchored to the top bar */
@@ -8208,8 +7171,8 @@ body.bcci-player-open {
   color: #9db1cc;
   font-size: 12px;
   line-height: 1.45;
-}
-@media (max-width: 600px) {
+}@media (max-width: 600px) {
+
   .bcci-player-head-actions {
     gap: 7px;
   }
@@ -8223,6 +7186,7 @@ body.bcci-player-open {
     right: 0 !important;
     width: 250px;
   }
+
 }
 
 /* Video quality control: compact, readable, and anchored to the player header. */
@@ -8288,8 +7252,8 @@ body.bcci-player-open {
   background: #101f34;
   color: #fff;
   font: inherit;
-}
-@media (max-width: 600px) {
+}@media (max-width: 600px) {
+
   .bcci-player-head-actions .bcci-quality-head-button {
     min-height: 34px;
     padding: 7px 10px;
@@ -8302,6 +7266,7 @@ body.bcci-player-open {
     width: min(250px, calc(100vw - 32px));
     padding: 14px;
   }
+
 }
 
 /* Fix custom option picker scrolling on desktop and touch devices. */
@@ -8346,13 +7311,14 @@ body.bcci-player-open {
 .bcci-player-head-actions .bcci-quality-head-button {
   gap: 0 !important;
   min-width: 76px;
-}
-@media (max-width: 600px) {
+}@media (max-width: 600px) {
+
   .bcci-player-head-actions .bcci-player-settings-menu {
     left: 0 !important;
     right: auto !important;
     width: min(250px, calc(100vw - 28px));
   }
+
 }
 
 /* Emergency hardening: keep custom option dialogs above every section and fully scrollable. */
@@ -8488,8 +7454,8 @@ textarea {
   color: var(--cyan, #7ce5f2);
   font: 10px var(--mono, monospace);
   letter-spacing: 0.08em;
-}
-@media (max-width: 600px) {
+}@media (max-width: 600px) {
+
   body {
     font-size: 14px;
   }
@@ -8502,6 +7468,7 @@ textarea {
   .admin-gallery-card .bcci-profile-photo-caption {
     padding: 10px;
   }
+
 }
 
 /* Records and milestones: clearer hierarchy and responsive cards. */
@@ -8647,8 +7614,8 @@ textarea {
 }
 .bcci-player-screen-overlay {
   z-index: 1;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   .bcci-video-modal {
     overflow: hidden;
   }
@@ -8679,6 +7646,7 @@ textarea {
   .bcci-up-next-panel {
     padding-bottom: max(24px, env(safe-area-inset-bottom));
   }
+
 }
 
 /* Replace the jersey-number brand tile with Tilak's auto-refreshed profile PNG. */
@@ -8705,13 +7673,14 @@ textarea {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
   -webkit-backdrop-filter: saturate(155%) blur(22px);
   backdrop-filter: saturate(155%) blur(22px);
-}
-@supports (background: color-mix(in srgb, black, transparent)) {
+}@supports (background: color-mix(in srgb, black, transparent)) {
+
   .topbar {
     background: color-mix(in srgb, var(--panel2) 76%, transparent);
   }
-}
-@media (max-width: 900px) {
+
+}@media (max-width: 900px) {
+
   .topbar nav,
   nav.open {
     background: rgba(7, 16, 31, 0.78);
@@ -8727,8 +7696,9 @@ textarea {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
   }
-}
-@media (prefers-reduced-transparency: reduce) {
+
+}@media (prefers-reduced-transparency: reduce) {
+
   .topbar,
   .topbar nav,
   nav.open {
@@ -8736,6 +7706,7 @@ textarea {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+
 }
 
 /* Custom picker emergency fix: keep the dialog visible above blurred backdrop. */
@@ -8778,8 +7749,8 @@ body > .cs-overlay .cs-dialog-title,
 body > .cs-overlay .cs-kicker {
   visibility: visible !important;
   opacity: 1 !important;
-}
-@media (max-width: 760px), (pointer: coarse) and (max-width: 899px) {
+}@media (max-width: 760px), (pointer: coarse) and (max-width: 899px) {
+
   body > .cs-overlay.is-mobile {
     display: flex !important;
     align-items: flex-end !important;
@@ -8800,10 +7771,10 @@ body > .cs-overlay .cs-kicker {
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
   }
-}
 
-/* FINAL PROFILE LAYOUT OVERRIDE — override legacy narrow-phone !important rules. */
+}/* FINAL PROFILE LAYOUT OVERRIDE — override legacy narrow-phone !important rules. */
 @media (max-width: 800px) {
+
   html body main #profile.profile-section {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
@@ -8925,8 +7896,9 @@ body > .cs-overlay .cs-kicker {
     padding: 10px 15px !important;
     font-size: 13px !important;
   }
-}
-@media (max-width: 380px) {
+
+}@media (max-width: 380px) {
+
   html body main #profile.profile-section {
     padding-inline: 12px !important;
     gap: 15px !important;
@@ -8938,6 +7910,7 @@ body > .cs-overlay .cs-kicker {
     font-size: 9px !important;
     padding: 7px 8px !important;
   }
+
 }
 
 /* COMPACT PROFILE HERO v4 — smaller portrait, tighter team panel, subtle India-blue background. */
@@ -8949,8 +7922,8 @@ body > .cs-overlay .cs-kicker {
 }
 #profile.profile-section:before {
   border-color: rgba(116, 190, 235, 0.075) !important;
-}
-@media (max-width: 800px) {
+}@media (max-width: 800px) {
+
   html body main #profile.profile-section {
     gap: 13px !important;
     padding: 13px 13px 18px !important;
@@ -9048,8 +8021,9 @@ body > .cs-overlay .cs-kicker {
     padding: 9px 13px !important;
     font-size: 12px !important;
   }
-}
-@media (min-width: 801px) {
+
+}@media (min-width: 801px) {
+
   html body main #profile.profile-section {
     grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.15fr) !important;
     gap: clamp(22px, 3vw, 42px) !important;
@@ -9064,6 +8038,7 @@ body > .cs-overlay .cs-kicker {
   html body main #profile .profile-teams-heading h3 {
     margin-top: 5px !important;
   }
+
 }
 
 /* Compact BCCI identity badge; informational fan-profile marker, not an endorsement. */
@@ -9102,8 +8077,8 @@ body > .cs-overlay .cs-kicker {
   width: 23px;
   height: 23px;
   object-fit: contain;
-}
-@media (max-width: 800px) {
+}@media (max-width: 800px) {
+
   .profile-eyebrow-row {
     margin-bottom: 6px;
     gap: 8px;
@@ -9116,43 +8091,9 @@ body > .cs-overlay .cs-kicker {
     width: 20px;
     height: 20px;
   }
-}
 
-/* Format selectors: keep every option visible on phones without horizontal scrolling. */
-.statsguru-format-tabs,
-.bowling-format-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  overflow-x: visible;
-  overflow-y: visible;
-  max-width: 100%;
-  white-space: normal;
-  align-items: stretch;
-}
-.statsguru-format-tabs button,
-.bowling-format-tabs button {
-  flex: 0 1 auto;
-  min-width: 0;
-  max-width: 100%;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  text-align: center;
-}
+}/* Format selectors: keep every option visible on phones without horizontal scrolling. */
 @media (max-width: 600px) {
-  .statsguru-format-tabs,
-  .bowling-format-tabs {
-    gap: 7px;
-    padding: 8px 0 12px;
-  }
-  .statsguru-format-tabs button,
-  .bowling-format-tabs button {
-    padding: 10px 12px;
-    font-size: 12px;
-    line-height: 1.25;
-    min-height: 42px;
-  }
-  .statsguru-format-tabs button[data-sg-format="T20"],
-  .bowling-format-tabs button[data-bowling-format="T20"] {
-    flex: 1 1 145px;
-  }
+
+
 }
