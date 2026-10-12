@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T20:24:22.285Z",
+  "checkedAt": "2026-10-12T20:25:00.423Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T09:07:37.721Z",
-      "workflow": "Admin Python diagnostics",
-      "workflowPath": ".github/workflows/admin-diagnostics.yml",
-      "runId": 38227820412,
-      "runAttempt": 1,
-      "conclusion": "success",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38227820412",
-      "action": "no_recovery_needed",
-      "reason": "No failed, cancelled, or skipped jobs require this manager.",
-      "jobCounts": {
-        "total": 1,
-        "success": 1,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T09:07:46.551Z",
       "workflow": "Format source code",
@@ -12663,6 +12642,27 @@
           ]
         }
       ]
+    },
+    {
+      "checkedAt": "2026-10-12T20:25:00.423Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38303822418,
+      "runAttempt": 2,
+      "conclusion": "success",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38303822418",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
     }
   ]
 }
