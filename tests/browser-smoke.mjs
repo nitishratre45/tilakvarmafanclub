@@ -24,6 +24,12 @@ check("default appearance is dark", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+  // Theme initialization now runs after the asynchronous Stats module mount.
+  // Wait for the theme script to apply its default instead of asserting too early.
+  await page.waitForFunction(
+    () => document.documentElement.getAttribute("data-theme") !== null,
+    { timeout: 8000 },
+  );
   const theme = await page.locator("html").getAttribute("data-theme");
   assert.equal(theme, "dark", "Expected dark theme by default");
   await page.close();
