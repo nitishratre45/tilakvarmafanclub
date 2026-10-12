@@ -2678,7 +2678,7 @@
         async function load() {
           document.getElementById("feed-status").textContent = "CONNECTING";
           try {
-            const r = await fetch(URL_DATA, { cache: "no-store" });
+            const r = await fetch(`${URL_DATA}?v=${Date.now()}`, { cache: "no-store" });
             if (!r.ok) throw Error("HTTP " + r.status);
             root = await r.json();
             fs.replaceChildren();
