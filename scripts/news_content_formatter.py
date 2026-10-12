@@ -198,7 +198,10 @@ def main():
     doc["news"] = combined
     doc["matchedCount"] = len(combined)
     doc["newMatches"] = len(output)
-    doc["archivePreservation"] = {"existingRecordsPreserved": len(previous), "mergedRecords": len(combined)}
+    doc["archivePreservation"] = {
+        "existingRecordsPreserved": len(previous),
+        "mergedRecords": len(combined),
+    }
     doc["contentFormatter"] = {
         "checkedAt": datetime.now(timezone.utc).isoformat(),
         "liveUrlsMatched": sum(bool(x.get("livePageVerified")) for x in output),
