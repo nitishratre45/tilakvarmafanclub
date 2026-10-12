@@ -1,59 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T21:12:48.858Z",
+  "checkedAt": "2026-10-12T21:15:32.540Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T09:19:54.062Z",
-      "workflow": "Format source code",
-      "workflowPath": ".github/workflows/format-code.yml",
-      "runId": 38229126933,
-      "runAttempt": 1,
-      "conclusion": "failure",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38229126933",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 1,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "format",
-          "conclusion": "failure",
-          "startedAt": "2026-10-12T09:19:27Z",
-          "completedAt": "2026-10-12T09:19:45Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38229126933/job/114743986884",
-          "steps": [
-            {
-              "name": "Format Python scripts",
-              "conclusion": "failure",
-              "number": 6
-            },
-            {
-              "name": "Commit formatting changes",
-              "conclusion": "skipped",
-              "number": 7
-            },
-            {
-              "name": "Post Set up Python",
-              "conclusion": "skipped",
-              "number": 12
-            },
-            {
-              "name": "Post Set up Node.js",
-              "conclusion": "skipped",
-              "number": 13
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T09:20:02.111Z",
       "workflow": "Self-healing code guard",
@@ -12476,6 +12425,27 @@
           ]
         }
       ]
+    },
+    {
+      "checkedAt": "2026-10-12T21:15:32.540Z",
+      "workflow": "Admin Python diagnostics",
+      "workflowPath": ".github/workflows/admin-diagnostics.yml",
+      "runId": 38309456450,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38309456450",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
     }
   ]
 }
