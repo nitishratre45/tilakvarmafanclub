@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T11:43:18.755Z",
+  "checkedAt": "2026-10-12T11:43:29.792Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-11T22:25:08.392Z",
-      "workflow": "Browser smoke tests",
-      "workflowPath": ".github/workflows/browser-smoke.yml",
-      "runId": 38180284013,
-      "runAttempt": 1,
-      "conclusion": "success",
-      "event": "workflow_dispatch",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38180284013",
-      "action": "no_recovery_needed",
-      "reason": "No failed, cancelled, or skipped jobs require this manager.",
-      "jobCounts": {
-        "total": 1,
-        "success": 1,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-11T22:25:16.782Z",
       "workflow": "Auto-rerun failed GitHub Actions jobs",
@@ -13795,6 +13774,36 @@
         "skipped": 0
       },
       "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T11:43:29.792Z",
+      "workflow": "Format source code",
+      "workflowPath": ".github/workflows/format-code.yml",
+      "runId": 38244438758,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38244438758",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 1,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "format",
+          "conclusion": "cancelled",
+          "startedAt": "2026-10-12T11:43:02Z",
+          "completedAt": "2026-10-12T11:43:17Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38244438758/job/114794706702",
+          "steps": []
+        }
+      ]
     }
   ]
 }
