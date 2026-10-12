@@ -101,7 +101,7 @@ def main():
         "status": (
             "error"
             if invalid or any(x["severity"] == "error" for x in findings)
-            else "warning" if findings else "healthy"
+            else "warning" if findings or newsdoc.get("contentFormatter", {}).get("findings") else "healthy"
         ),
         "jsonFilesScanned": len(json_files) + len(invalid),
         "validJsonFiles": len(json_files),
@@ -125,6 +125,7 @@ def main():
             "errors": sum(x["severity"] == "error" for x in findings),
             "warnings": sum(x["severity"] == "warning" for x in findings),
         },
+        "contentVerification": newsdoc.get("contentFormatter", {}),
         "workflow": {
             "steps": [
                 "Fetch BCCI API pages",
