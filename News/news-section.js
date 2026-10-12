@@ -12,7 +12,7 @@
   section.className = "section tv-news-section";
   section.innerHTML = `
     <div class="tv-news-heading">
-      <div><div class="tv-news-eyebrow">THE 72 CLUB · NEWS DESK</div><h2>TILAK <em>IN THE NEWS</em></h2><p>Fresh Tilak Varma stories from BCCI and cricket news sources.</p></div>
+      <div><div class="tv-news-eyebrow">THE 72 CLUB · NEWS DESK</div><h2>TILAK <em>IN THE NEWS</em></h2><p>Fresh Tilak Varma stories from the official BCCI News API.</p></div>
       <span class="tv-news-count" id="tv-news-count">SAVED STORIES</span>
     </div>
     <div class="tv-news-grid" id="tv-news-grid"><p class="tv-news-status">Loading saved Tilak Varma news…</p></div>
@@ -97,7 +97,7 @@
       allItems = (Array.isArray(data.news) ? data.news : []).map((item,index) => ({...item,id:item.id || String(index)}));
       render();
       const updated = document.getElementById("tv-news-updated");
-      updated.textContent = data.updatedAt ? `Last checked: ${dateLabel(data.updatedAt)} · Sources: BCCI + cricket news feeds` : "News data will appear after the first successful scheduled scan.";
+      updated.textContent = data.updatedAt ? `Last checked: ${dateLabel(data.updatedAt)} · Source: BCCI News API only` : "News data will appear after the first successful scheduled scan.";
     })
     .catch(() => {
       grid.innerHTML = '<div class="tv-news-empty"><span class="tv-news-empty-mark">72</span><h3>News snapshot not available</h3><p>The section is ready, but the saved news file could not be loaded.</p></div>';
