@@ -135,6 +135,7 @@ def main() -> None:
             record_match = bool(NAME_PATTERN.search(json.dumps(article["apiRecord"], ensure_ascii=False)))
             if matched_lines or title_match or record_match:
                 article["matchedLines"] = matched_lines[:12]
+                article["articleText"] = [line.strip() for line in text.splitlines() if line.strip()][:220]
                 article["matchFoundIn"] = [
                     name for name, found in (("article", bool(matched_lines)), ("title", title_match), ("apiRecord", record_match)) if found
                 ]
