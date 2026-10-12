@@ -1,49 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T20:06:10.378Z",
+  "checkedAt": "2026-10-12T20:06:21.201Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T08:56:04.823Z",
-      "workflow": "Validate Tilak Varma FC site",
-      "workflowPath": ".github/workflows/site-check.yml",
-      "runId": 38226513219,
-      "runAttempt": 2,
-      "conclusion": "failure",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38226513219",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 1,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "validate",
-          "conclusion": "failure",
-          "startedAt": "2026-10-12T08:55:49Z",
-          "completedAt": "2026-10-12T08:55:55Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38226513219/job/114735545013",
-          "steps": [
-            {
-              "name": "Verify feature modules are linked",
-              "conclusion": "failure",
-              "number": 7
-            },
-            {
-              "name": "Post Set up Node.js",
-              "conclusion": "skipped",
-              "number": 13
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T08:56:14.470Z",
       "workflow": "Validate Tilak Varma FC site",
@@ -12693,6 +12652,27 @@
       "event": "pull_request",
       "branch": "fix/stats-refresh-keeps-selected-tab",
       "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38301972326",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T20:06:21.201Z",
+      "workflow": "Admin data editor tests",
+      "workflowPath": ".github/workflows/admin-data-editor-tests.yml",
+      "runId": 38301972556,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "event": "pull_request",
+      "branch": "fix/stats-refresh-keeps-selected-tab",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38301972556",
       "action": "no_recovery_needed",
       "reason": "No failed, cancelled, or skipped jobs require this manager.",
       "jobCounts": {
