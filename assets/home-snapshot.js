@@ -13,14 +13,6 @@
           "'": "&#39;",
         })[ch],
     );
-  const safeUrl = (value) => {
-    try {
-      const u = new URL(value);
-      return u.protocol === "https:" ? u.href : "";
-    } catch {
-      return "";
-    }
-  };
   const number = (value) =>
     typeof value === "number" ? value.toLocaleString("en-IN") : (value ?? "—");
   async function init() {
