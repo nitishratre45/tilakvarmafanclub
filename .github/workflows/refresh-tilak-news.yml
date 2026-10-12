@@ -14,18 +14,25 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Sync with latest main before fetching
+        run: |
+          git fetch origin main
+          git rebase origin/main
       - name: Fetch BCCI pages and filter Tilak Varma mentions
         run: |
           python scripts/news.py
           python scripts/newsreader.py
           python -m json.tool News/newsjson.json > /dev/null
           python -m json.tool News/raw-news-pages.json > /dev/null
-      - name: Commit updated news snapshots
+      - name: Commit and safely push updated news snapshots
         run: |
+          set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add News/raw-news-pages.json News/newsjson.json
@@ -34,4 +41,22 @@ jobs:
             exit 0
           fi
           git commit -m "chore: refresh Tilak Varma news snapshot"
-          git push origin HEAD:main
+
+          # A developer/admin commit may land while the APIs are being fetched.
+          # Rebase onto the newest main before pushing; retry transient push races.
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if ! git rebase origin/main; then
+              echo "::error::Could not rebase news snapshot onto main. Resolve the conflicting news data and rerun."
+              git rebase --abort || true
+              exit 1
+            fi
+            if git push origin HEAD:main; then
+              echo "News snapshots pushed successfully."
+              exit 0
+            fi
+            echo "Push attempt $attempt was rejected; fetching latest main and retrying."
+            sleep 2
+          done
+          echo "::error::Push failed after 3 attempts."
+          exit 1
