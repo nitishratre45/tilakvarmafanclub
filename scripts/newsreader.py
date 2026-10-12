@@ -305,7 +305,7 @@ def main() -> None:
                         continue
                     clean = {
                         key: item.get(key)
-                        for key in ("id", "webviewUrl", "title", "imageUrl", "publishedAt", "matchedLines", "matchFoundIn")
+                        for key in ("id", "webviewUrl", "title", "imageUrl", "publishedAt", "matchedLines", "matchFoundIn", "articleText")
                         if item.get(key) is not None
                     }
                     # Drop legacy articleText: old snapshots may contain scraped CSS or page chrome.
@@ -361,14 +361,49 @@ def main() -> None:
             matched_lines = [line for line in clean_lines if NAME_PATTERN.search(line)]
             title_match = bool(NAME_PATTERN.search(article["title"]))
             record = article.get("apiRecord", {})
-            api_text_fields = " ".join(str(record.get(key) or "") for key in ("description", "summary", "excerpt", "featuredImageAlt", "imageAlt", "seoDescription"))
-            api_match = bool(NAME_PATTERN.search(api_text_fields))
+            api_text_fields = " ".join(
+                str(record.get(key) or "")
+                for key in ("description", "summary", "excerpt", "articleBody", "content", "body", "featuredImageAlt", "imageAlt", "seoDescription")
+            )
+            structured_body = []
+            for structured in metadata.get("jsonld", []):
+                for structured_record in walk_records(structured):
+                    for key in ("articleBody", "description", "text"):
+                        value = structured_record.get(key)
+                        if isinstance(value, str) and value.strip():
+                            structured_body.append(value.strip())
+            meta_description = " ".join(
+                str(metadata.get(key) or "")
+                for key in ("description", "og:description", "twitter:description", "article:tag")
+            )
+            api_match = bool(NAME_PATTERN.search(api_text_fields + " " + " ".join(structured_body) + " " + meta_description))
             if matched_lines or title_match or api_match:
                 article["matchedLines"] = matched_lines[:12]
-                # Only publish genuine, substantial body lines. BCCI's JS shell often
-                # returns navigation-only HTML to simple HTTP clients; never save that as article copy.
-                if len(clean_lines) >= 2 and sum(len(line) for line in clean_lines) >= 180:
-                    article["articleText"] = clean_lines[:30]
+                # Prefer actual article paragraphs, then BCCI API/JSON-LD descriptions.
+                # Never store menu labels or the title itself as article copy.
+                content_candidates = clean_lines + structured_body + [
+                    str(record.get(key) or "").strip()
+                    for key in ("articleBody", "content", "body", "description", "summary", "excerpt", "seoDescription")
+                ] + [meta_description]
+                normalized_title = normalize_title(article.get("title", ""))
+                navigation_labels = {"news", "videos", "photos", "matches", "players", "more", "home", "search", "menu", "sign in", "login"}
+                saved_content = []
+                seen_content = set()
+                for candidate in content_candidates:
+                    if not isinstance(candidate, str):
+                        continue
+                    candidate = re.sub(r"\\s+", " ", html.unescape(candidate)).strip()
+                    normalized = normalize_title(candidate)
+                    if len(candidate) < 35 or len(candidate) > 4000 or not normalized:
+                        continue
+                    if normalized in navigation_labels or normalized == normalized_title or normalized in seen_content:
+                        continue
+                    if any(token in candidate.lower() for token in ("@font-face", "font-family:", "sourceMappingURL", "text-size-adjust:")):
+                        continue
+                    seen_content.add(normalized)
+                    saved_content.append(candidate[:1000])
+                if saved_content:
+                    article["articleText"] = saved_content[:30]
                 else:
                     article.pop("articleText", None)
                 article["matchFoundIn"] = [
