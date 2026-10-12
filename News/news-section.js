@@ -86,7 +86,7 @@
     more.textContent = `More news · ${allItems.length - visibleCount} remaining ↓`;
   }
   more.addEventListener("click", () => { visibleCount += 8; render(); });
-  fetch("News/tilak-news.json", {cache:"no-store"})
+  fetch("News/newsjson.json", {cache:"no-store"})
     .then((response) => { if (!response.ok) throw new Error("Saved news JSON not available"); return response.json(); })
     .then((data) => {
       allItems = (Array.isArray(data.news) ? data.news : []).map((item,index) => ({...item,id:item.id || String(index)}));
