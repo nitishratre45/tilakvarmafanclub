@@ -183,9 +183,7 @@ def main():
     doc["source"] = "BCCI News API only"
     doc["updatedAt"] = datetime.now(timezone.utc).isoformat()
     doc["candidateCount"] = len(fetched)
-    doc["news"] = output
-    doc["matchedCount"] = len(output)
-    doc["newMatches"] = len(output)
+    # Never discard the existing published archive. Merge newly verified recent matches by URL/ID.\n    previous = doc.get("news", []) if isinstance(doc.get("news"), list) else []\n    merged = []\n    seen_keys = set()\n    for item in previous + output:\n        if not isinstance(item, dict):\n            continue\n        key = str(item.get("webviewUrl") or item.get("id") or "")\n        if key and key not in seen_keys:\n            seen_keys.add(key)\n            merged.append(item)\n    merged.sort(key=lambda x: str(x.get("publishedAt") or ""), reverse=True)\n    doc["news"] = merged\n    doc["matchedCount"] = len(merged)\n    doc["newMatches"] = len(output)\n    doc["archivePreservation"] = {"existingRecordsPreserved": len(previous), "mergedRecords": len(merged)}
     doc["contentFormatter"] = {
         "checkedAt": datetime.now(timezone.utc).isoformat(),
         "liveUrlsMatched": sum(bool(x.get("livePageVerified")) for x in output),
