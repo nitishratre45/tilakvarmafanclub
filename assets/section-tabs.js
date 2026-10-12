@@ -108,8 +108,9 @@
       if (!link) return;
       event.preventDefault();
       event.stopImmediatePropagation();
+      const view = link.dataset.openStatsView || null;
       window.dispatchEvent(new CustomEvent("tilak:section-change", { detail: { id: "stats" } }));
-      show("stats", true, null, true);
+      show("stats", true, view, true);
     },
     true,
   );
