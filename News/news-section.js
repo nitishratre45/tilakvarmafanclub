@@ -188,17 +188,20 @@
       const unique = new Map();
       source.forEach((item, index) => {
         if (!item || typeof item !== "object") return;
-        const url = officialArticleUrl(item.webviewUrl || item.finalUrl || item.url || item.link);
-        if (!url) return;
-        const id = String(item.id || item.slug || url.split("/").filter(Boolean).pop() || index);
+        const rawUrl = item.webviewUrl || item.finalUrl || item.url || item.link || "";
+        const url = officialArticleUrl(rawUrl);
+        // Official-feed items remain BCCI-only. Admin-authored stories can use their
+        // own optional source link and are identified by their stable manual ID.
+        if (!url && item.manual !== true) return;
+        const id = String(item.id || item.slug || (url ? url.split("/").filter(Boolean).pop() : "manual-" + index));
         const normalized = {
           ...item,
           id,
-          webviewUrl: url,
+          webviewUrl: url || (item.manual === true ? "" : rawUrl),
           imageUrl: imageUrlOf(item),
           publishedAt: dateOf(item)
         };
-        if (!unique.has(url)) unique.set(url, normalized);
+        const key = url || ("manual:" + id);\n        if (!unique.has(key)) unique.set(key, normalized);
       });
 
       allItems = Array.from(unique.values()).sort((a, b) => {
