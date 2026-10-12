@@ -2,7 +2,7 @@
 """Scan all fetched BCCI article page text and publish only Tilak Varma matches."""
 from __future__ import annotations
 import json, re
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -52,7 +52,7 @@ def main():
         "newMatches": len(matches),
         "sourceErrors": doc.get("errors", []),
         "readErrors": doc.get("articleFetchErrors", []),
-        "news": matches,
+        "news": merged,
     }
     OUT.write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
