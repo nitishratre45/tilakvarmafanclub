@@ -131,7 +131,7 @@
         const raw = String(value || "").trim();
         const direct = Date.parse(raw);
         if (Number.isFinite(direct)) return direct;
-        const match = raw.match(/^(\\d{1,2})\\s+([A-Za-z]{3,})\\s+(\\d{4})$/);
+        const match = raw.match(/^(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})$/);
         if (match) {
           const parsed = Date.parse(match[1] + " " + match[2] + " " + match[3] + " UTC");
           if (Number.isFinite(parsed)) return parsed;
@@ -141,8 +141,8 @@
       const normalizeOpponent = (value) =>
         String(value || "")
           .toLowerCase()
-          .replace(/^v\\s+/, "")
-          .replace(/^india\\s+vs\\s+/, "")
+          .replace(/^v\s+/, "")
+          .replace(/^india\s+vs\s+/, "")
           .replace(/[^a-z0-9]+/g, " ")
           .trim();
       const candidates = [
