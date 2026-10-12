@@ -536,7 +536,11 @@ def main() -> None:
                     # Generic site-wide NewsArticle/list objects are not accepted.
                     if not (
                         (record_url_norm and record_url_norm == target_url)
-                        or (record_title and target_title and record_title == target_title)
+                        or (
+                            record_title
+                            and target_title
+                            and record_title == target_title
+                        )
                     ):
                         continue
                     for key in ("articleBody", "description", "text"):
@@ -545,18 +549,22 @@ def main() -> None:
                             structured_body.append(value.strip())
             # The page-level meta description may belong to a generic shell; don't use it
             # as proof that this individual article mentions Tilak.
-            api_match = bool(NAME_PATTERN.search(api_text_fields + " " + " ".join(structured_body)))
+            api_match = bool(
+                NAME_PATTERN.search(api_text_fields + " " + " ".join(structured_body))
+            )
             verified_body = []
-            for candidate in (
-                structured_body
-                + [
-                    str(record.get(key) or "").strip()
-                    for key in (
-                        "articleBody", "content", "body", "description",
-                        "summary", "excerpt", "seoDescription"
-                    )
-                ]
-            ):
+            for candidate in structured_body + [
+                str(record.get(key) or "").strip()
+                for key in (
+                    "articleBody",
+                    "content",
+                    "body",
+                    "description",
+                    "summary",
+                    "excerpt",
+                    "seoDescription",
+                )
+            ]:
                 if not isinstance(candidate, str):
                     continue
                 candidate = re.sub(r"\s+", " ", html.unescape(candidate)).strip()
@@ -567,7 +575,9 @@ def main() -> None:
                     continue
                 if normalized not in {normalize_title(x) for x in verified_body}:
                     verified_body.append(candidate[:1000])
-            matched_lines = [line for line in verified_body if NAME_PATTERN.search(line)]
+            matched_lines = [
+                line for line in verified_body if NAME_PATTERN.search(line)
+            ]
             if matched_lines or title_match or api_match:
                 article["matchedLines"] = matched_lines[:12]
                 content_candidates = verified_body
