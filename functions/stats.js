@@ -4,5 +4,5 @@ export async function onRequest(context) {
   const url = new URL(context.request.url);
   url.pathname = "/index.html";
   url.search = "";
-  return context.next({ request: new Request(url, context.request) });
+  return context.next(new Request(url, context.request));
 }
