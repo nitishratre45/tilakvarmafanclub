@@ -219,7 +219,7 @@
       const item=items.find((news,index)=>(news.id&&String(news.id)===id)||String(index)===id);
       if(!item)throw new Error("This news item is not available in the latest saved snapshot.");
       const original=safeUrl(item.webviewUrl);
-      if(!original)throw new Error("The original article link is not valid.");
+      if(!original && item.manual !== true)throw new Error("The original article link is not valid.");
       document.title=(item.title||"Tilak Varma News")+" | The 72 Club";
       document.getElementById("detail-title").textContent=item.title||"Tilak Varma News";
       document.getElementById("detail-date").textContent=formatDate(item.publishedAt)||"BCCI · Tilak Varma news";
@@ -228,7 +228,11 @@
       renderBody(document.getElementById("detail-excerpt"),item);
       const image=document.getElementById("detail-image");const imageUrl=safeUrl(item.imageUrl);
       if(imageUrl){image.src=imageUrl;image.alt=item.title||"BCCI article image";image.hidden=false;document.getElementById("image-fallback").hidden=true;image.onerror=()=>{image.hidden=true;document.getElementById("image-fallback").hidden=false;};}
-      document.getElementById("original-link").href=original;
+      const originalLink=document.getElementById("original-link");
+      originalLink.hidden=!original;
+      if(original) originalLink.href=original;
+      const sourceNote=document.querySelector(".source-note");
+      if(item.manual===true && sourceNote) sourceNote.textContent="Published by "+(item.sourceName||"The 72 Club")+". This is a manually published fan-club news article.";
       renderRelated(items,item);status.hidden=true;article.hidden=false;
     })
     .catch(error=>{status.textContent=error.message||"Could not load this news item.";document.getElementById("related-stories").textContent="Related stories are temporarily unavailable.";});
