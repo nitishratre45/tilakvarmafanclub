@@ -147,7 +147,9 @@
         if (human) {
           const month = new Date(human[2] + " 1, 2000").getMonth() + 1;
           if (month >= 1 && month <= 12)
-            return human[3] + "-" + String(month).padStart(2, "0") + "-" + human[1].padStart(2, "0");
+            return (
+              human[3] + "-" + String(month).padStart(2, "0") + "-" + human[1].padStart(2, "0")
+            );
         }
         const timestamp = parseMatchDate(raw);
         return timestamp ? new Date(timestamp).toISOString().slice(0, 10) : "";
