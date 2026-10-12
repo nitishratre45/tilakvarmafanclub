@@ -1356,3 +1356,57 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 @media(prefers-reduced-motion:reduce){
  .main .btn,.main .stat,.main .run-card{transition:none!important}
 }
+
+
+/* Admin Studio refinement: clearer hierarchy, premium dashboard surfaces, safer small-screen layout. */
+#admin-app{isolation:isolate}
+#admin-app .sidebar{background:linear-gradient(180deg,rgba(8,20,35,.98),rgba(5,14,26,.98));border-right:1px solid rgba(150,185,220,.14);box-shadow:14px 0 38px rgba(0,0,0,.12)}
+#admin-app .sidebar .brand,#admin-app .sidebar .sidebar-brand{padding-bottom:20px;border-bottom:1px solid rgba(150,185,220,.12)}
+#admin-app .sidebar .nav{padding:14px 10px}
+#admin-app .sidebar .nav a{position:relative;display:flex;align-items:center;gap:11px;padding:11px 13px;color:#aebed2;font-size:13px;font-weight:750;letter-spacing:.005em}
+#admin-app .sidebar .nav a:hover{color:#f5f9ff;background:rgba(140,190,225,.075)}
+#admin-app .sidebar .nav a.active{color:#f7fbff;background:linear-gradient(105deg,rgba(255,150,63,.15),rgba(120,228,239,.09));border-color:rgba(120,228,239,.24);box-shadow:inset 3px 0 0 #78e4ef}
+#admin-app .topbar{min-height:76px;padding-top:14px;padding-bottom:14px;background:rgba(6,17,31,.84)}
+#admin-app #page-title{font-size:clamp(20px,2.1vw,28px);font-weight:850;letter-spacing:-.045em;color:#f4f8ff}
+#admin-app .main{padding-bottom:34px}
+#admin-app .page-heading{margin-bottom:22px}
+#admin-app .section{overflow:clip;border:1px solid rgba(150,185,220,.15);background:linear-gradient(155deg,rgba(14,30,49,.94),rgba(8,19,33,.96));box-shadow:0 18px 48px rgba(0,0,0,.14)}
+#admin-app .section-head{padding:clamp(18px,2.3vw,27px);border-bottom:1px solid rgba(150,185,220,.12);background:linear-gradient(100deg,rgba(255,255,255,.018),transparent 65%)}
+#admin-app .section-head h2{color:#f3f7ff;font-size:clamp(19px,2vw,25px);font-weight:850}
+#admin-app .section-head p{color:#a1b4ca;font-size:13px}
+#admin-app .section-body{padding:clamp(15px,2vw,24px)}
+#admin-app .stats{gap:14px}
+#admin-app .stats .stat,#admin-app .stat-card{position:relative;overflow:hidden;border:1px solid rgba(150,185,220,.16);border-radius:16px;background:linear-gradient(145deg,rgba(18,39,61,.92),rgba(8,21,36,.96));box-shadow:0 12px 30px rgba(0,0,0,.12)}
+#admin-app .stats .stat:before,#admin-app .stat-card:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,#ff963f,#78e4ef);opacity:.78}
+#admin-app .stats .stat strong,#admin-app .stat-card strong{font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+#admin-app .section :is(.panel,.card,.run-card,.source-registry,.repo-health-card){border-radius:14px}
+#admin-app .section :is(.panel,.card){border-color:rgba(150,185,220,.15);background:rgba(7,19,33,.58)}
+#admin-app .section :is(h3,h4){letter-spacing:-.02em}
+#admin-app .section :is(.btn,button){min-height:40px}
+#admin-app .section :is(input,select,textarea){font-size:13px;line-height:1.55}
+#admin-app .section :is(.status,.pill,.badge){max-width:100%;overflow-wrap:anywhere}
+#admin-app .section .table-wrap{overflow-x:auto;border:1px solid rgba(150,185,220,.13);border-radius:13px}
+#admin-app .section table{min-width:560px}
+#admin-app .section th{background:rgba(120,160,200,.075);font-size:10px;letter-spacing:.09em;text-transform:uppercase}
+#admin-app .section td{color:#c4d2e2}
+#admin-app .section tbody tr:hover td{background:rgba(120,228,239,.035)}
+#admin-app .section :is(.hint,.muted,.subtle){color:#94a9c1}
+#admin-app footer.hint{margin-top:32px}
+@media(max-width:720px){
+ #admin-app .topbar{min-height:62px;padding:10px 12px}
+ #admin-app .main{padding-top:12px}
+ #admin-app .section-head{padding:17px 15px}
+ #admin-app .section-body{padding:13px}
+ #admin-app .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ #admin-app .stats .stat{padding:13px;min-width:0}
+ #admin-app .section .table-wrap{margin-inline:-1px}
+ #admin-app .section table{min-width:540px}
+ #admin-app .sidebar .nav a{min-height:44px}
+}
+@media(max-width:380px){
+ #admin-app .stats{grid-template-columns:minmax(0,1fr)}
+ #admin-app .main{padding-inline:9px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #admin-app *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+}
