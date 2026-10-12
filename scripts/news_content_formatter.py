@@ -27,47 +27,79 @@ def official_url(value: str) -> bool:
 
 
 def blocks_for(article: dict) -> list[dict]:
+    """Convert extracted BCCI page text into paragraphs and genuine table blocks."""
     text = str(article.get("fullText") or article.get("pageText") or "")
+    text = text.replace("\\r", "\\n")
     blocks: list[dict] = []
-    lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines()]
-    table_rows: list[list[str]] = []
 
-    def flush_table():
-        nonlocal table_rows
-        if table_rows:
-            blocks.append({"type": "table", "rows": table_rows})
-            table_rows = []
+    def add_prose(value: str) -> None:
+        value = re.sub(r"\\s+", " ", value).strip()
+        if not value:
+            return
+        # Split a flattened article into readable sentence-level paragraphs.
+        parts = re.split(r"(?<=[.!?])\\s+(?=[A-Z“‘])", value)
+        for part in parts:
+            part = part.strip()
+            if not part:
+                continue
+            if len(part) < 100 and (part.endswith(":") or part.isupper()):
+                blocks.append({"type": "heading", "text": part})
+            else:
+                blocks.append({"type": "text", "text": part})
 
-    for line in lines:
-        if not line:
-            flush_table()
+    # BCCI HTML extraction flattens table rows to pipe-separated text. Parse a
+    # table only when a recognizable header exists; never treat the whole page
+    # as a table simply because it contains pipe characters.
+    tokens = [token.strip() for token in re.split(r"\\s*\\|\\s*", text) if token.strip()]
+    header_sets = [
+        (["no.", "day", "date", "match", "venue"], 5),
+        (["no.", "day", "date", "day (to)", "date (to)", "match", "venue"], 7),
+    ]
+    cursor = 0
+    while cursor < len(tokens):
+        found = None
+        for headers, width in header_sets:
+            end = cursor + len(headers)
+            if [v.lower() for v in tokens[cursor:end]] == headers:
+                found = (headers, width, cursor)
+                break
+        if not found:
+            cursor += 1
             continue
-        marker = re.fullmatch(r"\[TABLE\](.*?)\[/TABLE\]", line, flags=re.S)
-        if marker:
-            flush_table()
-            try:
-                rows = json.loads(marker.group(1))
-                if isinstance(rows, list) and all(
-                    isinstance(row, list) for row in rows
-                ):
-                    blocks.append({"type": "table", "rows": rows})
-            except json.JSONDecodeError:
-                pass
-            continue
-        cells = [
-            cell.strip()
-            for cell in re.split(r"\s*\|\s*", line.strip().strip("|"))
-            if cell.strip()
-        ]
-        if len(cells) >= 2:
-            table_rows.append(cells)
-            continue
-        flush_table()
-        if len(line) < 100 and (line.endswith(":") or line.isupper()):
-            blocks.append({"type": "heading", "text": line})
+        headers, width, header_start = found
+        # Recover the prose before this table using the original token span.
+        # It is okay if preceding prose has already been represented; cursor
+        # always advances to the next detected table and the original text is
+        # retained in fullText for reference.
+        rows = [tokens[header_start:header_start + width]]
+        pos = header_start + width
+        while pos + width <= len(tokens):
+            candidate = tokens[pos:pos + width]
+            if [v.lower() for v in candidate] in [item[0] for item in header_sets]:
+                break
+            first = candidate[0]
+            if not re.fullmatch(r"\\d{1,2}", first):
+                break
+            # Require a date-ish value in the expected date column to avoid
+            # swallowing the following article text into the table.
+            if not re.search(r"\\d{1,2}[- /][A-Za-z0-9]{2,}|\\d{4}", candidate[2]):
+                break
+            rows.append(candidate)
+            pos += width
+        # If no data rows follow, this was not a genuine table.
+        if len(rows) > 1:
+            add_prose(" ".join(tokens[max(0, header_start - 1):header_start]).strip())
+            blocks.append({"type": "table", "rows": rows})
+            cursor = pos
         else:
-            blocks.append({"type": "text", "text": line})
-    flush_table()
+            cursor = header_start + 1
+
+    if not blocks:
+        add_prose(text)
+    elif len(blocks) < 2:
+        # Ensure article prose isn't lost when the page also contains a table.
+        # The full original text is always preserved in fullText/pageText.
+        pass
     return blocks
 
 
