@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Fetch Tilak Varma news from multiple sources, sequentially and fault-tolerantly.
+"""Fetch BCCI News API pages sequentially for the Tilak Varma news pipeline.
 
-Each source is attempted in order. A source failure is recorded and the next
-source still runs. The previous raw snapshot is preserved if every source fails.
+Each BCCI API page is attempted in order. Failures are recorded while later
+pages continue; the previous raw snapshot is preserved if every page fails.
 """
 from __future__ import annotations
 
