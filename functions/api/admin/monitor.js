@@ -128,6 +128,37 @@ export async function onRequest({ request, env }) {
         await github(env, rerunPath, { method: "POST" });
         return json({ ok: true, message: "Workflow re-run queued.", runId: id }, 202);
       }
+      if (body.action === "run-all-workflows") {
+        const recent = await github(
+          env,
+          "/actions/workflows/run-all-workflows.yml/runs?per_page=10",
+        );
+        const active = (recent.workflow_runs || []).find((run) =>
+          ["queued", "in_progress", "waiting", "requested", "pending"].includes(run.status),
+        );
+        if (active) {
+          return json(
+            {
+              error: "A Run All Workflows batch is already active.",
+              runUrl: active.html_url,
+              runId: active.id,
+            },
+            409,
+          );
+        }
+        await github(env, "/actions/workflows/run-all-workflows.yml/dispatches", {
+          method: "POST",
+          body: JSON.stringify({ ref: "main" }),
+        });
+        return json(
+          {
+            ok: true,
+            message:
+              "Run All Workflows batch queued. It will start 18 manually runnable workflows; the event-driven auto-rerun workflow is excluded.",
+          },
+          202,
+        );
+      }
       if (body.action === "diagnostics") {
         await github(env, "/actions/workflows/admin-diagnostics.yml/dispatches", {
           method: "POST",
