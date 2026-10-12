@@ -184,7 +184,11 @@
               '" loading="lazy" decoding="async">'
             : '<span class="bcci-video-no-thumb">BCCI VIDEO</span>') +
           '<span class="bcci-video-play">' +
-          (hasPlayback ? "▶" : signedUrlExpired(item.playbackUrl) ? "Link expired" : "Unavailable") +
+          (hasPlayback
+            ? "▶"
+            : signedUrlExpired(item.playbackUrl)
+              ? "Link expired"
+              : "Unavailable") +
           "</span>" +
           (item.duration
             ? '<span class="bcci-video-duration">' + esc(item.duration) + "</span>"

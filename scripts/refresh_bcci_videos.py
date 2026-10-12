@@ -160,7 +160,9 @@ def playback_url_expiry(value: str) -> datetime | None:
     URLs without a JWT expiry remain unknown rather than being guessed expired.
     """
     try:
-        token = urllib.parse.parse_qs(urllib.parse.urlparse(value).query).get("token", [""])[0]
+        token = urllib.parse.parse_qs(urllib.parse.urlparse(value).query).get(
+            "token", [""]
+        )[0]
         parts = token.split(".")
         if len(parts) < 2:
             return None
@@ -739,11 +741,13 @@ def main() -> int:
         video for video in videos if first_text(video.get("id")) not in previous_ids
     ]
     expired_videos = [
-        video for video in videos
+        video
+        for video in videos
         if is_playback_url_expired(first_text(video.get("playbackUrl")))
     ]
     unknown_expiry_count = sum(
-        1 for video in videos
+        1
+        for video in videos
         if playback_url_expiry(first_text(video.get("playbackUrl"))) is None
     )
     report = {
@@ -753,7 +757,9 @@ def main() -> int:
         "previousTotal": len(previous_ids),
         "addedCount": len(current_ids - previous_ids),
         "expiredPlaybackCount": len(expired_videos),
-        "expiredPlaybackIds": [first_text(video.get("id")) for video in expired_videos[:100]],
+        "expiredPlaybackIds": [
+            first_text(video.get("id")) for video in expired_videos[:100]
+        ],
         "unknownPlaybackExpiryCount": unknown_expiry_count,
         "addedVideos": [
             {
