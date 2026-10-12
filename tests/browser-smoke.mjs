@@ -172,6 +172,42 @@ check("mobile photo gallery shows ten albums at a time and filters by year/month
   await page.close();
 });
 
+check("match history keeps different formats separate and collapses only overlapping T20 feeds", async () => {
+  const page = await browser.newPage();
+  page.setDefaultTimeout(10000);
+  const date = "2026-08-01";
+  const row = (format, score, source = "ESPNcricinfo Statsguru") => ({
+    date, opposition: "Australia", ground: "Test Ground", score, runs: Number.parseInt(score, 10),
+    balls: 10, source, format
+  });
+  const fixture = {
+    playerMatches: [],
+    playerMatchesUpdatedAt: "2026-10-12 12:00 UTC",
+    statsguru: { updatedAt: "2026-10-12 12:00 UTC", formats: {
+      T20I: { innings: [row("T20I", "40")] },
+      T20: { innings: [row("T20", "40")] },
+      FC: { innings: [row("FC", "70")] },
+      "List A": { innings: [row("List A", "30")] }
+    }},
+    recentInnings: [],
+    bowlingStats: { formats: {} }
+  };
+  await page.route("**/data/site-data.json*", (route) => route.fulfill({
+    status: 200, contentType: "application/json", body: JSON.stringify(fixture)
+  }));
+  await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+  await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).first().waitFor();
+  const rows = await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).evaluateAll(nodes =>
+    nodes.map(node => ({ text: node.innerText, format: node.cells[5]?.innerText }))
+  );
+  assert.equal(rows.length, 3, "T20I/T20 overlap should collapse, but FC and List A rows must remain: " + JSON.stringify(rows));
+  assert.deepEqual(rows.map(row => row.format).sort(), ["FC", "List A", "T20I"]);
+  await page.locator("#player-match-format").selectOption("FC");
+  assert.equal(await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).count(), 1,
+    "FC filter should show its own match row");
+  await page.close();
+});
+
 check("Death Overs page loads the saved dataset and matches its innings count", async () => {
   const data = JSON.parse(await readFile(new URL("../data/death-overs.json", import.meta.url), "utf8"));
   assert(Array.isArray(data.innings) && data.innings.length > 0, "Saved Death Overs innings must not be empty");
