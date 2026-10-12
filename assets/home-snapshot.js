@@ -13,6 +13,7 @@
           "'": "&#39;",
         })[ch],
     );
+  const formatIndiaTimestamp = (value) => { if (!value) return "time unavailable"; const date = new Date(value); return Number.isNaN(date.getTime()) ? String(value) : new Intl.DateTimeFormat("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true }).format(date) + " IST"; };
   const number = (value) =>
     typeof value === "number" ? value.toLocaleString("en-IN") : (value ?? "—");
   async function init() {
@@ -107,7 +108,7 @@
           .filter((item) => Number.isFinite(item.time))
           .sort((a, b) => b.time - a.time);
         $("home-data-updated").textContent =
-          "Last update: " + (stamps[0]?.value || "time unavailable");
+          "Last update: " + formatIndiaTimestamp(stamps[0]?.value);
       }
       // Statsguru match rows refresh independently of the Cricsheet recent-form
       // archive. Prefer the verified cross-format match index so a new match can
