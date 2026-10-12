@@ -1,0 +1,67 @@
+name: Run all workflows
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: admin-run-all-workflows
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    name: Queue all manually runnable workflows
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Dispatch workflows
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const workflows = [
+              "admin-data-editor-tests.yml",
+              "admin-diagnostics.yml",
+              "automation-repo-monitor.yml",
+              "browser-smoke.yml",
+              "format-code.yml",
+              "job-recovery-manager.yml",
+              "photo-section-guardian.yml",
+              "refresh-bcci-videos.yml",
+              "refresh-bowling.yml",
+              "refresh-death-overs.yml",
+              "refresh-icc-records.yml",
+              "refresh-statsguru.yml",
+              "refresh-tilak-data.yml",
+              "refresh-tilak-news.yml",
+              "repo-health-monitor.yml",
+              "self-healing.yml",
+              "site-check.yml",
+              "validate-admin-studio.yml"
+            ];
+            const dispatched = [];
+            const failed = [];
+            for (const workflow_id of workflows) {
+              try {
+                await github.rest.actions.createWorkflowDispatch({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  workflow_id,
+                  ref: "main"
+                });
+                dispatched.push(workflow_id);
+                core.info("Queued " + workflow_id);
+              } catch (error) {
+                failed.push({ workflow: workflow_id, error: error.message });
+                core.error("Could not queue " + workflow_id + ": " + error.message);
+              }
+            }
+            core.notice("Queued " + dispatched.length + " of " + workflows.length + " workflows.");
+            core.setOutput("dispatched_count", String(dispatched.length));
+            core.setOutput("failed_count", String(failed.length));
+            core.setOutput("dispatched", dispatched.join(", "));
+            core.setOutput("failed", failed.map(item => item.workflow + ": " + item.error).join("; "));
+            if (failed.length) {
+              core.setFailed("Some workflows could not be queued (" + failed.length + "). Check the log.");
+            }
