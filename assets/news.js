@@ -194,13 +194,11 @@
             })
             .join("")
         : '<p class="activity-empty">No stories are available right now.</p>';
-      host
-        .querySelectorAll("img")
-        .forEach((img) =>
-          img.addEventListener("error", () => img.closest(".tilak-news-image")?.remove(), {
-            once: true,
-          }),
-        );
+      host.querySelectorAll("img").forEach((img) =>
+        img.addEventListener("error", () => img.closest(".tilak-news-image")?.remove(), {
+          once: true,
+        }),
+      );
       if (meta)
         meta.textContent =
           "Last update: " +
