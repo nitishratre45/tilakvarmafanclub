@@ -38,10 +38,16 @@ class ArticleParser(HTMLParser):
         self._capture_title = False
         self._capture_jsonld = False
         self._script_depth = 0
+        self._ignored_depth = 0
         self._jsonld_buffer: list[str] = []
 
     def handle_starttag(self, tag, attrs):
         attrs = {str(k).lower(): (v or "") for k, v in attrs}
+        if tag in {"style", "svg", "noscript", "template"}:
+            self._ignored_depth += 1
+            return
+        if self._ignored_depth:
+            return
         if tag == "meta":
             key = (attrs.get("property") or attrs.get("name") or attrs.get("itemprop") or "").lower()
             value = attrs.get("content", "").strip()
@@ -60,6 +66,11 @@ class ArticleParser(HTMLParser):
             self.parts.append("\n")
 
     def handle_endtag(self, tag):
+        if tag in {"style", "svg", "noscript", "template"} and self._ignored_depth:
+            self._ignored_depth -= 1
+            return
+        if self._ignored_depth:
+            return
         if tag == "title":
             self._capture_title = False
         elif tag == "script":
@@ -72,6 +83,8 @@ class ArticleParser(HTMLParser):
             self.parts.append("\n")
 
     def handle_data(self, data):
+        if self._ignored_depth:
+            return
         if self._capture_jsonld:
             self._jsonld_buffer.append(data)
         elif not self._script_depth:
@@ -146,6 +159,9 @@ def collect_articles(document: dict) -> list[dict]:
             image = first_value(record, IMAGE_KEYS) or ""
             if isinstance(image, str) and image.startswith("/"):
                 image = urljoin("https://www.bcci.tv", image)
+            # Google News feed thumbnails are often its generic logo, not the article photo.
+            if image and any(host in image.lower() for host in ("news.google.com", "google.com", "googleusercontent.com")):
+                image = ""
             title = first_value(record, TITLE_KEYS) or ""
             if not title:
                 continue
@@ -308,17 +324,24 @@ def main() -> None:
     for index, article in enumerate(candidates, start=1):
         url = article["webviewUrl"]
         try:
-            # RSS result URLs can be redirect wrappers; retain the publisher/source label.
-            text, metadata = fetch_page(url)
+            # Do not scrape Google News wrapper HTML: it contains app CSS and generic logos,
+            # not article content. Keep the RSS title/date and let the original link open the source.
+            is_google_result = urlparse(url).netloc.lower() == "news.google.com"
+            if is_google_result:
+                text, metadata = "", {"canonical": url}
+            else:
+                text, metadata = fetch_page(url)
             title = article["title"] or metadata_fallback(metadata, ("og:title", "twitter:title", "html:title", "headline", "name"))
             image = article["imageUrl"] or metadata_fallback(metadata, ("og:image", "og:image:url", "twitter:image", "twitter:image:src", "image", "thumbnailUrl", "contentUrl"))
+            if image and any(host in image.lower() for host in ("news.google.com", "google.com", "googleusercontent.com")):
+                image = ""
             published = article["publishedAt"] or metadata_fallback(metadata, ("article:published_time", "datepublished", "datePublished", "publishdate", "publishedat", "date", "dc.date"))
             image = urljoin(url, image) if image and image.startswith("/") else image
             canonical = metadata.get("canonical") or url
             if canonical.startswith("/"):
                 canonical = urljoin(url, canonical)
             article.update({
-                "sourceName": article.get("sourceName") or "BCCI News API",
+                "sourceName": article.get("sourceName") or ("Google News" if is_google_result else "BCCI News API"),
                 "id": article.get("id") or re.sub(r"[^a-z0-9]+", "-", urlparse(canonical).path.lower()).strip("-"),
                 "webviewUrl": canonical,
                 "title": title or "Tilak Varma mentioned in news",
@@ -326,7 +349,19 @@ def main() -> None:
                 "publishedAt": published or "",
             })
 
-            matched_lines = [line.strip() for line in text.splitlines() if NAME_PATTERN.search(line)]
+            # Drop stylesheet/script-like content defensively in case a publisher returns app markup.
+            clean_lines = []
+            for raw_line in text.splitlines():
+                line = raw_line.strip()
+                if not line or len(line) > 1200:
+                    continue
+                lower = line.lower()
+                if any(token in lower for token in ("@font-face", "font-family:", "webkit-", "moz-", "text-size-adjust:", "textarea{", "body{height:", "display:none", "sourceMappingURL")):
+                    continue
+                if lower.count("{") > 2 or lower.count("}") > 2:
+                    continue
+                clean_lines.append(line[:500])
+            matched_lines = [line for line in clean_lines if NAME_PATTERN.search(line)]
             title_match = bool(NAME_PATTERN.search(article["title"]))
             record_match = bool(NAME_PATTERN.search(json.dumps(article.get("apiRecord", {}), ensure_ascii=False)))
             # Google RSS result titles can prove relevance even when the publisher blocks the crawler.
@@ -337,8 +372,8 @@ def main() -> None:
             )
             if matched_lines or title_match or record_match or source_title_match:
                 article["matchedLines"] = matched_lines[:12]
-                if text.strip():
-                    article["articleText"] = [line.strip()[:500] for line in text.splitlines() if line.strip()][:12]
+                if clean_lines:
+                    article["articleText"] = clean_lines[:12]
                 article["matchFoundIn"] = [
                     name for name, found in (("article", bool(matched_lines)), ("title", title_match), ("apiRecord", record_match))
                     if found
