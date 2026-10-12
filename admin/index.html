@@ -5160,10 +5160,10 @@
               videoReport?.totalVideos ?? videoFeed?.count ?? videoFeed?.videos?.length ?? 0,
             );
             $("bcci-live-total").textContent = Number.isFinite(totalVideos)
-              ? totalVideos.toLocaleString()
+              ? totalVideos.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
               : "—";
             $("bcci-live-added").textContent = videoReport
-              ? "+" + Number(videoReport.addedCount || 0).toLocaleString()
+              ? "+" + Number(videoReport.addedCount || 0).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
               : "Report unavailable";
             $("bcci-live-previous").textContent = videoReport?.previousTotal ?? "—";
             $("bcci-live-updated").textContent = videoReport?.updatedAt
@@ -5195,7 +5195,7 @@
                 title.textContent = video.title || "Untitled BCCI video";
                 const meta = document.createElement("p");
                 meta.textContent = video.publishedDate
-                  ? "Published: " + new Date(video.publishedDate).toLocaleDateString()
+                  ? "Published: " + new Date(video.publishedDate).toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" })
                   : "Detected in latest refresh";
                 card.append(title, meta);
                 newVideoHost.append(card);
@@ -5212,7 +5212,7 @@
                 : "Not scanned yet";
               $("live-updates-errors").textContent = report.summary?.issues ?? "—";
               const warningCount = Number(report.summary?.warnings ?? 0);
-              $("live-updates-warnings").textContent = warningCount.toLocaleString();
+              $("live-updates-warnings").textContent = warningCount.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
               const warningCard = $("live-updates-warnings").closest("article");
               let detail = warningCard.querySelector(".live-warning-detail");
               if (!detail) {
@@ -5227,7 +5227,7 @@
                   return sum + (match ? Number(match[1]) : 0);
                 }, 0);
               detail.textContent = repeated
-                ? repeated.toLocaleString() +
+                ? repeated.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) +
                   " repeated CSS selectors across " +
                   warningCount +
                   " warning entries"
@@ -5259,7 +5259,7 @@
                 meta.textContent =
                   (run.branch || "unknown branch") +
                   " · " +
-                  (run.createdAt ? new Date(run.createdAt).toLocaleString() : "time unavailable");
+                  (run.createdAt ? new Date(run.createdAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) : "time unavailable");
                 const link = document.createElement("a");
                 link.className = "btn small";
                 link.href = run.url || "https://github.com/nitishratre45/tilakvarmafanclub/actions";
@@ -5283,7 +5283,7 @@
               host.append(note);
             }
             $("live-updates-checked").textContent =
-              "Panel checked: " + new Date().toLocaleString() + " · auto-refresh every 60 seconds";
+              "Panel checked: " + new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) + " · auto-refresh every 60 seconds";
           } catch (error) {
             badge.textContent = "ERROR";
             host.textContent = "Could not load live updates: " + error.message;
@@ -5329,7 +5329,7 @@
             $("automation-success").textContent = summary.successfulLatest ?? "—";
             $("automation-checked").textContent = data.checkedAt
               ? "Last snapshot: " +
-                new Date(data.checkedAt).toLocaleString() +
+                new Date(data.checkedAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) +
                 " · hourly · keeps 15 hours"
               : "Initial snapshot pending";
             host.replaceChildren();
@@ -5356,7 +5356,7 @@
                 workflow.state +
                 " · latest: " +
                 (latest.createdAt
-                  ? new Date(latest.createdAt).toLocaleString()
+                  ? new Date(latest.createdAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
                   : "no recorded run") +
                 " · recent failures: " +
                 (workflow.counts?.failed ?? 0);
@@ -5383,7 +5383,7 @@
                 item.textContent =
                   (run.conclusion || run.status || "unknown").toUpperCase() +
                   " · " +
-                  (run.createdAt ? new Date(run.createdAt).toLocaleString() : "time unavailable") +
+                  (run.createdAt ? new Date(run.createdAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) : "time unavailable") +
                   " · " +
                   (run.event || "event unknown");
                 if (run.runUrl) {
@@ -5408,7 +5408,7 @@
               row.className = "run-card";
               const title = document.createElement("strong");
               title.textContent =
-                new Date(snap.checkedAt).toLocaleString() +
+                new Date(snap.checkedAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) +
                 " · " +
                 (snap.workflows ?? 0) +
                 " workflows";
@@ -5452,7 +5452,7 @@
             const news = Array.isArray(data.news) ? data.news : [];
             $("news-count").textContent = String(news.length);
             $("news-updated").textContent = data.updatedAt
-              ? new Date(data.updatedAt).toLocaleString()
+              ? new Date(data.updatedAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
               : "Not available";
             const host = $("news-source-results");
             host.replaceChildren();
@@ -5549,7 +5549,7 @@
               const detail = document.createElement("p");
               detail.textContent =
                 "Started: " +
-                (run.createdAt ? new Date(run.createdAt).toLocaleString() : "unknown") +
+                (run.createdAt ? new Date(run.createdAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) : "unknown") +
                 " · branch: " +
                 (run.branch || "main");
               card.append(title, detail);
