@@ -75,7 +75,7 @@
       "/Stats/Explore/Script/explore.js?v=20261013-modular1",
       "assets/home-snapshot.js?v=20261012-match-dedupe1",
       "News/news-section.js?v=20261012-manual-news2",
-      "assets/section-tabs.js?v=20261013-route-fix1",
+      "assets/section-tabs.js?v=20261013-route-fix2",
       "/Stats/Bowling/Script/bowling.js?v=20261013-modular1",
       "assets/custom-selects.js?v=20261011-native-touch-fallback1",
       "assets/theme.js?v=20261014",
