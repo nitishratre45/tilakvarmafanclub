@@ -1,4 +1,4 @@
-/* Stats-only styles migrated from the legacy global stylesheets. Shared homepage card/layout styles remain in assets CSS. */
+/* Stats-only styles extracted from global stylesheets. Shared homepage styles remain global. */
 
 .bowling-stats-view > .section-heading
 {
@@ -39,6 +39,7 @@
 
 }
 
+.bowling-breakdown-wrap,
 .bowling-innings-wrap
 {
 
@@ -66,6 +67,7 @@
 
 }
 
+.bowling-stats-view th,
 .bowling-stats-view td
 {
 
@@ -96,6 +98,16 @@
 
   color: var(--orange);
   font-weight: 800;
+
+}
+
+:root[data-theme-resolved="light"] .bowling-breakdown-wrap,
+:root[data-theme-resolved="light"] .bowling-innings-wrap
+{
+
+  background: #fff;
+  color: #152235;
+  border-color: rgba(18, 35, 55, 0.16);
 
 }
 
@@ -139,6 +151,7 @@
     padding: 25px 3.5vw !important;
   
 }
+.bowling-breakdown-wrap,
 .bowling-innings-wrap
 {
 
@@ -155,6 +168,7 @@
 }
 }
 
+.stats-section .bowling-breakdown-wrap,
 .stats-section .bowling-innings-wrap
 {
 
@@ -193,6 +207,7 @@
 
 }
 
+.stats-section .bowling-stats-view .bowling-wickets-cell,
 .stats-section .bowling-stats-view .bowling-best-cell
 {
 
@@ -201,6 +216,7 @@
 
 }
 
+:root[data-theme-resolved="light"] .stats-section .bowling-breakdown-wrap,
 :root[data-theme-resolved="light"] .stats-section .bowling-innings-wrap
 {
 
@@ -214,6 +230,31 @@
   background: #edf3f9;
   color: #34465c;
   box-shadow: inset 0 -2px 0 rgba(8, 126, 145, 0.4);
+
+}
+
+:root[data-theme-resolved="light"]
+  .stats-section
+  .bowling-stats-view
+  .table-wrap
+  tbody
+  tr:nth-child(even)
+{
+
+  background: #f7fafc;
+
+}
+
+:root[data-theme-resolved="light"]
+  .stats-section
+  .bowling-stats-view
+  .table-wrap
+  tbody
+  tr:hover
+  td
+{
+
+  background: #eaf5f8;
 
 }
 
@@ -277,6 +318,7 @@
 }
 }
 
+.bowling-breakdown-wrap,
 .bowling-innings-wrap
 {
 
