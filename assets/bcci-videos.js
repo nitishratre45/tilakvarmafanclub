@@ -100,6 +100,30 @@
       return "";
     }
   };
+  const signedUrlExpired = (value) => {
+    try {
+      const token = new URL(value).searchParams.get("token");
+      if (!token) return false;
+      const payloadPart = token.split(".")[1];
+      if (!payloadPart) return false;
+      const base64 = payloadPart.replace(/-/g, "+").replace(/_/g, "/");
+      const claims = JSON.parse(
+        decodeURIComponent(
+          atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, "="))
+            .split("")
+            .map((char) => "%" + char.charCodeAt(0).toString(16).padStart(2, "0"))
+            .join(""),
+        ),
+      );
+      return Number.isFinite(Number(claims.exp)) && Number(claims.exp) * 1000 <= Date.now();
+    } catch {
+      return false;
+    }
+  };
+  const playbackUrlFor = (item) => {
+    const url = validHttps(item && item.playbackUrl);
+    return url && !signedUrlExpired(url) ? url : "";
+  };
   const thumbFor = (item) => {
     const set = item.thumbnailUrlSet || {};
     return validHttps(
@@ -143,7 +167,7 @@
     grid.innerHTML = videos
       .map((item) => {
         const thumb = thumbFor(item);
-        const hasPlayback = !!validHttps(item.playbackUrl);
+        const hasPlayback = !!playbackUrlFor(item);
         return (
           '<article class="bcci-video-card"><button type="button" class="bcci-video-art" data-bcci-video="' +
           esc(item.id) +
@@ -160,7 +184,7 @@
               '" loading="lazy" decoding="async">'
             : '<span class="bcci-video-no-thumb">BCCI VIDEO</span>') +
           '<span class="bcci-video-play">' +
-          (hasPlayback ? "▶" : "Unavailable") +
+          (hasPlayback ? "▶" : signedUrlExpired(item.playbackUrl) ? "Link expired" : "Unavailable") +
           "</span>" +
           (item.duration
             ? '<span class="bcci-video-duration">' + esc(item.duration) + "</span>"
@@ -229,7 +253,7 @@
   };
   const renderUpNext = (current) => {
     if (!upNextList) return;
-    const playable = allVideos.filter((video) => validHttps(video.playbackUrl));
+    const playable = allVideos.filter((video) => !!playbackUrlFor(video));
     const currentIndex = playable.findIndex((video) => String(video.id) === String(current.id));
     const queue = [
       ...playable.slice(currentIndex >= 0 ? currentIndex + 1 : 0),
@@ -273,7 +297,7 @@
       .join("");
   };
   const openPlayer = async (item) => {
-    if (!item || !validHttps(item.playbackUrl)) return;
+    if (!item || !playbackUrlFor(item)) return;
     activeVideo = item;
     modal.hidden = false;
     document.body.classList.add("bcci-player-open");
@@ -309,7 +333,7 @@
         streaming: { retryParameters: { maxAttempts: 3, baseDelay: 500, backoffFactor: 2 } },
         abr: { enabled: true },
       });
-      await player.load(item.playbackUrl);
+      await player.load(playbackUrlFor(item));
       applyPlaybackQuality();
       errorElement.textContent = "Official BCCI stream loaded";
       try {
