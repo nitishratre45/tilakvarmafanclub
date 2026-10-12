@@ -16,3 +16,15 @@
 .article-data-table th:last-child,.article-data-table td:last-child{border-right:0}
 .article-data-table tr:nth-child(even) td{background:#f8faff}
 @media(max-width:700px){.article-paper{padding:23px 16px}.article-body{font-size:15px;line-height:1.85}.article-data-table{min-width:400px;font-size:13px}.article-data-table th,.article-data-table td{padding:10px 11px}}
+
+/* Schedule tables: reserve readable space for short columns and let venue use the remainder. */
+.article-table-wrap{max-width:100%;}
+.article-data-table{table-layout:fixed;min-width:620px;}
+.article-data-table th:nth-child(1),.article-data-table td:nth-child(1){width:52px;text-align:center;}
+.article-data-table th:nth-child(2),.article-data-table td:nth-child(2){width:70px;}
+.article-data-table th:nth-child(3),.article-data-table td:nth-child(3){width:88px;}
+.article-data-table th:nth-child(4),.article-data-table td:nth-child(4){width:92px;}
+.article-data-table th:nth-child(5),.article-data-table td:nth-child(5){width:auto;overflow-wrap:break-word;word-break:normal;}
+.article-data-table th,.article-data-table td{overflow-wrap:normal;word-break:normal;}
+.article-recovered-prose{white-space:normal;overflow-wrap:anywhere;}
+@media(max-width:700px){.article-data-table{min-width:620px;}}
