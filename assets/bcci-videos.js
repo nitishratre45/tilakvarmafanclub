@@ -392,7 +392,11 @@
       return response.json();
     })
     .then((data) => {
-      allVideos = Array.isArray(data.videos) ? data.videos : [];
+      allVideos = (Array.isArray(data.videos) ? data.videos : []).slice().sort((a, b) => {
+        const aTime = Date.parse(a.publishedDate || "") || 0;
+        const bTime = Date.parse(b.publishedDate || "") || 0;
+        return bTime - aTime;
+      });
       window.__bcciVideosUpdated = data.updatedAt || null;
       fillYears();
       render();
