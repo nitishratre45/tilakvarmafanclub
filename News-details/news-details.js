@@ -104,7 +104,8 @@
       const normalize = (value) => String(value || "").replace(/[•·|]/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
       const rawParagraphs = [
         ...(Array.isArray(item.articleText) ? item.articleText : []),
-        ...(Array.isArray(item.matchedLines) ? item.matchedLines : [])
+        ...(Array.isArray(item.matchedLines) ? item.matchedLines : []),
+        ...(typeof item.fullText === "string" && item.fullText ? [item.fullText] : [])
       ];
       const paragraphs = [...new Set(rawParagraphs
         .filter((line) => typeof line === "string" && line.trim())
