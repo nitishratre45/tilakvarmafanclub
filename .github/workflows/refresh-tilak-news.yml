@@ -1,0 +1,37 @@
+name: Refresh Tilak Varma news
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 2 * * *"
+permissions:
+  contents: write
+concurrency:
+  group: refresh-tilak-news
+  cancel-in-progress: false
+jobs:
+  refresh-news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch BCCI pages and filter Tilak Varma mentions
+        run: |
+          python scripts/news.py
+          python scripts/newsreader.py
+          python -m json.tool News/newsjson.json > /dev/null
+          python -m json.tool News/raw-news-pages.json > /dev/null
+      - name: Commit updated news snapshots
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add News/raw-news-pages.json News/newsjson.json
+          if git diff --cached --quiet; then
+            echo "No news snapshot changes."
+            exit 0
+          fi
+          git commit -m "chore: refresh Tilak Varma news snapshot"
+          git push origin HEAD:main
