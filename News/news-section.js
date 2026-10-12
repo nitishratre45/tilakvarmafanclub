@@ -213,8 +213,8 @@
 
       render();
       updated.textContent = data.updatedAt
-        ? "Last checked: " + dateLabel(data.updatedAt) + " · Source: BCCI News API only"
-        : "Source: BCCI News API only";
+        ? "Last checked: " + dateLabel(data.updatedAt)"
+        : "";
     })
     .catch((error) => {
       showEmpty("News snapshot unavailable", "The saved BCCI news file could not be loaded. Please try again after the next successful news refresh.");
