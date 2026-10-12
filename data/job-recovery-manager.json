@@ -1,29 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T12:43:49.981Z",
+  "checkedAt": "2026-10-12T12:44:19.272Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T03:37:28.488Z",
-      "workflow": "Validate Tilak Varma FC site",
-      "workflowPath": ".github/workflows/site-check.yml",
-      "runId": 38200462687,
-      "runAttempt": 1,
-      "conclusion": "failure",
-      "event": "pull_request",
-      "branch": "fix/profile-latest-match-data",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38200462687",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 0,
-        "success": 0,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": []
-    },
     {
       "checkedAt": "2026-10-12T03:37:36.450Z",
       "workflow": "Admin data editor tests",
@@ -13434,6 +13413,42 @@
         "skipped": 0
       },
       "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T12:44:19.272Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38250796506,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38250796506",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 1,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Desktop and mobile interaction checks",
+          "conclusion": "cancelled",
+          "startedAt": "2026-10-12T12:43:20Z",
+          "completedAt": "2026-10-12T12:44:10Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38250796506/job/114816259822",
+          "steps": [
+            {
+              "name": "Upload browser server log if tests fail",
+              "conclusion": "skipped",
+              "number": 7
+            }
+          ]
+        }
+      ]
     }
   ]
 }
