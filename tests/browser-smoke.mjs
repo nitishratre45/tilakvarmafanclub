@@ -55,7 +55,8 @@ check("Stats Batting, Bowling, and Explore tabs respond", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="#stats"]').click();
+  await page.locator('#main-nav a[href="/stats"]').click();
+  await page.waitForFunction(() => location.pathname.replace(/\/$/, "") === "/stats");
 
   const views = [
     { tab: "stats-overview", view: "#stats-overview", label: "Batting" },
