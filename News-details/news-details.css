@@ -260,3 +260,7 @@
  .site-navigation a{min-height:43px;padding:8px 4px;border-radius:7px;font-size:12px;background:#0b1c31}
  .site-navigation a.active:after{left:22%;right:22%;bottom:0;height:2px}
 }
+
+/* Override the previous grid-layout rule: desktop nav must stay on one row. */
+@media(min-width:901px){.site-navigation{display:flex!important}.menu-toggle{display:none!important}}
+@media(max-width:900px){.site-navigation{display:none}.site-navigation.is-open{display:grid!important}.menu-toggle{display:flex!important}}
