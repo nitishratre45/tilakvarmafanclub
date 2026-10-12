@@ -1,9 +1,13 @@
 // Case-sensitive compatibility route for the physical /Stats folder.
-// The folder contains partial HTML, so direct browser requests must not serve
-// those fragments as standalone pages. Use the app shell on any /Stats/* URL.
+// Its HTML files are partials, not standalone pages. Redirect direct browser
+// visits to the canonical lowercase route; internal fetches still load /Stats/*.
 export async function onRequest(context) {
   const url = new URL(context.request.url);
-  url.pathname = "/index.html";
-  url.search = "";
-  return context.next(new Request(url, context.request));
+  const suffix = url.pathname.slice("/Stats".length).replace(/^\/+/, "");
+  // Keep the Stats module files available for fetches, but do not serve a
+  // partial document as a standalone page in the browser.
+  if (context.request.headers.get("accept")?.includes("text/html")) {
+    return Response.redirect(new URL("/stats" + url.search + url.hash, url), 302);
+  }
+  return context.next();
 }
