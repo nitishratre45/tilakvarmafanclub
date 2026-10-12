@@ -17,7 +17,11 @@ def official_url(value: str) -> bool:
     try:
         p = urlparse(str(value or ""))
         host = (p.hostname or "").lower()
-        return p.scheme == "https" and (host == "bcci.tv" or host.endswith(".bcci.tv")) and ("/news/article/" in p.path or "/webview/news/article/" in p.path)
+        return (
+            p.scheme == "https"
+            and (host == "bcci.tv" or host.endswith(".bcci.tv"))
+            and ("/news/article/" in p.path or "/webview/news/article/" in p.path)
+        )
     except Exception:
         return False
 
@@ -43,7 +47,9 @@ def blocks_for(article: dict) -> list[dict]:
             flush_table()
             try:
                 rows = json.loads(marker.group(1))
-                if isinstance(rows, list) and all(isinstance(row, list) for row in rows):
+                if isinstance(rows, list) and all(
+                    isinstance(row, list) for row in rows
+                ):
                     blocks.append({"type": "table", "rows": rows})
             except json.JSONDecodeError:
                 pass
@@ -64,48 +70,96 @@ def blocks_for(article: dict) -> list[dict]:
 def main():
     raw = json.loads(RAW.read_text(encoding="utf-8"))
     doc = json.loads(NEWS.read_text(encoding="utf-8"))
-    fetched = {str(a.get("webviewUrl") or ""): a for a in raw.get("articles", []) if isinstance(a, dict)}
+    fetched = {
+        str(a.get("webviewUrl") or ""): a
+        for a in raw.get("articles", [])
+        if isinstance(a, dict)
+    }
     findings = []
     output = []
     for index, item in enumerate(doc.get("news", [])):
         if not isinstance(item, dict):
-            findings.append({"severity": "error", "record": index, "issue": "record is not an object"})
+            findings.append(
+                {
+                    "severity": "error",
+                    "record": index,
+                    "issue": "record is not an object",
+                }
+            )
             continue
         url = str(item.get("webviewUrl") or "")
         source = fetched.get(url)
         if not official_url(url):
-            findings.append({"severity": "error", "record": index, "issue": "news URL is not a BCCI article URL"})
+            findings.append(
+                {
+                    "severity": "error",
+                    "record": index,
+                    "issue": "news URL is not a BCCI article URL",
+                }
+            )
             continue
         if not source:
-            findings.append({"severity": "warning", "record": index, "issue": "article URL not present in latest fetched raw snapshot"})
+            findings.append(
+                {
+                    "severity": "warning",
+                    "record": index,
+                    "issue": "article URL not present in latest fetched raw snapshot",
+                }
+            )
             output.append(item)
             continue
         final_url = str(source.get("finalUrl") or source.get("webviewUrl") or "")
         canonical = str((source.get("meta") or {}).get("canonical") or "")
         if not official_url(final_url) or (canonical and not official_url(canonical)):
-            findings.append({"severity": "error", "record": index, "issue": "live page redirect/canonical is not a BCCI article URL"})
+            findings.append(
+                {
+                    "severity": "error",
+                    "record": index,
+                    "issue": "live page redirect/canonical is not a BCCI article URL",
+                }
+            )
             continue
-        body = str(source.get("pageText") or item.get("fullText") or item.get("pageText") or "")
-        title = str(source.get("pageTitle") or source.get("title") or item.get("title") or "")
-        if not NAME.search(" ".join((title, body, str(source.get("description") or "")))):
-            findings.append({"severity": "error", "record": index, "issue": "Tilak Varma not found in verified live page title/body"})
+        body = str(
+            source.get("pageText") or item.get("fullText") or item.get("pageText") or ""
+        )
+        title = str(
+            source.get("pageTitle") or source.get("title") or item.get("title") or ""
+        )
+        if not NAME.search(
+            " ".join((title, body, str(source.get("description") or "")))
+        ):
+            findings.append(
+                {
+                    "severity": "error",
+                    "record": index,
+                    "issue": "Tilak Varma not found in verified live page title/body",
+                }
+            )
             continue
         merged = dict(item)
-        merged.update({
-            "title": str(source.get("title") or item.get("title") or title),
-            "webviewUrl": url,
-            "verifiedLiveUrl": final_url,
-            "canonicalUrl": canonical or final_url,
-            "pageTitle": title,
-            "description": source.get("description") or item.get("description") or "",
-            "fullText": body,
-            "pageText": body,
-            "articleText": [b["text"] for b in blocks_for({"pageText": body}) if b["type"] in {"text", "heading"}],
-            "contentBlocks": blocks_for({"pageText": body}),
-            "livePageVerified": True,
-            "verifiedAt": datetime.now(timezone.utc).isoformat(),
-            "sourceName": "BCCI",
-        })
+        merged.update(
+            {
+                "title": str(source.get("title") or item.get("title") or title),
+                "webviewUrl": url,
+                "verifiedLiveUrl": final_url,
+                "canonicalUrl": canonical or final_url,
+                "pageTitle": title,
+                "description": source.get("description")
+                or item.get("description")
+                or "",
+                "fullText": body,
+                "pageText": body,
+                "articleText": [
+                    b["text"]
+                    for b in blocks_for({"pageText": body})
+                    if b["type"] in {"text", "heading"}
+                ],
+                "contentBlocks": blocks_for({"pageText": body}),
+                "livePageVerified": True,
+                "verifiedAt": datetime.now(timezone.utc).isoformat(),
+                "sourceName": "BCCI",
+            }
+        )
         output.append(merged)
     doc["news"] = output
     doc["matchedCount"] = len(output)
@@ -116,15 +170,33 @@ def main():
         "findings": findings,
         "format": "paragraphs, headings, and detected HTML tables",
     }
-    NEWS.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    NEWS.write_text(
+        json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     try:
-        report = json.loads(REPORT.read_text(encoding="utf-8")) if REPORT.exists() else {}
+        report = (
+            json.loads(REPORT.read_text(encoding="utf-8")) if REPORT.exists() else {}
+        )
         report["contentVerification"] = doc["contentFormatter"]
-        report["status"] = "error" if any(x["severity"] == "error" for x in findings) else report.get("status", "healthy")
-        REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        report["status"] = (
+            "error"
+            if any(x["severity"] == "error" for x in findings)
+            else report.get("status", "healthy")
+        )
+        REPORT.write_text(
+            json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
     except (OSError, json.JSONDecodeError):
         pass
-    print(json.dumps({"verified": doc["contentFormatter"]["liveUrlsMatched"], "published": len(output), "findings": len(findings)}))
+    print(
+        json.dumps(
+            {
+                "verified": doc["contentFormatter"]["liveUrlsMatched"],
+                "published": len(output),
+                "findings": len(findings),
+            }
+        )
+    )
 
 
 if __name__ == "__main__":

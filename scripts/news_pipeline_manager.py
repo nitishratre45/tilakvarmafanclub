@@ -101,7 +101,11 @@ def main():
         "status": (
             "error"
             if invalid or any(x["severity"] == "error" for x in findings)
-            else "warning" if findings or newsdoc.get("contentFormatter", {}).get("findings") else "healthy"
+            else (
+                "warning"
+                if findings or newsdoc.get("contentFormatter", {}).get("findings")
+                else "healthy"
+            )
         ),
         "jsonFilesScanned": len(json_files) + len(invalid),
         "validJsonFiles": len(json_files),
