@@ -1,44 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T11:13:08.699Z",
+  "checkedAt": "2026-10-12T11:13:46.121Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-11T21:53:41.435Z",
-      "workflow": "Browser smoke tests",
-      "workflowPath": ".github/workflows/browser-smoke.yml",
-      "runId": 38178206657,
-      "runAttempt": 1,
-      "conclusion": "cancelled",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38178206657",
-      "action": "manual_review_required",
-      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 0,
-        "cancelled": 1,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "Desktop and mobile interaction checks",
-          "conclusion": "cancelled",
-          "startedAt": "2026-10-11T21:53:30Z",
-          "completedAt": "2026-10-11T21:53:33Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38178206657/job/114584988296",
-          "steps": [
-            {
-              "name": "Set up job",
-              "conclusion": "cancelled",
-              "number": 1
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-11T21:53:50.234Z",
       "workflow": "Auto-rerun failed GitHub Actions jobs",
@@ -13921,6 +13885,27 @@
       "event": "push",
       "branch": "main",
       "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38241138345",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T11:13:46.121Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38241184526,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38241184526",
       "action": "no_recovery_needed",
       "reason": "No failed, cancelled, or skipped jobs require this manager.",
       "jobCounts": {
