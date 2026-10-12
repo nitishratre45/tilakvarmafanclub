@@ -133,6 +133,12 @@ def collect_articles(document: dict) -> list[dict]:
             parsed = urlparse(url)
             if parsed.scheme != "https" or not parsed.netloc:
                 continue
+            host = parsed.netloc.lower()
+            is_bcci_article = host.endswith("bcci.tv") and "/news/article/" in parsed.path
+            is_google_result = host == "news.google.com" and "/rss/articles/" in parsed.path
+            is_espn_article = host.endswith("espncricinfo.com") and ("/story/" in parsed.path or "/cricket-news/" in parsed.path)
+            if not (is_bcci_article or is_google_result or is_espn_article):
+                continue
             canonical = url.split("#", 1)[0]
             if canonical in seen:
                 continue
@@ -140,15 +146,20 @@ def collect_articles(document: dict) -> list[dict]:
             image = first_value(record, IMAGE_KEYS) or ""
             if isinstance(image, str) and image.startswith("/"):
                 image = urljoin("https://www.bcci.tv", image)
+            title = first_value(record, TITLE_KEYS) or ""
+            if not title:
+                continue
             articles.append({
                 "id": re.sub(r"[^a-z0-9]+", "-", parsed.path.lower()).strip("-") or canonical,
                 "webviewUrl": canonical,
-                "title": first_value(record, TITLE_KEYS) or "",
-                "imageUrl": image,
+                "title": title[:300],
+                "imageUrl": image[:1500] if image else "",
                 "publishedAt": first_value(record, DATE_KEYS) or "",
                 "sourceName": first_value(record, {"sourcename", "source"}) or page_source,
                 "apiRecord": record,
             })
+            if len(articles) >= 250:
+                return articles
     return articles
 
 
@@ -273,7 +284,23 @@ def main() -> None:
         try:
             previous_data = json.loads(OUTPUT.read_text(encoding="utf-8"))
             if isinstance(previous_data.get("news"), list):
-                previous_news = previous_data["news"]
+                previous_news = []
+                for item in previous_data["news"]:
+                    if not isinstance(item, dict):
+                        continue
+                    clean = {
+                        key: item.get(key)
+                        for key in ("id", "webviewUrl", "title", "imageUrl", "publishedAt", "sourceName", "matchedLines", "matchFoundIn")
+                        if item.get(key) is not None
+                    }
+                    article_text = item.get("articleText")
+                    if isinstance(article_text, list):
+                        clean["articleText"] = [str(line)[:500] for line in article_text[:12]]
+                    elif isinstance(article_text, str):
+                        clean["articleText"] = article_text[:4000]
+                    clean["title"] = str(clean.get("title") or "")[:300]
+                    clean["imageUrl"] = str(clean.get("imageUrl") or "")[:1500]
+                    previous_news.append(clean)
         except (OSError, json.JSONDecodeError):
             print("WARNING: existing filtered archive could not be read; only fresh matches can be saved")
 
@@ -311,7 +338,7 @@ def main() -> None:
             if matched_lines or title_match or record_match or source_title_match:
                 article["matchedLines"] = matched_lines[:12]
                 if text.strip():
-                    article["articleText"] = [line.strip() for line in text.splitlines() if line.strip()][:220]
+                    article["articleText"] = [line.strip()[:500] for line in text.splitlines() if line.strip()][:12]
                 article["matchFoundIn"] = [
                     name for name, found in (("article", bool(matched_lines)), ("title", title_match), ("apiRecord", record_match))
                     if found
@@ -340,6 +367,15 @@ def main() -> None:
     # Collapse exact URL/tracking variants and exact normalized-title duplicates across sources.
     merged = merge_unique_news(previous_news, matches)
     merged.sort(key=lambda item: str(item.get("publishedAt", "")), reverse=True)
+    merged = merged[:500]
+    for item in merged:
+        item["title"] = str(item.get("title") or "")[:300]
+        item["imageUrl"] = str(item.get("imageUrl") or "")[:1500]
+        if isinstance(item.get("articleText"), list):
+            item["articleText"] = [str(line)[:500] for line in item["articleText"][:12]]
+        elif isinstance(item.get("articleText"), str):
+            item["articleText"] = item["articleText"][:4000]
+        item.pop("apiRecord", None)
     result = {
         "player": "Tilak Varma",
         "source": document.get("source", "BCCI + Google News RSS"),
