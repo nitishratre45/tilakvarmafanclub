@@ -23,7 +23,7 @@ jobs:
           python scripts/news.py
           python scripts/newsreader.py
           python -m json.tool News/newsjson.json > /dev/null
-          python -m json.tool News/tilak-news.json > /dev/null
+          python -m json.tool News/raw-news-pages.json > /dev/null
       - name: Commit updated news snapshots
         run: |
           git config user.name "github-actions[bot]"
