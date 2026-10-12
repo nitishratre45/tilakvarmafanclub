@@ -112,6 +112,7 @@ def main():
     fetched = raw.get("articles", []) if isinstance(raw.get("articles"), list) else []
     findings = []
     output = []
+    non_matches = 0
     for index, source in enumerate(fetched):
         item = source
         if not isinstance(item, dict):
@@ -123,7 +124,6 @@ def main():
                 }
             )
             continue
-        url = str(item.get("webviewUrl") or "")
         url = str(item.get("webviewUrl") or "")
         if not official_url(url):
             findings.append(
@@ -152,13 +152,9 @@ def main():
         title = str(item.get("pageTitle") or item.get("title") or "")
         description = str(item.get("description") or "")
         if not NAME.search(" ".join((title, body, description))):
-            findings.append(
-                {
-                    "severity": "error",
-                    "record": index,
-                    "issue": "Tilak Varma not found in verified live page title/body",
-                }
-            )
+            # Most BCCI articles are expected not to mention Tilak. This is a
+            # normal filter skip, not a pipeline failure.
+            non_matches += 1
             continue
         merged = {
             k: v for k, v in item.items() if k not in {"meta", "jsonLd", "apiRecord"}
@@ -196,6 +192,7 @@ def main():
         "checkedAt": datetime.now(timezone.utc).isoformat(),
         "liveUrlsMatched": sum(bool(x.get("livePageVerified")) for x in output),
         "unverifiedRecordsExcluded": max(0, len(fetched) - len(output)),
+        "nonMatchingArticlesSkipped": non_matches,
         "findings": findings,
         "format": "paragraphs, headings, and detected HTML tables",
     }
