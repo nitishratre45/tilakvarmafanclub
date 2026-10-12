@@ -106,7 +106,6 @@ def main():
                     "issue": "article URL not present in latest fetched raw snapshot",
                 }
             )
-            output.append(item)
             continue
         final_url = str(source.get("finalUrl") or source.get("webviewUrl") or "")
         canonical = str((source.get("meta") or {}).get("canonical") or "")
@@ -167,6 +166,7 @@ def main():
     doc["contentFormatter"] = {
         "checkedAt": datetime.now(timezone.utc).isoformat(),
         "liveUrlsMatched": sum(bool(x.get("livePageVerified")) for x in output),
+        "unverifiedRecordsExcluded": max(0, len(doc.get("news", [])) - len(output)),
         "findings": findings,
         "format": "paragraphs, headings, and detected HTML tables",
     }
