@@ -201,7 +201,8 @@
           imageUrl: imageUrlOf(item),
           publishedAt: dateOf(item)
         };
-        const key = url || ("manual:" + id);\n        if (!unique.has(key)) unique.set(key, normalized);
+        const key = url || ("manual:" + id);
+        if (!unique.has(key)) unique.set(key, normalized);
       });
 
       allItems = Array.from(unique.values()).sort((a, b) => {
