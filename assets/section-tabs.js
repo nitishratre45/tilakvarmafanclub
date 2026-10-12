@@ -144,6 +144,18 @@
     });
   });
 
+  // Stats markup is fetched and mounted asynchronously. Reapply the saved
+  // sub-view after the module exists so a reload on /stats restores Bowling/Explore.
+  window.addEventListener("tilak:stats-mounted", () => {
+    const isStatsRoute = location.pathname.replace(/\/$/, "") === "/stats";
+    if (!isStatsRoute && location.hash !== "#stats") return;
+    let savedView = null;
+    try {
+      savedView = sessionStorage.getItem("tilak-stats-view");
+    } catch (_) {}
+    setStatsView(savedView || "stats-overview");
+  });
+
   window.addEventListener("popstate", (event) => {
     const id =
       location.pathname.replace(/\/$/, "") === "/stats"
