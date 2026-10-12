@@ -50,7 +50,9 @@ def blocks_for(article: dict) -> list[dict]:
     # BCCI HTML extraction flattens table rows to pipe-separated text. Parse a
     # table only when a recognizable header exists; never treat the whole page
     # as a table simply because it contains pipe characters.
-    tokens = [token.strip() for token in re.split(r"\\s*\\|\\s*", text) if token.strip()]
+    tokens = [
+        token.strip() for token in re.split(r"\\s*\\|\\s*", text) if token.strip()
+    ]
     header_sets = [
         (["no.", "day", "date", "match", "venue"], 5),
         (["no.", "day", "date", "day (to)", "date (to)", "match", "venue"], 7),
@@ -73,10 +75,10 @@ def blocks_for(article: dict) -> list[dict]:
         # It is okay if preceding prose has already been represented; cursor
         # always advances to the next detected table and the original text is
         # retained in fullText for reference.
-        rows = [tokens[header_start:header_start + width]]
+        rows = [tokens[header_start : header_start + width]]
         pos = header_start + width
         while pos + width <= len(tokens):
-            candidate = tokens[pos:pos + width]
+            candidate = tokens[pos : pos + width]
             if [v.lower() for v in candidate] in [item[0] for item in header_sets]:
                 break
             first = candidate[0]
@@ -90,7 +92,7 @@ def blocks_for(article: dict) -> list[dict]:
             pos += width
         # If no data rows follow, this was not a genuine table.
         if len(rows) > 1:
-            add_prose(" ".join(tokens[max(0, header_start - 1):header_start]).strip())
+            add_prose(" ".join(tokens[max(0, header_start - 1) : header_start]).strip())
             blocks.append({"type": "table", "rows": rows})
             cursor = pos
         else:
