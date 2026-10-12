@@ -18,7 +18,9 @@
       template.innerHTML = shell.trim();
       const statsSection = template.content.querySelector("#stats");
       if (!statsSection) throw new Error("Stats/index.html has no #stats section");
-      moduleMount.replaceWith(statsSection);
+      const placeholderSection = moduleMount.closest("#stats");
+      if (!placeholderSection) throw new Error("Root Stats placeholder is missing");
+      placeholderSection.replaceWith(statsSection);
 
       const targets = [...statsSection.querySelectorAll("[data-stats-partial]")];
       for (const target of targets) {
