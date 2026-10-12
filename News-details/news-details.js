@@ -11,7 +11,7 @@
   const formatDate = (value) => {
     if (!value) return "";
     const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat("en-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true}).format(date) + " IST";
+    return Number.isNaN(date.getTime()) ? String(value) : new Intl.DateTimeFormat("en-IN", {timeZone:"Asia/Kolkata",day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true}).format(date) + " IST";
   };
   const relativeDate = (value) => {
     if (!value) return "BCCI · News";
@@ -25,132 +25,101 @@
   };
   const makeThumb = (url, title) => {
     const imageUrl = safeUrl(url);
-    if (imageUrl) {
-      const img = document.createElement("img");
-      img.className = "related-thumb";
-      img.src = imageUrl;
-      img.alt = title || "Related news thumbnail";
-      img.loading = "lazy";
-      img.onerror = () => {
-        const fallback = document.createElement("div");
-        fallback.className = "related-thumb related-thumb-fallback";
-        fallback.textContent = "72";
-        img.replaceWith(fallback);
-      };
-      return img;
-    }
-    const fallback = document.createElement("div");
-    fallback.className = "related-thumb related-thumb-fallback";
-    fallback.textContent = "72";
-    return fallback;
+    const node = document.createElement(imageUrl ? "img" : "div");
+    node.className = "related-thumb" + (imageUrl ? "" : " related-thumb-fallback");
+    if (imageUrl) { node.src = imageUrl; node.alt = title || "Related news thumbnail"; node.loading = "lazy"; node.onerror = () => { node.replaceWith(makeThumb("", title)); }; }
+    else node.textContent = "72";
+    return node;
   };
   const renderRelated = (items, current) => {
     const list = document.getElementById("related-stories");
     const others = items.filter((item) => item !== current).slice(0, 5);
     document.getElementById("related-count").textContent = items.length + " STORIES";
     list.replaceChildren();
-    if (!others.length) {
-      const note = document.createElement("p");
-      note.className = "related-loading";
-      note.textContent = "More stories will appear here as the news archive grows.";
-      list.appendChild(note);
-      return;
-    }
+    if (!others.length) { const p=document.createElement("p");p.className="related-loading";p.textContent="More stories will appear here as the news archive grows.";list.appendChild(p);return; }
     others.forEach((item, index) => {
-      const card = document.createElement("article");
-      card.className = "related-card";
-      const copy = document.createElement("div");
-      copy.className = "related-copy";
-      const category = document.createElement("div");
-      category.className = "related-category";
-      category.textContent = item.category || "Press Releases";
-      const link = document.createElement("a");
-      link.className = "related-title";
-      link.href = "index.html?id=" + encodeURIComponent(item.id || String(index));
-      link.textContent = item.title || "Tilak Varma news update";
-      const date = document.createElement("div");
-      date.className = "related-date";
-      date.textContent = relativeDate(item.publishedAt);
-      copy.append(category, link, date);
-      card.append(copy, makeThumb(item.imageUrl, item.title));
-      list.appendChild(card);
+      const card=document.createElement("article");card.className="related-card";
+      const copy=document.createElement("div");copy.className="related-copy";
+      const category=document.createElement("div");category.className="related-category";category.textContent=item.category||"Press Releases";
+      const link=document.createElement("a");link.className="related-title";link.href="index.html?id="+encodeURIComponent(item.id||String(index));link.textContent=item.title||"Tilak Varma news update";
+      const date=document.createElement("div");date.className="related-date";date.textContent=relativeDate(item.publishedAt);
+      copy.append(category,link,date);card.append(copy,makeThumb(item.imageUrl,item.title));list.appendChild(card);
     });
   };
-  document.getElementById("share-article").addEventListener("click", async () => {
-    const shareData = {title: document.title, url: location.href};
-    try {
-      if (navigator.share) await navigator.share(shareData);
-      else if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(location.href);
-        document.getElementById("share-article").textContent = "✓ Link copied";
-      } else window.prompt("Copy this article link:", location.href);
-    } catch (_) {}
-  });
-  fetch("../News/newsjson.json", {cache:"no-store"})
-    .then((response) => { if (!response.ok) throw new Error("News JSON unavailable. Please return to the news page and try again."); return response.json(); })
-    .then((data) => {
-      const items = Array.isArray(data.news) ? data.news : [];
-      const item = items.find((news, index) => (news.id && String(news.id) === id) || String(index) === id);
-      if (!item) throw new Error("This news item is not available in the latest saved snapshot.");
-      const original = safeUrl(item.webviewUrl);
-      if (!original) throw new Error("The original article link is not valid.");
-      document.title = (item.title || "Tilak Varma News") + " | The 72 Club";
-      document.getElementById("detail-title").textContent = item.title || "Tilak Varma News";
-      document.getElementById("detail-date").textContent = formatDate(item.publishedAt) || "BCCI · Tilak Varma news";
-      document.getElementById("detail-relative-date").textContent = relativeDate(item.publishedAt);
-      const body = document.getElementById("detail-excerpt");
-      body.replaceChildren();
-      const navigationLabels = new Set(["news", "videos", "photos", "matches", "players", "more", "home", "menu", "search", "sign in", "login"]);
-      const normalize = (value) => String(value || "").replace(/[•·|]/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
-      const rawText = String(item.fullText || item.pageText || "");
-      const rawParagraphs = Array.isArray(item.articleText) && item.articleText.length ? item.articleText : rawText.split(/\\n+/);
-      const paragraphs = [...new Set(rawParagraphs.filter((line) => typeof line === "string" && line.trim()).map((line) => line.trim()).filter((line) => line.length >= 2).filter((line) => !navigationLabels.has(normalize(line)) && normalize(line) !== normalize(item.title)))];
-      const appendFormattedText = (host, value) => {
-        const parts = String(value).split(/(\\*\\*[^*]+\\*\\*)/g);
-        parts.forEach((part) => {
-          const match = part.match(/^\\*\\*(.+)\\*\\*$/);
-          if (match) { const strong = document.createElement("strong"); strong.textContent = match[1]; host.appendChild(strong); }
-          else host.appendChild(document.createTextNode(part));
-        });
-      };
-      const rows = paragraphs.filter((line) => line.includes(" | "));
-      if (paragraphs.length) {
-        let table = null;
-        paragraphs.forEach((line) => {
-          const cells = line.split(" | ").map((cell) => cell.trim()).filter(Boolean);
-          if (line.includes(" | ") && cells.length >= 2) {
-            if (!table) { table = document.createElement("table"); table.className = "article-data-table"; body.appendChild(table); }
-            const tr = document.createElement("tr");
-            cells.forEach((cell) => { const td = document.createElement("td"); appendFormattedText(td, cell); tr.appendChild(td); });
-            table.appendChild(tr);
-            return;
-          }
-          table = null;
-          const p = document.createElement("p");
-          appendFormattedText(p, line);
-          body.appendChild(p);
-        });
-      } else {
-        const p = document.createElement("p");
-        p.textContent = "The saved BCCI feed does not include the full article text yet. Use the official BCCI link below to read the complete story.";
-        body.appendChild(p);
-      }
-            const image = document.getElementById("detail-image");
-      const imageUrl = safeUrl(item.imageUrl);
-      if (imageUrl) {
-        image.src = imageUrl;
-        image.alt = item.title || "BCCI article image";
-        image.hidden = false;
-        document.getElementById("image-fallback").hidden = true;
-        image.onerror = () => { image.hidden = true; document.getElementById("image-fallback").hidden = false; };
-      }
-      document.getElementById("original-link").href = original;
-      renderRelated(items, item);
-      status.hidden = true;
-      article.hidden = false;
-    })
-    .catch((error) => {
-      status.textContent = error.message || "Could not load this news item.";
-      document.getElementById("related-stories").innerHTML = '<p class="related-loading">Related stories are temporarily unavailable.</p>';
+  const appendRichText = (host, value) => {
+    const text = String(value || "");
+    const parts = text.split(/(\*\*[^*]+\*\*|__[^_]+__)/g);
+    parts.forEach((part) => {
+      const match = part.match(/^(?:\*\*(.+)\*\*|__(.+)__)$/);
+      if (match) { const strong=document.createElement("strong");strong.textContent=match[1]||match[2];host.appendChild(strong); }
+      else host.appendChild(document.createTextNode(part));
     });
+  };
+  const appendTable = (host, rows) => {
+    if (!Array.isArray(rows) || !rows.length) return;
+    const wrap=document.createElement("div");wrap.className="article-table-wrap";
+    const table=document.createElement("table");table.className="article-data-table";
+    rows.filter(Array.isArray).forEach((cells,rowIndex)=>{
+      const tr=document.createElement("tr");
+      cells.forEach((cell)=>{const td=document.createElement(rowIndex===0?"th":"td");appendRichText(td,cell);tr.appendChild(td);});
+      table.appendChild(tr);
+    });
+    wrap.appendChild(table);host.appendChild(wrap);
+  };
+  const renderBody = (host, item) => {
+    host.replaceChildren();
+    const blocks = Array.isArray(item.contentBlocks) ? item.contentBlocks : [];
+    if (blocks.length) {
+      blocks.forEach((block) => {
+        if (!block || typeof block !== "object") return;
+        if (block.type === "table") { appendTable(host, block.rows); return; }
+        const value=String(block.text||"").trim(); if(!value) return;
+        if(block.type==="heading"){const h=document.createElement("h2");appendRichText(h,value);host.appendChild(h);}
+        else if(block.type==="list"){const li=document.createElement("p");li.className="article-list-item";li.textContent="• "+value;host.appendChild(li);}
+        else {const p=document.createElement("p");appendRichText(p,value);host.appendChild(p);}
+      });
+      return;
+    }
+    const raw=String(item.fullText||item.pageText||"");
+    const source=Array.isArray(item.articleText)&&item.articleText.length?item.articleText:raw.split(/\n+/);
+    const lines=source.map(x=>String(x||"").trim()).filter(x=>x.length>1);
+    let tableRows=[];
+    const flushTable=()=>{if(tableRows.length){appendTable(host,tableRows);tableRows=[];}};
+    lines.forEach((line)=>{
+      const marker=line.match(/^\[TABLE\](.*?)\[\/TABLE\]$/s);
+      if(marker){flushTable();try{appendTable(host,JSON.parse(marker[1]));}catch(_){}return;}
+      const cells=line.split(/\s+\|\s+/).map(x=>x.trim()).filter(Boolean);
+      if(cells.length>=2){tableRows.push(cells);return;} flushTable();
+      if(/^\*\*[^*]{2,100}\*\*$/.test(line)){const h=document.createElement("h2");appendRichText(h,line);host.appendChild(h);return;}
+      const p=document.createElement("p");
+      const label=line.match(/^([^:]{2,70}:)\s+(.+)$/);
+      if(label){const strong=document.createElement("strong");strong.textContent=label[1]+" ";p.appendChild(strong);appendRichText(p,label[2]);}
+      else appendRichText(p,line);
+      host.appendChild(p);
+    });
+    flushTable();
+    if(!host.childNodes.length){const p=document.createElement("p");p.textContent="The saved BCCI feed does not include the complete article body yet. Open the verified official source below for the original story.";host.appendChild(p);}
+  };
+  document.getElementById("share-article").addEventListener("click", async () => {
+    try { if(navigator.share) await navigator.share({title:document.title,url:location.href}); else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(location.href);document.getElementById("share-article").textContent="✓ Link copied";} else window.prompt("Copy this article link:",location.href); } catch (_) {}
+  });
+  fetch("../News/newsjson.json",{cache:"no-store"})
+    .then(response=>{if(!response.ok)throw new Error("News JSON unavailable. Please return to the news page and try again.");return response.json();})
+    .then(data=>{
+      const items=Array.isArray(data.news)?data.news:[];
+      const item=items.find((news,index)=>(news.id&&String(news.id)===id)||String(index)===id);
+      if(!item)throw new Error("This news item is not available in the latest saved snapshot.");
+      const original=safeUrl(item.webviewUrl);
+      if(!original)throw new Error("The original article link is not valid.");
+      document.title=(item.title||"Tilak Varma News")+" | The 72 Club";
+      document.getElementById("detail-title").textContent=item.title||"Tilak Varma News";
+      document.getElementById("detail-date").textContent=formatDate(item.publishedAt)||"BCCI · Tilak Varma news";
+      document.getElementById("detail-relative-date").textContent=relativeDate(item.publishedAt);
+      renderBody(document.getElementById("detail-excerpt"),item);
+      const image=document.getElementById("detail-image");const imageUrl=safeUrl(item.imageUrl);
+      if(imageUrl){image.src=imageUrl;image.alt=item.title||"BCCI article image";image.hidden=false;document.getElementById("image-fallback").hidden=true;image.onerror=()=>{image.hidden=true;document.getElementById("image-fallback").hidden=false;};}
+      document.getElementById("original-link").href=original;
+      renderRelated(items,item);status.hidden=true;article.hidden=false;
+    })
+    .catch(error=>{status.textContent=error.message||"Could not load this news item.";document.getElementById("related-stories").textContent="Related stories are temporarily unavailable.";});
 })();
