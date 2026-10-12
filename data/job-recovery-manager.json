@@ -1,38 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T11:15:31.159Z",
+  "checkedAt": "2026-10-12T11:19:27.026Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-11T21:56:27.548Z",
-      "workflow": "Auto-rerun failed GitHub Actions jobs",
-      "workflowPath": ".github/workflows/auto-rerun-failed.yml",
-      "runId": 38178392109,
-      "runAttempt": 1,
-      "conclusion": "skipped",
-      "event": "workflow_run",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38178392109",
-      "action": "skipped_diagnosed",
-      "reason": "Skipped jobs are not automatically rerun: inspect their if/needs conditions and dependency outcomes.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 1
-      },
-      "jobs": [
-        {
-          "name": "Retry failed jobs once",
-          "conclusion": "skipped",
-          "startedAt": "2026-10-11T21:56:15Z",
-          "completedAt": "2026-10-11T21:56:14Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38178392109/job/114585537719",
-          "steps": []
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-11T21:57:20.921Z",
       "workflow": "Auto-rerun failed GitHub Actions jobs",
@@ -13901,6 +13871,36 @@
         "skipped": 0
       },
       "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T11:19:27.026Z",
+      "workflow": "Admin data editor tests",
+      "workflowPath": ".github/workflows/admin-data-editor-tests.yml",
+      "runId": 38241354478,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38241354478",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 1,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Admin save validation and API safety",
+          "conclusion": "cancelled",
+          "startedAt": "2026-10-12T11:14:18Z",
+          "completedAt": "2026-10-12T11:19:18Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38241354478/job/114784471379",
+          "steps": []
+        }
+      ]
     }
   ]
 }
