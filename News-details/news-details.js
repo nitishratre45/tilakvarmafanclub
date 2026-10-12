@@ -5,6 +5,7 @@
   const params = new URLSearchParams(location.search);
   const id = params.get("id") || "";
   const safeUrl = (value) => {
+    if (typeof value !== "string" || !value.trim()) return "";
     try { const url = new URL(value, location.href); return url.protocol === "https:" ? url.href : ""; }
     catch (_) { return ""; }
   };
