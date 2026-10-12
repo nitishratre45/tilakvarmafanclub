@@ -1,38 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T11:48:57.366Z",
+  "checkedAt": "2026-10-12T11:51:02.773Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T03:02:39.681Z",
-      "workflow": "Auto-rerun failed GitHub Actions jobs",
-      "workflowPath": ".github/workflows/auto-rerun-failed.yml",
-      "runId": 38198182190,
-      "runAttempt": 1,
-      "conclusion": "skipped",
-      "event": "workflow_run",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38198182190",
-      "action": "skipped_diagnosed",
-      "reason": "Skipped jobs are not automatically rerun: inspect their if/needs conditions and dependency outcomes.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 0,
-        "cancelled": 0,
-        "skipped": 1
-      },
-      "jobs": [
-        {
-          "name": "Retry failed jobs once",
-          "conclusion": "skipped",
-          "startedAt": "2026-10-12T03:02:30Z",
-          "completedAt": "2026-10-12T03:02:30Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38198182190/job/114645447481",
-          "steps": []
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T03:02:47.473Z",
       "workflow": "Refresh Tilak Varma data",
@@ -13743,6 +13713,27 @@
       "event": "push",
       "branch": "main",
       "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38244986186",
+      "action": "no_recovery_needed",
+      "reason": "No failed, cancelled, or skipped jobs require this manager.",
+      "jobCounts": {
+        "total": 1,
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T11:51:02.773Z",
+      "workflow": "Validate Admin Studio and Site Data",
+      "workflowPath": ".github/workflows/validate-admin-studio.yml",
+      "runId": 38245266701,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38245266701",
       "action": "no_recovery_needed",
       "reason": "No failed, cancelled, or skipped jobs require this manager.",
       "jobCounts": {
