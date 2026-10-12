@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T06:59:44.744Z",
+  "checkedAt": "2026-10-12T06:59:54.461Z",
   "retentionHours": 15,
   "events": [
     {
@@ -6684,6 +6684,62 @@
           "startedAt": "2026-10-12T06:59:16Z",
           "completedAt": "2026-10-12T06:59:31Z",
           "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38215226260/job/114698457578",
+          "steps": [
+            {
+              "name": "Format HTML, CSS, JavaScript, JSON and Markdown",
+              "conclusion": "failure",
+              "number": 5
+            },
+            {
+              "name": "Format Python scripts",
+              "conclusion": "skipped",
+              "number": 6
+            },
+            {
+              "name": "Commit formatting changes",
+              "conclusion": "skipped",
+              "number": 7
+            },
+            {
+              "name": "Post Set up Python",
+              "conclusion": "skipped",
+              "number": 12
+            },
+            {
+              "name": "Post Set up Node.js",
+              "conclusion": "skipped",
+              "number": 13
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-10-12T06:59:54.461Z",
+      "workflow": "Format source code",
+      "workflowPath": ".github/workflows/format-code.yml",
+      "runId": 38215255697,
+      "runAttempt": 2,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38215255697",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "format",
+          "conclusion": "failure",
+          "startedAt": "2026-10-12T06:59:34Z",
+          "completedAt": "2026-10-12T06:59:44Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38215255697/job/114698538815",
           "steps": [
             {
               "name": "Format HTML, CSS, JavaScript, JSON and Markdown",
