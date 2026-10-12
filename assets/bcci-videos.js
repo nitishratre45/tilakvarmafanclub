@@ -135,7 +135,7 @@
         ? " · updated " +
           new Date(window.__bcciVideosUpdated).toLocaleString("en-IN", {
             dateStyle: "medium",
-            timeStyle: "short",
+            timeStyle: "short", timeZone: "Asia/Kolkata",
           })
         : "");
     grid.innerHTML = videos
