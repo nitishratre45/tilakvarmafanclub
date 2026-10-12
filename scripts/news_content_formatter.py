@@ -94,9 +94,6 @@ def main():
             )
             continue
         url = str(item.get("webviewUrl") or "")
-        if not isinstance(item, dict):
-            findings.append({"severity": "error", "record": index, "issue": "raw record is not an object"})
-            continue
         url = str(item.get("webviewUrl") or "")
         if not official_url(url):
             findings.append(
@@ -117,7 +114,7 @@ def main():
                 {
                     "severity": "error",
                     "record": index,
-                    "issue": "live page redirect/canonical is not a BCCI article URL",
+                    "issue": "live page redirect is not a BCCI article URL",
                 }
             )
             continue
@@ -156,6 +153,10 @@ def main():
             }
         )
         output.append(merged)
+    doc["player"] = "Tilak Varma"
+    doc["source"] = "BCCI News API only"
+    doc["updatedAt"] = datetime.now(timezone.utc).isoformat()
+    doc["candidateCount"] = len(fetched)
     doc["news"] = output
     doc["matchedCount"] = len(output)
     doc["newMatches"] = len(output)
@@ -175,9 +176,9 @@ def main():
         )
         report["contentVerification"] = doc["contentFormatter"]
         report["status"] = (
-            "error"
-            if any(x["severity"] == "error" for x in findings)
-            else report.get("status", "healthy")
+            "error" if any(x["severity"] == "error" for x in findings)
+            else "warning" if findings
+            else "healthy"
         )
         REPORT.write_text(
             json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
