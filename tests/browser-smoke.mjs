@@ -73,6 +73,7 @@ check("Stats Batting, Bowling, and Explore tabs respond", async () => {
         return Boolean(view && !view.hidden && getComputedStyle(view).display !== "none");
       },
       item.view,
+      { timeout: 8000 },
     );
     assert.equal(await page.locator(item.view).isVisible(), true, item.label + " view did not open");
   }
