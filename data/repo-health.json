@@ -1,15 +1,30 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T02:40:21+00:00",
+  "checkedAt": "2026-10-12T09:48:34+00:00",
   "intervalMinutes": 10,
-  "status": "warning",
+  "status": "error",
   "summary": {
-    "filesScanned": 99,
-    "checksPassed": 55,
-    "issues": 0,
-    "warnings": 7
+    "filesScanned": 113,
+    "checksPassed": 65,
+    "issues": 1,
+    "warnings": 9
   },
   "items": [
+    {
+      "level": "error",
+      "message": "Missing local asset: ../news",
+      "file": "admin/index.html"
+    },
+    {
+      "level": "warning",
+      "message": "31 repeated CSS selector(s); review cascade/overrides: .page-layout (4x), .related-panel (4x), .article-hero (3x), .article-hero h1 (3x), .hero-image-wrap (3x), .article-paper (3x), .article-body (3x), .related-list (3x)",
+      "file": "News-details/news-details.css"
+    },
+    {
+      "level": "warning",
+      "message": "7 repeated CSS selector(s); review cascade/overrides: .tv-news-grid (3x), .tv-news-copy (3x), .tv-news-copy h3 (3x), .tv-news-section (2x), .tv-news-heading (2x), .tv-news-count (2x), .tv-news-copy p (2x)",
+      "file": "News/news-section.css"
+    },
     {
       "level": "warning",
       "message": "84 repeated CSS selector(s); review cascade/overrides: .sidebar (13x), .topbar (13x), .main (12x), .stats (12x), .stat (11x), .section-head (11x), .hero (9x), .section-body (9x)",
@@ -27,7 +42,7 @@
     },
     {
       "level": "warning",
-      "message": "54 repeated CSS selector(s); review cascade/overrides: #profile .profile-data-grid (6x), #profile .profile-photo-wrap (5x), #profile .profile-copy h2 (5x), .section (4x), #profile .profile-intro (4x), #profile .profile-quick-actions .button (4x), #profile .profile-facts (4x), #profile .profile-teams-panel (4x)",
+      "message": "57 repeated CSS selector(s); review cascade/overrides: #profile .profile-data-grid (6x), #profile .profile-photo-wrap (5x), #profile .profile-copy h2 (5x), .section (4x), #profile .profile-intro (4x), #profile .profile-quick-actions .button (4x), #profile .profile-facts (4x), #profile .profile-teams-panel (4x)",
       "file": "assets/site-refinement.css"
     },
     {
@@ -53,7 +68,42 @@
     {
       "level": "pass",
       "message": "No duplicate HTML IDs",
+      "file": "News-details/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "News-details/news-details.js"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "News/news-pipeline-report.json"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "News/news-section.js"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "News/newsjson.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "News/raw-news-pages.json"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
       "file": "admin/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "admin/news-pipeline-manager.js"
     },
     {
       "level": "pass",
@@ -109,11 +159,6 @@
       "level": "pass",
       "message": "JavaScript syntax OK",
       "file": "assets/home-snapshot.js"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "assets/news.js"
     },
     {
       "level": "pass",
@@ -193,11 +238,6 @@
     {
       "level": "pass",
       "message": "Valid JSON",
-      "file": "data/tilak-news.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
       "file": "data/video-config.json"
     },
     {
@@ -268,6 +308,36 @@
     {
       "level": "pass",
       "message": "Python syntax OK",
+      "file": "scripts/filter_tilak_news.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/news.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/news_content_formatter.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/news_pipeline_fixer.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/news_pipeline_manager.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "scripts/newsreader.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
       "file": "scripts/refresh_bcci_videos.py"
     },
     {
@@ -308,11 +378,6 @@
     {
       "level": "pass",
       "message": "Python syntax OK",
-      "file": "scripts/refresh_tilak_news.py"
-    },
-    {
-      "level": "pass",
-      "message": "Python syntax OK",
       "file": "scripts/repo_health_monitor.py"
     },
     {
@@ -326,6 +391,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "f00ec9f"
+    "branch": "bb6f4db"
   }
 }
