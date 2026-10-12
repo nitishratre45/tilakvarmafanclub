@@ -277,7 +277,9 @@
       filtered.length +
       " album" +
       (filtered.length === 1 ? "" : "s") +
-      ' found</small><span class="tv-gallery-sort-note">${sortOrder === "newest" ? "Newest first" : "Oldest first"} · album date · date only</span></div>' +
+      ' found</small><span class="tv-gallery-sort-note">' +
+      (sortOrder === "newest" ? "Newest first" : "Oldest first") +
+      " · album date · date only</span></div>" +
       '<div class="tv-gallery-filters"><label><span>YEAR</span><select class="tv-gallery-year" aria-label="Filter albums by year"><option value="all">All years</option>' +
       years
         .map(
