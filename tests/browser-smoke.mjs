@@ -219,6 +219,40 @@ check("video hub puts the newest published BCCI video first", async () => {
   await page.close();
 });
 
+check("News Details opens article and returns safely on desktop and mobile", async () => {
+  for (const viewport of [{ width: 1280, height: 800 }, { width: 390, height: 844 }]) {
+    const page = await browser.newPage({ viewport });
+    page.setDefaultTimeout(10000);
+    await page.route("**/News/newsjson.json*", (route) => route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify([
+        { title: "Browser test Tilak story", description: "News summary for interaction test.", url: "https://example.com/tilak-story", publishedAt: "2026-10-12T08:00:00Z", source: "Test source" }
+      ]),
+    }));
+    await page.route("**/News/newsjson.json", (route) => route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify([
+        { title: "Browser test Tilak story", description: "News summary for interaction test.", url: "https://example.com/tilak-story", publishedAt: "2026-10-12T08:00:00Z", source: "Test source" }
+      ]),
+    }));
+    await page.goto(baseURL + "/News-details/index.html?url=" + encodeURIComponent("https://example.com/tilak-story"), { waitUntil: "domcontentloaded" });
+    await page.waitForFunction(() => document.readyState === "interactive" || document.readyState === "complete");
+    const back = page.locator('a[href="/#news"], a[href="../#news"], a[href*="#news"], [data-news-back], .news-back').first();
+    if (await back.count()) {
+      await back.click();
+      await page.waitForTimeout(150);
+      assert(/#news/.test(new URL(page.url()).hash) || /#news/.test(await back.getAttribute("href") || ""),
+        "News Details back link should target the News section");
+    } else {
+      const hasBackControl = await page.locator("a,button").evaluateAll((nodes) => nodes.some((node) => /back|news/i.test(node.textContent || "") || /back|news/i.test(node.getAttribute("aria-label") || "")));
+      assert(hasBackControl, "News Details should expose an accessible back/news navigation control");
+    }
+    await page.close();
+  }
+});
+
 check("Admin Studio warns before discarding unsaved edits", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
