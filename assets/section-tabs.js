@@ -186,11 +186,7 @@
     location.hash.slice(1) ||
     (location.pathname.replace(/\/$/, "") === "/stats" ? "stats" : "profile");
   if (initial === "stats" && location.pathname.replace(/\/$/, "") !== "/stats") {
-    history.replaceState(
-      { section: "stats", statsView: saved || "stats-overview" },
-      "",
-      "/stats",
-    );
+    history.replaceState({ section: "stats", statsView: saved || "stats-overview" }, "", "/stats");
   }
   show(initial, false, legacyViews[initial] || (initial === "stats" ? saved : null));
 })();
