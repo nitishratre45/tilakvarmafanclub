@@ -100,16 +100,27 @@
       document.getElementById("detail-relative-date").textContent = relativeDate(item.publishedAt);
       const body = document.getElementById("detail-excerpt");
       body.replaceChildren();
-      const paragraphs = (Array.isArray(item.articleText) && item.articleText.length ? item.articleText : (item.matchedLines || [])).filter((line) => typeof line === "string" && line.trim());
+      const navigationLabels = new Set(["news", "videos", "photos", "matches", "players", "more", "home", "menu", "search", "sign in", "login"]);
+      const normalize = (value) => String(value || "").replace(/[•·|]/g, " ").replace(/\\s+/g, " ").trim().toLowerCase();
+      const rawParagraphs = [
+        ...(Array.isArray(item.articleText) ? item.articleText : []),
+        ...(Array.isArray(item.matchedLines) ? item.matchedLines : [])
+      ];
+      const paragraphs = [...new Set(rawParagraphs
+        .filter((line) => typeof line === "string" && line.trim())
+        .map((line) => line.trim())
+        .filter((line) => !navigationLabels.has(normalize(line)))
+        .filter((line) => normalize(line) !== normalize(item.title))
+        .filter((line) => line.length >= 30))];
       if (paragraphs.length) {
         paragraphs.forEach((line) => {
           const p = document.createElement("p");
-          p.textContent = line.trim();
+          p.textContent = line;
           body.appendChild(p);
         });
       } else {
         const p = document.createElement("p");
-        p.textContent = "This BCCI article mentions Tilak Varma. Open the original article for the complete story.";
+        p.textContent = "The saved BCCI feed does not include the full article text yet. Use the official BCCI link below to read the complete story.";
         body.appendChild(p);
       }
       const image = document.getElementById("detail-image");
