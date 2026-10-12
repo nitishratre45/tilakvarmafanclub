@@ -5609,6 +5609,149 @@
             if (button) button.disabled = false;
           }
         }
+        const manualNewsForm = $("manual-news-form");
+        const manualNewsStatus = $("manual-news-form-status");
+        let manualNewsItems = [];
+        const manualNewsSetStatus = (message, isError = false) => {
+          if (!manualNewsStatus) return;
+          manualNewsStatus.textContent = message;
+          manualNewsStatus.className = isError ? "error-text" : "success-text";
+        };
+        const manualNewsReset = () => {
+          manualNewsForm?.reset();
+          $("manual-news-id").value = "";
+          $("manual-news-source").value = "The 72 Club";
+          $("manual-news-save").textContent = "＋ Publish news";
+          const now = new Date();
+          now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+          $("manual-news-date").value = now.toISOString().slice(0, 16);
+          manualNewsSetStatus("Ready to create a story.");
+        };
+        const manualNewsDateLabel = (value) => {
+          const date = new Date(value);
+          return Number.isNaN(date.getTime()) ? "Date unavailable" : date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" }) + " IST";
+        };
+        async function loadManualNews() {
+          const host = $("manual-news-list");
+          if (!host) return;
+          host.replaceChildren();
+          const loading = document.createElement("div");
+          loading.className = "empty";
+          loading.textContent = "Loading manually published stories…";
+          host.appendChild(loading);
+          try {
+            const archive = await api("/api/admin/content?kind=news");
+            manualNewsItems = (Array.isArray(archive.news) ? archive.news : []).filter(item => item && item.manual === true);
+            host.replaceChildren();
+            if (!manualNewsItems.length) {
+              const empty = document.createElement("div");
+              empty.className = "empty";
+              empty.textContent = "No manual stories yet. Use the editor above to publish the first one.";
+              host.appendChild(empty);
+              return;
+            }
+            manualNewsItems.forEach(item => {
+              const card = document.createElement("article");
+              card.className = "manual-news-card";
+              const cover = document.createElement("div");
+              cover.className = "manual-news-cover";
+              if (item.imageUrl && /^https:\/\//i.test(item.imageUrl)) {
+                const image = document.createElement("img");
+                image.src = item.imageUrl;
+                image.alt = "";
+                image.loading = "lazy";
+                image.onerror = () => { cover.textContent = "72"; };
+                cover.appendChild(image);
+              } else cover.textContent = "72";
+              const details = document.createElement("div");
+              details.className = "manual-news-copy";
+              const category = document.createElement("span");
+              category.className = "manual-news-category";
+              category.textContent = item.category || "Manual News";
+              const title = document.createElement("h4");
+              title.textContent = item.title || "Untitled story";
+              const meta = document.createElement("p");
+              meta.textContent = manualNewsDateLabel(item.publishedAt) + " · " + (item.sourceName || "The 72 Club");
+              const excerpt = document.createElement("p");
+              excerpt.className = "manual-news-excerpt";
+              excerpt.textContent = item.description || "";
+              details.append(category, title, meta, excerpt);
+              const actions = document.createElement("div");
+              actions.className = "manual-news-card-actions";
+              const edit = document.createElement("button");
+              edit.type = "button"; edit.className = "btn small"; edit.textContent = "Edit";
+              edit.addEventListener("click", () => {
+                $("manual-news-id").value = item.id;
+                $("manual-news-title").value = item.title || "";
+                $("manual-news-date").value = item.publishedAt ? (() => { const d = new Date(item.publishedAt); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0,16); })() : "";
+                $("manual-news-category").value = item.category || "Manual News";
+                $("manual-news-source").value = item.sourceName || "The 72 Club";
+                $("manual-news-image").value = item.imageUrl || "";
+                $("manual-news-url").value = item.webviewUrl || "";
+                $("manual-news-body").value = item.fullText || item.pageText || item.description || "";
+                $("manual-news-save").textContent = "✓ Save changes";
+                manualNewsSetStatus("Editing: " + (item.title || item.id));
+                manualNewsForm.scrollIntoView({ behavior: "smooth", block: "start" });
+                $("manual-news-title").focus({ preventScroll: true });
+              });
+              const remove = document.createElement("button");
+              remove.type = "button"; remove.className = "btn danger small"; remove.textContent = "Delete";
+              remove.addEventListener("click", async () => {
+                if (!window.confirm("Delete this manually added story? This cannot be undone.")) return;
+                remove.disabled = true;
+                try {
+                  await api("/api/admin/content", { method: "POST", body: JSON.stringify({ kind: "news", action: "delete", item: { id: item.id } }) });
+                  manualNewsSetStatus("Manual story deleted.");
+                  await Promise.all([loadManualNews(), loadNewsArchive()]);
+                } catch (error) {
+                  manualNewsSetStatus(error.message || "Delete failed.", true);
+                  remove.disabled = false;
+                }
+              });
+              actions.append(edit, remove);
+              card.append(cover, details, actions);
+              host.appendChild(card);
+            });
+          } catch (error) {
+            host.replaceChildren();
+            const message = document.createElement("div");
+            message.className = "empty";
+            message.textContent = error.message || "Could not load manual news. Please sign in again.";
+            host.appendChild(message);
+          }
+        }
+        manualNewsForm?.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const button = $("manual-news-save");
+          button.disabled = true;
+          manualNewsSetStatus("Saving news to GitHub…");
+          const dateValue = $("manual-news-date").value;
+          const item = {
+            id: $("manual-news-id").value.trim(),
+            title: $("manual-news-title").value.trim(),
+            publishedAt: dateValue ? new Date(dateValue).toISOString() : "",
+            category: $("manual-news-category").value,
+            sourceName: $("manual-news-source").value.trim() || "The 72 Club",
+            imageUrl: $("manual-news-image").value.trim(),
+            webviewUrl: $("manual-news-url").value.trim(),
+            body: $("manual-news-body").value.trim()
+          };
+          try {
+            const result = await api("/api/admin/content", { method: "POST", body: JSON.stringify({ kind: "news", action: "upsert", item }) });
+            manualNewsReset();
+            manualNewsSetStatus((result.action === "upsert" ? (item.id ? "News updated." : "News published.") : "News saved.") + " Commit: " + String(result.commit || "").slice(0, 7));
+            await Promise.all([loadManualNews(), loadNewsArchive()]);
+          } catch (error) {
+            manualNewsSetStatus(error.message || "News could not be saved.", true);
+          } finally {
+            button.disabled = false;
+          }
+        });
+        $("manual-news-reset")?.addEventListener("click", manualNewsReset);
+        $("manual-news-refresh")?.addEventListener("click", loadManualNews);
+        manualNewsReset();
+        loadManualNews();
+
         $("news-reload")?.addEventListener("click", loadNewsArchive);
         $("news-refresh")?.addEventListener("click", async () => {
           const button = $("news-refresh");
@@ -5718,6 +5861,7 @@
           $("page-title").textContent = viewLabels[view];
           if (view === "news") {
             loadNewsArchive();
+            loadManualNews();
             loadLiveNewsStatus();
           }
           if (view === "repo-health") {
