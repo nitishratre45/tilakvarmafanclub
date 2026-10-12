@@ -13,7 +13,7 @@
     const date = new Date(value);
     return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat(undefined,{dateStyle:"long"}).format(date);
   };
-  fetch("../News/tilak-news.json", {cache:"no-store"})
+  fetch("../News/newsjson.json", {cache:"no-store"})
     .then((response) => { if (!response.ok) throw new Error("News JSON unavailable"); return response.json(); })
     .then((data) => {
       const items = Array.isArray(data.news) ? data.news : [];
