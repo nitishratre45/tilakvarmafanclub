@@ -107,7 +107,7 @@ def classify(info):
     return None
 
 
-def parse_match(data, filename, key, totals):
+def parse_match(data, filename, key, totals, all_male_fallback=False):
     info = data.get("info", {})
     if key == "overall_t20":
         if str(info.get("match_type", "")).lower().strip() not in {
@@ -117,14 +117,13 @@ def parse_match(data, filename, key, totals):
             "international t20",
         }:
             return [], None
-    elif key == "ipl":
-        # The broad all-men ZIP is a fallback for the dedicated IPL ZIP.
-        # Filter it to IPL so unrelated men's T20 innings cannot leak into IPL stats.
+    elif key == "ipl" and all_male_fallback:
+        # Filter the broad all-men fallback to IPL only.
         event = info.get("event", {}) or {}
         event_name = str(event.get("name", "") if isinstance(event, dict) else event).lower()
         if "indian premier league" not in event_name and event_name.strip() != "ipl":
             return [], None
-    elif key not in {"overall_t20", "hyderabad"} and classify(info) != key:
+    elif key not in {"ipl", "overall_t20", "hyderabad"} and classify(info) != key:
         return [], None
     players = info.get("players", {})
     teams = info.get("teams", [])
@@ -206,7 +205,7 @@ def parse_match(data, filename, key, totals):
     return rows, mid if rows else None
 
 
-def build(payload, key):
+def build(payload, key, all_male_fallback=False):
     ids = set()
     totals = defaultdict(lambda: defaultdict(int))
     innings = []
@@ -215,7 +214,7 @@ def build(payload, key):
         for name in (n for n in z.namelist() if n.lower().endswith(".json")):
             try:
                 rows, mid = parse_match(
-                    json.loads(z.read(name).decode("utf-8-sig")), name, key, totals
+                    json.loads(z.read(name).decode("utf-8-sig")), name, key, totals, all_male_fallback
                 )
                 innings.extend(rows)
                 if mid:
@@ -276,7 +275,7 @@ def main():
                 try:
                     if source_url not in cache:
                         cache[source_url] = download(source_url)
-                    trial = build(cache[source_url], cfg["kind"])
+                    trial = build(cache[source_url], cfg["kind"], all_male_fallback=source_url in cfg.get("fallback_urls", []))
                     if trial.get("innings") and trial.get("readErrors", 0) == 0:
                         candidate = trial
                         selected_url = source_url
