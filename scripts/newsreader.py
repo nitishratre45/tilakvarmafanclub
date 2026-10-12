@@ -350,13 +350,14 @@ def main() -> None:
                 if lower.count("{") > 2 or lower.count("}") > 2:
                     continue
                 clean_lines.append(line[:500])
-            const navigationLabels = new Set(["news", "videos", "photos", "matches", "players", "more", "home", "search", "menu", "sign in", "login"]);
-                        clean_lines = clean_lines.filter((line) => {
-                            const normalized = line.toLowerCase().replace(/[•·|]/g, " ").replace(/\\s+/g, " ").trim();
-                            if (navigationLabels.has(normalized)) return false;
-                            if (normalized === String(article.title || "").toLowerCase().replace(/\\s+/g, " ").trim()) return false;
-                            return normalized.length >= 35;
-                        });
+            navigation_labels = {"news", "videos", "photos", "matches", "players", "more", "home", "search", "menu", "sign in", "login"}
+            normalized_title = re.sub(r"\s+", " ", str(article.get("title") or "").lower()).strip()
+            clean_lines = [
+                line for line in clean_lines
+                if re.sub(r"[•·|]", " ", line.lower()).strip() not in navigation_labels
+                and re.sub(r"\s+", " ", line.lower()).strip() != normalized_title
+                and len(line.strip()) >= 35
+            ]
             matched_lines = [line for line in clean_lines if NAME_PATTERN.search(line)]
             title_match = bool(NAME_PATTERN.search(article["title"]))
             record = article.get("apiRecord", {})
