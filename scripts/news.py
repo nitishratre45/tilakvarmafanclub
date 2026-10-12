@@ -24,6 +24,7 @@ HEADERS = {
     "Referer": "https://www.bcci.tv/",
 }
 BCCI_PAGES = range(1, 8)
+BCCI_TAGS = ("international", "domestic")
 
 
 def read_url(url: str, accept: str | None = None) -> bytes:
@@ -37,8 +38,8 @@ def read_url(url: str, accept: str | None = None) -> bytes:
         return response.read(4_000_000)
 
 
-def fetch_bcci_page(page: int) -> dict:
-    params = {"tags": "international", "page": str(page)}
+def fetch_bcci_page(page: int, tag: str) -> dict:
+    params = {"page": str(page), "tags": tag}
     url = f"{BCCI_BASE}?{urlencode(params)}"
     payload = json.loads(
         read_url(url, "application/json, text/plain, */*").decode("utf-8-sig")
@@ -47,6 +48,7 @@ def fetch_bcci_page(page: int) -> dict:
         raise ValueError(f"Unexpected BCCI API response on page {page}")
     return {
         "page": page,
+        "tag": tag,
         "sourceName": "BCCI News API",
         "sourceUrl": url,
         "payload": payload,
@@ -55,21 +57,23 @@ def fetch_bcci_page(page: int) -> dict:
 
 def fetch_bcci_pages(errors: list[dict]) -> list[dict]:
     collected = []
-    for page in BCCI_PAGES:
+    for tag in BCCI_TAGS:
+      for page in BCCI_PAGES:
         try:
-            collected.append(fetch_bcci_page(page))
-            print(f"OK source: BCCI News API page {page}", flush=True)
+            collected.append(fetch_bcci_page(page, tag))
+            print(f"OK source: BCCI News API tag={tag} page {page}", flush=True)
         except Exception as exc:
             errors.append(
                 {
                     "source": "BCCI News API",
                     "page": page,
+                    "tag": tag,
                     "error": str(exc),
                     "failedAt": datetime.now(timezone.utc).isoformat(),
                 }
             )
             print(
-                f"WARNING source: BCCI News API page {page} failed: {exc}; continuing to next page",
+                f"WARNING source: BCCI News API tag={tag} page {page} failed: {exc}; continuing to next page",
                 flush=True,
             )
         time.sleep(0.2)
@@ -89,9 +93,11 @@ def main() -> None:
     document = {
         "player": "Tilak Varma",
         "source": "BCCI News API only",
-        "sourcesConfigured": 1,
-        "sourceOrder": ["BCCI News API"],
-        "pagesRequested": len(BCCI_PAGES),
+        "sourcesConfigured": 2,
+        "sourceOrder": ["BCCI International API", "BCCI Domestic API"],
+        "tagsRequested": list(BCCI_TAGS),
+        "pagesPerTag": len(BCCI_PAGES),
+        "pagesRequested": len(BCCI_PAGES) * len(BCCI_TAGS),
         "pagesFetched": len(pages),
         "fetchedAt": datetime.now(timezone.utc).isoformat(),
         "errors": errors,
