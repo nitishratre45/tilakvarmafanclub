@@ -100,30 +100,6 @@
       return "";
     }
   };
-  const signedUrlExpired = (value) => {
-    try {
-      const token = new URL(value).searchParams.get("token");
-      if (!token) return false;
-      const payloadPart = token.split(".")[1];
-      if (!payloadPart) return false;
-      const base64 = payloadPart.replace(/-/g, "+").replace(/_/g, "/");
-      const claims = JSON.parse(
-        decodeURIComponent(
-          atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, "="))
-            .split("")
-            .map((char) => "%" + char.charCodeAt(0).toString(16).padStart(2, "0"))
-            .join(""),
-        ),
-      );
-      return Number.isFinite(Number(claims.exp)) && Number(claims.exp) * 1000 <= Date.now();
-    } catch {
-      return false;
-    }
-  };
-  const playbackUrlFor = (item) => {
-    const url = validHttps(item && item.playbackUrl);
-    return url && !signedUrlExpired(url) ? url : "";
-  };
   const thumbFor = (item) => {
     const set = item.thumbnailUrlSet || {};
     return validHttps(
@@ -160,14 +136,12 @@
           new Date(window.__bcciVideosUpdated).toLocaleString("en-IN", {
             dateStyle: "medium",
             timeStyle: "short",
-            timeZone: "Asia/Kolkata",
-          }) +
-          " IST"
+          })
         : "");
     grid.innerHTML = videos
       .map((item) => {
         const thumb = thumbFor(item);
-        const hasPlayback = !!playbackUrlFor(item);
+        const hasPlayback = !!validHttps(item.playbackUrl);
         return (
           '<article class="bcci-video-card"><button type="button" class="bcci-video-art" data-bcci-video="' +
           esc(item.id) +
@@ -184,11 +158,7 @@
               '" loading="lazy" decoding="async">'
             : '<span class="bcci-video-no-thumb">BCCI VIDEO</span>') +
           '<span class="bcci-video-play">' +
-          (hasPlayback
-            ? "▶"
-            : signedUrlExpired(item.playbackUrl)
-              ? "Link expired"
-              : "Unavailable") +
+          (hasPlayback ? "▶" : "Unavailable") +
           "</span>" +
           (item.duration
             ? '<span class="bcci-video-duration">' + esc(item.duration) + "</span>"
@@ -257,7 +227,7 @@
   };
   const renderUpNext = (current) => {
     if (!upNextList) return;
-    const playable = allVideos.filter((video) => !!playbackUrlFor(video));
+    const playable = allVideos.filter((video) => validHttps(video.playbackUrl));
     const currentIndex = playable.findIndex((video) => String(video.id) === String(current.id));
     const queue = [
       ...playable.slice(currentIndex >= 0 ? currentIndex + 1 : 0),
@@ -301,7 +271,7 @@
       .join("");
   };
   const openPlayer = async (item) => {
-    if (!item || !playbackUrlFor(item)) return;
+    if (!item || !validHttps(item.playbackUrl)) return;
     activeVideo = item;
     modal.hidden = false;
     document.body.classList.add("bcci-player-open");
@@ -337,7 +307,7 @@
         streaming: { retryParameters: { maxAttempts: 3, baseDelay: 500, backoffFactor: 2 } },
         abr: { enabled: true },
       });
-      await player.load(playbackUrlFor(item));
+      await player.load(item.playbackUrl);
       applyPlaybackQuality();
       errorElement.textContent = "Official BCCI stream loaded";
       try {
@@ -420,11 +390,7 @@
       return response.json();
     })
     .then((data) => {
-      allVideos = (Array.isArray(data.videos) ? data.videos : []).slice().sort((a, b) => {
-        const aTime = Date.parse(a.publishedDate || "") || 0;
-        const bTime = Date.parse(b.publishedDate || "") || 0;
-        return bTime - aTime;
-      });
+      allVideos = Array.isArray(data.videos) ? data.videos : [];
       window.__bcciVideosUpdated = data.updatedAt || null;
       fillYears();
       render();
