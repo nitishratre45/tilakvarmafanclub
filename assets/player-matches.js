@@ -72,6 +72,9 @@
       (Number.isFinite(Number(row.balls)) && Number(row.balls) > 0 ? 3 : 0) +
       (row.score && row.score !== "—" ? 2 : 0) +
       (row.result ? 1 : 0);
+    // Keep raw per-format rows for format-specific last-match milestones.
+    // The cross-format display list below intentionally collapses T20I/T20 duplicates.
+    const milestoneMatches = all.filter((row) => row && row.date && row.opposition);
     const matches = [];
     for (const row of all) {
       const fmt = row.format || "T20I";
@@ -108,12 +111,16 @@
       milestones.innerHTML =
         ["ODI", "T20I", "FC", "List A", "T20"]
           .map((fmt) => {
-            const rows = matches
+            const rows = milestoneMatches
               .filter((r) => r.format === fmt)
+              .slice()
               .sort((a, b) => dateValue(a.date) - dateValue(b.date));
             const saved = data.playerMatchMilestones?.[fmt];
             const first = saved?.debut || rows[0];
-            const last = saved?.last || rows[rows.length - 1];
+            // A saved milestone can lag behind a successful Statsguru refresh.
+            // Prefer the newest verified row, falling back to the saved value only
+            // when the format has no detailed innings in the current snapshot.
+            const last = rows[rows.length - 1] || saved?.last;
             if (!first || !last) return "";
             return (
               '<article class="player-match-milestone"><b>' +
