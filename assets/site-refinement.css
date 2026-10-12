@@ -81,12 +81,9 @@ textarea {
 .button,
 button {
   -webkit-tap-highlight-color: transparent;
-}
-.button,
-.stats-subnav button,
-.statsguru-format-tabs button,
-.statsguru-category-grid button,
-.player-analysis-actions button {
+}.button,
+.player-analysis-actions button
+{
   border-radius: 12px;
 }
 .button:focus-visible,
@@ -97,89 +94,45 @@ select:focus-visible,
 summary:focus-visible {
   outline: 3px solid var(--tv-cyan);
   outline-offset: 3px;
-}
-.stat-card,
+}.stat-card,
 .home-snapshot-block,
 .home-bowling-card,
 .match-history-summary,
 .profile-teams-panel,
 .icc-ranking-card,
-.statsguru-panel,
 .player-analysis-filter,
 .fan-card,
 .upcoming-match-card,
 .home-format-card,
-.format-card {
+.format-card
+{
   border-color: var(--tv-line);
   box-shadow: var(--tv-shadow);
-}
-.stat-card,
+}.stat-card,
 .home-snapshot-block,
 .home-bowling-card,
 .match-history-summary,
 .profile-teams-panel,
 .icc-ranking-card,
-.statsguru-panel,
-.player-analysis-filter {
+.player-analysis-filter
+{
   background: linear-gradient(145deg, rgba(17, 42, 72, 0.92), rgba(8, 23, 42, 0.96));
 }
 .stat-card strong,
 .home-mini-stat strong {
   font-variant-numeric: tabular-nums;
-}
-.stats-grid,
-.home-quick-stats,
+}.home-quick-stats,
 .home-bowling-stats,
-.home-format-stats {
+.home-format-stats
+{
   align-items: stretch;
-}
-.data-line,
-.home-snapshot-foot,
-.statsguru-sourcebar {
+}.data-line,
+.home-snapshot-foot
+{
   border-color: var(--tv-line);
-}
-#stats .statsguru-format-tabs {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: stretch;
-  gap: 8px !important;
-  max-width: 100%;
-  overflow: visible !important;
-  overflow-x: visible !important;
-  overflow-y: visible !important;
-  white-space: normal !important;
-  scrollbar-width: none !important;
-  overscroll-behavior-x: auto !important;
-  background: linear-gradient(135deg, rgba(10, 33, 61, 0.9), rgba(12, 26, 47, 0.92));
-  border: 1px solid var(--tv-line);
-}
-#stats .statsguru-format-tabs button {
-  flex: 0 1 auto !important;
-  min-width: 0;
-  max-width: 100%;
-  white-space: normal !important;
-  overflow-wrap: anywhere;
-  line-height: 1.25;
-}
-#stats .statsguru-format-tabs button.active {
-  box-shadow:
-    0 0 0 2px rgba(255, 116, 75, 0.16),
-    0 8px 20px rgba(255, 116, 75, 0.18);
-}
-#stats .statsguru-category-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 9px;
-}
-#stats .statsguru-category-grid button {
-  min-width: 0;
-  text-align: left;
-  white-space: normal;
-  line-height: 1.35;
-}
-.table-wrap,
-.statsguru-table-wrap,
-.match-history-table-wrap {
+}.table-wrap,
+.match-history-table-wrap
+{
   max-width: 100%;
   overflow-x: auto;
   overscroll-behavior-x: contain;
@@ -219,35 +172,28 @@ footer {
 }
 :root[data-theme-resolved="light"] .section-heading > p {
   color: #526985;
-}
-:root[data-theme-resolved="light"] .stat-card,
+}:root[data-theme-resolved="light"] .stat-card,
 :root[data-theme-resolved="light"] .home-snapshot-block,
 :root[data-theme-resolved="light"] .home-bowling-card,
 :root[data-theme-resolved="light"] .match-history-summary,
 :root[data-theme-resolved="light"] .profile-teams-panel,
 :root[data-theme-resolved="light"] .icc-ranking-card,
-:root[data-theme-resolved="light"] .statsguru-panel,
-:root[data-theme-resolved="light"] .player-analysis-filter {
+:root[data-theme-resolved="light"] .player-analysis-filter
+{
   background: linear-gradient(145deg, #ffffff, #edf4ff);
   border-color: #d4e2f4;
   box-shadow: 0 12px 30px rgba(29, 71, 122, 0.08);
-}
-:root[data-theme-resolved="light"] #stats .statsguru-format-tabs {
-  background: linear-gradient(135deg, #e9f2ff, #f8fbff);
-  border-color: #c9dbf2;
-}
-@media (max-width: 900px) {
+}@media (max-width: 900px) {
+
   .section {
     padding: 44px 22px;
   }
   .section-heading {
     align-items: flex-start;
   }
-  #stats .statsguru-category-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 650px) {
+
+}@media (max-width: 650px) {
+
   html {
     scroll-padding-top: 74px;
   }
@@ -268,37 +214,14 @@ footer {
   .section-heading > p {
     max-width: none;
     font-size: 14px;
-  }
-  .stats-grid,
-  .home-quick-stats {
+  }.home-quick-stats
+{
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 9px;
   }
   .stat-card {
     min-width: 0;
     padding: 15px 13px;
-  }
-  #stats .statsguru-format-tabs {
-    gap: 7px !important;
-    padding: 8px !important;
-    margin-inline: 0 !important;
-  }
-  #stats .statsguru-format-tabs button {
-    flex: 0 1 auto !important;
-    min-height: 40px;
-    padding: 9px 10px !important;
-    font-size: 11px;
-  }
-  #stats .statsguru-format-tabs button[data-sg-format="T20"] {
-    flex: 1 1 145px !important;
-  }
-  #stats .statsguru-category-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 7px;
-  }
-  #stats .statsguru-category-grid button {
-    padding: 10px;
-    font-size: 12px;
   }
   .home-snapshot-heading,
   .home-bowling-heading {
@@ -313,23 +236,21 @@ footer {
   footer {
     gap: 12px;
   }
-}
-@media (max-width: 380px) {
+
+}@media (max-width: 380px) {
+
   .section {
     padding-inline: 12px;
-  }
-  .stats-grid,
-  .home-quick-stats {
+  }.home-quick-stats
+{
     gap: 7px;
   }
   .stat-card {
     padding: 12px 10px;
   }
-  #stats .statsguru-format-tabs button {
-    padding-inline: 8px !important;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -338,6 +259,7 @@ footer {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+
 }
 
 /* Final responsive/accessibility pass — safe overrides, no data hooks changed. */
@@ -386,15 +308,8 @@ main > section[id] {
 :where(.stat-card, .home-format-card, .format-card, .fan-card, .upcoming-match-card)
   :where(h2, h3, p, small, strong, span) {
   overflow-wrap: anywhere;
-}
-:where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap) table {
-  min-width: 100%;
-}
-:where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap) th,
-:where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap) td {
-  white-space: normal;
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
+
   .topbar {
     gap: 10px;
   }
@@ -434,8 +349,9 @@ main > section[id] {
     min-width: 0;
     overflow-wrap: anywhere;
   }
-}
-@media (max-width: 420px) {
+
+}@media (max-width: 420px) {
+
   .settings-theme-options {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -445,11 +361,13 @@ main > section[id] {
   .icc-ranking-card {
     grid-template-columns: minmax(0, 1fr);
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   html:focus-within {
     scroll-behavior: auto !important;
   }
+
 }
 
 /* Keep the settings panel visible whenever section navigation activates it. */
@@ -956,8 +874,8 @@ main > section[id] {
 :root[data-theme-resolved="light"] #profile .profile-source-links a {
   color: #234464;
   border-color: #d5e3f5;
-}
-@media (max-width: 850px) {
+}@media (max-width: 850px) {
+
   #profile.profile-section {
     grid-template-columns: minmax(160px, 0.68fr) minmax(0, 1.32fr);
     column-gap: 18px;
@@ -969,8 +887,9 @@ main > section[id] {
   #profile .profile-facts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
-@media (max-width: 620px) {
+
+}@media (max-width: 620px) {
+
   #profile.profile-section {
     grid-template-columns: minmax(0, 1fr);
     padding: 24px 15px 28px !important;
@@ -1034,8 +953,9 @@ main > section[id] {
     padding: 10px 11px;
     font-size: 11px;
   }
-}
-@media (max-width: 360px) {
+
+}@media (max-width: 360px) {
+
   #profile .profile-copy h2 {
     font-size: 39px;
   }
@@ -1045,12 +965,14 @@ main > section[id] {
   #profile .profile-facts strong {
     font-size: 12px;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   #profile * {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+
 }
 
 /* Profile polish pass — sharper hierarchy, richer surfaces, and calm micro-interactions. */
@@ -1272,8 +1194,8 @@ main > section[id] {
 }
 :root[data-theme-resolved="light"] #profile .profile-source-links a {
   background: rgba(255, 255, 255, 0.76);
-}
-@media (min-width: 1100px) {
+}@media (min-width: 1100px) {
+
   #profile.profile-section {
     column-gap: clamp(36px, 5vw, 76px);
     padding-inline: clamp(28px, 4vw, 64px) !important;
@@ -1281,8 +1203,9 @@ main > section[id] {
   #profile .profile-data-grid {
     gap: 16px;
   }
-}
-@media (max-width: 850px) {
+
+}@media (max-width: 850px) {
+
   #profile .profile-photo-wrap {
     border-radius: 19px;
   }
@@ -1292,8 +1215,9 @@ main > section[id] {
   #profile .profile-source-panel:hover {
     transform: none;
   }
-}
-@media (max-width: 620px) {
+
+}@media (max-width: 620px) {
+
   #profile.profile-section {
     border-radius: 18px;
     padding: 22px 13px 24px !important;
@@ -1355,8 +1279,9 @@ main > section[id] {
     padding: 7px 9px;
     font-size: 9px;
   }
-}
-@media (prefers-reduced-motion: no-preference) {
+
+}@media (prefers-reduced-motion: no-preference) {
+
   #profile .profile-photo-wrap,
   #profile .profile-ranking-card,
   #profile .profile-teams-panel,
@@ -1372,6 +1297,7 @@ main > section[id] {
   #profile .profile-source-panel {
     animation-delay: 0.14s;
   }
+
 }
 @keyframes profile-rise-in {
   from {
@@ -1382,24 +1308,26 @@ main > section[id] {
     opacity: 1;
     translate: 0 0;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+}@media (prefers-reduced-motion: reduce) {
+
   #profile .profile-photo-wrap,
   #profile .profile-ranking-card,
   #profile .profile-teams-panel,
   #profile .profile-source-panel {
     animation: none !important;
   }
+
 }
 
 /* Profile cleanup: remove source panel and let team journey use the full row. */
 #profile .profile-teams-panel {
   grid-column: 1 / -1;
-}
-@media (max-width: 620px) {
+}@media (max-width: 620px) {
+
   #profile .profile-teams-panel {
     grid-column: 1;
   }
+
 }
 
 /* Profile finish: compact player-highlight pills and clearer section rhythm. */
@@ -1448,8 +1376,8 @@ main > section[id] {
   background: rgba(255, 255, 255, 0.78);
   border-color: #d6e4f5;
   color: #31516f;
-}
-@media (max-width: 620px) {
+}@media (max-width: 620px) {
+
   #profile .profile-highlights {
     justify-content: center;
     gap: 6px;
@@ -1463,6 +1391,7 @@ main > section[id] {
   #profile .profile-data-grid {
     gap: 11px;
   }
+
 }
 
 /* Branded page-entry loader — uses the same Tilak Varma portrait as the favicon. */
@@ -1613,14 +1542,15 @@ main > section[id] {
   100% {
     transform: translateX(340%);
   }
-}
-@media (prefers-reduced-motion: reduce) {
+}@media (prefers-reduced-motion: reduce) {
+
   .tv-loader-orbit::before,
   .tv-loader-orbit::after,
   .tv-loader-photo-wrap,
   .tv-loader-track span {
     animation-duration: 3s;
   }
+
 }
 
 /* Premium site footer: brand anchor, clean hierarchy and mobile layout */
@@ -1703,8 +1633,8 @@ footer:not(.hint) > span:last-child {
   color: #72cbdc;
   text-align: left;
   letter-spacing: 0.15em;
-}
-@media (max-width: 620px) {
+}@media (max-width: 620px) {
+
   footer:not(.hint) {
     grid-template-columns: minmax(0, 1fr);
     gap: 15px;
@@ -1724,8 +1654,9 @@ footer:not(.hint) > span:last-child {
     width: 44px;
     height: 44px;
   }
-}
-@media (prefers-reduced-motion: no-preference) {
+
+}@media (prefers-reduced-motion: no-preference) {
+
   footer:not(.hint) .brand-mark {
     transition:
       transform 0.2s ease,
@@ -1737,6 +1668,7 @@ footer:not(.hint) > span:last-child {
       0 0 0 5px rgba(114, 226, 241, 0.09),
       0 8px 22px rgba(0, 0, 0, 0.18);
   }
+
 }
 
 /* News timeline and embedded-reader fallback */
@@ -1782,8 +1714,8 @@ footer:not(.hint) > span:last-child {
 }
 .article-reader-continue {
   flex: 0 0 auto;
-}
-@media (max-width: 600px) {
+}@media (max-width: 600px) {
+
   .tilak-news-date-group {
     margin: 18px 0 10px;
   }
@@ -1799,4 +1731,5 @@ footer:not(.hint) > span:last-child {
   .article-reader-foot > span {
     flex: 1 1 100%;
   }
+
 }
