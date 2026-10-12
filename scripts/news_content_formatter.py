@@ -237,7 +237,9 @@ def process_record(
             "description": description,
             "fullText": body,
             "pageText": body,
-            "articleText": [b["text"] for b in blocks if b["type"] in {"text", "heading"}],
+            "articleText": [
+                b["text"] for b in blocks if b["type"] in {"text", "heading"}
+            ],
             "contentBlocks": blocks,
             "livePageVerified": True,
             "verifiedAt": verified_at,
