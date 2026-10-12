@@ -1,49 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T14:01:31.222Z",
+  "checkedAt": "2026-10-12T14:02:34.313Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T06:48:17.400Z",
-      "workflow": "Validate Tilak Varma FC site",
-      "workflowPath": ".github/workflows/site-check.yml",
-      "runId": 38214286485,
-      "runAttempt": 2,
-      "conclusion": "failure",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38214286485",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 1,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "validate",
-          "conclusion": "failure",
-          "startedAt": "2026-10-12T06:48:02Z",
-          "completedAt": "2026-10-12T06:48:08Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38214286485/job/114695365623",
-          "steps": [
-            {
-              "name": "Verify feature modules are linked",
-              "conclusion": "failure",
-              "number": 7
-            },
-            {
-              "name": "Post Set up Node.js",
-              "conclusion": "skipped",
-              "number": 13
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T06:48:28.048Z",
       "workflow": "Format source code",
@@ -13036,6 +12995,47 @@
           "startedAt": "2026-10-12T14:00:15Z",
           "completedAt": "2026-10-12T14:01:23Z",
           "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38259384931/job/114846791401",
+          "steps": [
+            {
+              "name": "Test real browser interactions",
+              "conclusion": "failure",
+              "number": 6
+            },
+            {
+              "name": "Post Set up Node.js",
+              "conclusion": "skipped",
+              "number": 13
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-10-12T14:02:34.313Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38259001111,
+      "runAttempt": 2,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38259001111",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Desktop and mobile interaction checks",
+          "conclusion": "failure",
+          "startedAt": "2026-10-12T14:01:26Z",
+          "completedAt": "2026-10-12T14:02:24Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38259001111/job/114847301430",
           "steps": [
             {
               "name": "Test real browser interactions",
