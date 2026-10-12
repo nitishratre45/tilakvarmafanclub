@@ -174,6 +174,12 @@ def fetch_article(item):
     parser.feed(raw.decode(charset, errors="replace"))
     text = re.sub(r"[ \t]+", " ", " ".join(parser.text))
     text = re.sub(r"\s+", " ", html.unescape(text)).strip()
+    # Exclude page-wide related-story links so unrelated mentions do not qualify.
+    cut_markers = ("Related Stories", "More News", "More Match Reports", "Latest News")
+    lowered = text.lower()
+    cut_at = [lowered.find(marker.lower()) for marker in cut_markers if lowered.find(marker.lower()) >= 0]
+    if cut_at:
+        text = text[:min(cut_at)].strip()
     # Keep the full extracted text (bounded to protect the static JSON deploy).
     text = text[:60000]
     meta = parser.meta
