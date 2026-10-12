@@ -2447,24 +2447,57 @@
             <div>
               <div class="eyebrow">NEWS PIPELINE · MULTI-SOURCE</div>
               <h2>News manager</h2>
-              <p>Refresh Tilak Varma news from the configured sources in sequence. Each source is logged separately; one source failing will not prevent the next source from running.</p>
+              <p>
+                Refresh Tilak Varma news from the configured sources in sequence. Each source is
+                logged separately; one source failing will not prevent the next source from running.
+              </p>
             </div>
             <span class="pill" id="news-manager-status">READY</span>
           </div>
           <div class="section-body">
-            <div class="stats" style="margin-top:0">
-              <article class="stat"><div class="stat-head">Saved stories</div><div class="stat-number" id="news-count">—</div><div class="stat-foot">Current filtered archive</div></article>
-              <article class="stat"><div class="stat-head">Sources configured</div><div class="stat-number" id="news-sources">1</div><div class="stat-foot">BCCI News API only · pages 1–7</div></article>
-              <article class="stat"><div class="stat-head">Last data update</div><div class="stat-number" id="news-updated" style="font-size:15px">Not checked</div><div class="stat-foot">Timestamp from newsjson.json</div></article>
+            <div class="stats" style="margin-top: 0">
+              <article class="stat">
+                <div class="stat-head">Saved stories</div>
+                <div class="stat-number" id="news-count">—</div>
+                <div class="stat-foot">Current filtered archive</div>
+              </article>
+              <article class="stat">
+                <div class="stat-head">Sources configured</div>
+                <div class="stat-number" id="news-sources">1</div>
+                <div class="stat-foot">BCCI News API only · pages 1–7</div>
+              </article>
+              <article class="stat">
+                <div class="stat-head">Last data update</div>
+                <div class="stat-number" id="news-updated" style="font-size: 15px">Not checked</div>
+                <div class="stat-foot">Timestamp from newsjson.json</div>
+              </article>
             </div>
             <div class="actions">
-              <button id="news-refresh" class="btn primary" type="button">↻ Refresh BCCI news</button>
+              <button id="news-refresh" class="btn primary" type="button">
+                ↻ Refresh BCCI news
+              </button>
               <button id="news-reload" class="btn" type="button">⟳ Reload saved news</button>
-              <a class="btn" href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/refresh-tilak-news.yml" target="_blank" rel="noopener noreferrer">Open workflow logs ↗</a>
-              <a class="btn" href="../news#news" target="_blank" rel="noopener noreferrer">View News section ↗</a>
+              <a
+                class="btn"
+                href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/refresh-tilak-news.yml"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Open workflow logs ↗</a
+              >
+              <a class="btn" href="../news#news" target="_blank" rel="noopener noreferrer"
+                >View News section ↗</a
+              >
             </div>
-            <p class="hint">Refresh runs the BCCI News API pages 1–7 sequentially through GitHub Actions. Only BCCI stories mentioning Tilak Varma are saved. Do not add a GitHub token to this page. The website updates after the workflow completes and Cloudflare Pages redeploys.</p>
-            <div id="news-source-results" class="run-list" aria-live="polite"><div class="empty">Load the saved archive or start a refresh to see source status.</div></div>
+            <p class="hint">
+              Refresh runs the BCCI News API pages 1–7 sequentially through GitHub Actions. Only
+              BCCI stories mentioning Tilak Varma are saved. Do not add a GitHub token to this page.
+              The website updates after the workflow completes and Cloudflare Pages redeploys.
+            </p>
+            <div id="news-source-results" class="run-list" aria-live="polite">
+              <div class="empty">
+                Load the saved archive or start a refresh to see source status.
+              </div>
+            </div>
             <p id="news-manager-message" class="status" role="status" aria-live="polite"></p>
           </div>
         </section>
@@ -5387,12 +5420,17 @@
           if (button) button.disabled = true;
           status("news-manager-message", "Loading saved news archive…");
           try {
-            const response = await fetch("../News/newsjson.json?t=" + Date.now(), { cache: "no-store" });
-            if (!response.ok) throw new Error("Could not read News/newsjson.json (" + response.status + ")");
+            const response = await fetch("../News/newsjson.json?t=" + Date.now(), {
+              cache: "no-store",
+            });
+            if (!response.ok)
+              throw new Error("Could not read News/newsjson.json (" + response.status + ")");
             const data = await response.json();
             const news = Array.isArray(data.news) ? data.news : [];
             $("news-count").textContent = String(news.length);
-            $("news-updated").textContent = data.updatedAt ? new Date(data.updatedAt).toLocaleString() : "Not available";
+            $("news-updated").textContent = data.updatedAt
+              ? new Date(data.updatedAt).toLocaleString()
+              : "Not available";
             const host = $("news-source-results");
             host.replaceChildren();
             const summary = document.createElement("article");
@@ -5400,7 +5438,13 @@
             const heading = document.createElement("strong");
             heading.textContent = "Saved archive · " + news.length + " Tilak Varma stories";
             const detail = document.createElement("p");
-            detail.textContent = "Candidates: " + (data.candidateCount ?? "—") + " · read errors: " + (Array.isArray(data.readErrors) ? data.readErrors.length : 0) + " · updated: " + (data.updatedAt || "unknown");
+            detail.textContent =
+              "Candidates: " +
+              (data.candidateCount ?? "—") +
+              " · read errors: " +
+              (Array.isArray(data.readErrors) ? data.readErrors.length : 0) +
+              " · updated: " +
+              (data.updatedAt || "unknown");
             summary.append(heading, detail);
             host.append(summary);
             news.slice(0, 8).forEach((story) => {
@@ -5409,7 +5453,10 @@
               const title = document.createElement("strong");
               title.textContent = story.title || story.webviewUrl || "Untitled story";
               const meta = document.createElement("p");
-              meta.textContent = (story.publishedAt || "Date unavailable") + " · " + (story.sourceName || story.source || "News source");
+              meta.textContent =
+                (story.publishedAt || "Date unavailable") +
+                " · " +
+                (story.sourceName || story.source || "News source");
               card.append(title, meta);
               if (story.webviewUrl) {
                 const link = document.createElement("a");
@@ -5422,8 +5469,13 @@
               }
               host.append(card);
             });
-            if (!news.length) host.innerHTML = '<div class="empty">No saved stories yet. Run Refresh all news sources.</div>';
-            status("news-manager-message", "Archive loaded successfully. This is the currently saved data; a running workflow may take a few minutes to publish.");
+            if (!news.length)
+              host.innerHTML =
+                '<div class="empty">No saved stories yet. Run Refresh all news sources.</div>';
+            status(
+              "news-manager-message",
+              "Archive loaded successfully. This is the currently saved data; a running workflow may take a few minutes to publish.",
+            );
           } catch (error) {
             status("news-manager-message", error.message, true);
           } finally {
@@ -5455,7 +5507,11 @@
         async function loadLiveNewsStatus() {
           try {
             const data = await api("/api/admin/monitor");
-            const runs = (data.runs || []).filter((run) => /refresh tilak varma news/i.test(run.name || "") || /refresh-tilak-news/i.test(run.url || ""));
+            const runs = (data.runs || []).filter(
+              (run) =>
+                /refresh tilak varma news/i.test(run.name || "") ||
+                /refresh-tilak-news/i.test(run.url || ""),
+            );
             const host = $("news-source-results");
             if (!runs.length) return;
             host.replaceChildren();
@@ -5463,13 +5519,24 @@
               const card = document.createElement("article");
               card.className = "run-card";
               const title = document.createElement("strong");
-              title.textContent = (run.name || "News refresh") + " · " + (run.status === "completed" ? (run.conclusion || "completed") : run.status);
+              title.textContent =
+                (run.name || "News refresh") +
+                " · " +
+                (run.status === "completed" ? run.conclusion || "completed" : run.status);
               const detail = document.createElement("p");
-              detail.textContent = "Started: " + (run.createdAt ? new Date(run.createdAt).toLocaleString() : "unknown") + " · branch: " + (run.branch || "main");
+              detail.textContent =
+                "Started: " +
+                (run.createdAt ? new Date(run.createdAt).toLocaleString() : "unknown") +
+                " · branch: " +
+                (run.branch || "main");
               card.append(title, detail);
               if (run.url) {
                 const link = document.createElement("a");
-                link.href = run.url; link.target = "_blank"; link.rel = "noopener noreferrer"; link.className = "btn small"; link.textContent = "Open run logs ↗";
+                link.href = run.url;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.className = "btn small";
+                link.textContent = "Open run logs ↗";
                 card.append(link);
               }
               host.append(card);

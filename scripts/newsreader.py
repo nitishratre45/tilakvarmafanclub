@@ -25,12 +25,36 @@ HEADERS = {
 NAME_PATTERN = re.compile(r"\btilak\s+varma\b", re.IGNORECASE)
 URL_KEYS = {"webviewurl", "webview_url", "webview", "url", "articleurl", "canonicalurl"}
 TITLE_KEYS = {"title", "headline", "name", "newstitle", "metatitle"}
-IMAGE_KEYS = {"image", "imageurl", "image_url", "thumbnail", "thumbnailurl", "thumbnail_url", "banner", "coverimage", "featuredimage", "featuredimageurl", "ogimage"}
-DATE_KEYS = {"date", "publishdate", "publisheddate", "publishedat", "createdat", "publishedon", "datepublished", "datemodified", "updatedat", "releasedate"}
+IMAGE_KEYS = {
+    "image",
+    "imageurl",
+    "image_url",
+    "thumbnail",
+    "thumbnailurl",
+    "thumbnail_url",
+    "banner",
+    "coverimage",
+    "featuredimage",
+    "featuredimageurl",
+    "ogimage",
+}
+DATE_KEYS = {
+    "date",
+    "publishdate",
+    "publisheddate",
+    "publishedat",
+    "createdat",
+    "publishedon",
+    "datepublished",
+    "datemodified",
+    "updatedat",
+    "releasedate",
+}
 
 
 class ArticleParser(HTMLParser):
     """Extract readable text and Open Graph/JSON-LD metadata from an article page."""
+
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.parts: list[str] = []
@@ -50,7 +74,12 @@ class ArticleParser(HTMLParser):
         if self._ignored_depth:
             return
         if tag == "meta":
-            key = (attrs.get("property") or attrs.get("name") or attrs.get("itemprop") or "").lower()
+            key = (
+                attrs.get("property")
+                or attrs.get("name")
+                or attrs.get("itemprop")
+                or ""
+            ).lower()
             value = attrs.get("content", "").strip()
             if key and value:
                 self.meta[key] = value
@@ -61,7 +90,9 @@ class ArticleParser(HTMLParser):
             self._capture_title = True
         elif tag == "script":
             self._script_depth += 1
-            self._capture_jsonld = attrs.get("type", "").lower() == "application/ld+json"
+            self._capture_jsonld = (
+                attrs.get("type", "").lower() == "application/ld+json"
+            )
             self._jsonld_buffer = []
         elif tag in {"p", "div", "br", "li", "h1", "h2", "h3", "article", "section"}:
             self.parts.append("\n")
@@ -127,7 +158,13 @@ def first_value(record: dict, wanted: set[str]):
                 if isinstance(item, str) and item.strip():
                     return item.strip()
                 if isinstance(item, dict):
-                    for nested_key in ("url", "src", "href", "contentUrl", "content_url"):
+                    for nested_key in (
+                        "url",
+                        "src",
+                        "href",
+                        "contentUrl",
+                        "content_url",
+                    ):
                         nested = item.get(nested_key)
                         if isinstance(nested, str) and nested.strip():
                             return nested.strip()
@@ -141,15 +178,24 @@ def collect_articles(document: dict) -> list[dict]:
         for record in walk_records(page.get("payload", {})):
             url = record.get("webviewUrl") or record.get("webview_url")
             title = record.get("title") or record.get("headline")
-            if not isinstance(url, str) or not isinstance(title, str) or not title.strip():
+            if (
+                not isinstance(url, str)
+                or not isinstance(title, str)
+                or not title.strip()
+            ):
                 continue
             if url.startswith("/"):
                 url = urljoin("https://www.bcci.tv", url)
             parsed = urlparse(url)
             host = parsed.netloc.lower().split(":")[0]
-            if parsed.scheme != "https" or (host != "bcci.tv" and not host.endswith(".bcci.tv")):
+            if parsed.scheme != "https" or (
+                host != "bcci.tv" and not host.endswith(".bcci.tv")
+            ):
                 continue
-            if "/news/article/" not in parsed.path and "/webview/news/article/" not in parsed.path:
+            if (
+                "/news/article/" not in parsed.path
+                and "/webview/news/article/" not in parsed.path
+            ):
                 continue
             slug = str(record.get("slug") or parsed.path.rstrip("/").split("/")[-1])
             article_url = url.replace("/webview/news/article/", "/news/article/")
@@ -160,21 +206,29 @@ def collect_articles(document: dict) -> list[dict]:
             image = first_value(record, IMAGE_KEYS) or ""
             if isinstance(image, str) and image.startswith("/"):
                 image = urljoin("https://www.bcci.tv", image)
-            if isinstance(image, str) and image.startswith("https://") and not urlparse(image).netloc.lower().endswith("bcci.tv"):
+            if (
+                isinstance(image, str)
+                and image.startswith("https://")
+                and not urlparse(image).netloc.lower().endswith("bcci.tv")
+            ):
                 image = ""
             published = first_value(record, DATE_KEYS) or ""
-            articles.append({
-                "id": re.sub(r"[^a-z0-9]+", "-", slug.lower()).strip("-") or canonical,
-                "webviewUrl": canonical,
-                "title": title.strip()[:300],
-                "imageUrl": image[:1500] if image else "",
-                "publishedAt": published,
-                "sourceName": "BCCI",
-                "apiRecord": record,
-            })
+            articles.append(
+                {
+                    "id": re.sub(r"[^a-z0-9]+", "-", slug.lower()).strip("-")
+                    or canonical,
+                    "webviewUrl": canonical,
+                    "title": title.strip()[:300],
+                    "imageUrl": image[:1500] if image else "",
+                    "publishedAt": published,
+                    "sourceName": "BCCI",
+                    "apiRecord": record,
+                }
+            )
             if len(articles) >= 250:
                 return articles
     return articles
+
 
 def parse_page(raw: str) -> tuple[str, dict]:
     parser = ArticleParser()
@@ -201,7 +255,10 @@ def fetch_page(url: str) -> tuple[str, dict]:
     if "<" not in body or ">" not in body:
         try:
             payload = json.loads(body)
-            return json.dumps(payload, ensure_ascii=False), {"jsonld": [payload], "canonical": final_url}
+            return json.dumps(payload, ensure_ascii=False), {
+                "jsonld": [payload],
+                "canonical": final_url,
+            }
         except json.JSONDecodeError:
             return body, {"canonical": final_url}
     text, metadata = parse_page(body)
@@ -230,13 +287,32 @@ def metadata_fallback(metadata: dict, keys: tuple[str, ...]) -> str:
 def normalize_url(value: str) -> str:
     """Normalize a story URL so tracking parameters do not create duplicates."""
     from urllib.parse import parse_qsl, urlencode, urlunparse
+
     parsed = urlparse((value or "").strip())
     if not parsed.netloc:
         return ""
     host = parsed.netloc.lower()
     path = re.sub(r"/+", "/", parsed.path or "/").rstrip("/") or "/"
-    ignored = {"fbclid", "gclid", "ocid", "cmpid", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "ved", "usg"}
-    query = urlencode(sorted((k, v) for k, v in parse_qsl(parsed.query, keep_blank_values=True) if k.lower() not in ignored))
+    ignored = {
+        "fbclid",
+        "gclid",
+        "ocid",
+        "cmpid",
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_term",
+        "utm_content",
+        "ved",
+        "usg",
+    }
+    query = urlencode(
+        sorted(
+            (k, v)
+            for k, v in parse_qsl(parsed.query, keep_blank_values=True)
+            if k.lower() not in ignored
+        )
+    )
     return urlunparse((parsed.scheme.lower() or "https", host, path, "", query, ""))
 
 
@@ -268,8 +344,12 @@ def merge_unique_news(previous: list[dict], incoming: list[dict]) -> list[dict]:
         clean.pop("apiRecord", None)
         if existing_index is not None:
             merged[existing_index] = {**merged[existing_index], **clean}
-            final_url = normalize_url(str(merged[existing_index].get("webviewUrl") or ""))
-            final_title = normalize_title(str(merged[existing_index].get("title") or ""))
+            final_url = normalize_url(
+                str(merged[existing_index].get("webviewUrl") or "")
+            )
+            final_title = normalize_title(
+                str(merged[existing_index].get("title") or "")
+            )
             if final_url:
                 by_url[final_url] = existing_index
             if final_title:
@@ -290,7 +370,9 @@ def main() -> None:
     document = json.loads(SOURCE.read_text(encoding="utf-8"))
     candidates = collect_articles(document)
     if not candidates:
-        raise RuntimeError("No article candidates found; keeping the previous filtered news snapshot")
+        raise RuntimeError(
+            "No article candidates found; keeping the previous filtered news snapshot"
+        )
 
     previous_news: list[dict] = []
     if OUTPUT.exists():
@@ -302,11 +384,25 @@ def main() -> None:
                     if not isinstance(item, dict):
                         continue
                     old_url = urlparse(str(item.get("webviewUrl") or ""))
-                    if old_url.scheme != "https" or (old_url.netloc.lower().split(":")[0] != "bcci.tv" and not old_url.netloc.lower().split(":")[0].endswith(".bcci.tv")):
+                    if old_url.scheme != "https" or (
+                        old_url.netloc.lower().split(":")[0] != "bcci.tv"
+                        and not old_url.netloc.lower()
+                        .split(":")[0]
+                        .endswith(".bcci.tv")
+                    ):
                         continue
                     clean = {
                         key: item.get(key)
-                        for key in ("id", "webviewUrl", "title", "imageUrl", "publishedAt", "matchedLines", "matchFoundIn", "articleText")
+                        for key in (
+                            "id",
+                            "webviewUrl",
+                            "title",
+                            "imageUrl",
+                            "publishedAt",
+                            "matchedLines",
+                            "matchFoundIn",
+                            "articleText",
+                        )
                         if item.get(key) is not None
                     }
                     # Drop legacy articleText: old snapshots may contain scraped CSS or page chrome.
@@ -315,29 +411,64 @@ def main() -> None:
                     clean["imageUrl"] = str(clean.get("imageUrl") or "")[:1500]
                     previous_news.append(clean)
         except (OSError, json.JSONDecodeError):
-            print("WARNING: existing filtered archive could not be read; only fresh matches can be saved")
+            print(
+                "WARNING: existing filtered archive could not be read; only fresh matches can be saved"
+            )
 
     matches, errors = [], []
     for index, article in enumerate(candidates, start=1):
         url = article["webviewUrl"]
         try:
             text, metadata = fetch_page(url)
-            title = article["title"] or metadata_fallback(metadata, ("og:title", "twitter:title", "html:title", "headline", "name"))
-            image = article["imageUrl"] or metadata_fallback(metadata, ("og:image", "og:image:url", "twitter:image", "twitter:image:src", "image", "thumbnailUrl", "contentUrl"))
-            if image and any(host in image.lower() for host in ("news.google.com", "google.com", "googleusercontent.com")):
+            title = article["title"] or metadata_fallback(
+                metadata,
+                ("og:title", "twitter:title", "html:title", "headline", "name"),
+            )
+            image = article["imageUrl"] or metadata_fallback(
+                metadata,
+                (
+                    "og:image",
+                    "og:image:url",
+                    "twitter:image",
+                    "twitter:image:src",
+                    "image",
+                    "thumbnailUrl",
+                    "contentUrl",
+                ),
+            )
+            if image and any(
+                host in image.lower()
+                for host in ("news.google.com", "google.com", "googleusercontent.com")
+            ):
                 image = ""
-            published = article["publishedAt"] or metadata_fallback(metadata, ("article:published_time", "datepublished", "datePublished", "publishdate", "publishedat", "date", "dc.date"))
+            published = article["publishedAt"] or metadata_fallback(
+                metadata,
+                (
+                    "article:published_time",
+                    "datepublished",
+                    "datePublished",
+                    "publishdate",
+                    "publishedat",
+                    "date",
+                    "dc.date",
+                ),
+            )
             image = urljoin(url, image) if image and image.startswith("/") else image
             # Keep the BCCI API article URL; generic page canonical tags can collapse unrelated stories.
             canonical = url
-            article.update({
-                "sourceName": "BCCI",
-                "id": article.get("id") or re.sub(r"[^a-z0-9]+", "-", urlparse(canonical).path.lower()).strip("-"),
-                "webviewUrl": canonical,
-                "title": title or "Tilak Varma mentioned in news",
-                "imageUrl": image or "",
-                "publishedAt": published or "",
-            })
+            article.update(
+                {
+                    "sourceName": "BCCI",
+                    "id": article.get("id")
+                    or re.sub(
+                        r"[^a-z0-9]+", "-", urlparse(canonical).path.lower()
+                    ).strip("-"),
+                    "webviewUrl": canonical,
+                    "title": title or "Tilak Varma mentioned in news",
+                    "imageUrl": image or "",
+                    "publishedAt": published or "",
+                }
+            )
 
             # Drop stylesheet/script-like content defensively in case a publisher returns app markup.
             clean_lines = []
@@ -346,18 +477,53 @@ def main() -> None:
                 if not line:
                     continue
                 if len(line) > 1200:
-                    clean_lines.extend(textwrap.wrap(line, width=1000, break_long_words=False, break_on_hyphens=False))
+                    clean_lines.extend(
+                        textwrap.wrap(
+                            line,
+                            width=1000,
+                            break_long_words=False,
+                            break_on_hyphens=False,
+                        )
+                    )
                     continue
                 lower = line.lower()
-                if any(token in lower for token in ("@font-face", "font-family:", "webkit-", "moz-", "text-size-adjust:", "textarea{", "body{height:", "display:none", "sourceMappingURL")):
+                if any(
+                    token in lower
+                    for token in (
+                        "@font-face",
+                        "font-family:",
+                        "webkit-",
+                        "moz-",
+                        "text-size-adjust:",
+                        "textarea{",
+                        "body{height:",
+                        "display:none",
+                        "sourceMappingURL",
+                    )
+                ):
                     continue
                 if lower.count("{") > 2 or lower.count("}") > 2:
                     continue
                 clean_lines.append(line[:500])
-            navigation_labels = {"news", "videos", "photos", "matches", "players", "more", "home", "search", "menu", "sign in", "login"}
-            normalized_title = re.sub(r"\s+", " ", str(article.get("title") or "").lower()).strip()
+            navigation_labels = {
+                "news",
+                "videos",
+                "photos",
+                "matches",
+                "players",
+                "more",
+                "home",
+                "search",
+                "menu",
+                "sign in",
+                "login",
+            }
+            normalized_title = re.sub(
+                r"\s+", " ", str(article.get("title") or "").lower()
+            ).strip()
             clean_lines = [
-                line for line in clean_lines
+                line
+                for line in clean_lines
                 if re.sub(r"[•·|]", " ", line.lower()).strip() not in navigation_labels
                 and re.sub(r"\s+", " ", line.lower()).strip() != normalized_title
                 and len(line.strip()) >= 35
@@ -367,7 +533,17 @@ def main() -> None:
             record = article.get("apiRecord", {})
             api_text_fields = " ".join(
                 str(record.get(key) or "")
-                for key in ("description", "summary", "excerpt", "articleBody", "content", "body", "featuredImageAlt", "imageAlt", "seoDescription")
+                for key in (
+                    "description",
+                    "summary",
+                    "excerpt",
+                    "articleBody",
+                    "content",
+                    "body",
+                    "featuredImageAlt",
+                    "imageAlt",
+                    "seoDescription",
+                )
             )
             structured_body = []
             for structured in metadata.get("jsonld", []):
@@ -378,19 +554,57 @@ def main() -> None:
                             structured_body.append(value.strip())
             meta_description = " ".join(
                 str(metadata.get(key) or "")
-                for key in ("description", "og:description", "twitter:description", "article:tag")
+                for key in (
+                    "description",
+                    "og:description",
+                    "twitter:description",
+                    "article:tag",
+                )
             )
-            api_match = bool(NAME_PATTERN.search(api_text_fields + " " + " ".join(structured_body) + " " + meta_description))
+            api_match = bool(
+                NAME_PATTERN.search(
+                    api_text_fields
+                    + " "
+                    + " ".join(structured_body)
+                    + " "
+                    + meta_description
+                )
+            )
             if matched_lines or title_match or api_match:
                 article["matchedLines"] = matched_lines[:12]
                 # Prefer actual article paragraphs, then BCCI API/JSON-LD descriptions.
                 # Never store menu labels or the title itself as article copy.
-                content_candidates = clean_lines + structured_body + [
-                    str(record.get(key) or "").strip()
-                    for key in ("articleBody", "content", "body", "description", "summary", "excerpt", "seoDescription")
-                ] + [meta_description]
+                content_candidates = (
+                    clean_lines
+                    + structured_body
+                    + [
+                        str(record.get(key) or "").strip()
+                        for key in (
+                            "articleBody",
+                            "content",
+                            "body",
+                            "description",
+                            "summary",
+                            "excerpt",
+                            "seoDescription",
+                        )
+                    ]
+                    + [meta_description]
+                )
                 normalized_title = normalize_title(article.get("title", ""))
-                navigation_labels = {"news", "videos", "photos", "matches", "players", "more", "home", "search", "menu", "sign in", "login"}
+                navigation_labels = {
+                    "news",
+                    "videos",
+                    "photos",
+                    "matches",
+                    "players",
+                    "more",
+                    "home",
+                    "search",
+                    "menu",
+                    "sign in",
+                    "login",
+                }
                 saved_content = []
                 seen_content = set()
                 for candidate in content_candidates:
@@ -400,9 +614,21 @@ def main() -> None:
                     normalized = normalize_title(candidate)
                     if len(candidate) < 35 or len(candidate) > 4000 or not normalized:
                         continue
-                    if normalized in navigation_labels or normalized == normalized_title or normalized in seen_content:
+                    if (
+                        normalized in navigation_labels
+                        or normalized == normalized_title
+                        or normalized in seen_content
+                    ):
                         continue
-                    if any(token in candidate.lower() for token in ("@font-face", "font-family:", "sourceMappingURL", "text-size-adjust:")):
+                    if any(
+                        token in candidate.lower()
+                        for token in (
+                            "@font-face",
+                            "font-family:",
+                            "sourceMappingURL",
+                            "text-size-adjust:",
+                        )
+                    ):
                         continue
                     seen_content.add(normalized)
                     saved_content.append(candidate[:1000])
@@ -411,12 +637,19 @@ def main() -> None:
                 else:
                     article.pop("articleText", None)
                 article["matchFoundIn"] = [
-                    name for name, found in (("article", bool(matched_lines)), ("title", title_match), ("apiRecord", api_match))
+                    name
+                    for name, found in (
+                        ("article", bool(matched_lines)),
+                        ("title", title_match),
+                        ("apiRecord", api_match),
+                    )
                     if found
                 ]
                 article.pop("apiRecord", None)
                 matches.append(article)
-                print(f"MATCH: {article['title']} | date={article['publishedAt'] or 'missing'} | source={article['sourceName']}")
+                print(
+                    f"MATCH: {article['title']} | date={article['publishedAt'] or 'missing'} | source={article['sourceName']}"
+                )
             else:
                 print(f"No Tilak mention: {article['title'] or url}")
         except (HTTPError, URLError, TimeoutError, ValueError) as exc:
@@ -432,7 +665,9 @@ def main() -> None:
             time.sleep(0.2)
 
     if candidates and len(errors) == len(candidates) and not matches:
-        raise RuntimeError(f"All {len(candidates)} article pages failed to load; preserving previous filtered snapshot")
+        raise RuntimeError(
+            f"All {len(candidates)} article pages failed to load; preserving previous filtered snapshot"
+        )
 
     # Preserve all previously saved stories, not only stories that happened to be fetched today.
     # Collapse exact URL/tracking variants and exact normalized-title duplicates across sources.
@@ -443,12 +678,23 @@ def main() -> None:
         item["title"] = str(item.get("title") or "")[:300]
         item["imageUrl"] = str(item.get("imageUrl") or "")[:1500]
         if isinstance(item.get("articleText"), list):
-            navigation_labels = {"news", "videos", "photos", "matches", "players", "more", "home", "menu"}
+            navigation_labels = {
+                "news",
+                "videos",
+                "photos",
+                "matches",
+                "players",
+                "more",
+                "home",
+                "menu",
+            }
             cleaned_body = [
-                str(line).strip()[:1000] for line in item["articleText"]
+                str(line).strip()[:1000]
+                for line in item["articleText"]
                 if str(line).strip().lower() not in navigation_labels
                 and len(str(line).strip()) >= 35
-                and normalize_title(str(line)) != normalize_title(str(item.get("title") or ""))
+                and normalize_title(str(line))
+                != normalize_title(str(item.get("title") or ""))
             ]
             if len(cleaned_body) >= 2 and sum(map(len, cleaned_body)) >= 180:
                 item["articleText"] = cleaned_body[:30]
@@ -469,8 +715,12 @@ def main() -> None:
         "news": merged,
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Saved {len(merged)} unique Tilak Varma articles ({len(matches)} current matches) to {OUTPUT.relative_to(ROOT)}")
+    OUTPUT.write_text(
+        json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    print(
+        f"Saved {len(merged)} unique Tilak Varma articles ({len(matches)} current matches) to {OUTPUT.relative_to(ROOT)}"
+    )
 
 
 if __name__ == "__main__":

@@ -126,7 +126,11 @@ export async function onRequest({ request, env }) {
           body: JSON.stringify({ ref: "main" }),
         });
         return json(
-          { ok: true, message: "BCCI-only news refresh queued. BCCI News API pages 1–7 run sequentially; only BCCI article URLs with a Tilak Varma mention are saved." },
+          {
+            ok: true,
+            message:
+              "BCCI-only news refresh queued. BCCI News API pages 1–7 run sequentially; only BCCI article URLs with a Tilak Varma mention are saved.",
+          },
           202,
         );
       }

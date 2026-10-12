@@ -40,10 +40,17 @@ def read_url(url: str, accept: str | None = None) -> bytes:
 def fetch_bcci_page(page: int) -> dict:
     params = {"tags": "international", "page": str(page)}
     url = f"{BCCI_BASE}?{urlencode(params)}"
-    payload = json.loads(read_url(url, "application/json, text/plain, */*").decode("utf-8-sig"))
+    payload = json.loads(
+        read_url(url, "application/json, text/plain, */*").decode("utf-8-sig")
+    )
     if not isinstance(payload, (dict, list)):
         raise ValueError(f"Unexpected BCCI API response on page {page}")
-    return {"page": page, "sourceName": "BCCI News API", "sourceUrl": url, "payload": payload}
+    return {
+        "page": page,
+        "sourceName": "BCCI News API",
+        "sourceUrl": url,
+        "payload": payload,
+    }
 
 
 def fetch_bcci_pages(errors: list[dict]) -> list[dict]:
@@ -53,8 +60,18 @@ def fetch_bcci_pages(errors: list[dict]) -> list[dict]:
             collected.append(fetch_bcci_page(page))
             print(f"OK source: BCCI News API page {page}", flush=True)
         except Exception as exc:
-            errors.append({"source": "BCCI News API", "page": page, "error": str(exc), "failedAt": datetime.now(timezone.utc).isoformat()})
-            print(f"WARNING source: BCCI News API page {page} failed: {exc}; continuing to next page", flush=True)
+            errors.append(
+                {
+                    "source": "BCCI News API",
+                    "page": page,
+                    "error": str(exc),
+                    "failedAt": datetime.now(timezone.utc).isoformat(),
+                }
+            )
+            print(
+                f"WARNING source: BCCI News API page {page} failed: {exc}; continuing to next page",
+                flush=True,
+            )
         time.sleep(0.2)
     return collected
 
@@ -65,7 +82,9 @@ def main() -> None:
     pages = fetch_bcci_pages(errors)
 
     if not pages:
-        raise RuntimeError("All configured BCCI News API pages failed; preserving the previous raw news snapshot")
+        raise RuntimeError(
+            "All configured BCCI News API pages failed; preserving the previous raw news snapshot"
+        )
 
     document = {
         "player": "Tilak Varma",
@@ -78,7 +97,9 @@ def main() -> None:
         "errors": errors,
         "pages": pages,
     }
-    OUT.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(
+        json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     print(f"Saved {len(pages)} BCCI API page(s) to {OUT.relative_to(ROOT)}", flush=True)
 
 
