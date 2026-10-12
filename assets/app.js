@@ -19,15 +19,24 @@
   const formatIndiaTimestamp = (value) => {
     if (!value) return "time unavailable";
     const date = new Date(String(value).replace(" UTC", "Z"));
-    return Number.isNaN(date.getTime()) ? String(value) : new Intl.DateTimeFormat("en-IN", {
-      timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric",
-      hour: "2-digit", minute: "2-digit", hour12: true
-    }).format(date) + " IST";
+    return Number.isNaN(date.getTime())
+      ? String(value)
+      : new Intl.DateTimeFormat("en-IN", {
+          timeZone: "Asia/Kolkata",
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }).format(date) + " IST";
   };
   const latestTimestamp = (...values) => {
-    const latest = values.filter((value) => typeof value === "string" && value.trim())
+    const latest = values
+      .filter((value) => typeof value === "string" && value.trim())
       .map((value) => ({ value, time: Date.parse(value.replace(" UTC", "Z").replace(" ", "T")) }))
-      .filter((item) => Number.isFinite(item.time)).sort((a, b) => b.time - a.time)[0];
+      .filter((item) => Number.isFinite(item.time))
+      .sort((a, b) => b.time - a.time)[0];
     return latest ? formatIndiaTimestamp(latest.value) : "time unavailable";
   };
   set("year", new Date().getFullYear());
