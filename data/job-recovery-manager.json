@@ -1,44 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T13:12:48.242Z",
+  "checkedAt": "2026-10-12T13:13:39.640Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T06:01:37.384Z",
-      "workflow": "Admin Python diagnostics",
-      "workflowPath": ".github/workflows/admin-diagnostics.yml",
-      "runId": 38210538303,
-      "runAttempt": 1,
-      "conclusion": "cancelled",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38210538303",
-      "action": "manual_review_required",
-      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 0,
-        "cancelled": 1,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "Python code and data diagnostics",
-          "conclusion": "cancelled",
-          "startedAt": "2026-10-12T06:01:22Z",
-          "completedAt": "2026-10-12T06:01:29Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38210538303/job/114683470257",
-          "steps": [
-            {
-              "name": "Post Set up Python",
-              "conclusion": "cancelled",
-              "number": 9
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T06:01:47.558Z",
       "workflow": "Admin Python diagnostics",
@@ -13388,6 +13352,27 @@
           ]
         }
       ]
+    },
+    {
+      "checkedAt": "2026-10-12T13:13:39.640Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38254186306,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38254186306",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 0,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
     }
   ]
 }
