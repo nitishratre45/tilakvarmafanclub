@@ -146,17 +146,31 @@
         .map((f) => {
           if (formats[f]) return { format: f, ...formats[f] };
           if (f === "FC" && data?.careerFormats?.["First-class"])
-            return { format: f, summary: data.careerFormats["First-class"], innings: [], careerBreakdown: [] };
+            return {
+              format: f,
+              summary: data.careerFormats["First-class"],
+              innings: [],
+              careerBreakdown: [],
+            };
           if (f === "List A" && data?.careerFormats?.["List A"])
-            return { format: f, summary: data.careerFormats["List A"], innings: [], careerBreakdown: [] };
+            return {
+              format: f,
+              summary: data.careerFormats["List A"],
+              innings: [],
+              careerBreakdown: [],
+            };
           return null;
         })
         .filter(Boolean);
       const all = parts.flatMap((f) =>
-        (Array.isArray(f.innings) ? f.innings : []).map((row) => ({ ...row, format: row.format || f.format })),
+        (Array.isArray(f.innings) ? f.innings : []).map((row) => ({
+          ...row,
+          format: row.format || f.format,
+        })),
       );
       const summaries = parts.map((f) => withInferredBalls(f.summary)).filter(Boolean);
-      const sum = (k) => summaries.reduce((n, item) => n + (typeof item[k] === "number" ? item[k] : 0), 0);
+      const sum = (k) =>
+        summaries.reduce((n, item) => n + (typeof item[k] === "number" ? item[k] : 0), 0);
       const best = summaries
         .map((item) => ({
           score: item.highestScore,
