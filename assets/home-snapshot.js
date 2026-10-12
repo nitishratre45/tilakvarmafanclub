@@ -146,11 +146,11 @@
           .replace(/[^a-z0-9]+/g, " ")
           .trim();
       const candidates = [
-        ...((data.statsguru?.formats?.T20I?.innings || []).map((row) => ({
+        ...(data.statsguru?.formats?.T20I?.innings || []).map((row) => ({
           ...row,
           format: "T20I",
           source: row.source || "ESPNcricinfo Statsguru",
-        }))),
+        })),
       ]
         .filter((row) => row && row.date && row.opposition)
         .sort((a, b) => parseMatchDate(b.date) - parseMatchDate(a.date));
