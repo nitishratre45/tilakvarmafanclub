@@ -118,7 +118,47 @@
         $("home-data-updated").textContent =
           "Last update: " + (stamps[0]?.value || "time unavailable");
       }
-      const rows = Array.isArray(data.recentInnings) ? data.recentInnings.slice(0, 4) : [];
+      // Statsguru match rows refresh independently of the Cricsheet recent-form
+      // archive. Prefer the verified cross-format match index so a new match can
+      // appear here even while the secondary archive is a few days behind.
+      const parseMatchDate = (value) => {
+        const raw = String(value || "").trim();
+        const direct = Date.parse(raw);
+        if (Number.isFinite(direct)) return direct;
+        const match = raw.match(/^(\\d{1,2})\\s+([A-Za-z]{3,})\\s+(\\d{4})$/);
+        if (match) {
+          const parsed = Date.parse(match[1] + " " + match[2] + " " + match[3] + " UTC");
+          if (Number.isFinite(parsed)) return parsed;
+        }
+        return 0;
+      };
+      const normalizeOpponent = (value) =>
+        String(value || "")
+          .toLowerCase()
+          .replace(/^v\\s+/, "")
+          .replace(/^india\\s+vs\\s+/, "")
+          .replace(/[^a-z0-9]+/g, " ")
+          .trim();
+      const candidates = [
+        ...(Array.isArray(data.playerMatches)
+          ? data.playerMatches.filter((row) => row.format === "T20I")
+          : []),
+        ...(Array.isArray(data.recentInnings) ? data.recentInnings : []),
+      ]
+        .filter((row) => row && row.date && row.opposition)
+        .sort((a, b) => parseMatchDate(b.date) - parseMatchDate(a.date));
+      const seenMatches = new Set();
+      const rows = candidates
+        .filter((row) => {
+          const key = [
+            Math.floor(parseMatchDate(row.date) / 86400000),
+            normalizeOpponent(row.opposition),
+          ].join("|");
+          if (seenMatches.has(key)) return false;
+          seenMatches.add(key);
+          return true;
+        })
+        .slice(0, 4);
       if (inningsHost)
         inningsHost.innerHTML = rows.length
           ? rows
