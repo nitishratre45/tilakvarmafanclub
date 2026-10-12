@@ -6,7 +6,7 @@
 
   const style = document.createElement("link");
   style.rel = "stylesheet";
-  style.href = "News/news-section.css?v=20261012-rich-news1";
+  style.href = "News/news-section.css?v=20261012-table-guard1";
   document.head.appendChild(style);
 
   section.className = "section tv-news-section";
