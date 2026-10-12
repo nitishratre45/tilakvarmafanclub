@@ -1,49 +1,8 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-12T19:46:56.901Z",
+  "checkedAt": "2026-10-12T19:47:07.177Z",
   "retentionHours": 15,
   "events": [
-    {
-      "checkedAt": "2026-10-12T08:17:57.462Z",
-      "workflow": "Validate Tilak Varma FC site",
-      "workflowPath": ".github/workflows/site-check.yml",
-      "runId": 38222637736,
-      "runAttempt": 2,
-      "conclusion": "failure",
-      "event": "push",
-      "branch": "main",
-      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38222637736",
-      "action": "handled_by_auto_rerun_failed",
-      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
-      "jobCounts": {
-        "total": 1,
-        "success": 0,
-        "failure": 1,
-        "cancelled": 0,
-        "skipped": 0
-      },
-      "jobs": [
-        {
-          "name": "validate",
-          "conclusion": "failure",
-          "startedAt": "2026-10-12T08:17:30Z",
-          "completedAt": "2026-10-12T08:17:42Z",
-          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38222637736/job/114722452373",
-          "steps": [
-            {
-              "name": "Verify feature modules are linked",
-              "conclusion": "failure",
-              "number": 7
-            },
-            {
-              "name": "Post Set up Node.js",
-              "conclusion": "skipped",
-              "number": 13
-            }
-          ]
-        }
-      ]
-    },
     {
       "checkedAt": "2026-10-12T08:18:06.675Z",
       "workflow": "Format source code",
@@ -12609,6 +12568,52 @@
         "skipped": 0
       },
       "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-12T19:47:07.177Z",
+      "workflow": "Validate Tilak Varma FC site",
+      "workflowPath": ".github/workflows/site-check.yml",
+      "runId": 38299853859,
+      "runAttempt": 2,
+      "conclusion": "failure",
+      "event": "pull_request",
+      "branch": "fix/stats-route-path",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38299853859",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "validate",
+          "conclusion": "failure",
+          "startedAt": "2026-10-12T19:46:48Z",
+          "completedAt": "2026-10-12T19:46:55Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38299853859/job/114979971281",
+          "steps": [
+            {
+              "name": "Check page anchors and local asset references",
+              "conclusion": "failure",
+              "number": 6
+            },
+            {
+              "name": "Verify feature modules are linked",
+              "conclusion": "skipped",
+              "number": 7
+            },
+            {
+              "name": "Post Set up Node.js",
+              "conclusion": "skipped",
+              "number": 13
+            }
+          ]
+        }
+      ]
     }
   ]
 }
