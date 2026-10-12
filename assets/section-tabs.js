@@ -4,7 +4,7 @@
   const main = document.querySelector("main");
   const nav = document.getElementById("main-nav");
   const menu = document.querySelector(".menu-toggle");
-  // Keep the News destination ready, but intentionally leave its section empty.
+  // Keep the News destination ready as its own section.
   if (main && !document.getElementById("news")) {
     const newsSection = document.createElement("section");
     newsSection.id = "news";
@@ -15,14 +15,15 @@
     const newsLink = document.createElement("a");
     newsLink.href = "#news";
     newsLink.textContent = "News";
-    const videosLink = nav.querySelector('a[href="#tilak-videos"]');
-    if (videosLink) videosLink.insertAdjacentElement("afterend", newsLink);
+    // Keep desktop/mobile navigation order consistent: Matches, News, Records...
+    const matchesLink = nav.querySelector('a[href="#matches"]');
+    if (matchesLink) matchesLink.insertAdjacentElement("afterend", newsLink);
     else nav.appendChild(newsLink);
   }
 
   // News UI is maintained separately from index.html.
   const newsLoader = document.createElement("script");
-  newsLoader.src = "News/news-section.js?v=20261012-news-ui1";
+  newsLoader.src = "News/news-section.js?v=20261012-news-ui2";
   newsLoader.defer = true;
   document.body.appendChild(newsLoader);
 
@@ -58,9 +59,6 @@
     if (!allowed.has(id)) id = "profile";
 
     sections.forEach((section) => {
-      // The photo archive is a persistent page-bottom section, not a menu view.
-      // Keep it visible across client-side navigation; gallery.js applies its own
-      // compact layout with !important styles after rendering.
       if (persistentSections.has(section.id)) {
         section.hidden = false;
         section.setAttribute("aria-hidden", "false");
@@ -90,7 +88,6 @@
     window.scrollTo(0, 0);
   }
 
-  // Capture section links before other scripts can swallow or alter a mobile tap.
   document.addEventListener(
     "click",
     (event) => {
@@ -102,8 +99,6 @@
       const id = link.hash.slice(1);
       if (!view && !allowed.has(id)) return;
 
-      // Notify the video module before this capture handler stops propagation.
-      // The section-tabs handler owns navigation, so the player must close here.
       window.dispatchEvent(
         new CustomEvent("tilak:section-change", { detail: { id: view ? "stats" : id } }),
       );
