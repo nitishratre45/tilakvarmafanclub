@@ -70,6 +70,13 @@
         host.appendChild(p);
         return;
       }
+      const leadingText = cells.slice(0, headerIndex).filter(Boolean).join(" ");
+      if (leadingText) {
+        const p = document.createElement("p");
+        p.className = "article-recovered-prose";
+        p.textContent = leadingText;
+        host.appendChild(p);
+      }
       const tail = cells.slice(headerIndex);
       const venueIndex = tail.findIndex(cell => cell.toLowerCase() === "venue");
       const columnCount = venueIndex >= 0 ? venueIndex + 1 : 5;
