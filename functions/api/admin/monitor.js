@@ -126,7 +126,7 @@ export async function onRequest({ request, env }) {
           body: JSON.stringify({ ref: "main" }),
         });
         return json(
-          { ok: true, message: "News refresh queued. BCCI, Google News RSS, and ESPNcricinfo sources will be processed sequentially; failed sources are logged without stopping the next source." },
+          { ok: true, message: "BCCI-only news refresh queued. BCCI News API pages 1–7 run sequentially; only BCCI article URLs with a Tilak Varma mention are saved." },
           202,
         );
       }
