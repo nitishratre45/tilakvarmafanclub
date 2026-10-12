@@ -146,11 +146,9 @@ def collect_articles(document: dict) -> list[dict]:
             parsed = urlparse(url)
             if parsed.scheme != "https" or not parsed.netloc:
                 continue
-            host = parsed.netloc.lower()
-            is_bcci_article = host.endswith("bcci.tv") and "/news/article/" in parsed.path
-            is_google_result = host == "news.google.com" and "/rss/articles/" in parsed.path
-            is_espn_article = host.endswith("espncricinfo.com") and ("/story/" in parsed.path or "/cricket-news/" in parsed.path)
-            if not (is_bcci_article or is_google_result or is_espn_article):
+            host = parsed.netloc.lower().split(":")[0]
+            # This archive is intentionally restricted to URLs returned by the supplied BCCI API.
+            if host != "bcci.tv" and not host.endswith(".bcci.tv"):
                 continue
             canonical = url.split("#", 1)[0]
             if canonical in seen:
@@ -171,7 +169,7 @@ def collect_articles(document: dict) -> list[dict]:
                 "title": title[:300],
                 "imageUrl": image[:1500] if image else "",
                 "publishedAt": first_value(record, DATE_KEYS) or "",
-                "sourceName": first_value(record, {"sourcename", "source"}) or page_source,
+                "sourceName": "BCCI",
                 "apiRecord": record,
             })
             if len(articles) >= 250:
@@ -304,16 +302,16 @@ def main() -> None:
                 for item in previous_data["news"]:
                     if not isinstance(item, dict):
                         continue
+                    old_url = urlparse(str(item.get("webviewUrl") or ""))
+                    if old_url.scheme != "https" or (old_url.netloc.lower().split(":")[0] != "bcci.tv" and not old_url.netloc.lower().split(":")[0].endswith(".bcci.tv")):
+                        continue
                     clean = {
                         key: item.get(key)
-                        for key in ("id", "webviewUrl", "title", "imageUrl", "publishedAt", "sourceName", "matchedLines", "matchFoundIn")
+                        for key in ("id", "webviewUrl", "title", "imageUrl", "publishedAt", "matchedLines", "matchFoundIn")
                         if item.get(key) is not None
                     }
-                    article_text = item.get("articleText")
-                    if isinstance(article_text, list):
-                        clean["articleText"] = [str(line)[:500] for line in article_text[:12]]
-                    elif isinstance(article_text, str):
-                        clean["articleText"] = article_text[:4000]
+                    # Drop legacy articleText: old snapshots may contain scraped CSS or page chrome.
+                    clean["sourceName"] = "BCCI"
                     clean["title"] = str(clean.get("title") or "")[:300]
                     clean["imageUrl"] = str(clean.get("imageUrl") or "")[:1500]
                     previous_news.append(clean)
@@ -324,13 +322,7 @@ def main() -> None:
     for index, article in enumerate(candidates, start=1):
         url = article["webviewUrl"]
         try:
-            # Do not scrape Google News wrapper HTML: it contains app CSS and generic logos,
-            # not article content. Keep the RSS title/date and let the original link open the source.
-            is_google_result = urlparse(url).netloc.lower() == "news.google.com"
-            if is_google_result:
-                text, metadata = "", {"canonical": url}
-            else:
-                text, metadata = fetch_page(url)
+            text, metadata = fetch_page(url)
             title = article["title"] or metadata_fallback(metadata, ("og:title", "twitter:title", "html:title", "headline", "name"))
             image = article["imageUrl"] or metadata_fallback(metadata, ("og:image", "og:image:url", "twitter:image", "twitter:image:src", "image", "thumbnailUrl", "contentUrl"))
             if image and any(host in image.lower() for host in ("news.google.com", "google.com", "googleusercontent.com")):
@@ -341,7 +333,7 @@ def main() -> None:
             if canonical.startswith("/"):
                 canonical = urljoin(url, canonical)
             article.update({
-                "sourceName": article.get("sourceName") or ("Google News" if is_google_result else "BCCI News API"),
+                "sourceName": "BCCI",
                 "id": article.get("id") or re.sub(r"[^a-z0-9]+", "-", urlparse(canonical).path.lower()).strip("-"),
                 "webviewUrl": canonical,
                 "title": title or "Tilak Varma mentioned in news",
@@ -364,13 +356,7 @@ def main() -> None:
             matched_lines = [line for line in clean_lines if NAME_PATTERN.search(line)]
             title_match = bool(NAME_PATTERN.search(article["title"]))
             record_match = bool(NAME_PATTERN.search(json.dumps(article.get("apiRecord", {}), ensure_ascii=False)))
-            # Google RSS result titles can prove relevance even when the publisher blocks the crawler.
-            source_title_match = title_match and (
-                "google news" in str(article.get("sourceName", "")).lower()
-                or "espncricinfo" in str(article.get("sourceName", "")).lower()
-                or "bcci" in str(article.get("sourceName", "")).lower()
-            )
-            if matched_lines or title_match or record_match or source_title_match:
+            if matched_lines or title_match or record_match:
                 article["matchedLines"] = matched_lines[:12]
                 if clean_lines:
                     article["articleText"] = clean_lines[:12]
@@ -386,7 +372,7 @@ def main() -> None:
         except (HTTPError, URLError, TimeoutError, ValueError) as exc:
             errors.append({"webviewUrl": url, "error": str(exc)})
             print(f"WARNING: could not read {url}: {exc}")
-            # If the RSS title itself explicitly names Tilak, keep it even if the linked page blocks bots.
+            # If a BCCI API title explicitly names Tilak, keep it even if BCCI blocks scraping.
             if NAME_PATTERN.search(str(article.get("title", ""))):
                 article.pop("apiRecord", None)
                 article["matchFoundIn"] = ["title"]
@@ -413,7 +399,7 @@ def main() -> None:
         item.pop("apiRecord", None)
     result = {
         "player": "Tilak Varma",
-        "source": document.get("source", "BCCI + Google News RSS"),
+        "source": "BCCI News API only",
         "updatedAt": datetime.now(timezone.utc).isoformat(),
         "candidateCount": len(candidates),
         "matchedCount": len(merged),
