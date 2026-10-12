@@ -73,15 +73,24 @@
     });
 
     if (id === "stats") setStatsView(view || "stats-overview");
-    nav?.querySelectorAll('a[href^="#"]').forEach((link) => {
-      const active = link.hash === "#" + id;
+    nav?.querySelectorAll("a").forEach((link) => {
+      const active = id === "stats"
+        ? link.getAttribute("href") === "/stats" || link.hash === "#stats"
+        : link.hash === "#" + id;
       link.classList.toggle("active", active);
       if (active) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
     });
 
-    if (push && location.hash !== "#" + id) {
-      history.pushState({ section: id, statsView: view || "stats-overview" }, "", "#" + id);
+    if (push) {
+      const statsPath = useStatsPath || (id === "stats" && location.pathname.replace(/\/$/, "") === "/stats");
+      const target = statsPath ? "/stats" : "#" + id;
+      const alreadyThere = statsPath
+        ? location.pathname.replace(/\/$/, "") === "/stats" && !location.hash
+        : location.hash === target;
+      if (!alreadyThere) {
+        history.pushState({ section: id, statsView: view || "stats-overview" }, "", target);
+      }
     }
     nav?.classList.remove("open");
     menu?.setAttribute("aria-expanded", "false");
