@@ -12,21 +12,25 @@ ARCHIVES = {
     "ipl": {
         "label": "IPL",
         "url": "https://cricsheet.org/downloads/ipl_json.zip",
+        "fallback_urls": ["https://cricsheet.org/downloads/all_male_json.zip"],
         "kind": "ipl",
     },
     "t20i": {
         "label": "T20 Internationals",
         "url": "https://cricsheet.org/downloads/t20s_male_json.zip",
+        "fallback_urls": ["https://cricsheet.org/downloads/all_male_json.zip"],
         "kind": "t20i",
     },
     "t20": {
         "label": "Other Men's T20",
         "url": "https://cricsheet.org/downloads/t20s_male_json.zip",
+        "fallback_urls": ["https://cricsheet.org/downloads/all_male_json.zip"],
         "kind": "t20",
     },
     "overall_t20": {
         "label": "Overall T20 · IPL + T20I + domestic",
         "url": "https://cricsheet.org/downloads/t20s_male_json.zip",
+        "fallback_urls": ["https://cricsheet.org/downloads/all_male_json.zip"],
         "kind": "overall_t20",
     },
     "odi": {
@@ -113,7 +117,14 @@ def parse_match(data, filename, key, totals):
             "international t20",
         }:
             return [], None
-    elif key not in {"ipl", "overall_t20", "hyderabad"} and classify(info) != key:
+    elif key == "ipl":
+        # The broad all-men ZIP is a fallback for the dedicated IPL ZIP.
+        # Filter it to IPL so unrelated men's T20 innings cannot leak into IPL stats.
+        event = info.get("event", {}) or {}
+        event_name = str(event.get("name", "") if isinstance(event, dict) else event).lower()
+        if "indian premier league" not in event_name and event_name.strip() != "ipl":
+            return [], None
+    elif key not in {"overall_t20", "hyderabad"} and classify(info) != key:
         return [], None
     players = info.get("players", {})
     teams = info.get("teams", [])
@@ -253,38 +264,56 @@ def main():
     previous_formats = previous.get("formats", {})
     for key, cfg in ARCHIVES.items():
         try:
-            url = cfg["url"] or discover_hyderabad_archive()
-            if url not in cache:
-                cache[url] = download(url)
-            cfg["url"] = url
-            candidate = build(cache[url], cfg["kind"])
+            primary_url = cfg["url"] or discover_hyderabad_archive()
+            urls = [primary_url, *cfg.get("fallback_urls", [])]
+            candidate = None
+            selected_url = primary_url
+            attempt_errors = []
+
+            # Try the format-specific ZIP first. If it is unavailable, malformed,
+            # or has no Tilak innings, fall back to Cricsheet's official all-men ZIP.
+            for source_url in dict.fromkeys(urls):
+                try:
+                    if source_url not in cache:
+                        cache[source_url] = download(source_url)
+                    trial = build(cache[source_url], cfg["kind"])
+                    if trial.get("innings") and trial.get("readErrors", 0) == 0:
+                        candidate = trial
+                        selected_url = source_url
+                        break
+                    attempt_errors.append(
+                        f"{source_url}: {trial.get('inningsFound', 0)} innings, "
+                        f"{trial.get('readErrors', 0)} read errors"
+                    )
+                    candidate = trial
+                    selected_url = source_url
+                except Exception as source_error:
+                    attempt_errors.append(f"{source_url}: {source_error}")
+
             old_format = previous_formats.get(key, {})
-            # Do not replace a verified archive with an empty or partially unreadable
-            # parse. Keep the previous format snapshot and report the failed attempt.
-            if old_format.get("innings") and (
-                not candidate.get("innings") or candidate.get("readErrors", 0) > 0
-            ):
-                reason = (
-                    "Archive returned no Tilak innings"
-                    if not candidate.get("innings")
-                    else "Archive contained unreadable match files"
-                )
-                failures[key] = reason + "; retained the previous verified snapshot."
-                formats[key] = old_format
-                print(f"WARNING {key}: {failures[key]}")
-            else:
-                formats[key] = candidate
-                fresh_formats.add(key)
-                print(
-                    f'{cfg["label"]}: {candidate["matchesFound"]} matches, {candidate["inningsFound"]} innings'
-                )
+            if candidate is None or not candidate.get("innings") or candidate.get("readErrors", 0) > 0:
+                reason = "; ".join(attempt_errors) or "No usable archive response"
+                if old_format.get("innings"):
+                    failures[key] = reason + "; retained the previous verified snapshot."
+                    formats[key] = old_format
+                    print(f"WARNING {key}: {failures[key]}")
+                    continue
+                raise RuntimeError(reason)
+
+            cfg["url"] = selected_url
+            formats[key] = candidate
+            fresh_formats.add(key)
+            print(
+                f'{cfg["label"]}: {candidate["matchesFound"]} matches, '
+                f'{candidate["inningsFound"]} innings (source: {selected_url})'
+            )
         except Exception as e:
             failures[key] = str(e)
             if previous_formats.get(key, {}).get("innings"):
                 formats[key] = previous_formats[key]
                 failures[key] += "; retained the previous verified snapshot."
             print(f"WARNING {key}: {failures[key]}")
-        # Overall T20 combines the broad men's T20 archive with IPL deliveries.
+    # Overall T20 combines the broad men's T20 archive with IPL deliveries.
     # Always merge the separate IPL/Hyderabad archives, even if the broad
     # men's T20 archive failed or returned no Tilak innings.
     if "overall_t20" in formats:
