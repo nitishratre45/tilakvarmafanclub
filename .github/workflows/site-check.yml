@@ -155,7 +155,7 @@ jobs:
       - name: Verify feature modules are linked
         run: |
           grep -q 'assets/features.js' index.html
-          grep -q 'assets/news.js' index.html
+          grep -q 'News/news-section.js' assets/section-tabs.js
           grep -q 'assets/statsguru.js' index.html
           grep -q 'assets/home-snapshot.js' index.html
           grep -q 'assets/section-tabs.js' index.html
@@ -169,8 +169,11 @@ jobs:
           grep -q 'scripts/refresh_icc_records.py' .github/workflows/refresh-icc-records.yml
           grep -q 'scripts/refresh_statsguru.py' .github/workflows/refresh-statsguru.yml
           if grep -q 'id="activity"\|href="#activity"' index.html; then echo "Updates section should be removed"; exit 1; fi
-          grep -q 'tilak-news-grid' index.html
-          grep -q 'scripts/refresh_tilak_news.py' .github/workflows/refresh-tilak-data.yml
+          grep -q 'tv-news-grid' News/news-section.js
+          grep -q 'News/newsjson.json' News/news-section.js
+          grep -q 'News-details/index.html' News/news-section.js
+          grep -q 'scripts/news.py' .github/workflows/refresh-tilak-news.yml
+          grep -q 'scripts/filter_tilak_news.py' .github/workflows/refresh-tilak-news.yml
           grep -q 'data/fan-zone.json' assets/features.js
           # Shared site-data loader must exist and load before every dependent page module.
           grep -q 'assets/site-data-store.js' index.html
@@ -189,7 +192,7 @@ jobs:
               "assets/career-formats.js",
               "assets/features.js",
               "assets/upgrade.js",
-              "assets/news.js",
+              "assets/section-tabs.js",
               "assets/statsguru.js",
               "assets/home-snapshot.js",
               "assets/bowling.js",
