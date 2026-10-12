@@ -51,15 +51,33 @@ check("section navigation switches content and keeps one main section visible", 
   await page.close();
 });
 
-check("Stats Explorer sub-tab responds", async () => {
+check("Stats Batting, Bowling, and Explore tabs respond", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   await page.locator('#main-nav a[href="#stats"]').click();
-  const tab = page.locator('#stats [data-stats-tab="statsguru"]');
-  assert.equal(await tab.count(), 1, "Statsguru tab is missing");
-  await tab.click();
-  assert.equal(await page.locator("#statsguru").isVisible(), true, "Statsguru view did not open");
+
+  const views = [
+    { tab: "stats-overview", view: "#stats-overview", label: "Batting" },
+    { tab: "stats-bowling", view: "#stats-bowling", label: "Bowling" },
+    { tab: "statsguru", view: "#statsguru", label: "Explore" },
+  ];
+
+  for (const item of views) {
+    const tab = page.locator('#stats [data-stats-tab="' + item.tab + '"]');
+    assert.equal(await tab.count(), 1, item.label + " tab is missing");
+    await tab.click();
+    await page.waitForFunction(
+      (selector) => {
+        const view = document.querySelector(selector);
+        return Boolean(view && !view.hidden && getComputedStyle(view).display !== "none");
+      },
+      item.view,
+      { timeout: 8000 },
+    );
+    assert.equal(await page.locator(item.view).isVisible(), true, item.label + " view did not open");
+  }
+
   await page.close();
 });
 

@@ -72,8 +72,7 @@ body {
 .eyebrow {
   color: #78e4ef;
   letter-spacing: 0.12em;
-}
-.stat-card,
+}.stat-card,
 .home-snapshot-block,
 .home-bowling-card,
 .match-history-summary,
@@ -87,16 +86,17 @@ body {
 .settings-card,
 .cricinfo-gallery,
 .tilak-news-content,
-.upcoming-matches-panel {
+.upcoming-matches-panel
+{
   border-color: var(--admin-line);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-}
-.stat-card,
+}.stat-card,
 .home-snapshot-block,
 .home-bowling-card,
 .match-history-summary,
 .player-analysis-filter,
-.settings-card {
+.settings-card
+{
   background: linear-gradient(155deg, rgba(17, 36, 58, 0.96), rgba(10, 23, 40, 0.96));
 }
 .stat-card,
@@ -170,9 +170,9 @@ textarea:focus-visible,
 summary:focus-visible {
   outline: 2px solid #78e4ef;
   outline-offset: 3px;
-}
-.table-wrap,
-.match-history-table-wrap {
+}.table-wrap,
+.match-history-table-wrap
+{
   max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -183,13 +183,14 @@ video,
 iframe,
 canvas {
   max-width: 100%;
-}
-@media (min-width: 1100px) {
+}@media (min-width: 1100px) {
+
   .section {
     margin-bottom: 24px;
   }
-}
-@media (max-width: 760px) {
+
+}@media (max-width: 760px) {
+
   html {
     scroll-padding-top: 82px;
   }
@@ -210,13 +211,15 @@ canvas {
   button {
     min-height: 40px;
   }
-}
-@media (max-width: 420px) {
+
+}@media (max-width: 420px) {
+
   .section {
     border-radius: 14px;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+
+}@media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -224,6 +227,7 @@ canvas {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+
 }
 /* Respect the existing user-selected light theme. */
 :root[data-theme-resolved="light"] body {
@@ -234,13 +238,13 @@ canvas {
   border-color: #d4e2f4;
   background: linear-gradient(155deg, #fff, #edf4ff);
   box-shadow: 0 12px 30px rgba(29, 71, 122, 0.08);
-}
-:root[data-theme-resolved="light"] .stat-card,
+}:root[data-theme-resolved="light"] .stat-card,
 :root[data-theme-resolved="light"] .home-snapshot-block,
 :root[data-theme-resolved="light"] .home-bowling-card,
 :root[data-theme-resolved="light"] .match-history-summary,
 :root[data-theme-resolved="light"] .player-analysis-filter,
-:root[data-theme-resolved="light"] .settings-card {
+:root[data-theme-resolved="light"] .settings-card
+{
   background: linear-gradient(145deg, #fff, #edf4ff);
   border-color: #d4e2f4;
 }

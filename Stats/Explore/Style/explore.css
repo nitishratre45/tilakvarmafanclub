@@ -1,4 +1,4 @@
-/* Stats-only styles migrated from the legacy global stylesheets. Shared homepage card/layout styles remain in assets CSS. */
+/* Stats-only styles extracted from global stylesheets. Shared homepage styles remain global. */
 
 .statsguru-section
 {
@@ -34,6 +34,7 @@
 
 }
 
+.statsguru-sourcelinks,
 .statsguru-footer-links
 {
 
@@ -43,6 +44,7 @@
 
 }
 
+.statsguru-sourcelinks a,
 .statsguru-footer-links a
 {
 
@@ -60,6 +62,7 @@
 
 }
 
+.statsguru-format-tabs button,
 .statsguru-category-grid button
 {
 
@@ -73,6 +76,7 @@
 
 }
 
+.statsguru-format-tabs button.active,
 .statsguru-category-grid button.active
 {
 
@@ -298,6 +302,7 @@
 
 }
 
+.statsguru-format-tabs button,
 .statsguru-category-grid button
 {
 
@@ -308,6 +313,7 @@
 
 }
 
+.statsguru-format-tabs button:hover,
 .statsguru-category-grid button:hover
 {
 
@@ -328,6 +334,17 @@
 
   border-top: 2px solid rgba(255, 106, 53, 0.55);
 
+}
+
+@media (prefers-reduced-motion: reduce) {
+.statsguru-format-tabs button,
+.statsguru-category-grid button
+{
+
+    transition: none !important;
+    animation: none !important;
+  
+}
 }
 
 .statsguru-section
@@ -504,6 +521,7 @@
 
 }
 
+.statsguru-panel .table-wrap .sg-cell-minutes,
 .statsguru-panel .table-wrap .sg-cell-balls
 {
 
@@ -686,11 +704,38 @@
 
 }
 
+:root[data-theme="light"] .statsguru-section
+{
+
+  background: var(--bg);
+  color: var(--white);
+
+}
+
+:root[data-theme="light"] .statsguru-panel,
+:root[data-theme="light"] .statsguru-sourcebar,
+:root[data-theme="light"] .statsguru-format-tabs button,
 :root[data-theme="light"] .statsguru-category-grid button
 {
 
   background: #fff;
   color: var(--white);
+
+}
+
+:root[data-theme="light"] .statsguru-panel .table-wrap th
+{
+
+  background: #e8eef5;
+  color: #087e91;
+
+}
+
+:root[data-theme="light"] .statsguru-panel .table-wrap td
+{
+
+  border-top-color: rgba(18, 35, 55, 0.13);
+  color: #24354a;
 
 }
 
@@ -702,6 +747,7 @@
 
 }
 
+:root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-minutes,
 :root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-balls
 {
 
@@ -710,6 +756,7 @@
 
 }
 
+:root[data-theme="light"] .statsguru-panel .table-wrap th.sg-head-runs,
 :root[data-theme="light"] .statsguru-panel .table-wrap .sg-cell-runs
 {
 
@@ -739,6 +786,7 @@
 
 }
 
+:root[data-theme="light"] .statsguru-format-tabs button.active,
 :root[data-theme="light"] .statsguru-category-grid button.active
 {
 
@@ -748,6 +796,16 @@
 }
 
 @media (prefers-color-scheme: light) {
+:root[data-theme="system"] .statsguru-section
+{
+
+    background: var(--bg);
+    color: var(--white);
+  
+}
+:root[data-theme="system"] .statsguru-panel,
+:root[data-theme="system"] .statsguru-sourcebar,
+:root[data-theme="system"] .statsguru-format-tabs button,
 :root[data-theme="system"] .statsguru-category-grid button
 {
 
@@ -768,6 +826,7 @@
     color: #203c51;
   
 }
+:root[data-theme="system"] .statsguru-panel .table-wrap .sg-cell-runs,
 :root[data-theme="system"] .statsguru-panel .table-wrap th.sg-head-runs
 {
 
@@ -775,6 +834,34 @@
     color: #c94c20;
   
 }
+}
+
+:root[data-theme-resolved="light"] .statsguru-section
+{
+
+  background: var(--bg);
+  color: var(--white);
+
+}
+
+:root[data-theme-resolved="light"] .statsguru-panel,
+:root[data-theme-resolved="light"] .statsguru-sourcebar
+{
+
+  background: #fff;
+  color: var(--white);
+  border-color: var(--line);
+
+}
+
+:root[data-theme-resolved="light"] .statsguru-format-tabs button,
+:root[data-theme-resolved="light"] .statsguru-category-grid button
+{
+
+  background: var(--panel2);
+  color: var(--white);
+  border-color: var(--line);
+
 }
 
 :root[data-theme-resolved="light"] .statsguru-note
@@ -792,6 +879,7 @@
 
 }
 
+:root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-minutes,
 :root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-balls
 {
 
@@ -800,6 +888,7 @@
 
 }
 
+:root[data-theme-resolved="light"] .statsguru-panel .table-wrap th.sg-head-runs,
 :root[data-theme-resolved="light"] .statsguru-panel .table-wrap .sg-cell-runs
 {
 
@@ -923,6 +1012,7 @@
 }
 }
 
+retain the original orange Runs highlight. */
 .statsguru-summary .statsguru-metric
 {
 
@@ -962,6 +1052,7 @@
 
 }
 
+.statsguru-panel .table-wrap th,
 .statsguru-panel .table-wrap td
 {
 
@@ -983,6 +1074,7 @@
 
 }
 
+.statsguru-panel .table-wrap th.sg-head-runs,
 .statsguru-panel .table-wrap .sg-cell-runs
 {
 
@@ -1070,6 +1162,58 @@
 }
 }
 
+.stats-section .statsguru-metric
+{
+
+  border-color: var(--line);
+
+}
+
+.stats-section .statsguru-metric
+{
+
+  border-top: 2px solid var(--stats-accent);
+
+}
+
+.stats-section .statsguru-metric span
+{
+
+  color: var(--muted);
+
+}
+
+.stats-section .statsguru-panel .table-wrap th
+{
+
+  background: var(--panel2);
+  color: #b9cce6;
+  border-bottom: 1px solid var(--line);
+  box-shadow: inset 0 -2px 0 rgba(124, 229, 242, 0.55);
+
+}
+
+.stats-section .statsguru-panel .table-wrap td
+{
+
+  border-bottom: 1px solid var(--line);
+
+}
+
+.stats-section .statsguru-panel .table-wrap tbody tr:nth-child(even)
+{
+
+  background: rgba(124, 229, 242, 0.025);
+
+}
+
+.stats-section .statsguru-panel .table-wrap tbody tr:hover td:not(.sg-cell-runs)
+{
+
+  background: rgba(124, 229, 242, 0.065);
+
+}
+
 .stats-section .statsguru-panel .table-wrap th.sg-head-runs
 {
 
@@ -1086,6 +1230,64 @@
   color: #ff9a70;
   font-weight: 800;
 
+}
+
+:root[data-theme-resolved="light"] .stats-section .statsguru-metric
+{
+
+  background: #fff;
+
+}
+
+:root[data-theme-resolved="light"] .stats-section .statsguru-metric strong
+{
+
+  color: #152235;
+
+}
+
+:root[data-theme-resolved="light"] .stats-section .statsguru-panel .table-wrap th
+{
+
+  background: #edf3f9;
+  color: #34465c;
+  box-shadow: inset 0 -2px 0 rgba(8, 126, 145, 0.4);
+
+}
+
+:root[data-theme-resolved="light"]
+  .stats-section
+  .statsguru-panel
+  .table-wrap
+  tbody
+  tr:nth-child(even)
+{
+
+  background: #f7fafc;
+
+}
+
+:root[data-theme-resolved="light"]
+  .stats-section
+  .statsguru-panel
+  .table-wrap
+  tbody
+  tr:hover
+  td:not(.sg-cell-runs)
+{
+
+  background: #eaf5f8;
+
+}
+
+@media (max-width: 600px) {
+.stats-section .statsguru-panel .table-wrap th
+{
+
+    padding: 8px 9px;
+    font-size: 8px;
+  
+}
 }
 
 .stats-section .statsguru-panel .table-wrap th.sg-head-runs
@@ -1201,6 +1403,7 @@
 
 }
 
+.stats-section .statsguru-panel .table-wrap th.sg-head-runs,
 .stats-section .statsguru-panel .table-wrap th:has(+ td.sg-cell-runs)
 {
 
@@ -1296,6 +1499,13 @@
 
 }
 
+:root[data-theme-resolved="light"] .sg-analysis-options
+{
+
+  background: #fff;
+
+}
+
 @media (max-width: 650px) {
 .sg-analysis-options
 {
@@ -1316,6 +1526,64 @@
     font-size: 10px;
   
 }
+}
+
+.statsguru-format-tabs
+{
+
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: visible;
+  overflow-y: visible;
+  max-width: 100%;
+  white-space: normal;
+  align-items: stretch;
+
+}
+
+.statsguru-format-tabs button
+{
+
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+
+}
+
+@media (max-width: 600px) {
+.statsguru-format-tabs
+{
+
+    gap: 7px;
+    padding: 8px 0 12px;
+  
+}
+.statsguru-format-tabs button
+{
+
+    padding: 10px 12px;
+    font-size: 12px;
+    line-height: 1.25;
+    min-height: 42px;
+  
+}
+.statsguru-format-tabs button[data-sg-format="T20"]
+{
+
+    flex: 1 1 145px;
+  
+}
+}
+
+.statsguru-format-tabs,
+.statsguru-sourcebar
+{
+
+  border-radius: 14px;
+
 }
 
 .statsguru-format-tabs button
@@ -1363,6 +1631,17 @@
 
 }
 
+@media (max-width: 760px) {
+.statsguru-sourcebar
+{
+
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  
+}
+}
+
 @media (max-width: 420px) {
 .statsguru-format-tabs button
 {
@@ -1371,6 +1650,15 @@
     font-size: 11px;
   
 }
+}
+
+.statsguru-panel
+{
+
+  border-radius: 18px;
+  border-color: rgba(169, 194, 229, 0.16);
+  background: linear-gradient(145deg, rgba(15, 27, 45, 0.86), rgba(8, 14, 24, 0.82));
+
 }
 
 .statsguru-category-grid
@@ -1405,10 +1693,29 @@
 }
 }
 
+:root[data-theme-resolved="light"] .statsguru-panel
+{
+
+  background: #fff;
+  color: #152235;
+  border-color: rgba(18, 35, 55, 0.16);
+
+}
+
 :root[data-theme-resolved="light"] .statsguru-format-tabs button.active
 {
 
   color: #fff;
+
+}
+
+.statsguru-table-wrap
+{
+
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
 
 }
 
@@ -1437,6 +1744,7 @@
 
 }
 
+#stats .statsguru-format-tabs button,
 #stats .statsguru-category-grid button
 {
 
@@ -1609,6 +1917,7 @@
 
 }
 
+#stats .statsguru-panel th,
 #stats .statsguru-panel td
 {
 
@@ -1616,6 +1925,7 @@
 
 }
 
+#stats .statsguru-panel td:first-child,
 #stats .statsguru-panel th:first-child
 {
 
@@ -1845,6 +2155,7 @@
 
 }
 
+#stats #statsguru .player-analysis-grid select,
 #stats #statsguru .player-analysis-grid input
 {
 
@@ -2058,6 +2369,7 @@
     font-size: 11px;
   
 }
+#stats #statsguru .player-analysis-grid select,
 #stats #statsguru .player-analysis-grid input
 {
 
@@ -2292,6 +2604,7 @@
 
 }
 
+:root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-tabs,
 :root[data-theme="light"] #stats #statsguru .statsguru-format-tabs
 {
 
@@ -2300,6 +2613,7 @@
 
 }
 
+:root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-tabs button,
 :root[data-theme="light"] #stats #statsguru .statsguru-format-tabs button
 {
 
@@ -2309,6 +2623,7 @@
 
 }
 
+:root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-tabs button.active,
 :root[data-theme="light"] #stats #statsguru .statsguru-format-tabs button.active
 {
 
@@ -2321,6 +2636,7 @@
 
 }
 
+:root[data-theme-resolved="light"] #stats #statsguru .statsguru-format-pill,
 :root[data-theme="light"] #stats #statsguru .statsguru-format-pill
 {
 
@@ -2410,6 +2726,7 @@
 
 }
 
+:root[data-theme-resolved="light"] #stats #statsguru .explore-heading > p,
 :root[data-theme="light"] #stats #statsguru .explore-heading > p
 {
 
@@ -2420,6 +2737,7 @@
 
 }
 
+:root[data-theme-resolved="light"] #stats #statsguru .explore-heading > p strong,
 :root[data-theme="light"] #stats #statsguru .explore-heading > p strong
 {
 
@@ -2452,6 +2770,7 @@
 }
 }
 
+never make a horizontal scroller. */
 #stats #statsguru .statsguru-format-tabs
 {
 
@@ -2512,6 +2831,29 @@
     flex: 1 1 145px !important;
   
 }
+}
+
+.statsguru-format-tabs button,
+.statsguru-category-grid button
+{
+
+  border-radius: 12px;
+
+}
+
+.statsguru-panel
+{
+
+  border-color: var(--tv-line);
+  box-shadow: var(--tv-shadow);
+
+}
+
+.statsguru-panel
+{
+
+  background: linear-gradient(145deg, rgba(17, 42, 72, 0.92), rgba(8, 23, 42, 0.96));
+
 }
 
 .statsguru-sourcebar
@@ -2577,6 +2919,25 @@
   text-align: left;
   white-space: normal;
   line-height: 1.35;
+
+}
+
+.statsguru-table-wrap
+{
+
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+
+}
+
+:root[data-theme-resolved="light"] .statsguru-panel
+{
+
+  background: linear-gradient(145deg, #ffffff, #edf4ff);
+  border-color: #d4e2f4;
+  box-shadow: 0 12px 30px rgba(29, 71, 122, 0.08);
 
 }
 
@@ -2653,9 +3014,43 @@
 
 }
 
+:where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap) th,
 :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap) td
 {
 
   white-space: normal;
+
+}
+
+.statsguru-panel
+{
+
+  border-color: var(--admin-line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+
+}
+
+.statsguru-panel
+{
+
+  background: linear-gradient(155deg, rgba(17, 36, 58, 0.96), rgba(10, 23, 40, 0.96));
+
+}
+
+.statsguru-table-wrap
+{
+
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-inline: contain;
+
+}
+
+:root[data-theme-resolved="light"] .statsguru-panel
+{
+
+  background: linear-gradient(145deg, #fff, #edf4ff);
+  border-color: #d4e2f4;
 
 }
