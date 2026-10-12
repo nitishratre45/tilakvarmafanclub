@@ -11,6 +11,7 @@ on:
       - "data/site-data.json"
       - "data/death-overs.json"
       - "tests/admin-data-editor.test.mjs"
+      - "tests/admin-monitor.test.mjs"
       - "tests/bcci-photo-import.test.mjs"
       - "tests/admin-media-content.test.mjs"
       - ".github/workflows/admin-data-editor-tests.yml"
@@ -43,6 +44,8 @@ jobs:
         run: node --test tests/bcci-photo-import.test.mjs
       - name: Test Admin media preservation and URL-only duplicate behavior
         run: node --test tests/admin-media-content.test.mjs
+      - name: Test Admin workflow monitor auth, timeout and rate-limit handling
+        run: node --test tests/admin-monitor.test.mjs
       - name: Check Admin endpoint syntax
         run: |
           node --input-type=module --check < functions/api/admin/data-editor.js
