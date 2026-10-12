@@ -50,8 +50,9 @@
       for (const r of Array.isArray(entry?.innings) ? entry.innings : [])
         all.push({ ...r, format: fmt });
     }
-    for (const r of Array.isArray(data.recentInnings) ? data.recentInnings : [])
-      all.push({ ...r, ground: r.ground || r.venue, format: r.format || "T20I" });
+    // Match history is sourced from ESPNcricinfo Statsguru rows only.
+    // Do not merge delivery-derived recentInnings data: it duplicates matches
+    // and can omit scorecard details.
     // Normalize the same match when feeds label the opponent differently
     // ("India vs West Indies", "v West Indies", "West Indies") or use
     // ISO vs human-readable dates. T20I is preferred over the overlapping T20 feed.
