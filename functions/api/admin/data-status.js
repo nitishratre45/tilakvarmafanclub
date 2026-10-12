@@ -108,7 +108,23 @@ async function github(env, path, options = {}) {
     headers: { ...headers(env), ...(options.headers || {}) },
   });
   if (!response.ok) throw new Error("GitHub API returned " + response.status + " for " + path);
-  return response.json();
+  // GitHub workflow_dispatch returns HTTP 204 with an intentionally empty body.
+  // Calling response.json() on that valid response throws "Unexpected end of JSON input",
+  // even though the workflow was successfully queued.
+  if (response.status === 204) return null;
+  const text = await response.text();
+  if (!text.trim()) return null;
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(
+      "GitHub API returned invalid or incomplete JSON for " +
+        path +
+        " (HTTP " +
+        response.status +
+        "). Please retry; no saved dataset was changed by this status check.",
+    );
+  }
 }
 async function readData(env, path) {
   const repo = repoName(env);
