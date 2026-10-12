@@ -172,8 +172,10 @@ def fetch_article(item):
         final = response.geturl()
     parser = PageText()
     parser.feed(raw.decode(charset, errors="replace"))
-    text = re.sub(r"[ \t]+", " ", " ".join(parser.text))
-    text = re.sub(r"\s+", " ", html.unescape(text)).strip()
+    text = html.unescape("".join(parser.text))
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r" *\n+ *", "\n", text)
+    text = re.sub(r"\n{3,}", "\n\n", text).strip()
     # Exclude page-wide related-story links so unrelated mentions do not qualify.
     cut_markers = ("Related Stories", "More News", "More Match Reports", "Latest News")
     lowered = text.lower()
