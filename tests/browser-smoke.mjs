@@ -107,18 +107,13 @@ check("mobile navigation opens, scroll target works, and closes after selection"
   await page.close();
 });
 
-check("theme controls change and persist selected appearance", async () => {
+check("removed Settings section stays absent from the navbar", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="#settings"]').click();
-  const light = page.locator('[data-theme-choice="light"]');
-  assert.equal(await light.count(), 1, "Light theme control missing");
-  await light.click();
-  assert.equal(await page.locator("html").getAttribute("data-theme"), "light");
-  assert.equal(await page.evaluate(() => localStorage.getItem("tilak-fc-theme")), "light");
-  await page.locator('[data-theme-choice="dark"]').click();
-  assert.equal(await page.locator("html").getAttribute("data-theme"), "dark");
+  assert.equal(await page.locator('#main-nav a[href="#settings"]').count(), 0, "Removed Settings link must not return");
+  assert.equal(await page.locator("#settings").count(), 0, "Removed Settings section must not return");
+  assert.equal(await page.locator("html").getAttribute("data-theme"), "dark", "Default appearance should remain dark");
   await page.close();
 });
 
