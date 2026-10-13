@@ -9,6 +9,7 @@
     );
   const state = { matches: [], format: "All", query: "" };
   const returnStateKey = "completeMatchesReturnState";
+  const pendingReturnKey = "completeMatchesPendingScorecardReturn";
   function saveReturnState() {
     try {
       sessionStorage.setItem(
@@ -24,6 +25,8 @@
   }
   function restoreReturnState() {
     try {
+      if (sessionStorage.getItem(pendingReturnKey) !== "1") return;
+      sessionStorage.removeItem(pendingReturnKey);
       const saved = JSON.parse(sessionStorage.getItem(returnStateKey) || "null");
       if (!saved || Date.now() - saved.savedAt > 30 * 60 * 1000) return;
       state.query = saved.query || "";
@@ -139,23 +142,22 @@
     const link = event.target.closest("a.scorecard-open");
     if (!link) return;
     saveReturnState();
+    try { sessionStorage.setItem(pendingReturnKey, "1"); } catch (_) {}
   });
   // Browser Back can restore this document from BFCache; restore after the page becomes visible.
   window.addEventListener("pageshow", (event) => {
-    if (event.persisted) {
-      try {
-        const saved = JSON.parse(sessionStorage.getItem(returnStateKey) || "null");
-        if (saved && Date.now() - saved.savedAt < 30 * 60 * 1000) {
-          state.query = saved.query || "";
-          state.format = saved.format || "All";
-          if ($("match-search")) $("match-search").value = state.query;
-          if ($("match-format-filter")) $("match-format-filter").value = state.format;
-          requestAnimationFrame(() =>
-            window.scrollTo({ top: Number(saved.scrollY) || 0, behavior: "instant" }),
-          );
-        }
-      } catch (_) {}
-    }
+    if (!event.persisted) return;
+    try {
+      if (sessionStorage.getItem(pendingReturnKey) !== "1") return;
+      sessionStorage.removeItem(pendingReturnKey);
+      const saved = JSON.parse(sessionStorage.getItem(returnStateKey) || "null");
+      if (!saved || Date.now() - saved.savedAt > 30 * 60 * 1000) return;
+      state.query = saved.query || "";
+      state.format = saved.format || "All";
+      if ($("match-search")) $("match-search").value = state.query;
+      if ($("match-format-filter")) $("match-format-filter").value = state.format;
+      requestAnimationFrame(() => window.scrollTo({ top: Number(saved.scrollY) || 0, behavior: "instant" }));
+    } catch (_) {}
   });
   loadMatches();
 })();
