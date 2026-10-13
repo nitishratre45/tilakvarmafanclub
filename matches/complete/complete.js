@@ -30,9 +30,7 @@
       '</span><b>VS</b><span>' + esc(m.opposition || "Opponent") +
       '</span></div><div class="complete-match-venue">⌖ ' + esc(m.venue || "Venue unavailable") +
       '</div><div class="complete-match-result">' + esc(m.result || "Result unavailable") +
-      '</div><div class="complete-match-bottom"><span>Tilak: ' + Number(m.playerRuns || 0) +
-      ' runs · ' + Number(m.inningsCount || 0) +
-      ' innings</span><a class="scorecard-open" href="/matches/scorecards/?match=' +
+      '</div><div class="complete-match-bottom"><a class="scorecard-open" href="/matches/scorecards/?match=' +
       encodeURIComponent(m.matchId) + '">Full scorecard ↗</a></div></article>'
     ).join("");
   }
