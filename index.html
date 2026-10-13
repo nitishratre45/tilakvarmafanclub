@@ -74,7 +74,25 @@
         box-shadow: inset 0 -3px 0 #ff7c45 !important;
       }
     </style>
-  </head>
+  <style id="navbar-no-box">
+/* Remove the unwanted rectangular focus/hover frame around navbar items. */
+html body header.topbar nav a,
+html body header.topbar nav a:hover,
+html body header.topbar nav a:focus,
+html body header.topbar nav a:focus-visible,
+html body header.topbar nav a:active {
+  outline: none !important;
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+html body header.topbar nav a.active,
+html body header.topbar nav a[aria-current="page"] {
+  box-shadow: inset 0 -3px 0 #ff7c45 !important;
+}
+</style>
+</head>
   <body>
     <header class="topbar">
       <a class="brand" href="#profile" aria-label="Home"
