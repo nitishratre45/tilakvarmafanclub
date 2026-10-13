@@ -1257,11 +1257,11 @@ a:focus-visible {
   }
 
   .brand-photo {
-    width: 43px;
-    height: 43px;
-    flex-basis: 43px;
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
 
-    border-radius: 10px;
+    border-radius: 13px;
   }
 
   .brand-copy strong {
@@ -1274,10 +1274,22 @@ a:focus-visible {
 
   .header-tools {
     margin-left: auto;
+    gap: 0;
   }
 
   .menu-toggle {
     display: flex;
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    border: 2px solid rgba(115, 224, 255, 0.9);
+    border-radius: 17px;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .menu-toggle span {
+    width: 24px;
+    height: 2.5px;
   }
 
   .site-navigation {
