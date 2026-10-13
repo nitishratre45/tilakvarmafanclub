@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-13T13:22:59.588Z",
+  "checkedAt": "2026-10-13T13:25:28.852Z",
   "retentionHours": 15,
   "events": [
     {
@@ -6519,6 +6519,36 @@
               "number": 13
             }
           ]
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-10-13T13:25:28.852Z",
+      "workflow": "Admin Python diagnostics",
+      "workflowPath": ".github/workflows/admin-diagnostics.yml",
+      "runId": 38404128569,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38404128569",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 1,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Python code and data diagnostics",
+          "conclusion": "cancelled",
+          "startedAt": "2026-10-13T13:20:16Z",
+          "completedAt": "2026-10-13T13:25:16Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38404128569/job/115319131727",
+          "steps": []
         }
       ]
     }
