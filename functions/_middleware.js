@@ -1,7 +1,6 @@
 /**
- * Shared public-site shell and favicon middleware.
- * Applies the same favicon to every HTML page, including nested/future folders.
- * The admin workspace keeps its own layout, but uses the same favicon.
+ * Shared favicon middleware.
+ * Keep each page's own navbar and footer intact so its navigation handlers remain attached.
  */
 export async function onRequest(context) {
   const response = await context.next();
@@ -22,25 +21,9 @@ export async function onRequest(context) {
         { html: true },
       );
       element.append('<meta name="theme-color" content="#0b5fc4">', { html: true });
-      if (!isAdmin) {
-        element.append(
-          '<link rel="stylesheet" href="/assets/site-shell.css?v=20261013-navbar-v4">',
-          { html: true },
-        );
-      }
     },
   });
 
-  if (!isAdmin) {
-    rewriter.on("body", {
-      element(element) {
-        element.append(
-          '<script defer src="/assets/site-shell.js?v=20261013-navbar-v4"></script>',
-          { html: true },
-        );
-      },
-    });
-  }
 
   return rewriter.transform(response);
 }
