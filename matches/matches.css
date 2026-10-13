@@ -391,3 +391,195 @@
     min-width: 1040px;
   }
 }
+
+
+/* Premium custom match filters: mobile bottom-sheet, desktop floating modal. */
+.matches-main .match-history-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 22px 0 18px;
+}
+.matches-main .match-filter {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  color: var(--muted, #a3b0c4);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.matches-main .match-filter-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 0 16px;
+  border: 1px solid rgba(117, 227, 255, .3);
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(18, 32, 51, .98), rgba(10, 19, 33, .98));
+  color: #f3f7ff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 8px 22px rgba(0,0,0,.12);
+  cursor: pointer;
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.matches-main .match-filter-trigger:focus-visible,
+.matches-main .match-filter-trigger:hover {
+  outline: none;
+  border-color: #75e3ff;
+  box-shadow: 0 0 0 3px rgba(117,227,255,.13);
+}
+.matches-main .filter-chevron { color: #75e3ff; font-size: 22px; line-height: 1; }
+.matches-main .match-filter-native {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.match-filter-backdrop[hidden] { display: none !important; }
+.match-filter-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(2, 7, 16, .76);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  animation: match-filter-fade-in .16s ease-out;
+}
+.match-filter-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 440px);
+  max-height: min(720px, 82dvh);
+  overflow: hidden;
+  border: 1px solid rgba(117,227,255,.26);
+  border-radius: 24px;
+  background: linear-gradient(155deg, #111e31, #080f1d 75%);
+  color: #f3f7ff;
+  box-shadow: 0 28px 90px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.045);
+  animation: match-filter-rise .2s ease-out;
+}
+.match-filter-dialog-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 22px 18px;
+  border-bottom: 1px solid rgba(169,194,229,.14);
+}
+.match-filter-dialog-top .eyebrow { color: #75e3ff; font-size: 10px; letter-spacing: .16em; }
+.match-filter-dialog-top h3 { margin: 7px 0 0; font-size: 23px; letter-spacing: -.025em; }
+.match-filter-close {
+  display: grid;
+  place-items: center;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(169,194,229,.18);
+  border-radius: 12px;
+  background: rgba(255,255,255,.045);
+  color: #eaf4ff;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+.match-filter-options { overflow-y: auto; padding: 10px; overscroll-behavior: contain; }
+.match-filter-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  min-height: 64px;
+  padding: 12px 13px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  color: #eaf1fc;
+  text-align: left;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+}
+.match-filter-option + .match-filter-option { margin-top: 3px; }
+.match-filter-option:hover { background: rgba(117,227,255,.06); }
+.match-filter-option.is-selected {
+  border-color: rgba(117,227,255,.38);
+  background: linear-gradient(100deg, rgba(117,227,255,.12), rgba(117,227,255,.035));
+}
+.match-filter-option-copy { display: grid; gap: 4px; min-width: 0; }
+.match-filter-option-copy strong { font-size: 15px; font-weight: 700; }
+.match-filter-option-copy small { color: #94a7c0; font-size: 12px; line-height: 1.4; }
+.match-filter-radio {
+  display: grid;
+  place-items: center;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #61728b;
+  border-radius: 50%;
+}
+.match-filter-option.is-selected .match-filter-radio { border-color: #75e3ff; }
+.match-filter-option.is-selected .match-filter-radio::after {
+  width: 10px; height: 10px; border-radius: 50%; background: #75e3ff; content: "";
+}
+.match-filter-dialog-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(169,194,229,.14);
+  color: #8fa2bc;
+  font-size: 11px;
+}
+.match-filter-dialog-foot button {
+  min-height: 42px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #82e8ff, #4fc6ee);
+  color: #061321;
+  font-weight: 800;
+  cursor: pointer;
+}
+body.match-filter-open { overflow: hidden; }
+@keyframes match-filter-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes match-filter-rise { from { opacity: 0; transform: translateY(10px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 640px) {
+  .matches-main .match-history-filters { grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: 20px; }
+  .matches-main .match-filter-trigger { min-height: 54px; }
+  .match-filter-backdrop { align-items: flex-end; padding: 0; }
+  .match-filter-dialog {
+    width: 100%;
+    max-height: min(78dvh, 680px);
+    border-radius: 24px 24px 0 0;
+    border-bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .match-filter-dialog-top { padding: 20px 20px 16px; }
+  .match-filter-options { padding: 8px 12px; }
+  .match-filter-option { min-height: 62px; }
+  .match-filter-dialog-foot { padding-bottom: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .match-filter-backdrop, .match-filter-dialog { animation: none; }
+  .matches-main .match-filter-trigger, .match-filter-option { transition: none; }
+}
