@@ -2059,27 +2059,54 @@ html body header.topbar nav a[aria-current="page"] {
   body.home-profile-page > header,
   body.home-profile-page > header.site-shell-header,
   body.home-profile-page > header.topbar,
-  body.home-profile-page > header.death-topbar { display: none !important; }
+  body.home-profile-page > header.death-topbar {
+    display: none !important;
+  }
   body.home-profile-page main > .profile-section {
     grid-template-areas: "copy photo" "tabs tabs" "facts facts" !important;
     grid-template-columns: minmax(0, 1fr) 118px !important;
     padding-top: 10px !important;
   }
   body.home-profile-page .mobile-profile-tabs {
-    grid-area: tabs !important; display: flex !important; flex-direction: row !important;
-    flex-wrap: nowrap !important; align-items: stretch !important; justify-content: flex-start !important;
-    position: relative !important; top: auto !important; width: calc(100% + 28px) !important;
-    min-width: 0 !important; margin: 12px -14px 0 !important; padding: 0 6px !important;
-    overflow-x: auto !important; overflow-y: hidden !important; background: #050607 !important;
-    border-top: 1px solid rgba(255,255,255,.12) !important; border-bottom: 1px solid #273343 !important;
+    grid-area: tabs !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    position: relative !important;
+    top: auto !important;
+    width: calc(100% + 28px) !important;
+    min-width: 0 !important;
+    margin: 12px -14px 0 !important;
+    padding: 0 6px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    background: #050607 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-bottom: 1px solid #273343 !important;
   }
   body.home-profile-page .mobile-profile-tabs a {
-    display: inline-flex !important; flex: 0 0 auto !important; align-items: center !important;
-    justify-content: center !important; min-height: 43px !important; padding: 11px 10px 8px !important;
-    margin: 0 !important; color: #f7f8fa !important; background: transparent !important;
-    border: 0 !important; border-bottom: 3px solid transparent !important; border-radius: 0 !important;
-    box-shadow: none !important; outline: none !important; font: 600 14px/1.2 system-ui, sans-serif !important;
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 43px !important;
+    padding: 11px 10px 8px !important;
+    margin: 0 !important;
+    color: #f7f8fa !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-bottom: 3px solid transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+    font:
+      600 14px/1.2 system-ui,
+      sans-serif !important;
     white-space: nowrap !important;
   }
-  body.home-profile-page .mobile-profile-tabs a[aria-current="page"] { border-bottom-color: #fff !important; }
+  body.home-profile-page .mobile-profile-tabs a[aria-current="page"] {
+    border-bottom-color: #fff !important;
+  }
 }
