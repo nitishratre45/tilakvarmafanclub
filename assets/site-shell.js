@@ -3,7 +3,7 @@
   if (window.__TILAK_SHARED_SITE_SHELL__) return;
   window.__TILAK_SHARED_SITE_SHELL__ = true;
 
-  const path = window.location.pathname.replace(/\\/+$/, "") || "/";
+  const path = window.location.pathname.replace(/\/+$/, "") || "/";
   const links = [
     ["Home", "/#profile", path === "/"],
     ["Stats", "/stats/", path === "/stats"],
