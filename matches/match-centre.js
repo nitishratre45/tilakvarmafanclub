@@ -10,7 +10,7 @@
   // Automatic team PNG logos: prefer image URLs supplied by JSON, then known team assets.
   const teamAssets = {
     india: { flag: "in" },
-    "west indies": { flag: "wi" },
+    "west indies": { logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Cricket_West_Indies_Logo_2017.svg" },
     pakistan: { flag: "pk" },
     "sri lanka": { flag: "lk" },
     bangladesh: { flag: "bd" },
@@ -66,6 +66,7 @@
       if (supplied.startsWith("/")) return "https://img1.hscicdn.com" + supplied;
     }
     const asset = teamAssets[normaliseTeam(name)] || {};
+    if (asset.logo) return asset.logo;
     if (asset.ipl) return "https://scores.iplt20.com/ipl/teamlogos/" + asset.ipl + ".png";
     if (asset.flag) return "https://flagcdn.com/w80/" + asset.flag + ".png";
     return "";
