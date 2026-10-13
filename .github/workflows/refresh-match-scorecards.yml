@@ -33,6 +33,20 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Snapshot the last known-good archive. Restore it if any generation or validation step fails.
+          backup_dir="$(mktemp -d)"
+          cp -a matches/scorecards/. "$backup_dir"/
+          restore_on_error() {
+            status=$?
+            if [ "$status" -ne 0 ]; then
+              echo "::error::Scorecard refresh failed; restoring the previous verified archive."
+              find matches/scorecards -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+              cp -a "$backup_dir"/. matches/scorecards/
+            fi
+            rm -rf "$backup_dir"
+            exit "$status"
+          }
+          trap restore_on_error EXIT
           python -u scripts/refresh_match_scorecards.py
           python -m json.tool matches/scorecards/index.json > /dev/null
           python - <<'PY'
