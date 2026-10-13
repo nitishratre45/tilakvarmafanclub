@@ -12,6 +12,7 @@ on:
       - 'tests/**'
       - 'death-overs/**'
       - 'stats/**'
+      - 'matches/**'
       - 'sw.js'
       - 'manifest.json'
       - 'data/**.json'
@@ -37,7 +38,7 @@ jobs:
           node-version: '22'
       - name: Check JavaScript and embedded page scripts
         run: |
-          find assets functions admin News News-details stats -type f -name '*.js' -print0 | xargs -0 -n 1 node --check
+          find assets functions admin News News-details stats matches -type f -name '*.js' -print0 | xargs -0 -n 1 node --check
           python -m py_compile scripts/refresh_icc_records.py scripts/refresh_statsguru.py
           python - <<'PY'
           from pathlib import Path
@@ -139,7 +140,7 @@ jobs:
           from pathlib import Path
           from urllib.parse import urlsplit
 
-          pages = (Path("index.html"), Path("stats/index.html"), Path("death-overs/index.html"))
+          pages = (Path("index.html"), Path("stats/index.html"), Path("death-overs/index.html"), Path("matches/index.html"))
           for page in pages:
               source = page.read_text(encoding="utf-8")
               ids = re.findall(r"""id=[\"']([^\"']+)[\"']""", source)
@@ -207,7 +208,6 @@ jobs:
           dependents = [
               "assets/app.js",
               "assets/records-matches.js",
-              "assets/player-matches.js",
               "assets/career-formats.js",
               "assets/features.js",
               "assets/upgrade.js",
@@ -221,6 +221,15 @@ jobs:
                   raise SystemExit("Shared data loader must precede " + script)
           print("Validated shared data loader order for all dependent modules.")
 
+          matches = Path("matches/index.html").read_text(encoding="utf-8")
+          for script in ("/assets/site-data-store.js", "/matches/player-matches.js", "/matches/upcoming-matches.js"):
+              if script not in matches:
+                  raise SystemExit(f"Matches page is missing required script: {script}")
+          if 'id="player-matches-table"' not in matches or 'id="upcoming-matches-list"' not in matches:
+              raise SystemExit("Matches page is missing the match-history or upcoming-fixtures mount point")
+          home = Path("index.html").read_text(encoding="utf-8")
+          if 'id="innings"' in home or 'id="upcoming-matches-list"' in home or 'id="player-matches-table"' in home:
+              raise SystemExit("Match section should live only in matches/index.html")
           stats = Path("stats/index.html").read_text(encoding="utf-8")
           stats_loader = stats.find('src="/assets/site-data-store.js')
           if stats_loader < 0:
