@@ -20,6 +20,25 @@ check("home loads without uncaught JavaScript exceptions", async () => {
   await page.close();
 });
 
+check("dedicated Stats folder opens full Batting/Bowling/Explore page", async () => {
+  const page = await browser.newPage();
+  page.setDefaultTimeout(10000);
+  const pageErrors = [];
+  page.on("pageerror", error => pageErrors.push(error.message));
+  await page.goto(baseURL + "/stats/", { waitUntil: "domcontentloaded" });
+  await page.locator("#stats").waitFor({ state: "visible" });
+  assert.equal(await page.locator("#stats-overview").isVisible(), true, "Batting view should be the default");
+  await page.locator('#stats [data-stats-tab="stats-bowling"]').click();
+  assert.equal(await page.locator("#stats-bowling").isVisible(), true, "Bowling tab should open its full view");
+  assert.match(new URL(page.url()).search, /view=stats-bowling/, "Bowling view should be represented in the URL");
+  await page.reload({ waitUntil: "domcontentloaded" });
+  assert.equal(await page.locator("#stats-bowling").isVisible(), true, "Bowling view should survive refresh");
+  await page.locator('#stats [data-stats-tab="statsguru"]').click();
+  assert.equal(await page.locator("#statsguru").isVisible(), true, "Explore view should open");
+  assert.deepEqual(pageErrors, [], "Stats page errors: " + pageErrors.join(" | "));
+  await page.close();
+});
+
 check("default appearance is dark", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
