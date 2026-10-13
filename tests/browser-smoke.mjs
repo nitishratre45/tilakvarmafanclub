@@ -90,6 +90,40 @@ check("Stats Explore sub-tab responds on dedicated page", async () => {
   await page.close();
 });
 
+check("Matches and Photos navbar links open their dedicated pages", async () => {
+  const page = await browser.newPage();
+  page.setDefaultTimeout(10000);
+  await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+  assert.equal(await page.locator('#main-nav a[href="/matches/"]').count(), 1, "Homepage Matches link must use the dedicated route");
+  assert.equal(await page.locator('#main-nav a[href="/photos/index.html"]').count(), 1, "Homepage Photos link must use the dedicated route");
+  await page.locator('#main-nav a[href="/matches/"]').click();
+  await page.waitForURL(url => url.pathname === "/matches/" || url.pathname === "/matches/index.html");
+  assert.equal(await page.locator("main").innerText().then(text => /THE MATCHES/.test(text)), true, "Dedicated Matches content should render");
+  await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+  await page.locator('#main-nav a[href="/photos/index.html"]').click();
+  await page.waitForURL(url => url.pathname === "/photos/index.html");
+  await page.locator("#tv-gallery-hub").waitFor({ state: "visible" });
+  assert.equal(await page.locator(".tv-album-card").count() > 0, true, "Photos albums should render");
+  await page.close();
+});
+
+check("legacy cached Matches and Photos hash links are redirected", async () => {
+  for (const [legacyHref, expectedPath] of [["#innings", "/matches/index.html"], ["#tv-gallery-hub", "/photos/index.html"]]) {
+    const page = await browser.newPage();
+    page.setDefaultTimeout(10000);
+    await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+    await page.locator("#main-nav").evaluate((nav, href) => {
+      const link = document.createElement("a");
+      link.href = href;
+      link.textContent = "Legacy route test";
+      nav.appendChild(link);
+    }, legacyHref);
+    await page.locator('#main-nav a').filter({ hasText: "Legacy route test" }).click();
+    await page.waitForURL(url => url.pathname === expectedPath);
+    await page.close();
+  }
+});
+
 check("mobile navigation opens, scroll target works, and closes after selection", async () => {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   page.setDefaultTimeout(8000);
