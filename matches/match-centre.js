@@ -168,11 +168,9 @@
           Number(m.playerRuns || 0) +
           " runs · " +
           Number(m.inningsCount || 0) +
-          ' innings</span><button type="button" class="scorecard-open" data-scorecard="' +
-          esc(m.matchId) +
-          '">Full scorecard ↗</button></div><div class="scorecard-detail" id="scorecard-detail-' +
-          esc(m.matchId) +
-          '" hidden></div></article>',
+          ' innings</span><a class="scorecard-open" href="/matches/scorecards/?match=' +
+          encodeURIComponent(m.matchId) +
+          '">Full scorecard ↗</a></div></article>',
       )
       .join("");
   }
