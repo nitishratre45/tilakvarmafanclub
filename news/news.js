@@ -131,7 +131,7 @@
       card.className = "tv-news-card";
       const link = document.createElement("a");
       link.className = "tv-news-card-link";
-      link.href = "News-details/index.html?id=" + encodeURIComponent(item.id);
+      link.href = "/News-details/index.html?id=" + encodeURIComponent(item.id);
       link.setAttribute("aria-label", "Read story: " + (item.title || "Tilak Varma news"));
 
       const imageUrl = imageUrlOf(item);
