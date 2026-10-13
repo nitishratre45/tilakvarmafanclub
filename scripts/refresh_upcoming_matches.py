@@ -178,13 +178,27 @@ def article_fixtures(article: dict) -> list[dict]:
         cells = [re.sub(r"\s+", " ", cell).strip() for cell in page_text.split("|")]
         for i in range(len(cells)):
             window = [cell.lower() for cell in cells[i : i + 6]]
-            if len(window) >= 5 and "date" in window and "match" in window and "venue" in window:
+            if (
+                len(window) >= 5
+                and "date" in window
+                and "match" in window
+                and "venue" in window
+            ):
                 header = window
                 date_i = next(j for j, cell in enumerate(header) if cell == "date")
                 match_i = next(j for j, cell in enumerate(header) if cell == "match")
                 venue_i = next(j for j, cell in enumerate(header) if cell == "venue")
-                time_i = next((j for j, cell in enumerate(header) if "time" in cell), None)
-                day_i = next((j for j, cell in enumerate(header) if cell in {"day", "day of week"}), None)
+                time_i = next(
+                    (j for j, cell in enumerate(header) if "time" in cell), None
+                )
+                day_i = next(
+                    (
+                        j
+                        for j, cell in enumerate(header)
+                        if cell in {"day", "day of week"}
+                    ),
+                    None,
+                )
                 row_width = len(header)
                 cursor = i + row_width
                 while cursor + row_width <= len(cells):
@@ -194,17 +208,23 @@ def article_fixtures(article: dict) -> list[dict]:
                     date = parse_date(row[date_i] if date_i < len(row) else "")
                     match_label = row[match_i] if match_i < len(row) else ""
                     venue = row[venue_i] if venue_i < len(row) else ""
-                    time_value = row[time_i] if time_i is not None and time_i < len(row) else ""
+                    time_value = (
+                        row[time_i] if time_i is not None and time_i < len(row) else ""
+                    )
                     if date and venue and re.search(r"T20I", match_label, re.I):
-                        fixtures.append({
-                            "date": date,
-                            "label": datetime.strptime(date, "%Y-%m-%d").strftime("%a, %-d %b %Y"),
-                            "match": match_label,
-                            "opponent": opponent,
-                            "venue": venue,
-                            "time": parse_time(time_value),
-                            "source": url,
-                        })
+                        fixtures.append(
+                            {
+                                "date": date,
+                                "label": datetime.strptime(date, "%Y-%m-%d").strftime(
+                                    "%a, %-d %b %Y"
+                                ),
+                                "match": match_label,
+                                "opponent": opponent,
+                                "venue": venue,
+                                "time": parse_time(time_value),
+                                "source": url,
+                            }
+                        )
                     cursor += row_width
                 if fixtures:
                     break
