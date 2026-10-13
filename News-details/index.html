@@ -1,12 +1,8 @@
-
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0b5fc4" />
 
     <meta
@@ -19,16 +15,10 @@
     <title>Tilak Varma News | The 72 Club</title>
 
     <!-- Existing stylesheet path retained. -->
-    <link
-      rel="stylesheet"
-      href="news-details.css?v=20261012-newsdesk3"
-    />
+    <link rel="stylesheet" href="news-details.css?v=20261012-newsdesk3" />
 
     <!-- Existing site refinement path retained. -->
-    <link
-      rel="stylesheet"
-      href="/News-details/site-refinement.css?v=20261013-mobile-menu1"
-    />
+    <link rel="stylesheet" href="/News-details/site-refinement.css?v=20261013-mobile-menu1" />
 
     <!-- Keep the existing blue navbar appearance. -->
     <style>
@@ -73,11 +63,7 @@
          ===================================================== -->
 
     <header class="topbar">
-      <a
-        class="brand"
-        href="../index.html"
-        aria-label="Tilak Varma Fan Club home"
-      >
+      <a class="brand" href="../index.html" aria-label="Tilak Varma Fan Club home">
         <img
           class="brand-photo"
           src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
@@ -91,36 +77,19 @@
         </span>
       </a>
 
-      <nav
-        class="site-navigation"
-        id="site-navigation"
-        aria-label="Main navigation"
-      >
+      <nav class="site-navigation" id="site-navigation" aria-label="Main navigation">
         <a href="../index.html#profile">Home</a>
         <a href="/stats/">Stats</a>
         <a href="../death-overs/">Death-overs</a>
         <a href="/matches/">Matches</a>
         <a href="/records/">Records</a>
-        <a
-          class="active"
-          href="/news/"
-          aria-current="page"
-        >
-          News
-        </a>
+        <a class="active" href="/news/" aria-current="page"> News </a>
         <a href="/photos/">Photos</a>
         <a href="/videos/">Videos</a>
       </nav>
 
       <div class="header-tools">
-        <a
-          class="search-link"
-          href="/news/"
-          aria-label="Search news"
-          title="Search news"
-        >
-          ⌕
-        </a>
+        <a class="search-link" href="/news/" aria-label="Search news" title="Search news"> ⌕ </a>
 
         <button
           class="menu-toggle"
@@ -149,26 +118,14 @@
           PRESS RELEASES · TILAK WATCH
         </a>
 
-        <h1 id="detail-title">
-          Loading article…
-        </h1>
+        <h1 id="detail-title">Loading article…</h1>
 
         <div class="hero-meta">
-          <button
-            id="share-article"
-            type="button"
-            class="share-button"
-          >
-            ↗ Share
-          </button>
+          <button id="share-article" type="button" class="share-button">↗ Share</button>
 
-          <span id="detail-relative-date">
-            BCCI · News
-          </span>
+          <span id="detail-relative-date"> BCCI · News </span>
 
-          <span class="hero-meta-divider">
-            THE 72 CLUB
-          </span>
+          <span class="hero-meta-divider"> THE 72 CLUB </span>
         </div>
       </div>
     </section>
@@ -180,46 +137,24 @@
     <main class="page-layout">
       <div class="article-column">
         <a class="mobile-back" href="/news/">
-          <span
-            class="back-arrow"
-            aria-hidden="true"
-          >
-            ←
-          </span>
+          <span class="back-arrow" aria-hidden="true"> ← </span>
 
           <span>Back to all news</span>
         </a>
 
-        <div
-          id="detail-status"
-          class="status"
-          role="status"
-          aria-live="polite"
-        >
+        <div id="detail-status" class="status" role="status" aria-live="polite">
           Loading article details…
         </div>
 
         <article id="news-article" hidden>
           <!-- Article image -->
 
-          <figure
-            class="hero-image-wrap"
-            id="hero-image-wrap"
-          >
-            <img
-              id="detail-image"
-              alt=""
-              hidden
-            />
+          <figure class="hero-image-wrap" id="hero-image-wrap">
+            <img id="detail-image" alt="" hidden />
 
-            <div
-              class="image-fallback"
-              id="image-fallback"
-            >
+            <div class="image-fallback" id="image-fallback">
               <span>72</span>
-              <small>
-                THE 72 CLUB · NEWS DESK
-              </small>
+              <small> THE 72 CLUB · NEWS DESK </small>
             </div>
           </figure>
 
@@ -240,60 +175,35 @@
               aria-label="News desk summary"
               hidden
             >
-              <span class="news-desk-label">
-                THE 72 CLUB · NEWS DESK
-              </span>
+              <span class="news-desk-label"> THE 72 CLUB · NEWS DESK </span>
 
-              <p
-                class="news-desk-summary"
-                id="news-desk-summary"
-              ></p>
+              <p class="news-desk-summary" id="news-desk-summary"></p>
 
-              <ul
-                class="news-desk-points"
-                id="news-desk-points"
-              ></ul>
+              <ul class="news-desk-points" id="news-desk-points"></ul>
 
               <small>
-                Summary prepared from the linked BCCI
-                article. Check the official source for
-                full context.
+                Summary prepared from the linked BCCI article. Check the official source for full
+                context.
               </small>
             </section>
 
             <!-- Dynamic article content -->
 
-            <div
-              class="article-body"
-              id="detail-excerpt"
-            ></div>
+            <div class="article-body" id="detail-excerpt"></div>
 
             <!-- Article actions -->
 
             <div class="article-actions">
-              <a
-                id="original-link"
-                class="button"
-                target="_blank"
-                rel="noopener noreferrer"
-                hidden
-              >
+              <a id="original-link" class="button" target="_blank" rel="noopener noreferrer" hidden>
                 Read original on BCCI ↗
               </a>
 
-              <a
-                class="button secondary"
-                href="/news/"
-              >
-                More Tilak News
-              </a>
+              <a class="button secondary" href="/news/"> More Tilak News </a>
             </div>
 
             <p class="source-note">
-              Source: BCCI. This fan page highlights news
-              mentioning Tilak Varma and does not claim
-              ownership of the original article. For the
-              official article and full context, visit
+              Source: BCCI. This fan page highlights news mentioning Tilak Varma and does not claim
+              ownership of the original article. For the official article and full context, visit
               BCCI.
             </p>
           </div>
@@ -304,43 +214,22 @@
            RELATED STORIES
            ================================================= -->
 
-      <aside
-        class="related-panel"
-        aria-labelledby="related-title"
-      >
+      <aside class="related-panel" aria-labelledby="related-title">
         <div class="related-heading">
           <div>
-            <span class="related-eyebrow">
-              KEEP READING
-            </span>
+            <span class="related-eyebrow"> KEEP READING </span>
 
-            <h2 id="related-title">
-              Related Stories
-            </h2>
+            <h2 id="related-title">Related Stories</h2>
           </div>
 
-          <span
-            class="related-count"
-            id="related-count"
-          >
-            NEWS
-          </span>
+          <span class="related-count" id="related-count"> NEWS </span>
         </div>
 
-        <div
-          id="related-stories"
-          class="related-list"
-          aria-live="polite"
-        >
-          <p class="related-loading">
-            Finding more stories…
-          </p>
+        <div id="related-stories" class="related-list" aria-live="polite">
+          <p class="related-loading">Finding more stories…</p>
         </div>
 
-        <a
-          class="all-stories-link"
-          href="/news/"
-        >
+        <a class="all-stories-link" href="/news/">
           <span>View all Tilak news</span>
           <span aria-hidden="true">↗</span>
         </a>
@@ -357,13 +246,9 @@
         THE 72 CLUB
       </a>
 
-      <span>
-        Built for the fans. Focused on Tilak.
-      </span>
+      <span> Built for the fans. Focused on Tilak. </span>
 
-      <a href="/news/">
-        Back to News ↑
-      </a>
+      <a href="/news/"> Back to News ↑ </a>
     </footer>
 
     <!-- Existing JavaScript path retained. -->
@@ -383,28 +268,19 @@
           nav.classList.remove("is-open");
 
           button.setAttribute("aria-expanded", "false");
-          button.setAttribute(
-            "aria-label",
-            "Open navigation menu"
-          );
+          button.setAttribute("aria-label", "Open navigation menu");
         };
 
         button.addEventListener("click", () => {
-          const isOpen =
-            button.getAttribute("aria-expanded") === "true";
+          const isOpen = button.getAttribute("aria-expanded") === "true";
 
           const nextOpen = !isOpen;
 
-          button.setAttribute(
-            "aria-expanded",
-            String(nextOpen)
-          );
+          button.setAttribute("aria-expanded", String(nextOpen));
 
           button.setAttribute(
             "aria-label",
-            nextOpen
-              ? "Close navigation menu"
-              : "Open navigation menu"
+            nextOpen ? "Close navigation menu" : "Open navigation menu",
           );
 
           nav.classList.toggle("is-open", nextOpen);
@@ -424,10 +300,7 @@
         });
 
         document.addEventListener("click", (event) => {
-          if (
-            !nav.contains(event.target) &&
-            !button.contains(event.target)
-          ) {
+          if (!nav.contains(event.target) && !button.contains(event.target)) {
             closeMenu();
           }
         });
