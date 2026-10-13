@@ -173,6 +173,19 @@
             menu?.setAttribute("aria-expanded", "false");
           }
         });
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && nav?.classList.contains("is-open")) {
+            nav.classList.remove("is-open");
+            menu?.setAttribute("aria-expanded", "false");
+            menu?.focus();
+          }
+        });
+        document.addEventListener("click", (event) => {
+          if (nav && menu && !nav.contains(event.target) && !menu.contains(event.target)) {
+            nav.classList.remove("is-open");
+            menu.setAttribute("aria-expanded", "false");
+          }
+        });
         const year = document.getElementById("year");
         if (year) year.textContent = new Date().getFullYear();
         const logo = document.querySelector("[data-tilak-logo]");
