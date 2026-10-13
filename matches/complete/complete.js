@@ -150,7 +150,9 @@
           state.format = saved.format || "All";
           if ($("match-search")) $("match-search").value = state.query;
           if ($("match-format-filter")) $("match-format-filter").value = state.format;
-          requestAnimationFrame(() => window.scrollTo({ top: Number(saved.scrollY) || 0, behavior: "instant" }));
+          requestAnimationFrame(() =>
+            window.scrollTo({ top: Number(saved.scrollY) || 0, behavior: "instant" }),
+          );
         }
       } catch (_) {}
     }
