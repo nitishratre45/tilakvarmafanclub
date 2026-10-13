@@ -63,31 +63,30 @@ check("default appearance is dark", async () => {
   await page.close();
 });
 
-check("section navigation switches content and keeps one main section visible", async () => {
+check("homepage section navigation and dedicated Stats route work independently", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('a.home-all-stats').click();
-  await page.waitForFunction(() => location.hash === "#stats");
-  assert.equal(await page.locator("#stats").isVisible(), true, "Stats section should be visible");
-  assert.equal(await page.locator("#profile").isVisible(), false, "Profile should be hidden");
-  const visibleSections = await page.locator("main > section[id]").evaluateAll((nodes) =>
-    nodes.filter((node) => !node.hidden && getComputedStyle(node).display !== "none").map((node) => node.id),
-  );
-  assert(visibleSections.includes("stats"), "Stats missing from visible sections");
-  assert(visibleSections.every((id) => id === "stats" || id === "home-snapshot"), "Unexpected visible sections: " + visibleSections.join(", "));
+  await page.locator('#main-nav a[href="#records"]').click();
+  await page.waitForFunction(() => location.hash === "#records");
+  assert.equal(await page.locator("#records").isVisible(), true, "Records section should be visible");
+  assert.equal(await page.locator("#profile").isVisible(), false, "Profile should be hidden when Records is selected");
+  assert.equal(await page.locator("#stats").count(), 0, "Stats must stay on its dedicated folder page, not be embedded in homepage");
+  await page.locator('#main-nav a[href="/stats/"]').click();
+  await page.waitForURL(url => url.pathname === "/stats/");
+  assert.equal(await page.locator("#stats").isVisible(), true, "Dedicated Stats page should open from homepage navbar");
   await page.close();
 });
 
-check("Stats Explorer sub-tab responds", async () => {
+check("Stats Explore sub-tab responds on dedicated page", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
-  await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('a.home-all-stats').click();
+  await page.goto(baseURL + "/stats/", { waitUntil: "domcontentloaded" });
   const tab = page.locator('#stats [data-stats-tab="statsguru"]');
-  assert.equal(await tab.count(), 1, "Statsguru tab is missing");
+  assert.equal(await tab.count(), 1, "Statsguru tab is missing from dedicated Stats page");
   await tab.click();
   assert.equal(await page.locator("#statsguru").isVisible(), true, "Statsguru view did not open");
+  assert.match(new URL(page.url()).search, /view=statsguru/, "Explore view should be represented in the URL");
   await page.close();
 });
 
