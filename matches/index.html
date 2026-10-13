@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="/matches/premium-ui.css?v=20261014-match-refresh1" />
     <link rel="stylesheet" href="/matches/site-refinement.css?v=20261013-match-header-sticky1" />
     <link rel="stylesheet" href="/matches/admin-inspired-ui.css?v=20261014-match-refresh1" />
-    <link rel="stylesheet" href="/matches/matches.css?v=20261014-native-select1" />
+    <link rel="stylesheet" href="/matches/matches.css?v=20261014-original-format-select" />
 
     <style id="site-navbar-theme">
       /* Unified blue navbar; orange underline marks the current page and keyboard focus. */
@@ -130,9 +130,10 @@
           </p>
         </div>
 
-        <div class="match-history-filters" aria-label="Filter recent matches">
-          <label class="match-filter">
-            <span>Format</span>
+        <div class="match-history-head">
+          <div class="eyebrow">RECENT MATCHES · PLAYER</div>
+          <label
+            >Format
             <select id="player-match-format">
               <option value="All">All formats</option>
               <option value="ODI">ODI</option>
@@ -140,12 +141,6 @@
               <option value="FC">FC</option>
               <option value="List A">List A</option>
               <option value="T20">T20</option>
-            </select>
-          </label>
-          <label class="match-filter">
-            <span>Year</span>
-            <select id="player-match-year">
-              <option value="All">All years</option>
             </select>
           </label>
         </div>
@@ -187,7 +182,7 @@
       ><span> · <span id="year"></span></span><span>RESPECT THE GAME. BACK THE PLAYER.</span>
     </footer>
     <script src="/assets/site-data-store.js?v=20261013-root-data-loader-fix1"></script>
-    <script src="/matches/player-matches.js?v=20261014-native-select1"></script>
+    <script src="/matches/player-matches.js?v=20261014-original-format-select"></script>
     <script src="/matches/upcoming-matches.js?v=20261013-dedicated-matches1"></script>
     <script src="/matches/theme.js?v=20261014"></script>
     <script>
