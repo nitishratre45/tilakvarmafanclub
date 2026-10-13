@@ -2036,3 +2036,14 @@ html body header.topbar nav a[aria-current="page"] {
     display: none !important;
   }
 }
+
+/* Mobile: use the compact profile reference navigation only; hide global header/menu. */
+@media (max-width: 620px) {
+  body > header.topbar,
+  body > header.site-shell-header,
+  body > header.death-topbar,
+  body > header:not(.mobile-profile-tabs) { display: none !important; }
+  body > .mobile-profile-tabs,
+  .mobile-profile-tabs { display: flex !important; }
+  .mobile-profile-tabs { top: 0 !important; }
+}
