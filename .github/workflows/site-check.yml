@@ -12,6 +12,9 @@ on:
       - 'tests/**'
       - 'death-overs/**'
       - 'data/**.json'
+      - '!data/repo-health.json'
+      - '!data/automation-repo-monitor.json'
+      - '!data/job-recovery-manager.json'
       - 'scripts/**'
       - '.github/workflows/**'
   pull_request:
