@@ -88,10 +88,6 @@
       newsUrl: "/News-details/index.html?id=india-and-india-a-squads-for-new-zealand-tour-announced"
     }
   ];
-  const announcementLink = document.getElementById("upcoming-team-announcement-link");
-  if (announcementLink && fixtures.length) {
-    announcementLink.href = fixtures[0].newsUrl || "/news/";
-  }
   const now = Date.now();
   const upcoming = fixtures.filter((fixture) => {
     // Match time is India Standard Time. Hide the fixture once its scheduled
@@ -99,6 +95,10 @@
     const start = Date.parse(fixture.date + "T" + fixture.time + ":00+05:30");
     return Number.isFinite(start) && now < start + 4 * 60 * 60 * 1000;
   });
+  const announcementLink = document.getElementById("upcoming-team-announcement-link");
+  if (announcementLink && upcoming.length) {
+    announcementLink.href = upcoming[0].newsUrl || "/news/";
+  }
   host.innerHTML = upcoming.length
     ? upcoming
         .map(
