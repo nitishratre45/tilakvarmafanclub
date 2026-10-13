@@ -79,9 +79,10 @@ def parse_match(match, source_file):
     if not known_team:
         return None
     raw_type = str(info.get("match_type") or "Unknown")
+    team_type = str(info.get("team_type") or "").casefold()
     fmt = {
         "IT20": "T20I",
-        "T20": "T20",
+        "T20": "T20I" if team_type == "international" else "T20",
         "ODI": "ODI",
         "ODM": "List A",
         "Test": "Test",
