@@ -43,6 +43,49 @@
     if (r.runs === null || r.runs === undefined || r.runs === "") return "—";
     return String(r.runs) + (r.notOut ? "*" : "");
   };
+
+  // ---- Normalisation helpers (shared by match de-duplication and bowling lookup) ----
+  // "India vs West Indies", "Ind v WI", "v West Indies", "West Indies" -> "west indies"
+  const normalizeText = (value) =>
+    String(value || "")
+      .toLowerCase()
+      .replace(/^\s*(?:[a-z.]+(?:\s[a-z.]+)?\s+)?(?:vs\.?|v)\s+/, "")
+      .replace(/[^a-z0-9 ]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  const normalizeGround = (value) =>
+    String(value || "")
+      .toLowerCase()
+      .split(",")[0]
+      .replace(/[^a-z0-9 ]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  const normalizeUrl = (value) =>
+    String(value || "")
+      .toLowerCase()
+      .split("#")[0]
+      .split("?")[0]
+      .replace(/\/+$/, "")
+      .trim();
+  const dayValue = (value) => {
+    const ts = dateValue(value);
+    return ts ? Math.floor(ts / 86400000) : 0;
+  };
+  // Two grounds are compatible when either is unknown, or one contains the other.
+  const groundsCompatible = (a, b) => {
+    const x = normalizeGround(a),
+      y = normalizeGround(b);
+    if (!x || !y) return true;
+    return x === y || x.includes(y) || y.includes(x);
+  };
+  const isT20Overlap = (a, b) => (a === "T20I" && b === "T20") || (a === "T20" && b === "T20I");
+  const rowQuality = (row) =>
+    (row.matchUrl ? 8 : 0) +
+    (row.source === "ESPNcricinfo Statsguru" ? 4 : 0) +
+    (Number.isFinite(Number(row.balls)) && Number(row.balls) > 0 ? 3 : 0) +
+    (row.score && row.score !== "—" ? 2 : 0) +
+    (row.result ? 1 : 0);
+
   function render(data) {
     const all = Array.isArray(data.playerMatches) ? data.playerMatches.slice() : [];
     const formats = data.statsguru?.formats || {};
@@ -53,31 +96,27 @@
     // Match history is sourced from ESPNcricinfo Statsguru rows only.
     // Do not merge delivery-derived recentInnings data: it duplicates matches
     // and can omit scorecard details.
-    // Normalize the same match when feeds label the opponent differently
-    // ("India vs West Indies", "v West Indies", "West Indies") or use
-    // ISO vs human-readable dates. T20I is preferred over the overlapping T20 feed.
-    const normalizeText = (value) =>
-      String(value || "")
-        .toLowerCase()
-        .replace(/\bindia\s+vs\s+/g, "")
-        .replace(/^\s*v\s+/g, "")
-        .replace(/\s+/g, " ")
-        .trim();
-    const dayValue = (value) => {
-      const ts = dateValue(value);
-      return ts ? Math.floor(ts / 86400000) : 0;
-    };
-    const rowQuality = (row) =>
-      (row.matchUrl ? 8 : 0) +
-      (row.source === "ESPNcricinfo Statsguru" ? 4 : 0) +
-      (Number.isFinite(Number(row.balls)) && Number(row.balls) > 0 ? 3 : 0) +
-      (row.score && row.score !== "—" ? 2 : 0) +
-      (row.result ? 1 : 0);
+
+    // Rows that have no format label: borrow it from an explicitly labelled row of the
+    // same match (same opposition, +/-1 day) so they are not shown a second time as "T20I".
+    const labelled = all.filter((r) => r && r.format && r.date && r.opposition);
+    for (const row of all) {
+      if (!row || row.format || !row.date || !row.opposition) continue;
+      const opp = normalizeText(row.opposition),
+        day = dayValue(row.date);
+      const twin = labelled.find(
+        (l) => normalizeText(l.opposition) === opp && Math.abs(dayValue(l.date) - day) <= 1,
+      );
+      if (twin) row.format = twin.format;
+    }
+
     // Keep raw per-format rows for format-specific last-match milestones.
     // The cross-format display list below intentionally collapses T20I/T20 duplicates.
     const milestoneMatches = all.filter((row) => row && row.date && row.opposition);
+
     const matches = [];
     for (const row of all) {
+      if (!row) continue;
       const fmt = row.format || "T20I";
       const date = row.date || "";
       const opposition = row.opposition || "";
@@ -85,18 +124,22 @@
       if (!date || !opposition) continue;
       const normalizedOpposition = normalizeText(opposition);
       const day = dayValue(date);
+      const url = normalizeUrl(row.matchUrl);
       const existingIndex = matches.findIndex((item) => {
-        const sameOpposition = normalizeText(item.opposition) === normalizedOpposition;
-        const dateDistance = Math.abs(day - dayValue(item.date));
         const previousFormat = item.format || "T20I";
-        // Only collapse the overlapping T20I/all-T20 feeds. Do not merge
-        // different formats (for example FC and List A) just because the
-        // opponent/date happens to match, and keep other same-date fixtures.
-        const isOverlappingT20Feed =
-          (previousFormat === "T20I" && fmt === "T20") ||
-          (previousFormat === "T20" && fmt === "T20I");
+        const overlap = isT20Overlap(previousFormat, fmt);
         const sameFormat = previousFormat === fmt;
-        return sameOpposition && dateDistance <= 1 && (sameFormat || isOverlappingT20Feed);
+        // Never merge different formats (e.g. FC vs List A), only the overlapping T20I/T20 feeds.
+        if (!sameFormat && !overlap) return false;
+        // Same format + both have a match link: the link decides.
+        const itemUrl = normalizeUrl(item.matchUrl);
+        if (sameFormat && url && itemUrl) return url === itemUrl;
+        if (normalizeText(item.opposition) !== normalizedOpposition) return false;
+        const dateDistance = Math.abs(day - dayValue(item.date));
+        // Same-format rows must fall on the same day; the overlapping T20 feed may be
+        // off by one day (timezone). Different grounds mean different matches.
+        if (dateDistance > (overlap ? 1 : 0)) return false;
+        return groundsCompatible(item.ground || item.venue, ground);
       });
       if (existingIndex < 0) {
         matches.push({ ...row, format: fmt, ground });
@@ -111,7 +154,9 @@
       merged.ground = preferred.ground || preferred.venue || ground || previous.ground;
       matches[existingIndex] = merged;
     }
+    // Newest first; stable order for same-date rows.
     matches.sort((a, b) => dateValue(b.date) - dateValue(a.date));
+
     const milestones = $("player-match-milestones");
     if (milestones) {
       milestones.innerHTML =
@@ -162,14 +207,29 @@
               hour12: true,
             }).format(new Date(data.playerMatchesUpdatedAt || data.statsguru.updatedAt)) + " IST"
           : "waiting for scheduled refresh");
+
+    // Bowling lookup: same normalisation on both sides so figures actually match.
+    const bowlKey = (fmt, date, opp, ground) =>
+      [fmt, dayValue(date) || String(date || "").toLowerCase(), normalizeText(opp), normalizeGround(ground)].join("|");
     const bowlMap = new Map();
     for (const [fmt, entry] of Object.entries(data.bowlingStats?.formats || {}))
       for (const b of Array.isArray(entry?.innings) ? entry.innings : []) {
-        const key = [fmt, dateValue(b.date) || b.date || "", b.opposition || "", b.ground || ""]
-          .join("|")
-          .toLowerCase();
-        bowlMap.set(key, b.figures || (b.wickets ?? "—") + "/" + (b.runsConceded ?? "—"));
+        const fig = b.figures || (b.wickets ?? "—") + "/" + (b.runsConceded ?? "—");
+        bowlMap.set(bowlKey(fmt, b.date, b.opposition, b.ground || b.venue), fig);
+        bowlMap.set(bowlKey(fmt, b.date, b.opposition, ""), fig);
       }
+    const findBowling = (r) => {
+      const fmt = r.format || "T20I";
+      const fmts = fmt === "T20I" ? ["T20I", "T20"] : fmt === "T20" ? ["T20", "T20I"] : [fmt];
+      for (const f of fmts) {
+        const hit =
+          bowlMap.get(bowlKey(f, r.date, r.opposition, r.ground || r.venue)) ||
+          bowlMap.get(bowlKey(f, r.date, r.opposition, ""));
+        if (hit) return hit;
+      }
+      return undefined;
+    };
+
     const selector = $("player-match-format"),
       selected = selector?.value || "All";
     const listed = selected === "All" ? matches : matches.filter((r) => r.format === selected),
@@ -178,17 +238,14 @@
       table.innerHTML = listed.length
         ? listed
             .map((r) => {
-              const fmt = r.format || "T20I",
-                key = [fmt, r.date || "", r.opposition || "", r.ground || r.venue || ""]
-                  .join("|")
-                  .toLowerCase();
+              const fmt = r.format || "T20I";
               return (
                 "<tr><td>" +
                 esc(r.opposition || "—") +
                 "</td><td>" +
                 esc(score(r)) +
                 "</td><td>" +
-                esc(r.bowlingFigures || r.bowling || bowlMap.get(key) || "—") +
+                esc(r.bowlingFigures || r.bowling || findBowling(r) || "—") +
                 "</td><td>" +
                 esc(prettyDate(r.date)) +
                 "</td><td>" +
