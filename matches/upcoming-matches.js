@@ -24,7 +24,8 @@
       opponent: "New Zealand",
       venue: "Christchurch",
       time: "19:00",
-      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced"
+      source:
+        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
     },
     {
       date: "2026-10-24",
@@ -33,7 +34,8 @@
       opponent: "New Zealand",
       venue: "Christchurch",
       time: "19:00",
-      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced"
+      source:
+        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
     },
     {
       date: "2026-10-27",
@@ -42,7 +44,8 @@
       opponent: "New Zealand",
       venue: "Wellington",
       time: "19:00",
-      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced"
+      source:
+        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
     },
     {
       date: "2026-10-30",
@@ -51,7 +54,8 @@
       opponent: "New Zealand",
       venue: "Auckland",
       time: "19:00",
-      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced"
+      source:
+        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
     },
     {
       date: "2026-11-01",
@@ -60,8 +64,9 @@
       opponent: "New Zealand",
       venue: "Hamilton",
       time: "19:00",
-      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced"
-    }
+      source:
+        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
+    },
   ];
   const now = Date.now();
   const upcoming = fixtures.filter((fixture) => {
