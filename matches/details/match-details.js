@@ -265,14 +265,19 @@
           (snapshot.checkedAt || "not recorded") +
           ". Missing squad/pitch fields are not fabricated.",
       );
+      const reviewedSources = Array.isArray(detail.sources)
+        ? detail.sources.map((source) => sourceLink(source.label || "Verified source", source.url))
+        : [];
       $("details-source-links").innerHTML = [
+        ...reviewedSources,
         sourceLink("Official match news", f.newsUrl || f.source),
-        sourceLink("Original source", f.source),
+        sourceLink("Original fixture source", f.source),
         sourceLink("Weather · Open-Meteo", "https://open-meteo.com/"),
         sourceLink("Tilak Varma stats", "/stats/"),
         sourceLink("All matches", "/matches/"),
       ]
         .filter(Boolean)
+        .filter((link, index, links) => links.indexOf(link) === index)
         .join("");
       const start = Date.parse(
         String(f.date || "") + "T" + String(f.time || "19:00") + ":00+05:30",
