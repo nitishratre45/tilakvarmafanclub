@@ -67,10 +67,9 @@ check("homepage section navigation and dedicated Stats route work independently"
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="#records"]').click();
-  await page.waitForFunction(() => location.hash === "#records");
-  assert.equal(await page.locator("#records").isVisible(), true, "Records section should be visible");
-  assert.equal(await page.locator("#profile").isVisible(), false, "Profile should be hidden when Records is selected");
+  await page.locator('#main-nav a[href="/records/"]').click();
+  await page.waitForURL(url => url.pathname === "/records/");
+  assert.equal(await page.locator("#icc-record-highlights").isVisible(), true, "Dedicated Records page should open");
   assert.equal(await page.locator("#stats").count(), 0, "Stats must stay on its dedicated folder page, not be embedded in homepage");
   await page.locator('#main-nav a[href="/stats/"]').click();
   await page.waitForURL(url => url.pathname === "/stats/");
@@ -133,10 +132,9 @@ check("mobile navigation opens, scroll target works, and closes after selection"
   await button.click();
   assert.equal(await button.getAttribute("aria-expanded"), "true", "Menu aria-expanded did not become true");
   assert(await nav.evaluate((node) => node.classList.contains("open")), "Mobile nav did not open");
-  await nav.locator('a[href="#records"]').click();
-  await page.waitForFunction(() => location.hash === "#records");
+  await nav.locator('a[href="/records/"]').click();
+  await page.waitForURL(url => url.pathname === "/records/");
   assert.equal(await button.getAttribute("aria-expanded"), "false", "Menu did not close after navigation");
-  assert.equal(await page.locator("#records").isVisible(), true, "Records section did not open");
   await page.close();
 });
 
@@ -319,7 +317,8 @@ check("video hub puts the newest published BCCI video first", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="#tilak-videos"]').click();
+  await page.locator('#main-nav a[href="/videos/"]').click();
+  await page.waitForURL(url => url.pathname === "/videos/");
   const firstVideo = page.locator(".bcci-video-card button[data-bcci-video]").first();
   await firstVideo.waitFor();
   assert.equal(await firstVideo.getAttribute("data-bcci-video"), newest.id, "Video cards should be sorted newest-first");
@@ -350,13 +349,10 @@ check("News Details opens article and returns safely on desktop and mobile", asy
     const back = page.locator(".mobile-back");
     await back.waitFor({ state: "visible" });
     const backHref = await back.getAttribute("href");
-    assert(backHref && /#news$/.test(backHref), "Back link must target the News section; got: " + backHref);
+    assert(backHref && /\/news\/?$/.test(backHref), "Back link must target the News page; got: " + backHref);
     await back.click();
-    await page.waitForFunction(() => location.hash === "#news", { timeout: 5000 }).catch(async () => {
-      const current = new URL(page.url());
-      assert.equal(current.hash, "#news", "Back navigation should return to News; current URL: " + current.href);
-    });
-    assert.equal(new URL(page.url()).hash, "#news", "Back navigation should return to the News section");
+    await page.waitForURL(url => url.pathname === "/news/" || url.pathname === "/news", { timeout: 5000 });
+    assert.match(new URL(page.url()).pathname, /^\/news\/?$/, "Back navigation should return to the News page");
     await page.close();
   }
 });
