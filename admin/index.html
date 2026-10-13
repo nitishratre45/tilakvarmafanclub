@@ -3066,23 +3066,69 @@
             <div>
               <div class="eyebrow">MATCH CENTRE · ARCHIVE</div>
               <h2>Match information</h2>
-              <p>Completed match archive, formats, dates, teams, venues, results and scorecard links. This view reads the existing verified scorecard index; it does not alter Upcoming fixtures.</p>
+              <p>
+                Completed match archive, formats, dates, teams, venues, results and scorecard links.
+                This view reads the existing verified scorecard index; it does not alter Upcoming
+                fixtures.
+              </p>
             </div>
-            <div class="actions"><button class="btn" id="admin-matches-refresh" type="button">↻ Refresh matches</button><a class="btn primary" href="/matches/complete/" target="_blank" rel="noopener noreferrer">Open Complete Match ↗</a></div>
+            <div class="actions">
+              <button class="btn" id="admin-matches-refresh" type="button">↻ Refresh matches</button
+              ><a
+                class="btn primary"
+                href="/matches/complete/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Open Complete Match ↗</a
+              >
+            </div>
           </div>
           <div class="section-body">
             <div class="admin-match-stats">
-              <div class="admin-match-stat"><span>Archive matches</span><strong id="admin-match-count">—</strong></div>
-              <div class="admin-match-stat"><span>Formats covered</span><strong id="admin-format-count">—</strong></div>
-              <div class="admin-match-stat"><span>Data updated</span><strong id="admin-match-updated">Checking…</strong></div>
+              <div class="admin-match-stat">
+                <span>Archive matches</span><strong id="admin-match-count">—</strong>
+              </div>
+              <div class="admin-match-stat">
+                <span>Formats covered</span><strong id="admin-format-count">—</strong>
+              </div>
+              <div class="admin-match-stat">
+                <span>Data updated</span><strong id="admin-match-updated">Checking…</strong>
+              </div>
             </div>
             <div class="admin-match-filters">
-              <div class="field"><label for="admin-match-search">Search matches</label><input id="admin-match-search" type="search" placeholder="Team, opponent, venue, event…" autocomplete="off" /></div>
-              <div class="field"><label for="admin-match-format">Filter by format</label><select id="admin-match-format"><option value="All">All formats</option><option value="T20I">T20 International</option><option value="T20">T20 / IPL</option><option value="ODI">One Day International</option><option value="Test">Test</option><option value="List A">List A</option><option value="First-class">First-class</option></select></div>
+              <div class="field">
+                <label for="admin-match-search">Search matches</label
+                ><input
+                  id="admin-match-search"
+                  type="search"
+                  placeholder="Team, opponent, venue, event…"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="field">
+                <label for="admin-match-format">Filter by format</label
+                ><select id="admin-match-format">
+                  <option value="All">All formats</option>
+                  <option value="T20I">T20 International</option>
+                  <option value="T20">T20 / IPL</option>
+                  <option value="ODI">One Day International</option>
+                  <option value="Test">Test</option>
+                  <option value="List A">List A</option>
+                  <option value="First-class">First-class</option>
+                </select>
+              </div>
             </div>
-            <div class="admin-match-results-line"><span id="admin-match-results-count">Loading matches…</span><span id="admin-match-source">Verified scorecard index</span></div>
-            <div id="admin-matches-list" class="admin-matches-list" aria-live="polite"><div class="empty">Loading match archive…</div></div>
-            <p class="hint">Match data is read-only here. Use Full scorecard to open the dedicated scorecard page. Upcoming fixture management stays separate.</p>
+            <div class="admin-match-results-line">
+              <span id="admin-match-results-count">Loading matches…</span
+              ><span id="admin-match-source">Verified scorecard index</span>
+            </div>
+            <div id="admin-matches-list" class="admin-matches-list" aria-live="polite">
+              <div class="empty">Loading match archive…</div>
+            </div>
+            <p class="hint">
+              Match data is read-only here. Use Full scorecard to open the dedicated scorecard page.
+              Upcoming fixture management stays separate.
+            </p>
             <div id="admin-matches-status" class="status" role="status"></div>
           </div>
         </section>
