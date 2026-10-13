@@ -8,6 +8,29 @@
       (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
     );
   const state = { matches: [], format: "All", query: "" };
+  const returnStateKey = "completeMatchesReturnState";
+  function saveReturnState() {
+    try {
+      sessionStorage.setItem(returnStateKey, JSON.stringify({
+        query: $("match-search")?.value || "",
+        format: $("match-format-filter")?.value || "All",
+        scrollY: window.scrollY || 0,
+        savedAt: Date.now()
+      }));
+    } catch (_) {}
+  }
+  function restoreReturnState() {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(returnStateKey) || "null");
+      if (!saved || Date.now() - saved.savedAt > 30 * 60 * 1000) return;
+      state.query = saved.query || "";
+      state.format = saved.format || "All";
+      if ($("match-search")) $("match-search").value = state.query;
+      if ($("match-format-filter")) $("match-format-filter").value = state.format;
+      renderMatches();
+      requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, Number(saved.scrollY) || 0)));
+    } catch (_) {}
+  }
   const fmtLabel = (value) =>
     ({
       T20I: "T20 International",
@@ -89,6 +112,7 @@
         : "Cricsheet match archive";
       $("scorecard-source-note").textContent =
         payload.coverageNote || "Only verified available scorecards are shown.";
+      restoreReturnState();
       renderMatches();
     } catch (error) {
       if (host)
