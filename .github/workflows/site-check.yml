@@ -14,6 +14,9 @@ on:
       - 'stats/**'
       - 'matches/**'
       - 'photos/**'
+      - 'news/**'
+      - 'videos/**'
+      - 'records/**'
       - 'sw.js'
       - 'manifest.json'
       - 'data/**.json'
@@ -39,7 +42,7 @@ jobs:
           node-version: '22'
       - name: Check JavaScript and embedded page scripts
         run: |
-          find assets functions admin News News-details stats matches photos -type f -name '*.js' -print0 | xargs -0 -n 1 node --check
+          find assets functions admin News News-details stats matches photos news videos records -type f -name '*.js' -print0 | xargs -0 -n 1 node --check
           python -m py_compile scripts/refresh_icc_records.py scripts/refresh_statsguru.py
           python - <<'PY'
           from pathlib import Path
@@ -141,7 +144,7 @@ jobs:
           from pathlib import Path
           from urllib.parse import urlsplit
 
-          pages = (Path("index.html"), Path("stats/index.html"), Path("death-overs/index.html"), Path("matches/index.html"), Path("photos/index.html"))
+          pages = (Path("index.html"), Path("stats/index.html"), Path("death-overs/index.html"), Path("matches/index.html"), Path("photos/index.html"), Path("records/index.html"), Path("news/index.html"), Path("videos/index.html"))
           for page in pages:
               source = page.read_text(encoding="utf-8")
               ids = re.findall(r"""id=[\"']([^\"']+)[\"']""", source)
@@ -176,24 +179,27 @@ jobs:
             fi
           }
           # Accept cache-busted script URLs and whitespace/attribute formatting.
-          require_match 'assets/features[.]js([?"]|$)' index.html
-          require_match 'News/news-section[.]js' assets/section-tabs.js
+          require_match 'assets/features[.]js([?"]|$)' records/index.html
+          require_match 'assets/records-matches[.]js([?"]|$)' records/index.html
+          require_match 'news/news[.]js([?"]|$)' news/index.html
+          require_match 'news/news[.]css([?"]|$)' news/index.html
+          require_match 'videos/videos[.]js([?"]|$)' videos/index.html
+          require_match 'videos/videos[.]css([?"]|$)' videos/index.html
           require_match 'assets/statsguru[.]js([?"]|$)' stats/index.html
           require_match 'assets/home-snapshot[.]js([?"]|$)' index.html
-          require_match 'assets/section-tabs[.]js([?"]|$)' index.html
           require_match 'assets/bowling[.]js([?"]|$)' stats/index.html
           require_match 'data-bowling-format="List A"' stats/index.html
           require_match 'data-bowling-format="FC"' stats/index.html
           require_match 'id="home-snapshot"' index.html
           require_match 'data-stats-tab="statsguru"' stats/index.html
           require_match 'id="icc-ranking-t20i"' index.html
-          require_match 'id="icc-record-highlights"' index.html
+          require_match 'id="icc-record-highlights"' records/index.html
           require_match 'scripts/refresh_icc_records[.]py' .github/workflows/refresh-icc-records.yml
           require_match 'scripts/refresh_statsguru[.]py' .github/workflows/refresh-statsguru.yml
           if grep -Eq 'id="activity"|href="#activity"' index.html; then echo "::error::Updates section should be removed"; exit 1; fi
-          require_match 'tv-news-grid' News/news-section.js
-          require_match 'News/newsjson[.]json' News/news-section.js
-          require_match 'News-details/index[.]html' News/news-section.js
+          require_match 'tv-news-grid' news/news.js
+          require_match 'News/newsjson[.]json' news/news.js
+          require_match 'News-details/index[.]html' news/news.js
           require_match 'scripts/news[.]py' .github/workflows/refresh-tilak-news.yml
           require_match 'scripts/filter_tilak_news[.]py' .github/workflows/refresh-tilak-news.yml
           # Shared site-data loader must exist and load before every dependent page module.
@@ -208,9 +214,7 @@ jobs:
               raise SystemExit("Shared site-data loader is not linked from index.html")
           dependents = [
               "assets/app.js",
-              "assets/records-matches.js",
               "assets/career-formats.js",
-              "assets/features.js",
               "assets/upgrade.js",
               "assets/home-snapshot.js",
           ]
@@ -221,6 +225,22 @@ jobs:
               if loader > position:
                   raise SystemExit("Shared data loader must precede " + script)
           print("Validated shared data loader order for all dependent modules.")
+
+          records = Path("records/index.html").read_text(encoding="utf-8")
+          records_loader = records.find('src="/assets/site-data-store.js')
+          for script in ("/assets/records-matches.js", "/assets/features.js"):
+              position = records.find('src="' + script)
+              if position < 0 or records_loader < 0 or records_loader > position:
+                  raise SystemExit("Records page is missing a correctly ordered module: " + script)
+          news = Path("news/index.html").read_text(encoding="utf-8")
+          for asset in ("/news/news.js", "/news/news.css"):
+              if asset not in news:
+                  raise SystemExit("News page is missing required asset: " + asset)
+          videos = Path("videos/index.html").read_text(encoding="utf-8")
+          for asset in ("/videos/videos.js", "/videos/videos.css"):
+              if asset not in videos:
+                  raise SystemExit("Videos page is missing required asset: " + asset)
+          print("Validated modular Records, News and Videos routes.")
 
           matches = Path("matches/index.html").read_text(encoding="utf-8")
           for script in ("/assets/site-data-store.js", "/matches/player-matches.js", "/matches/upcoming-matches.js"):
