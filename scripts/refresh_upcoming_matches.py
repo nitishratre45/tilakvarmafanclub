@@ -1,211 +1,205 @@
 #!/usr/bin/env python3
-"""Refresh the Upcoming Matches fixture snapshot from BCCI's public fixtures page.
+"""Build Upcoming Matches from squad-confirmed fixtures in News/newsjson.json.
 
-The updater is deliberately fail-closed: if the official page cannot be parsed
-or no matching fixtures are found, it keeps the existing verified snapshot.
-It only publishes India international fixtures for series whose squad was
-already confirmed in the maintained snapshot (West Indies / New Zealand).
+The existing BCCI News API pipeline owns news discovery. This script reads its
+published JSON archive, extracts explicit fixture tables only from squad
+announcements that name Tilak Varma, and updates only the fixtures array in the
+existing renderer. If the archive is stale, missing, or cannot be parsed, the
+existing fixture array is preserved.
 """
 from __future__ import annotations
 
-import html
 import json
 import re
-import urllib.request
 from datetime import datetime, timezone
-from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+NEWS_FILE = ROOT / "News" / "newsjson.json"
 JS_FILE = ROOT / "matches" / "upcoming-matches.js"
 REPORT_FILE = ROOT / "matches" / "upcoming-fixtures-refresh.json"
-BCCI_FIXTURES_URL = "https://www.bcci.tv/matches"
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClub/1.0; fixture-refresh)"
-}
 MONTHS = {
-    name.lower(): number
-    for number, name in enumerate(
-        [
-            "",
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ],
-        start=0,
-    )
-    if name
+    "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+    "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
 }
+SERIES = ("West Indies", "New Zealand")
 
 
-def fetch_page() -> str:
-    request = urllib.request.Request(BCCI_FIXTURES_URL, headers=HEADERS)
-    with urllib.request.urlopen(request, timeout=45) as response:
-        if response.status != 200:
-            raise RuntimeError(f"BCCI fixtures page returned HTTP {response.status}")
-        return response.read().decode("utf-8", "replace")
+def parse_date(value: str) -> str | None:
+    value = str(value or "").strip()
+    for fmt in ("%d-%b-%y", "%d-%b-%Y", "%d %b %Y", "%d %B %Y", "%Y-%m-%d"):
+        try:
+            parsed = datetime.strptime(value, fmt)
+            if parsed.year < 100:
+                parsed = parsed.replace(year=2000 + parsed.year)
+            return parsed.strftime("%Y-%m-%d")
+        except ValueError:
+            pass
+    return None
 
 
-def strip_markup(value: str) -> str:
-    value = re.sub(
-        r"<script\b.*?</script>|<style\b.*?</style>", " ", value, flags=re.I | re.S
-    )
-    value = re.sub(r"<[^>]+>", " ", value)
-    return re.sub(r"\s+", " ", html.unescape(value)).strip()
-
-
-def find_date(text: str) -> str | None:
-    # Accept common BCCI date forms, e.g. 14 Oct 2026, 14 October 2026.
-    match = re.search(
-        r"\b(\d{1,2})\s+(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(20\d{2})\b",
-        text,
-        re.I,
-    )
+def parse_time(value: str) -> str:
+    value = str(value or "").strip()
+    if not value:
+        return "19:00"
+    match = re.search(r"\b(\d{1,2})(?::(\d{2}))?\s*(AM|PM)\b", value, re.I)
     if not match:
-        return None
-    day, month_text, year = match.groups()
-    month_key = month_text.lower()[:3]
-    month = next((n for name, n in MONTHS.items() if name.startswith(month_key)), None)
-    if not month:
-        return None
-    try:
-        return datetime(int(year), month, int(day)).strftime("%Y-%m-%d")
-    except ValueError:
-        return None
+        return "19:00"
+    hour, minute, meridiem = match.groups()
+    hour, minute = int(hour), int(minute or 0)
+    if meridiem.upper() == "PM" and hour != 12:
+        hour += 12
+    if meridiem.upper() == "AM" and hour == 12:
+        hour = 0
+    if hour > 23 or minute > 59:
+        return "19:00"
+    return f"{hour:02d}:{minute:02d}"
 
 
-def extract_fixture_cards(page: str) -> list[dict]:
-    # BCCI match-detail links have a stable URL shape; inspect surrounding
-    # markup for the date and visible card text rather than guessing dates.
-    matches = list(
-        re.finditer(
-            r'href=["\']([^"\']*/matches/([0-9a-f-]{36})/([^"\']*match-details[^"\']*))["\']',
-            page,
-            re.I,
-        )
-    )
+def article_text(article: dict) -> str:
+    parts = [
+        article.get("title", ""),
+        article.get("pageTitle", ""),
+        article.get("description", ""),
+        article.get("fullText", ""),
+        article.get("pageText", ""),
+    ]
+    for block in article.get("contentBlocks", []) or []:
+        if isinstance(block, dict) and block.get("type") == "text":
+            parts.append(block.get("text", ""))
+    return " ".join(str(part) for part in parts if part)
+
+
+def article_fixtures(article: dict) -> list[dict]:
+    title = str(article.get("title") or article.get("pageTitle") or "")
+    text = article_text(article)
+    if not re.search(r"squad", title, re.I):
+        return []
+    if not re.search(r"\bTilak\s+Varma\b", text, re.I):
+        return []
+    url = str(article.get("webviewUrl") or article.get("finalUrl") or "")
+    if not url.startswith("https://www.bcci.tv/"):
+        return []
+
+    opponent = next((name for name in SERIES if re.search(re.escape(name), title + " " + text, re.I)), None)
+    if not opponent:
+        return []
+
+    # Require the announcement text to identify Tilak in a T20I squad; this
+    # avoids publishing fixtures from unrelated squad announcements.
+    tilak_pos = re.search(r"Tilak\s+Varma", text, re.I)
+    t20i_pos = re.search(r"T20I", text, re.I)
+    if not tilak_pos or not t20i_pos:
+        return []
+    squad_text = text[max(0, tilak_pos.start() - 700):tilak_pos.end() + 700]
+    if not re.search(r"T20I", squad_text, re.I):
+        return []
+
     fixtures = []
-    seen = set()
-    for match in matches:
-        url_path = html.unescape(match.group(1))
-        match_id = match.group(2)
-        if match_id in seen:
+    for block in article.get("contentBlocks", []) or []:
+        if not isinstance(block, dict) or block.get("type") != "table":
             continue
-        seen.add(match_id)
-        start = max(0, match.start() - 1800)
-        end = min(len(page), match.end() + 1800)
-        card_text = strip_markup(page[start:end])
-        # Keep the feature scoped to India's already squad-confirmed series.
-        if not re.search(r"\bIndia\b", card_text, re.I):
+        rows = block.get("rows")
+        if not isinstance(rows, list) or len(rows) < 2:
             continue
-        if not re.search(r"\b(West Indies|New Zealand)\b", card_text, re.I):
+        header = [re.sub(r"\s+", " ", str(cell or "")).strip().lower() for cell in rows[0]]
+        match_i = next((i for i, cell in enumerate(header) if cell == "match" or cell.endswith("match")), None)
+        date_i = next((i for i, cell in enumerate(header) if cell == "date" or cell.startswith("date ")), None)
+        venue_i = next((i for i, cell in enumerate(header) if cell in {"venue", "ground"}), None)
+        time_i = next((i for i, cell in enumerate(header) if "time" in cell), None)
+        if match_i is None or date_i is None or venue_i is None:
             continue
-        date = find_date(card_text)
-        if not date:
-            continue
-        opponent_match = re.search(r"\b(West Indies|New Zealand)\b", card_text, re.I)
-        opponent = opponent_match.group(1) if opponent_match else None
-        if not opponent:
-            continue
-        title_match = re.search(
-            r"\b((?:\d+(?:st|nd|rd|th)\s+)?(?:T20I|ODI|Test|TEST|T20|ODI)\b[^.]{0,50})",
-            card_text,
-            re.I,
-        )
-        match_label = (
-            title_match.group(1).strip() if title_match else "International match"
-        )
-        # Venue is taken only when it is explicitly visible in the source text.
-        venue = ""
-        for candidate in re.findall(r"\b[A-Z][A-Za-z.' -]{2,70}\b", card_text):
-            if any(
-                token in candidate.lower()
-                for token in ("stadium", "ground", "park", "arena")
-            ):
-                venue = candidate.strip()
-                break
-        source = (
-            url_path
-            if url_path.startswith("http")
-            else "https://www.bcci.tv" + url_path
-        )
-        fixtures.append(
-            {
+        for row in rows[1:]:
+            if not isinstance(row, list) or max(match_i, date_i, venue_i) >= len(row):
+                continue
+            match_label = str(row[match_i] or "").strip()
+            date = parse_date(str(row[date_i] or ""))
+            venue = str(row[venue_i] or "").strip()
+            if not date or not venue or not re.search(r"T20I", match_label, re.I):
+                continue
+            time_value = str(row[time_i] or "") if time_i is not None and time_i < len(row) else ""
+            fixtures.append({
                 "date": date,
                 "label": datetime.strptime(date, "%Y-%m-%d").strftime("%a, %-d %b %Y"),
                 "match": match_label,
                 "opponent": opponent,
-                "venue": venue or "Venue as listed by BCCI",
-                "time": "19:00",
-                "source": source,
-            }
-        )
+                "venue": venue,
+                "time": parse_time(time_value),
+                "source": url,
+            })
     return fixtures
 
 
+def js_string(value: str) -> str:
+    return json.dumps(value, ensure_ascii=False)
+
+
+def render_fixture(fixture: dict) -> str:
+    fields = ("date", "label", "match", "opponent", "venue", "time", "source")
+    return "    {\n" + ",\n".join(
+        f"      {key}: {js_string(str(fixture[key]))}" for key in fields
+    ) + "\n    }"
+
+
 def main() -> None:
-    # Preserve the manually verified snapshot unless the official source returns
-    # a useful, parseable set. The JS remains the current public fallback.
-    existing_text = JS_FILE.read_text(encoding="utf-8")
-    checked_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    if not NEWS_FILE.exists():
+        raise SystemExit("News/newsjson.json is missing; refusing to change fixtures.")
+    if not JS_FILE.exists():
+        raise SystemExit("matches/upcoming-matches.js is missing; refusing to create a replacement.")
+
+    news = json.loads(NEWS_FILE.read_text(encoding="utf-8"))
+    existing_js = JS_FILE.read_text(encoding="utf-8")
+    if not isinstance(news, dict) or not isinstance(news.get("news"), list):
+        raise SystemExit("News JSON has an unexpected structure; existing fixtures preserved.")
+
+    candidates = []
+    for article in news["news"]:
+        if isinstance(article, dict):
+            candidates.extend(article_fixtures(article))
+
+    # Newer announcements win when the same match appears more than once.
+    unique = {}
+    for fixture in candidates:
+        unique[(fixture["date"], fixture["opponent"], fixture["match"])] = fixture
+    fixtures = sorted(unique.values(), key=lambda row: (row["date"], row["match"]))
+    # Only use fixtures from the current/future date onward. Past matches are
+    # not needed in the public Upcoming Matches list.
+    today = datetime.now().date().isoformat()
+    fixtures = [fixture for fixture in fixtures if fixture["date"] >= today]
+
+    status = "updated-from-news-json" if fixtures else "no-verified-fixtures-preserved"
+    changed = False
+    if fixtures:
+        replacement = "  const fixtures = [\n" + ",\n".join(render_fixture(f) for f in fixtures) + "\n  ];"
+        updated_js, count = re.subn(
+            r"  const fixtures = \[.*?\n  \];",
+            lambda _: replacement,
+            existing_js,
+            count=1,
+            flags=re.S,
+        )
+        if count != 1:
+            raise SystemExit("Could not safely locate fixtures array; no files changed.")
+        changed = updated_js != existing_js
+        if changed:
+            JS_FILE.write_text(updated_js, encoding="utf-8")
+
     report = {
-        "source": BCCI_FIXTURES_URL,
-        "checkedAt": checked_at,
-        "status": "source-unavailable",
-        "fixturesFound": 0,
-        "note": "The previous verified fixture list remains in place unless official fixtures can be parsed.",
+        "source": "News/newsjson.json (BCCI News API pipeline)",
+        "newsUpdatedAt": news.get("updatedAt"),
+        "checkedAt": datetime.now(timezone.utc).isoformat(),
+        "status": status,
+        "fixtureCount": len(fixtures),
+        "fixtures": fixtures,
+        "publicJsChanged": changed,
+        "note": (
+            "Fixtures were extracted only from squad announcement articles that name Tilak Varma and include explicit T20I fixture tables."
+            if fixtures else
+            "No safe future fixtures could be extracted from News/newsjson.json; the existing public fixture list was preserved."
+        ),
     }
-    try:
-        fixtures = extract_fixture_cards(fetch_page())
-        if fixtures:
-            # Store an auditable official-source snapshot for review. Do not
-            # rewrite the public JS from ambiguous scraped text.
-            REPORT_FILE.write_text(
-                json.dumps(
-                    {
-                        **report,
-                        "status": "official-fixtures-found",
-                        "fixturesFound": len(fixtures),
-                        "fixtures": sorted(fixtures, key=lambda item: item["date"]),
-                        "note": "Parsed from BCCI's public fixtures page. Review squad status before publishing new cards.",
-                    },
-                    ensure_ascii=False,
-                    indent=2,
-                )
-                + "\n",
-                encoding="utf-8",
-            )
-            print(
-                f"Parsed {len(fixtures)} fixture candidates from BCCI. Snapshot saved for validation."
-            )
-            return
-        report["status"] = "no-matching-fixtures-parsed"
-        report["note"] = (
-            "BCCI page loaded, but no trustworthy matching fixture cards were parsed; existing public fixtures were preserved."
-        )
-    except Exception as exc:
-        report["status"] = "source-unavailable"
-        report["note"] = (
-            f"Could not refresh from BCCI; existing public fixtures were preserved. {type(exc).__name__}: {exc}"
-        )
-        print(report["note"])
-    REPORT_FILE.write_text(
-        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    # Ensure the current fixture code remains unchanged on any parse/source issue.
-    assert (
-        "const fixtures = [" in existing_text
-    ), "Existing fixtures array not found; refusing to proceed"
-    print("Existing Upcoming Matches fixtures preserved.")
+    REPORT_FILE.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"Upcoming fixtures refresh: {status}; fixtures={len(fixtures)}; JS changed={changed}")
 
 
 if __name__ == "__main__":
