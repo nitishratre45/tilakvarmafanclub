@@ -330,3 +330,116 @@
 .complete-team-crest.is-missing img {
   display: none !important;
 }
+
+/* Refined date, venue and result typography for Complete Match cards */
+.complete-matches-page .complete-match-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding: 17px 17px 0;
+}
+.complete-matches-page .complete-match-topline > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 30px;
+  padding: 5px 10px;
+  border: 1px solid rgba(137, 207, 255, 0.16);
+  border-radius: 9px;
+  background: linear-gradient(135deg, rgba(75, 151, 224, 0.12), rgba(7, 20, 36, 0.45));
+  color: #d8e8fb;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.015em;
+  font-variant-numeric: tabular-nums;
+}
+.complete-matches-page .complete-match-topline > span:first-child::before {
+  content: "◷";
+  color: #8edfff;
+  font-size: 15px;
+  line-height: 1;
+}
+.complete-matches-page .match-format-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 29px;
+  padding: 5px 10px;
+  border: 1px solid rgba(119, 207, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(55, 140, 201, 0.12);
+  color: #9ee4ff;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.035em;
+  text-align: center;
+}
+.complete-matches-page .complete-match-venue {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 17px;
+  padding: 10px 11px;
+  border: 1px solid rgba(169, 194, 229, 0.1);
+  border-radius: 11px;
+  background: rgba(2, 10, 20, 0.2);
+  color: #b7c8dc;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.complete-matches-page .complete-match-venue::first-letter {
+  color: #8edfff;
+}
+.complete-matches-page .complete-match-result {
+  padding: 13px 14px;
+  border-radius: 12px;
+  color: #a9edcb;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.55;
+  letter-spacing: 0.005em;
+  overflow-wrap: anywhere;
+}
+.complete-matches-page .complete-match-result::before {
+  content: "FINAL RESULT";
+  display: block;
+  margin-bottom: 5px;
+  color: #8bb8a7;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+}
+.complete-matches-page .complete-match-card {
+  overflow: hidden;
+}
+@media (max-width: 480px) {
+  .complete-matches-page .complete-match-topline {
+    padding: 14px 14px 0;
+    gap: 7px;
+  }
+  .complete-matches-page .complete-match-topline > span:first-child {
+    font-size: 11px;
+    min-height: 28px;
+    padding: 4px 8px;
+  }
+  .complete-matches-page .match-format-pill {
+    max-width: 58%;
+    font-size: 9px;
+    padding: 5px 8px;
+  }
+  .complete-matches-page .complete-match-venue {
+    margin: 0 14px;
+    padding: 9px 10px;
+    font-size: 11px;
+  }
+  .complete-matches-page .complete-match-result {
+    margin: 10px 14px;
+    padding: 11px 12px;
+    font-size: 12px;
+  }
+}
+
