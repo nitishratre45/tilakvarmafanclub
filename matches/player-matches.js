@@ -210,7 +210,12 @@
 
     // Bowling lookup: same normalisation on both sides so figures actually match.
     const bowlKey = (fmt, date, opp, ground) =>
-      [fmt, dayValue(date) || String(date || "").toLowerCase(), normalizeText(opp), normalizeGround(ground)].join("|");
+      [
+        fmt,
+        dayValue(date) || String(date || "").toLowerCase(),
+        normalizeText(opp),
+        normalizeGround(ground),
+      ].join("|");
     const bowlMap = new Map();
     for (const [fmt, entry] of Object.entries(data.bowlingStats?.formats || {}))
       for (const b of Array.isArray(entry?.innings) ? entry.innings : []) {
