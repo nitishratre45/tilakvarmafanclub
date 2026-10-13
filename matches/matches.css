@@ -189,7 +189,6 @@
   }
 }
 
-
 /* MATCHES PAGE REFRESH — scoped to content; navbar/menu rules intentionally untouched. */
 .matches-main .section-heading {
   padding: clamp(18px, 3vw, 30px) 0 22px;
@@ -242,7 +241,10 @@
   border: 1px solid rgba(169, 194, 229, 0.16);
   border-radius: 16px;
   background: linear-gradient(145deg, rgba(20, 35, 56, 0.95), rgba(10, 19, 32, 0.98));
-  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 .matches-main .upcoming-match-card:hover {
   border-color: rgba(117, 227, 255, 0.42);
