@@ -1826,3 +1826,20 @@ footer:not(.hint) > span:last-child {
 .topbar .menu-toggle {
   color: #fff;
 }
+
+/* Navbar: keep only the bottom active underline; remove rounded hover/active pill */
+html body header.topbar nav a,
+html body header.topbar nav a:hover,
+html body header.topbar nav a:focus-visible,
+html body header.topbar nav a.active,
+html body header.topbar nav a[aria-current="page"] {
+  background: transparent !important;
+  border-radius: 0 !important;
+  transform: none !important;
+  transition: none !important;
+  box-shadow: none !important;
+}
+html body header.topbar nav a.active,
+html body header.topbar nav a[aria-current="page"] {
+  box-shadow: inset 0 -3px 0 #ff7c45 !important;
+}
