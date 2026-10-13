@@ -81,6 +81,10 @@
       source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced"
     }
   ];
+  const announcementLink = document.getElementById("upcoming-team-announcement-link");
+  if (announcementLink && fixtures.length) {
+    announcementLink.href = fixtures[0].newsUrl || "/news/";
+  }
   const now = Date.now();
   const upcoming = fixtures.filter((fixture) => {
     // Match time is India Standard Time. Hide the fixture once its scheduled
@@ -106,8 +110,8 @@
             esc(fixture.venue) +
             "</span></div>" +
             '<div class="upcoming-match-link"><a href="' +
-            esc(fixture.source) +
-            '" target="_blank" rel="noopener noreferrer">Official match details ↗</a></div>' +
+            esc(fixture.newsUrl || "/news/") +
+            '">Match Details ↗</a></div>' +
             "</article>",
         )
         .join("")
