@@ -222,3 +222,79 @@ body > footer.site-shell-footer {
     transition: none !important;
   }
 }
+
+/* Shared shell mobile dropdown: keep all links inside a compact, scrollable panel. */
+@media (max-width: 800px) {
+  body > header.site-shell-header .site-shell-nav {
+    display: none !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 10001 !important;
+    flex: initial !important;
+    display: none !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    width: 100% !important;
+    max-height: min(72dvh, 560px) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    padding: 12px 14px 16px !important;
+    margin: 0 !important;
+    background: linear-gradient(155deg, #0b2b52, #071426 85%) !important;
+    border: 1px solid rgba(124, 229, 242, 0.22) !important;
+    border-top: 0 !important;
+    border-radius: 0 0 16px 16px !important;
+    box-shadow: 0 22px 42px rgba(0, 0, 0, 0.42) !important;
+  }
+
+  body > header.site-shell-header .site-shell-nav.is-open {
+    display: grid !important;
+  }
+
+  body > header.site-shell-header .site-shell-nav a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    min-height: 46px !important;
+    padding: 11px 12px !important;
+    margin: 0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.045) !important;
+    font-size: 14px !important;
+    line-height: 1.25 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    touch-action: manipulation;
+  }
+
+  body > header.site-shell-header .site-shell-nav a.is-active,
+  body > header.site-shell-header .site-shell-nav a[aria-current="page"] {
+    background: rgba(255, 124, 69, 0.14) !important;
+    border-color: rgba(255, 124, 69, 0.55) !important;
+  }
+
+  body > header.site-shell-header .site-shell-nav a::after {
+    left: 12px !important;
+    right: auto !important;
+    width: 0 !important;
+    transition: width 180ms ease !important;
+  }
+
+  body > header.site-shell-header .site-shell-nav a:hover::after,
+  body > header.site-shell-header .site-shell-nav a:focus-visible::after,
+  body > header.site-shell-header .site-shell-nav a.is-active::after,
+  body > header.site-shell-header .site-shell-nav a[aria-current="page"]::after {
+    right: auto !important;
+    width: 24px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  body > header.site-shell-header .site-shell-nav {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
