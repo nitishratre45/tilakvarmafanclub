@@ -72,3 +72,34 @@ test("workflow monitor returns a clear timeout message instead of hanging", asyn
   assert.equal(response.status, 502);
   assert.match((await response.json()).error, /timed out after 12 seconds/i);
 });
+
+test("admin can queue the squad-confirmed match refresh workflow", async () => {
+  let requestedUrl = "";
+  let requestedBody = null;
+  globalThis.fetch = async (url, options = {}) => {
+    requestedUrl = String(url);
+    requestedBody = options.body ? JSON.parse(options.body) : null;
+    return new Response(null, { status: 204 });
+  };
+  const headers = new Headers({
+    cookie: await adminCookie(),
+    "content-type": "application/json",
+  });
+  const response = await onRequest({
+    request: new Request("https://fanclub.test/api/admin/monitor", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ action: "match-refresh" }),
+    }),
+    env: {
+      ADMIN_SESSION_SECRET: secret,
+      ADMIN_PASSWORD: "configured",
+      GITHUB_TOKEN: "test-token",
+      GITHUB_REPOSITORY: "nitishratre45/tilakvarmafanclub",
+    },
+  });
+  assert.equal(response.status, 202);
+  assert.match(requestedUrl, /actions\/workflows\/refresh-upcoming-matches\.yml\/dispatches$/);
+  assert.deepEqual(requestedBody, { ref: "main" });
+  assert.match((await response.json()).message, /match details refresh queued/i);
+});
