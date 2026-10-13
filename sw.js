@@ -1,4 +1,4 @@
-const CACHE_NAME = "tilak-varma-fc-shell-v4";
+const CACHE_NAME = "tilak-varma-fc-shell-v5";
 const APP_SHELL = [
   "/",
   "/manifest.json",
