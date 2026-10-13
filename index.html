@@ -113,7 +113,7 @@
       </button>
       <nav id="main-nav">
         <a href="#profile">Home</a><a href="/stats/">Stats</a><a href="/death-overs/">Death-overs</a
-        ><a href="#innings">Matches</a><a href="#records">Records</a><a href="#news">News</a
+        ><a href="/matches/">Matches</a><a href="#records">Records</a><a href="#news">News</a
         ><a href="#tv-gallery-hub">Photos</a><a href="#tilak-videos">Videos</a>
       </nav>
     </header>
@@ -251,23 +251,6 @@
             ESPNcricinfo · checking latest snapshot
           </p>
         </div>
-        <div class="home-debut-history">
-          <div class="home-snapshot-blockhead">
-            <div>
-              <div class="eyebrow">PLAYER MILESTONES</div>
-              <h3>DEBUT &amp; LAST MATCHES</h3>
-            </div>
-          </div>
-          <div class="match-history-summary">
-            <div class="eyebrow">DEBUT / LAST MATCHES · ALL FORMATS</div>
-            <div id="player-match-milestones" class="player-match-milestones">
-              <p class="activity-empty">Loading verified match history…</p>
-            </div>
-            <p id="player-match-source" class="home-bowling-updated">
-              ESPNcricinfo Statsguru · checking latest snapshot
-            </p>
-          </div>
-        </div>
         <div class="home-snapshot-columns">
           <div class="home-snapshot-block">
             <div class="home-snapshot-blockhead">
@@ -344,73 +327,6 @@
           <button type="button" id="tv-news-more" class="tv-news-more" hidden>More news ↓</button>
         </div>
         <p class="tv-news-foot" id="tv-news-updated"></p>
-      </section>
-
-      <section id="innings" class="section innings-section">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">MATCH CENTRE &amp; PLAYER HISTORY</div>
-            <h2>THE <em>MATCHES</em></h2>
-          </div>
-          <p>Live and upcoming cricket fixtures, plus Tilak Varma’s verified match history.</p>
-        </div>
-        <div class="upcoming-matches-panel" aria-labelledby="upcoming-matches-title">
-          <div class="upcoming-matches-heading">
-            <div>
-              <div class="eyebrow">SQUAD-CONFIRMED FIXTURES</div>
-              <h3 id="upcoming-matches-title">UPCOMING <em>MATCHES</em></h3>
-              <p>Only upcoming fixtures for which Tilak Varma is named in the announced squad.</p>
-            </div>
-            <a
-              class="button outline"
-              href="https://www.bcci.tv/news/article/india-and-india-a-squads-for-new-zealand-tour-announced"
-              target="_blank"
-              rel="noopener noreferrer"
-              >Official BCCI squad ↗</a
-            >
-          </div>
-          <div id="upcoming-matches-list" class="upcoming-matches-grid" aria-live="polite">
-            <p class="activity-empty">Loading squad-confirmed fixtures…</p>
-          </div>
-          <p class="upcoming-matches-foot" id="upcoming-matches-updated">
-            Fixture and squad details: BCCI official announcement.
-          </p>
-        </div>
-
-        <div class="match-history-head">
-          <div class="eyebrow">RECENT MATCHES · PLAYER</div>
-          <label
-            >Format
-            <select id="player-match-format">
-              <option value="All">All formats</option>
-              <option value="ODI">ODI</option>
-              <option value="T20I">T20I</option>
-              <option value="FC">FC</option>
-              <option value="List A">List A</option>
-              <option value="T20">T20</option>
-            </select>
-          </label>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>MATCH</th>
-                <th>BAT</th>
-                <th>BOWL</th>
-                <th>DATE</th>
-                <th>GROUND</th>
-                <th>FORMAT</th>
-              </tr>
-            </thead>
-            <tbody id="player-matches-table">
-              <tr>
-                <td colspan="6" class="empty">Loading match history…</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- Removed duplicate delivery-based recent innings table. Match history is shown above from ESPNcricinfo Statsguru. -->
       </section>
 
       <section
@@ -587,8 +503,6 @@
     </script>
     <script src="assets/app.js?v=20261013-stats-format-fix1"></script>
     <script src="assets/records-matches.js?v=20261012-india-time1"></script>
-    <script src="assets/player-matches.js?v=20261012-cricinfo-only1"></script>
-    <script src="assets/upcoming-matches.js?v=20261010-bcci-squad2"></script>
     <script src="assets/career-formats.js?v=20261011-careerfullstats2"></script>
     <script src="assets/features.js?v=20261012-india-time1"></script>
 
