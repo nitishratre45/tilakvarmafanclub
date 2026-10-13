@@ -2022,8 +2022,8 @@
         }
       }
     </style>
-    <link rel="stylesheet" href="/death-overs/site-refinement.css?v=20261013-mobile-nav-clean1" />
-    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261014-newsdetails-parity3" />
+    <link rel="stylesheet" href="/death-overs/site-refinement.css?v=20261014-deathovers-glass-fix2" />
+    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261014-deathovers-glass-fix2" />
   </head>
   <body>
     <script>
@@ -2867,21 +2867,6 @@
       })();
     </script>
     <script>
-      const dm = document.querySelector(".menu-toggle"),
-        dn = document.querySelector("#death-nav");
-      dm?.addEventListener("click", () => {
-        const open = dn?.classList.toggle("open") || false;
-        dm.setAttribute("aria-expanded", String(open));
-      });
-      dn?.querySelectorAll("a").forEach((a) =>
-        a.addEventListener("click", (event) => {
-          if (a.getAttribute("aria-current") === "page") event.preventDefault();
-          dn.classList.remove("open");
-          dm?.setAttribute("aria-expanded", "false");
-        }),
-      );
-    </script>
-    <script>
       (() => {
         const img = document.querySelector("[data-tilak-logo]");
         if (!img) return;
@@ -2896,6 +2881,6 @@
     </script>
     <script src="/death-overs/custom-selects.js?v=20261011-native-touch-fallback1"></script>
     <script src="/death-overs/service-worker-register.js?v=20261013-mobile-nav-clean1"></script>
-    <script src="/assets/mobile-glass-menu.js?v=20261014-newsdetails-parity3"></script>
+    <script src="/assets/mobile-glass-menu.js?v=20261014-deathovers-glass-fix2"></script>
   </body>
 </html>
