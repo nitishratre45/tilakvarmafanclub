@@ -219,6 +219,37 @@ export async function onRequest({ request, env }) {
           202,
         );
       }
+      if (body.action === "match-scorecards-refresh") {
+        const recent = await github(
+          env,
+          "/actions/workflows/refresh-match-scorecards.yml/runs?per_page=10",
+        );
+        const active = (recent.workflow_runs || []).find((run) =>
+          ["queued", "in_progress", "waiting", "requested", "pending"].includes(run.status),
+        );
+        if (active) {
+          return json(
+            {
+              error: "A match scorecard refresh is already running.",
+              runUrl: active.html_url,
+              runId: active.id,
+            },
+            409,
+          );
+        }
+        await github(env, "/actions/workflows/refresh-match-scorecards.yml/dispatches", {
+          method: "POST",
+          body: JSON.stringify({ ref: "main" }),
+        });
+        return json(
+          {
+            ok: true,
+            message:
+              "Match scorecard refresh queued. The workflow validates the generated archive and restores the previous verified data if refresh or validation fails.",
+          },
+          202,
+        );
+      }
       return json({ error: "Unsupported action." }, 400);
     } catch (error) {
       return json({ error: error.message }, 502);
