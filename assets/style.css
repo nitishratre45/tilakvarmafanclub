@@ -72,8 +72,11 @@ a {
 }
 nav {
   display: flex;
-  gap: 34px;
-  font-size: 12px;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  gap: clamp(8px, 1.1vw, 16px);
+  font-size: clamp(10px, 0.82vw, 12px);
   color: #c6d0df;
 }
 nav a:hover,
