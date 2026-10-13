@@ -105,34 +105,105 @@
     <main class="matches-main">
       <section id="innings" class="section innings-section">
         <div class="section-heading">
-          <div><div class="eyebrow">MATCH CENTRE · TILAK VARMA</div><h2>THE <em>MATCHES</em></h2></div>
-          <p>Upcoming fixtures and complete verified scorecards for matches in which Tilak Varma played.</p>
+          <div>
+            <div class="eyebrow">MATCH CENTRE · TILAK VARMA</div>
+            <h2>THE <em>MATCHES</em></h2>
+          </div>
+          <p>
+            Upcoming fixtures and complete verified scorecards for matches in which Tilak Varma
+            played.
+          </p>
         </div>
         <div class="match-centre-controls" role="tablist" aria-label="Match type">
           <div class="match-centre-tabs">
-            <button class="match-centre-tab is-active" id="match-tab-upcoming" type="button" role="tab" data-match-tab="upcoming" aria-selected="true" aria-controls="match-upcoming-panel"><span class="tab-mark" aria-hidden="true">◷</span> Upcoming Match</button>
-            <button class="match-centre-tab" id="match-tab-complete" type="button" role="tab" data-match-tab="complete" aria-selected="false" aria-controls="match-complete-panel"><span class="tab-mark" aria-hidden="true">▤</span> Complete Match</button>
+            <button
+              class="match-centre-tab is-active"
+              id="match-tab-upcoming"
+              type="button"
+              role="tab"
+              data-match-tab="upcoming"
+              aria-selected="true"
+              aria-controls="match-upcoming-panel"
+            >
+              <span class="tab-mark" aria-hidden="true">◷</span> Upcoming Match
+            </button>
+            <button
+              class="match-centre-tab"
+              id="match-tab-complete"
+              type="button"
+              role="tab"
+              data-match-tab="complete"
+              aria-selected="false"
+              aria-controls="match-complete-panel"
+            >
+              <span class="tab-mark" aria-hidden="true">▤</span> Complete Match
+            </button>
           </div>
           <span class="match-centre-controls-note">Upcoming is selected by default</span>
         </div>
-        <div id="match-upcoming-panel" class="match-centre-panel" role="tabpanel" aria-labelledby="match-tab-upcoming">
+        <div
+          id="match-upcoming-panel"
+          class="match-centre-panel"
+          role="tabpanel"
+          aria-labelledby="match-tab-upcoming"
+        >
           <div class="upcoming-matches-panel" aria-labelledby="upcoming-matches-title">
             <div class="upcoming-matches-heading">
-              <div><div class="eyebrow">FROM NEWS JSON</div><h3 id="upcoming-matches-title">UPCOMING <em>MATCHES</em></h3><p>Fixtures are loaded from the existing News JSON refresh pipeline.</p></div>
-              <a class="button outline" id="upcoming-team-announcement-link" href="/news/">Latest News ↗</a>
+              <div>
+                <div class="eyebrow">FROM NEWS JSON</div>
+                <h3 id="upcoming-matches-title">UPCOMING <em>MATCHES</em></h3>
+                <p>Fixtures are loaded from the existing News JSON refresh pipeline.</p>
+              </div>
+              <a class="button outline" id="upcoming-team-announcement-link" href="/news/"
+                >Latest News ↗</a
+              >
             </div>
-            <div id="upcoming-matches-list" class="upcoming-matches-grid" aria-live="polite"><p class="activity-empty">Loading upcoming fixtures from News JSON…</p></div>
-            <p class="upcoming-matches-foot" id="upcoming-matches-updated">Using the latest saved News JSON fixture snapshot.</p>
+            <div id="upcoming-matches-list" class="upcoming-matches-grid" aria-live="polite">
+              <p class="activity-empty">Loading upcoming fixtures from News JSON…</p>
+            </div>
+            <p class="upcoming-matches-foot" id="upcoming-matches-updated">
+              Using the latest saved News JSON fixture snapshot.
+            </p>
           </div>
         </div>
-        <div id="match-complete-panel" class="match-centre-panel" role="tabpanel" aria-labelledby="match-tab-complete" hidden>
+        <div
+          id="match-complete-panel"
+          class="match-centre-panel"
+          role="tabpanel"
+          aria-labelledby="match-tab-complete"
+          hidden
+        >
           <div class="complete-match-tools">
-            <label class="match-search-wrap"><span class="sr-only">Search completed matches</span><input id="match-search" type="search" placeholder="Search team, venue, season…" autocomplete="off" /></label>
-            <label><span class="sr-only">Filter by format</span><select id="match-format-filter"><option value="All">All formats</option><option value="T20I">T20 International</option><option value="ODI">ODI</option><option value="Test">Test</option><option value="T20">T20 / IPL</option><option value="List A">List A / domestic ODI</option><option value="First-class">First-class / multi-day</option></select></label>
+            <label class="match-search-wrap"
+              ><span class="sr-only">Search completed matches</span
+              ><input
+                id="match-search"
+                type="search"
+                placeholder="Search team, venue, season…"
+                autocomplete="off"
+            /></label>
+            <label
+              ><span class="sr-only">Filter by format</span
+              ><select id="match-format-filter">
+                <option value="All">All formats</option>
+                <option value="T20I">T20 International</option>
+                <option value="ODI">ODI</option>
+                <option value="Test">Test</option>
+                <option value="T20">T20 / IPL</option>
+                <option value="List A">List A / domestic ODI</option>
+                <option value="First-class">First-class / multi-day</option>
+              </select></label
+            >
             <span class="scorecard-count" id="scorecard-count">Loading matches…</span>
           </div>
-          <div id="complete-matches-list" class="complete-match-grid" aria-live="polite"><div class="match-empty"><strong>Loading complete matches…</strong><span>Full scorecards and ball-by-ball data are being loaded.</span></div></div>
-          <p id="scorecard-source-note">Only verified source data will be shown.</p><p id="scorecard-updated" class="upcoming-matches-foot">Waiting for scorecard data…</p>
+          <div id="complete-matches-list" class="complete-match-grid" aria-live="polite">
+            <div class="match-empty">
+              <strong>Loading complete matches…</strong
+              ><span>Full scorecards and ball-by-ball data are being loaded.</span>
+            </div>
+          </div>
+          <p id="scorecard-source-note">Only verified source data will be shown.</p>
+          <p id="scorecard-updated" class="upcoming-matches-foot">Waiting for scorecard data…</p>
         </div>
       </section>
     </main>
