@@ -87,6 +87,14 @@ async function main() {
   fs.writeFileSync(REPORT_FILE, `${JSON.stringify(report, null, 2)}\n`);
   console.log(`Photo URL health report: ${report.totalExternalUrls} unique external URLs checked.`);
   console.log(JSON.stringify(report.counts));
+  const unexpected = report.results.filter((item) =>
+    ["network_error", "timeout"].includes(item.status),
+  );
+  if (unexpected.length) {
+    console.warn(
+      `External URL checks encountered ${unexpected.length} network/timeout result(s); metadata was preserved and the report is available as an artifact.`,
+    );
+  }
   console.log("No photo metadata was modified.");
 }
 
