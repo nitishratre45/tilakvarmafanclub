@@ -115,7 +115,6 @@
         <a href="#profile">Home</a><a href="/stats/">Stats</a><a href="#death-overs">Death-overs</a
         ><a href="#innings">Matches</a><a href="#records">Records</a><a href="#news">News</a
         ><a href="#tv-gallery-hub">Photos</a><a href="#tilak-videos">Videos</a
-        ><a href="#fan-zone">Fan Zone</a>
       </nav>
     </header>
     <main>
@@ -716,142 +715,6 @@
           separately; missing values are not guessed.
         </p>
       </section>
-      <section id="fan-zone" class="section fan-zone-section">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">FAN ZONE</div>
-            <h2>YOUR PICK. <em>YOUR PLAYER</em></h2>
-          </div>
-          <p>Take the fan poll, try a quick Tilak quiz, and follow official team updates.</p>
-        </div>
-        <div class="fan-zone-grid">
-          <article class="fan-card">
-            <div class="feature-eyebrow">COMMUNITY POLL</div>
-            <h3 id="poll-question">Loading poll…</h3>
-            <form id="fan-poll-form">
-              <div id="poll-options" class="poll-options"></div>
-              <button class="button primary" type="submit">CAST MY VOTE ↗</button>
-            </form>
-            <div id="poll-results" class="poll-results" aria-live="polite"></div>
-            <p class="feature-note">
-              Votes are saved only in this browser. This is not a site-wide live tally.
-            </p>
-          </article>
-          <article class="fan-card fan-quiz-card">
-            <div class="feature-eyebrow">QUICK FAN QUIZ</div>
-            <h3 id="quiz-question">Quick Tilak quiz</h3>
-            <form id="fan-quiz-form">
-              <div id="quiz-options" class="poll-options"></div>
-              <button class="button primary" type="submit">CHECK ANSWER ↗</button>
-            </form>
-            <p id="quiz-feedback" class="quiz-feedback" aria-live="polite">
-              One question at a time. Play for fun.
-            </p>
-            <small id="fan-zone-updated" class="fan-zone-updated"
-              >Fan Zone data checked when the page loads.</small
-            >
-          </article>
-          <article class="fan-card fan-club-card">
-            <div class="feature-eyebrow">YOUR 72 CLUB ID</div>
-            <h3>Make your <em>fan badge</em></h3>
-            <form id="fan-badge-form" class="fan-tool-form">
-              <label for="fan-nickname">Your fan name</label>
-              <input
-                id="fan-nickname"
-                maxlength="22"
-                placeholder="e.g. 72 Army"
-                autocomplete="nickname"
-              />
-              <label for="fan-favourite-format">Favourite format</label>
-              <select id="fan-favourite-format">
-                <option>T20 International</option>
-                <option>IPL</option>
-                <option>ODI</option>
-                <option>Domestic cricket</option>
-              </select>
-              <button class="button primary" type="submit">CREATE MY BADGE ↗</button>
-            </form>
-            <div id="fan-badge-preview" class="fan-badge-preview" aria-live="polite">
-              <span>THE 72 CLUB</span><strong>YOUR NAME</strong
-              ><small>FAN MEMBER · JERSEY 72</small>
-            </div>
-            <button class="button outline fan-secondary-button" id="fan-badge-copy" type="button">
-              COPY BADGE TEXT
-            </button>
-          </article>
-          <article class="fan-card fan-club-card">
-            <div class="feature-eyebrow">MATCHDAY RITUAL</div>
-            <h3>Show up for <em>the 72</em></h3>
-            <p class="fan-card-intro">
-              Your personal matchday checklist. Tick it off whenever you want—progress stays on this
-              device.
-            </p>
-            <div id="fan-ritual-list" class="fan-ritual-list">
-              <label
-                ><input type="checkbox" data-ritual="jersey" /> Wear your favourite cricket
-                jersey</label
-              >
-              <label><input type="checkbox" data-ritual="cheer" /> Get your 72 cheer ready</label>
-              <label
-                ><input type="checkbox" data-ritual="respect" /> Back the team, respect every
-                player</label
-              >
-              <label
-                ><input type="checkbox" data-ritual="memory" /> Save a favourite Tilak moment</label
-              >
-            </div>
-            <div class="fan-ritual-progress">
-              <span id="fan-ritual-progress-text">0 of 4 completed</span>
-              <div class="poll-track"><i id="fan-ritual-progress-bar" style="width: 0%"></i></div>
-            </div>
-            <button class="button outline fan-secondary-button" id="fan-ritual-reset" type="button">
-              RESET CHECKLIST ↻
-            </button>
-          </article>
-          <article class="fan-card fan-club-card">
-            <div class="feature-eyebrow">MY TILAK MOMENT</div>
-            <h3>Save your <em>fan memory</em></h3>
-            <p class="fan-card-intro">
-              Write down the innings, shot or moment that made you a Tilak fan. This journal is
-              private to this browser.
-            </p>
-            <form id="fan-memory-form" class="fan-tool-form">
-              <label for="fan-memory-title">Memory title</label>
-              <input
-                id="fan-memory-title"
-                maxlength="60"
-                placeholder="That unforgettable innings…"
-                required
-              />
-              <label for="fan-memory-note">Your memory</label>
-              <textarea
-                id="fan-memory-note"
-                rows="3"
-                maxlength="600"
-                placeholder="What do you remember most?"
-                required
-              ></textarea>
-              <button class="button primary" type="submit">SAVE MEMORY ↗</button>
-            </form>
-            <div id="fan-memory-saved" class="fan-memory-saved" aria-live="polite">
-              No saved memory yet.
-            </div>
-            <a
-              class="button outline fan-secondary-button"
-              href="https://www.icc-cricket.com/rankings/70761/tilak-varma"
-              target="_blank"
-              rel="noopener noreferrer"
-              >OPEN ICC PROFILE ↗</a
-            >
-            <p id="fan-zone-action-status" class="fan-action-status" aria-live="polite"></p>
-          </article>
-        </div>
-        <p class="fan-zone-privacy">
-          Polls, badge details, checklist and fan memories are stored locally in your browser. They
-          are not public or shared across visitors.
-        </p>
-      </section>
-
       <section id="news" class="section tv-news-section" aria-label="Tilak Varma news">
         <div class="tv-news-heading">
           <div>
@@ -1116,7 +979,6 @@
     <script src="assets/career-formats.js?v=20261011-careerfullstats2"></script>
     <script src="assets/features.js?v=20261012-india-time1"></script>
 
-    <script src="assets/fan-zone-plus.js?v=20261010-fanzone3"></script>
 
     <script src="assets/upgrade.js"></script>
     <script src="assets/gallery.js?v=20261012-india-time1"></script>
