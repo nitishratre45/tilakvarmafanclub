@@ -123,8 +123,8 @@ check("gallery handles externally hosted photo previews that fail to load", asyn
   await page.route("https://media.gettyimages.com/**", (route) => route.abort());
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   assert.equal(await page.locator("#tv-gallery-hub").count(), 0, "Homepage must not embed Photos section");
-  await page.locator('#main-nav a[href="/photos/"]').click();
-  await page.waitForURL(url => url.pathname === "/photos/");
+  await page.locator('#main-nav a[href="/photos/index.html"]').click();
+  await page.waitForURL(url => url.pathname === "/photos/index.html");
   const album = page.locator(".tv-album-card").filter({ hasText: "ASIAN GAMES 2026 FINAL" });
   await album.waitFor();
   await album.click();
@@ -167,8 +167,8 @@ check("mobile photo gallery shows ten albums at a time and filters by year/month
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   const menu = page.locator(".menu-toggle");
   if (await menu.isVisible()) await menu.click();
-  await page.locator('#main-nav a[href="/photos/"]').click();
-  await page.waitForURL(url => url.pathname === "/photos/");
+  await page.locator('#main-nav a[href="/photos/index.html"]').click();
+  await page.waitForURL(url => url.pathname === "/photos/index.html");
   await page.locator(".tv-gallery-year").waitFor();
   const geometry = await page.evaluate(() => {
     const rect = (selector) => {
@@ -270,8 +270,8 @@ check("photo album cover uses the newest photo in that album", async () => {
   }));
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   assert.equal(await page.locator("#tv-gallery-hub").count(), 0, "Homepage must not embed Photos section");
-  await page.locator('#main-nav a[href="/photos/"]').click();
-  await page.waitForURL(url => url.pathname === "/photos/");
+  await page.locator('#main-nav a[href="/photos/index.html"]').click();
+  await page.waitForURL(url => url.pathname === "/photos/index.html");
   const album = page.locator(".tv-album-card").filter({ hasText: "Sort Order Test" });
   await album.waitFor();
   assert.match(await album.locator("img").getAttribute("src"), /newest\.jpg$/, "Album cover should use the newest photo");
