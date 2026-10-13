@@ -290,15 +290,15 @@
 
 /* Premium scorecard readability: broadcast-style innings and accessible tables */
 .scorecard-page .scorecard-shell {
-  border-color: rgba(117, 190, 255, .22);
+  border-color: rgba(117, 190, 255, 0.22);
   background:
-    radial-gradient(ellipse at 100% 0%, rgba(255, 139, 100, .07), transparent 34%),
-    radial-gradient(ellipse at 0% 0%, rgba(11, 95, 196, .22), transparent 42%),
-    linear-gradient(145deg, rgba(18, 32, 52, .99), rgba(6, 14, 26, .99));
+    radial-gradient(ellipse at 100% 0%, rgba(255, 139, 100, 0.07), transparent 34%),
+    radial-gradient(ellipse at 0% 0%, rgba(11, 95, 196, 0.22), transparent 42%),
+    linear-gradient(145deg, rgba(18, 32, 52, 0.99), rgba(6, 14, 26, 0.99));
 }
 .scorecard-page .scorecard-innings {
-  border-color: rgba(117, 190, 255, .18);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, .12);
+  border-color: rgba(117, 190, 255, 0.18);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
 }
 .scorecard-page .scorecard-innings-heading {
   align-items: center;
@@ -310,11 +310,11 @@
 .scorecard-page .scorecard-innings-heading > strong {
   color: #f4f8ff;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -.035em;
+  letter-spacing: -0.035em;
 }
 .scorecard-page .scorecard-table-scroll {
   scrollbar-width: thin;
-  scrollbar-color: rgba(117, 227, 255, .35) transparent;
+  scrollbar-color: rgba(117, 227, 255, 0.35) transparent;
   overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
 }
@@ -332,7 +332,7 @@
   font-weight: 750;
 }
 .scorecard-page .scorecard-table tbody tr {
-  transition: background-color .16s ease;
+  transition: background-color 0.16s ease;
 }
 .scorecard-page .scorecard-deliveries {
   overflow: hidden;
@@ -350,13 +350,20 @@
   outline-offset: 3px;
 }
 @media (max-width: 600px) {
-  .scorecard-page .scorecard-detail-head h1 { text-wrap: balance; }
-  .scorecard-page .scorecard-innings-heading { gap: 8px; }
+  .scorecard-page .scorecard-detail-head h1 {
+    text-wrap: balance;
+  }
+  .scorecard-page .scorecard-innings-heading {
+    gap: 8px;
+  }
   .scorecard-page .scorecard-table th,
-  .scorecard-page .scorecard-table td { padding: 10px 11px; }
+  .scorecard-page .scorecard-table td {
+    padding: 10px 11px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .scorecard-page .scorecard-table tbody tr,
-  .scorecard-page .scorecard-back { transition: none !important; }
+  .scorecard-page .scorecard-back {
+    transition: none !important;
+  }
 }
-

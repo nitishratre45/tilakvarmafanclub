@@ -447,10 +447,10 @@
 .complete-matches-page .complete-match-card {
   position: relative;
   isolation: isolate;
-  border-color: rgba(140, 195, 245, .18);
+  border-color: rgba(140, 195, 245, 0.18);
   background:
-    radial-gradient(ellipse at 100% 0%, rgba(255, 139, 100, .07), transparent 38%),
-    linear-gradient(145deg, rgba(17, 34, 56, .98), rgba(6, 16, 29, .99));
+    radial-gradient(ellipse at 100% 0%, rgba(255, 139, 100, 0.07), transparent 38%),
+    linear-gradient(145deg, rgba(17, 34, 56, 0.98), rgba(6, 16, 29, 0.99));
 }
 .complete-matches-page .complete-match-card::before {
   content: "";
@@ -458,7 +458,7 @@
   inset: 0 auto 0 0;
   width: 3px;
   background: linear-gradient(180deg, #75e3ff, #ff9876);
-  opacity: .75;
+  opacity: 0.75;
   pointer-events: none;
 }
 .complete-matches-page .complete-team-side > span:last-child {
@@ -468,12 +468,12 @@
 }
 .complete-matches-page .complete-versus {
   padding: 5px 7px;
-  border: 1px solid rgba(255, 152, 118, .2);
+  border: 1px solid rgba(255, 152, 118, 0.2);
   border-radius: 8px;
-  background: rgba(255, 152, 118, .07);
+  background: rgba(255, 152, 118, 0.07);
 }
 .complete-matches-page .complete-match-bottom {
-  border-top: 1px solid rgba(169, 194, 229, .1);
+  border-top: 1px solid rgba(169, 194, 229, 0.1);
 }
 .complete-matches-page .scorecard-open:focus-visible,
 .complete-matches-page .complete-back-link:focus-visible {
@@ -481,12 +481,17 @@
   outline-offset: 3px;
 }
 @media (max-width: 480px) {
-  .complete-matches-page .complete-team-side > span:last-child { font-size: 12px; }
-  .complete-matches-page .complete-match-bottom { padding-top: 12px; }
+  .complete-matches-page .complete-team-side > span:last-child {
+    font-size: 12px;
+  }
+  .complete-matches-page .complete-match-bottom {
+    padding-top: 12px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .complete-matches-page .complete-match-card,
   .complete-matches-page .scorecard-open,
-  .complete-matches-page .complete-back-link { transition: none !important; }
+  .complete-matches-page .complete-back-link {
+    transition: none !important;
+  }
 }
-
