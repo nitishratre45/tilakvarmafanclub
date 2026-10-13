@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b5fc4">
+<meta name="description" content="Full cricket match scorecard with batting, bowling, extras, fall of wickets and ball-by-ball details.">
+<title>Match Scorecard | Tilak Varma Fan Club</title>
+<link rel="stylesheet" href="/matches/style.css?v=20261014-scorecard-page1">
+<link rel="stylesheet" href="/matches/premium-ui.css?v=20261014-scorecard-page1">
+<link rel="stylesheet" href="/matches/matches.css?v=20261014-scorecard-page1">
+<link rel="stylesheet" href="/matches/match-centre.css?v=20261014-scorecard-page1">
+<link rel="stylesheet" href="/matches/scorecards/scorecard-page.css?v=20261014-scorecard-page1">
+</head>
+<body class="matches-page scorecard-page">
+<header class="topbar">
+<a class="brand" href="/" aria-label="Home"><span class="brand-mark brand-mark-photo"><img data-tilak-logo src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" aria-hidden="true"></span><span>TILAK VARMA <small>FAN CLUB</small></span></a>
+<button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav"><span></span><span></span><span></span></button>
+<nav id="main-nav"><a href="/">Home</a><a href="/stats/">Stats</a><a href="/death-overs/">Death-overs</a><a href="/matches/" class="active" aria-current="page">Matches</a><a href="/records/">Records</a><a href="/news/">News</a><a href="/photos/">Photos</a><a href="/videos/">Videos</a></nav>
+</header>
+<main class="scorecard-page-main">
+<div class="scorecard-backbar"><a class="scorecard-back" href="/matches/">← Back to Complete Matches</a><span class="scorecard-page-status" id="scorecard-page-status" aria-live="polite">Loading verified scorecard…</span></div>
+<section class="scorecard-shell" id="scorecard-content"><div class="match-empty"><strong>Loading scorecard…</strong><span>Batting, bowling and innings details are loading from the saved match JSON.</span></div></section>
+</main>
+<footer><a class="brand" href="/"><span class="brand-mark brand-mark-photo"><img data-tilak-logo src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" aria-hidden="true"></span><span>TILAK VARMA <small>FAN CLUB</small></span></a><span> · <span id="year"></span></span><span>RESPECT THE GAME. BACK THE PLAYER.</span></footer>
+<script src="/matches/theme.js?v=20261014-scorecard-page1"></script>
+<script src="/matches/scorecards/scorecard-page.js?v=20261014-scorecard-page1"></script>
+<script>(()=>{const menu=document.querySelector(".menu-toggle"),nav=document.getElementById("main-nav");if(menu&&nav)menu.addEventListener("click",()=>{const open=menu.getAttribute("aria-expanded")!=="true";menu.setAttribute("aria-expanded",String(open));nav.classList.toggle("open",open)});nav?.addEventListener("click",e=>{if(e.target.closest("a")){nav.classList.remove("open");menu?.setAttribute("aria-expanded","false")}});document.addEventListener("keydown",e=>{if(e.key==="Escape"&&nav?.classList.contains("open")){nav.classList.remove("open");menu?.setAttribute("aria-expanded","false");menu?.focus()}});const year=document.getElementById("year");if(year)year.textContent=new Date().getFullYear()})();</script>
+</body>
+</html>
