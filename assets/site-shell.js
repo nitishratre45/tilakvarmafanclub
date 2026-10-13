@@ -9,10 +9,10 @@
     { label: "Stats", href: "/stats/", path: "/stats", hash: "" },
     { label: "Death-overs", href: "/death-overs/", path: "/death-overs", hash: "" },
     { label: "Matches", href: "/matches/", path: "/matches", hash: "" },
-    { label: "Records", href: "/#records", path: "/", hash: "#records" },
-    { label: "News", href: "/#news", path: "/", hash: "#news" },
-    { label: "Photos", href: "/photos/index.html", path: "/photos", hash: "" },
-    { label: "Videos", href: "/#tilak-videos", path: "/", hash: "#tilak-videos" },
+    { label: "Records", href: "/records/", path: "/records", hash: "" },
+    { label: "News", href: "/news/", path: "/news", hash: "" },
+    { label: "Photos", href: "/photos/", path: "/photos", hash: "" },
+    { label: "Videos", href: "/videos/", path: "/videos", hash: "" },
   ];
 
   const header = document.createElement("header");
@@ -32,18 +32,11 @@
     nav.querySelectorAll("a").forEach((link, index) => {
       const item = items[index];
       let active = item.path === path;
-      if (item.path === "/") {
-        active =
-          path === "/" && (item.defaultHash ? !hash || hash === item.hash : hash === item.hash);
-        if (item.label === "News" && (path === "/News" || path === "/News-details")) active = true;
+      if (item.label === "Home") {
+        active = path === "/" && (!hash || hash === item.hash);
       }
-      if (
-        item.label === "Stats" ||
-        item.label === "Death-overs" ||
-        item.label === "Matches" ||
-        item.label === "Photos"
-      )
-        active = path === item.path || (item.label === "Photos" && path === "/photos/index.html");
+      if (item.label === "News" && (path === "/News" || path === "/News-details")) active = true;
+      if (item.label === "Photos" && path === "/photos/index.html") active = true;
       if (active) {
         link.setAttribute("aria-current", "page");
         link.classList.add("is-active");
@@ -78,16 +71,28 @@
   } else document.body.appendChild(footer);
 
   const toggle = header.querySelector(".site-shell-menu-toggle");
+  const closeMenu = () => {
+    nav.classList.remove("is-open");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open navigation");
+  };
   toggle.addEventListener("click", () => {
     const open = toggle.getAttribute("aria-expanded") !== "true";
     toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
     nav.classList.toggle("is-open", open);
   });
   nav.addEventListener("click", (event) => {
-    if (event.target.closest("a")) {
-      nav.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
-    }
+    if (event.target instanceof Element && event.target.closest("a")) closeMenu();
+  });
+  document.addEventListener("click", (event) => {
+    if (nav.classList.contains("is-open") && !nav.contains(event.target) && !toggle.contains(event.target)) closeMenu();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 800) closeMenu();
   });
   window.addEventListener("hashchange", updateActive);
   window.addEventListener("pageshow", updateActive);
