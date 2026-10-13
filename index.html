@@ -24,7 +24,6 @@
     />
     <title>Tilak Varma FC | The 72 Club</title>
     <link rel="stylesheet" href="assets/style.css?v=20261011-audit-pro1" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css" />
     <link rel="stylesheet" href="assets/premium-ui.css?v=20261011-audit-pro1" />
     <link rel="stylesheet" href="assets/site-refinement.css?v=20261013-navbar-motion1" />
     <link rel="stylesheet" href="assets/admin-inspired-ui.css?v=20261011-admin-theme1" />
@@ -109,8 +108,8 @@
       </button>
       <nav id="main-nav">
         <a href="#profile">Home</a><a href="/stats/">Stats</a><a href="/death-overs/">Death-overs</a
-        ><a href="/matches/">Matches</a><a href="#records">Records</a><a href="#news">News</a
-        ><a href="/photos/index.html">Photos</a><a href="#tilak-videos">Videos</a>
+        ><a href="/matches/">Matches</a><a href="/records/">Records</a><a href="/news/">News</a
+        ><a href="/photos/index.html">Photos</a><a href="/videos/">Videos</a>
       </nav>
     </header>
     <main>
@@ -150,7 +149,7 @@
             <a class="button primary" href="/stats/"
               >Explore career stats <span aria-hidden="true">↗</span></a
             >
-            <a class="button primary" href="#tilak-videos"
+            <a class="button primary" href="/videos/"
               >Videos <span aria-hidden="true">↗</span></a
             >
           </div>
@@ -269,184 +268,6 @@
         </div>
       </section>
 
-      <section id="records" class="section records-section">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">RECORDS & MILESTONES</div>
-            <h2>CHASE THE <em>NEXT ONE</em></h2>
-          </div>
-          <p>
-            Milestone progress is calculated from the latest stored career snapshot. These are
-            arithmetic targets, not predictions.
-          </p>
-        </div>
-        <div class="official-records-head">
-          <div>
-            <div class="eyebrow">RECORD BOOK</div>
-            <h3>ON THE <em>RECORD BOOKS</em></h3>
-          </div>
-          <span id="icc-records-updated">Checking official records…</span>
-        </div>
-        <div id="icc-record-highlights" class="official-records-grid">
-          <p class="activity-empty">Loading ICC record highlights…</p>
-        </div>
-        <div id="milestone-grid" class="milestone-grid">
-          <div class="activity-empty">Loading career data…</div>
-        </div>
-        <div class="analytics-head">
-          <div>
-            <div class="eyebrow">PERFORMANCE ANALYTICS</div>
-            <h3>RECENT INNINGS <em>AT A GLANCE</em></h3>
-          </div>
-          <span id="analytics-count">Waiting for data</span>
-        </div>
-        <div id="analytics-grid" class="analytics-grid"></div>
-        <div id="analytics-chart" class="analytics-chart"></div>
-        <p class="feature-note">
-          Analytics use listed innings only. Not-out, DNB and incomplete scorecard rows are handled
-          separately; missing values are not guessed.
-        </p>
-      </section>
-      <section id="news" class="section tv-news-section" aria-label="Tilak Varma news">
-        <div class="tv-news-heading">
-          <div>
-            <div class="tv-news-eyebrow">THE 72 CLUB · NEWS DESK</div>
-            <h2>TILAK <em>IN THE NEWS</em></h2>
-            <p>Tilak Varma stories verified from the official BCCI News..</p>
-          </div>
-          <span class="tv-news-count" id="tv-news-count">SAVED STORIES</span>
-        </div>
-        <div class="tv-news-grid" id="tv-news-grid">
-          <p class="tv-news-status">Loading saved Tilak Varma news…</p>
-        </div>
-        <div class="tv-news-more-wrap">
-          <button type="button" id="tv-news-more" class="tv-news-more" hidden>More news ↓</button>
-        </div>
-        <p class="tv-news-foot" id="tv-news-updated"></p>
-      </section>
-
-      <section id="tilak-videos" class="section tilak-videos-section">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">OFFICIAL BCCI VIDEO FEED</div>
-            <h2>TILAK <em>VIDEO HUB</em></h2>
-          </div>
-          <p>
-            Official BCCI thumbnails and playback links. Feed refreshes nightly at 12:00 AM IST.
-          </p>
-        </div>
-        <div class="bcci-video-controls">
-          <label
-            >Year
-            <select id="bcci-video-year">
-              <option value="all">All years</option>
-            </select></label
-          >
-          <label
-            >Format
-            <select id="bcci-video-format">
-              <option value="all">All formats</option>
-              <option value="T20I">T20I</option>
-              <option value="ODI">ODI</option>
-              <option value="Test">Test</option>
-              <option value="International">International / other</option>
-            </select></label
-          >
-          <label
-            >Thumbnail
-            <select id="bcci-thumb-quality">
-              <option value="small">Small · 384px</option>
-              <option value="medium">Medium · 720px</option>
-              <option value="large" selected>Large · 960px</option>
-              <option value="xlarge">XL · 1280px</option>
-            </select></label
-          >
-        </div>
-        <p id="bcci-video-status" class="bcci-video-status" aria-live="polite">
-          Loading official BCCI videos…
-        </p>
-        <div id="bcci-video-grid" class="bcci-video-grid" aria-live="polite"></div>
-        <p class="bcci-video-attribution">
-          SOURCE: BCCI.TV · Videos are played from official playback URLs; no video files are
-          re-hosted.
-        </p>
-        <div id="bcci-video-player-modal" class="bcci-video-modal" hidden>
-          <div class="bcci-video-backdrop" data-bcci-close></div>
-          <div
-            class="bcci-video-panel"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Tilak Varma video player"
-          >
-            <div class="bcci-video-player-head">
-              <span class="bcci-player-brand"
-                ><span class="bcci-player-brand-mark">72</span> TILAK VARMA · VIDEO HUB</span
-              >
-              <div class="bcci-player-head-actions">
-                <button
-                  type="button"
-                  class="bcci-quality-head-button"
-                  id="bcci-player-settings-button"
-                  aria-label="Playback quality settings"
-                  aria-expanded="false"
-                  aria-controls="bcci-player-settings-menu"
-                  title="Playback quality"
-                >
-                  <span>Quality</span
-                  ><span id="bcci-quality-current" class="bcci-quality-current">Auto</span>
-                </button>
-                <div class="bcci-player-settings-menu" id="bcci-player-settings-menu" hidden>
-                  <label for="bcci-playback-quality"
-                    >Quality
-                    <select id="bcci-playback-quality">
-                      <option value="auto">Auto</option>
-                      <option value="1080">1080p</option>
-                      <option value="720">720p</option>
-                      <option value="480">480p</option>
-                      <option value="360">360p</option>
-                    </select>
-                  </label>
-                  <span id="bcci-player-error" role="status"
-                    >Choose a video to start playback.</span
-                  >
-                </div>
-                <button type="button" data-bcci-close aria-label="Close video">✕</button>
-              </div>
-            </div>
-            <div class="bcci-player-page-content">
-              <div class="bcci-player-main">
-                <div class="bcci-player-screen">
-                  <video
-                    id="bcci-shaka-player"
-                    controls
-                    playsinline
-                    autoplay
-                    preload="metadata"
-                  ></video>
-                </div>
-                <div class="bcci-player-title-block">
-                  <h2 id="bcci-playing-title">Tilak Varma · Official BCCI Video</h2>
-                  <div class="bcci-player-title-meta">
-                    <button type="button" id="bcci-share-video" class="bcci-share-video">
-                      ↗ Share
-                    </button>
-                    <span id="bcci-playing-date">Official BCCI video</span>
-                  </div>
-                </div>
-              </div>
-              <aside class="bcci-up-next-panel" aria-label="Up next Tilak Varma videos">
-                <div class="bcci-up-next-heading">
-                  <h3>Up Next</h3>
-                  <span>ONLY TILAK VARMA</span>
-                </div>
-                <div id="bcci-up-next-list" class="bcci-up-next-list">
-                  <p class="activity-empty">Loading Tilak Varma videos…</p>
-                </div>
-              </aside>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
     <footer>
       <a class="brand" href="#"
@@ -479,13 +300,9 @@
 
     <script src="assets/upgrade.js"></script>
     <script src="assets/home-snapshot.js?v=20261012-match-dedupe1"></script>
-    <script src="News/news-section.js?v=20261012-manual-news2"></script>
     <script src="assets/section-tabs.js?v=20261013-dedicated-route-guard1"></script>
     <script src="assets/custom-selects.js?v=20261011-native-touch-fallback1"></script>
     <script src="assets/theme.js?v=20261014"></script>
-    <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.12.6/dist/shaka-player.compiled.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.js"></script>
-    <script src="assets/bcci-videos.js?v=20261012-india-time1"></script>
 
     <script>
       if ("serviceWorker" in navigator) {

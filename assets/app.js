@@ -42,17 +42,13 @@
   set("year", new Date().getFullYear());
   const menuButton = $(".menu-toggle"),
     nav = $("#main-nav");
+  const closeMenu = () => { nav?.classList.remove("open"); menuButton?.setAttribute("aria-expanded", "false"); document.body.classList.remove("mobile-menu-open"); };
   menuButton?.setAttribute("aria-expanded", "false");
-  menuButton?.addEventListener("click", () => {
-    const open = nav?.classList.toggle("open") || false;
-    menuButton.setAttribute("aria-expanded", String(open));
-  });
-  nav?.querySelectorAll("a").forEach((link) =>
-    link.addEventListener("click", () => {
-      nav.classList.remove("open");
-      menuButton?.setAttribute("aria-expanded", "false");
-    }),
-  );
+  menuButton?.addEventListener("click", () => { const open = !nav?.classList.contains("open"); nav?.classList.toggle("open", open); menuButton.setAttribute("aria-expanded", String(open)); document.body.classList.toggle("mobile-menu-open", open); });
+  nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeMenu(); });
+  document.addEventListener("click", (event) => { if (nav?.classList.contains("open") && !nav.contains(event.target) && !menuButton?.contains(event.target)) closeMenu(); });
+  window.addEventListener("resize", () => { if (window.innerWidth > 800) closeMenu(); });
   try {
     const data = await window.TilakSiteData.load();
     const stats = data.careerStats || {};

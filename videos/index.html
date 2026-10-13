@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070b14"><meta name="description" content="Official Tilak Varma video hub with playback, year and format filters."><title>Tilak Varma Videos | Fan Club</title><link rel="manifest" href="/manifest.json"><link rel="stylesheet" href="/assets/style.css?v=20261013-modular1"><link rel="stylesheet" href="/assets/premium-ui.css?v=20261013-modular1"><link rel="stylesheet" href="/assets/site-refinement.css?v=20261013-mobile-menu1"><link rel="stylesheet" href="/videos/videos.css?v=20261013-modular1"></head>
+<body><header class="topbar"><a class="brand" href="/" aria-label="Tilak Varma Fan Club home"><span class="brand-mark">72</span><span>TILAK VARMA <small>FAN CLUB</small></span></a><button class="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">☰</button><nav id="main-nav" aria-label="Main navigation"><a href="/">Home</a><a href="/stats/">Stats</a><a href="/death-overs/">Death-overs</a><a href="/matches/">Matches</a><a href="/records/">Records</a><a href="/news/">News</a><a href="/photos/">Photos</a><a href="/videos/">Videos</a></nav></header><main><section id="tilak-videos" class="section tilak-videos-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">OFFICIAL BCCI VIDEO FEED</div>
+            <h2>TILAK <em>VIDEO HUB</em></h2>
+          </div>
+          <p>
+            Official BCCI thumbnails and playback links. Feed refreshes nightly at 12:00 AM IST.
+          </p>
+        </div>
+        <div class="bcci-video-controls">
+          <label
+            >Year
+            <select id="bcci-video-year">
+              <option value="all">All years</option>
+            </select></label
+          >
+          <label
+            >Format
+            <select id="bcci-video-format">
+              <option value="all">All formats</option>
+              <option value="T20I">T20I</option>
+              <option value="ODI">ODI</option>
+              <option value="Test">Test</option>
+              <option value="International">International / other</option>
+            </select></label
+          >
+          <label
+            >Thumbnail
+            <select id="bcci-thumb-quality">
+              <option value="small">Small · 384px</option>
+              <option value="medium">Medium · 720px</option>
+              <option value="large" selected>Large · 960px</option>
+              <option value="xlarge">XL · 1280px</option>
+            </select></label
+          >
+        </div>
+        <p id="bcci-video-status" class="bcci-video-status" aria-live="polite">
+          Loading official BCCI videos…
+        </p>
+        <div id="bcci-video-grid" class="bcci-video-grid" aria-live="polite"></div>
+        <p class="bcci-video-attribution">
+          SOURCE: BCCI.TV · Videos are played from official playback URLs; no video files are
+          re-hosted.
+        </p>
+        <div id="bcci-video-player-modal" class="bcci-video-modal" hidden>
+          <div class="bcci-video-backdrop" data-bcci-close></div>
+          <div
+            class="bcci-video-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Tilak Varma video player"
+          >
+            <div class="bcci-video-player-head">
+              <span class="bcci-player-brand"
+                ><span class="bcci-player-brand-mark">72</span> TILAK VARMA · VIDEO HUB</span
+              >
+              <div class="bcci-player-head-actions">
+                <button
+                  type="button"
+                  class="bcci-quality-head-button"
+                  id="bcci-player-settings-button"
+                  aria-label="Playback quality settings"
+                  aria-expanded="false"
+                  aria-controls="bcci-player-settings-menu"
+                  title="Playback quality"
+                >
+                  <span>Quality</span
+                  ><span id="bcci-quality-current" class="bcci-quality-current">Auto</span>
+                </button>
+                <div class="bcci-player-settings-menu" id="bcci-player-settings-menu" hidden>
+                  <label for="bcci-playback-quality"
+                    >Quality
+                    <select id="bcci-playback-quality">
+                      <option value="auto">Auto</option>
+                      <option value="1080">1080p</option>
+                      <option value="720">720p</option>
+                      <option value="480">480p</option>
+                      <option value="360">360p</option>
+                    </select>
+                  </label>
+                  <span id="bcci-player-error" role="status"
+                    >Choose a video to start playback.</span
+                  >
+                </div>
+                <button type="button" data-bcci-close aria-label="Close video">✕</button>
+              </div>
+            </div>
+            <div class="bcci-player-page-content">
+              <div class="bcci-player-main">
+                <div class="bcci-player-screen">
+                  <video
+                    id="bcci-shaka-player"
+                    controls
+                    playsinline
+                    autoplay
+                    preload="metadata"
+                  ></video>
+                </div>
+                <div class="bcci-player-title-block">
+                  <h2 id="bcci-playing-title">Tilak Varma · Official BCCI Video</h2>
+                  <div class="bcci-player-title-meta">
+                    <button type="button" id="bcci-share-video" class="bcci-share-video">
+                      ↗ Share
+                    </button>
+                    <span id="bcci-playing-date">Official BCCI video</span>
+                  </div>
+                </div>
+              </div>
+              <aside class="bcci-up-next-panel" aria-label="Up next Tilak Varma videos">
+                <div class="bcci-up-next-heading">
+                  <h3>Up Next</h3>
+                  <span>ONLY TILAK VARMA</span>
+                </div>
+                <div id="bcci-up-next-list" class="bcci-up-next-list">
+                  <p class="activity-empty">Loading Tilak Varma videos…</p>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </section></main><footer><a href="/">TILAK VARMA FAN CLUB · 72</a><span>RESPECT THE GAME. BACK THE PLAYER.</span><a href="/" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Back to top ↑</a></footer><script src="/assets/site-data-store.js?v=20261013-modular1"></script><script src="/assets/app.js?v=20261013-mobile-menu1"></script><script src="https://cdn.jsdelivr.net/npm/shaka-player@4.12.6/dist/shaka-player.compiled.js"></script><script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.js"></script><script src="/videos/videos.js?v=20261013-modular1"></script></body></html>
