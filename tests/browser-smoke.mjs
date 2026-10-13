@@ -287,7 +287,7 @@ check("Matches folder loads upcoming fixtures and keeps match formats separate",
   await page.waitForURL(url => url.pathname === "/matches/");
   await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).first().waitFor();
   const rows = await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).evaluateAll(nodes =>
-    nodes.map(node => ({ text: node.innerText, format: node.cells[5]?.innerText }))
+    nodes.map(node => ({ text: node.innerText, format: node.cells[9]?.innerText }))
   );
   assert.equal(rows.length, 3, "T20I/T20 overlap should collapse, but FC and List A rows must remain: " + JSON.stringify(rows));
   assert.deepEqual(rows.map(row => row.format).sort(), ["FC", "List A", "T20I"]);
