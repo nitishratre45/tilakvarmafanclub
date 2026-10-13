@@ -29,7 +29,15 @@
     <link rel="stylesheet" href="assets/site-refinement.css?v=20261012-footer-polish1" />
     <link rel="stylesheet" href="assets/tv-gallery-hub.css?v=20261012-auto-grid2" />
     <link rel="stylesheet" href="assets/admin-inspired-ui.css?v=20261011-admin-theme1" />
-  </head>
+  
+<style id="site-blue-navbar">
+html body header.topbar { background: #0b5fc4 !important; background-color: #0b5fc4 !important; border-bottom: 1px solid rgba(255,255,255,.22) !important; box-shadow: 0 5px 18px rgba(0,30,90,.18) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+html body header.topbar nav { color: #fff !important; }
+html body header.topbar nav a { color: #fff !important; }
+html body header.topbar nav a:hover, html body header.topbar nav a:focus-visible, html body header.topbar nav a.active, html body header.topbar nav a[aria-current="page"] { color: #fff !important; background: rgba(255,255,255,.16) !important; }
+html body header.topbar .menu-toggle { color: #fff !important; }
+</style>
+</head>
   <body>
     <div
       class="tv-page-loader"
@@ -55,7 +63,7 @@
       <div class="tv-loader-track"><span></span></div>
     </div>
     <header class="topbar">
-      <a class="brand" href="#profile"
+      <a class="brand" href="#profile" aria-label="Home"
         ><span class="brand-mark brand-mark-photo"
           ><img
             data-tilak-logo
