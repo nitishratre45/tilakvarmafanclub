@@ -115,7 +115,7 @@
         <a href="#profile">Home</a><a href="/stats/">Stats</a><a href="#death-overs">Death-overs</a
         ><a href="#innings">Matches</a><a href="#records">Records</a><a href="#news">News</a
         ><a href="#tv-gallery-hub">Photos</a><a href="#tilak-videos">Videos</a
-        ><a href="#fan-zone">Fan Zone</a><a href="#settings">Settings</a>
+        ><a href="#fan-zone">Fan Zone</a>
       </nav>
     </header>
     <main>
@@ -1084,44 +1084,7 @@
           </div>
         </div>
       </section>
-      <section id="settings" class="section settings-section">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">PERSONALISE YOUR EXPERIENCE</div>
-            <h2>DISPLAY <em>SETTINGS</em></h2>
-          </div>
-          <p>
-            Choose how the whole website looks. Text, cards, tables, menus and controls adapt
-            together for readable contrast.
-          </p>
-        </div>
-        <div class="settings-card">
-          <div class="settings-card-copy">
-            <span class="settings-icon" aria-hidden="true">◐</span>
-            <div>
-              <h3>Appearance theme</h3>
-              <p>
-                Light for a bright page, Dark for the original cricket look, or System to follow
-                your device setting.
-              </p>
-            </div>
-          </div>
-          <div class="settings-theme-options" role="group" aria-label="Website appearance theme">
-            <button type="button" data-theme-choice="light" aria-pressed="false">
-              <span aria-hidden="true">☀</span><strong>Light</strong
-              ><small>Bright & clear</small></button
-            ><button type="button" data-theme-choice="dark" aria-pressed="false">
-              <span aria-hidden="true">☾</span><strong>Dark</strong
-              ><small>Night viewing</small></button
-            ><button type="button" data-theme-choice="system" aria-pressed="true">
-              <span aria-hidden="true">◉</span><strong>System</strong><small>Device setting</small>
-            </button>
-          </div>
-          <p class="settings-status" id="theme-status" aria-live="polite">
-            Theme preference is saved on this device.
-          </p>
-        </div>
-      </section>
+
     </main>
     <footer>
       <a class="brand" href="#"
@@ -1194,31 +1157,24 @@
     </script>
 
     <script id="mobile-profile-tabs">
-      (() => {
-        if (window.__mobileProfileTabsAdded) return;
-        const profile = document.querySelector("main > #profile.profile-section");
-        if (!profile) return;
-        window.__mobileProfileTabsAdded = true;
-        const tabs = document.createElement("nav");
-        tabs.className = "mobile-profile-tabs";
-        tabs.setAttribute("aria-label", "Player profile sections");
-        const items = [
-          ["Overview", "#profile"],
-          ["Stats", "/stats/"],
-          ["Records", "#records"],
-          ["Matches", "#innings"],
-          ["Videos", "#tilak-videos"],
-          ["News", "#news"],
-          ["Photos", "#tv-gallery-hub"],
-        ];
-        for (const [label, href] of items) {
-          const link = document.createElement("a");
-          link.textContent = label;
-          link.href = href;
-          tabs.appendChild(link);
-        }
-        profile.after(tabs);
-      })();
-    </script>
+(() => {
+  if (window.__mobileProfileTabsAdded) return;
+  const profile = document.querySelector('main > #profile.profile-section');
+  if (!profile) return;
+  window.__mobileProfileTabsAdded = true;
+  if ((window.location.pathname.replace(/\\/+$/, '') || '/') === '/') document.body.classList.add('home-profile-page');
+  const tabs = document.createElement('nav');
+  tabs.className = 'mobile-profile-tabs';
+  tabs.setAttribute('aria-label', 'Player profile sections');
+  const items = [['Overview','#profile'],['Stats','/stats/'],['Records','#records'],['Matches','#innings'],['Videos','#tilak-videos'],['News','#news'],['Photos','#tv-gallery-hub']];
+  for (const [label, href] of items) {
+    const link = document.createElement('a'); link.textContent = label; link.href = href;
+    if (label === 'Overview') link.setAttribute('aria-current','page');
+    tabs.appendChild(link);
+  }
+  const facts = profile.querySelector(':scope > .profile-data-grid');
+  if (facts) facts.before(tabs); else profile.appendChild(tabs);
+})();
+</script>
   </body>
 </html>
