@@ -56,7 +56,7 @@
       "retired out": "Retired out",
       obstructing: "Obstructing the field",
       "obstructing the field": "Obstructing the field",
-      dismissed: "Dismissed"
+      dismissed: "Dismissed",
     };
     return labels[value.toLowerCase()] || value.replace(/\b\w/g, (letter) => letter.toUpperCase());
   };
