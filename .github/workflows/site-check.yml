@@ -250,9 +250,16 @@ jobs:
           for script in ("/assets/site-data-store.js", "/matches/match-centre.js"):
               if script not in matches:
                   raise SystemExit(f"Matches page is missing required script: {script}")
-          required_mounts = ('id="match-upcoming-panel"', 'id="match-complete-panel"', 'id="upcoming-matches-list"', 'id="complete-matches-list"', 'id="match-tab-upcoming"', 'id="match-tab-complete"')
+          required_mounts = ('id="match-upcoming-panel"', 'id="upcoming-matches-list"', 'id="match-tab-upcoming"', 'id="match-tab-complete"', 'href="/matches/complete/"')
           if any(mount not in matches for mount in required_mounts):
-              raise SystemExit("Matches page is missing a Match Centre tab or data mount point")
+              raise SystemExit("Matches page is missing Upcoming mounts or the dedicated Complete Match route")
+          complete = Path("matches/complete/index.html").read_text(encoding="utf-8")
+          for asset in ("/matches/complete/complete.css", "/matches/complete/complete.js", "/matches/scorecards/"):
+              if asset not in complete:
+                  raise SystemExit("Dedicated Complete Match page is missing required asset/link: " + asset)
+          if 'id="complete-matches-list"' not in complete or 'id="match-complete-panel"' in matches:
+              raise SystemExit("Complete Match data mount must live only on matches/complete/index.html")
+          print("Validated isolated Upcoming and Complete Match pages.")
           home = Path("index.html").read_text(encoding="utf-8")
           if 'id="innings"' in home or 'id="upcoming-matches-list"' in home or 'id="player-matches-table"' in home:
               raise SystemExit("Match section should live only in matches/index.html")
