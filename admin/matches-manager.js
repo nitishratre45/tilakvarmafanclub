@@ -5,6 +5,7 @@
   const state = { fixtures: [], manual: [], sha: "", report: null, runs: [] };
   const esc = (v) => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const key = f => [f.date, f.match, f.opponent].map(x => String(x || "").trim().toLowerCase()).join("|");
+  const sourceKey = f => String(f.date || "") + "|" + String(f.match || "").trim().toLowerCase();
   const dateLabel = d => { const x = new Date(String(d || "") + "T12:00:00Z"); return Number.isNaN(x.getTime()) ? d : x.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"}); };
   const status = (message, error=false) => { const el=$("admin-matches-status"); if(el){el.textContent=message;el.classList.toggle("error",error);} };
   const formStatus = (message,error=false) => { const el=$("admin-fixture-status"); if(el){el.textContent=message;el.classList.toggle("error",error);} };
@@ -15,10 +16,10 @@
     return d;
   }
   function mergedFixtures() {
-    const map=new Map(state.manual.map(f=>[key(f),f]));
-    const rows=state.fixtures.map(f=>({...f,...(map.get(key(f))||{})}));
+    const map=new Map(state.manual.map(f=>[f.overrideKey || key(f),f]));
+    const rows=state.fixtures.map(f=>({...f,...(map.get(sourceKey(f))||map.get(key(f))||{})}));
     const keys=new Set(state.fixtures.map(key));
-    state.manual.forEach(f=>{if(!keys.has(key(f))) rows.push(f);});
+    state.manual.forEach(f=>{if(f.overrideKey) return; if(!keys.has(key(f))) rows.push(f);});
     return rows.sort((a,b)=>String(a.date).localeCompare(String(b.date)));
   }
   function renderFixtures() {
@@ -28,7 +29,7 @@
     $("admin-fixture-count").textContent=rows.length+" fixtures · "+state.manual.length+" manual corrections";
     if(!rows.length){host.innerHTML='<div class="empty">No fixtures found. Add one using the form above.</div>';return;}
     host.innerHTML=rows.map(f=>{
-      const manual=state.manual.some(m=>key(m)===key(f));
+      const manual=state.manual.some(m=>key(m)===key(f) || m.overrideKey===sourceKey(f));
       return '<article class="admin-match-card"><div class="admin-match-card-head"><span class="admin-match-date">'+esc(dateLabel(f.date))+'</span><span class="admin-match-format">'+(manual?'MANUAL / CORRECTED':'NEWS JSON')+'</span></div><div class="admin-match-teams"><strong>India</strong><span>VS</span><strong>'+esc(f.opponent)+'</strong></div><p class="admin-match-venue">'+esc(f.match)+' · '+esc(f.venue)+' · '+esc(f.time)+' IST</p><div class="actions"><button type="button" class="btn small" data-edit="'+esc(key(f))+'">Edit / correct</button>'+(manual?'<button type="button" class="btn small" data-remove="'+esc(key(f))+'">Remove manual correction</button>':'')+'</div></article>';
     }).join("");
     host.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>editFixture(mergedFixtures().find(f=>key(f)===b.dataset.edit))));
@@ -110,14 +111,9 @@
     const originalDate=$("admin-fixture-original-date").value;
     const originalMatch=$("admin-fixture-original-match").value;
     if(originalDate && originalMatch){
-      const old=mergedFixtures().find(f=>f.date===originalDate&&f.match===originalMatch);
-      if(old) state.manual=state.manual.filter(f=>key(f)!==key(old));
-      // Retain the source key so this record overrides the corresponding News JSON fixture.
-      fixture.date=originalDate;fixture.match=originalMatch;
-      const original=mergedFixtures().find(f=>f.date===originalDate&&f.match===originalMatch);
-      if(original) fixture.opponent=original.opponent;
-      // User-edited date/match/opponent becomes a replacement entry, with original source retained separately.
-      fixture.overrideKey=originalDate+"|"+originalMatch.toLowerCase();
+      const originalKey=originalDate+"|"+originalMatch.trim().toLowerCase();
+      state.manual=state.manual.filter(f=>(f.overrideKey || key(f))!==originalKey && key(f)!==key(fixture));
+      fixture.overrideKey=originalKey;
     }
     const dup=state.manual.some(f=>key(f)===key(fixture));
     if(dup) state.manual=state.manual.filter(f=>key(f)!==key(fixture));
