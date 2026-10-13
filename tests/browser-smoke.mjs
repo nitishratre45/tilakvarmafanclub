@@ -122,7 +122,9 @@ check("gallery handles externally hosted photo previews that fail to load", asyn
   page.setDefaultTimeout(10000);
   await page.route("https://media.gettyimages.com/**", (route) => route.abort());
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="#tv-gallery-hub"]').click();
+  assert.equal(await page.locator("#tv-gallery-hub").count(), 0, "Homepage must not embed Photos section");
+  await page.locator('#main-nav a[href="/photos/"]').click();
+  await page.waitForURL(url => url.pathname === "/photos/");
   const album = page.locator(".tv-album-card").filter({ hasText: "ASIAN GAMES 2026 FINAL" });
   await album.waitFor();
   await album.click();
@@ -165,7 +167,8 @@ check("mobile photo gallery shows ten albums at a time and filters by year/month
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   const menu = page.locator(".menu-toggle");
   if (await menu.isVisible()) await menu.click();
-  await page.locator('#main-nav a[href="#tv-gallery-hub"]').click();
+  await page.locator('#main-nav a[href="/photos/"]').click();
+  await page.waitForURL(url => url.pathname === "/photos/");
   await page.locator(".tv-gallery-year").waitFor();
   const geometry = await page.evaluate(() => {
     const rect = (selector) => {
@@ -266,7 +269,9 @@ check("photo album cover uses the newest photo in that album", async () => {
     body: JSON.stringify({ items, albums: ["Sort Order Test"], updatedAt: "2026-10-12T00:00:00.000Z" }),
   }));
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="#tv-gallery-hub"]').click();
+  assert.equal(await page.locator("#tv-gallery-hub").count(), 0, "Homepage must not embed Photos section");
+  await page.locator('#main-nav a[href="/photos/"]').click();
+  await page.waitForURL(url => url.pathname === "/photos/");
   const album = page.locator(".tv-album-card").filter({ hasText: "Sort Order Test" });
   await album.waitFor();
   assert.match(await album.locator("img").getAttribute("src"), /newest\.jpg$/, "Album cover should use the newest photo");
