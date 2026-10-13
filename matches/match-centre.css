@@ -1,0 +1,76 @@
+/* Premium Match Centre; shared navbar and menu remain untouched. */
+.match-centre-controls{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:22px 0 20px;padding:8px;border:1px solid var(--line,rgba(169,194,229,.16));border-radius:18px;background:rgba(12,23,39,.9);box-shadow:0 12px 34px rgba(0,0,0,.14)}
+.match-centre-tabs{display:flex;gap:8px;min-width:0}
+.match-centre-tab{display:flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 22px;border:1px solid transparent;border-radius:12px;background:transparent;color:var(--muted,#a3b0c4);font:inherit;font-weight:800;cursor:pointer;transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease}
+.match-centre-tab:hover{color:#fff;background:rgba(255,255,255,.045)}
+.match-centre-tab.is-active{color:#fff;background:linear-gradient(135deg,#0b5fc4,#104b93);border-color:rgba(117,190,255,.35);box-shadow:0 7px 18px rgba(11,95,196,.22)}
+.match-centre-tab .tab-mark{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:8px;background:rgba(255,255,255,.12);font-size:13px}
+.match-centre-controls-note{padding:0 10px;color:var(--muted,#a3b0c4);font-size:12px;text-align:right}
+.match-centre-panel[hidden]{display:none!important}
+.match-centre-panel{animation:match-panel-in .26s ease both}
+@keyframes match-panel-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.match-centre-panel .upcoming-matches-panel{margin-top:0}
+.match-centre-panel .upcoming-matches-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.match-centre-panel .upcoming-match-card{position:relative;overflow:hidden}
+.match-centre-panel .upcoming-match-card:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(#70d7ff,#ff7c45)}
+.match-live-tag,.match-format-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(117,227,255,.2);border-radius:999px;padding:5px 9px;background:rgba(117,227,255,.07);color:#8ce2ff;font-size:10px;font-weight:850;letter-spacing:.06em}
+.match-live-tag:before{content:"";width:6px;height:6px;border-radius:50%;background:#7ee5b2}
+.match-details-link{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--line,rgba(169,194,229,.15));color:#9cdbff;font-weight:800;text-decoration:none}
+.match-details-link:hover{color:#ff9b71}
+.complete-match-tools{display:grid;grid-template-columns:minmax(220px,1fr) 210px auto;gap:12px;align-items:center;margin:0 0 16px;padding:14px;border:1px solid var(--line,rgba(169,194,229,.16));border-radius:16px;background:rgba(12,23,39,.82)}
+.match-search-wrap{position:relative;min-width:0}
+.match-search-wrap input,.complete-match-tools select{width:100%;min-height:45px;border:1px solid rgba(169,194,229,.2);border-radius:11px;background:#0b1728;color:#f4f8ff;padding:0 13px;font:inherit;outline:none}
+.match-search-wrap input:focus,.complete-match-tools select:focus{border-color:#64bfff;box-shadow:0 0 0 3px rgba(100,191,255,.12)}
+.scorecard-count{color:var(--muted,#a3b0c4);font-size:12px;white-space:nowrap;text-align:right}
+.complete-match-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.complete-match-card{min-width:0;overflow:hidden;border:1px solid var(--line,rgba(169,194,229,.16));border-radius:17px;background:linear-gradient(145deg,rgba(18,32,52,.97),rgba(8,16,29,.98));box-shadow:0 12px 30px rgba(0,0,0,.12);transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.complete-match-card:hover{border-color:rgba(117,227,255,.3);transform:translateY(-2px);box-shadow:0 17px 36px rgba(0,0,0,.18)}
+.complete-match-topline{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px 0;color:var(--muted,#a3b0c4);font-size:12px}
+.complete-match-teams{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;padding:18px 16px 12px;font-size:clamp(15px,2vw,19px);font-weight:850;overflow-wrap:anywhere}
+.complete-match-teams span:last-child{text-align:right}
+.complete-match-teams b{font-size:10px;letter-spacing:.1em;color:#ff9a70}
+.complete-match-venue{padding:0 16px;color:var(--muted,#a3b0c4);font-size:12px;overflow-wrap:anywhere}
+.complete-match-result{margin:12px 16px;padding:10px 12px;border-radius:10px;background:rgba(126,229,178,.07);color:#a3e8c3;font-size:12px;font-weight:750;overflow-wrap:anywhere}
+.complete-match-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px 15px;border-top:1px solid var(--line,rgba(169,194,229,.13));font-size:11px;color:var(--muted,#a3b0c4)}
+.scorecard-open{flex:0 0 auto;border:1px solid rgba(117,190,255,.28);border-radius:10px;padding:9px 12px;background:rgba(11,95,196,.17);color:#b8e5ff;font:inherit;font-weight:850;cursor:pointer}
+.scorecard-open:hover{background:#0b5fc4;color:#fff}
+.scorecard-open:disabled{opacity:.65;cursor:wait}
+.scorecard-detail{margin:0 12px 14px;padding:16px;border:1px solid rgba(117,190,255,.2);border-radius:14px;background:rgba(3,10,20,.72);scroll-margin-top:18px}
+.scorecard-detail[hidden]{display:none!important}
+.scorecard-detail-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:12px}
+.scorecard-detail-head h3{margin:5px 0;font-size:clamp(18px,3vw,25px);overflow-wrap:anywhere}
+.scorecard-detail-head h3 em{color:#ff9269;font-style:normal}
+.scorecard-detail-head p{margin:5px 0;color:var(--muted,#a3b0c4);font-size:12px}
+.scorecard-close{border:1px solid var(--line,rgba(169,194,229,.2));border-radius:9px;background:transparent;color:#e8f3ff;padding:8px 10px;cursor:pointer}
+.scorecard-result{padding:11px 13px;border-radius:10px;background:rgba(126,229,178,.07);color:#a3e8c3;font-weight:800}
+.scorecard-innings{margin-top:16px;padding:14px;border:1px solid var(--line,rgba(169,194,229,.14));border-radius:13px;background:rgba(255,255,255,.018)}
+.scorecard-innings-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:11px;border-bottom:1px solid var(--line,rgba(169,194,229,.14))}
+.scorecard-innings-heading small{display:block;color:var(--muted,#a3b0c4);font-size:10px;letter-spacing:.08em}
+.scorecard-innings-heading h4{margin:4px 0;font-size:16px}
+.scorecard-innings-heading>strong{font-size:23px;white-space:nowrap}
+.scorecard-innings-heading>strong small{display:inline;color:var(--muted,#a3b0c4);font-size:11px;font-weight:500}
+.scorecard-innings h5{margin:16px 0 8px;color:#a7dfff;font-size:11px;text-transform:uppercase;letter-spacing:.09em}
+.scorecard-table-scroll{max-width:100%;overflow-x:auto;border:1px solid var(--line,rgba(169,194,229,.12));border-radius:9px}
+.scorecard-table{width:100%;min-width:530px;border-collapse:collapse;font-size:11px}
+.scorecard-table th,.scorecard-table td{padding:9px 10px;border-bottom:1px solid rgba(169,194,229,.1);text-align:right;white-space:nowrap}
+.scorecard-table th:first-child,.scorecard-table td:first-child{text-align:left}
+.scorecard-table th{background:rgba(117,190,255,.07);color:var(--muted,#a3b0c4);font-size:9px;text-transform:uppercase;letter-spacing:.06em}
+.scorecard-table td:nth-child(2){text-align:left;white-space:normal;min-width:130px;color:var(--muted,#a3b0c4)}
+.scorecard-table tr:last-child td{border-bottom:0}
+.scorecard-extras,.scorecard-fow{color:var(--muted,#a3b0c4);font-size:11px;line-height:1.65;overflow-wrap:anywhere}
+.scorecard-extras b,.scorecard-fow b{color:#e8f3ff}
+.scorecard-deliveries{margin-top:14px;border:1px solid var(--line,rgba(169,194,229,.14));border-radius:10px}
+.scorecard-deliveries summary{padding:12px;cursor:pointer;color:#a7dfff;font-size:12px;font-weight:800}
+.delivery-list{display:grid;gap:5px;padding:0 12px 12px;max-height:360px;overflow:auto}
+.delivery-list span{display:block;padding:7px 9px;border-radius:7px;background:rgba(255,255,255,.025);color:#cbd7e7;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+.delivery-list span b{color:#8edbff;margin-right:7px}
+.delivery-list .delivery-wicket{background:rgba(255,124,69,.09);color:#ffb18f}
+.scorecard-attribution{margin:14px 0 0;color:var(--muted,#a3b0c4);font-size:10px;line-height:1.6}
+.scorecard-attribution a{color:#a7dfff}
+.match-empty{display:grid;gap:8px;place-items:center;min-height:150px;padding:25px;text-align:center;border:1px dashed rgba(169,194,229,.22);border-radius:14px;color:var(--muted,#a3b0c4);grid-column:1/-1}
+.match-empty strong{color:#f4f8ff;font-size:15px}
+.match-empty span{max-width:540px;font-size:12px;line-height:1.65}
+#scorecard-source-note{margin:14px 0 0;color:var(--muted,#a3b0c4);font-size:11px;line-height:1.6}
+@media(max-width:760px){.match-centre-controls{align-items:stretch;flex-direction:column;gap:8px}.match-centre-tabs{display:grid;grid-template-columns:1fr 1fr}.match-centre-tab{padding:0 10px}.match-centre-controls-note{text-align:left;padding:4px 8px}.complete-match-tools{grid-template-columns:minmax(0,1fr);gap:10px}.scorecard-count{text-align:left}.complete-match-grid,.match-centre-panel .upcoming-matches-grid{grid-template-columns:minmax(0,1fr)}.scorecard-detail{margin-inline:6px;padding:10px}.scorecard-innings{padding:10px}}
+@media(max-width:380px){.complete-match-bottom{align-items:flex-start;flex-direction:column}.scorecard-open{width:100%}.scorecard-innings-heading>strong{font-size:20px}}
+@media(prefers-reduced-motion:reduce){.match-centre-panel,.complete-match-card,.match-centre-tab{animation:none!important;transition:none!important}}
