@@ -31,13 +31,25 @@ check("dedicated Stats folder opens full Batting/Bowling/Explore page", async ()
   await page.locator("#stats").waitFor({ state: "visible" });
   assert.equal(new URL(page.url()).pathname, "/stats/", "Navbar Stats link should open the dedicated folder page");
   assert.equal(await page.locator("#stats-overview").isVisible(), true, "Batting view should be the default");
+  await page.waitForFunction(() => document.querySelector('[data-stat="t20iRuns"]')?.textContent.trim() === "1,791");
+  assert.equal(await page.locator("#career-formats .format-card").count() >= 4, true, "Format-wise batting cards should populate from saved JSON");
+  assert.notEqual(await page.locator("#data-status").innerText(), "Loading", "Career data status should finish loading");
+  const snapshotResponse = await page.request.get(baseURL + "/data/site-data.json");
+  assert.equal(snapshotResponse.status(), 200, "Shared JSON must be served from the site root on nested Stats routes");
   await page.locator('#stats [data-stats-tab="stats-bowling"]').click();
   assert.equal(await page.locator("#stats-bowling").isVisible(), true, "Bowling tab should open its full view");
+  await page.waitForFunction(() => document.querySelector("#bowling-updated")?.textContent.trim().length > 0);
+  assert.match(await page.locator("#bowling-summary").innerText(), /WICKETS/i, "Bowling summary should render its verified metrics");
   assert.match(new URL(page.url()).search, /view=stats-bowling/, "Bowling view should be represented in the URL");
   await page.reload({ waitUntil: "domcontentloaded" });
   assert.equal(await page.locator("#stats-bowling").isVisible(), true, "Bowling view should survive refresh");
   await page.locator('#stats [data-stats-tab="statsguru"]').click();
   assert.equal(await page.locator("#statsguru").isVisible(), true, "Explore view should open");
+  await page.waitForFunction(() => {
+    const status = document.querySelector("#statsguru-updated")?.textContent || "";
+    return status.length > 0 && !/Checking update|temporarily unavailable/i.test(status);
+  });
+  assert.equal(await page.locator("#statsguru-tbody tr").count() > 0, true, "Explore table should render data or an explicit empty state");
   assert.deepEqual(pageErrors, [], "Stats page errors: " + pageErrors.join(" | "));
   await page.close();
 });
