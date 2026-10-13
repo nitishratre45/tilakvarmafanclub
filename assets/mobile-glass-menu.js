@@ -42,25 +42,29 @@
     parts.button.setAttribute("aria-label", "Close navigation menu");
   };
 
-  document.addEventListener("click", (event) => {
-    const parts = getParts();
-    if (!parts) return;
+  document.addEventListener(
+    "click",
+    (event) => {
+      const parts = getParts();
+      if (!parts) return;
 
-    if (parts.button.contains(event.target)) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
+      if (parts.button.contains(event.target)) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (parts.nav.classList.contains("open")) closeMenu(parts);
+        else openMenu(parts);
+        return;
+      }
+
+      if (parts.nav.contains(event.target)) {
+        if (event.target.closest("a")) closeMenu(parts);
+        return;
+      }
+
       if (parts.nav.classList.contains("open")) closeMenu(parts);
-      else openMenu(parts);
-      return;
-    }
-
-    if (parts.nav.contains(event.target)) {
-      if (event.target.closest("a")) closeMenu(parts);
-      return;
-    }
-
-    if (parts.nav.classList.contains("open")) closeMenu(parts);
-  }, true);
+    },
+    true,
+  );
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
@@ -72,10 +76,14 @@
     }
   });
 
-  window.addEventListener("resize", () => {
-    if (window.matchMedia("(min-width: 801px)").matches) {
-      const parts = getParts();
-      if (parts) finishClose(parts);
-    }
-  }, { passive: true });
+  window.addEventListener(
+    "resize",
+    () => {
+      if (window.matchMedia("(min-width: 801px)").matches) {
+        const parts = getParts();
+        if (parts) finishClose(parts);
+      }
+    },
+    { passive: true },
+  );
 })();
