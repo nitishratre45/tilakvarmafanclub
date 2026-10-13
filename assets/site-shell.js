@@ -14,7 +14,7 @@
     ["Photos", "/#tv-gallery-hub", false],
     ["Videos", "/#tilak-videos", false],
     ["Fan Zone", "/#fan-zone", false],
-    ["Settings", "/#settings", false]
+    ["Settings", "/#settings", false],
   ];
   const header = document.createElement("header");
   header.className = "site-shell-header";
@@ -37,17 +37,20 @@
     nav.appendChild(a);
   }
 
-  const oldHeader = document.querySelector("body > header.topbar, body > header.death-topbar, body > header");
+  const oldHeader = document.querySelector(
+    "body > header.topbar, body > header.death-topbar, body > header",
+  );
   if (oldHeader) oldHeader.replaceWith(header);
   else document.body.prepend(header);
 
   const oldFooters = [...document.querySelectorAll("body > footer")];
   const footer = document.createElement("footer");
   footer.className = "site-shell-footer";
-  footer.innerHTML = '<a href="/#profile" class="site-shell-footer-tag">TILAK VARMA FAN CLUB · 72</a><span>RESPECT THE GAME. BACK THE PLAYER.</span><a href="/#profile">Back to Home ↑</a>';
+  footer.innerHTML =
+    '<a href="/#profile" class="site-shell-footer-tag">TILAK VARMA FAN CLUB · 72</a><span>RESPECT THE GAME. BACK THE PLAYER.</span><a href="/#profile">Back to Home ↑</a>';
   if (oldFooters.length) {
     oldFooters[0].replaceWith(footer);
-    oldFooters.slice(1).forEach(node => node.remove());
+    oldFooters.slice(1).forEach((node) => node.remove());
   } else {
     document.body.appendChild(footer);
   }
@@ -58,7 +61,7 @@
     button.setAttribute("aria-expanded", String(open));
     nav.classList.toggle("is-open", open);
   });
-  nav.addEventListener("click", event => {
+  nav.addEventListener("click", (event) => {
     if (event.target.closest("a")) {
       nav.classList.remove("is-open");
       button.setAttribute("aria-expanded", "false");
@@ -67,9 +70,11 @@
 
   const logo = header.querySelector("[data-tilak-logo]");
   if (logo && window.TilakSiteData?.load) {
-    window.TilakSiteData.load().then(data => {
-      const photo = data?.profile?.photo;
-      if (typeof photo === "string" && /^https:\/\//i.test(photo)) logo.src = photo;
-    }).catch(() => {});
+    window.TilakSiteData.load()
+      .then((data) => {
+        const photo = data?.profile?.photo;
+        if (typeof photo === "string" && /^https:\/\//i.test(photo)) logo.src = photo;
+      })
+      .catch(() => {});
   }
 })();
