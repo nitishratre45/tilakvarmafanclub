@@ -5,7 +5,7 @@
   let snapshotPromise = null;
   function load() {
     if (!snapshotPromise) {
-      snapshotPromise = fetch("data/site-data.json", { cache: "no-store" })
+      snapshotPromise = fetch(new URL("/data/site-data.json", window.location.origin), { cache: "no-store" })
         .then((response) => {
           if (!response.ok) throw new Error("Site data unavailable (" + response.status + ")");
           return response.json();
