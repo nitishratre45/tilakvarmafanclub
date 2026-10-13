@@ -4,15 +4,16 @@
   window.__TILAK_SHARED_SITE_SHELL__ = true;
 
   const path = window.location.pathname.replace(/\/+$/, "") || "/";
+  const currentHash = window.location.hash;
   const links = [
-    ["Home", "/#profile", path === "/"],
+    ["Home", "/#profile", path === "/" && (!currentHash || currentHash === "#profile")],
     ["Stats", "/stats/", path === "/stats"],
     ["Death-overs", "/death-overs/", path === "/death-overs"],
-    ["Matches", "/#innings", path === "/" && window.location.hash === "#innings"],
-    ["Records", "/#records", false],
-    ["News", "/#news", path === "/News-details" || path === "/News"],
-    ["Photos", "/#tv-gallery-hub", false],
-    ["Videos", "/#tilak-videos", false],
+    ["Matches", "/#innings", path === "/" && currentHash === "#innings"],
+    ["Records", "/#records", path === "/" && currentHash === "#records"],
+    ["News", "/#news", (path === "/" && currentHash === "#news") || path === "/News-details" || path === "/News"],
+    ["Photos", "/#tv-gallery-hub", path === "/" && currentHash === "#tv-gallery-hub"],
+    ["Videos", "/#tilak-videos", path === "/" && currentHash === "#tilak-videos"],
   ];
   const header = document.createElement("header");
   header.className = "site-shell-header";
