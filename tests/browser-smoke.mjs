@@ -305,6 +305,9 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
   await page.locator("#match-tab-upcoming").waitFor();
   assert.equal(await page.locator("#match-tab-upcoming").getAttribute("aria-selected"), "true", "Upcoming must be selected by default");
   await page.locator(".upcoming-match-card").filter({ hasText: "Australia" }).waitFor();
+  await page.locator("#recent-match-history-title").waitFor();
+  await page.locator("#player-matches-table tr").first().waitFor();
+  assert(await page.locator(".recent-match-table thead th").count() >= 7, "Recent Matches should show runs, balls, dismissal, date and boundary columns");
   await page.locator("#match-tab-complete").click();
   await page.locator(".complete-match-card").first().waitFor();
   assert.equal(await page.locator(".complete-match-card").count(), 4, "Complete Match should show all indexed format rows");
