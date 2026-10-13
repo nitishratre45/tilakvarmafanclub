@@ -22,14 +22,14 @@
     "sunrisers hyderabad": { ipl: "SRH" }, "delhi capitals": { ipl: "DC" },
     "punjab kings": { ipl: "PBKS" }, "gujarat titans": { ipl: "GT" }, "lucknow super giants": { ipl: "LSG" }
   };
-  const normaliseTeam = (name) => String(name || "").trim().toLowerCase().replace(/\\s+/g, " ");
+  const normaliseTeam = (name) => String(name || "").trim().toLowerCase().replace(/\s+/g, " ");
   const teamInitials = (name) => {
     const parts = String(name || "?").replace(/[^a-z0-9 ]/gi, " ").trim().split(/\\s+/).filter(Boolean);
     return (parts.length > 1 ? parts.slice(0, 2).map((part) => part[0]) : [(parts[0] || "?").slice(0, 2)]).join("").toUpperCase();
   };
   const teamLogoUrl = (name, supplied) => {
     if (typeof supplied === "string" && supplied) {
-      if (/^https?:\\/\\//i.test(supplied)) return supplied;
+      if (/^https?:\/\//i.test(supplied)) return supplied;
       if (supplied.startsWith("/")) return "https://img1.hscicdn.com" + supplied;
     }
     const asset = teamAssets[normaliseTeam(name)] || {};
