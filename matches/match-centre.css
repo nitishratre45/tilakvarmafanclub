@@ -813,3 +813,60 @@
     display: none;
   }
 }
+
+
+/* Centered premium heading for Upcoming Matches. */
+.match-centre-panel .upcoming-matches-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.match-centre-panel .upcoming-matches-heading > div {
+  grid-column: 2;
+  text-align: center;
+}
+.match-centre-panel #upcoming-matches-title {
+  margin: 0;
+  color: #f4f8ff;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  font-size: clamp(25px, 4.5vw, 34px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+  text-shadow: 0 4px 24px rgba(75, 173, 255, 0.14);
+}
+.match-centre-panel #upcoming-matches-title em {
+  color: #ff9876;
+  font-style: normal;
+}
+.match-centre-panel .upcoming-matches-heading > div::after {
+  content: "";
+  display: block;
+  width: 54px;
+  height: 3px;
+  margin: 11px auto 0;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #75dfff, #ff9876);
+}
+.match-centre-panel #upcoming-team-announcement-link {
+  grid-column: 3;
+  justify-self: end;
+}
+@media (max-width: 560px) {
+  .match-centre-panel .upcoming-matches-heading {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .match-centre-panel .upcoming-matches-heading > div {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .match-centre-panel #upcoming-team-announcement-link {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
+  }
+}
