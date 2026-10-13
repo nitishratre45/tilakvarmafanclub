@@ -209,7 +209,12 @@ def article_fixtures(article: dict) -> list[dict]:
                     match_label = row[match_i] if match_i < len(row) else ""
                     venue = row[venue_i] if venue_i < len(row) else ""
                     # BCCI pageText may append article text to the final venue.
-                    venue = re.split(r"\s+(?:Rest of India squad:|India A squad:|DEVAJIT SAIKIA)", venue, maxsplit=1, flags=re.I)[0].strip()
+                    venue = re.split(
+                        r"\s+(?:Rest of India squad:|India A squad:|DEVAJIT SAIKIA)",
+                        venue,
+                        maxsplit=1,
+                        flags=re.I,
+                    )[0].strip()
                     time_value = (
                         row[time_i] if time_i is not None and time_i < len(row) else ""
                     )
