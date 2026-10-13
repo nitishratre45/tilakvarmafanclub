@@ -124,6 +124,9 @@
           .map((f) => {
             const link = f.newsUrl || f.source || "/news/";
             const target = /^https?:\/\//i.test(link) ? ' target="_blank"' : "";
+            const detailUrl = "/matches/details/?date=" + encodeURIComponent(f.date || "") +
+              "&match=" + encodeURIComponent(f.match || "") +
+              "&opponent=" + encodeURIComponent(f.opponent || "");
             return (
               '<article class="upcoming-match-card"><div class="upcoming-match-topline"><span class="upcoming-match-date">' +
               esc(f.label || dateLabel(f.date)) +
@@ -150,11 +153,13 @@
               esc(f.venue || "Venue TBA") +
               "</span><span>" +
               esc(f.time || "Time TBA") +
-              ' IST</span></div><a class="match-details-link" href="' +
+              ' IST</span></div><div class="upcoming-match-actions"><a class="match-details-link" href="' +
+              esc(detailUrl) +
+              '">Full Match Details <span aria-hidden="true">↗</span></a><a class="upcoming-source-link" href="' +
               esc(link) +
               '"' +
               target +
-              ' rel="noopener">Match details <span aria-hidden="true">↗</span></a></article>'
+              ' rel="noopener">Official news</a></div></article>'
             );
           })
           .join("");
