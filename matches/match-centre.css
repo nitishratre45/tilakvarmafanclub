@@ -640,7 +640,6 @@
   }
 }
 
-
 /* Mobile: keep Recent Matches rows inside the page; never require sideways scrolling. */
 @media (max-width: 600px) {
   .recent-match-table-scroll {
@@ -690,17 +689,33 @@
     color: #8fa9c5;
     font-size: 9px;
     font-weight: 700;
-    letter-spacing: .04em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
   }
-  .recent-match-table tbody td:nth-child(2)::before { content: "Runs"; }
-  .recent-match-table tbody td:nth-child(3)::before { content: "Balls"; }
-  .recent-match-table tbody td:nth-child(4)::before { content: "Dismissal"; }
-  .recent-match-table tbody td:nth-child(5)::before { content: "Date"; }
-  .recent-match-table tbody td:nth-child(6)::before { content: "4s"; }
-  .recent-match-table tbody td:nth-child(7)::before { content: "6s"; }
-  .recent-match-table tbody td:nth-child(8)::before { content: "Ground"; }
-  .recent-match-table tbody td:nth-child(9)::before { content: "Format"; }
+  .recent-match-table tbody td:nth-child(2)::before {
+    content: "Runs";
+  }
+  .recent-match-table tbody td:nth-child(3)::before {
+    content: "Balls";
+  }
+  .recent-match-table tbody td:nth-child(4)::before {
+    content: "Dismissal";
+  }
+  .recent-match-table tbody td:nth-child(5)::before {
+    content: "Date";
+  }
+  .recent-match-table tbody td:nth-child(6)::before {
+    content: "4s";
+  }
+  .recent-match-table tbody td:nth-child(7)::before {
+    content: "6s";
+  }
+  .recent-match-table tbody td:nth-child(8)::before {
+    content: "Ground";
+  }
+  .recent-match-table tbody td:nth-child(9)::before {
+    content: "Format";
+  }
   .recent-match-table tbody td:nth-child(2),
   .recent-match-table tbody td:nth-child(3),
   .recent-match-table tbody td:nth-child(6),
