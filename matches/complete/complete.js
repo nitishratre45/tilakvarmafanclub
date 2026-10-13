@@ -11,12 +11,15 @@
   const returnStateKey = "completeMatchesReturnState";
   function saveReturnState() {
     try {
-      sessionStorage.setItem(returnStateKey, JSON.stringify({
-        query: $("match-search")?.value || "",
-        format: $("match-format-filter")?.value || "All",
-        scrollY: window.scrollY || 0,
-        savedAt: Date.now()
-      }));
+      sessionStorage.setItem(
+        returnStateKey,
+        JSON.stringify({
+          query: $("match-search")?.value || "",
+          format: $("match-format-filter")?.value || "All",
+          scrollY: window.scrollY || 0,
+          savedAt: Date.now(),
+        }),
+      );
     } catch (_) {}
   }
   function restoreReturnState() {
@@ -28,7 +31,9 @@
       if ($("match-search")) $("match-search").value = state.query;
       if ($("match-format-filter")) $("match-format-filter").value = state.format;
       renderMatches();
-      requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, Number(saved.scrollY) || 0)));
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => window.scrollTo(0, Number(saved.scrollY) || 0)),
+      );
     } catch (_) {}
   }
   const fmtLabel = (value) =>

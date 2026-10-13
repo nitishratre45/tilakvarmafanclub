@@ -814,7 +814,6 @@
   }
 }
 
-
 /* Centered premium heading for Upcoming Matches. */
 .match-centre-panel .upcoming-matches-heading {
   display: grid;
@@ -871,13 +870,12 @@
   }
 }
 
-
 /* Refined centered Upcoming Matches section — desktop and mobile. */
 .match-centre-panel .upcoming-matches-panel {
   padding: clamp(20px, 4vw, 34px);
   border-radius: 26px;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(66, 155, 231, 0.10), transparent 52%),
+    radial-gradient(ellipse at 50% 0%, rgba(66, 155, 231, 0.1), transparent 52%),
     linear-gradient(145deg, rgba(17, 31, 50, 0.98), rgba(8, 19, 33, 0.98));
 }
 .match-centre-panel .upcoming-matches-heading {
@@ -919,12 +917,15 @@
   min-width: min(100%, 220px);
   text-align: center;
   border-radius: 15px;
-  transition: transform .22s ease, border-color .22s ease, background .22s ease;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease;
 }
 .match-centre-panel #upcoming-team-announcement-link:hover {
   transform: translateY(-2px);
-  border-color: rgba(117, 223, 255, .5);
-  background: rgba(117, 223, 255, .07);
+  border-color: rgba(117, 223, 255, 0.5);
+  background: rgba(117, 223, 255, 0.07);
 }
 .match-centre-panel .upcoming-matches-grid {
   grid-template-columns: minmax(0, 1fr);
@@ -935,13 +936,16 @@
 .match-centre-panel .upcoming-match-card {
   width: 100%;
   border-radius: 21px;
-  box-shadow: 0 14px 32px rgba(0, 0, 0, .15);
-  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.15);
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
 }
 .match-centre-panel .upcoming-match-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(117, 223, 255, .32);
-  box-shadow: 0 18px 38px rgba(0, 0, 0, .22);
+  border-color: rgba(117, 223, 255, 0.32);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
 }
 @media (max-width: 560px) {
   .match-centre-panel .upcoming-matches-panel {
