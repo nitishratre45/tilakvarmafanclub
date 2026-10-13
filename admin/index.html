@@ -2484,6 +2484,9 @@
               <button id="news-refresh" class="btn primary" type="button">
                 ↻ Refresh BCCI news
               </button>
+              <button id="matches-refresh" class="btn" type="button">
+                ↻ Refresh Team Announcements & Match Details
+              </button>
               <button id="news-reload" class="btn" type="button">⟳ Reload saved news</button>
               <a
                 class="btn"
@@ -5826,6 +5829,30 @@
           }
         });
         $("news-reload")?.addEventListener("click", loadNewsArchive);
+        $("matches-refresh")?.addEventListener("click", async () => {
+          const button = $("matches-refresh");
+          if (!button) return;
+          button.disabled = true;
+          const originalText = button.textContent;
+          button.textContent = "Queueing match refresh…";
+          $("news-manager-status").textContent = "RUNNING";
+          status("news-manager-message", "Queueing squad announcement and match details refresh…");
+          try {
+            const result = await api("/api/admin/monitor", {
+              method: "POST",
+              body: JSON.stringify({ action: "match-refresh" }),
+            });
+            status("news-manager-message", result.message || "Match data refresh queued.");
+            $("news-manager-status").textContent = "QUEUED";
+            window.setTimeout(loadLiveNewsStatus, 2500);
+          } catch (error) {
+            status("news-manager-message", error.message, true);
+            $("news-manager-status").textContent = "ERROR";
+          } finally {
+            button.disabled = false;
+            button.textContent = originalText;
+          }
+        });
         $("news-refresh")?.addEventListener("click", async () => {
           const button = $("news-refresh");
           if (!button) return;
