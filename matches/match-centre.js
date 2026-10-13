@@ -24,7 +24,7 @@
   };
   const normaliseTeam = (name) => String(name || "").trim().toLowerCase().replace(/\s+/g, " ");
   const teamInitials = (name) => {
-    const parts = String(name || "?").replace(/[^a-z0-9 ]/gi, " ").trim().split(/\\s+/).filter(Boolean);
+    const parts = String(name || "?").replace(/[^a-z0-9 ]/gi, " ").trim().split(/\s+/).filter(Boolean);
     return (parts.length > 1 ? parts.slice(0, 2).map((part) => part[0]) : [(parts[0] || "?").slice(0, 2)]).join("").toUpperCase();
   };
   const teamLogoUrl = (name, supplied) => {
