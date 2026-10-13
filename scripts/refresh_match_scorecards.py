@@ -64,6 +64,20 @@ def parse_match(match, source_file):
     )
     if not team:
         return None
+    # Guard against unrelated players with the same name in unrelated club datasets.
+    # Keep the teams Tilak is documented to have represented, including domestic Hyderabad.
+    team_key = re.sub(r"[^a-z0-9]+", " ", str(team).casefold()).strip()
+    known_team = (
+        team_key == "india"
+        or "mumbai indians" in team_key
+        or "hyderabad" in team_key
+        or team_key == "india a"
+        or "india under 19" in team_key
+        or "india u19" in team_key
+        or "medak falcons" in team_key
+    )
+    if not known_team:
+        return None
     raw_type = str(info.get("match_type") or "Unknown")
     fmt = {
         "IT20": "T20I",
