@@ -86,7 +86,12 @@
     if (event.target instanceof Element && event.target.closest("a")) closeMenu();
   });
   document.addEventListener("click", (event) => {
-    if (nav.classList.contains("is-open") && !nav.contains(event.target) && !toggle.contains(event.target)) closeMenu();
+    if (
+      nav.classList.contains("is-open") &&
+      !nav.contains(event.target) &&
+      !toggle.contains(event.target)
+    )
+      closeMenu();
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeMenu();
