@@ -159,7 +159,12 @@
     }
     document.querySelectorAll("[data-stat]").forEach((el) => {
       const key = el.dataset.stat;
-      if (stats[key] !== undefined) el.textContent = stats[key];
+      if (stats[key] !== undefined) {
+        const value = stats[key];
+        el.textContent = typeof value === "number" && Number.isFinite(value)
+          ? new Intl.NumberFormat("en-IN", { maximumFractionDigits: 3 }).format(value)
+          : value;
+      }
     });
     set(
       "career-updated",
