@@ -671,3 +671,22 @@ body.match-filter-open {
     transition: none;
   }
 }
+
+/* Lock the actual document viewport while the filter sheet is open (Android-safe). */
+html:has(body.match-filter-open),
+body.match-filter-open {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+body.match-filter-open {
+  position: fixed !important;
+  left: 0;
+  right: 0;
+  width: 100%;
+  touch-action: none;
+}
+body.match-filter-open .match-filter-backdrop,
+body.match-filter-open .match-filter-dialog,
+body.match-filter-open .match-filter-options {
+  touch-action: pan-y;
+}
