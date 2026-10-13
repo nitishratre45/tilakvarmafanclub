@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-13T12:11:17.592Z",
+  "checkedAt": "2026-10-13T12:12:49.444Z",
   "retentionHours": 15,
   "events": [
     {
@@ -3495,6 +3495,27 @@
           ]
         }
       ]
+    },
+    {
+      "checkedAt": "2026-10-13T12:12:49.444Z",
+      "workflow": "Self-healing code guard",
+      "workflowPath": ".github/workflows/self-healing.yml",
+      "runId": 38395618891,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38395618891",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 0,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
     }
   ]
 }
