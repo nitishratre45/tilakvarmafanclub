@@ -52,6 +52,7 @@ jobs:
           node --check scripts/photo-section-guardian.mjs
           node --check scripts/photo-link-health.mjs
           node scripts/photo-section-guardian.mjs
+# Network failures while contacting external image hosts are reported but never alter metadata.
           node scripts/photo-link-health.mjs
       - name: Commit safe URL-only repairs
         run: |
