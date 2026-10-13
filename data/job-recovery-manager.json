@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-13T12:40:37.178Z",
+  "checkedAt": "2026-10-13T12:40:49.450Z",
   "retentionHours": 15,
   "events": [
     {
@@ -5156,6 +5156,27 @@
           ]
         }
       ]
+    },
+    {
+      "checkedAt": "2026-10-13T12:40:49.450Z",
+      "workflow": "Admin Python diagnostics",
+      "workflowPath": ".github/workflows/admin-diagnostics.yml",
+      "runId": 38399017499,
+      "runAttempt": 1,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38399017499",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
     }
   ]
 }
