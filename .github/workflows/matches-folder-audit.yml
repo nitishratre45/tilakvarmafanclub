@@ -1,0 +1,96 @@
+name: Matches Folder Audit (12h)
+
+on:
+  schedule:
+    - cron: "17 */12 * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - "matches/**"
+      - ".github/workflows/matches-folder-audit.yml"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: matches-folder-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Audit matches folder
+        id: audit
+        shell: bash
+        run: |
+          set +e
+          mkdir -p artifacts
+          python - <<'PY'
+          import json, pathlib, re, subprocess, sys
+          root=pathlib.Path(".")
+          base=root/"matches"
+          errors=[]; warnings=[]; scanned=0
+          if not base.is_dir():
+              errors.append("Missing required matches/ directory.")
+          else:
+              for p in sorted(base.rglob("*")):
+                  if not p.is_file(): continue
+                  scanned+=1
+                  rel=p.as_posix()
+                  try: text=p.read_text(encoding="utf-8")
+                  except Exception as e:
+                      errors.append(f"{rel}: unreadable text file ({e})"); continue
+                  if p.suffix.lower()==".json":
+                      try: json.loads(text)
+                      except Exception as e: errors.append(f"{rel}: invalid JSON: {e}")
+                  if p.suffix.lower()==".js":
+                      result=subprocess.run(["node","--check",str(p)],capture_output=True,text=True)
+                      if result.returncode: errors.append(f"{rel}: JavaScript syntax error: {(result.stderr or result.stdout).strip()[:600]}")
+                  if p.suffix.lower()==".html":
+                      ids=re.findall(r'\bid=["\']([^"\']+)["\']',text)
+                      dup=sorted({x for x in ids if ids.count(x)>1})
+                      if dup: errors.append(f"{rel}: duplicate HTML IDs: {', '.join(dup)}")
+                      for target in re.findall(r'(?:src|href)=["\'](/matches/[^"\'#?]+)',text):
+                          local=root/target.lstrip("/")
+                          if not local.exists(): errors.append(f"{rel}: missing local asset {target}")
+              if not list(base.rglob("*.html")): warnings.append("No HTML files found inside matches/.")
+              if not list(base.rglob("*.css")): warnings.append("No CSS files found inside matches/.")
+              if not list(base.rglob("*.js")): warnings.append("No JS files found inside matches/.")
+          report={"workflow":"Matches Folder Audit (12h)","checkedAt":__import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),"scope":"matches/**","filesScanned":scanned,"errors":errors,"warnings":warnings,"status":"failure" if errors else ("warning" if warnings else "success")}
+          pathlib.Path("artifacts/matches-audit.json").write_text(json.dumps(report,indent=2),encoding="utf-8")
+          pathlib.Path("artifacts/matches-audit.md").write_text("# Matches folder audit\n\n"+f"- Status: **{report['status']}**\n- Files scanned: {scanned}\n- Errors: {len(errors)}\n- Warnings: {len(warnings)}\n\n## Errors\n"+("\n".join("- "+x for x in errors) or "- None") +"\n\n## Warnings\n"+("\n".join("- "+x for x in warnings) or "- None")+"\n",encoding="utf-8")
+          print(json.dumps(report,indent=2))
+          with open(__import__("os").environ["GITHUB_OUTPUT"],"a") as f: f.write("has_errors="+("true" if errors else "false")+"\n")
+          PY
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: matches-folder-audit
+          path: artifacts/
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Open or update audit issue when errors exist
+        if: steps.audit.outputs.has_errors == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue list --state open --label matches-automation --json number --jq '.[0].number' > issue.txt
+          ISSUE=$(cat issue.txt)
+          BODY="The scheduled matches folder audit detected errors. Open the latest **Matches Folder Audit (12h)** run and download the matches-folder-audit artifact for exact paths and diagnostics. The auto-repair workflow will attempt only safe, deterministic repairs; unresolved problems will be reported here."
+          if [ -n "$ISSUE" ] && [ "$ISSUE" != "null" ]; then
+            gh issue comment "$ISSUE" --body "$BODY"
+          else
+            gh label create matches-automation --color 1d76db --description "Automated matches folder audit" 2>/dev/null || true
+            gh issue create --title "Matches folder audit found problems" --label matches-automation --body "$BODY"
+          fi
