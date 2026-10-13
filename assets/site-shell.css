@@ -98,8 +98,10 @@ body > header.site-shell-header {
   border: 0 !important;
   border-radius: 0 !important;
   background: var(--site-shell-orange) !important;
-  transition: none !important;
+  transition: right 220ms ease-out !important;
 }
+.site-shell-nav a:hover::after,
+.site-shell-nav a:focus-visible::after,
 .site-shell-nav a[aria-current="page"]::after {
   right: 0 !important;
 }
