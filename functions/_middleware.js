@@ -14,11 +14,11 @@ export async function onRequest(context) {
   const rewriter = new HTMLRewriter().on("head", {
     element(element) {
       element.append(
-        '<link rel="icon" type="image/svg+xml" href="/assets/tilak-app-icon.svg?v=20261013-favicon1">',
+        '<link rel="icon" type="image/png" href="/tilak%20varma%20photos%20fv/tilak%20varma%20favicon.png?v=20261013-favicon2">',
         { html: true },
       );
       element.append(
-        '<link rel="apple-touch-icon" href="/assets/tilak-app-icon.svg?v=20261013-favicon1">',
+        '<link rel="apple-touch-icon" href="/tilak%20varma%20photos%20fv/tilak%20varma%20favicon.png?v=20261013-favicon2">',
         { html: true },
       );
       element.append('<meta name="theme-color" content="#0b5fc4">', { html: true });
