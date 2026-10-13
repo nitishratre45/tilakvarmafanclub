@@ -8,12 +8,11 @@
     ["Home", "/#profile", path === "/"],
     ["Stats", "/stats/", path === "/stats"],
     ["Death-overs", "/death-overs/", path === "/death-overs"],
-    ["Matches", "/#match-center", false],
+    ["Matches", "/#innings", path === "/" && window.location.hash === "#innings"],
     ["Records", "/#records", false],
     ["News", "/#news", path === "/News-details" || path === "/News"],
     ["Photos", "/#tv-gallery-hub", false],
     ["Videos", "/#tilak-videos", false],
-    ["Fan Zone", "/#fan-zone", false],
   ];
   const header = document.createElement("header");
   header.className = "site-shell-header";
