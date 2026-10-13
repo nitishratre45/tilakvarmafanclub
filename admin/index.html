@@ -3062,46 +3062,114 @@
           </div>
         </section>
         <section id="matches-manager" class="section hidden" hidden aria-hidden="true">
-  <div class="section-head">
-    <div>
-      <div class="eyebrow">MATCH CENTRE · WORKFLOW CONTROL</div>
-      <h2>Upcoming Matches</h2>
-      <p>Monitor News JSON refresh, match count and workflow runs. Add or correct upcoming fixtures manually when the source data is wrong.</p>
-    </div>
-    <div class="actions">
-      <button class="btn" id="admin-matches-refresh" type="button">↻ Refresh status</button>
-      <button class="btn primary" id="admin-matches-source-refresh" type="button">⟳ Refresh from News JSON</button>
-      <a class="btn" href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/refresh-upcoming-matches.yml" target="_blank" rel="noopener noreferrer">Open workflow ↗</a>
-    </div>
-  </div>
-  <div class="section-body">
-    <div class="admin-match-stats">
-      <div class="admin-match-stat"><span>Upcoming fixtures</span><strong id="admin-match-count">—</strong></div>
-      <div class="admin-match-stat"><span>Last News refresh</span><strong id="admin-match-updated">Checking…</strong></div>
-      <div class="admin-match-stat"><span>Refresh status</span><strong id="admin-match-source">Checking…</strong></div>
-    </div>
-    <div id="admin-match-workflows" class="run-list"><div class="empty">Loading match workflow runs…</div></div>
-    <div class="section-head" style="margin-top:24px">
-      <div><div class="eyebrow">MANUAL FIXTURES</div><h3 id="admin-fixture-form-title">Add upcoming match</h3><p>Only fields used by the public Upcoming Matches cards are included.</p></div>
-    </div>
-    <form id="admin-fixture-form" class="admin-match-filters">
-      <input type="hidden" id="admin-fixture-original-date">
-      <input type="hidden" id="admin-fixture-original-match">
-      <div class="field"><label for="admin-fixture-date">Match date</label><input id="admin-fixture-date" type="date" required></div>
-      <div class="field"><label for="admin-fixture-match">Match / game</label><input id="admin-fixture-match" placeholder="e.g. 1st T20I" required maxlength="80"></div>
-      <div class="field"><label for="admin-fixture-opponent">Opponent</label><input id="admin-fixture-opponent" placeholder="e.g. West Indies" required maxlength="100"></div>
-      <div class="field"><label for="admin-fixture-venue">Venue / city</label><input id="admin-fixture-venue" placeholder="e.g. Hyderabad" required maxlength="120"></div>
-      <div class="field"><label for="admin-fixture-time">Start time (IST)</label><input id="admin-fixture-time" type="time" value="19:00" required></div>
-      <div class="field"><label for="admin-fixture-news-url">Fan Club news link</label><input id="admin-fixture-news-url" placeholder="/News-details/index.html?id=..." maxlength="500"></div>
-      <div class="actions"><button class="btn primary" type="submit" id="admin-fixture-save">Save upcoming match</button><button class="btn" type="button" id="admin-fixture-cancel">Clear form</button></div>
-    </form>
-    <div id="admin-fixture-status" class="status" role="status"></div>
-    <div class="admin-match-results-line"><strong>Upcoming fixture list</strong><span id="admin-fixture-count">Loading…</span></div>
-    <div id="admin-matches-list" class="admin-matches-list" aria-live="polite"><div class="empty">Loading upcoming fixtures…</div></div>
-    <div id="admin-matches-status" class="status" role="status"></div>
-  </div>
-</section>
-<section id="services" class="section">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">MATCH CENTRE · WORKFLOW CONTROL</div>
+              <h2>Upcoming Matches</h2>
+              <p>
+                Monitor News JSON refresh, match count and workflow runs. Add or correct upcoming
+                fixtures manually when the source data is wrong.
+              </p>
+            </div>
+            <div class="actions">
+              <button class="btn" id="admin-matches-refresh" type="button">↻ Refresh status</button>
+              <button class="btn primary" id="admin-matches-source-refresh" type="button">
+                ⟳ Refresh from News JSON
+              </button>
+              <a
+                class="btn"
+                href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/refresh-upcoming-matches.yml"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Open workflow ↗</a
+              >
+            </div>
+          </div>
+          <div class="section-body">
+            <div class="admin-match-stats">
+              <div class="admin-match-stat">
+                <span>Upcoming fixtures</span><strong id="admin-match-count">—</strong>
+              </div>
+              <div class="admin-match-stat">
+                <span>Last News refresh</span><strong id="admin-match-updated">Checking…</strong>
+              </div>
+              <div class="admin-match-stat">
+                <span>Refresh status</span><strong id="admin-match-source">Checking…</strong>
+              </div>
+            </div>
+            <div id="admin-match-workflows" class="run-list">
+              <div class="empty">Loading match workflow runs…</div>
+            </div>
+            <div class="section-head" style="margin-top: 24px">
+              <div>
+                <div class="eyebrow">MANUAL FIXTURES</div>
+                <h3 id="admin-fixture-form-title">Add upcoming match</h3>
+                <p>Only fields used by the public Upcoming Matches cards are included.</p>
+              </div>
+            </div>
+            <form id="admin-fixture-form" class="admin-match-filters">
+              <input type="hidden" id="admin-fixture-original-date" />
+              <input type="hidden" id="admin-fixture-original-match" />
+              <div class="field">
+                <label for="admin-fixture-date">Match date</label
+                ><input id="admin-fixture-date" type="date" required />
+              </div>
+              <div class="field">
+                <label for="admin-fixture-match">Match / game</label
+                ><input
+                  id="admin-fixture-match"
+                  placeholder="e.g. 1st T20I"
+                  required
+                  maxlength="80"
+                />
+              </div>
+              <div class="field">
+                <label for="admin-fixture-opponent">Opponent</label
+                ><input
+                  id="admin-fixture-opponent"
+                  placeholder="e.g. West Indies"
+                  required
+                  maxlength="100"
+                />
+              </div>
+              <div class="field">
+                <label for="admin-fixture-venue">Venue / city</label
+                ><input
+                  id="admin-fixture-venue"
+                  placeholder="e.g. Hyderabad"
+                  required
+                  maxlength="120"
+                />
+              </div>
+              <div class="field">
+                <label for="admin-fixture-time">Start time (IST)</label
+                ><input id="admin-fixture-time" type="time" value="19:00" required />
+              </div>
+              <div class="field">
+                <label for="admin-fixture-news-url">Fan Club news link</label
+                ><input
+                  id="admin-fixture-news-url"
+                  placeholder="/News-details/index.html?id=..."
+                  maxlength="500"
+                />
+              </div>
+              <div class="actions">
+                <button class="btn primary" type="submit" id="admin-fixture-save">
+                  Save upcoming match</button
+                ><button class="btn" type="button" id="admin-fixture-cancel">Clear form</button>
+              </div>
+            </form>
+            <div id="admin-fixture-status" class="status" role="status"></div>
+            <div class="admin-match-results-line">
+              <strong>Upcoming fixture list</strong><span id="admin-fixture-count">Loading…</span>
+            </div>
+            <div id="admin-matches-list" class="admin-matches-list" aria-live="polite">
+              <div class="empty">Loading upcoming fixtures…</div>
+            </div>
+            <div id="admin-matches-status" class="status" role="status"></div>
+          </div>
+        </section>
+        <section id="services" class="section">
           <div class="section-head">
             <div>
               <div class="eyebrow">SYSTEM STATUS</div>
