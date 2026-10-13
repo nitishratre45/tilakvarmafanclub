@@ -358,3 +358,37 @@
     transition: none;
   }
 }
+
+
+/* Recent match extended batting columns: keep the existing sticky MATCH column and horizontal scroll. */
+.matches-main .table-wrap table {
+  min-width: 1040px;
+}
+.matches-main .table-wrap thead th {
+  white-space: nowrap;
+}
+.matches-main .table-wrap tbody td:nth-child(2),
+.matches-main .table-wrap tbody td:nth-child(3),
+.matches-main .table-wrap tbody td:nth-child(5),
+.matches-main .table-wrap tbody td:nth-child(7),
+.matches-main .table-wrap tbody td:nth-child(8),
+.matches-main .table-wrap tbody td:nth-child(10) {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.matches-main .table-wrap tbody td:nth-child(4) {
+  min-width: 105px;
+  white-space: nowrap;
+}
+.matches-main .table-wrap tbody td:nth-child(2) {
+  color: var(--white, #f4f7fb);
+  font-weight: 750;
+}
+.matches-main .table-wrap tbody td:nth-child(4) {
+  color: var(--muted, #a3b0c4);
+}
+@media (max-width: 640px) {
+  .matches-main .table-wrap table {
+    min-width: 1040px;
+  }
+}
