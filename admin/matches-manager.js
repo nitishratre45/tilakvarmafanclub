@@ -1,208 +1,140 @@
-/* Admin Match section: read-only view of the verified scorecard archive. */
+/* Admin Match section: upcoming-fixture workflow status and manual corrections. */
 (() => {
   "use strict";
   const $ = (id) => document.getElementById(id);
-  const state = { matches: [], query: "", format: "All", updatedAt: "", source: "" };
-  const esc = (value) =>
-    String(value ?? "—").replace(
-      /[&<>"']/g,
-      (c) =>
-        ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;",
-        })[c],
-    );
-  const dateLabel = (value) => {
-    if (!value) return "Date unavailable";
-    const date = new Date(value + "T12:00:00Z");
-    return Number.isNaN(date.getTime())
-      ? value
-      : date.toLocaleDateString("en-IN", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-          timeZone: "UTC",
-        });
-  };
-  const formatLabel = (value) =>
-    ({
-      T20I: "T20 International",
-      T20: "T20 / IPL",
-      ODI: "One Day International",
-      Test: "Test",
-      "List A": "List A",
-      "First-class": "First-class",
-    })[value] ||
-    value ||
-    "Cricket";
-  function render() {
-    const host = $("admin-matches-list");
-    if (!host) return;
-    const q = state.query.trim().toLowerCase();
-    const rows = state.matches.filter(
-      (m) =>
-        (state.format === "All" || m.format === state.format) &&
-        (!q ||
-          [m.date, m.format, m.team, m.opposition, m.venue, m.event, m.result, m.matchId]
-            .join(" ")
-            .toLowerCase()
-            .includes(q)),
-    );
-    $("admin-match-results-count").textContent =
-      rows.length.toLocaleString("en-IN") +
-      " of " +
-      state.matches.length.toLocaleString("en-IN") +
-      " matches";
-    if (!rows.length) {
-      host.innerHTML =
-        '<div class="empty"><strong>No matching matches</strong><p>Try another search or format.</p></div>';
-      return;
-    }
-    host.innerHTML = rows
-      .map(
-        (m) =>
-          '<article class="admin-match-card">' +
-          '<div class="admin-match-card-head"><span class="admin-match-date">' +
-          esc(dateLabel(m.date)) +
-          '</span><span class="admin-match-format">' +
-          esc(formatLabel(m.format)) +
-          "</span></div>" +
-          '<div class="admin-match-teams"><strong>' +
-          esc(m.team || "Team unavailable") +
-          "</strong><span>VS</span><strong>" +
-          esc(m.opposition || "Opponent unavailable") +
-          "</strong></div>" +
-          '<p class="admin-match-venue">⌖ ' +
-          esc(m.venue || "Venue unavailable") +
-          "</p>" +
-          (m.event ? '<p class="admin-match-event">' + esc(m.event) + "</p>" : "") +
-          '<div class="admin-match-result">' +
-          esc(m.result || "Result unavailable") +
-          "</div>" +
-          '<div class="admin-match-card-foot"><span>Match ID: ' +
-          esc(m.matchId || "—") +
-          '</span><a class="btn small primary" href="/matches/scorecards/?match=' +
-          encodeURIComponent(m.matchId || "") +
-          '" target="_blank" rel="noopener noreferrer">Full scorecard ↗</a></div></article>',
-      )
-      .join("");
+  const state = { fixtures: [], manual: [], sha: "", report: null, runs: [] };
+  const esc = (v) => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const key = f => [f.date, f.match, f.opponent].map(x => String(x || "").trim().toLowerCase()).join("|");
+  const dateLabel = d => { const x = new Date(String(d || "") + "T12:00:00Z"); return Number.isNaN(x.getTime()) ? d : x.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"}); };
+  const status = (message, error=false) => { const el=$("admin-matches-status"); if(el){el.textContent=message;el.classList.toggle("error",error);} };
+  const formStatus = (message,error=false) => { const el=$("admin-fixture-status"); if(el){el.textContent=message;el.classList.toggle("error",error);} };
+  async function api(url, options={}) {
+    const r=await fetch(url,{credentials:"same-origin",cache:"no-store",...options,headers:{"content-type":"application/json",...(options.headers||{})}});
+    let d={}; try{d=await r.json()}catch{}
+    if(!r.ok) throw new Error(d.error || "Request failed ("+r.status+")");
+    return d;
+  }
+  function mergedFixtures() {
+    const map=new Map(state.manual.map(f=>[key(f),f]));
+    const rows=state.fixtures.map(f=>({...f,...(map.get(key(f))||{})}));
+    const keys=new Set(state.fixtures.map(key));
+    state.manual.forEach(f=>{if(!keys.has(key(f))) rows.push(f);});
+    return rows.sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+  }
+  function renderFixtures() {
+    const host=$("admin-matches-list"); if(!host)return;
+    const rows=mergedFixtures();
+    $("admin-match-count").textContent=String(rows.length);
+    $("admin-fixture-count").textContent=rows.length+" fixtures · "+state.manual.length+" manual corrections";
+    if(!rows.length){host.innerHTML='<div class="empty">No fixtures found. Add one using the form above.</div>';return;}
+    host.innerHTML=rows.map(f=>{
+      const manual=state.manual.some(m=>key(m)===key(f));
+      return '<article class="admin-match-card"><div class="admin-match-card-head"><span class="admin-match-date">'+esc(dateLabel(f.date))+'</span><span class="admin-match-format">'+(manual?'MANUAL / CORRECTED':'NEWS JSON')+'</span></div><div class="admin-match-teams"><strong>India</strong><span>VS</span><strong>'+esc(f.opponent)+'</strong></div><p class="admin-match-venue">'+esc(f.match)+' · '+esc(f.venue)+' · '+esc(f.time)+' IST</p><div class="actions"><button type="button" class="btn small" data-edit="'+esc(key(f))+'">Edit / correct</button>'+(manual?'<button type="button" class="btn small" data-remove="'+esc(key(f))+'">Remove manual correction</button>':'')+'</div></article>';
+    }).join("");
+    host.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>editFixture(mergedFixtures().find(f=>key(f)===b.dataset.edit))));
+    host.querySelectorAll("[data-remove]").forEach(b=>b.addEventListener("click",async()=>{
+      const id=b.dataset.remove; state.manual=state.manual.filter(f=>key(f)!==id);
+      try{await saveManual();renderFixtures();formStatus("Manual correction removed. The News JSON fixture is shown again if present.");}
+      catch(e){formStatus(e.message,true);await loadManual();}
+    }));
+  }
+  function editFixture(f) {
+    if(!f)return;
+    $("admin-fixture-original-date").value=f.date||"";
+    $("admin-fixture-original-match").value=f.match||"";
+    $("admin-fixture-date").value=f.date||"";
+    $("admin-fixture-match").value=f.match||"";
+    $("admin-fixture-opponent").value=f.opponent||"";
+    $("admin-fixture-venue").value=f.venue||"";
+    $("admin-fixture-time").value=f.time||"19:00";
+    $("admin-fixture-news-url").value=f.newsUrl||"";
+    $("admin-fixture-form-title").textContent="Correct upcoming match";
+    $("admin-fixture-save").textContent="Save correction";
+    $("admin-fixture-form").scrollIntoView({behavior:"smooth",block:"start"});
+    formStatus("Editing "+f.match+" · "+dateLabel(f.date));
+  }
+  function clearForm() {
+    $("admin-fixture-form").reset();
+    $("admin-fixture-time").value="19:00";
+    $("admin-fixture-original-date").value="";
+    $("admin-fixture-original-match").value="";
+    $("admin-fixture-form-title").textContent="Add upcoming match";
+    $("admin-fixture-save").textContent="Save upcoming match";
+  }
+  async function loadManual() {
+    const d=await api("/api/admin/upcoming-matches");
+    state.manual=Array.isArray(d.fixtures)?d.fixtures:[];
+    state.sha=d.sha||"";
+  }
+  async function saveManual() {
+    const d=await api("/api/admin/upcoming-matches",{method:"POST",body:JSON.stringify({fixtures:state.manual,expectedSha:state.sha})});
+    state.sha=d.commit?.content?.sha || state.sha;
+    await loadManual();
+  }
+  function renderRuns() {
+    const host=$("admin-match-workflows"); if(!host)return;
+    const names=["Refresh Upcoming Matches from BCCI News JSON","Matches Folder Audit (12h)","Matches Safe Auto-Repair","Matches Repair Verification & Admin Report"];
+    const rows=state.runs.filter(r=>names.some(n=>(r.name||"").includes(n)||(r.title||"").includes(n))).slice(0,8);
+    host.innerHTML='<div class="admin-match-results-line"><strong>Match workflow runs</strong><a href="https://github.com/nitishratre45/tilakvarmafanclub/actions" target="_blank" rel="noopener">All Runs ↗</a></div>'+(rows.length?rows.map(r=>'<article class="admin-match-card"><div class="admin-match-card-head"><strong>'+esc(r.name||r.title)+'</strong><span class="admin-match-format">'+esc(r.conclusion||r.status||"unknown").toUpperCase()+'</span></div><p class="admin-match-venue">Updated '+esc(r.updatedAt?new Date(r.updatedAt).toLocaleString("en-IN"):"—")+'</p><a class="btn small" href="'+esc(r.url)+'" target="_blank" rel="noopener">View run ↗</a></article>').join(""):'<div class="empty">No matching workflow runs found in the latest 20 runs.</div>');
   }
   async function load() {
-    const host = $("admin-matches-list");
-    const button = $("admin-matches-refresh");
-    if (button) {
-      button.disabled = true;
-      button.textContent = "Loading…";
-    }
-    if (host && !state.matches.length)
-      host.innerHTML = '<div class="empty">Loading verified match archive…</div>';
+    const button=$("admin-matches-refresh");
+    if(button){button.disabled=true;button.textContent="Checking…";}
     try {
-      const response = await fetch("/matches/scorecards/index.json?v=20261014-admin-matches1", {
-        cache: "no-store",
-      });
-      if (!response.ok) throw new Error("Match archive returned HTTP " + response.status);
-      const payload = await response.json();
-      if (!payload || !Array.isArray(payload.matches) || payload.matches.length === 0) {
-        throw new Error(
-          "Refresh returned an empty or invalid archive. The last loaded match data has been kept.",
-        );
-      }
-      if (payload.matchCount != null && Number(payload.matchCount) !== payload.matches.length) {
-        throw new Error(
-          "Archive count validation failed. The last loaded match data has been kept.",
-        );
-      }
-      // Only replace the visible archive after the incoming payload passes validation.
-      state.matches = payload.matches;
-      state.updatedAt = payload.updatedAt || "";
-      state.source = payload.source || "Verified scorecard index";
-      $("admin-match-count").textContent = Number(
-        payload.matchCount ?? state.matches.length,
-      ).toLocaleString("en-IN");
-      $("admin-format-count").textContent = new Set(
-        state.matches.map((m) => m.format).filter(Boolean),
-      ).size;
-      $("admin-match-updated").textContent = state.updatedAt
-        ? new Date(state.updatedAt).toLocaleDateString("en-IN", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-            timeZone: "UTC",
-          })
-        : "Not provided";
-      $("admin-match-source").textContent = state.source;
-      const status = $("admin-matches-status");
-      if (status)
-        status.textContent = payload.coverageNote || "Showing the verified match archive.";
-      render();
-    } catch (error) {
-      if (host && state.matches.length) {
-        render();
-      } else if (host) {
-        host.innerHTML =
-          '<div class="empty"><strong>Could not load match archive</strong><p>' +
-          esc(error.message || "Please retry.") +
-          "</p></div>";
-      }
-      const status = $("admin-matches-status");
-      if (status) {
-        status.textContent = state.matches.length
-          ? "Refresh failed; previous match data is still displayed. " + (error.message || "")
-          : error.message || "Match archive could not be loaded.";
-        status.classList.add("error");
-      }
-    } finally {
-      if (button) {
-        button.disabled = false;
-        button.textContent = "↻ Refresh matches";
-      }
-    }
+      const [report, manual] = await Promise.all([
+        fetch("/matches/upcoming-fixtures-refresh.json?v=admin-status2",{cache:"no-store"}).then(r=>r.ok?r.json():null),
+        loadManual(),
+      ]);
+      state.report=report;
+      state.fixtures=Array.isArray(report?.fixtures)?report.fixtures:[];
+      $("admin-match-updated").textContent=report?.checkedAt?new Date(report.checkedAt).toLocaleString("en-IN"):"Not available";
+      $("admin-match-source").textContent=report?.status||"No report";
+      status("Source: "+(report?.source||"News JSON")+" · "+state.fixtures.length+" News JSON fixtures · "+state.manual.length+" manual corrections.");
+      try{const data=await api("/api/admin/monitor");state.runs=Array.isArray(data.runs)?data.runs:[];}catch(e){state.runs=[];}
+      renderRuns();renderFixtures();
+    } catch(e) { status(e.message||"Could not load match workflow status.",true); }
+    finally { if(button){button.disabled=false;button.textContent="↻ Refresh status";} }
   }
-  $("admin-match-search")?.addEventListener("input", (event) => {
-    state.query = event.target.value;
-    render();
-  });
-  $("admin-match-format")?.addEventListener("change", (event) => {
-    state.format = event.target.value;
-    render();
-  });
-  $("admin-matches-refresh")?.addEventListener("click", load);
-  $("admin-matches-source-refresh")?.addEventListener("click", async () => {
-    const button = $("admin-matches-source-refresh");
-    const status = $("admin-matches-status");
-    if (!button || button.disabled) return;
-    button.disabled = true;
-    button.textContent = "Queueing refresh…";
-    if (status) {
-      status.classList.remove("error");
-      status.textContent = "Requesting verified match-data refresh…";
+  $("admin-fixture-form")?.addEventListener("submit",async event=>{
+    event.preventDefault();
+    const fixture={
+      date:$("admin-fixture-date").value,
+      label:dateLabel($("admin-fixture-date").value),
+      match:$("admin-fixture-match").value.trim(),
+      opponent:$("admin-fixture-opponent").value.trim(),
+      venue:$("admin-fixture-venue").value.trim(),
+      time:$("admin-fixture-time").value,
+      newsUrl:$("admin-fixture-news-url").value.trim() || "/news/",
+      source:"admin-manual",
+    };
+    const originalDate=$("admin-fixture-original-date").value;
+    const originalMatch=$("admin-fixture-original-match").value;
+    if(originalDate && originalMatch){
+      const old=mergedFixtures().find(f=>f.date===originalDate&&f.match===originalMatch);
+      if(old) state.manual=state.manual.filter(f=>key(f)!==key(old));
+      // Retain the source key so this record overrides the corresponding News JSON fixture.
+      fixture.date=originalDate;fixture.match=originalMatch;
+      const original=mergedFixtures().find(f=>f.date===originalDate&&f.match===originalMatch);
+      if(original) fixture.opponent=original.opponent;
+      // User-edited date/match/opponent becomes a replacement entry, with original source retained separately.
+      fixture.overrideKey=originalDate+"|"+originalMatch.toLowerCase();
     }
-    try {
-      const response = await fetch("/api/admin/monitor", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        credentials: "same-origin",
-        body: JSON.stringify({ action: "match-scorecards-refresh" }),
-      });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Could not queue match refresh.");
-      if (status) status.textContent = result.message || "Match-data refresh queued.";
-      button.textContent = "✓ Refresh queued";
-      window.setTimeout(() => {
-        button.textContent = "⟳ Refresh match data";
-        button.disabled = false;
-      }, 3500);
-    } catch (error) {
-      if (status) {
-        status.classList.add("error");
-        status.textContent = error.message || "Could not queue match refresh.";
-      }
-      button.textContent = "Retry refresh";
-      button.disabled = false;
-    }
+    const dup=state.manual.some(f=>key(f)===key(fixture));
+    if(dup) state.manual=state.manual.filter(f=>key(f)!==key(fixture));
+    state.manual.push(fixture);
+    const save=$("admin-fixture-save");if(save){save.disabled=true;save.textContent="Saving…";}
+    try{await saveManual();renderFixtures();clearForm();formStatus("Upcoming match saved. The public Matches page will use this manual data alongside News JSON.");}
+    catch(e){formStatus(e.message||"Could not save fixture.",true);await loadManual();}
+    finally{if(save){save.disabled=false;save.textContent="Save upcoming match";}}
+  });
+  $("admin-fixture-cancel")?.addEventListener("click",()=>{clearForm();formStatus("");});
+  $("admin-matches-refresh")?.addEventListener("click",load);
+  $("admin-matches-source-refresh")?.addEventListener("click",async()=>{
+    const b=$("admin-matches-source-refresh");if(!b||b.disabled)return;
+    b.disabled=true;b.textContent="Queueing…";
+    try{const d=await api("/api/admin/monitor",{method:"POST",body:JSON.stringify({action:"match-refresh"})});status(d.message||"News JSON refresh queued.");}
+    catch(e){status(e.message||"Could not queue refresh.",true);}
+    finally{b.disabled=false;b.textContent="⟳ Refresh from News JSON";}
   });
   load();
 })();
