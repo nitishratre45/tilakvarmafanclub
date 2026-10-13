@@ -105,7 +105,14 @@
       });
       if (!response.ok) throw new Error("Match archive returned HTTP " + response.status);
       const payload = await response.json();
-      state.matches = Array.isArray(payload.matches) ? payload.matches : [];
+      if (!payload || !Array.isArray(payload.matches) || payload.matches.length === 0) {
+        throw new Error("Refresh returned an empty or invalid archive. The last loaded match data has been kept.");
+      }
+      if (payload.matchCount != null && Number(payload.matchCount) !== payload.matches.length) {
+        throw new Error("Archive count validation failed. The last loaded match data has been kept.");
+      }
+      // Only replace the visible archive after the incoming payload passes validation.
+      state.matches = payload.matches;
       state.updatedAt = payload.updatedAt || "";
       state.source = payload.source || "Verified scorecard index";
       $("admin-match-count").textContent = Number(
@@ -128,14 +135,19 @@
         status.textContent = payload.coverageNote || "Showing the verified match archive.";
       render();
     } catch (error) {
-      if (host)
+      if (host && state.matches.length) {
+        render();
+      } else if (host) {
         host.innerHTML =
           '<div class="empty"><strong>Could not load match archive</strong><p>' +
           esc(error.message || "Please retry.") +
           "</p></div>";
+      }
       const status = $("admin-matches-status");
       if (status) {
-        status.textContent = "Match archive could not be loaded.";
+        status.textContent = state.matches.length
+          ? "Refresh failed; previous match data is still displayed. " + (error.message || "")
+          : (error.message || "Match archive could not be loaded.");
         status.classList.add("error");
       }
     } finally {
@@ -154,5 +166,39 @@
     render();
   });
   $("admin-matches-refresh")?.addEventListener("click", load);
+  $("admin-matches-source-refresh")?.addEventListener("click", async () => {
+    const button = $("admin-matches-source-refresh");
+    const status = $("admin-matches-status");
+    if (!button || button.disabled) return;
+    button.disabled = true;
+    button.textContent = "Queueing refresh…";
+    if (status) {
+      status.classList.remove("error");
+      status.textContent = "Requesting verified match-data refresh…";
+    }
+    try {
+      const response = await fetch("/api/admin/monitor", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ action: "match-scorecards-refresh" }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Could not queue match refresh.");
+      if (status) status.textContent = result.message || "Match-data refresh queued.";
+      button.textContent = "✓ Refresh queued";
+      window.setTimeout(() => {
+        button.textContent = "⟳ Refresh match data";
+        button.disabled = false;
+      }, 3500);
+    } catch (error) {
+      if (status) {
+        status.classList.add("error");
+        status.textContent = error.message || "Could not queue match refresh.";
+      }
+      button.textContent = "Retry refresh";
+      button.disabled = false;
+    }
+  });
   load();
 })();
