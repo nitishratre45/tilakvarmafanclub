@@ -811,3 +811,159 @@ body > footer {
     padding: 12px;
   }
 }
+
+
+/* Compact bowling snapshot and clearer display typography. Header/nav/menu are intentionally untouched. */
+.profile-copy h2 {
+  font-family: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  font-weight: 900;
+  font-stretch: condensed;
+  letter-spacing: -0.025em;
+  line-height: 0.98;
+  text-transform: uppercase;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.14);
+}
+.profile-copy h2 em {
+  color: #ff8657;
+  letter-spacing: -0.015em;
+}
+.home-snapshot-heading h2,
+.home-format-heading,
+.home-format-card > span,
+.home-bowling-heading h3,
+.home-snapshot-blockhead h3 {
+  font-family: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  letter-spacing: 0.005em;
+}
+.home-bowling-card {
+  margin-top: 16px;
+  padding: clamp(14px, 2vw, 22px);
+  border-radius: 20px;
+}
+.home-bowling-heading {
+  margin-bottom: 12px;
+  gap: 12px;
+}
+.home-bowling-heading h3 {
+  margin-top: 4px;
+  font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+  line-height: 1.12;
+  letter-spacing: 0.015em;
+}
+.home-bowling-heading .button {
+  min-height: 36px;
+  padding: 8px 11px;
+  border-radius: 10px;
+  font-size: 0.73rem;
+}
+.home-bowling-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.home-bowling-stats > * {
+  padding: 11px;
+  border-radius: 12px;
+}
+.home-bowling-stat > span {
+  font-size: 0.62rem;
+  letter-spacing: 0.07em;
+}
+.home-bowling-stat > strong {
+  margin: 6px 0 8px;
+  font-size: clamp(1.45rem, 2.2vw, 1.9rem);
+}
+.home-bowling-stat > strong small {
+  font-size: 0.68rem;
+}
+.home-bowling-facts {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+}
+.home-bowling-facts > div {
+  padding: 6px;
+  border-radius: 7px;
+}
+.home-bowling-facts > div span {
+  font-size: 0.54rem;
+  letter-spacing: 0.015em;
+}
+.home-bowling-facts > div b {
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+.home-bowling-updated {
+  margin-top: 9px;
+  font-size: 0.67rem;
+  line-height: 1.5;
+}
+.home-quick-stats,
+.home-format-stats,
+.home-snapshot-columns {
+  gap: 12px;
+}
+.home-format-card,
+.home-mini-stat,
+.home-snapshot-block {
+  border-radius: 18px;
+}
+.home-format-facts {
+  gap: 6px;
+}
+.home-format-fact {
+  padding: 8px 7px;
+}
+@media (max-width: 680px) {
+  .profile-copy h2 {
+    font-size: clamp(3.4rem, 15vw, 4.7rem);
+    line-height: 1.02;
+    letter-spacing: -0.018em;
+  }
+  .profile-copy h2 em {
+    display: inline-block;
+    padding-top: 0.025em;
+  }
+  .home-bowling-card {
+    padding: 14px;
+    margin-top: 14px;
+  }
+  .home-bowling-heading {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .home-bowling-heading .button {
+    flex: 0 0 auto;
+    min-height: 34px;
+    padding: 7px 9px;
+    font-size: 0.68rem;
+  }
+  .home-bowling-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .home-bowling-stats > * {
+    padding: 10px;
+  }
+  .home-bowling-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+  }
+  .home-bowling-facts > div {
+    padding: 6px;
+  }
+}
+@media (max-width: 380px) {
+  .home-bowling-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .home-bowling-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .home-bowling-facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .profile-copy h2 {
+    font-size: clamp(3rem, 14vw, 3.6rem);
+  }
+}
