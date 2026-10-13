@@ -97,7 +97,7 @@ jobs:
             report.events = report.events.slice(-500);
             fs.writeFileSync(path, JSON.stringify(report, null, 2) + '\n');
       - name: Publish recovery history
-        if: always()
+        if: always() && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion != 'success')
         run: |
           set -euo pipefail
           test -s data/job-recovery-manager.json
