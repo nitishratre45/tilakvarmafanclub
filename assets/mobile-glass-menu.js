@@ -31,6 +31,7 @@
     if (!parts) return;
     if (parts.button.contains(event.target)) {
       event.preventDefault();
+      event.stopImmediatePropagation();
       if (parts.nav.classList.contains("open")) closeMenu(parts);
       else openMenu(parts);
       return;
