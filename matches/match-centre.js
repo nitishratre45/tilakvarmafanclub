@@ -7,6 +7,43 @@
       /[&<>"']/g,
       (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
     );
+  // Automatic team PNG logos: prefer image URLs supplied by JSON, then known team assets.
+  const teamAssets = {
+    "india": { flag: "in" }, "west indies": { flag: "wi" }, "pakistan": { flag: "pk" },
+    "sri lanka": { flag: "lk" }, "bangladesh": { flag: "bd" }, "afghanistan": { flag: "af" },
+    "australia": { flag: "au" }, "england": { flag: "gb-eng" }, "ireland": { flag: "ie" },
+    "new zealand": { flag: "nz" }, "south africa": { flag: "za" }, "zimbabwe": { flag: "zw" },
+    "nepal": { flag: "np" }, "namibia": { flag: "na" }, "netherlands": { flag: "nl" },
+    "scotland": { flag: "gb-sct" }, "united arab emirates": { flag: "ae" }, "oman": { flag: "om" },
+    "canada": { flag: "ca" }, "usa": { flag: "us" }, "united states": { flag: "us" },
+    "japan": { flag: "jp" }, "mumbai indians": { ipl: "MI" }, "chennai super kings": { ipl: "CSK" },
+    "kolkata knight riders": { ipl: "KKR" }, "royal challengers bengaluru": { ipl: "RCB" },
+    "royal challengers bangalore": { ipl: "RCB" }, "rajasthan royals": { ipl: "RR" },
+    "sunrisers hyderabad": { ipl: "SRH" }, "delhi capitals": { ipl: "DC" },
+    "punjab kings": { ipl: "PBKS" }, "gujarat titans": { ipl: "GT" }, "lucknow super giants": { ipl: "LSG" }
+  };
+  const normaliseTeam = (name) => String(name || "").trim().toLowerCase().replace(/\\s+/g, " ");
+  const teamInitials = (name) => {
+    const parts = String(name || "?").replace(/[^a-z0-9 ]/gi, " ").trim().split(/\\s+/).filter(Boolean);
+    return (parts.length > 1 ? parts.slice(0, 2).map((part) => part[0]) : [(parts[0] || "?").slice(0, 2)]).join("").toUpperCase();
+  };
+  const teamLogoUrl = (name, supplied) => {
+    if (typeof supplied === "string" && supplied) {
+      if (/^https?:\\/\\//i.test(supplied)) return supplied;
+      if (supplied.startsWith("/")) return "https://img1.hscicdn.com" + supplied;
+    }
+    const asset = teamAssets[normaliseTeam(name)] || {};
+    if (asset.ipl) return "https://scores.iplt20.com/ipl/teamlogos/" + asset.ipl + ".png";
+    if (asset.flag) return "https://flagcdn.com/w80/" + asset.flag + ".png";
+    return "";
+  };
+  const renderTeamLogo = (name, supplied) => {
+    const label = String(name || "Team");
+    const src = teamLogoUrl(label, supplied);
+    const fallback = '<span class="upcoming-team-logo-fallback" aria-hidden="true">' + esc(teamInitials(label)) + "</span>";
+    if (!src) return fallback;
+    return '<span class="upcoming-team-logo"><img src="' + esc(src) + '" alt="" loading="lazy" decoding="async" onerror="this.style.display=\'none\';this.parentElement.classList.add(\'logo-unavailable\');" /><span class="upcoming-team-logo-initials" aria-hidden="true">' + esc(teamInitials(label)) + "</span></span>";
+  };
   const dateLabel = (v) => {
     if (!v) return "Date unavailable";
     const d = new Date(v + "T12:00:00Z");
@@ -48,9 +85,11 @@
             return (
               '<article class="upcoming-match-card"><div class="upcoming-match-topline"><span class="upcoming-match-date">' +
               esc(f.label || dateLabel(f.date)) +
-              '</span><span class="match-live-tag">UPCOMING</span></div><div class="upcoming-match-teams"><span>India</span><span class="versus">VS</span><span>' +
-              esc(f.opponent || "Opponent TBA") +
-              '</span></div><div class="upcoming-match-meta"><span>' +
+              '</span><span class="match-live-tag">UPCOMING</span></div><div class="upcoming-match-teams"><div class="upcoming-team-side">' +
+              renderTeamLogo(f.team || "India", f.teamLogo || f.teamImageUrl || f.team?.imageUrl || f.team?.image?.url) +
+              '<span>' + esc(f.team || "India") + '</span></div><span class="versus">VS</span><div class="upcoming-team-side">' +
+              renderTeamLogo(f.opponent || "Opponent TBA", f.opponentLogo || f.opponentImageUrl || f.opponent?.imageUrl || f.opponent?.image?.url) +
+              '<span>' + esc(f.opponent || "Opponent TBA") + '</span></div></div><div class="upcoming-match-meta"><span>' +
               esc(f.match || "International match") +
               "</span><span>⌖ " +
               esc(f.venue || "Venue TBA") +
