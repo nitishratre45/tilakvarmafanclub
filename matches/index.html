@@ -165,6 +165,34 @@
               Using the latest saved News JSON fixture snapshot.
             </p>
           </div>
+          <section class="recent-match-history" aria-labelledby="recent-match-history-title">
+            <div class="recent-match-history-heading">
+              <div>
+                <div class="eyebrow">ESPNCRICINFO STATSGURU</div>
+                <h3 id="recent-match-history-title">RECENT <em>MATCHES</em></h3>
+                <p>Tilak Varma’s match-by-match batting record, newest first.</p>
+              </div>
+              <label class="recent-match-filter">
+                <span class="sr-only">Filter recent matches by format</span>
+                <select id="player-match-format">
+                  <option value="All">All formats</option>
+                  <option value="T20I">T20I</option>
+                  <option value="ODI">ODI</option>
+                  <option value="T20">T20 / domestic</option>
+                  <option value="IPL">IPL</option>
+                  <option value="FC">First-class</option>
+                  <option value="List A">List A</option>
+                </select>
+              </label>
+            </div>
+            <div class="recent-match-table-scroll">
+              <table class="recent-match-table">
+                <thead><tr><th>Match / Opposition</th><th>Runs</th><th>Balls</th><th>Out / Dismissal</th><th>Date</th><th>4s</th><th>6s</th><th>Ground</th><th>Format</th></tr></thead>
+                <tbody id="player-matches-table"><tr><td colspan="9">Loading verified match history…</td></tr></tbody>
+              </table>
+            </div>
+            <p class="upcoming-matches-foot" id="player-match-source">Loading ESPNcricinfo Statsguru match history…</p>
+          </section>
         </div>
         <div
           id="match-complete-panel"
@@ -220,6 +248,7 @@
     </footer>
     <script src="/assets/site-data-store.js?v=20261013-root-data-loader-fix1"></script>
     <script src="/matches/match-centre.js?v=20261014-full-scorecards1"></script>
+    <script src="/matches/player-matches.js?v=20261014-recent-matches-restored1"></script>
     <script src="/matches/theme.js?v=20261014"></script>
     <script>
       (() => {
