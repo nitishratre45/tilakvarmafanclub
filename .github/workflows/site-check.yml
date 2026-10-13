@@ -139,7 +139,7 @@ jobs:
           from pathlib import Path
           from urllib.parse import urlsplit
 
-          pages = (Path("index.html"), Path("death-overs/index.html"))
+          pages = (Path("index.html"), Path("stats/index.html"), Path("death-overs/index.html"))
           for page in pages:
               source = page.read_text(encoding="utf-8")
               ids = re.findall(r"""id=[\"']([^\"']+)[\"']""", source)
@@ -176,14 +176,14 @@ jobs:
           # Accept cache-busted script URLs and whitespace/attribute formatting.
           require_match 'assets/features[.]js([?"]|$)' index.html
           require_match 'News/news-section[.]js' assets/section-tabs.js
-          require_match 'assets/statsguru[.]js([?"]|$)' index.html
+          require_match 'assets/statsguru[.]js([?"]|$)' stats/index.html
           require_match 'assets/home-snapshot[.]js([?"]|$)' index.html
           require_match 'assets/section-tabs[.]js([?"]|$)' index.html
-          require_match 'assets/bowling[.]js([?"]|$)' index.html
-          require_match 'data-bowling-format="List A"' index.html
-          require_match 'data-bowling-format="FC"' index.html
+          require_match 'assets/bowling[.]js([?"]|$)' stats/index.html
+          require_match 'data-bowling-format="List A"' stats/index.html
+          require_match 'data-bowling-format="FC"' stats/index.html
           require_match 'id="home-snapshot"' index.html
-          require_match 'data-stats-tab="statsguru"' index.html
+          require_match 'data-stats-tab="statsguru"' stats/index.html
           require_match 'id="icc-ranking-t20i"' index.html
           require_match 'id="icc-record-highlights"' index.html
           require_match 'scripts/refresh_icc_records[.]py' .github/workflows/refresh-icc-records.yml
@@ -211,9 +211,7 @@ jobs:
               "assets/career-formats.js",
               "assets/features.js",
               "assets/upgrade.js",
-              "assets/statsguru.js",
               "assets/home-snapshot.js",
-              "assets/bowling.js",
           ]
           for script in dependents:
               position = html.find('src="' + script)
@@ -222,4 +220,16 @@ jobs:
               if loader > position:
                   raise SystemExit("Shared data loader must precede " + script)
           print("Validated shared data loader order for all dependent modules.")
+
+          stats = Path("stats/index.html").read_text(encoding="utf-8")
+          stats_loader = stats.find('src="/assets/site-data-store.js')
+          if stats_loader < 0:
+              raise SystemExit("Shared site-data loader is not linked from stats/index.html")
+          for script in ("/assets/app.js", "/assets/career-formats.js", "/assets/statsguru.js", "/assets/bowling.js"):
+              position = stats.find('src="' + script)
+              if position < 0:
+                  raise SystemExit("Required Stats page module is not linked: " + script)
+              if stats_loader > position:
+                  raise SystemExit("Stats data loader must precede " + script)
+          print("Validated dedicated Stats page module links and load order.")
           PY
