@@ -22,8 +22,7 @@
   }
   // Keep the shared site navigation's active state aligned with the current URL.
   const navLinks = document.querySelectorAll("#main-nav a, .site-navigation a");
-  const normalizePath = (pathname) =>
-    pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
+  const normalizePath = (pathname) => (pathname === "/" ? "/" : pathname.replace(/\/+$/, ""));
   const currentPath = normalizePath(window.location.pathname);
   const currentLink = Array.from(navLinks).find((link) => {
     try {
