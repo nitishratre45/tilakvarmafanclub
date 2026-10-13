@@ -106,10 +106,14 @@
       if (!response.ok) throw new Error("Match archive returned HTTP " + response.status);
       const payload = await response.json();
       if (!payload || !Array.isArray(payload.matches) || payload.matches.length === 0) {
-        throw new Error("Refresh returned an empty or invalid archive. The last loaded match data has been kept.");
+        throw new Error(
+          "Refresh returned an empty or invalid archive. The last loaded match data has been kept.",
+        );
       }
       if (payload.matchCount != null && Number(payload.matchCount) !== payload.matches.length) {
-        throw new Error("Archive count validation failed. The last loaded match data has been kept.");
+        throw new Error(
+          "Archive count validation failed. The last loaded match data has been kept.",
+        );
       }
       // Only replace the visible archive after the incoming payload passes validation.
       state.matches = payload.matches;
@@ -147,7 +151,7 @@
       if (status) {
         status.textContent = state.matches.length
           ? "Refresh failed; previous match data is still displayed. " + (error.message || "")
-          : (error.message || "Match archive could not be loaded.");
+          : error.message || "Match archive could not be loaded.";
         status.classList.add("error");
       }
     } finally {
