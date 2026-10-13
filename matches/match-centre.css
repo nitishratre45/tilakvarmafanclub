@@ -731,3 +731,63 @@
 .complete-match-route:hover {
   text-decoration: none;
 }
+
+
+/* Recent Matches: keep the section in page flow, but constrain its own table viewport.
+   The document must never become the horizontal/vertical scroller for table columns. */
+.recent-match-table-scroll {
+  max-height: min(68vh, 720px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
+}
+.recent-match-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+@media (max-width: 600px) {
+  .recent-match-table-scroll {
+    max-height: 62vh;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .recent-match-table {
+    min-width: 790px;
+    width: 790px;
+    table-layout: auto;
+  }
+  .recent-match-table thead {
+    display: table-header-group;
+  }
+  .recent-match-table tbody {
+    display: table-row-group;
+    width: auto;
+  }
+  .recent-match-table tbody tr {
+    display: table-row;
+    padding: 0;
+  }
+  .recent-match-table tbody td {
+    display: table-cell;
+    padding: 10px 12px;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+    font-size: 12px;
+    line-height: normal;
+  }
+  .recent-match-table tbody td:first-child {
+    display: table-cell;
+    grid-column: auto;
+    padding-bottom: 10px;
+    font-size: 12px;
+  }
+  .recent-match-table tbody td:not(:first-child)::before {
+    content: none !important;
+    display: none;
+  }
+}
