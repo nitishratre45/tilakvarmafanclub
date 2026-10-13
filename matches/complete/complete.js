@@ -142,7 +142,9 @@
     const link = event.target.closest("a.scorecard-open");
     if (!link) return;
     saveReturnState();
-    try { sessionStorage.setItem(pendingReturnKey, "1"); } catch (_) {}
+    try {
+      sessionStorage.setItem(pendingReturnKey, "1");
+    } catch (_) {}
   });
   // Browser Back can restore this document from BFCache; restore after the page becomes visible.
   window.addEventListener("pageshow", (event) => {
@@ -156,7 +158,9 @@
       state.format = saved.format || "All";
       if ($("match-search")) $("match-search").value = state.query;
       if ($("match-format-filter")) $("match-format-filter").value = state.format;
-      requestAnimationFrame(() => window.scrollTo({ top: Number(saved.scrollY) || 0, behavior: "instant" }));
+      requestAnimationFrame(() =>
+        window.scrollTo({ top: Number(saved.scrollY) || 0, behavior: "instant" }),
+      );
     } catch (_) {}
   });
   loadMatches();
