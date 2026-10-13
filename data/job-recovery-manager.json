@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-13T12:29:56.805Z",
+  "checkedAt": "2026-10-13T12:30:08.096Z",
   "retentionHours": 15,
   "events": [
     {
@@ -4166,6 +4166,62 @@
           "completedAt": "2026-10-13T12:29:47Z",
           "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38397695520/job/115297025333",
           "steps": []
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-10-13T12:30:08.096Z",
+      "workflow": "Format source code",
+      "workflowPath": ".github/workflows/format-code.yml",
+      "runId": 38397695354,
+      "runAttempt": 1,
+      "conclusion": "cancelled",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38397695354",
+      "action": "manual_review_required",
+      "reason": "GitHub does not expose a reliable cancellation-reason field here. Review run logs and concurrency/cancel settings before rerunning.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 1,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "format",
+          "conclusion": "cancelled",
+          "startedAt": "2026-10-13T12:29:47Z",
+          "completedAt": "2026-10-13T12:29:54Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38397695354/job/115297024027",
+          "steps": [
+            {
+              "name": "Format HTML, CSS, JavaScript, JSON and Markdown",
+              "conclusion": "failure",
+              "number": 5
+            },
+            {
+              "name": "Format Python scripts",
+              "conclusion": "skipped",
+              "number": 6
+            },
+            {
+              "name": "Commit formatting changes",
+              "conclusion": "skipped",
+              "number": 7
+            },
+            {
+              "name": "Post Set up Python",
+              "conclusion": "skipped",
+              "number": 12
+            },
+            {
+              "name": "Post Set up Node.js",
+              "conclusion": "skipped",
+              "number": 13
+            }
+          ]
         }
       ]
     }
