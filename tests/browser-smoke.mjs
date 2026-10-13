@@ -200,7 +200,7 @@ check("mobile photo gallery shows ten albums at a time and filters by year/month
   await page.close();
 });
 
-check("match history keeps different formats separate and collapses only overlapping T20 feeds", async () => {
+check("Matches folder loads upcoming fixtures and keeps match formats separate", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
   const date = "2026-08-01";
@@ -224,7 +224,10 @@ check("match history keeps different formats separate and collapses only overlap
     status: 200, contentType: "application/json", body: JSON.stringify(fixture)
   }));
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="#innings"]').click();
+  assert.equal(await page.locator("#player-matches-table").count(), 0, "Homepage must not embed the Match section");
+  assert.equal(await page.locator("#upcoming-matches-list").count(), 0, "Homepage must not embed upcoming fixtures");
+  await page.locator('#main-nav a[href="/matches/"]').click();
+  await page.waitForURL(url => url.pathname === "/matches/");
   await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).first().waitFor();
   const rows = await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).evaluateAll(nodes =>
     nodes.map(node => ({ text: node.innerText, format: node.cells[5]?.innerText }))
