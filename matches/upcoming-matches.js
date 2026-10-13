@@ -24,19 +24,16 @@
       opponent: "West Indies",
       venue: "Hyderabad",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced",
+      source: "https://www.bcci.tv/webview/news/article/indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced"
     },
     {
       date: "2026-10-17",
       label: "Sat, 17 Oct 2026",
       match: "5th T20I",
       opponent: "West Indies",
-      venue:
-        "Bengaluru Rest of India squad:Rishabh Pant [C, WK], Sanat Sangwan, Shikhar Mohan, Sudip Gharami, Sarfaraz Khan [VC], Smaran Ravichandran, Manav Suthar, Saransh Jain, Akash Deep*, Mukesh Kumar, Mukesh Choudhary, Aryan Juyal [WK], Aryan Pandey, Anukul Roy, Ayush Doseja. Note: *Subject to fitness clearance Varun Chakaravarthy has been ruled out of the upcoming Japan T20I and the Asian Games owing to a side strain. The Men’s Selection Committee has named Vipraj Nigam as his replacement. Nitish Kumar Reddy, who was originally included in the Asian Games squad, has been withdrawn and will feature in the ODI series against the West Indies. India’s updated squad for the Japan T20I & the Asian Games:Shreyas Iyer (C), Abhishek Sharma, Sanju Samson (WK), Ishan Kishan (WK), Shivam Dube, Tilak Varma (VC), Axar Patel, Washington Sundar, Ravi Bishnoi, Jasprit Bumrah, Arshdeep Singh, Vaibhav Sooryavanshi, Yash Thakur, Vipraj Nigam DEVAJIT SAIKIA Honorary Secretary BCCI",
+      venue: "Bengaluru",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced",
+      source: "https://www.bcci.tv/webview/news/article/indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced"
     },
     {
       date: "2026-10-22",
@@ -45,8 +42,7 @@
       opponent: "New Zealand",
       venue: "Christchurch",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
+      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced"
     },
     {
       date: "2026-10-24",
@@ -55,8 +51,7 @@
       opponent: "New Zealand",
       venue: "Christchurch",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
+      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced"
     },
     {
       date: "2026-10-27",
@@ -65,8 +60,7 @@
       opponent: "New Zealand",
       venue: "Wellington",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
+      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced"
     },
     {
       date: "2026-10-30",
@@ -75,8 +69,7 @@
       opponent: "New Zealand",
       venue: "Auckland",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
+      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced"
     },
     {
       date: "2026-11-01",
@@ -85,9 +78,8 @@
       opponent: "New Zealand",
       venue: "Hamilton",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
-    },
+      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced"
+    }
   ];
   const now = Date.now();
   const upcoming = fixtures.filter((fixture) => {
