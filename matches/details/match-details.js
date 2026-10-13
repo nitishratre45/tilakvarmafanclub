@@ -46,10 +46,13 @@
       )
       .join("|");
   const teamLogoUrl = (name) => {
-    const n = String(name || "").trim().toLowerCase();
+    const n = String(name || "")
+      .trim()
+      .toLowerCase();
     const logos = {
       india: "https://flagcdn.com/w160/in.png",
-      "west indies": "https://commons.wikimedia.org/wiki/Special:FilePath/Cricket_West_Indies_Logo_2017.svg",
+      "west indies":
+        "https://commons.wikimedia.org/wiki/Special:FilePath/Cricket_West_Indies_Logo_2017.svg",
       "new zealand": "https://flagcdn.com/w160/nz.png",
       australia: "https://flagcdn.com/w160/au.png",
       england: "https://flagcdn.com/w160/gb-eng.png",
@@ -72,14 +75,20 @@
       "hong kong": "https://flagcdn.com/w160/hk.png",
       "papua new guinea": "https://flagcdn.com/w160/pg.png",
       uganda: "https://flagcdn.com/w160/ug.png",
-      kenya: "https://flagcdn.com/w160/ke.png"
+      kenya: "https://flagcdn.com/w160/ke.png",
     };
     return logos[n] || "";
   };
   function setTeamBadge(id, name) {
     const host = $(id);
     if (!host) return;
-    const initials = String(name || "?").split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+    const initials = String(name || "?")
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase();
     const src = teamLogoUrl(name);
     if (!src) {
       host.textContent = initials;
@@ -87,10 +96,14 @@
     }
     host.innerHTML = '<img src="' + esc(src) + '" alt="" aria-hidden="true" loading="eager">';
     const img = host.querySelector("img");
-    img.addEventListener("error", () => {
-      host.textContent = initials;
-      host.classList.add("details-team-mark-fallback");
-    }, { once: true });
+    img.addEventListener(
+      "error",
+      () => {
+        host.textContent = initials;
+        host.classList.add("details-team-mark-fallback");
+      },
+      { once: true },
+    );
     host.setAttribute("aria-label", String(name || "Team"));
   }
   function showPlayers(id, players) {
