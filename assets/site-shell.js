@@ -8,10 +8,10 @@
     { label: "Home", href: "/#profile", path: "/", hash: "#profile", defaultHash: true },
     { label: "Stats", href: "/stats/", path: "/stats", hash: "" },
     { label: "Death-overs", href: "/death-overs/", path: "/death-overs", hash: "" },
-    { label: "Matches", href: "/#innings", path: "/", hash: "#innings" },
+    { label: "Matches", href: "/matches/", path: "/matches", hash: "" },
     { label: "Records", href: "/#records", path: "/", hash: "#records" },
     { label: "News", href: "/#news", path: "/", hash: "#news" },
-    { label: "Photos", href: "/#tv-gallery-hub", path: "/", hash: "#tv-gallery-hub" },
+    { label: "Photos", href: "/photos/index.html", path: "/photos", hash: "" },
     { label: "Videos", href: "/#tilak-videos", path: "/", hash: "#tilak-videos" },
   ];
 
@@ -37,7 +37,7 @@
           path === "/" && (item.defaultHash ? !hash || hash === item.hash : hash === item.hash);
         if (item.label === "News" && (path === "/News" || path === "/News-details")) active = true;
       }
-      if (item.label === "Stats" || item.label === "Death-overs") active = path === item.path;
+      if (item.label === "Stats" || item.label === "Death-overs" || item.label === "Matches" || item.label === "Photos") active = path === item.path || (item.label === "Photos" && path === "/photos/index.html");
       if (active) {
         link.setAttribute("aria-current", "page");
         link.classList.add("is-active");
