@@ -313,9 +313,12 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
   assert.equal(await page.locator(".complete-match-card").count(), 4, "Complete Match should show all indexed format rows");
   await page.locator("#match-format-filter").selectOption("First-class");
   assert.equal(await page.locator(".complete-match-card").count(), 1, "First-class filter should show only its own match");
-  await page.locator('[data-scorecard="fc-test"]').click();
-  await page.locator(".scorecard-detail .scorecard-table").first().waitFor();
-  await page.locator(".scorecard-detail .scorecard-table td").filter({ hasText: /^Tilak Varma$/ }).first().waitFor();
+  await page.locator(".complete-match-card").first().locator(".scorecard-open").click();
+  await page.waitForURL(url => url.pathname === "/matches/scorecards/" && url.searchParams.get("match") === "fc-test");
+  await page.locator("#scorecard-content .scorecard-table").first().waitFor();
+  await page.locator("#scorecard-content .scorecard-table td").filter({ hasText: /^Tilak Varma$/ }).first().waitFor();
+  assert.equal(await page.locator(".scorecard-innings").count(), 1, "Dedicated scorecard page should show innings details");
+  assert.equal(await page.locator(".scorecard-deliveries").count(), 1, "Dedicated scorecard page should include ball-by-ball details");
   await page.close();
 });
 
