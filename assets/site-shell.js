@@ -12,7 +12,7 @@
     { label: "Records", href: "/#records", path: "/", hash: "#records" },
     { label: "News", href: "/#news", path: "/", hash: "#news" },
     { label: "Photos", href: "/#tv-gallery-hub", path: "/", hash: "#tv-gallery-hub" },
-    { label: "Videos", href: "/#tilak-videos", path: "/", hash: "#tilak-videos" }
+    { label: "Videos", href: "/#tilak-videos", path: "/", hash: "#tilak-videos" },
   ];
 
   const header = document.createElement("header");
@@ -33,7 +33,8 @@
       const item = items[index];
       let active = item.path === path;
       if (item.path === "/") {
-        active = path === "/" && (item.defaultHash ? (!hash || hash === item.hash) : hash === item.hash);
+        active =
+          path === "/" && (item.defaultHash ? !hash || hash === item.hash : hash === item.hash);
         if (item.label === "News" && (path === "/News" || path === "/News-details")) active = true;
       }
       if (item.label === "Stats" || item.label === "Death-overs") active = path === item.path;
@@ -54,14 +55,17 @@
     nav.appendChild(link);
   });
 
-  const oldHeader = document.querySelector("body > header.topbar, body > header.death-topbar, body > header.site-shell-header, body > header");
+  const oldHeader = document.querySelector(
+    "body > header.topbar, body > header.death-topbar, body > header.site-shell-header, body > header",
+  );
   if (oldHeader) oldHeader.replaceWith(header);
   else document.body.prepend(header);
 
   const oldFooters = [...document.querySelectorAll("body > footer")];
   const footer = document.createElement("footer");
   footer.className = "site-shell-footer";
-  footer.innerHTML = '<a href="/#profile" class="site-shell-footer-tag">TILAK VARMA FAN CLUB · 72</a><span>RESPECT THE GAME. BACK THE PLAYER.</span><a href="/#profile">Back to Home ↑</a>';
+  footer.innerHTML =
+    '<a href="/#profile" class="site-shell-footer-tag">TILAK VARMA FAN CLUB · 72</a><span>RESPECT THE GAME. BACK THE PLAYER.</span><a href="/#profile">Back to Home ↑</a>';
   if (oldFooters.length) {
     oldFooters[0].replaceWith(footer);
     oldFooters.slice(1).forEach((node) => node.remove());
@@ -85,9 +89,11 @@
 
   const logo = header.querySelector("[data-tilak-logo]");
   if (logo && window.TilakSiteData?.load) {
-    window.TilakSiteData.load().then((data) => {
-      const photo = data?.profile?.photo;
-      if (typeof photo === "string" && /^https:\/\//i.test(photo)) logo.src = photo;
-    }).catch(() => {});
+    window.TilakSiteData.load()
+      .then((data) => {
+        const photo = data?.profile?.photo;
+        if (typeof photo === "string" && /^https:\/\//i.test(photo)) logo.src = photo;
+      })
+      .catch(() => {});
   }
 })();

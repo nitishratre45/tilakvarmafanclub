@@ -108,6 +108,5 @@
       : '<p class="feature-note">No verified numeric innings are available.</p>';
   }
 
-
   init();
 })();
