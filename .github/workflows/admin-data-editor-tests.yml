@@ -28,6 +28,9 @@ concurrency:
 
 jobs:
   admin-data-editor:
+    # Safe auto-repair PRs already run deterministic syntax/data checks in self-healing.yml.
+    # Skip redundant PR-triggered jobs for github-actions[bot] to avoid approval-gated action_required runs.
+    if: github.event_name != 'pull_request' || github.event.pull_request.user.login != 'github-actions[bot]'
     name: Admin save validation and API safety
     runs-on: ubuntu-latest
     timeout-minutes: 5
