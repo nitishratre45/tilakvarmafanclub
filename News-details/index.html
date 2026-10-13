@@ -70,13 +70,13 @@ html body header.topbar nav a[aria-current="page"] {
       <a href="../death-overs/">Death-overs</a>
       <a href="../index.html#match-center">Matches</a>
       <a href="../index.html#records">Records</a>
-      <a class="active" href="../index.html#news" aria-current="page">News</a>
+      <a class="active" href="/news/" aria-current="page">News</a>
       <a href="/photos/index.html">Photos</a>
       <a href="../index.html#tilak-videos">Videos</a>
       <a href="../admin/">Settings</a>
     </nav>
     <div class="header-tools">
-      <a class="search-link" href="../index.html#news" aria-label="Search news" title="Search news">⌕</a>
+      <a class="search-link" href="/news/" aria-label="Search news" title="Search news">⌕</a>
       <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="site-navigation"><span></span><span></span><span></span></button>
     </div>
   </header>
@@ -84,7 +84,7 @@ html body header.topbar nav a[aria-current="page"] {
   <div class="article-hero">
     <div class="hero-pattern" aria-hidden="true"></div>
     <div class="hero-inner">
-      <a class="category" href="../index.html#news"><span></span> PRESS RELEASES · TILAK WATCH</a>
+      <a class="category" href="/news/"><span></span> PRESS RELEASES · TILAK WATCH</a>
       <h1 id="detail-title">Loading article…</h1>
       <div class="hero-meta"><button id="share-article" type="button" class="share-button">↗ Share</button><span id="detail-relative-date">BCCI · News</span><span class="hero-meta-divider">THE 72 CLUB</span></div>
     </div>
@@ -92,7 +92,7 @@ html body header.topbar nav a[aria-current="page"] {
 
   <main class="page-layout">
     <div class="article-column">
-      <a class="mobile-back" href="../index.html#news"><span class="back-arrow" aria-hidden="true">←</span><span>Back to all news</span></a>
+      <a class="mobile-back" href="/news/"><span class="back-arrow" aria-hidden="true">←</span><span>Back to all news</span></a>
       <div id="detail-status" class="status">Loading article details…</div>
       <article id="news-article" hidden>
         <figure class="hero-image-wrap" id="hero-image-wrap">
@@ -105,7 +105,7 @@ html body header.topbar nav a[aria-current="page"] {
           <div class="article-body" id="detail-excerpt"></div>
           <div class="article-actions">
             <a id="original-link" class="button" target="_blank" rel="noopener noreferrer">Read original on BCCI ↗</a>
-            <a class="button secondary" href="../index.html#news">More Tilak News</a>
+            <a class="button secondary" href="/news/">More Tilak News</a>
           </div>
           <p class="source-note">Source: BCCI. This fan page highlights news mentioning Tilak Varma and does not claim ownership of the original article. For the official article and full context, visit BCCI.</p>
         </div>
@@ -114,11 +114,11 @@ html body header.topbar nav a[aria-current="page"] {
     <aside class="related-panel" aria-labelledby="related-title">
       <div class="related-heading"><div><span class="related-eyebrow">KEEP READING</span><h2 id="related-title">Related Stories</h2></div><span class="related-count" id="related-count">NEWS</span></div>
       <div id="related-stories" class="related-list"><p class="related-loading">Finding more stories…</p></div>
-      <a class="all-stories-link" href="../index.html#news">View all Tilak news <span>↗</span></a>
+      <a class="all-stories-link" href="/news/">View all Tilak news <span>↗</span></a>
     </aside>
   </main>
 
-  <footer class="site-footer"><a href="../index.html#news"><span class="footer-mark">72</span> THE 72 CLUB</a><span>Built for the fans. Focused on Tilak.</span><a href="../index.html#news">Back to News ↑</a></footer>
+  <footer class="site-footer"><a href="/news/"><span class="footer-mark">72</span> THE 72 CLUB</a><span>Built for the fans. Focused on Tilak.</span><a href="/news/">Back to News ↑</a></footer>
   <script src="news-details.js?v=20261012-newsdesk5"></script>
   <script>
     (() => { const button=document.querySelector(".menu-toggle"); const nav=document.querySelector(".site-navigation"); if(!button||!nav)return; button.addEventListener("click",()=>{const open=button.getAttribute("aria-expanded")!=="true";button.setAttribute("aria-expanded",String(open));button.setAttribute("aria-label",open?"Close navigation menu":"Open navigation menu");nav.classList.toggle("is-open",open);}); nav.addEventListener("click",event=>{if(event.target.closest("a")){nav.classList.remove("is-open");button.setAttribute("aria-expanded","false");button.setAttribute("aria-label","Open navigation menu");}}); })();

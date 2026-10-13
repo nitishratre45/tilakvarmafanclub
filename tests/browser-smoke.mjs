@@ -94,13 +94,13 @@ check("Matches and Photos navbar links open their dedicated pages", async () => 
   page.setDefaultTimeout(10000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   assert.equal(await page.locator('#main-nav a[href="/matches/"]').count(), 1, "Homepage Matches link must use the dedicated route");
-  assert.equal(await page.locator('#main-nav a[href="/photos/index.html"]').count(), 1, "Homepage Photos link must use the dedicated route");
+  assert.equal(await page.locator('#main-nav a[href="/photos/"]').count(), 1, "Homepage Photos link must use the dedicated route");
   await page.locator('#main-nav a[href="/matches/"]').click();
   await page.waitForURL(url => url.pathname === "/matches/" || url.pathname === "/matches/index.html");
   assert.equal(await page.locator("main").innerText().then(text => /THE MATCHES/.test(text)), true, "Dedicated Matches content should render");
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="/photos/index.html"]').click();
-  await page.waitForURL(url => url.pathname === "/photos/index.html");
+  await page.locator('#main-nav a[href="/photos/"]').click();
+  await page.waitForURL(url => url.pathname === "/photos/");
   await page.locator("#tv-gallery-hub").waitFor({ state: "visible" });
   assert.equal(await page.locator(".tv-album-card").count() > 0, true, "Photos albums should render");
   await page.close();
@@ -155,8 +155,8 @@ check("gallery handles externally hosted photo previews that fail to load", asyn
   await page.route("https://media.gettyimages.com/**", (route) => route.abort());
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   assert.equal(await page.locator("#tv-gallery-hub").count(), 0, "Homepage must not embed Photos section");
-  await page.locator('#main-nav a[href="/photos/index.html"]').click();
-  await page.waitForURL(url => url.pathname === "/photos/index.html");
+  await page.locator('#main-nav a[href="/photos/"]').click();
+  await page.waitForURL(url => url.pathname === "/photos/");
   const album = page.locator(".tv-album-card").filter({ hasText: "ASIAN GAMES 2026 FINAL" });
   await album.waitFor();
   await album.click();
@@ -199,8 +199,8 @@ check("mobile photo gallery shows ten albums at a time and filters by year/month
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   const menu = page.locator(".menu-toggle");
   if (await menu.isVisible()) await menu.click();
-  await page.locator('#main-nav a[href="/photos/index.html"]').click();
-  await page.waitForURL(url => url.pathname === "/photos/index.html");
+  await page.locator('#main-nav a[href="/photos/"]').click();
+  await page.waitForURL(url => url.pathname === "/photos/");
   await page.locator(".tv-gallery-year").waitFor();
   const geometry = await page.evaluate(() => {
     const rect = (selector) => {
@@ -302,8 +302,8 @@ check("photo album cover uses the newest photo in that album", async () => {
   }));
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   assert.equal(await page.locator("#tv-gallery-hub").count(), 0, "Homepage must not embed Photos section");
-  await page.locator('#main-nav a[href="/photos/index.html"]').click();
-  await page.waitForURL(url => url.pathname === "/photos/index.html");
+  await page.locator('#main-nav a[href="/photos/"]').click();
+  await page.waitForURL(url => url.pathname === "/photos/");
   const album = page.locator(".tv-album-card").filter({ hasText: "Sort Order Test" });
   await album.waitFor();
   assert.match(await album.locator("img").getAttribute("src"), /newest\.jpg$/, "Album cover should use the newest photo");

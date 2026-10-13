@@ -1,171 +1,24 @@
 (() => {
   "use strict";
-
-  // Legacy section hashes must open the dedicated pages, never the homepage.
-  // Old bookmarks and cached navbar markup can still point to these hashes.
-  if (window.location.pathname === "/" && window.location.hash) {
-    const legacyRoute = {
-      "#tv-gallery-hub": "/photos/index.html",
-      "#innings": "/matches/index.html",
-    }[window.location.hash];
-    if (legacyRoute) {
-      window.location.replace(legacyRoute);
-      return;
-    }
+  const legacyRoutes = {
+    "#innings": "/matches/index.html",
+    "#tv-gallery-hub": "/photos/index.html",
+    "#records": "/records/",
+    "#news": "/news/",
+    "#tilak-videos": "/videos/",
+  };
+  const routeFor = (value) => legacyRoutes[value] || legacyRoutes[new URL(value, location.href).hash];
+  const path = location.pathname.replace(/\/+$/, "") || "/";
+  if (path === "/" && location.hash && legacyRoutes[location.hash]) {
+    location.replace(legacyRoutes[location.hash]);
+    return;
   }
-
-  // Guard against old/cached navbar HTML: route legacy clicks to the dedicated pages.
-  document.addEventListener(
-    "click",
-    (event) => {
-      const link = event.target.closest("a[href]");
-      if (!link || window.location.pathname !== "/") return;
-      const legacyRoute = {
-        "#tv-gallery-hub": "/photos/index.html",
-        "#innings": "/matches/index.html",
-        "/#tv-gallery-hub": "/photos/index.html",
-        "/#innings": "/matches/index.html",
-      }[link.getAttribute("href")];
-      if (!legacyRoute) return;
-      event.preventDefault();
-      window.location.assign(legacyRoute);
-    },
-    true,
-  );
-
-  const main = document.querySelector("main");
-  const nav = document.getElementById("main-nav");
-  const menu = document.querySelector(".menu-toggle");
-  // Keep the News destination ready as its own section.
-  if (main && !document.getElementById("news")) {
-    const newsSection = document.createElement("section");
-    newsSection.id = "news";
-    newsSection.setAttribute("aria-label", "News");
-    main.appendChild(newsSection);
-  }
-  if (nav && !nav.querySelector('a[href="#news"]')) {
-    const newsLink = document.createElement("a");
-    newsLink.href = "#news";
-    newsLink.textContent = "News";
-    // Keep desktop/mobile navigation order consistent: Matches, News, Records...
-    const matchesLink = nav.querySelector('a[href="#innings"]');
-    if (matchesLink) matchesLink.insertAdjacentElement("afterend", newsLink);
-    else nav.appendChild(newsLink);
-  }
-
-  // News UI is maintained separately from index.html.
-  const newsLoader = document.createElement("script");
-  newsLoader.src = "News/news-section.js?v=20261012-news-ui2";
-  newsLoader.defer = true;
-  document.body.appendChild(newsLoader);
-
-  const sections = [...(main ? main.querySelectorAll(":scope > section[id]") : [])];
-  const allowed = new Set(
-    sections.map((section) => section.id).filter((id) => id !== "home-snapshot"),
-  );
-  const persistentSections = new Set();
-  const legacyViews = { "stats-explorer": "statsguru", statsguru: "statsguru" };
-
-  function setStatsView(view) {
-    const views = [...document.querySelectorAll("#stats .stats-subview")];
-    if (!views.some((node) => node.id === view)) view = "stats-overview";
-    try {
-      sessionStorage.setItem("tilak-stats-view", view);
-    } catch (_) {}
-    views.forEach((node) => {
-      node.hidden = node.id !== view;
-      node.setAttribute("aria-hidden", String(node.hidden));
-    });
-    document.querySelectorAll("[data-stats-tab]").forEach((button) => {
-      const active = button.dataset.statsTab === view;
-      button.classList.toggle("active", active);
-      button.setAttribute("aria-selected", String(active));
-    });
-  }
-
-  function show(id, push = false, view = null) {
-    if (legacyViews[id]) {
-      view = legacyViews[id];
-      id = "stats";
-    }
-    if (!allowed.has(id)) id = "profile";
-
-    sections.forEach((section) => {
-      if (persistentSections.has(section.id)) {
-        section.hidden = false;
-        section.setAttribute("aria-hidden", "false");
-        section.style.removeProperty("display");
-        return;
-      }
-      const active = section.id === id || (id === "profile" && section.id === "home-snapshot");
-      section.hidden = !active;
-      section.setAttribute("aria-hidden", String(!active));
-      if (active) section.style.removeProperty("display");
-      else section.style.setProperty("display", "none", "important");
-    });
-
-    if (id === "stats") setStatsView(view || "stats-overview");
-    nav?.querySelectorAll('a[href^="#"]').forEach((link) => {
-      const active = link.hash === "#" + id;
-      link.classList.toggle("active", active);
-      if (active) link.setAttribute("aria-current", "page");
-      else link.removeAttribute("aria-current");
-    });
-
-    if (push && location.hash !== "#" + id) {
-      history.pushState({ section: id, statsView: view || "stats-overview" }, "", "#" + id);
-    }
-    nav?.classList.remove("open");
-    menu?.setAttribute("aria-expanded", "false");
-    window.scrollTo(0, 0);
-  }
-
-  document.addEventListener(
-    "click",
-    (event) => {
-      const link = event.target instanceof Element ? event.target.closest('a[href^="#"]') : null;
-      if (!link) return;
-      if (link.hasAttribute("data-stats-tab")) return;
-
-      const view = link.dataset.openStatsView || null;
-      const id = link.hash.slice(1);
-      if (!view && !allowed.has(id)) return;
-
-      window.dispatchEvent(
-        new CustomEvent("tilak:section-change", { detail: { id: view ? "stats" : id } }),
-      );
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      show(view ? "stats" : id, true, view);
-    },
-    true,
-  );
-
-  document.querySelectorAll("[data-stats-tab]").forEach((button) => {
-    button.addEventListener("click", () => {
-      setStatsView(button.dataset.statsTab);
-      if (location.hash !== "#stats")
-        history.pushState({ section: "stats", statsView: button.dataset.statsTab }, "", "#stats");
-    });
-  });
-
-  window.addEventListener("popstate", (event) => {
-    const id = location.hash.slice(1) || "profile";
-    let saved = null;
-    try {
-      saved = sessionStorage.getItem("tilak-stats-view");
-    } catch (_) {}
-    show(id, false, event.state?.statsView || legacyViews[id] || (id === "stats" ? saved : null));
-  });
-  window.addEventListener("hashchange", () => {
-    const id = location.hash.slice(1) || "profile";
-    show(id, false, legacyViews[id] || null);
-  });
-
-  let saved = null;
-  try {
-    saved = sessionStorage.getItem("tilak-stats-view");
-  } catch (_) {}
-  const initial = location.hash.slice(1) || "profile";
-  show(initial, false, legacyViews[initial] || (initial === "stats" ? saved : null));
+  document.addEventListener("click", (event) => {
+    const link = event.target instanceof Element ? event.target.closest("a[href]") : null;
+    if (!link || (location.pathname.replace(/\/+$/, "") || "/") !== "/") return;
+    const destination = routeFor(link.getAttribute("href"));
+    if (!destination) return;
+    event.preventDefault();
+    location.assign(destination);
+  }, true);
 })();
