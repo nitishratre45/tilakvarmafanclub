@@ -17,6 +17,7 @@
       rel="stylesheet"
       href="/matches/scorecards/scorecard-page.css?v=20261014-scorecard-page1"
     />
+    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261014-smooth-close6" />
   </head>
   <body class="matches-page scorecard-page">
     <header class="topbar">
@@ -72,31 +73,8 @@
     <script src="/matches/theme.js?v=20261014-scorecard-page1"></script>
     <script src="/matches/scorecards/scorecard-page.js?v=20261014-scorecard-page1"></script>
     <script>
-      (() => {
-        const menu = document.querySelector(".menu-toggle"),
-          nav = document.getElementById("main-nav");
-        if (menu && nav)
-          menu.addEventListener("click", () => {
-            const open = menu.getAttribute("aria-expanded") !== "true";
-            menu.setAttribute("aria-expanded", String(open));
-            nav.classList.toggle("open", open);
-          });
-        nav?.addEventListener("click", (e) => {
-          if (e.target.closest("a")) {
-            nav.classList.remove("open");
-            menu?.setAttribute("aria-expanded", "false");
-          }
-        });
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && nav?.classList.contains("open")) {
-            nav.classList.remove("open");
-            menu?.setAttribute("aria-expanded", "false");
-            menu?.focus();
-          }
-        });
-        const year = document.getElementById("year");
-        if (year) year.textContent = new Date().getFullYear();
-      })();
+      const year = document.getElementById("year");
+      if (year) year.textContent = new Date().getFullYear();
     </script>
-  </body>
+    <script src="/assets/mobile-glass-menu.js?v=20261014-smooth-close6"></script>  </body>
 </html>
