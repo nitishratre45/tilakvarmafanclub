@@ -60,7 +60,11 @@
                 esc(record.title || "Player record") +
                 "</h4>" +
                 (record.source && /^https:\/\//i.test(record.source)
-                  ? '<a class="record-source" href="' + esc(record.source) + '" target="_blank" rel="noopener noreferrer">Source: ' + esc(record.sourceLabel || "verified report") + ' ↗</a>'
+                  ? '<a class="record-source" href="' +
+                    esc(record.source) +
+                    '" target="_blank" rel="noopener noreferrer">Source: ' +
+                    esc(record.sourceLabel || "verified report") +
+                    " ↗</a>"
                   : "") +
                 "</article>",
             )
