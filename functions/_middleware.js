@@ -24,7 +24,7 @@ export async function onRequest(context) {
       element.append('<meta name="theme-color" content="#0b5fc4">', { html: true });
       if (!isAdmin) {
         element.append(
-          '<link rel="stylesheet" href="/assets/site-shell.css?v=20261013-shared-shell2">',
+          '<link rel="stylesheet" href="/assets/site-shell.css?v=20261013-navbar-v3">',
           { html: true },
         );
       }
@@ -35,7 +35,7 @@ export async function onRequest(context) {
     rewriter.on("body", {
       element(element) {
         element.append(
-          '<script defer src="/assets/site-shell.js?v=20261013-shared-shell2"></script>',
+          '<script defer src="/assets/site-shell.js?v=20261013-navbar-v3"></script>',
           { html: true },
         );
       },
