@@ -1,0 +1,53 @@
+name: Refresh official Upcoming Matches schedule
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "29 */12 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/refresh_upcoming_matches.py"
+      - ".github/workflows/refresh-upcoming-matches.yml"
+permissions:
+  contents: write
+concurrency:
+  group: refresh-upcoming-matches
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check official BCCI fixture source
+        run: python scripts/refresh_upcoming_matches.py
+      - name: Validate refresh report
+        run: python -m json.tool matches/upcoming-fixtures-refresh.json > /dev/null
+      - name: Commit refresh report when changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add matches/upcoming-fixtures-refresh.json
+          if git diff --cached --quiet; then
+            echo "No refresh report changes."
+            exit 0
+          fi
+          git commit -m "chore: check official upcoming match fixtures"
+          for attempt in 1 2 3 4 5; do
+            if git push origin HEAD:main; then
+              echo "Published BCCI fixture-source refresh report."
+              exit 0
+            fi
+            git fetch origin main
+            git rebase origin/main
+            sleep $((attempt * 3))
+          done
+          echo "::error::Could not publish fixture refresh report after retries."
+          exit 1
