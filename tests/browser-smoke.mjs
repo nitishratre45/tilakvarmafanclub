@@ -257,43 +257,62 @@ check("mobile photo gallery shows ten albums at a time and filters by year/month
   await page.close();
 });
 
-check("Matches folder loads upcoming fixtures and keeps match formats separate", async () => {
+check("Matches folder defaults to Upcoming and opens complete match scorecards", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
-  const date = "2026-08-01";
-  const row = (format, score, source = "ESPNcricinfo Statsguru") => ({
-    date, opposition: "Australia", ground: "Test Ground", score, runs: Number.parseInt(score, 10),
-    balls: 10, source, format
-  });
   const fixture = {
-    playerMatches: [],
-    playerMatchesUpdatedAt: "2026-10-12 12:00 UTC",
-    statsguru: { updatedAt: "2026-10-12 12:00 UTC", formats: {
-      T20I: { innings: [row("T20I", "40")] },
-      T20: { innings: [row("T20", "40")] },
-      FC: { innings: [row("FC", "70")] },
-      "List A": { innings: [row("List A", "30")] }
-    }},
-    recentInnings: [],
-    bowlingStats: { formats: {} }
+    checkedAt: "2026-10-13T12:00:00Z",
+    fixtures: [{
+      date: "2099-08-01", label: "Sat, 1 Aug 2099", match: "Tour match",
+      opponent: "Australia", venue: "Test Ground", time: "19:00",
+      newsUrl: "/news/"
+    }]
+  };
+  const rows = [
+    { matchId: "t20i-test", date: "2026-08-01", format: "T20I", team: "India", opposition: "Australia", venue: "Test Ground", result: "India won by 5 wickets", playerRuns: 40, inningsCount: 2 },
+    { matchId: "t20-test", date: "2026-07-01", format: "T20", team: "Mumbai Indians", opposition: "Australia", venue: "Test Ground", result: "Match completed", playerRuns: 20, inningsCount: 2 },
+    { matchId: "fc-test", date: "2026-06-01", format: "First-class", team: "Hyderabad (India)", opposition: "Australia", venue: "Test Ground", result: "Match drawn", playerRuns: 70, inningsCount: 4 },
+    { matchId: "list-a-test", date: "2026-05-01", format: "List A", team: "Hyderabad (India)", opposition: "Australia", venue: "Test Ground", result: "Won by 10 runs", playerRuns: 30, inningsCount: 2 }
+  ];
+  const scorecard = {
+    team: "India", opposition: "Australia", date: "2026-08-01", venue: "Test Ground",
+    format: "T20I", result: "India won by 5 wickets", source: "https://cricsheet.org/",
+    attribution: "Cricsheet match data",
+    innings: [{
+      number: 1, team: "India", runs: 40, wickets: 1, overs: "5.0", extras: 0,
+      extrasBreakdown: {}, batting: [{ batter: "Tilak Varma", runs: 40, balls: 20, fours: 4, sixes: 2, strikeRate: 200, dismissal: "not out", notOut: true }],
+      bowling: [{ bowler: "Australia Bowler", overs: "5.0", maidens: 0, runs: 40, wickets: 1, economy: 8 }],
+      fallOfWickets: [], deliveries: [{ over: 1, ball: 1, batter: "Tilak Varma", bowler: "Australia Bowler", totalRuns: 4, wickets: [] }]
+    }]
   };
   await page.route("**/data/site-data.json*", (route) => route.fulfill({
+    status: 200, contentType: "application/json", body: JSON.stringify({ playerMatches: [], recentInnings: [], bowlingStats: { formats: {} } })
+  }));
+  await page.route("**/matches/upcoming-fixtures-refresh.json*", (route) => route.fulfill({
     status: 200, contentType: "application/json", body: JSON.stringify(fixture)
   }));
+  await page.route("**/matches/scorecards/index.json*", (route) => route.fulfill({
+    status: 200, contentType: "application/json",
+    body: JSON.stringify({ matchCount: rows.length, updatedAt: "2026-10-13T12:00:00Z", coverageNote: "Verified test data", matches: rows })
+  }));
+  await page.route("**/matches/scorecards/data/**", (route) => route.fulfill({
+    status: 200, contentType: "application/json", body: JSON.stringify(scorecard)
+  }));
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  assert.equal(await page.locator("#player-matches-table").count(), 0, "Homepage must not embed the Match section");
-  assert.equal(await page.locator("#upcoming-matches-list").count(), 0, "Homepage must not embed upcoming fixtures");
+  assert.equal(await page.locator("#match-tab-upcoming").count(), 0, "Homepage must not embed the Match Centre");
   await page.locator('#main-nav a[href="/matches/"]').click();
   await page.waitForURL(url => url.pathname === "/matches/");
-  await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).first().waitFor();
-  const rows = await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).evaluateAll(nodes =>
-    nodes.map(node => ({ text: node.innerText, format: node.cells[9]?.innerText }))
-  );
-  assert.equal(rows.length, 3, "T20I/T20 overlap should collapse, but FC and List A rows must remain: " + JSON.stringify(rows));
-  assert.deepEqual(rows.map(row => row.format).sort(), ["FC", "List A", "T20I"]);
-  await page.locator("#player-match-format").selectOption("FC");
-  assert.equal(await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).count(), 1,
-    "FC filter should show its own match row");
+  await page.locator("#match-tab-upcoming").waitFor();
+  assert.equal(await page.locator("#match-tab-upcoming").getAttribute("aria-selected"), "true", "Upcoming must be selected by default");
+  await page.locator(".upcoming-match-card").filter({ hasText: "Australia" }).waitFor();
+  await page.locator("#match-tab-complete").click();
+  await page.locator(".complete-match-card").first().waitFor();
+  assert.equal(await page.locator(".complete-match-card").count(), 4, "Complete Match should show all indexed format rows");
+  await page.locator("#match-format-filter").selectOption("First-class");
+  assert.equal(await page.locator(".complete-match-card").count(), 1, "First-class filter should show only its own match");
+  await page.locator('[data-scorecard="fc-test"]').click();
+  await page.locator(".scorecard-detail .scorecard-table").first().waitFor();
+  await page.locator(".scorecard-detail").getByText("Tilak Varma").waitFor();
   await page.close();
 });
 
