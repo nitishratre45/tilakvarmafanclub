@@ -9159,3 +9159,31 @@ body > .cs-overlay .cs-kicker {
     flex: 1 1 145px;
   }
 }
+
+
+/* Matches-page base layer only. Keep header/navbar styling out of this block. */
+.matches-page .matches-main {
+  color: var(--white, #f4f7fb);
+  isolation: isolate;
+}
+.matches-page .matches-main .section-heading > p {
+  max-width: 46rem;
+  font-size: clamp(0.95rem, 1.4vw, 1.08rem);
+}
+.matches-page .matches-main .eyebrow {
+  font-family: var(--mono, "DM Mono", monospace);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.matches-page .matches-main .upcoming-matches-panel p {
+  text-wrap: pretty;
+}
+.matches-page .matches-main .table-wrap {
+  scrollbar-gutter: stable;
+}
+.matches-page .matches-main .table-wrap table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
