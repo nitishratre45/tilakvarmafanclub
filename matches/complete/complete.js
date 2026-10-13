@@ -134,5 +134,26 @@
     state.query = event.target.value;
     renderMatches();
   });
+  // Save the exact archive position before navigating to a scorecard.
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a.scorecard-open");
+    if (!link) return;
+    saveReturnState();
+  });
+  // Browser Back can restore this document from BFCache; restore after the page becomes visible.
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(returnStateKey) || "null");
+        if (saved && Date.now() - saved.savedAt < 30 * 60 * 1000) {
+          state.query = saved.query || "";
+          state.format = saved.format || "All";
+          if ($("match-search")) $("match-search").value = state.query;
+          if ($("match-format-filter")) $("match-format-filter").value = state.format;
+          requestAnimationFrame(() => window.scrollTo({ top: Number(saved.scrollY) || 0, behavior: "instant" }));
+        }
+      } catch (_) {}
+    }
+  });
   loadMatches();
 })();
