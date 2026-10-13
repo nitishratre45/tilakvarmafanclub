@@ -26,8 +26,21 @@ HEADERS = {
 MONTHS = {
     name.lower(): number
     for number, name in enumerate(
-        ["", "January", "February", "March", "April", "May", "June",
-         "July", "August", "September", "October", "November", "December"],
+        [
+            "",
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ],
         start=0,
     )
     if name
@@ -43,7 +56,9 @@ def fetch_page() -> str:
 
 
 def strip_markup(value: str) -> str:
-    value = re.sub(r"<script\b.*?</script>|<style\b.*?</style>", " ", value, flags=re.I | re.S)
+    value = re.sub(
+        r"<script\b.*?</script>|<style\b.*?</style>", " ", value, flags=re.I | re.S
+    )
     value = re.sub(r"<[^>]+>", " ", value)
     return re.sub(r"\s+", " ", html.unescape(value)).strip()
 
@@ -71,11 +86,13 @@ def find_date(text: str) -> str | None:
 def extract_fixture_cards(page: str) -> list[dict]:
     # BCCI match-detail links have a stable URL shape; inspect surrounding
     # markup for the date and visible card text rather than guessing dates.
-    matches = list(re.finditer(
-        r'href=["\']([^"\']*/matches/([0-9a-f-]{36})/([^"\']*match-details[^"\']*))["\']',
-        page,
-        re.I,
-    ))
+    matches = list(
+        re.finditer(
+            r'href=["\']([^"\']*/matches/([0-9a-f-]{36})/([^"\']*match-details[^"\']*))["\']',
+            page,
+            re.I,
+        )
+    )
     fixtures = []
     seen = set()
     for match in matches:
@@ -104,23 +121,34 @@ def extract_fixture_cards(page: str) -> list[dict]:
             card_text,
             re.I,
         )
-        match_label = title_match.group(1).strip() if title_match else "International match"
+        match_label = (
+            title_match.group(1).strip() if title_match else "International match"
+        )
         # Venue is taken only when it is explicitly visible in the source text.
         venue = ""
         for candidate in re.findall(r"\b[A-Z][A-Za-z.' -]{2,70}\b", card_text):
-            if any(token in candidate.lower() for token in ("stadium", "ground", "park", "arena")):
+            if any(
+                token in candidate.lower()
+                for token in ("stadium", "ground", "park", "arena")
+            ):
                 venue = candidate.strip()
                 break
-        source = url_path if url_path.startswith("http") else "https://www.bcci.tv" + url_path
-        fixtures.append({
-            "date": date,
-            "label": datetime.strptime(date, "%Y-%m-%d").strftime("%a, %-d %b %Y"),
-            "match": match_label,
-            "opponent": opponent,
-            "venue": venue or "Venue as listed by BCCI",
-            "time": "19:00",
-            "source": source,
-        })
+        source = (
+            url_path
+            if url_path.startswith("http")
+            else "https://www.bcci.tv" + url_path
+        )
+        fixtures.append(
+            {
+                "date": date,
+                "label": datetime.strptime(date, "%Y-%m-%d").strftime("%a, %-d %b %Y"),
+                "match": match_label,
+                "opponent": opponent,
+                "venue": venue or "Venue as listed by BCCI",
+                "time": "19:00",
+                "source": source,
+            }
+        )
     return fixtures
 
 
@@ -152,20 +180,31 @@ def main() -> None:
                     },
                     ensure_ascii=False,
                     indent=2,
-                ) + "\n",
+                )
+                + "\n",
                 encoding="utf-8",
             )
-            print(f"Parsed {len(fixtures)} fixture candidates from BCCI. Snapshot saved for validation.")
+            print(
+                f"Parsed {len(fixtures)} fixture candidates from BCCI. Snapshot saved for validation."
+            )
             return
         report["status"] = "no-matching-fixtures-parsed"
-        report["note"] = "BCCI page loaded, but no trustworthy matching fixture cards were parsed; existing public fixtures were preserved."
+        report["note"] = (
+            "BCCI page loaded, but no trustworthy matching fixture cards were parsed; existing public fixtures were preserved."
+        )
     except Exception as exc:
         report["status"] = "source-unavailable"
-        report["note"] = f"Could not refresh from BCCI; existing public fixtures were preserved. {type(exc).__name__}: {exc}"
+        report["note"] = (
+            f"Could not refresh from BCCI; existing public fixtures were preserved. {type(exc).__name__}: {exc}"
+        )
         print(report["note"])
-    REPORT_FILE.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    REPORT_FILE.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     # Ensure the current fixture code remains unchanged on any parse/source issue.
-    assert "const fixtures = [" in existing_text, "Existing fixtures array not found; refusing to proceed"
+    assert (
+        "const fixtures = [" in existing_text
+    ), "Existing fixtures array not found; refusing to proceed"
     print("Existing Upcoming Matches fixtures preserved.")
 
 
