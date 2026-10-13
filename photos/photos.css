@@ -1,0 +1,9 @@
+/* Dedicated Photos page layout; gallery-specific styling lives here, shared tokens remain in /assets/*.css. */
+.photos-page { min-height: 100vh; }
+.photos-main { width: min(1240px, calc(100% - 28px)); margin: 0 auto; padding: 12px 0 42px; }
+.photos-main #tv-gallery-hub { width: 100%; margin: 0; }
+.photos-page footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+@media (max-width: 640px) {
+  .photos-main { width: calc(100% - 16px); padding-top: 8px; }
+  .photos-page footer { justify-content: center; text-align: center; }
+}
