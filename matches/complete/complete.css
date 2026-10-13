@@ -310,3 +310,8 @@
   .complete-team-crest { width: 48px; height: 48px; flex-basis: 48px; border-radius: 14px; }
   .complete-team-side { font-size: 11px; }
 }
+
+/* Keep initials hidden until the remote crest fails to load. */
+.complete-team-crest-fallback { display: none; }
+.complete-team-crest.is-missing .complete-team-crest-fallback { display: grid; }
+.complete-team-crest.is-missing img { display: none !important; }
