@@ -130,19 +130,24 @@
           </p>
         </div>
 
-        <div class="match-history-head">
-          <div class="eyebrow">RECENT MATCHES · PLAYER</div>
-          <label
-            >Format
-            <select id="player-match-format">
-              <option value="All">All formats</option>
-              <option value="ODI">ODI</option>
-              <option value="T20I">T20I</option>
-              <option value="FC">FC</option>
-              <option value="List A">List A</option>
-              <option value="T20">T20</option>
-            </select>
+        <div class="match-history-filters" aria-label="Filter recent matches">
+          <label class="match-filter">
+            <span>Format</span>
+            <button type="button" class="match-filter-trigger" id="player-format-trigger" aria-haspopup="dialog" aria-expanded="false"><span id="player-format-value">All formats</span><span class="filter-chevron" aria-hidden="true">⌄</span></button>
+            <select id="player-match-format" class="match-filter-native" tabindex="-1" aria-hidden="true"><option value="All">All formats</option><option value="ODI">ODI</option><option value="T20I">T20I</option><option value="FC">FC</option><option value="List A">List A</option><option value="T20">T20</option></select>
           </label>
+          <label class="match-filter">
+            <span>Year</span>
+            <button type="button" class="match-filter-trigger" id="player-year-trigger" aria-haspopup="dialog" aria-expanded="false"><span id="player-year-value">All years</span><span class="filter-chevron" aria-hidden="true">⌄</span></button>
+            <select id="player-match-year" class="match-filter-native" tabindex="-1" aria-hidden="true"><option value="All">All years</option></select>
+          </label>
+        </div>
+        <div class="match-filter-backdrop" id="match-filter-backdrop" hidden>
+          <section class="match-filter-dialog" role="dialog" aria-modal="true" aria-labelledby="match-filter-dialog-title">
+            <div class="match-filter-dialog-top"><div><span class="eyebrow">REFINE YOUR SCORECARD</span><h3 id="match-filter-dialog-title">Choose filter</h3></div><button type="button" class="match-filter-close" id="match-filter-close" aria-label="Close filter">×</button></div>
+            <div class="match-filter-options" id="match-filter-options"></div>
+            <div class="match-filter-dialog-foot"><span>Recent matches · player history</span><button type="button" id="match-filter-done">Done</button></div>
+          </section>
         </div>
         <div class="table-wrap">
           <table>
