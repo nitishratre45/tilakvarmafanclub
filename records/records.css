@@ -347,3 +347,70 @@
     animation: none;
   }
 }
+
+
+/* Typography and contrast polish for the Records page; navigation remains untouched. */
+.records-section {
+  color: #f5f8ff;
+  background:
+    radial-gradient(ellipse at 4% 4%, rgba(25, 112, 206, 0.12), transparent 34rem),
+    radial-gradient(ellipse at 94% 32%, rgba(255, 106, 53, 0.07), transparent 30rem);
+}
+.records-section .section-heading h2,
+.records-section .official-records-head h3,
+.records-section .milestone-card h3 {
+  font-family: var(--display, "Barlow Condensed", Impact, sans-serif);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.records-section .section-heading > p,
+.records-section .milestone-values span,
+.records-section .milestone-card p {
+  color: #c3cfdf;
+}
+.records-section .official-records-head,
+.records-section .analytics-head {
+  scroll-margin-top: 100px;
+}
+.records-section .official-record-card,
+.records-section .milestone-card {
+  background:
+    linear-gradient(145deg, rgba(17, 37, 62, 0.98), rgba(8, 19, 34, 0.98));
+  border-color: rgba(135, 174, 220, 0.25);
+}
+.records-section .official-record-card h4 {
+  color: #f0f5fc;
+  font-size: clamp(1rem, 1.15vw, 1.12rem);
+  line-height: 1.55;
+}
+.records-section .milestone-card small {
+  color: #aebed2;
+  line-height: 1.6;
+}
+.records-section .official-record-card:focus-within,
+.records-section .milestone-card:focus-within {
+  outline: 2px solid #75e3ff;
+  outline-offset: 3px;
+}
+.records-section .record-source {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #75e3ff;
+  font: 700 0.72rem/1.5 var(--mono, monospace);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 560px) {
+  .records-section .section-heading h2 {
+    max-width: 100%;
+    font-size: clamp(2.55rem, 14vw, 3.8rem);
+    line-height: 0.94;
+  }
+  .records-section .official-records-head {
+    margin-top: 34px;
+  }
+  .records-section .official-record-card,
+  .records-section .milestone-card {
+    border-radius: 18px;
+  }
+}
