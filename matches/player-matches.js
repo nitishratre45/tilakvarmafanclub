@@ -330,86 +330,8 @@
   let snapshot = null;
   const selector = $("player-match-format");
   const yearSelector = $("player-match-year");
-  const backdrop = $("match-filter-backdrop");
-  const options = $("match-filter-options");
-  const dialogTitle = $("match-filter-dialog-title");
-  let activeFilter = "format";
-  let lastTrigger = null;
-  let filterScrollY = 0;
-  const triggers = {
-    format: $("player-format-trigger"),
-    year: $("player-year-trigger"),
-  };
-  const openFilter = (kind) => {
-    if (!backdrop || !options) return;
-    activeFilter = kind;
-    lastTrigger = triggers[kind];
-    const select = kind === "format" ? selector : yearSelector;
-    if (!select) return;
-    if (dialogTitle) dialogTitle.textContent = kind === "format" ? "Choose format" : "Choose year";
-    options.innerHTML = Array.from(select.options)
-      .map(
-        (option) =>
-          '<button type="button" class="match-filter-option' +
-          (option.value === select.value ? " is-selected" : "") +
-          '" data-filter-value="' +
-          esc(option.value) +
-          '" role="radio" aria-checked="' +
-          (option.value === select.value ? "true" : "false") +
-          '">' +
-          '<span class="match-filter-option-copy"><strong>' +
-          esc(option.textContent) +
-          "</strong><small>" +
-          (option.value === "All"
-            ? kind === "format"
-              ? "Show every format"
-              : "Show every year"
-            : kind === "format"
-              ? "Filter by match format"
-              : "Filter matches from " + esc(option.textContent)) +
-          "</small></span>" +
-          '<span class="match-filter-radio" aria-hidden="true"></span></button>',
-      )
-      .join("");
-    // Freeze the document at its current scroll position. overflow:hidden alone
-    // does not reliably prevent background scrolling on Android Chrome.
-    filterScrollY = window.scrollY || window.pageYOffset || 0;
-    document.body.style.top = "-" + filterScrollY + "px";
-    document.body.classList.add("match-filter-open");
-    backdrop.hidden = false;
-    triggers[kind]?.setAttribute("aria-expanded", "true");
-    $("match-filter-close")?.focus();
-  };
-  const closeFilter = () => {
-    if (!backdrop) return;
-    backdrop.hidden = true;
-    document.body.classList.remove("match-filter-open");
-    document.body.style.top = "";
-    window.scrollTo(0, filterScrollY);
-    Object.values(triggers).forEach((trigger) => trigger?.setAttribute("aria-expanded", "false"));
-    lastTrigger?.focus({ preventScroll: true });
-  };
-  Object.entries(triggers).forEach(([kind, trigger]) =>
-    trigger?.addEventListener("click", () => openFilter(kind)),
-  );
-  options?.addEventListener("click", (event) => {
-    const option = event.target.closest("[data-filter-value]");
-    if (!option) return;
-    const select = activeFilter === "format" ? selector : yearSelector;
-    if (!select) return;
-    select.value = option.dataset.filterValue;
-    select.dispatchEvent(new Event("change", { bubbles: true }));
-    closeFilter();
-  });
-  $("match-filter-close")?.addEventListener("click", closeFilter);
-  $("match-filter-done")?.addEventListener("click", closeFilter);
-  backdrop?.addEventListener("click", (event) => {
-    if (event.target === backdrop) closeFilter();
-  });
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && backdrop && !backdrop.hidden) closeFilter();
-  });
   if (selector) selector.addEventListener("change", () => snapshot && render(snapshot));
+  const yearSelector = $("player-match-year");
   if (yearSelector) yearSelector.addEventListener("change", () => snapshot && render(snapshot));
   window.TilakSiteData.load()
     .then((d) => {
