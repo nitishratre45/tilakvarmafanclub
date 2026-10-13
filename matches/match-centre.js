@@ -124,9 +124,13 @@
           .map((f) => {
             const link = f.newsUrl || f.source || "/news/";
             const target = /^https?:\/\//i.test(link) ? ' target="_blank"' : "";
-            const detailUrl = "/matches/details/?date=" + encodeURIComponent(f.date || "") +
-              "&match=" + encodeURIComponent(f.match || "") +
-              "&opponent=" + encodeURIComponent(f.opponent || "");
+            const detailUrl =
+              "/matches/details/?date=" +
+              encodeURIComponent(f.date || "") +
+              "&match=" +
+              encodeURIComponent(f.match || "") +
+              "&opponent=" +
+              encodeURIComponent(f.opponent || "");
             return (
               '<article class="upcoming-match-card"><div class="upcoming-match-topline"><span class="upcoming-match-date">' +
               esc(f.label || dateLabel(f.date)) +
