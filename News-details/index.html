@@ -55,7 +55,7 @@
         color: #ffffff !important;
       }
     </style>
-    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261014-newsdetails-parity3" />
+    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261014-smooth-close4" />
   </head>
 
   <body>
@@ -253,58 +253,7 @@
     <!-- Existing JavaScript path retained. -->
     <script src="news-details.js?v=20261012-newsdesk5"></script>
 
-    <!-- Mobile navigation -->
-    <script>
-      (() => {
-        "use strict";
-
-        const button = document.querySelector(".menu-toggle");
-        const nav = document.querySelector(".site-navigation");
-
-        if (!button || !nav) return;
-
-        const closeMenu = () => {
-          nav.classList.remove("is-open");
-
-          button.setAttribute("aria-expanded", "false");
-          button.setAttribute("aria-label", "Open navigation menu");
-        };
-
-        button.addEventListener("click", () => {
-          const isOpen = button.getAttribute("aria-expanded") === "true";
-
-          const nextOpen = !isOpen;
-
-          button.setAttribute("aria-expanded", String(nextOpen));
-
-          button.setAttribute(
-            "aria-label",
-            nextOpen ? "Close navigation menu" : "Open navigation menu",
-          );
-
-          nav.classList.toggle("is-open", nextOpen);
-        });
-
-        nav.addEventListener("click", (event) => {
-          if (event.target.closest("a")) {
-            closeMenu();
-          }
-        });
-
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "Escape") {
-            closeMenu();
-            button.focus();
-          }
-        });
-
-        document.addEventListener("click", (event) => {
-          if (!nav.contains(event.target) && !button.contains(event.target)) {
-            closeMenu();
-          }
-        });
-      })();
-    </script>
-    <script src="/assets/mobile-glass-menu.js?v=20261014-newsdetails-parity3"></script>
+    <!-- Shared mobile navigation controller handles open/close and outside taps. -->
+    <script src="/assets/mobile-glass-menu.js?v=20261014-smooth-close4"></script>
   </body>
 </html>
