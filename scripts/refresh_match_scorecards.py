@@ -350,6 +350,7 @@ def main():
                 "source": card["source"],
             }
         )
+    # Cricsheet all_json.zip already includes Syed Mushtaq Ali Trophy; verified SMAT matches are indexed with ball-by-ball deliveries.
     rows.sort(key=lambda row: row.get("date") or "", reverse=True)
     # Remove stale files for unrelated/same-name club entries no longer in the verified index.
     keep_files = {row["matchId"] + ".json" for row in rows}
@@ -363,7 +364,7 @@ def main():
         "source": "Cricsheet all-match JSON archive",
         "sourceUrl": ARCHIVE_URL,
         "attribution": "Match data provided by Cricsheet; Open Data Commons Attribution License (ODC-BY).",
-        "coverageNote": "Only matches listing Tilak Varma in the playing XI are included. Cricsheet does not cover every match or competition; absent matches are not fabricated.",
+        "coverageNote": "Only verified matches listing Tilak Varma are included. Cricsheet all_json.zip includes IPL and Syed Mushtaq Ali Trophy ball-by-ball data. Ranji Trophy ball-by-ball is not available in this archive; absent deliveries are not fabricated.",
         "matchCount": len(rows),
         "matches": rows,
     }
