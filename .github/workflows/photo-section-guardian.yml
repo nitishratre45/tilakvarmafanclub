@@ -8,7 +8,9 @@ on:
     branches: [main]
     paths:
       - "data/admin-media.json"
-      - "assets/gallery.js"
+      - "photos/gallery.js"
+      - "photos/gallery.css"
+      - "photos/index.html"
       - "assets/premium-ui.css"
       - "index.html"
       - "scripts/photo-section-guardian.mjs"
@@ -45,7 +47,9 @@ jobs:
       - name: Validate gallery and audit media
         run: |
           test -f index.html
-          test -f assets/gallery.js
+          test -f photos/index.html
+          test -f photos/gallery.js
+          test -f photos/gallery.css
           test -f assets/premium-ui.css
           node --check scripts/photo-section-guardian.mjs
           node --check scripts/photo-link-health.mjs
