@@ -1,0 +1,59 @@
+name: Refresh Tilak Varma Match Scorecards
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 1 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/refresh_match_scorecards.py"
+      - ".github/workflows/refresh-match-scorecards.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-match-scorecards
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate updater syntax
+        run: python -m py_compile scripts/refresh_match_scorecards.py
+      - name: Download, build and validate scorecards
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python -u scripts/refresh_match_scorecards.py
+          python -m json.tool matches/scorecards/index.json > /dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("matches/scorecards/index.json").read_text(encoding="utf-8"))
+          assert data.get("matchCount", 0) > 0, "Scorecard index is empty"
+          assert len(data.get("matches", [])) == data["matchCount"], "Index count mismatch"
+          print(f"Validated {data['matchCount']} scorecards.")
+          PY
+          git add matches/scorecards
+          if git diff --cached --quiet; then
+            echo "Scorecard data is already up to date."
+            exit 0
+          fi
+          git commit -m "chore: refresh Tilak Varma match scorecards"
+          for attempt in 1 2 3 4; do
+            if git push origin HEAD:main; then exit 0; fi
+            git fetch origin main
+            git rebase origin/main
+            sleep $((attempt * 3))
+          done
+          echo "::error::Unable to publish scorecard refresh after four attempts."
+          exit 1
