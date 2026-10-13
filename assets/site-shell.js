@@ -37,7 +37,13 @@
           path === "/" && (item.defaultHash ? !hash || hash === item.hash : hash === item.hash);
         if (item.label === "News" && (path === "/News" || path === "/News-details")) active = true;
       }
-      if (item.label === "Stats" || item.label === "Death-overs" || item.label === "Matches" || item.label === "Photos") active = path === item.path || (item.label === "Photos" && path === "/photos/index.html");
+      if (
+        item.label === "Stats" ||
+        item.label === "Death-overs" ||
+        item.label === "Matches" ||
+        item.label === "Photos"
+      )
+        active = path === item.path || (item.label === "Photos" && path === "/photos/index.html");
       if (active) {
         link.setAttribute("aria-current", "page");
         link.classList.add("is-active");

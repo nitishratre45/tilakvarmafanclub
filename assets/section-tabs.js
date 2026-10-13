@@ -15,19 +15,23 @@
   }
 
   // Guard against old/cached navbar HTML: route legacy clicks to the dedicated pages.
-  document.addEventListener("click", (event) => {
-    const link = event.target.closest("a[href]");
-    if (!link || window.location.pathname !== "/") return;
-    const legacyRoute = {
-      "#tv-gallery-hub": "/photos/index.html",
-      "#innings": "/matches/index.html",
-      "/#tv-gallery-hub": "/photos/index.html",
-      "/#innings": "/matches/index.html",
-    }[link.getAttribute("href")];
-    if (!legacyRoute) return;
-    event.preventDefault();
-    window.location.assign(legacyRoute);
-  }, true);
+  document.addEventListener(
+    "click",
+    (event) => {
+      const link = event.target.closest("a[href]");
+      if (!link || window.location.pathname !== "/") return;
+      const legacyRoute = {
+        "#tv-gallery-hub": "/photos/index.html",
+        "#innings": "/matches/index.html",
+        "/#tv-gallery-hub": "/photos/index.html",
+        "/#innings": "/matches/index.html",
+      }[link.getAttribute("href")];
+      if (!legacyRoute) return;
+      event.preventDefault();
+      window.location.assign(legacyRoute);
+    },
+    true,
+  );
 
   const main = document.querySelector("main");
   const nav = document.getElementById("main-nav");
