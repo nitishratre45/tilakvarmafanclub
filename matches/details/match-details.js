@@ -79,7 +79,7 @@
   function setTeamBadge(id, name) {
     const host = $(id);
     if (!host) return;
-    const initials = String(name || "?").split(/\\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+    const initials = String(name || "?").split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
     const src = teamLogoUrl(name);
     if (!src) {
       host.textContent = initials;
