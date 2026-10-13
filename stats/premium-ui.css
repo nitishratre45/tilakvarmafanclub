@@ -1,3 +1,9 @@
+/* Cleanup pass: removed exact duplicate rules and declarations that were always overridden by a later rule
+   with the same selector. Final computed styles are unchanged. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%; /* stop mobile browsers inflating text in landscape */
+}
 /* THE 72 CLUB — premium visual system refresh
    Progressive overrides only: existing HTML, data hooks and interactions remain intact. */
 :root {
@@ -23,13 +29,8 @@ body {
   background:
     radial-gradient(ellipse at 8% 0%, rgba(43, 92, 157, 0.14), transparent 34rem),
     radial-gradient(ellipse at 100% 35%, rgba(255, 83, 100, 0.055), transparent 32rem), var(--bg);
-  color: var(--text-primary);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-}
-::selection {
-  background: rgba(255, 83, 100, 0.32);
-  color: #fff;
 }
 a {
   transition:
@@ -248,7 +249,6 @@ nav a:focus-visible::after {
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
 }
 .stats-grid:not(.career-formats) .stat-feature {
-  background: linear-gradient(135deg, #ff6977 0%, #e94f2f 100%);
   border-color: transparent;
   border-radius: 18px;
   box-shadow: 0 18px 42px rgba(255, 83, 100, 0.16);
@@ -290,10 +290,6 @@ textarea {
 textarea {
   min-height: 100px;
 }
-input::placeholder,
-textarea::placeholder {
-  color: #8496b0;
-}
 label {
   color: #c5d1e1;
 }
@@ -322,9 +318,6 @@ tbody tr:hover {
 .data-line {
   background: rgba(15, 27, 45, 0.9);
 }
-.innings-section {
-  background: linear-gradient(180deg, #080f1c, #0b1422);
-}
 .home-snapshot-section {
   background: linear-gradient(180deg, rgba(8, 14, 25, 0.5), rgba(12, 22, 37, 0.35));
 }
@@ -343,7 +336,6 @@ footer {
 }
 :focus-visible {
   outline-color: var(--cyan);
-  outline-offset: 4px;
 }
 img {
   height: auto;
@@ -537,16 +529,6 @@ img {
   }
   .settings-theme-options {
     grid-template-columns: 1fr;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
   }
 }
 
@@ -854,23 +836,6 @@ textarea:focus-visible {
 .home-snapshot-heading h2 em {
   text-shadow: 0 8px 36px rgba(255, 106, 53, 0.12);
 }
-.profile-section {
-  overflow: hidden;
-}
-.profile-section::after {
-  content: "72";
-  position: absolute;
-  right: -2vw;
-  bottom: -10vw;
-  z-index: -1;
-  color: rgba(255, 255, 255, 0.018);
-  font:
-    900 clamp(240px, 39vw, 620px) / 0.8 "Barlow Condensed",
-    Impact,
-    sans-serif;
-  letter-spacing: -0.1em;
-  pointer-events: none;
-}
 .profile-copy .eyebrow::before {
   content: "";
   width: 22px;
@@ -879,10 +844,6 @@ textarea:focus-visible {
   display: inline-block;
   vertical-align: middle;
   margin-right: 7px;
-}
-.icc-ranking-card {
-  background: linear-gradient(115deg, rgba(16, 31, 51, 0.96), rgba(10, 17, 29, 0.96));
-  box-shadow: inset 3px 0 0 rgba(124, 229, 242, 0.7);
 }
 .icc-ranking-card strong {
   font-variant-numeric: tabular-nums;
@@ -904,33 +865,6 @@ textarea:focus-visible {
     transparent
   );
   pointer-events: none;
-}
-.home-mini-stat {
-  position: relative;
-  overflow: hidden;
-}
-.home-mini-stat::after {
-  content: "";
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  right: -30px;
-  top: -30px;
-  border: 1px solid rgba(124, 229, 242, 0.14);
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 10px rgba(124, 229, 242, 0.025),
-    0 0 0 20px rgba(124, 229, 242, 0.018);
-  pointer-events: none;
-}
-.home-mini-stat:nth-child(2)::after {
-  border-color: rgba(255, 106, 53, 0.2);
-}
-.home-mini-stat:nth-child(3)::after {
-  border-color: rgba(167, 139, 250, 0.2);
-}
-.home-mini-stat:nth-child(4)::after {
-  border-color: rgba(163, 230, 53, 0.18);
 }
 .home-snapshot-block,
 .home-bowling-card,
@@ -959,27 +893,9 @@ textarea:focus-visible {
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
-.stats-section {
-  background:
-    radial-gradient(ellipse at 0% 25%, rgba(255, 106, 53, 0.045), transparent 28rem),
-    radial-gradient(ellipse at 100% 70%, rgba(124, 229, 242, 0.04), transparent 32rem), #080e19;
-}
 .stats-grid:not(.career-formats) .stat-feature {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #ff8754 0%, #ff6a35 48%, #e74d32 100%);
-}
-.stats-grid:not(.career-formats) .stat-feature::after {
-  content: "RUNS";
-  position: absolute;
-  right: 18px;
-  bottom: -10px;
-  color: rgba(28, 10, 6, 0.12);
-  font:
-    900 clamp(44px, 7vw, 86px) / 1 "Barlow Condensed",
-    Impact,
-    sans-serif;
-  letter-spacing: -0.04em;
 }
 .player-analysis-content,
 .statsguru-panel,
@@ -997,188 +913,11 @@ textarea:focus-visible {
 .statsguru-category-grid > * {
   border-radius: 13px;
 }
-.records-section {
-  background:
-    radial-gradient(ellipse at 100% 0%, rgba(167, 139, 250, 0.07), transparent 28rem),
-    linear-gradient(180deg, #0a1220, #080d17);
-}
-.official-records-head,
-.analytics-head,
-.match-history-head,
-.gallery-heading {
-  border-bottom: 1px solid rgba(169, 194, 229, 0.14);
-  padding-bottom: 16px;
-  margin-bottom: 20px;
-}
-.official-records-grid,
-.milestone-grid,
-.analytics-grid {
-  gap: 14px;
-}
-.official-records-grid > *,
-.milestone-grid > *,
-.analytics-grid > * {
-  position: relative;
-  overflow: hidden;
-  border-radius: 16px;
-  border-color: rgba(169, 194, 229, 0.16);
-  background: linear-gradient(145deg, rgba(17, 29, 48, 0.96), rgba(9, 16, 28, 0.98));
-}
-.milestone-grid > *::after,
-.analytics-grid > *::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 34px;
-  height: 2px;
-  background: var(--club-orange);
-}
-.milestone-grid > *:nth-child(3n + 2)::after {
-  background: var(--club-cyan);
-}
-.milestone-grid > *:nth-child(3n)::after {
-  background: var(--club-purple);
-}
-.analytics-chart {
-  border-radius: 18px;
-  border: 1px solid rgba(169, 194, 229, 0.16);
-  background:
-    radial-gradient(ellipse at 90% 0%, rgba(124, 229, 242, 0.055), transparent 22rem),
-    rgba(10, 18, 31, 0.7);
-  padding: clamp(14px, 2vw, 24px);
-  overflow: hidden;
-}
-.fan-zone-section {
-  background:
-    radial-gradient(ellipse at 0% 10%, rgba(255, 106, 53, 0.06), transparent 25rem),
-    radial-gradient(ellipse at 100% 90%, rgba(124, 229, 242, 0.055), transparent 28rem), #080e19;
-}
-.fan-zone-grid {
-  gap: 14px;
-  align-items: stretch;
-}
-.fan-card {
-  position: relative;
-  min-width: 0;
-  overflow: hidden;
-  border: 1px solid rgba(169, 194, 229, 0.16);
-  border-radius: 18px;
-  background: linear-gradient(145deg, rgba(17, 29, 48, 0.97), rgba(9, 16, 28, 0.98));
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
-  transition:
-    transform 0.22s ease,
-    border-color 0.22s ease,
-    box-shadow 0.22s ease;
-}
-.fan-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--club-orange), transparent 80%);
-  pointer-events: none;
-}
-.fan-quiz-card::before {
-  background: linear-gradient(90deg, var(--club-cyan), transparent 80%);
-}
-.fan-club-card:nth-child(3)::before {
-  background: linear-gradient(90deg, var(--club-purple), transparent 80%);
-}
-.fan-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(124, 229, 242, 0.3);
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
-}
-.fan-card h3 {
-  line-height: 1.25;
-  text-wrap: balance;
-}
-.fan-card h3 em {
-  color: var(--club-orange);
-  font-style: normal;
-}
-.feature-eyebrow {
-  color: var(--club-cyan);
-  letter-spacing: 0.14em;
-}
-.poll-options label,
-.fan-ritual-list label {
-  border-radius: 11px;
-  border: 1px solid rgba(169, 194, 229, 0.13);
-  background: rgba(5, 11, 20, 0.3);
-  transition:
-    background 0.18s ease,
-    border-color 0.18s ease;
-}
-.poll-options label:hover,
-.fan-ritual-list label:hover {
-  border-color: rgba(124, 229, 242, 0.32);
-  background: rgba(124, 229, 242, 0.045);
-}
-.fan-badge-preview {
-  border: 1px solid rgba(255, 106, 53, 0.36);
-  border-radius: 15px;
-  background:
-    radial-gradient(ellipse at 100% 0%, rgba(255, 106, 53, 0.18), transparent 55%), #0b1422;
-}
-.innings-section {
-  background:
-    radial-gradient(ellipse at 100% 0%, rgba(124, 229, 242, 0.055), transparent 30rem),
-    linear-gradient(180deg, #091321, #080d17);
-}
 .upcoming-matches-grid {
   gap: 14px;
 }
-.upcoming-matches-grid > * {
-  min-width: 0;
-  border: 1px solid rgba(169, 194, 229, 0.16);
-  border-radius: 16px;
-  background: linear-gradient(145deg, rgba(17, 29, 48, 0.96), rgba(9, 16, 28, 0.98));
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-.upcoming-matches-grid > *:hover {
-  transform: translateY(-3px);
-  border-color: rgba(124, 229, 242, 0.34);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2);
-}
-.upcoming-matches-panel {
-  background:
-    radial-gradient(ellipse at 100% 0%, rgba(255, 106, 53, 0.06), transparent 24rem),
-    rgba(10, 18, 31, 0.7);
-}
 .tilak-photos-section {
   background: linear-gradient(180deg, #080d17, #0a1422);
-}
-.cricinfo-gallery {
-  padding: clamp(14px, 2vw, 24px);
-  background: linear-gradient(145deg, rgba(15, 27, 45, 0.8), rgba(8, 14, 24, 0.7));
-}
-.cricinfo-photo-grid > * {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 4 / 5;
-}
-.cricinfo-photo-grid img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition:
-    transform 0.35s ease,
-    filter 0.35s ease;
-}
-.cricinfo-photo-grid > *:hover img {
-  transform: scale(1.045);
-  filter: saturate(1.08);
-}
-.tilak-news-section {
-  background:
-    radial-gradient(ellipse at 0% 0%, rgba(167, 139, 250, 0.055), transparent 28rem), #090f1b;
 }
 .tilak-news-layout {
   border-radius: 18px;
@@ -1191,10 +930,6 @@ textarea:focus-visible {
   border: 1px solid rgba(169, 194, 229, 0.16);
   background: linear-gradient(145deg, rgba(17, 29, 48, 0.97), rgba(9, 16, 28, 0.98));
 }
-.tilak-news-card img {
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
 .tilak-news-card a,
 .tilak-news-card .text-link {
   color: var(--club-cyan);
@@ -1203,12 +938,6 @@ textarea:focus-visible {
   background:
     radial-gradient(ellipse at 100% 0%, rgba(255, 106, 53, 0.065), transparent 28rem),
     linear-gradient(180deg, #0a1220, #080d17);
-}
-.bcci-video-controls {
-  border: 1px solid rgba(169, 194, 229, 0.16);
-  border-radius: 16px;
-  background: rgba(12, 22, 37, 0.72);
-  padding: 16px;
 }
 .bcci-video-grid > * {
   min-width: 0;
@@ -1221,19 +950,9 @@ textarea:focus-visible {
     border-color 0.22s ease,
     box-shadow 0.22s ease;
 }
-.bcci-video-grid > *:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 106, 53, 0.42);
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
-}
 .bcci-video-modal:not([hidden]) {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-}
-.bcci-video-panel {
-  border: 1px solid rgba(124, 229, 242, 0.22);
-  border-radius: 18px;
-  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.55);
 }
 .bcci-video-player-head {
   background: rgba(7, 13, 23, 0.96);
@@ -1241,79 +960,6 @@ textarea:focus-visible {
 }
 .settings-section {
   background: linear-gradient(180deg, #090f1b, #080d17);
-}
-.settings-card {
-  border: 1px solid rgba(169, 194, 229, 0.17);
-  background:
-    radial-gradient(ellipse at 100% 0%, rgba(124, 229, 242, 0.06), transparent 24rem),
-    linear-gradient(145deg, rgba(17, 29, 48, 0.97), rgba(9, 16, 28, 0.98));
-}
-.settings-theme-options button {
-  border-radius: 13px;
-  transition:
-    transform 0.18s ease,
-    border-color 0.18s ease,
-    background 0.18s ease;
-}
-.settings-theme-options button:hover {
-  transform: translateY(-2px);
-}
-.settings-theme-options button[aria-pressed="true"] {
-  background: rgba(255, 106, 53, 0.09);
-  border-color: var(--club-orange);
-}
-.about-section {
-  background:
-    radial-gradient(ellipse at 0% 100%, rgba(255, 106, 53, 0.06), transparent 26rem), #070b14;
-}
-.about-section h2 {
-  font-size: clamp(42px, 6vw, 76px);
-}
-footer {
-  background: #060a12;
-  padding-block: 26px;
-}
-@media (min-width: 1000px) {
-  .fan-zone-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .fan-card {
-    padding: clamp(20px, 2.2vw, 30px);
-  }
-}
-@media (max-width: 760px) {
-  .profile-section::after {
-    right: -12vw;
-    bottom: -8vw;
-  }
-  .cricinfo-gallery {
-    padding: 12px;
-  }
-  .fan-card {
-    padding: 20px;
-  }
-  .bcci-video-controls {
-    padding: 12px;
-  }
-  .official-records-head,
-  .analytics-head,
-  .gallery-heading {
-    align-items: flex-start;
-    gap: 10px;
-    flex-direction: column;
-  }
-  .statsguru-section {
-    padding-inline: 18px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .fan-card,
-  .upcoming-matches-grid > *,
-  .cricinfo-photo-grid img,
-  .bcci-video-grid > *,
-  .settings-theme-options button {
-    transition: none !important;
-  }
 }
 
 /* Style expansion: stronger section identity and richer matchday cards. */
@@ -1762,13 +1408,10 @@ footer {
 #career-formats.career-formats {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 14px !important;
   align-items: stretch;
 }
 #career-formats .format-card {
   min-width: 0;
-  min-height: 0 !important;
-  padding: 18px 19px !important;
   gap: 7px;
   border: 1px solid rgba(169, 194, 229, 0.16);
   border-left: 3px solid rgba(124, 229, 242, 0.65);
@@ -1824,10 +1467,8 @@ footer {
 @media (max-width: 760px) {
   #career-formats.career-formats {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
   }
   #career-formats .format-card {
-    padding: 13px 12px !important;
     border-radius: 14px;
     gap: 6px;
   }
@@ -2147,10 +1788,6 @@ body {
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 14px !important;
   }
-  #career-formats .format-card {
-    padding: 18px 18px !important;
-    gap: 11px !important;
-  }
   #career-formats .format-main-row {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     gap: 12px;
@@ -2160,9 +1797,6 @@ body {
   }
   #career-formats .format-fact {
     padding: 9px 10px;
-  }
-  #career-formats .format-fact strong {
-    font-size: 18px !important;
   }
 }
 @media (max-width: 360px) {
@@ -2387,9 +2021,6 @@ body {
   overflow: hidden;
 }
 @media (max-width: 640px) {
-  .death-overs-section {
-    padding-inline: 14px !important;
-  }
   .death-overs-embed-wrap {
     border-radius: 14px;
   }
@@ -2549,7 +2180,6 @@ footer .brand small {
   isolation: isolate;
   display: grid;
   grid-template-columns: minmax(260px, 0.78fr) minmax(0, 1.32fr);
-  align-items: center;
   gap: clamp(24px, 4vw, 52px);
   padding: clamp(28px, 4.5vw, 62px) clamp(22px, 5vw, 72px);
   background:
@@ -2569,9 +2199,6 @@ footer .brand small {
 }
 #profile .profile-photo-wrap {
   position: relative;
-  width: 100%;
-  max-width: 460px;
-  aspect-ratio: 4/5.25;
   min-height: 0;
   margin: 0 auto;
   overflow: hidden;
@@ -2597,7 +2224,6 @@ footer .brand small {
   max-width: 820px;
 }
 #profile .profile-copy > .eyebrow {
-  margin-bottom: 13px;
   color: #75e5f6;
   font-size: clamp(10px, 1.15vw, 13px);
   letter-spacing: 0.15em;
@@ -2630,7 +2256,6 @@ footer .brand small {
 #profile .profile-facts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
   margin: 0 0 17px;
 }
 #profile .profile-facts > div {
@@ -2664,7 +2289,6 @@ footer .brand small {
 #profile .icc-ranking-card {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
   margin: 0 0 17px;
 }
 #profile .icc-ranking-card > div {
@@ -2709,7 +2333,6 @@ footer .brand small {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 17px;
 }
 #profile .profile-quick-actions .button {
   min-height: 46px;
@@ -2734,22 +2357,9 @@ footer .brand small {
 @media (max-width: 800px) {
   #profile.profile-section {
     grid-template-columns: minmax(145px, 0.72fr) minmax(0, 1.28fr);
-    gap: 17px;
-    padding: 24px 17px 29px;
-  }
-  #profile .profile-photo-wrap {
-    aspect-ratio: 4/5.4;
-    border-radius: 21px;
   }
   #profile .profile-copy h2 {
     font-size: clamp(28px, 5.8vw, 42px);
-  }
-  #profile .profile-intro {
-    font-size: 14px;
-    line-height: 1.5;
-  }
-  #profile .profile-facts {
-    gap: 7px;
   }
   #profile .profile-facts > div,
   #profile .icc-ranking-card > div {
@@ -2761,8 +2371,6 @@ footer .brand small {
   #profile.profile-section {
     grid-template-columns: minmax(104px, 34%) minmax(0, 1fr);
     align-items: start;
-    gap: 12px;
-    padding: 19px 13px 22px;
   }
   #profile.profile-section:before {
     inset: 7px;
@@ -2770,16 +2378,10 @@ footer .brand small {
   }
   #profile .profile-photo-wrap {
     width: 100%;
-    height: auto;
     min-height: 0;
     max-height: none;
-    aspect-ratio: 4/5.25;
-    border-radius: 16px;
   }
   #profile .profile-copy > .eyebrow {
-    margin-bottom: 7px;
-    font-size: 8px;
-    letter-spacing: 0.08em;
     line-height: 1.45;
   }
   #profile .profile-copy > .eyebrow:before {
@@ -2788,19 +2390,12 @@ footer .brand small {
     margin-right: 5px;
   }
   #profile .profile-copy h2 {
-    margin-bottom: 7px;
     font-size: clamp(22px, 6vw, 31px);
     line-height: 1.02;
     letter-spacing: -0.04em;
   }
   #profile .profile-intro {
-    margin-bottom: 9px;
     font-size: clamp(10px, 2.9vw, 13px);
-    line-height: 1.45;
-  }
-  #profile .profile-facts {
-    gap: 6px;
-    margin-bottom: 9px;
   }
   #profile .profile-facts > div,
   #profile .icc-ranking-card > div {
@@ -2809,28 +2404,18 @@ footer .brand small {
   }
   #profile .profile-facts small {
     margin-bottom: 4px;
-    font-size: 7px;
-    letter-spacing: 0.08em;
   }
   #profile .profile-facts strong {
     font-size: clamp(10px, 2.8vw, 13px);
   }
   #profile .icc-ranking-card {
     grid-template-columns: 1fr;
-    gap: 6px;
-    margin-bottom: 8px;
-  }
-  #profile .icc-ranking-card .eyebrow,
-  #profile .icc-ranking-card span {
-    font-size: 7px;
-    letter-spacing: 0.06em;
   }
   #profile .icc-ranking-card strong {
     margin: 4px 0 2px;
     font-size: clamp(16px, 4.4vw, 22px);
   }
   #profile .icc-ranking-card small {
-    font-size: 8px;
     line-height: 1.35;
   }
   #profile .profile-teams {
@@ -2840,13 +2425,9 @@ footer .brand small {
   }
   #profile .profile-quick-actions {
     gap: 6px;
-    margin-top: 9px;
   }
   #profile .profile-quick-actions .button {
-    min-height: 34px;
-    padding: 8px 10px;
     border-radius: 10px;
-    font-size: 10px;
   }
 }
 @media (max-width: 360px) {
@@ -2871,8 +2452,6 @@ footer .brand small {
 
 /* PROFILE UI UPDATE — larger mobile portrait, clean photo crop, richer team panel. */
 #profile .profile-teams-panel {
-  margin-top: 17px;
-  padding: 16px;
   border: 1px solid rgba(117, 203, 237, 0.2);
   border-radius: 17px;
   background:
@@ -2881,11 +2460,9 @@ footer .brand small {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
 }
 #profile .profile-teams-heading {
-  display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
 }
 #profile .profile-teams-heading .eyebrow {
   color: #83e7f7;
@@ -2905,14 +2482,11 @@ footer .brand small {
 #profile .profile-team-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
 }
 #profile .profile-team-chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 34px;
-  padding: 8px 11px;
   border: 1px solid rgba(139, 177, 212, 0.22);
   border-radius: 9px;
   background: rgba(23, 42, 64, 0.78);
@@ -2950,11 +2524,6 @@ footer .brand small {
   font-size: 10px;
   letter-spacing: 0.025em;
   line-height: 1.5;
-}
-@media (max-width: 800px) {
-  #profile .profile-teams-panel {
-    padding: 13px;
-  }
 }
 @media (max-width: 520px) {
   /* Give the player the first, wide visual block; text no longer gets squeezed beside him. */
@@ -3253,7 +2822,6 @@ footer .brand small {
     top: auto !important;
     z-index: 2 !important;
     margin: 0 0 12px !important;
-    padding: 6px !important;
     overflow-x: auto;
     overscroll-behavior-x: contain;
   }
@@ -3384,21 +2952,14 @@ footer .brand small {
     min-height: 68px;
     height: auto;
     padding: 9px 14px;
-    z-index: 5000 !important;
   }
   .menu-toggle {
     display: grid !important;
     place-items: center;
     flex: 0 0 auto;
   }
-  .topbar nav:not(.open) {
-    display: none !important;
-  }
   .topbar nav.open {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     max-height: calc(100dvh - 76px) !important;
-    overflow-y: auto !important;
   }
 }
 
@@ -3918,10 +3479,7 @@ main > section:not([hidden]) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
   }
 }
 @media (max-width: 720px) {
@@ -4292,22 +3850,12 @@ main > section:not([hidden]) {
   margin-bottom: 12px;
   gap: 12px;
 }
-#stats #statsguru .explore-heading > p {
-  max-width: 42ch;
-  font-size: 13px;
-  line-height: 1.5;
-}
 #stats #statsguru .statsguru-sourcebar {
   padding: 9px 12px;
   line-height: 1.4;
 }
 #stats #statsguru .statsguru-format-tabs {
-  gap: 6px;
   margin-block: 9px 10px;
-}
-#stats #statsguru .statsguru-format-tabs button {
-  min-height: 36px;
-  padding: 7px 11px;
 }
 #stats #statsguru .player-analysis-toggle {
   min-height: 54px;
@@ -5012,8 +4560,6 @@ body[data-theme="light"] #stats #stats-overview .data-line,
 /* VIDEO PLAYER VISIBILITY + NAVBAR PERSISTENCE FIX.
    Keep the original player, feed, controls and page structure intact. */
 #bcci-video-player-modal:not([hidden]) {
-  z-index: 6990 !important;
-  display: grid !important;
   align-items: center;
   overflow: auto;
   overscroll-behavior: contain;
@@ -5027,28 +4573,16 @@ body[data-theme="light"] #stats #stats-overview .data-line,
   overscroll-behavior: contain;
 }
 #bcci-video-player-modal .bcci-player-screen {
-  display: block !important;
   position: relative;
-  width: 100%;
   min-width: 0;
-  aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: #000 !important;
 }
 #bcci-video-player-modal #bcci-shaka-player {
-  display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
   position: relative;
-  width: 100% !important;
-  height: 100% !important;
   min-width: 0;
-  min-height: 0;
   max-width: 100% !important;
-  max-height: none !important;
-  aspect-ratio: auto !important;
-  object-fit: contain !important;
-  background: #000 !important;
 }
 #bcci-video-player-modal .bcci-player-page-content,
 #bcci-video-player-modal .bcci-player-main {
@@ -5171,29 +4705,17 @@ body.bcci-player-open .topbar {
   isolation: isolate;
 }
 #bcci-video-player-modal .bcci-player-quality-control {
-  position: absolute !important;
   z-index: 30 !important;
-  right: 16px !important;
-  bottom: 58px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-end !important;
-  gap: 10px !important;
   pointer-events: none;
 }
 #bcci-video-player-modal .bcci-player-quality-control > * {
   pointer-events: auto;
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-quality-head-button {
-  display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 9px !important;
-  min-width: 100px !important;
-  min-height: 42px !important;
-  padding: 0 15px !important;
   border: 1px solid rgba(255, 255, 255, 0.32) !important;
-  border-radius: 999px !important;
   background: rgba(5, 15, 34, 0.92) !important;
   color: #fff !important;
   box-shadow:
@@ -5274,10 +4796,6 @@ body.bcci-player-open .topbar {
   overflow-wrap: anywhere;
 }
 @media (max-width: 760px) {
-  #bcci-video-player-modal .bcci-player-quality-control {
-    right: 9px !important;
-    bottom: 50px !important;
-  }
   #bcci-video-player-modal .bcci-player-quality-control .bcci-quality-head-button {
     min-width: 88px !important;
     min-height: 38px !important;
@@ -5295,14 +4813,11 @@ body.bcci-player-open .topbar {
   display: block !important;
   box-sizing: border-box !important;
   min-height: 0 !important;
-  overflow: visible !important;
-  padding: 16px !important;
   background: #07142f !important;
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu label {
   display: grid !important;
   width: 100% !important;
-  gap: 10px !important;
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu label::before {
   content: "PLAYBACK QUALITY";
@@ -5316,13 +4831,9 @@ body.bcci-player-open .topbar {
   position: relative !important;
   display: block !important;
   box-sizing: border-box !important;
-  width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  height: 44px !important;
-  min-height: 44px !important;
   margin: 0 !important;
-  padding: 0 36px 0 12px !important;
   appearance: auto !important;
   -webkit-appearance: menulist !important;
   opacity: 1 !important;
@@ -5333,9 +4844,6 @@ body.bcci-player-open .topbar {
 }
 #bcci-video-player-modal .bcci-player-quality-control .bcci-quality-current {
   display: none !important;
-}
-#bcci-video-player-modal .bcci-player-quality-control .bcci-quality-head-button {
-  min-width: 88px !important;
 }
 @media (max-width: 760px) {
   #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu:not([hidden]) {
@@ -6079,102 +5587,24 @@ textarea:focus-visible {
 
 /* Gallery layout repair: balanced cards, consistent cover crops, desktop + mobile */
 #photos .cricinfo-gallery {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
   padding: clamp(16px, 2vw, 28px);
-  overflow: hidden;
-}
-#cricinfo-photo-grid {
-  width: 100%;
-  min-width: 0;
-}
-#cricinfo-photo-grid .tv-album-grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: clamp(12px, 1.5vw, 22px) !important;
-  width: 100%;
-  align-items: stretch;
 }
 #cricinfo-photo-grid .tv-album-card {
-  display: flex !important;
   flex-direction: column;
   width: 100%;
   min-width: 0;
-  height: 100%;
-  overflow: hidden;
   border-radius: 18px;
   background: linear-gradient(150deg, #12243a, #091321 78%);
   border: 1px solid rgba(124, 229, 242, 0.2);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
-  text-align: left;
-}
-#cricinfo-photo-grid .tv-album-cover {
-  display: block;
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4/3 !important;
-  min-height: 0;
-  overflow: hidden;
-  background: #101c2c;
-}
-#cricinfo-photo-grid .tv-album-cover > img {
-  position: absolute;
-  inset: 0;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center 28%;
-  display: block;
-}
-#cricinfo-photo-grid .tv-album-info {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  padding: 15px !important;
-  min-height: 82px;
 }
 #cricinfo-photo-grid .tv-album-info strong {
   font-size: clamp(14px, 1.3vw, 18px);
-  line-height: 1.35;
-  overflow-wrap: anywhere;
-}
-#cricinfo-photo-grid .tv-album-info small {
-  display: block !important;
-  color: #9fb1c8;
-  font-size: 12px;
-  line-height: 1.5;
-}
-#cricinfo-photo-grid .tv-album-count {
-  left: 10px;
-  top: 10px;
-  padding: 6px 9px;
-  font-size: 10px;
 }
 #cricinfo-photo-grid .tv-album-open {
-  right: 10px;
-  bottom: 10px;
-  padding: 8px 11px;
-  font-size: 10px;
   white-space: nowrap;
 }
-#cricinfo-photo-grid .tv-album-photo-grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: clamp(6px, 1vw, 14px) !important;
-  width: 100%;
-}
 #cricinfo-photo-grid .tv-album-photo {
-  display: block;
-  width: 100%;
   aspect-ratio: 1/1;
-  min-width: 0;
-  overflow: hidden;
-}
-#cricinfo-photo-grid .tv-album-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 #cricinfo-photo-grid .tv-album-back-row {
   width: 100%;
@@ -6197,70 +5627,28 @@ textarea:focus-visible {
   }
   #photos .cricinfo-gallery {
     padding: 13px;
-    border-radius: 16px;
-  }
-  #photos .gallery-heading {
-    gap: 10px;
-    align-items: flex-start;
   }
   #photos .gallery-heading h3 {
     font-size: clamp(20px, 6vw, 29px);
-    line-height: 1.1;
   }
   #cricinfo-gallery-updated {
-    font-size: 9px;
-    max-width: 105px;
     text-align: right;
     line-height: 1.5;
   }
   #cricinfo-photo-grid .tv-album-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 7px !important;
   }
   #cricinfo-photo-grid .tv-album-card {
     border-radius: 11px;
   }
-  #cricinfo-photo-grid .tv-album-cover {
-    aspect-ratio: 3/4 !important;
-  }
-  #cricinfo-photo-grid .tv-album-info {
-    padding: 8px !important;
-    min-height: 0;
-    gap: 4px;
-  }
-  #cricinfo-photo-grid .tv-album-info strong {
-    font-size: 12px;
-    line-height: 1.25;
-  }
-  #cricinfo-photo-grid .tv-album-info small {
-    display: none !important;
-  }
   #cricinfo-photo-grid .tv-album-count {
-    left: 4px;
-    top: 4px;
-    padding: 4px 5px;
-    font-size: 7px;
     letter-spacing: 0;
   }
   #cricinfo-photo-grid .tv-album-open {
-    left: 4px;
-    right: 4px;
-    bottom: 5px;
-    text-align: center;
-    padding: 6px 3px;
-    font-size: 7px;
     white-space: normal;
-  }
-  #cricinfo-photo-grid .tv-album-photo-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 5px !important;
   }
   #cricinfo-photo-grid .tv-album-photo {
     border-radius: 5px;
-  }
-  #cricinfo-photo-grid .tv-album-back-row {
-    padding: 12px;
-    gap: 9px;
   }
   #cricinfo-photo-grid .tv-album-back {
     min-height: 40px;
@@ -6289,7 +5677,6 @@ textarea:focus-visible {
   scroll-margin-top: 90px;
 }
 #photos.tilak-photos-section > .section-heading {
-  max-width: 1440px;
   margin: 0 auto 26px;
   display: flex;
   align-items: flex-end;
@@ -6564,7 +5951,6 @@ textarea:focus-visible {
 }
 @media (max-width: 760px) {
   #photos.tilak-photos-section {
-    padding: 38px 12px !important;
     scroll-margin-top: 72px;
   }
   #photos.tilak-photos-section > .section-heading {
@@ -6581,7 +5967,6 @@ textarea:focus-visible {
     line-height: 1.6;
   }
   #photos .cricinfo-gallery {
-    padding: 14px !important;
     border-radius: 17px;
   }
   #photos .gallery-heading {
@@ -6681,12 +6066,7 @@ textarea:focus-visible {
 
 /* Album card width hotfix: override inherited compact button sizing */
 #photos #cricinfo-photo-grid .tv-album-grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   justify-items: stretch !important;
-  align-items: stretch !important;
-  gap: 18px !important;
-  width: 100% !important;
   max-width: none !important;
 }
 #photos #cricinfo-photo-grid .tv-album-grid > .tv-album-card {
@@ -6694,7 +6074,6 @@ textarea:focus-visible {
   display: flex !important;
   flex-direction: column !important;
   justify-self: stretch !important;
-  align-self: stretch !important;
   width: 100% !important;
   min-width: 0 !important;
   max-width: none !important;
@@ -6704,10 +6083,8 @@ textarea:focus-visible {
   grid-column: auto !important;
 }
 #photos #cricinfo-photo-grid .tv-album-card .tv-album-cover {
-  flex: 0 0 auto !important;
   width: 100% !important;
   min-width: 0 !important;
-  aspect-ratio: 4/3 !important;
 }
 #photos #cricinfo-photo-grid .tv-album-card .tv-album-info {
   box-sizing: border-box !important;
@@ -6728,10 +6105,6 @@ textarea:focus-visible {
   }
 }
 @media (max-width: 760px) {
-  #photos #cricinfo-photo-grid .tv-album-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-  }
   #photos #cricinfo-photo-grid .tv-album-card .tv-album-info strong {
     font-size: 13px !important;
     line-height: 1.3 !important;
@@ -6740,13 +6113,11 @@ textarea:focus-visible {
 @media (max-width: 380px) {
   #photos #cricinfo-photo-grid .tv-album-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 7px !important;
   }
 }
 
 /* Final album-card polish: compact natural height and refined Explore Photos action */
 #photos #cricinfo-photo-grid .tv-album-grid {
-  align-items: start !important;
   grid-auto-rows: max-content !important;
 }
 #photos #cricinfo-photo-grid .tv-album-grid > .tv-album-card {
@@ -6775,23 +6146,10 @@ textarea:focus-visible {
   color: #9eafc5 !important;
 }
 #photos #cricinfo-photo-grid .tv-album-open {
-  display: inline-flex !important;
   align-items: center;
   justify-content: center;
   gap: 7px;
   min-height: 38px;
-  padding: 10px 13px !important;
-  border: 1px solid rgba(255, 255, 255, 0.24) !important;
-  border-radius: 11px !important;
-  background: linear-gradient(135deg, #ff9467, #ff6948) !important;
-  color: #1b0d09 !important;
-  font-size: 9px !important;
-  font-weight: 950 !important;
-  letter-spacing: 0.075em !important;
-  box-shadow: 0 5px 20px rgba(255, 105, 72, 0.28) !important;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease !important;
 }
 #photos #cricinfo-photo-grid .tv-album-card:hover .tv-album-open {
   transform: translateY(-2px);
@@ -6803,9 +6161,6 @@ textarea:focus-visible {
   }
   #photos #cricinfo-photo-grid .tv-album-open {
     min-height: 32px;
-    padding: 7px 6px !important;
-    font-size: 8px !important;
-    letter-spacing: 0.035em !important;
   }
 }
 
@@ -6816,43 +6171,14 @@ textarea:focus-visible {
   box-sizing: border-box;
 }
 #photos #cricinfo-photo-grid .tv-album-grid {
-  display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 16px !important;
-  align-items: start !important;
-}
-#photos #cricinfo-photo-grid .tv-album-card {
-  min-width: 0 !important;
-  height: auto !important;
-  overflow: hidden !important;
-  border-radius: 16px !important;
-}
-#photos #cricinfo-photo-grid .tv-album-cover {
-  width: 100% !important;
-  aspect-ratio: 4/3 !important;
-  overflow: hidden !important;
-}
-#photos #cricinfo-photo-grid .tv-album-cover img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-}
-#photos #cricinfo-photo-grid .tv-album-info {
-  padding: 14px !important;
-  gap: 6px !important;
 }
 #photos #cricinfo-photo-grid .tv-album-info strong {
   font-size: clamp(14px, 1.4vw, 18px) !important;
-  line-height: 1.3 !important;
-  overflow-wrap: anywhere !important;
-}
-#photos #cricinfo-photo-grid .tv-album-info small {
-  font-size: 12px !important;
-  line-height: 1.45 !important;
 }
 #photos #cricinfo-photo-grid .tv-album-open {
   max-width: calc(100% - 16px) !important;
-  white-space: normal !important;
   text-align: center !important;
   line-height: 1.25 !important;
 }
@@ -6861,7 +6187,6 @@ textarea:focus-visible {
   box-sizing: border-box;
 }
 #photos #cricinfo-photo-grid .tv-album-photo-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 8px !important;
 }
 @media (max-width: 760px) {
@@ -6929,23 +6254,14 @@ textarea:focus-visible {
   }
   #photos #cricinfo-photo-grid .tv-album-back-row {
     display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 10px !important;
     padding: 12px !important;
   }
   #photos #cricinfo-photo-grid .tv-album-back {
     width: 100% !important;
-    min-height: 42px !important;
     text-align: left;
-  }
-  #photos #cricinfo-photo-grid .tv-album-photo-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 5px !important;
   }
   #photos #cricinfo-photo-grid .tv-album-photo {
     aspect-ratio: 1/1 !important;
-    border-radius: 6px !important;
   }
 }
 @media (max-width: 380px) {
@@ -7037,9 +6353,6 @@ textarea:focus-visible {
 }
 #photos #cricinfo-photo-grid .tv-album-photo img {
   display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
 }
 #photos #cricinfo-photo-grid .tv-album-photo .tv-photo-open-icon {
   right: 7px !important;
@@ -7104,65 +6417,27 @@ textarea:focus-visible {
 
 /* Definitive album-detail layout: header above a full-width 3x3 photo grid */
 #photos #cricinfo-photo-grid .tv-album-detail {
-  display: block !important;
   position: relative !important;
-  width: 100% !important;
-  max-width: none !important;
-  min-width: 0 !important;
   box-sizing: border-box !important;
-  grid-column: 1/-1 !important;
   align-self: stretch !important;
 }
 #photos #cricinfo-photo-grid .tv-album-detail .tv-album-back-row {
-  display: flex !important;
   position: relative !important;
   float: none !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  width: 100% !important;
   max-width: none !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
-  margin: 0 0 16px !important;
-  padding: 0 0 13px !important;
-  gap: 12px !important;
-  border: 0 !important;
-  border-bottom: 1px solid rgba(146, 174, 206, 0.17) !important;
-  background: transparent !important;
-}
-#photos #cricinfo-photo-grid .tv-album-detail .tv-album-heading {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: baseline !important;
-  flex-wrap: wrap !important;
-  gap: 8px !important;
-  min-width: 0 !important;
 }
 #photos #cricinfo-photo-grid .tv-album-detail .tv-album-heading h3 {
-  margin: 0 !important;
-  font-size: clamp(18px, 2vw, 25px) !important;
-  line-height: 1.2 !important;
   overflow-wrap: anywhere !important;
 }
 #photos #cricinfo-photo-grid .tv-album-detail .tv-album-heading p {
-  margin: 0 !important;
-  font-size: 11px !important;
-  color: #9eb1c8 !important;
   white-space: nowrap !important;
 }
 #photos #cricinfo-photo-grid .tv-album-detail .tv-album-back {
-  display: inline-flex !important;
-  flex: 0 0 auto !important;
-  width: auto !important;
   min-width: 0 !important;
-  min-height: 32px !important;
-  padding: 7px 10px !important;
-  font-size: 11px !important;
-  white-space: nowrap !important;
 }
 #photos #cricinfo-photo-grid .tv-album-detail .tv-album-photo-grid {
-  display: grid !important;
   position: relative !important;
   float: none !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -7170,30 +6445,11 @@ textarea:focus-visible {
   align-items: start !important;
   justify-items: stretch !important;
   gap: clamp(6px, 1vw, 12px) !important;
-  width: 100% !important;
-  max-width: none !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
-  margin: 0 !important;
-  padding: 0 !important;
 }
 #photos #cricinfo-photo-grid .tv-album-detail .tv-album-photo {
-  display: block !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: auto !important;
-  aspect-ratio: 1/1 !important;
   box-sizing: border-box !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-}
-#photos #cricinfo-photo-grid .tv-album-detail .tv-album-photo img {
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
 }
 @media (max-width: 760px) {
   #photos #cricinfo-photo-grid .tv-album-detail .tv-album-back-row {
@@ -7226,34 +6482,14 @@ textarea:focus-visible {
 
 /* BCCI-inspired photo gallery redesign: light editorial canvas, wide image cards */
 #photos.tilak-photos-section {
-  background: #f2f4fb !important;
-  color: #071b52 !important;
   padding: clamp(30px, 4vw, 58px) clamp(14px, 3vw, 48px) !important;
 }
 #photos.tilak-photos-section > .section-heading {
   color: #071b52 !important;
   max-width: 1500px;
-  margin: 0 auto 24px !important;
-}
-#photos.tilak-photos-section > .section-heading h2 {
-  color: #071b52 !important;
-}
-#photos.tilak-photos-section > .section-heading h2 span,
-#photos.tilak-photos-section > .section-heading h2 em {
-  color: #ff754d !important;
-}
-#photos.tilak-photos-section > .section-heading > p {
-  color: #56627c !important;
 }
 #photos .cricinfo-gallery {
-  max-width: 1500px !important;
-  margin: 0 auto !important;
   padding: clamp(16px, 2vw, 28px) !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: #f2f4fb !important;
-  box-shadow: none !important;
-  overflow: visible !important;
 }
 #photos .cricinfo-gallery:before {
   display: none !important;
@@ -7305,7 +6541,6 @@ textarea:focus-visible {
   overflow: hidden !important;
   border: 1px solid #dce2ed !important;
   border-radius: 9px !important;
-  background: #fff !important;
   color: #071b52 !important;
   box-shadow: 0 2px 8px rgba(20, 42, 86, 0.06) !important;
   text-align: left !important;
@@ -7319,13 +6554,9 @@ textarea:focus-visible {
   box-shadow: 0 10px 24px rgba(20, 42, 86, 0.13) !important;
 }
 #photos #cricinfo-photo-grid .tv-album-cover {
-  position: relative !important;
-  display: block !important;
   width: 100% !important;
   aspect-ratio: 16/10 !important;
   min-height: 0 !important;
-  overflow: hidden !important;
-  background: #dce4f1 !important;
 }
 #photos #cricinfo-photo-grid .tv-album-cover > img {
   position: absolute !important;
@@ -7523,9 +6754,6 @@ textarea:focus-visible {
   #photos.tilak-photos-section {
     padding: 25px 10px !important;
   }
-  #photos .cricinfo-gallery {
-    padding: 12px !important;
-  }
   #photos .gallery-heading {
     align-items: flex-start !important;
     flex-direction: column !important;
@@ -7611,66 +6839,18 @@ textarea:focus-visible {
 
 /* Hotfix: neutralize legacy narrow album-card rules that caused vertical text */
 #photos .cricinfo-gallery #cricinfo-photo-grid {
-  display: block !important;
-  width: 100% !important;
-  max-width: none !important;
-  min-width: 0 !important;
   grid-template-columns: minmax(0, 1fr) !important;
   grid-auto-flow: row !important;
-  overflow: visible !important;
-  box-sizing: border-box !important;
 }
 #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid {
-  display: grid !important;
-  position: static !important;
-  float: none !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  grid-auto-flow: row !important;
-  align-items: start !important;
-  justify-items: stretch !important;
-  gap: 18px !important;
-  width: 100% !important;
-  max-width: none !important;
-  min-width: 0 !important;
-  height: auto !important;
-  margin: 0 !important;
-  padding: 0 !important;
   box-sizing: border-box !important;
 }
 #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid > .tv-album-card {
-  display: flex !important;
-  position: relative !important;
-  float: none !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-  align-items: stretch !important;
   justify-self: stretch !important;
   align-self: start !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: auto !important;
-  min-height: 0 !important;
   max-height: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-  writing-mode: horizontal-tb !important;
   word-break: normal !important;
   overflow-wrap: anywhere !important;
-  white-space: normal !important;
-  overflow: hidden !important;
-}
-#photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid > .tv-album-card > .tv-album-cover {
-  display: block !important;
-  position: relative !important;
-  flex: 0 0 auto !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: auto !important;
-  aspect-ratio: 16/10 !important;
-  box-sizing: border-box !important;
 }
 #photos
   .cricinfo-gallery
@@ -7687,20 +6867,6 @@ textarea:focus-visible {
   object-fit: cover !important;
 }
 #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid > .tv-album-card > .tv-album-info {
-  display: flex !important;
-  position: static !important;
-  flex: 0 0 auto !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: auto !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 12px 0 !important;
-  box-sizing: border-box !important;
-  writing-mode: horizontal-tb !important;
   overflow: visible !important;
 }
 #photos
@@ -7728,17 +6894,7 @@ textarea:focus-visible {
   white-space: normal !important;
   box-sizing: border-box !important;
 }
-@media (max-width: 1000px) {
-  #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 14px !important;
-  }
-}
 @media (max-width: 640px) {
-  #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-  }
   #photos
     .cricinfo-gallery
     #cricinfo-photo-grid
@@ -7747,14 +6903,6 @@ textarea:focus-visible {
     > .tv-album-cover {
     aspect-ratio: 4/3 !important;
   }
-  #photos
-    .cricinfo-gallery
-    #cricinfo-photo-grid
-    > .tv-album-grid
-    > .tv-album-card
-    > .tv-album-info {
-    padding: 9px 0 !important;
-  }
 }
 
 /* Album-open state: preserve the gallery's original listing palette; use BCCI-style series page only inside an opened album */
@@ -7762,10 +6910,6 @@ textarea:focus-visible {
   display: none !important;
 }
 #photos.tv-album-view-active .cricinfo-gallery {
-  background: #f1f3fa !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
   max-width: none !important;
 }
 #photos.tv-album-view-active .gallery-heading {
@@ -7785,27 +6929,12 @@ textarea:focus-visible {
 }
 #photos.tv-album-view-active .tv-album-detail {
   display: block !important;
-  width: 100% !important;
-  max-width: none !important;
   min-width: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  background: #f1f3fa !important;
-  color: #071b52 !important;
 }
 #photos.tv-album-view-active .tv-album-hero {
-  position: relative !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
   justify-content: center !important;
-  gap: 14px !important;
-  min-height: 190px !important;
-  margin: 0 0 26px !important;
   padding: clamp(24px, 4vw, 48px) !important;
   overflow: hidden !important;
-  background: #071b59 !important;
-  color: #fff !important;
 }
 #photos.tv-album-view-active .tv-album-hero:after {
   content: "" !important;
@@ -7821,11 +6950,8 @@ textarea:focus-visible {
 #photos.tv-album-view-active .tv-album-hero h2 {
   position: relative !important;
   z-index: 1 !important;
-  margin: 0 !important;
-  color: #fff !important;
   font-size: clamp(26px, 3.5vw, 44px) !important;
   font-weight: 850 !important;
-  line-height: 1.12 !important;
   letter-spacing: -0.025em !important;
 }
 #photos.tv-album-view-active .tv-album-hero p {
@@ -7834,57 +6960,28 @@ textarea:focus-visible {
   display: flex !important;
   gap: 8px !important;
   align-items: center !important;
-  margin: 0 !important;
-  color: #dce6ff !important;
-  font-size: 13px !important;
   font-weight: 650 !important;
 }
 #photos.tv-album-view-active .tv-album-hero .tv-album-back {
   position: relative !important;
   z-index: 2 !important;
-  order: 3 !important;
   min-height: 32px !important;
-  padding: 6px 11px !important;
-  border: 1px solid rgba(255, 255, 255, 0.35) !important;
-  border-radius: 20px !important;
-  background: rgba(255, 255, 255, 0.12) !important;
-  color: #fff !important;
   font-size: 12px !important;
-  font-weight: 750 !important;
 }
 #photos.tv-album-view-active .tv-album-back-row {
   display: none !important;
 }
 #photos.tv-album-view-active .tv-album-photo-grid {
-  display: grid !important;
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  gap: 4px !important;
   width: 100% !important;
   max-width: none !important;
-  margin: 0 !important;
   padding: 0 !important;
-  background: #fff !important;
 }
 #photos.tv-album-view-active .tv-album-photo {
-  display: block !important;
-  position: relative !important;
-  width: 100% !important;
-  min-width: 0 !important;
   max-width: none !important;
   height: auto !important;
-  aspect-ratio: 1.12/1 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: #dbe3f2 !important;
 }
 #photos.tv-album-view-active .tv-album-photo img {
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
   transition: transform 0.25s ease !important;
 }
 #photos.tv-album-view-active .tv-album-photo:hover img {
@@ -7896,8 +6993,6 @@ textarea:focus-visible {
   width: 30px !important;
   height: 30px !important;
   border-radius: 50% !important;
-  background: rgba(5, 20, 61, 0.78) !important;
-  color: #fff !important;
 }
 @media (max-width: 900px) {
   #photos.tv-album-view-active .tv-album-photo-grid {
@@ -7947,28 +7042,8 @@ textarea:focus-visible {
   color: #f7f9ff !important;
 }
 #photos.tv-album-view-active .tv-album-hero {
-  background: linear-gradient(135deg, #0d1422, #0b1422 65%, #171421) !important;
-  color: #f7f9ff !important;
   border-top: 2px solid transparent !important;
   border-image: linear-gradient(90deg, #75e3ff, #8b7dff, #ff6a35) 1 !important;
-}
-#photos.tv-album-view-active .tv-album-hero h2 {
-  color: #f7f9ff !important;
-}
-#photos.tv-album-view-active .tv-album-hero p {
-  color: #a3b0c4 !important;
-}
-#photos.tv-album-view-active .tv-album-hero .tv-album-back {
-  border: 1px solid rgba(117, 227, 255, 0.38) !important;
-  background: rgba(117, 227, 255, 0.08) !important;
-  color: #75e3ff !important;
-  box-shadow: 0 0 18px rgba(117, 227, 255, 0.08) !important;
-}
-#photos.tv-album-view-active .tv-album-photo-grid {
-  background: #0d1422 !important;
-}
-#photos.tv-album-view-active .tv-album-photo {
-  background: #111d30 !important;
 }
 #photos.tv-album-view-active .tv-photo-open-icon {
   border: 1px solid rgba(117, 227, 255, 0.3) !important;
@@ -7988,104 +7063,9 @@ textarea:focus-visible {
 
 /* Final photo gallery listing fix: retain original dark navy/cyan/orange theme and remove empty oversized panel */
 #photos .cricinfo-gallery {
-  background: linear-gradient(145deg, #0d1c2e 0%, #091321 72%, #12111d 100%) !important;
-  color: #f7f9ff !important;
-  border: 1px solid rgba(160, 190, 230, 0.16) !important;
-  border-radius: 22px !important;
   padding: clamp(18px, 2.4vw, 30px) !important;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18) !important;
-}
-#photos .cricinfo-gallery .gallery-heading h3 {
-  color: #f7f9ff !important;
-}
-#photos .cricinfo-gallery .gallery-heading h3 em {
-  color: #ff6a35 !important;
-}
-#photos .cricinfo-gallery .gallery-heading .eyebrow {
-  color: #75e3ff !important;
-}
-#photos .cricinfo-gallery #cricinfo-gallery-updated {
-  color: #a3b0c4 !important;
-}
-#photos .cricinfo-gallery #cricinfo-photo-grid {
-  display: block !important;
-  width: 100% !important;
-  max-width: none !important;
-  min-width: 0 !important;
-  height: auto !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  overflow: visible !important;
-}
-#photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  gap: 16px !important;
-  width: 100% !important;
-  max-width: none !important;
-  height: auto !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  background: transparent !important;
-}
-#photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid > .tv-album-card {
-  display: flex !important;
-  flex-direction: column !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: auto !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  background: linear-gradient(145deg, #111d30, #0a1422) !important;
-  border: 1px solid rgba(117, 227, 255, 0.2) !important;
-  border-radius: 15px !important;
-  color: #f7f9ff !important;
-  writing-mode: horizontal-tb !important;
-}
-#photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid > .tv-album-card > .tv-album-cover {
-  position: relative !important;
-  display: block !important;
-  flex: none !important;
-  width: 100% !important;
-  height: auto !important;
-  aspect-ratio: 4/3 !important;
-  min-width: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-}
-#photos
-  .cricinfo-gallery
-  #cricinfo-photo-grid
-  > .tv-album-grid
-  > .tv-album-card
-  > .tv-album-cover
-  img {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
 }
 #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid > .tv-album-card > .tv-album-info {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 5px !important;
-  position: static !important;
-  width: 100% !important;
-  height: auto !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 13px !important;
-  background: transparent !important;
-  color: #f7f9ff !important;
   writing-mode: horizontal-tb !important;
 }
 #photos
@@ -8095,34 +7075,7 @@ textarea:focus-visible {
   > .tv-album-card
   > .tv-album-info
   strong {
-  display: block !important;
-  color: #f7f9ff !important;
   font-size: 16px !important;
-  line-height: 1.35 !important;
-  white-space: normal !important;
-  word-break: normal !important;
-  overflow-wrap: break-word !important;
-}
-#photos
-  .cricinfo-gallery
-  #cricinfo-photo-grid
-  > .tv-album-grid
-  > .tv-album-card
-  > .tv-album-info
-  small {
-  display: block !important;
-  color: #a3b0c4 !important;
-  font-size: 12px !important;
-  line-height: 1.5 !important;
-  white-space: normal !important;
-  overflow-wrap: break-word !important;
-}
-#photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid > .tv-album-card:hover {
-  border-color: rgba(117, 227, 255, 0.48) !important;
-  box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.25),
-    0 0 20px rgba(117, 227, 255, 0.06) !important;
-  transform: translateY(-3px) !important;
 }
 @media (max-width: 1000px) {
   #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid {
@@ -8201,8 +7154,6 @@ textarea:focus-visible {
 
 /* Photo gallery: unified full-page royal-blue fan-club layout */
 #photos.tilak-photos-section {
-  background: linear-gradient(180deg, #071a35 0%, #06152b 48%, #050f20 100%) !important;
-  color: #f5f8ff !important;
   padding: clamp(28px, 4vw, 54px) clamp(12px, 3vw, 46px) !important;
 }
 #photos.tilak-photos-section > .section-heading {
@@ -8213,55 +7164,23 @@ textarea:focus-visible {
 #photos.tilak-photos-section > .section-heading .section-kicker {
   color: #71e5ff !important;
 }
-#photos.tilak-photos-section > .section-heading h2 {
-  color: #f5f8ff !important;
-}
-#photos.tilak-photos-section > .section-heading h2 span,
-#photos.tilak-photos-section > .section-heading h2 em {
-  color: #ff7048 !important;
-}
-#photos.tilak-photos-section > .section-heading > p {
-  color: #b7c8e2 !important;
-}
 #photos .cricinfo-gallery {
   box-sizing: border-box !important;
   width: 100% !important;
   max-width: 1500px !important;
   margin: 0 auto !important;
   padding: clamp(16px, 2.2vw, 30px) !important;
-  border: 1px solid rgba(105, 190, 255, 0.22) !important;
-  border-radius: 22px !important;
-  background: linear-gradient(
-    145deg,
-    rgba(12, 39, 73, 0.98),
-    rgba(5, 19, 39, 0.99) 68%,
-    rgba(13, 20, 43, 0.99)
-  ) !important;
-  box-shadow:
-    0 18px 55px rgba(0, 0, 0, 0.24),
-    inset 0 1px rgba(255, 255, 255, 0.035) !important;
-  color: #f5f8ff !important;
   overflow: hidden !important;
 }
 #photos .cricinfo-gallery:before {
   opacity: 0.7 !important;
 }
 #photos .cricinfo-gallery .gallery-heading {
-  border-bottom: 1px solid rgba(142, 187, 230, 0.2) !important;
   padding-bottom: 18px !important;
   margin-bottom: 22px !important;
 }
-#photos .cricinfo-gallery .gallery-heading h3 {
-  color: #f5f8ff !important;
-}
 #photos .cricinfo-gallery .gallery-heading h3 em {
   color: #ff7048 !important;
-}
-#photos .cricinfo-gallery .gallery-heading .eyebrow {
-  color: #71e5ff !important;
-}
-#photos .cricinfo-gallery #cricinfo-gallery-updated {
-  color: #a9bfd9 !important;
 }
 #photos .cricinfo-gallery #cricinfo-photo-grid {
   display: block !important;
@@ -8319,12 +7238,8 @@ textarea:focus-visible {
   overflow: hidden !important;
   white-space: normal !important;
   writing-mode: horizontal-tb !important;
-  border: 1px solid rgba(111, 198, 255, 0.24) !important;
-  border-radius: 15px !important;
-  background: linear-gradient(155deg, #102b4d, #091b33) !important;
   color: #f5f8ff !important;
   text-align: left !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16) !important;
   transition:
     transform 0.2s ease,
     border-color 0.2s ease,
@@ -8332,10 +7247,6 @@ textarea:focus-visible {
 }
 #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid > .tv-album-card:hover {
   transform: translateY(-3px) !important;
-  border-color: rgba(113, 229, 255, 0.6) !important;
-  box-shadow:
-    0 14px 30px rgba(0, 0, 0, 0.26),
-    0 0 18px rgba(53, 190, 255, 0.08) !important;
 }
 #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid > .tv-album-card > .tv-album-cover {
   box-sizing: border-box !important;
@@ -8441,7 +7352,6 @@ textarea:focus-visible {
   max-width: none !important;
   margin: 0 !important;
   padding: 0 !important;
-  color: #f5f8ff !important;
   font-size: clamp(14px, 1.15vw, 17px) !important;
   font-weight: 800 !important;
   line-height: 1.35 !important;
@@ -8461,14 +7371,10 @@ textarea:focus-visible {
   max-width: none !important;
   margin: 0 !important;
   padding: 0 !important;
-  color: #a9bfd9 !important;
   font-size: 12px !important;
   line-height: 1.5 !important;
   white-space: normal !important;
   overflow-wrap: break-word !important;
-}
-#photos .cricinfo-gallery .gallery-attribution {
-  color: #839ab9 !important;
 }
 @media (max-width: 1050px) {
   #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid {
@@ -8477,13 +7383,6 @@ textarea:focus-visible {
   }
 }
 @media (max-width: 650px) {
-  #photos.tilak-photos-section {
-    padding: 24px 10px !important;
-  }
-  #photos .cricinfo-gallery {
-    padding: 12px !important;
-    border-radius: 16px !important;
-  }
   #photos .cricinfo-gallery .gallery-heading {
     align-items: flex-start !important;
     gap: 8px !important;
@@ -8595,18 +7494,9 @@ textarea:focus-visible {
 #photos.tv-album-view-active #cricinfo-photo-grid {
   background: #073b8f !important;
 }
-#photos.tv-album-view-active .cricinfo-gallery {
-  background: linear-gradient(145deg, #0750b8 0%, #06439a 52%, #062f78 100%) !important;
-}
 #photos.tv-album-view-active .tv-album-detail {
-  width: 100% !important;
   max-width: none !important;
-  margin: 0 !important;
   padding: 0 !important;
-  border: 1px solid rgba(158, 213, 255, 0.34) !important;
-  border-radius: 20px !important;
-  overflow: hidden !important;
-  background: linear-gradient(145deg, #0750b8 0%, #06439a 52%, #062f78 100%) !important;
   color: #fff !important;
   box-shadow: 0 18px 48px rgba(0, 25, 85, 0.28) !important;
 }
@@ -8712,27 +7602,13 @@ textarea:focus-visible {
 
 /* Keep album photo area blue, make the upper album header white as requested */
 #photos.tv-album-view-active .tv-album-detail .tv-album-hero {
-  background: #ffffff !important;
-  color: #10264a !important;
   border-bottom: 1px solid #d7e5f6 !important;
 }
-#photos.tv-album-view-active .tv-album-detail .tv-album-hero h2 {
-  color: #092c68 !important;
-}
-#photos.tv-album-view-active .tv-album-detail .tv-album-hero p {
-  color: #536985 !important;
-}
 #photos.tv-album-view-active .tv-album-detail .tv-album-hero .tv-album-back {
-  background: #073b8f !important;
-  color: #ffffff !important;
   border-color: #073b8f !important;
 }
 
 /* Gallery overview polish: light page canvas, blue album cards */
-#photos.tilak-photos-section {
-  background: linear-gradient(180deg, #f7faff 0%, #edf4ff 100%) !important;
-  color: #102b55 !important;
-}
 #photos.tilak-photos-section > .section-heading h2 {
   color: #092c68 !important;
 }
@@ -8744,23 +7620,11 @@ textarea:focus-visible {
   color: #526987 !important;
 }
 #photos .cricinfo-gallery {
-  background: linear-gradient(145deg, #ffffff 0%, #f4f8ff 100%) !important;
   border: 1px solid #d6e4f6 !important;
   border-radius: 22px !important;
-  box-shadow: 0 16px 44px rgba(13, 55, 115, 0.1) !important;
-  color: #102b55 !important;
 }
 #photos .cricinfo-gallery .gallery-heading {
   border-bottom: 1px solid #d9e5f5 !important;
-}
-#photos .cricinfo-gallery .gallery-heading h3 {
-  color: #092c68 !important;
-}
-#photos .cricinfo-gallery .gallery-heading .eyebrow {
-  color: #087ca7 !important;
-}
-#photos .cricinfo-gallery #cricinfo-gallery-updated {
-  color: #607794 !important;
 }
 #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid > .tv-album-card {
   background: linear-gradient(155deg, #0a438f 0%, #082e68 100%) !important;
@@ -8791,9 +7655,6 @@ textarea:focus-visible {
   > .tv-album-info
   small {
   color: #c4dcfa !important;
-}
-#photos .cricinfo-gallery .gallery-attribution {
-  color: #7186a3 !important;
 }
 @media (max-width: 650px) {
   #photos.tilak-photos-section {
