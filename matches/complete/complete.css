@@ -286,7 +286,9 @@
   border: 1px solid rgba(169, 194, 229, 0.2);
   border-radius: 17px;
   background: radial-gradient(circle at 30% 20%, rgba(117, 190, 255, 0.13), rgba(3, 12, 24, 0.85));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 8px 20px rgba(0,0,0,.15);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 8px 20px rgba(0, 0, 0, 0.15);
 }
 .complete-team-crest img {
   display: block;
@@ -299,19 +301,32 @@
   color: #bfeaff;
   font-size: 16px;
   font-weight: 950;
-  letter-spacing: .02em;
+  letter-spacing: 0.02em;
 }
 .complete-versus {
   color: #ff9b73;
   font-size: 10px;
-  letter-spacing: .12em;
+  letter-spacing: 0.12em;
 }
 @media (max-width: 380px) {
-  .complete-team-crest { width: 48px; height: 48px; flex-basis: 48px; border-radius: 14px; }
-  .complete-team-side { font-size: 11px; }
+  .complete-team-crest {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+    border-radius: 14px;
+  }
+  .complete-team-side {
+    font-size: 11px;
+  }
 }
 
 /* Keep initials hidden until the remote crest fails to load. */
-.complete-team-crest-fallback { display: none; }
-.complete-team-crest.is-missing .complete-team-crest-fallback { display: grid; }
-.complete-team-crest.is-missing img { display: none !important; }
+.complete-team-crest-fallback {
+  display: none;
+}
+.complete-team-crest.is-missing .complete-team-crest-fallback {
+  display: grid;
+}
+.complete-team-crest.is-missing img {
+  display: none !important;
+}

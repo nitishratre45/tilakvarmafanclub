@@ -18,23 +18,56 @@
     );
   // Automatic PNG logos: honor image URLs from JSON first, then resolve known teams.
   const teamAssets = {
-    "india": { flag: "in" }, "west indies": { flag: "wi" }, "pakistan": { flag: "pk" },
-    "sri lanka": { flag: "lk" }, "bangladesh": { flag: "bd" }, "afghanistan": { flag: "af" },
-    "australia": { flag: "au" }, "england": { flag: "gb-eng" }, "ireland": { flag: "ie" },
-    "new zealand": { flag: "nz" }, "south africa": { flag: "za" }, "zimbabwe": { flag: "zw" },
-    "nepal": { flag: "np" }, "namibia": { flag: "na" }, "netherlands": { flag: "nl" },
-    "scotland": { flag: "gb-sct" }, "united arab emirates": { flag: "ae" }, "oman": { flag: "om" },
-    "canada": { flag: "ca" }, "usa": { flag: "us" }, "united states": { flag: "us" },
-    "japan": { flag: "jp" }, "mumbai indians": { ipl: "MI" }, "chennai super kings": { ipl: "CSK" },
-    "kolkata knight riders": { ipl: "KKR" }, "royal challengers bengaluru": { ipl: "RCB" },
-    "royal challengers bangalore": { ipl: "RCB" }, "rajasthan royals": { ipl: "RR" },
-    "sunrisers hyderabad": { ipl: "SRH" }, "delhi capitals": { ipl: "DC" },
-    "punjab kings": { ipl: "PBKS" }, "gujarat titans": { ipl: "GT" }, "lucknow super giants": { ipl: "LSG" }
+    india: { flag: "in" },
+    "west indies": { flag: "wi" },
+    pakistan: { flag: "pk" },
+    "sri lanka": { flag: "lk" },
+    bangladesh: { flag: "bd" },
+    afghanistan: { flag: "af" },
+    australia: { flag: "au" },
+    england: { flag: "gb-eng" },
+    ireland: { flag: "ie" },
+    "new zealand": { flag: "nz" },
+    "south africa": { flag: "za" },
+    zimbabwe: { flag: "zw" },
+    nepal: { flag: "np" },
+    namibia: { flag: "na" },
+    netherlands: { flag: "nl" },
+    scotland: { flag: "gb-sct" },
+    "united arab emirates": { flag: "ae" },
+    oman: { flag: "om" },
+    canada: { flag: "ca" },
+    usa: { flag: "us" },
+    "united states": { flag: "us" },
+    japan: { flag: "jp" },
+    "mumbai indians": { ipl: "MI" },
+    "chennai super kings": { ipl: "CSK" },
+    "kolkata knight riders": { ipl: "KKR" },
+    "royal challengers bengaluru": { ipl: "RCB" },
+    "royal challengers bangalore": { ipl: "RCB" },
+    "rajasthan royals": { ipl: "RR" },
+    "sunrisers hyderabad": { ipl: "SRH" },
+    "delhi capitals": { ipl: "DC" },
+    "punjab kings": { ipl: "PBKS" },
+    "gujarat titans": { ipl: "GT" },
+    "lucknow super giants": { ipl: "LSG" },
   };
-  const normaliseTeam = (name) => String(name || "").trim().toLowerCase().replace(/\s+/g, " ");
+  const normaliseTeam = (name) =>
+    String(name || "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ");
   const teamInitials = (name) => {
-    const parts = String(name || "?").replace(/[^a-z0-9 ]/gi, " ").trim().split(/\s+/).filter(Boolean);
-    return (parts.length > 1 ? parts.slice(0, 2).map((part) => part[0]) : [(parts[0] || "?").slice(0, 2)]).join("").toUpperCase();
+    const parts = String(name || "?")
+      .replace(/[^a-z0-9 ]/gi, " ")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+    return (
+      parts.length > 1 ? parts.slice(0, 2).map((part) => part[0]) : [(parts[0] || "?").slice(0, 2)]
+    )
+      .join("")
+      .toUpperCase();
   };
   const teamLogoUrl = (name, supplied) => {
     const value = supplied || "";
@@ -48,11 +81,20 @@
   const renderTeamLogo = (name, supplied) => {
     const label = String(name || "Team");
     const src = teamLogoUrl(label, supplied);
-    const fallback = '<span class="upcoming-team-logo-fallback" aria-hidden="true">' + esc(teamInitials(label)) + "</span>";
+    const fallback =
+      '<span class="upcoming-team-logo-fallback" aria-hidden="true">' +
+      esc(teamInitials(label)) +
+      "</span>";
     if (!src) return fallback;
-    return '<span class="upcoming-team-logo">' +
-      '<img src="' + esc(src) + '" alt="" loading="lazy" decoding="async" onerror="this.style.display=\'none\';this.parentElement.classList.add(\'logo-unavailable\');" />' +
-      '<span class="upcoming-team-logo-initials" aria-hidden="true">' + esc(teamInitials(label)) + '</span></span>';
+    return (
+      '<span class="upcoming-team-logo">' +
+      '<img src="' +
+      esc(src) +
+      '" alt="" loading="lazy" decoding="async" onerror="this.style.display=\'none\';this.parentElement.classList.add(\'logo-unavailable\');" />' +
+      '<span class="upcoming-team-logo-initials" aria-hidden="true">' +
+      esc(teamInitials(label)) +
+      "</span></span>"
+    );
   };
   const fixtures = [
     {
@@ -159,10 +201,26 @@
               "</span>" +
               '<span class="upcoming-squad-badge">✓ TILAK IN SQUAD</span></div>' +
               '<div class="upcoming-match-teams"><div class="upcoming-team-side">' +
-              renderTeamLogo(fixture.team || "India", fixture.teamLogo || fixture.teamImageUrl || fixture.team?.imageUrl || fixture.team?.image?.url) +
-              '<span>' + esc(fixture.team || "India") + '</span></div><span class="versus">VS</span><div class="upcoming-team-side">' +
-              renderTeamLogo(fixture.opponent, fixture.opponentLogo || fixture.opponentImageUrl || fixture.opponent?.imageUrl || fixture.opponent?.image?.url) +
-              '<span>' + esc(fixture.opponent) + '</span></div></div>' +
+              renderTeamLogo(
+                fixture.team || "India",
+                fixture.teamLogo ||
+                  fixture.teamImageUrl ||
+                  fixture.team?.imageUrl ||
+                  fixture.team?.image?.url,
+              ) +
+              "<span>" +
+              esc(fixture.team || "India") +
+              '</span></div><span class="versus">VS</span><div class="upcoming-team-side">' +
+              renderTeamLogo(
+                fixture.opponent,
+                fixture.opponentLogo ||
+                  fixture.opponentImageUrl ||
+                  fixture.opponent?.imageUrl ||
+                  fixture.opponent?.image?.url,
+              ) +
+              "<span>" +
+              esc(fixture.opponent) +
+              "</span></div></div>" +
               '<div class="upcoming-match-meta"><span>' +
               esc(fixture.match) +
               "</span><span>⌖ " +
