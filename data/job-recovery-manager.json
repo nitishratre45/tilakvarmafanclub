@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-13T13:02:46.131Z",
+  "checkedAt": "2026-10-13T13:02:57.603Z",
   "retentionHours": 15,
   "events": [
     {
@@ -5972,6 +5972,27 @@
           ]
         }
       ]
+    },
+    {
+      "checkedAt": "2026-10-13T13:02:57.603Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38401672565,
+      "runAttempt": 1,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38401672565",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 0,
+        "success": 0,
+        "failure": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": []
     }
   ]
 }
