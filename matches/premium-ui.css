@@ -8078,3 +8078,30 @@ footer > span:last-child {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+
+/* Matches-only premium finish. No shared navbar/menu selectors in this block. */
+.matches-page .matches-main .upcoming-matches-panel,
+.matches-page .matches-main .table-wrap {
+  border-color: rgba(117, 227, 255, 0.17);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.16);
+}
+.matches-page .matches-main .upcoming-match-card {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.matches-page .matches-main .table-wrap thead th {
+  color: var(--cyan, #75e3ff);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.matches-page .matches-main .table-wrap tbody td {
+  line-height: 1.5;
+}
+.matches-page .matches-main .upcoming-matches-foot {
+  border-top: 1px solid rgba(169, 194, 229, 0.12);
+  margin-top: 18px;
+  padding-top: 14px;
+}
