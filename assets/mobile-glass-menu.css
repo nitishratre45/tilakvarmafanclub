@@ -1,8 +1,8 @@
 /* Unified mobile glass navigation for every public section. */
 @media (max-width: 800px) {
   html body > header.topbar {
-    position: relative !important;
-    top: auto !important;
+    position: sticky !important;
+    top: 0 !important;
     z-index: 10000 !important;
     display: flex !important;
     flex-wrap: wrap;
