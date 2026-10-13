@@ -19,8 +19,18 @@ NEWS_FILE = ROOT / "News" / "newsjson.json"
 JS_FILE = ROOT / "matches" / "upcoming-matches.js"
 REPORT_FILE = ROOT / "matches" / "upcoming-fixtures-refresh.json"
 MONTHS = {
-    "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
-    "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
+    "jan": 1,
+    "feb": 2,
+    "mar": 3,
+    "apr": 4,
+    "may": 5,
+    "jun": 6,
+    "jul": 7,
+    "aug": 8,
+    "sep": 9,
+    "oct": 10,
+    "nov": 11,
+    "dec": 12,
 }
 SERIES = ("West Indies", "New Zealand")
 
@@ -81,7 +91,14 @@ def article_fixtures(article: dict) -> list[dict]:
     if not url.startswith("https://www.bcci.tv/"):
         return []
 
-    opponent = next((name for name in SERIES if re.search(re.escape(name), title + " " + text, re.I)), None)
+    opponent = next(
+        (
+            name
+            for name in SERIES
+            if re.search(re.escape(name), title + " " + text, re.I)
+        ),
+        None,
+    )
     if not opponent:
         return []
 
@@ -91,7 +108,7 @@ def article_fixtures(article: dict) -> list[dict]:
     t20i_pos = re.search(r"T20I", text, re.I)
     if not tilak_pos or not t20i_pos:
         return []
-    squad_text = text[max(0, tilak_pos.start() - 700):tilak_pos.end() + 700]
+    squad_text = text[max(0, tilak_pos.start() - 700) : tilak_pos.end() + 700]
     if not re.search(r"T20I", squad_text, re.I):
         return []
 
@@ -102,10 +119,28 @@ def article_fixtures(article: dict) -> list[dict]:
         rows = block.get("rows")
         if not isinstance(rows, list) or len(rows) < 2:
             continue
-        header = [re.sub(r"\s+", " ", str(cell or "")).strip().lower() for cell in rows[0]]
-        match_i = next((i for i, cell in enumerate(header) if cell == "match" or cell.endswith("match")), None)
-        date_i = next((i for i, cell in enumerate(header) if cell == "date" or cell.startswith("date ")), None)
-        venue_i = next((i for i, cell in enumerate(header) if cell in {"venue", "ground"}), None)
+        header = [
+            re.sub(r"\s+", " ", str(cell or "")).strip().lower() for cell in rows[0]
+        ]
+        match_i = next(
+            (
+                i
+                for i, cell in enumerate(header)
+                if cell == "match" or cell.endswith("match")
+            ),
+            None,
+        )
+        date_i = next(
+            (
+                i
+                for i, cell in enumerate(header)
+                if cell == "date" or cell.startswith("date ")
+            ),
+            None,
+        )
+        venue_i = next(
+            (i for i, cell in enumerate(header) if cell in {"venue", "ground"}), None
+        )
         time_i = next((i for i, cell in enumerate(header) if "time" in cell), None)
         if match_i is None or date_i is None or venue_i is None:
             continue
@@ -117,16 +152,24 @@ def article_fixtures(article: dict) -> list[dict]:
             venue = str(row[venue_i] or "").strip()
             if not date or not venue or not re.search(r"T20I", match_label, re.I):
                 continue
-            time_value = str(row[time_i] or "") if time_i is not None and time_i < len(row) else ""
-            fixtures.append({
-                "date": date,
-                "label": datetime.strptime(date, "%Y-%m-%d").strftime("%a, %-d %b %Y"),
-                "match": match_label,
-                "opponent": opponent,
-                "venue": venue,
-                "time": parse_time(time_value),
-                "source": url,
-            })
+            time_value = (
+                str(row[time_i] or "")
+                if time_i is not None and time_i < len(row)
+                else ""
+            )
+            fixtures.append(
+                {
+                    "date": date,
+                    "label": datetime.strptime(date, "%Y-%m-%d").strftime(
+                        "%a, %-d %b %Y"
+                    ),
+                    "match": match_label,
+                    "opponent": opponent,
+                    "venue": venue,
+                    "time": parse_time(time_value),
+                    "source": url,
+                }
+            )
     return fixtures
 
 
@@ -136,21 +179,27 @@ def js_string(value: str) -> str:
 
 def render_fixture(fixture: dict) -> str:
     fields = ("date", "label", "match", "opponent", "venue", "time", "source")
-    return "    {\n" + ",\n".join(
-        f"      {key}: {js_string(str(fixture[key]))}" for key in fields
-    ) + "\n    }"
+    return (
+        "    {\n"
+        + ",\n".join(f"      {key}: {js_string(str(fixture[key]))}" for key in fields)
+        + "\n    }"
+    )
 
 
 def main() -> None:
     if not NEWS_FILE.exists():
         raise SystemExit("News/newsjson.json is missing; refusing to change fixtures.")
     if not JS_FILE.exists():
-        raise SystemExit("matches/upcoming-matches.js is missing; refusing to create a replacement.")
+        raise SystemExit(
+            "matches/upcoming-matches.js is missing; refusing to create a replacement."
+        )
 
     news = json.loads(NEWS_FILE.read_text(encoding="utf-8"))
     existing_js = JS_FILE.read_text(encoding="utf-8")
     if not isinstance(news, dict) or not isinstance(news.get("news"), list):
-        raise SystemExit("News JSON has an unexpected structure; existing fixtures preserved.")
+        raise SystemExit(
+            "News JSON has an unexpected structure; existing fixtures preserved."
+        )
 
     candidates = []
     for article in news["news"]:
@@ -170,7 +219,11 @@ def main() -> None:
     status = "updated-from-news-json" if fixtures else "no-verified-fixtures-preserved"
     changed = False
     if fixtures:
-        replacement = "  const fixtures = [\n" + ",\n".join(render_fixture(f) for f in fixtures) + "\n  ];"
+        replacement = (
+            "  const fixtures = [\n"
+            + ",\n".join(render_fixture(f) for f in fixtures)
+            + "\n  ];"
+        )
         updated_js, count = re.subn(
             r"  const fixtures = \[.*?\n  \];",
             lambda _: replacement,
@@ -179,7 +232,9 @@ def main() -> None:
             flags=re.S,
         )
         if count != 1:
-            raise SystemExit("Could not safely locate fixtures array; no files changed.")
+            raise SystemExit(
+                "Could not safely locate fixtures array; no files changed."
+            )
         changed = updated_js != existing_js
         if changed:
             JS_FILE.write_text(updated_js, encoding="utf-8")
@@ -194,12 +249,16 @@ def main() -> None:
         "publicJsChanged": changed,
         "note": (
             "Fixtures were extracted only from squad announcement articles that name Tilak Varma and include explicit T20I fixture tables."
-            if fixtures else
-            "No safe future fixtures could be extracted from News/newsjson.json; the existing public fixture list was preserved."
+            if fixtures
+            else "No safe future fixtures could be extracted from News/newsjson.json; the existing public fixture list was preserved."
         ),
     }
-    REPORT_FILE.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Upcoming fixtures refresh: {status}; fixtures={len(fixtures)}; JS changed={changed}")
+    REPORT_FILE.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    print(
+        f"Upcoming fixtures refresh: {status}; fixtures={len(fixtures)}; JS changed={changed}"
+    )
 
 
 if __name__ == "__main__":
