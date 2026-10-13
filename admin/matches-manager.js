@@ -105,7 +105,7 @@
       opponent:$("admin-fixture-opponent").value.trim(),
       venue:$("admin-fixture-venue").value.trim(),
       time:$("admin-fixture-time").value,
-      newsUrl:$("admin-fixture-news-url").value.trim() || "/news/",
+      newsUrl:$("admin-fixture-news-url").value.trim(),
       source:"admin-manual",
     };
     const originalDate=$("admin-fixture-original-date").value;
