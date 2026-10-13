@@ -11,7 +11,7 @@ on:
       - "photos/gallery.js"
       - "photos/gallery.css"
       - "photos/index.html"
-      - "assets/premium-ui.css"
+      - "photos/premium-ui.css"
       - "index.html"
       - "scripts/photo-section-guardian.mjs"
       - "tests/photo-section-guardian.test.mjs"
@@ -50,7 +50,7 @@ jobs:
           test -f photos/index.html
           test -f photos/gallery.js
           test -f photos/gallery.css
-          test -f assets/premium-ui.css
+          test -f photos/premium-ui.css
           node --check scripts/photo-section-guardian.mjs
           node --check scripts/photo-link-health.mjs
           node scripts/photo-section-guardian.mjs
