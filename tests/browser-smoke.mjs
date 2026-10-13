@@ -25,8 +25,11 @@ check("dedicated Stats folder opens full Batting/Bowling/Explore page", async ()
   page.setDefaultTimeout(10000);
   const pageErrors = [];
   page.on("pageerror", error => pageErrors.push(error.message));
-  await page.goto(baseURL + "/stats/", { waitUntil: "domcontentloaded" });
+  await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+  await page.locator('#main-nav a[href="/stats/"]').click();
+  await page.waitForURL(url => url.pathname === "/stats/");
   await page.locator("#stats").waitFor({ state: "visible" });
+  assert.equal(new URL(page.url()).pathname, "/stats/", "Navbar Stats link should open the dedicated folder page");
   assert.equal(await page.locator("#stats-overview").isVisible(), true, "Batting view should be the default");
   await page.locator('#stats [data-stats-tab="stats-bowling"]').click();
   assert.equal(await page.locator("#stats-bowling").isVisible(), true, "Bowling tab should open its full view");
@@ -52,7 +55,7 @@ check("section navigation switches content and keeps one main section visible", 
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="#stats"]').click();
+  await page.locator('a.home-all-stats').click();
   await page.waitForFunction(() => location.hash === "#stats");
   assert.equal(await page.locator("#stats").isVisible(), true, "Stats section should be visible");
   assert.equal(await page.locator("#profile").isVisible(), false, "Profile should be hidden");
@@ -68,7 +71,7 @@ check("Stats Explorer sub-tab responds", async () => {
   const page = await browser.newPage();
   page.setDefaultTimeout(8000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="#stats"]').click();
+  await page.locator('a.home-all-stats').click();
   const tab = page.locator('#stats [data-stats-tab="statsguru"]');
   assert.equal(await tab.count(), 1, "Statsguru tab is missing");
   await tab.click();
@@ -215,6 +218,7 @@ check("match history keeps different formats separate and collapses only overlap
     status: 200, contentType: "application/json", body: JSON.stringify(fixture)
   }));
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+  await page.locator('#main-nav a[href="#innings"]').click();
   await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).first().waitFor();
   const rows = await page.locator("#player-matches-table tr").filter({ hasText: "Australia" }).evaluateAll(nodes =>
     nodes.map(node => ({ text: node.innerText, format: node.cells[5]?.innerText }))
