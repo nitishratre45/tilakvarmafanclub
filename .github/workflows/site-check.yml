@@ -180,15 +180,15 @@ jobs:
             fi
           }
           # Accept cache-busted script URLs and whitespace/attribute formatting.
-          require_match 'assets/features[.]js([?"]|$)' records/index.html
-          require_match 'assets/records-matches[.]js([?"]|$)' records/index.html
+          require_match 'records/features[.]js([?"]|$)' records/index.html
+          require_match 'records/records-matches[.]js([?"]|$)' records/index.html
           require_match 'news/news[.]js([?"]|$)' news/index.html
           require_match 'news/news[.]css([?"]|$)' news/index.html
           require_match 'videos/videos[.]js([?"]|$)' videos/index.html
           require_match 'videos/videos[.]css([?"]|$)' videos/index.html
-          require_match 'assets/statsguru[.]js([?"]|$)' stats/index.html
-          require_match 'assets/home-snapshot[.]js([?"]|$)' index.html
-          require_match 'assets/bowling[.]js([?"]|$)' stats/index.html
+          require_match 'stats/statsguru[.]js([?"]|$)' stats/index.html
+          require_match 'home/home-snapshot[.]js([?"]|$)' index.html
+          require_match 'stats/bowling[.]js([?"]|$)' stats/index.html
           require_match 'data-bowling-format="List A"' stats/index.html
           require_match 'data-bowling-format="FC"' stats/index.html
           require_match 'id="home-snapshot"' index.html
