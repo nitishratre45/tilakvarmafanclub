@@ -24,10 +24,8 @@
       opponent: "West Indies",
       venue: "Hyderabad",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced",
-      newsUrl:
-        "/News-details/index.html?id=indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced",
+      source: "https://www.bcci.tv/webview/news/article/indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced",
+      newsUrl: "/News-details/index.html?id=indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced"
     },
     {
       date: "2026-10-17",
@@ -36,10 +34,8 @@
       opponent: "West Indies",
       venue: "Bengaluru",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced",
-      newsUrl:
-        "/News-details/index.html?id=indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced",
+      source: "https://www.bcci.tv/webview/news/article/indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced",
+      newsUrl: "/News-details/index.html?id=indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced"
     },
     {
       date: "2026-10-22",
@@ -48,10 +44,8 @@
       opponent: "New Zealand",
       venue: "Christchurch",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
-      newsUrl:
-        "/News-details/index.html?id=india-and-india-a-squads-for-new-zealand-tour-announced",
+      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
+      newsUrl: "/News-details/index.html?id=india-and-india-a-squads-for-new-zealand-tour-announced"
     },
     {
       date: "2026-10-24",
@@ -60,10 +54,8 @@
       opponent: "New Zealand",
       venue: "Christchurch",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
-      newsUrl:
-        "/News-details/index.html?id=india-and-india-a-squads-for-new-zealand-tour-announced",
+      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
+      newsUrl: "/News-details/index.html?id=india-and-india-a-squads-for-new-zealand-tour-announced"
     },
     {
       date: "2026-10-27",
@@ -72,10 +64,8 @@
       opponent: "New Zealand",
       venue: "Wellington",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
-      newsUrl:
-        "/News-details/index.html?id=india-and-india-a-squads-for-new-zealand-tour-announced",
+      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
+      newsUrl: "/News-details/index.html?id=india-and-india-a-squads-for-new-zealand-tour-announced"
     },
     {
       date: "2026-10-30",
@@ -84,10 +74,8 @@
       opponent: "New Zealand",
       venue: "Auckland",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
-      newsUrl:
-        "/News-details/index.html?id=india-and-india-a-squads-for-new-zealand-tour-announced",
+      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
+      newsUrl: "/News-details/index.html?id=india-and-india-a-squads-for-new-zealand-tour-announced"
     },
     {
       date: "2026-11-01",
@@ -96,11 +84,9 @@
       opponent: "New Zealand",
       venue: "Hamilton",
       time: "19:00",
-      source:
-        "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
-      newsUrl:
-        "/News-details/index.html?id=india-and-india-a-squads-for-new-zealand-tour-announced",
-    },
+      source: "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
+      newsUrl: "/News-details/index.html?id=india-and-india-a-squads-for-new-zealand-tour-announced"
+    }
   ];
   const announcementLink = document.getElementById("upcoming-team-announcement-link");
   if (announcementLink && fixtures.length) {
