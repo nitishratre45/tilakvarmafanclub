@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-13T12:17:21.199Z",
+  "checkedAt": "2026-10-13T12:18:30.997Z",
   "retentionHours": 15,
   "events": [
     {
@@ -3931,6 +3931,47 @@
         "skipped": 0
       },
       "jobs": []
+    },
+    {
+      "checkedAt": "2026-10-13T12:18:30.997Z",
+      "workflow": "Browser smoke tests",
+      "workflowPath": ".github/workflows/browser-smoke.yml",
+      "runId": 38396084065,
+      "runAttempt": 1,
+      "conclusion": "failure",
+      "event": "push",
+      "branch": "main",
+      "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38396084065",
+      "action": "handled_by_auto_rerun_failed",
+      "reason": "Failure retry is handled by the dedicated auto-rerun-failed workflow; this manager records the run and avoids a duplicate retry.",
+      "jobCounts": {
+        "total": 1,
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "jobs": [
+        {
+          "name": "Desktop and mobile interaction checks",
+          "conclusion": "failure",
+          "startedAt": "2026-10-13T12:17:05Z",
+          "completedAt": "2026-10-13T12:18:24Z",
+          "url": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38396084065/job/115291783799",
+          "steps": [
+            {
+              "name": "Test real browser interactions",
+              "conclusion": "failure",
+              "number": 6
+            },
+            {
+              "name": "Post Set up Node.js",
+              "conclusion": "skipped",
+              "number": 13
+            }
+          ]
+        }
+      ]
     }
   ]
 }
