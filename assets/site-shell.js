@@ -11,7 +11,11 @@
     ["Death-overs", "/death-overs/", path === "/death-overs"],
     ["Matches", "/#innings", path === "/" && currentHash === "#innings"],
     ["Records", "/#records", path === "/" && currentHash === "#records"],
-    ["News", "/#news", (path === "/" && currentHash === "#news") || path === "/News-details" || path === "/News"],
+    [
+      "News",
+      "/#news",
+      (path === "/" && currentHash === "#news") || path === "/News-details" || path === "/News",
+    ],
     ["Photos", "/#tv-gallery-hub", path === "/" && currentHash === "#tv-gallery-hub"],
     ["Videos", "/#tilak-videos", path === "/" && currentHash === "#tilak-videos"],
   ];
