@@ -138,38 +138,25 @@ check("mobile navigation opens, scroll target works, and closes after selection"
   await page.close();
 });
 
-check("shared shell uses dedicated section routes and mobile menu closes correctly", async () => {
+check("native navigation uses section-local UI assets without the removed global shell", async () => {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   page.setDefaultTimeout(8000);
   const pageErrors = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
 
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.addScriptTag({ url: baseURL + "/assets/site-shell.js?v=20261013-navbar-v4" });
-
-  const nav = page.locator("#site-shell-nav");
-  for (const href of ["/records/", "/news/", "/videos/", "/photos/"]) {
-    assert.equal(await nav.locator('a[href="' + href + '"]').count(), 1, "Shared shell route is incorrect: " + href);
+  const nav = page.locator("#main-nav");
+  for (const href of ["/stats/", "/death-overs/", "/matches/", "/records/", "/news/", "/photos/", "/videos/"]) {
+    assert.equal(await nav.locator('a[href="' + href + '"]').count(), 1, "Native navbar route is missing: " + href);
   }
+  assert.equal(await page.locator('script[src^="/home/app.js"]').count(), 1, "Home UI script should load from the home folder");
+  assert.equal(await page.locator('link[href^="/home/premium-ui.css"]').count(), 1, "Home UI stylesheet should load from the home folder");
+  assert.equal(await page.locator('script[src*="site-shell.js"]').count(), 0, "Removed global shell must not be injected");
 
-  const toggle = page.locator(".site-shell-menu-toggle");
-  await toggle.click();
-  assert.equal(await toggle.getAttribute("aria-expanded"), "true", "Shared mobile menu did not open");
-  assert.equal(await nav.evaluate((node) => node.classList.contains("is-open")), true, "Shared mobile menu panel did not open");
-
-  await page.keyboard.press("Escape");
-  assert.equal(await toggle.getAttribute("aria-expanded"), "false", "Escape should close the shared menu");
-
-  await toggle.click();
-  await page.locator("main").click({ position: { x: 10, y: 150 }, force: true });
-  assert.equal(await toggle.getAttribute("aria-expanded"), "false", "Outside click should close the shared menu");
-
-  await page.goto(baseURL + "/records/", { waitUntil: "domcontentloaded" });
-  await page.addScriptTag({ url: baseURL + "/assets/site-shell.js?v=20261013-navbar-v4" });
-  assert.equal(await page.locator('#site-shell-nav a[href="/records/"]').getAttribute("aria-current"), "page", "Records route should be marked active");
-  await page.locator('#site-shell-nav a[href="/news/"]').click();
-  await page.waitForURL((url) => url.pathname === "/news/");
-  assert.deepEqual(pageErrors, [], "Shared shell errors: " + pageErrors.join(" | "));
+  await page.goto(baseURL + "/stats/", { waitUntil: "domcontentloaded" });
+  assert.equal(await page.locator('script[src^="/stats/statsguru.js"]').count(), 1, "Stats module should load from the Stats folder");
+  assert.equal(await page.locator('link[href^="/stats/premium-ui.css"]').count(), 1, "Stats UI stylesheet should load from the Stats folder");
+  assert.deepEqual(pageErrors, [], "Native navigation errors: " + pageErrors.join(" | "));
   await page.close();
 });
 
