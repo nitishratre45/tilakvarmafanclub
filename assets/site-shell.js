@@ -14,7 +14,6 @@
     ["Photos", "/#tv-gallery-hub", false],
     ["Videos", "/#tilak-videos", false],
     ["Fan Zone", "/#fan-zone", false],
-    ["Settings", "/#settings", false],
   ];
   const header = document.createElement("header");
   header.className = "site-shell-header";
