@@ -59,7 +59,20 @@
       "sri lanka": "https://flagcdn.com/w160/lk.png",
       afghanistan: "https://flagcdn.com/w160/af.png",
       zimbabwe: "https://flagcdn.com/w160/zw.png",
-      ireland: "https://flagcdn.com/w160/ie.png"
+      ireland: "https://flagcdn.com/w160/ie.png",
+      nepal: "https://flagcdn.com/w160/np.png",
+      namibia: "https://flagcdn.com/w160/na.png",
+      netherlands: "https://flagcdn.com/w160/nl.png",
+      scotland: "https://flagcdn.com/w160/gb-sct.png",
+      "united arab emirates": "https://flagcdn.com/w160/ae.png",
+      oman: "https://flagcdn.com/w160/om.png",
+      canada: "https://flagcdn.com/w160/ca.png",
+      usa: "https://flagcdn.com/w160/us.png",
+      "united states": "https://flagcdn.com/w160/us.png",
+      "hong kong": "https://flagcdn.com/w160/hk.png",
+      "papua new guinea": "https://flagcdn.com/w160/pg.png",
+      uganda: "https://flagcdn.com/w160/ug.png",
+      kenya: "https://flagcdn.com/w160/ke.png"
     };
     return logos[n] || "";
   };
@@ -234,7 +247,9 @@
       set("details-title", a + " vs " + b);
       set("details-series", detail.series || f.series || "Upcoming international fixture");
       set("details-team-name", a);
-      set("details-opponent-name", b);\n      setTeamBadge("details-team-mark-home", a);\n      setTeamBadge("details-team-mark-away", b);
+      set("details-opponent-name", b);
+      setTeamBadge("details-team-mark-home", a);
+      setTeamBadge("details-team-mark-away", b);
       set("details-date", dateLabel(f.date) + " · " + timeLabel(f.time));
       set("details-venue", f.venue || "Venue TBA");
       set("details-location", detail.ground || "City / ground as listed by source");
