@@ -598,6 +598,26 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
+/* Keep the Match / Opposition column visible while the remaining columns scroll horizontally. */
+.recent-match-table th:first-child,
+.recent-match-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 185px;
+  background: #102239;
+  box-shadow: 7px 0 12px rgba(3, 10, 20, 0.18);
+}
+.recent-match-table th:first-child {
+  z-index: 4;
+  background: #12253b;
+}
+.recent-match-table tbody tr:nth-child(even) td:first-child {
+  background: #142a42;
+}
+.recent-match-table tbody tr:hover td:first-child {
+  background: #18324e;
+}
 .recent-match-table td:nth-child(2),
 .recent-match-table td:nth-child(3),
 .recent-match-table td:nth-child(6),
