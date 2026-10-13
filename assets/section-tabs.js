@@ -1,6 +1,19 @@
 (() => {
   "use strict";
 
+  // Legacy section hashes must open the dedicated pages, never the homepage.
+  // Old bookmarks and cached navbar markup can still point to these hashes.
+  if (window.location.pathname === "/" && window.location.hash) {
+    const legacyRoute = {
+      "#tv-gallery-hub": "/photos/index.html",
+      "#innings": "/matches/index.html",
+    }[window.location.hash];
+    if (legacyRoute) {
+      window.location.replace(legacyRoute);
+      return;
+    }
+  }
+
   const main = document.querySelector("main");
   const nav = document.getElementById("main-nav");
   const menu = document.querySelector(".menu-toggle");
