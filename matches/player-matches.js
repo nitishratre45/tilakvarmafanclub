@@ -262,25 +262,38 @@
     const yearSelector = $("player-match-year");
     const selected = selector?.value || "All";
     if (yearSelector) {
-      const years = [...new Set(matches.map((r) => {
-        const ts = dateValue(r.date);
-        return ts ? String(new Date(ts).getUTCFullYear()) : "";
-      }).filter(Boolean))].sort((a, b) => Number(b) - Number(a));
+      const years = [
+        ...new Set(
+          matches
+            .map((r) => {
+              const ts = dateValue(r.date);
+              return ts ? String(new Date(ts).getUTCFullYear()) : "";
+            })
+            .filter(Boolean),
+        ),
+      ].sort((a, b) => Number(b) - Number(a));
       const currentYear = yearSelector.value || "All";
-      yearSelector.innerHTML = '<option value="All">All years</option>' + years.map((year) => '<option value="' + esc(year) + '">' + esc(year) + '</option>').join("");
+      yearSelector.innerHTML =
+        '<option value="All">All years</option>' +
+        years
+          .map((year) => '<option value="' + esc(year) + '">' + esc(year) + "</option>")
+          .join("");
       yearSelector.value = years.includes(currentYear) ? currentYear : "All";
     }
     const selectedYear = yearSelector?.value || "All";
     const listed = matches.filter((r) => {
       const formatMatch = selected === "All" || r.format === selected;
       const ts = dateValue(r.date);
-      const yearMatch = selectedYear === "All" || (ts && String(new Date(ts).getUTCFullYear()) === selectedYear);
+      const yearMatch =
+        selectedYear === "All" || (ts && String(new Date(ts).getUTCFullYear()) === selectedYear);
       return formatMatch && yearMatch;
     });
     const formatValue = $("player-format-value");
-    if (formatValue && selector) formatValue.textContent = selector.options[selector.selectedIndex]?.text || "All formats";
+    if (formatValue && selector)
+      formatValue.textContent = selector.options[selector.selectedIndex]?.text || "All formats";
     const yearValue = $("player-year-value");
-    if (yearValue && yearSelector) yearValue.textContent = yearSelector.options[yearSelector.selectedIndex]?.text || "All years";
+    if (yearValue && yearSelector)
+      yearValue.textContent = yearSelector.options[yearSelector.selectedIndex]?.text || "All years";
     const table = $("player-matches-table");
     if (table)
       table.innerHTML = listed.length
@@ -333,11 +346,30 @@
     const select = kind === "format" ? selector : yearSelector;
     if (!select) return;
     if (dialogTitle) dialogTitle.textContent = kind === "format" ? "Choose format" : "Choose year";
-    options.innerHTML = Array.from(select.options).map((option) =>
-      '<button type="button" class="match-filter-option' + (option.value === select.value ? ' is-selected' : '') + '" data-filter-value="' + esc(option.value) + '" role="radio" aria-checked="' + (option.value === select.value ? 'true' : 'false') + '">' +
-      '<span class="match-filter-option-copy"><strong>' + esc(option.textContent) + '</strong><small>' + (option.value === "All" ? (kind === "format" ? "Show every format" : "Show every year") : (kind === "format" ? "Filter by match format" : "Filter matches from " + esc(option.textContent))) + '</small></span>' +
-      '<span class="match-filter-radio" aria-hidden="true"></span></button>'
-    ).join("");
+    options.innerHTML = Array.from(select.options)
+      .map(
+        (option) =>
+          '<button type="button" class="match-filter-option' +
+          (option.value === select.value ? " is-selected" : "") +
+          '" data-filter-value="' +
+          esc(option.value) +
+          '" role="radio" aria-checked="' +
+          (option.value === select.value ? "true" : "false") +
+          '">' +
+          '<span class="match-filter-option-copy"><strong>' +
+          esc(option.textContent) +
+          "</strong><small>" +
+          (option.value === "All"
+            ? kind === "format"
+              ? "Show every format"
+              : "Show every year"
+            : kind === "format"
+              ? "Filter by match format"
+              : "Filter matches from " + esc(option.textContent)) +
+          "</small></span>" +
+          '<span class="match-filter-radio" aria-hidden="true"></span></button>',
+      )
+      .join("");
     backdrop.hidden = false;
     document.body.classList.add("match-filter-open");
     triggers[kind]?.setAttribute("aria-expanded", "true");
@@ -350,7 +382,9 @@
     Object.values(triggers).forEach((trigger) => trigger?.setAttribute("aria-expanded", "false"));
     lastTrigger?.focus();
   };
-  Object.entries(triggers).forEach(([kind, trigger]) => trigger?.addEventListener("click", () => openFilter(kind)));
+  Object.entries(triggers).forEach(([kind, trigger]) =>
+    trigger?.addEventListener("click", () => openFilter(kind)),
+  );
   options?.addEventListener("click", (event) => {
     const option = event.target.closest("[data-filter-value]");
     if (!option) return;
@@ -362,8 +396,12 @@
   });
   $("match-filter-close")?.addEventListener("click", closeFilter);
   $("match-filter-done")?.addEventListener("click", closeFilter);
-  backdrop?.addEventListener("click", (event) => { if (event.target === backdrop) closeFilter(); });
-  document.addEventListener("keydown", (event) => { if (event.key === "Escape" && backdrop && !backdrop.hidden) closeFilter(); });
+  backdrop?.addEventListener("click", (event) => {
+    if (event.target === backdrop) closeFilter();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && backdrop && !backdrop.hidden) closeFilter();
+  });
   if (selector) selector.addEventListener("change", () => snapshot && render(snapshot));
   if (yearSelector) yearSelector.addEventListener("change", () => snapshot && render(snapshot));
   window.TilakSiteData.load()
