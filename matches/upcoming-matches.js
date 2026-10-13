@@ -109,39 +109,80 @@
       return Number.isFinite(start) && now < start + 4 * 60 * 60 * 1000;
     });
     const announcementLink = document.getElementById("upcoming-team-announcement-link");
-    if (announcementLink && upcoming.length) announcementLink.href = upcoming[0].newsUrl || "/news/";
+    if (announcementLink && upcoming.length)
+      announcementLink.href = upcoming[0].newsUrl || "/news/";
     host.innerHTML = upcoming.length
-      ? upcoming.map((fixture) =>
-          '<article class="upcoming-match-card">' +
-          '<div class="upcoming-match-topline"><span class="upcoming-match-date">' + esc(fixture.label || fixture.date) +
-          "</span>" +
-          '<span class="upcoming-squad-badge">✓ TILAK IN SQUAD</span></div>' +
-          '<div class="upcoming-match-teams"><span>India</span><span class="versus">VS</span><span>' + esc(fixture.opponent) +
-          "</span></div>" +
-          '<div class="upcoming-match-meta"><span>' + esc(fixture.match) + "</span><span>⌖ " + esc(fixture.venue) +
-          "</span>" + (fixture.time ? "<span>" + esc(fixture.time) + " IST</span>" : "") + "</div>" +
-          '<div class="upcoming-match-link"><a href="' + esc(fixture.newsUrl || "/news/") + '">Match Details ↗</a></div></article>'
-        ).join("")
+      ? upcoming
+          .map(
+            (fixture) =>
+              '<article class="upcoming-match-card">' +
+              '<div class="upcoming-match-topline"><span class="upcoming-match-date">' +
+              esc(fixture.label || fixture.date) +
+              "</span>" +
+              '<span class="upcoming-squad-badge">✓ TILAK IN SQUAD</span></div>' +
+              '<div class="upcoming-match-teams"><span>India</span><span class="versus">VS</span><span>' +
+              esc(fixture.opponent) +
+              "</span></div>" +
+              '<div class="upcoming-match-meta"><span>' +
+              esc(fixture.match) +
+              "</span><span>⌖ " +
+              esc(fixture.venue) +
+              "</span>" +
+              (fixture.time ? "<span>" + esc(fixture.time) + " IST</span>" : "") +
+              "</div>" +
+              '<div class="upcoming-match-link"><a href="' +
+              esc(fixture.newsUrl || "/news/") +
+              '">Match Details ↗</a></div></article>',
+          )
+          .join("")
       : '<p class="activity-empty">No upcoming fixtures are currently listed for a squad that includes Tilak Varma.</p>';
     const updated = document.getElementById("upcoming-matches-updated");
-    if (updated) updated.textContent = "Upcoming fixtures · News JSON pipeline with admin-managed corrections.";
+    if (updated)
+      updated.textContent =
+        "Upcoming fixtures · News JSON pipeline with admin-managed corrections.";
   }
   renderFixtures(fixtures);
   // Load the latest verified News JSON report, then overlay admin corrections without changing scorecards.
   Promise.all([
-    fetch("/matches/upcoming-fixtures-refresh.json?v=admin-fixtures1", { cache: "no-store" }).then(r => r.ok ? r.json() : null).catch(() => null),
-    fetch("/matches/manual-upcoming-fixtures.json?v=admin-fixtures1", { cache: "no-store" }).then(r => r.ok ? r.json() : null).catch(() => null)
+    fetch("/matches/upcoming-fixtures-refresh.json?v=admin-fixtures1", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null),
+    fetch("/matches/manual-upcoming-fixtures.json?v=admin-fixtures1", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null),
   ]).then(([report, manualData]) => {
-    let sourceFixtures = report && Array.isArray(report.fixtures) && report.fixtures.length ? report.fixtures : fixtures;
+    let sourceFixtures =
+      report && Array.isArray(report.fixtures) && report.fixtures.length
+        ? report.fixtures
+        : fixtures;
     const manual = Array.isArray(manualData?.fixtures) ? manualData.fixtures : [];
-    const key = f => String(f.date || "") + "|" + String(f.match || "").trim().toLowerCase() + "|" + String(f.opponent || "").trim().toLowerCase();
-    const sourceKey = f => String(f.date || "") + "|" + String(f.match || "").trim().toLowerCase();
-    const overrides = new Map(manual.filter(f => f.overrideKey).map(f => [f.overrideKey, f]));
-    const exact = new Map(manual.filter(f => !f.overrideKey).map(f => [key(f), f]));
-    const merged = sourceFixtures.map(f => ({ ...f, ...(overrides.get(sourceKey(f)) || exact.get(key(f)) || {}) }));
+    const key = (f) =>
+      String(f.date || "") +
+      "|" +
+      String(f.match || "")
+        .trim()
+        .toLowerCase() +
+      "|" +
+      String(f.opponent || "")
+        .trim()
+        .toLowerCase();
+    const sourceKey = (f) =>
+      String(f.date || "") +
+      "|" +
+      String(f.match || "")
+        .trim()
+        .toLowerCase();
+    const overrides = new Map(manual.filter((f) => f.overrideKey).map((f) => [f.overrideKey, f]));
+    const exact = new Map(manual.filter((f) => !f.overrideKey).map((f) => [key(f), f]));
+    const merged = sourceFixtures.map((f) => ({
+      ...f,
+      ...(overrides.get(sourceKey(f)) || exact.get(key(f)) || {}),
+    }));
     const sourceKeys = new Set(sourceFixtures.map(key));
-    manual.forEach(f => { if (!f.overrideKey && !sourceKeys.has(key(f))) merged.push(f); });
-    merged.sort((a,b) => String(a.date).localeCompare(String(b.date)));
+    manual.forEach((f) => {
+      if (!f.overrideKey && !sourceKeys.has(key(f))) merged.push(f);
+    });
+    merged.sort((a, b) => String(a.date).localeCompare(String(b.date)));
     renderFixtures(merged);
   });
 })();
