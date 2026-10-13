@@ -247,11 +247,12 @@ jobs:
           print("Validated modular Records, News and Videos routes.")
 
           matches = Path("matches/index.html").read_text(encoding="utf-8")
-          for script in ("/assets/site-data-store.js", "/matches/player-matches.js", "/matches/upcoming-matches.js"):
+          for script in ("/assets/site-data-store.js", "/matches/match-centre.js"):
               if script not in matches:
                   raise SystemExit(f"Matches page is missing required script: {script}")
-          if 'id="player-matches-table"' not in matches or 'id="upcoming-matches-list"' not in matches:
-              raise SystemExit("Matches page is missing the match-history or upcoming-fixtures mount point")
+          required_mounts = ('id="match-upcoming-panel"', 'id="match-complete-panel"', 'id="upcoming-matches-list"', 'id="complete-matches-list"', 'id="match-tab-upcoming"', 'id="match-tab-complete"')
+          if any(mount not in matches for mount in required_mounts):
+              raise SystemExit("Matches page is missing a Match Centre tab or data mount point")
           home = Path("index.html").read_text(encoding="utf-8")
           if 'id="innings"' in home or 'id="upcoming-matches-list"' in home or 'id="player-matches-table"' in home:
               raise SystemExit("Match section should live only in matches/index.html")
