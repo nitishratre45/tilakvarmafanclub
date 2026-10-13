@@ -28,9 +28,10 @@ permissions:
   pull-requests: write
   issues: write
 
+# Keep only one formatter/repair run active per branch. Newer commits supersede older scans.
 concurrency:
   group: self-healing-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   safe-repair:
@@ -97,13 +98,20 @@ jobs:
 
       - name: Open a review PR for safe repairs
         id: create_pr
-        if: always() && steps.checks.outcome != 'cancelled'
+        # Never open/update a repair PR from a failed validation run. That created
+        # PR checks that could not proceed and repeated bot PR activity.
+        if: steps.checks.outcome == 'success'
         continue-on-error: true
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: bot/safe-auto-repair
           delete-branch: false
+          add-paths: |
+            **/*.html
+            **/*.css
+            **/*.js
+            scripts/**/*.py
           base: main
           commit-message: "chore: apply safe automated source repairs"
           title: "🤖 Safe automated code repairs"
