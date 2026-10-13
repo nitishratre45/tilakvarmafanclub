@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'home/**'
       - 'assets/**'
       - 'News-details/**'
       - 'News/**'
@@ -42,7 +43,7 @@ jobs:
           node-version: '22'
       - name: Check JavaScript and embedded page scripts
         run: |
-          find assets functions admin News News-details stats matches photos news videos records -type f -name '*.js' -print0 | xargs -0 -n 1 node --check
+          find assets functions admin News News-details home death-overs stats matches photos news videos records -type f -name '*.js' -print0 | xargs -0 -n 1 node --check
           python -m py_compile scripts/refresh_icc_records.py scripts/refresh_statsguru.py
           python - <<'PY'
           from pathlib import Path
@@ -213,10 +214,10 @@ jobs:
           if loader < 0:
               raise SystemExit("Shared site-data loader is not linked from index.html")
           dependents = [
-              "assets/app.js",
-              "assets/career-formats.js",
-              "assets/upgrade.js",
-              "assets/home-snapshot.js",
+              "/home/app.js",
+              "/home/career-formats.js",
+              "/home/upgrade.js",
+              "/home/home-snapshot.js",
           ]
           for script in dependents:
               position = html.find('src="' + script)
@@ -228,7 +229,7 @@ jobs:
 
           records = Path("records/index.html").read_text(encoding="utf-8")
           records_loader = records.find('src="/assets/site-data-store.js')
-          for script in ("/assets/records-matches.js", "/assets/features.js"):
+          for script in ("/records/records-matches.js", "/records/features.js"):
               position = records.find('src="' + script)
               if position < 0 or records_loader < 0 or records_loader > position:
                   raise SystemExit("Records page is missing a correctly ordered module: " + script)
@@ -264,7 +265,7 @@ jobs:
           stats_loader = stats.find('src="/assets/site-data-store.js')
           if stats_loader < 0:
               raise SystemExit("Shared site-data loader is not linked from stats/index.html")
-          for script in ("/assets/app.js", "/assets/career-formats.js", "/assets/statsguru.js", "/assets/bowling.js"):
+          for script in ("/stats/app.js", "/stats/career-formats.js", "/stats/statsguru.js", "/stats/bowling.js"):
               position = stats.find('src="' + script)
               if position < 0:
                   raise SystemExit("Required Stats page module is not linked: " + script)
