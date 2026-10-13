@@ -134,11 +134,13 @@
   ]).then(([report, manualData]) => {
     let sourceFixtures = report && Array.isArray(report.fixtures) && report.fixtures.length ? report.fixtures : fixtures;
     const manual = Array.isArray(manualData?.fixtures) ? manualData.fixtures : [];
-    const key = f => String(f.date || "") + "|" + String(f.match || "").toLowerCase() + "|" + String(f.opponent || "").toLowerCase();
-    const overrides = new Map(manual.map(f => [key(f), f]));
-    const merged = sourceFixtures.map(f => overrides.get(key(f)) ? { ...f, ...overrides.get(key(f)) } : f);
+    const key = f => String(f.date || "") + "|" + String(f.match || "").trim().toLowerCase() + "|" + String(f.opponent || "").trim().toLowerCase();
+    const sourceKey = f => String(f.date || "") + "|" + String(f.match || "").trim().toLowerCase();
+    const overrides = new Map(manual.filter(f => f.overrideKey).map(f => [f.overrideKey, f]));
+    const exact = new Map(manual.filter(f => !f.overrideKey).map(f => [key(f), f]));
+    const merged = sourceFixtures.map(f => ({ ...f, ...(overrides.get(sourceKey(f)) || exact.get(key(f)) || {}) }));
     const sourceKeys = new Set(sourceFixtures.map(key));
-    manual.forEach(f => { if (!sourceKeys.has(key(f))) merged.push(f); });
+    manual.forEach(f => { if (!f.overrideKey && !sourceKeys.has(key(f))) merged.push(f); });
     merged.sort((a,b) => String(a.date).localeCompare(String(b.date)));
     renderFixtures(merged);
   });
