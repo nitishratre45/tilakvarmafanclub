@@ -45,7 +45,7 @@ jobs:
           python-version: '3.12'
       - name: Format HTML, CSS, JavaScript, JSON and Markdown
         run: |
-          npx --yes prettier@3.6.2 --write index.html admin/index.html death-overs/index.html assets/*.js assets/*.css functions/_lib/*.js functions/api/admin/*.js README.md ADMIN_SETUP.md DEPLOYMENT.md data/admin-media.json data/video-config.json data/fan-zone.json
+          npx --yes prettier@3.6.2 --write index.html admin/index.html death-overs/index.html assets/*.js assets/*.css functions/_lib/*.js functions/api/admin/*.js README.md ADMIN_SETUP.md DEPLOYMENT.md data/admin-media.json data/video-config.json
       - name: Format Python scripts
         run: |
           python -m pip install --disable-pip-version-check black==25.1.0
