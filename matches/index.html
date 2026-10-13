@@ -127,17 +127,9 @@
             >
               <span class="tab-mark" aria-hidden="true">◷</span> Upcoming Match
             </button>
-            <button
-              class="match-centre-tab"
-              id="match-tab-complete"
-              type="button"
-              role="tab"
-              data-match-tab="complete"
-              aria-selected="false"
-              aria-controls="match-complete-panel"
-            >
-              <span class="tab-mark" aria-hidden="true">▤</span> Complete Match
-            </button>
+            <a class="match-centre-tab complete-match-route" id="match-tab-complete" href="/matches/complete/">
+              <span class="tab-mark" aria-hidden="true">▤</span> Complete Match <span aria-hidden="true">↗</span>
+            </a>
           </div>
           <span class="match-centre-controls-note">Upcoming is selected by default</span>
         </div>
@@ -211,45 +203,6 @@
               Loading ESPNcricinfo Statsguru match history…
             </p>
           </section>
-        </div>
-        <div
-          id="match-complete-panel"
-          class="match-centre-panel"
-          role="tabpanel"
-          aria-labelledby="match-tab-complete"
-          hidden
-        >
-          <div class="complete-match-tools">
-            <label class="match-search-wrap"
-              ><span class="sr-only">Search completed matches</span
-              ><input
-                id="match-search"
-                type="search"
-                placeholder="Search team, venue, season…"
-                autocomplete="off"
-            /></label>
-            <label
-              ><span class="sr-only">Filter by format</span
-              ><select id="match-format-filter">
-                <option value="All">All formats</option>
-                <option value="T20I">T20 International</option>
-                <option value="ODI">ODI</option>
-                <option value="Test">Test</option>
-                <option value="T20">T20 / IPL</option>
-                <option value="List A">List A / domestic ODI</option>
-                <option value="First-class">First-class / multi-day</option>
-              </select></label
-            >
-            <span class="scorecard-count" id="scorecard-count">Loading matches…</span>
-          </div>
-          <div id="complete-matches-list" class="complete-match-grid" aria-live="polite">
-            <div class="match-empty">
-              <strong>Loading complete matches…</strong
-              ><span>Full scorecards and ball-by-ball data are being loaded.</span>
-            </div>
-          </div>
-          <p id="scorecard-source-note">Only verified source data will be shown.</p>
-          <p id="scorecard-updated" class="upcoming-matches-foot">Waiting for scorecard data…</p>
         </div>
       </section>
     </main>
