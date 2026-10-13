@@ -3,7 +3,7 @@
   if (window.__TILAK_SHARED_SITE_SHELL_V2__) return;
   window.__TILAK_SHARED_SITE_SHELL_V2__ = true;
 
-  const normalizePath = () => window.location.pathname.replace(/\\/+$/, "") || "/";
+  const normalizePath = () => window.location.pathname.replace(/\/+$/, "") || "/";
   const items = [
     { label: "Home", href: "/#profile", path: "/", hash: "#profile", defaultHash: true },
     { label: "Stats", href: "/stats/", path: "/stats", hash: "" },
@@ -87,7 +87,7 @@
   if (logo && window.TilakSiteData?.load) {
     window.TilakSiteData.load().then((data) => {
       const photo = data?.profile?.photo;
-      if (typeof photo === "string" && /^https:\\/\\//i.test(photo)) logo.src = photo;
+      if (typeof photo === "string" && /^https:\/\//i.test(photo)) logo.src = photo;
     }).catch(() => {});
   }
 })();
