@@ -13,6 +13,7 @@ import json
 import re
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
 NEWS_FILE = ROOT / "News" / "newsjson.json"
@@ -168,6 +169,7 @@ def article_fixtures(article: dict) -> list[dict]:
                     "venue": venue,
                     "time": parse_time(time_value),
                     "source": url,
+                    "newsUrl": "/News-details/index.html?id=" + quote(str(article.get("id") or "")),
                 }
             )
     # Some BCCI article pages expose their schedule in pageText but the news
@@ -230,6 +232,7 @@ def article_fixtures(article: dict) -> list[dict]:
                                 "venue": venue,
                                 "time": parse_time(time_value),
                                 "source": url,
+                                "newsUrl": "/News-details/index.html?id=" + quote(str(article.get("id") or "")),
                             }
                         )
                     cursor += row_width
@@ -243,7 +246,7 @@ def js_string(value: str) -> str:
 
 
 def render_fixture(fixture: dict) -> str:
-    fields = ("date", "label", "match", "opponent", "venue", "time", "source")
+    fields = ("date", "label", "match", "opponent", "venue", "time", "source", "newsUrl")
     return (
         "    {\n"
         + ",\n".join(f"      {key}: {js_string(str(fixture[key]))}" for key in fields)
