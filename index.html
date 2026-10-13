@@ -1192,5 +1192,28 @@
         });
       }
     </script>
-  </body>
+  
+<script id="mobile-profile-tabs">
+(() => {
+  if (window.__mobileProfileTabsAdded) return;
+  const profile = document.querySelector('main > #profile.profile-section');
+  if (!profile) return;
+  window.__mobileProfileTabsAdded = true;
+  const tabs = document.createElement('nav');
+  tabs.className = 'mobile-profile-tabs';
+  tabs.setAttribute('aria-label', 'Player profile sections');
+  const items = [
+    ['Overview', '#profile'], ['Stats', '/stats/'], ['Records', '#records'],
+    ['Matches', '#innings'], ['Videos', '#tilak-videos'], ['News', '#news'], ['Photos', '#tv-gallery-hub']
+  ];
+  for (const [label, href] of items) {
+    const link = document.createElement('a');
+    link.textContent = label; link.href = href;
+    tabs.appendChild(link);
+  }
+  profile.after(tabs);
+})();
+</script>
+
+</body>
 </html>
