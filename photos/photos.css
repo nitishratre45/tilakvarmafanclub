@@ -1,15 +1,23 @@
 /* Dedicated Photos page layout; gallery-specific styling lives here, shared tokens remain in /assets/*.css. */
 .photos-page {
   min-height: 100vh;
+  min-height: 100dvh;
 }
 .photos-main {
   width: min(1240px, calc(100% - 28px));
   margin: 0 auto;
   padding: 12px 0 42px;
+  /* Let the gallery shrink inside flex/grid parents instead of forcing sideways scroll. */
+  min-width: 0;
 }
 .photos-main #tv-gallery-hub {
   width: 100%;
   margin: 0;
+  min-width: 0;
+}
+/* Photos never overflow their card or the page. */
+.photos-main #tv-gallery-hub img {
+  max-width: 100%;
 }
 .photos-page footer {
   display: flex;
@@ -17,14 +25,40 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
 }
+
+/* Tablet */
+@media (max-width: 900px) {
+  .photos-main {
+    width: min(1240px, calc(100% - 24px));
+  }
+}
+
+/* Phones */
 @media (max-width: 640px) {
   .photos-main {
     width: calc(100% - 16px);
     padding-top: 8px;
+    padding-bottom: 32px;
   }
   .photos-page footer {
     justify-content: center;
     text-align: center;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .photos-main {
+    width: calc(100% - 12px);
+  }
+}
+
+/* Large screens */
+@media (min-width: 1400px) {
+  .photos-main {
+    width: min(1320px, calc(100% - 64px));
+    padding-top: 20px;
   }
 }
