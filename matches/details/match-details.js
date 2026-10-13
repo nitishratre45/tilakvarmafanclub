@@ -45,6 +45,41 @@
           .toLowerCase(),
       )
       .join("|");
+  const teamLogoUrl = (name) => {
+    const n = String(name || "").trim().toLowerCase();
+    const logos = {
+      india: "https://flagcdn.com/w160/in.png",
+      "west indies": "https://commons.wikimedia.org/wiki/Special:FilePath/Cricket_West_Indies_Logo_2017.svg",
+      "new zealand": "https://flagcdn.com/w160/nz.png",
+      australia: "https://flagcdn.com/w160/au.png",
+      england: "https://flagcdn.com/w160/gb-eng.png",
+      pakistan: "https://flagcdn.com/w160/pk.png",
+      "south africa": "https://flagcdn.com/w160/za.png",
+      bangladesh: "https://flagcdn.com/w160/bd.png",
+      "sri lanka": "https://flagcdn.com/w160/lk.png",
+      afghanistan: "https://flagcdn.com/w160/af.png",
+      zimbabwe: "https://flagcdn.com/w160/zw.png",
+      ireland: "https://flagcdn.com/w160/ie.png"
+    };
+    return logos[n] || "";
+  };
+  function setTeamBadge(id, name) {
+    const host = $(id);
+    if (!host) return;
+    const initials = String(name || "?").split(/\\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+    const src = teamLogoUrl(name);
+    if (!src) {
+      host.textContent = initials;
+      return;
+    }
+    host.innerHTML = '<img src="' + esc(src) + '" alt="" aria-hidden="true" loading="eager">';
+    const img = host.querySelector("img");
+    img.addEventListener("error", () => {
+      host.textContent = initials;
+      host.classList.add("details-team-mark-fallback");
+    }, { once: true });
+    host.setAttribute("aria-label", String(name || "Team"));
+  }
   function showPlayers(id, players) {
     const host = $(id);
     if (!host) return;
@@ -199,7 +234,7 @@
       set("details-title", a + " vs " + b);
       set("details-series", detail.series || f.series || "Upcoming international fixture");
       set("details-team-name", a);
-      set("details-opponent-name", b);
+      set("details-opponent-name", b);\n      setTeamBadge("details-team-mark-home", a);\n      setTeamBadge("details-team-mark-away", b);
       set("details-date", dateLabel(f.date) + " · " + timeLabel(f.time));
       set("details-venue", f.venue || "Venue TBA");
       set("details-location", detail.ground || "City / ground as listed by source");
