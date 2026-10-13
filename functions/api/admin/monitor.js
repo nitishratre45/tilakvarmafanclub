@@ -205,6 +205,20 @@ export async function onRequest({ request, env }) {
           202,
         );
       }
+      if (body.action === "match-refresh") {
+        await github(env, "/actions/workflows/refresh-upcoming-matches.yml/dispatches", {
+          method: "POST",
+          body: JSON.stringify({ ref: "main" }),
+        });
+        return json(
+          {
+            ok: true,
+            message:
+              "Team announcement and match details refresh queued. It reads the BCCI News JSON archive, validates squad-linked fixtures, and updates the Matches page.",
+          },
+          202,
+        );
+      }
       return json({ error: "Unsupported action." }, 400);
     } catch (error) {
       return json({ error: error.message }, 502);
