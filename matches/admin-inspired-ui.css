@@ -248,3 +248,36 @@ canvas {
   background: linear-gradient(145deg, #fff, #edf4ff);
   border-color: #d4e2f4;
 }
+
+
+/* Matches content polish only — deliberately no .topbar, nav or .menu-toggle selectors. */
+.matches-page .matches-main .upcoming-matches-panel {
+  border: 1px solid var(--admin-line, rgba(120, 174, 225, 0.18));
+  border-radius: 20px;
+}
+.matches-page .matches-main .upcoming-match-card {
+  position: relative;
+  overflow: hidden;
+}
+.matches-page .matches-main .upcoming-match-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--admin-orange, #ff8748), var(--admin-cyan, #78e4ef));
+  opacity: 0.85;
+  pointer-events: none;
+}
+.matches-page .matches-main .upcoming-match-link:focus-visible,
+.matches-page .matches-main .table-wrap a:focus-visible {
+  outline: 2px solid var(--admin-cyan, #78e4ef);
+  outline-offset: 3px;
+}
+.matches-page .matches-main .table-wrap thead th {
+  border-bottom: 1px solid rgba(120, 174, 225, 0.22);
+}
+@media (max-width: 640px) {
+  .matches-page .matches-main .upcoming-match-card {
+    border-radius: 14px;
+  }
+}
