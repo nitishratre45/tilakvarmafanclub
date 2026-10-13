@@ -350,6 +350,11 @@ def main():
             }
         )
     rows.sort(key=lambda row: row.get("date") or "", reverse=True)
+    # Remove stale files for unrelated/same-name club entries no longer in the verified index.
+    keep_files = {row["matchId"] + ".json" for row in rows}
+    for old_file in DATA.glob("*.json"):
+        if old_file.name not in keep_files:
+            old_file.unlink()
     index = {
         "schemaVersion": 1,
         "player": PLAYER,
