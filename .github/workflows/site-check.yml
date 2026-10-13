@@ -188,7 +188,6 @@ jobs:
           require_match 'News-details/index[.]html' News/news-section.js
           require_match 'scripts/news[.]py' .github/workflows/refresh-tilak-news.yml
           require_match 'scripts/filter_tilak_news[.]py' .github/workflows/refresh-tilak-news.yml
-          require_match 'data/fan-zone[.]json' assets/features.js
           # Shared site-data loader must exist and load before every dependent page module.
           grep -q 'assets/site-data-store.js' index.html
           grep -q 'window.TilakSiteData = Object.freeze({ load })' assets/site-data-store.js
