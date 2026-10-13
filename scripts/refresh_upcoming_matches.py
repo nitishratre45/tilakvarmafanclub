@@ -175,7 +175,7 @@ def article_fixtures(article: dict) -> list[dict]:
     # explicitly pipe-delimited schedule table as a conservative fallback.
     if not fixtures:
         page_text = str(article.get("pageText") or article.get("fullText") or "")
-        cells = [re.sub(r"\\s+", " ", cell).strip() for cell in page_text.split("|")]
+        cells = [re.sub(r"\s+", " ", cell).strip() for cell in page_text.split("|")]
         for i in range(len(cells)):
             window = [cell.lower() for cell in cells[i : i + 6]]
             if len(window) >= 5 and "date" in window and "match" in window and "venue" in window:
@@ -189,7 +189,7 @@ def article_fixtures(article: dict) -> list[dict]:
                 cursor = i + row_width
                 while cursor + row_width <= len(cells):
                     row = cells[cursor : cursor + row_width]
-                    if not row or not re.fullmatch(r"\\d{1,2}", row[0]):
+                    if not row or not re.fullmatch(r"\d{1,2}", row[0]):
                         break
                     date = parse_date(row[date_i] if date_i < len(row) else "")
                     match_label = row[match_i] if match_i < len(row) else ""
