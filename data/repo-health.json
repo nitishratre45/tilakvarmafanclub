@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-13T16:44:56+00:00",
+  "checkedAt": "2026-10-13T21:13:10+00:00",
   "intervalMinutes": 10,
   "status": "warning",
   "summary": {
-    "filesScanned": 168,
-    "checksPassed": 87,
+    "filesScanned": 174,
+    "checksPassed": 89,
     "issues": 0,
-    "warnings": 36
+    "warnings": 39
   },
   "items": [
     {
       "level": "warning",
-      "message": "32 repeated CSS selector(s); review cascade/overrides: .site-navigation (5x), .related-card (5x), .page-layout (5x), .brand-photo (4x), .site-navigation a (4x), .article-hero h1 (4x), .topbar (4x), .related-panel (4x)",
+      "message": "33 repeated CSS selector(s); review cascade/overrides: .site-navigation (5x), .related-card (5x), .page-layout (5x), .brand-photo (4x), .site-navigation a (4x), .article-hero h1 (4x), .topbar (4x), .related-panel (4x)",
       "file": "News-details/news-details.css"
     },
     {
@@ -24,6 +24,11 @@
       "level": "warning",
       "message": "102 repeated CSS selector(s); review cascade/overrides: .sidebar (13x), .topbar (13x), .main (12x), .stats (12x), .stat (11x), .section-head (11x), .sidebar .nav a (10x), body (9x)",
       "file": "admin/admin-premium.css"
+    },
+    {
+      "level": "warning",
+      "message": "6 repeated CSS selector(s); review cascade/overrides: html body > header.topbar .menu-toggle span (4x), html body > header.topbar .menu-toggle (3x), html body.mobile-menu-open::before (3x), html body > header.topbar .menu-toggle[aria-expanded=\"true\"] span:nth-child(1) (2x), html body > header.topbar .menu-toggle[aria-expanded=\"true\"] span:nth-child(2) (2x), html body > header.topbar .menu-toggle[aria-expanded=\"true\"] span:nth-child(3) (2x)",
+      "file": "assets/mobile-glass-menu.css"
     },
     {
       "level": "warning",
@@ -47,6 +52,11 @@
     },
     {
       "level": "warning",
+      "message": "39 repeated CSS selector(s); review cascade/overrides: .home-bowling-stats (6x), .profile-copy h2 (4x), .home-bowling-heading (4x), .home-bowling-facts (4x), body > main > .section (3x), body > main > .profile-section (3x), .profile-copy h2 em (3x), .profile-data-grid (3x)",
+      "file": "home/home-refresh.css"
+    },
+    {
+      "level": "warning",
       "message": "260 repeated CSS selector(s); review cascade/overrides: .topbar (12x), #photos .cricinfo-gallery (11x), #profile .profile-photo-wrap (10x), .section (9x), #career-formats .format-card (9x), #profile.profile-section (9x), #profile .profile-copy h2 (8x), #photos #cricinfo-photo-grid .tv-album-grid (8x)",
       "file": "home/premium-ui.css"
     },
@@ -62,12 +72,12 @@
     },
     {
       "level": "warning",
-      "message": "5 repeated CSS selector(s); review cascade/overrides: .section (4x), html (2x), .topbar (2x), .section-heading (2x), .section-heading > p (2x)",
+      "message": "6 repeated CSS selector(s); review cascade/overrides: .section (4x), html (2x), .topbar (2x), .section-heading (2x), .section-heading > p (2x), .matches-page .matches-main .upcoming-match-card (2x)",
       "file": "matches/admin-inspired-ui.css"
     },
     {
       "level": "warning",
-      "message": "6 repeated CSS selector(s); review cascade/overrides: .matches-main (4x), .matches-main table (3x), .matches-main .section-heading (2x), .matches-main .section-heading > p (2x), .matches-main tbody tr (2x), .matches-intro (2x)",
+      "message": "18 repeated CSS selector(s); review cascade/overrides: .matches-main (4x), .matches-main .section-heading (3x), .matches-main table (3x), .matches-main .match-history-head select (3x), .matches-main .section-heading > p (2x), .matches-main .upcoming-matches-panel (2x), .matches-main tbody tr (2x), .matches-intro (2x)",
       "file": "matches/matches.css"
     },
     {
@@ -139,6 +149,11 @@
       "level": "warning",
       "message": "260 repeated CSS selector(s); review cascade/overrides: .topbar (12x), #photos .cricinfo-gallery (11x), #profile .profile-photo-wrap (10x), .section (9x), #career-formats .format-card (9x), #profile.profile-section (9x), #profile .profile-copy h2 (8x), #photos #cricinfo-photo-grid .tv-album-grid (8x)",
       "file": "records/premium-ui.css"
+    },
+    {
+      "level": "warning",
+      "message": "11 repeated CSS selector(s); review cascade/overrides: .records-section .section-heading h2 (3x), .records-section .section-heading (2x), .records-section .section-heading > p (2x), .official-record-card (2x), .milestone-card h3 (2x), .analytics-grid (2x), .analytics-bars .bar-row (2x), .analytics-bars .bar-row > span (2x)",
+      "file": "records/records.css"
     },
     {
       "level": "warning",
@@ -239,6 +254,11 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "assets/bcci-videos.json"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "assets/mobile-glass-menu.js"
     },
     {
       "level": "pass",
@@ -422,6 +442,11 @@
     },
     {
       "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/upcoming-fixtures-refresh.json"
+    },
+    {
+      "level": "pass",
       "message": "JavaScript syntax OK",
       "file": "matches/upcoming-matches.js"
     },
@@ -474,11 +499,6 @@
       "level": "pass",
       "message": "JavaScript syntax OK",
       "file": "records/records-matches.js"
-    },
-    {
-      "level": "pass",
-      "message": "No repeated CSS selectors detected",
-      "file": "records/records.css"
     },
     {
       "level": "pass",
@@ -563,6 +583,11 @@
     {
       "level": "pass",
       "message": "Python syntax OK",
+      "file": "scripts/refresh_upcoming_matches.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
       "file": "scripts/repo_health_monitor.py"
     },
     {
@@ -631,6 +656,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "6cba1be"
+    "branch": "7ff85c5f"
   }
 }
