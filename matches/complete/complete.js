@@ -24,9 +24,9 @@
     "punjab kings": { ipl: "PBKS" }, "gujarat titans": { ipl: "GT" },
     "lucknow super giants": { ipl: "LSG" }
   };
-  const normaliseTeam = (name) => String(name || "").trim().toLowerCase().replace(/\\s+/g, " ");
+  const normaliseTeam = (name) => String(name || "").trim().toLowerCase().replace(/\s+/g, " ");
   const teamInitials = (name) => {
-    const words = String(name || "?").replace(/[^a-z0-9 ]/gi, " ").trim().split(/\\s+/).filter(Boolean);
+    const words = String(name || "?").replace(/[^a-z0-9 ]/gi, " ").trim().split(/\s+/).filter(Boolean);
     return (words.length > 1 ? words.slice(0, 2).map((word) => word[0]) : [(words[0] || "?").slice(0, 2)]).join("").toUpperCase();
   };
   function teamLogo(name) {
@@ -34,8 +34,9 @@
     const src = data.ipl
       ? "https://scores.iplt20.com/ipl/teamlogos/" + data.ipl + ".png"
       : data.code ? "https://flagcdn.com/w80/" + data.code + ".png" : "";
-    if (!src) return '<span class="complete-team-crest complete-team-crest-fallback" aria-hidden="true">' + esc(teamInitials(name)) + "</span>";
-    return '<span class="complete-team-crest"><img src="' + esc(src) + '" alt="" loading="lazy" decoding="async" onerror="this.parentElement.classList.add(\'is-missing\');this.remove();this.parentElement.textContent=\'' + esc(teamInitials(name)) + '\';" /></span>';
+    const initials = '<span class="complete-team-crest-fallback" aria-hidden="true">' + esc(teamInitials(name)) + "</span>";
+    if (!src) return '<span class="complete-team-crest">' + initials + "</span>";
+    return '<span class="complete-team-crest"><img src="' + esc(src) + '" alt="" loading="lazy" decoding="async" onerror="this.style.display=\'none\';this.parentElement.classList.add(\'is-missing\');" />' + initials + "</span>";
   }
   const state = { matches: [], format: "All", query: "" };
   const returnStateKey = "completeMatchesReturnState";
@@ -119,7 +120,7 @@
           esc(dateLabel(m.date)) +
           '</span><span class="match-format-pill">' +
           esc(fmtLabel(m.format)) +
-          '</span></div>'<div class="complete-match-teams"><div class="complete-team-side">' +
+          '</span></div><div class="complete-match-teams"><div class="complete-team-side">' +
           teamLogo(m.team || "Tilak team") + '<span>' + esc(m.team || "Tilak team") +
           '</span></div><b class="complete-versus">VS</b><div class="complete-team-side">' +
           teamLogo(m.opposition || "Opponent") + '<span>' + esc(m.opposition || "Opponent") +
