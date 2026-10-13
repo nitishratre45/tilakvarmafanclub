@@ -173,7 +173,9 @@ img {
   color: #fff;
   font-size: 29px;
   line-height: 1;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
 .search-link:hover,
@@ -195,7 +197,9 @@ img {
   height: 2px;
   border-radius: 3px;
   background: #f5f8ff;
-  transition: transform 0.18s ease, opacity 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    opacity 0.18s ease;
 }
 
 .menu-toggle[aria-expanded="true"] span:first-child {
@@ -282,7 +286,9 @@ img {
   padding: 11px 16px;
   background: rgba(255, 255, 255, 0.11);
   color: #fff;
-  font: 800 12px Manrope, sans-serif;
+  font:
+    800 12px Manrope,
+    sans-serif;
   cursor: pointer;
   transition: background 0.2s ease;
 }
@@ -295,7 +301,9 @@ img {
   padding-left: 20px;
   border-left: 1px solid rgba(255, 255, 255, 0.21);
   color: #8eaee1;
-  font: 10px "DM Mono", monospace;
+  font:
+    10px "DM Mono",
+    monospace;
   letter-spacing: 0.12em;
 }
 
@@ -333,7 +341,10 @@ img {
   font-size: clamp(15px, 1.35vw, 19px);
   font-weight: 900;
   box-shadow: var(--shadow-card);
-  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
 }
 
 .mobile-back:hover {
@@ -382,14 +393,18 @@ img {
 }
 
 .image-fallback span {
-  font: 900 clamp(90px, 14vw, 190px) / 0.8 "Barlow Condensed", sans-serif;
+  font:
+    900 clamp(90px, 14vw, 190px) / 0.8 "Barlow Condensed",
+    sans-serif;
   color: rgba(255, 255, 255, 0.08);
 }
 
 .image-fallback small {
   margin-top: 22px;
   color: #7eddf4;
-  font: 10px "DM Mono", monospace;
+  font:
+    10px "DM Mono",
+    monospace;
   letter-spacing: 0.18em;
 }
 
@@ -522,7 +537,9 @@ img {
   color: #fff;
   font-size: 12px;
   font-weight: 900;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .button:hover {
@@ -660,7 +677,9 @@ img {
   display: block;
   margin-bottom: 10px;
   color: var(--blue);
-  font: 800 10px "DM Mono", monospace;
+  font:
+    800 10px "DM Mono",
+    monospace;
   letter-spacing: 0.13em;
 }
 
@@ -714,7 +733,9 @@ img {
 }
 
 .related-eyebrow {
-  font: 10px "DM Mono", monospace;
+  font:
+    10px "DM Mono",
+    monospace;
   letter-spacing: 0.14em;
   color: #e85d2b;
 }
@@ -729,7 +750,9 @@ img {
 }
 
 .related-count {
-  font: 9px "DM Mono", monospace;
+  font:
+    9px "DM Mono",
+    monospace;
   letter-spacing: 0.1em;
   color: #8190a8;
 }
@@ -792,7 +815,9 @@ img {
   display: grid;
   place-items: center;
   color: #ff8a60;
-  font: 900 32px "Barlow Condensed", sans-serif;
+  font:
+    900 32px "Barlow Condensed",
+    sans-serif;
 }
 
 .related-loading {
@@ -850,7 +875,9 @@ img {
   height: 27px;
   border: 1px solid var(--orange);
   color: #ff8a60;
-  font: 900 17px "Barlow Condensed", sans-serif;
+  font:
+    900 17px "Barlow Condensed",
+    sans-serif;
 }
 
 .site-footer > a:last-child {
