@@ -335,6 +335,7 @@
   const dialogTitle = $("match-filter-dialog-title");
   let activeFilter = "format";
   let lastTrigger = null;
+  let filterScrollY = 0;
   const triggers = {
     format: $("player-format-trigger"),
     year: $("player-year-trigger"),
@@ -370,8 +371,12 @@
           '<span class="match-filter-radio" aria-hidden="true"></span></button>',
       )
       .join("");
-    backdrop.hidden = false;
+    // Freeze the document at its current scroll position. overflow:hidden alone
+    // does not reliably prevent background scrolling on Android Chrome.
+    filterScrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.top = "-" + filterScrollY + "px";
     document.body.classList.add("match-filter-open");
+    backdrop.hidden = false;
     triggers[kind]?.setAttribute("aria-expanded", "true");
     $("match-filter-close")?.focus();
   };
@@ -379,8 +384,10 @@
     if (!backdrop) return;
     backdrop.hidden = true;
     document.body.classList.remove("match-filter-open");
+    document.body.style.top = "";
+    window.scrollTo(0, filterScrollY);
     Object.values(triggers).forEach((trigger) => trigger?.setAttribute("aria-expanded", "false"));
-    lastTrigger?.focus();
+    lastTrigger?.focus({ preventScroll: true });
   };
   Object.entries(triggers).forEach(([kind, trigger]) =>
     trigger?.addEventListener("click", () => openFilter(kind)),
