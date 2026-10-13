@@ -10,7 +10,9 @@
   // Automatic team PNG logos: prefer image URLs supplied by JSON, then known team assets.
   const teamAssets = {
     india: { flag: "in" },
-    "west indies": { logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Cricket_West_Indies_Logo_2017.svg" },
+    "west indies": {
+      logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Cricket_West_Indies_Logo_2017.svg",
+    },
     pakistan: { flag: "pk" },
     "sri lanka": { flag: "lk" },
     bangladesh: { flag: "bd" },
