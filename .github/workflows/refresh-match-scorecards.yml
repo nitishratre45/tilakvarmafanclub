@@ -28,7 +28,7 @@ jobs:
           python-version: "3.12"
       - name: Validate updater syntax
         run: python -m py_compile scripts/refresh_match_scorecards.py
-      - name: Download, build and validate scorecards
+      - name: Generate and publish scorecards without index conflicts
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -38,22 +38,31 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          data = json.loads(Path("matches/scorecards/index.json").read_text(encoding="utf-8"))
-          assert data.get("matchCount", 0) > 0, "Scorecard index is empty"
-          assert len(data.get("matches", [])) == data["matchCount"], "Index count mismatch"
-          print(f"Validated {data['matchCount']} scorecards.")
+          d = json.loads(Path("matches/scorecards/index.json").read_text(encoding="utf-8"))
+          assert d.get("matchCount", 0) > 0, "Scorecard index is empty"
+          assert len(d.get("matches", [])) == d["matchCount"], "Index count mismatch"
+          print(f"Validated {d['matchCount']} scorecards.")
           PY
-          git add matches/scorecards
-          if git diff --cached --quiet; then
-            echo "Scorecard data is already up to date."
-            exit 0
-          fi
-          git commit -m "chore: refresh Tilak Varma match scorecards"
+          # Keep generated output outside the checkout while syncing the latest main.
+          rm -rf /tmp/generated-scorecards
+          cp -a matches/scorecards /tmp/generated-scorecards
           for attempt in 1 2 3 4; do
-            if git push origin HEAD:main; then exit 0; fi
             git fetch origin main
-            git rebase origin/main
+            git reset --hard origin/main
+            mkdir -p matches/scorecards
+            cp -a /tmp/generated-scorecards/. matches/scorecards/
+            git add matches/scorecards
+            if git diff --cached --quiet; then
+              echo "Scorecard data is already up to date."
+              exit 0
+            fi
+            git commit -m "chore: refresh Tilak Varma match scorecards"
+            if git push origin HEAD:main; then
+              echo "Published scorecards successfully."
+              exit 0
+            fi
+            echo "Concurrent push detected; retrying from latest main (attempt $attempt)."
             sleep $((attempt * 3))
           done
-          echo "::error::Unable to publish scorecard refresh after four attempts."
+          echo "::error::Unable to publish scorecards after four attempts."
           exit 1
