@@ -258,43 +258,11 @@
       return undefined;
     };
 
-    const selector = $("player-match-format");
-    const yearSelector = $("player-match-year");
-    const selected = selector?.value || "All";
-    if (yearSelector) {
-      const years = [
-        ...new Set(
-          matches
-            .map((r) => {
-              const ts = dateValue(r.date);
-              return ts ? String(new Date(ts).getUTCFullYear()) : "";
-            })
-            .filter(Boolean),
-        ),
-      ].sort((a, b) => Number(b) - Number(a));
-      const currentYear = yearSelector.value || "All";
-      yearSelector.innerHTML =
-        '<option value="All">All years</option>' +
-        years
-          .map((year) => '<option value="' + esc(year) + '">' + esc(year) + "</option>")
-          .join("");
-      yearSelector.value = years.includes(currentYear) ? currentYear : "All";
-    }
-    const selectedYear = yearSelector?.value || "All";
-    const listed = matches.filter((r) => {
-      const formatMatch = selected === "All" || r.format === selected;
-      const ts = dateValue(r.date);
-      const yearMatch =
-        selectedYear === "All" || (ts && String(new Date(ts).getUTCFullYear()) === selectedYear);
-      return formatMatch && yearMatch;
-    });
-    const formatValue = $("player-format-value");
-    if (formatValue && selector)
-      formatValue.textContent = selector.options[selector.selectedIndex]?.text || "All formats";
-    const yearValue = $("player-year-value");
-    if (yearValue && yearSelector)
-      yearValue.textContent = yearSelector.options[yearSelector.selectedIndex]?.text || "All years";
-    const table = $("player-matches-table");
+    const selector = $("player-match-format"),
+      selected = selector?.value || "All";
+    const listed = selected === "All" ? matches : matches.filter((r) => r.format === selected),
+      table = $("player-matches-table");
+
     if (table)
       table.innerHTML = listed.length
         ? listed
@@ -329,10 +297,7 @@
   }
   let snapshot = null;
   const selector = $("player-match-format");
-  const yearSelector = $("player-match-year");
   if (selector) selector.addEventListener("change", () => snapshot && render(snapshot));
-  const yearSelector = $("player-match-year");
-  if (yearSelector) yearSelector.addEventListener("change", () => snapshot && render(snapshot));
   window.TilakSiteData.load()
     .then((d) => {
       snapshot = d;
