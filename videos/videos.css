@@ -1,4 +1,137 @@
 @import url("https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css");
 
 /* Video hub layout and mobile player refinements. */
-.tilak-videos-section{min-height:70vh;padding-top:clamp(28px,5vw,64px)}.tilak-videos-section .section-heading{align-items:flex-end}.bcci-video-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0}.bcci-video-controls label{display:grid;gap:8px;min-width:0;color:#a8bad1;font-size:12px;font-weight:700}.bcci-video-controls select{width:100%;min-width:0;padding:12px;border:1px solid rgba(142,190,242,.24);border-radius:10px;background:#0b1d35;color:#edf4ff}.bcci-video-status{min-height:1.5em;color:#a8bad1}.bcci-video-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.bcci-video-modal[hidden],.bcci-player-settings-menu[hidden]{display:none!important}.bcci-video-modal{position:fixed;inset:0;z-index:20000;display:grid;place-items:center;padding:clamp(8px,2vw,24px)}.bcci-video-backdrop{position:absolute;inset:0;background:rgba(1,7,16,.88);backdrop-filter:blur(10px)}.bcci-video-panel{position:relative;z-index:1;width:min(1200px,100%);max-height:94dvh;overflow:auto;border:1px solid rgba(142,190,242,.22);border-radius:18px;background:#071426;box-shadow:0 24px 80px #0008}.bcci-player-page-content{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,320px);gap:18px;padding:18px}.bcci-player-screen video{display:block;width:100%;max-height:65vh;background:#000}body.bcci-player-open{overflow:hidden}@media(max-width:900px){.bcci-video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.bcci-player-page-content{grid-template-columns:minmax(0,1fr)}.bcci-up-next-panel{max-height:240px;overflow:auto}}@media(max-width:600px){.tilak-videos-section{padding-inline:14px}.bcci-video-controls{grid-template-columns:minmax(0,1fr);gap:10px}.bcci-video-grid{grid-template-columns:minmax(0,1fr);gap:12px}.bcci-video-modal{padding:0}.bcci-video-panel{width:100%;height:100dvh;max-height:100dvh;border-radius:0}.bcci-player-page-content{padding:10px}.bcci-video-player-head{position:sticky;top:0;z-index:3}.bcci-player-screen video{max-height:42vh}}@media(prefers-reduced-motion:reduce){.bcci-video-modal *{transition:none!important;animation:none!important}}
+.tilak-videos-section {
+  min-height: 70vh;
+  padding-top: clamp(28px, 5vw, 64px);
+}
+.tilak-videos-section .section-heading {
+  align-items: flex-end;
+}
+.bcci-video-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 22px 0;
+}
+.bcci-video-controls label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  color: #a8bad1;
+  font-size: 12px;
+  font-weight: 700;
+}
+.bcci-video-controls select {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid rgba(142, 190, 242, 0.24);
+  border-radius: 10px;
+  background: #0b1d35;
+  color: #edf4ff;
+}
+.bcci-video-status {
+  min-height: 1.5em;
+  color: #a8bad1;
+}
+.bcci-video-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.bcci-video-modal[hidden],
+.bcci-player-settings-menu[hidden] {
+  display: none !important;
+}
+.bcci-video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  display: grid;
+  place-items: center;
+  padding: clamp(8px, 2vw, 24px);
+}
+.bcci-video-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(1, 7, 16, 0.88);
+  backdrop-filter: blur(10px);
+}
+.bcci-video-panel {
+  position: relative;
+  z-index: 1;
+  width: min(1200px, 100%);
+  max-height: 94dvh;
+  overflow: auto;
+  border: 1px solid rgba(142, 190, 242, 0.22);
+  border-radius: 18px;
+  background: #071426;
+  box-shadow: 0 24px 80px #0008;
+}
+.bcci-player-page-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+  gap: 18px;
+  padding: 18px;
+}
+.bcci-player-screen video {
+  display: block;
+  width: 100%;
+  max-height: 65vh;
+  background: #000;
+}
+body.bcci-player-open {
+  overflow: hidden;
+}
+@media (max-width: 900px) {
+  .bcci-video-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bcci-player-page-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bcci-up-next-panel {
+    max-height: 240px;
+    overflow: auto;
+  }
+}
+@media (max-width: 600px) {
+  .tilak-videos-section {
+    padding-inline: 14px;
+  }
+  .bcci-video-controls {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .bcci-video-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .bcci-video-modal {
+    padding: 0;
+  }
+  .bcci-video-panel {
+    width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+  .bcci-player-page-content {
+    padding: 10px;
+  }
+  .bcci-video-player-head {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
+  .bcci-player-screen video {
+    max-height: 42vh;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bcci-video-modal * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

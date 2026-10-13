@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#070b14" />
@@ -91,14 +91,34 @@
       }
     </style>
   </head>
-<body class="photos-page">
-<header class="topbar">
-  <a class="brand" href="/" aria-label="Home"><span class="brand-mark brand-mark-photo"><img data-tilak-logo src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" aria-hidden="true"></span><span>TILAK VARMA <small>FAN CLUB</small></span></a>
-  <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">☰</button>
-  <nav id="main-nav"><a href="/">Home</a><a href="/stats/">Stats</a><a href="/death-overs/">Death-overs</a><a href="/matches/">Matches</a><a href="/records/">Records</a><a href="/news/">News</a><a href="/photos/" class="active" aria-current="page">Photos</a><a href="/videos/">Videos</a></nav>
-</header>
-<main class="photos-main">
-<section
+  <body class="photos-page">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Home"
+        ><span class="brand-mark brand-mark-photo"
+          ><img
+            data-tilak-logo
+            src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+            alt=""
+            aria-hidden="true" /></span
+        ><span>TILAK VARMA <small>FAN CLUB</small></span></a
+      >
+      <button
+        class="menu-toggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        ☰
+      </button>
+      <nav id="main-nav">
+        <a href="/">Home</a><a href="/stats/">Stats</a><a href="/death-overs/">Death-overs</a
+        ><a href="/matches/">Matches</a><a href="/records/">Records</a><a href="/news/">News</a
+        ><a href="/photos/" class="active" aria-current="page">Photos</a
+        ><a href="/videos/">Videos</a>
+      </nav>
+    </header>
+    <main class="photos-main">
+      <section
         id="tv-gallery-hub"
         class="section tv-gallery-hub"
         aria-labelledby="tv-gallery-hub-title"
@@ -122,34 +142,55 @@
           </div>
         </div>
       </section>
-</main>
-<footer><a class="brand" href="/"><span class="brand-mark brand-mark-photo"><img data-tilak-logo src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" aria-hidden="true"></span><span>TILAK VARMA <small>FAN CLUB</small></span></a><span> · <span id="year"></span></span><span>RESPECT THE GAME. BACK THE PLAYER.</span></footer>
-<script src="/assets/site-data-store.js?v=20261013-root-data-loader-fix1"></script>
-<script src="/photos/gallery.js?v=20261013-dedicated-photos1"></script>
-<script src="/photos/theme.js?v=20261014"></script>
-<script>
-  (() => {
-    const menu = document.querySelector(".menu-toggle");
-    const nav = document.getElementById("main-nav");
-    if (menu && nav) menu.addEventListener("click", () => {
-      const open = menu.getAttribute("aria-expanded") !== "true";
-      menu.setAttribute("aria-expanded", String(open));
-      nav.classList.toggle("is-open", open);
-    });
-    nav?.addEventListener("click", event => {
-      if (event.target.closest("a")) {
-        nav.classList.remove("is-open");
-        menu?.setAttribute("aria-expanded", "false");
-      }
-    });
-    const year = document.getElementById("year");
-    if (year) year.textContent = new Date().getFullYear();
-    const logo = document.querySelector("[data-tilak-logo]");
-    if (logo && window.TilakSiteData) window.TilakSiteData.load().then(data => {
-      if (typeof data?.profile?.photo === "string" && /^https:\/\//i.test(data.profile.photo)) logo.src = data.profile.photo;
-    }).catch(() => {});
-    if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js", {scope:"/"}).catch(() => {}));
-  })();
-</script>
-</body>
+    </main>
+    <footer>
+      <a class="brand" href="/"
+        ><span class="brand-mark brand-mark-photo"
+          ><img
+            data-tilak-logo
+            src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+            alt=""
+            aria-hidden="true" /></span
+        ><span>TILAK VARMA <small>FAN CLUB</small></span></a
+      ><span> · <span id="year"></span></span><span>RESPECT THE GAME. BACK THE PLAYER.</span>
+    </footer>
+    <script src="/assets/site-data-store.js?v=20261013-root-data-loader-fix1"></script>
+    <script src="/photos/gallery.js?v=20261013-dedicated-photos1"></script>
+    <script src="/photos/theme.js?v=20261014"></script>
+    <script>
+      (() => {
+        const menu = document.querySelector(".menu-toggle");
+        const nav = document.getElementById("main-nav");
+        if (menu && nav)
+          menu.addEventListener("click", () => {
+            const open = menu.getAttribute("aria-expanded") !== "true";
+            menu.setAttribute("aria-expanded", String(open));
+            nav.classList.toggle("is-open", open);
+          });
+        nav?.addEventListener("click", (event) => {
+          if (event.target.closest("a")) {
+            nav.classList.remove("is-open");
+            menu?.setAttribute("aria-expanded", "false");
+          }
+        });
+        const year = document.getElementById("year");
+        if (year) year.textContent = new Date().getFullYear();
+        const logo = document.querySelector("[data-tilak-logo]");
+        if (logo && window.TilakSiteData)
+          window.TilakSiteData.load()
+            .then((data) => {
+              if (
+                typeof data?.profile?.photo === "string" &&
+                /^https:\/\//i.test(data.profile.photo)
+              )
+                logo.src = data.profile.photo;
+            })
+            .catch(() => {});
+        if ("serviceWorker" in navigator)
+          window.addEventListener("load", () =>
+            navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(() => {}),
+          );
+      })();
+    </script>
+  </body>
 </html>

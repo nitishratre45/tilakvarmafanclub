@@ -1,88 +1,161 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#070b14">
-  <meta name="application-name" content="Tilak Varma Fan Club">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Tilak Varma FC">
-  <link rel="manifest" href="/manifest.json">
-  <meta name="description" content="Tilak Varma career batting, bowling and match-by-match statistics.">
-  <title>Tilak Varma FC | Stats Centre</title>
-  <link rel="stylesheet" href="/stats/style.css?v=20261011-audit-pro1">
-  <link rel="stylesheet" href="/stats/premium-ui.css?v=20261011-audit-pro1">
-  <link rel="stylesheet" href="/stats/site-refinement.css?v=20261013-mobile-menu1">
-  <link rel="stylesheet" href="/stats/stats.css?v=20261013-stats-page1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#070b14" />
+    <meta name="application-name" content="Tilak Varma Fan Club" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Tilak Varma FC" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta
+      name="description"
+      content="Tilak Varma career batting, bowling and match-by-match statistics."
+    />
+    <title>Tilak Varma FC | Stats Centre</title>
+    <link rel="stylesheet" href="/stats/style.css?v=20261011-audit-pro1" />
+    <link rel="stylesheet" href="/stats/premium-ui.css?v=20261011-audit-pro1" />
+    <link rel="stylesheet" href="/stats/site-refinement.css?v=20261013-mobile-menu1" />
+    <link rel="stylesheet" href="/stats/stats.css?v=20261013-stats-page1" />
 
-<style id="site-blue-navbar">
-html body header.topbar { background: #0b5fc4 !important; background-color: #0b5fc4 !important; border-bottom: 1px solid rgba(255,255,255,.22) !important; box-shadow: 0 5px 18px rgba(0,30,90,.18) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
-html body header.topbar nav { color: #fff !important; }
-html body header.topbar nav a { color: #fff !important; }
-html body header.topbar nav a:hover, html body header.topbar nav a:focus-visible, html body header.topbar nav a.active, html body header.topbar nav a[aria-current="page"] { color: #fff !important; background: rgba(255,255,255,.16) !important; }
-html body header.topbar .menu-toggle { color: #fff !important; }
-</style>
-<style id="navbar-underline-only">
-/* Navbar: keep only the bottom active underline; remove rounded hover/active pill */
-html body header.topbar nav a,
-html body header.topbar nav a:hover,
-html body header.topbar nav a:focus-visible,
-html body header.topbar nav a.active,
-html body header.topbar nav a[aria-current="page"] {
-  background: transparent !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-html body header.topbar nav a.active,
-html body header.topbar nav a[aria-current="page"] {
-  box-shadow: inset 0 -3px 0 #ff7c45 !important;
-}
-</style>
-<style id="navbar-no-box">
-/* Remove the unwanted rectangular focus/hover frame around navbar items. */
-html body header.topbar nav a,
-html body header.topbar nav a:hover,
-html body header.topbar nav a:focus,
-html body header.topbar nav a:focus-visible,
-html body header.topbar nav a:active {
-  outline: none !important;
-  border-color: transparent !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-html body header.topbar nav a.active,
-html body header.topbar nav a[aria-current="page"] {
-  box-shadow: inset 0 -3px 0 #ff7c45 !important;
-}
-</style>
-<style>
-.pwa-install-button{flex:0 0 auto;min-height:38px;padding:8px 12px;border:1px solid rgba(255,255,255,.65);border-radius:6px;background:#ff7c45;color:#07101d;font:800 11px/1.2 system-ui,sans-serif;cursor:pointer;white-space:nowrap}
-.pwa-install-button:hover,.pwa-install-button:focus-visible{filter:brightness(1.08);outline:2px solid #fff;outline-offset:2px}
-@media(max-width:800px){.pwa-install-button{margin-left:auto;min-height:36px;padding:7px 9px;font-size:10px}.stats-page-topbar{flex-wrap:wrap}.stats-page-topbar nav{order:4}}
-</style>
-  <link rel="stylesheet" href="/stats/site-refinement.css?v=20261013-mobile-menu1">
-</head>
-<body class="stats-page">
-  <header class="topbar stats-page-topbar">
-    <a class="brand" href="/#profile" aria-label="Tilak Varma Fan Club home">
-      <span class="brand-mark brand-mark-photo"><img data-tilak-logo src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" aria-hidden="true"></span>
-      <span>TILAK VARMA <small>FAN CLUB</small></span>
-    </a>
-    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">☰</button>
-    <button class="pwa-install-button" id="pwa-install-button" type="button" aria-label="Install Tilak Varma Fan Club app">Install app</button>
-    <nav id="main-nav" aria-label="Main navigation">
-      <a href="/#profile">Home</a>
-      <a href="/stats/" class="active" aria-current="page">Stats</a>
-      <a href="/death-overs/">Death-overs</a>
-      <a href="/matches/">Matches</a>
-      <a href="/records/">Records</a>
-      <a href="/news/">News</a>
-      <a href="/photos/">Photos</a>
-      <a href="/videos/">Videos</a>
-    </nav>
-  </header>
-  <main class="stats-page-main">
-    <section id="stats" class="section stats-section">
+    <style id="site-blue-navbar">
+      html body header.topbar {
+        background: #0b5fc4 !important;
+        background-color: #0b5fc4 !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.22) !important;
+        box-shadow: 0 5px 18px rgba(0, 30, 90, 0.18) !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+      }
+      html body header.topbar nav {
+        color: #fff !important;
+      }
+      html body header.topbar nav a {
+        color: #fff !important;
+      }
+      html body header.topbar nav a:hover,
+      html body header.topbar nav a:focus-visible,
+      html body header.topbar nav a.active,
+      html body header.topbar nav a[aria-current="page"] {
+        color: #fff !important;
+        background: rgba(255, 255, 255, 0.16) !important;
+      }
+      html body header.topbar .menu-toggle {
+        color: #fff !important;
+      }
+    </style>
+    <style id="navbar-underline-only">
+      /* Navbar: keep only the bottom active underline; remove rounded hover/active pill */
+      html body header.topbar nav a,
+      html body header.topbar nav a:hover,
+      html body header.topbar nav a:focus-visible,
+      html body header.topbar nav a.active,
+      html body header.topbar nav a[aria-current="page"] {
+        background: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      html body header.topbar nav a.active,
+      html body header.topbar nav a[aria-current="page"] {
+        box-shadow: inset 0 -3px 0 #ff7c45 !important;
+      }
+    </style>
+    <style id="navbar-no-box">
+      /* Remove the unwanted rectangular focus/hover frame around navbar items. */
+      html body header.topbar nav a,
+      html body header.topbar nav a:hover,
+      html body header.topbar nav a:focus,
+      html body header.topbar nav a:focus-visible,
+      html body header.topbar nav a:active {
+        outline: none !important;
+        border-color: transparent !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+      html body header.topbar nav a.active,
+      html body header.topbar nav a[aria-current="page"] {
+        box-shadow: inset 0 -3px 0 #ff7c45 !important;
+      }
+    </style>
+    <style>
+      .pwa-install-button {
+        flex: 0 0 auto;
+        min-height: 38px;
+        padding: 8px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.65);
+        border-radius: 6px;
+        background: #ff7c45;
+        color: #07101d;
+        font:
+          800 11px/1.2 system-ui,
+          sans-serif;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .pwa-install-button:hover,
+      .pwa-install-button:focus-visible {
+        filter: brightness(1.08);
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+      }
+      @media (max-width: 800px) {
+        .pwa-install-button {
+          margin-left: auto;
+          min-height: 36px;
+          padding: 7px 9px;
+          font-size: 10px;
+        }
+        .stats-page-topbar {
+          flex-wrap: wrap;
+        }
+        .stats-page-topbar nav {
+          order: 4;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="/stats/site-refinement.css?v=20261013-mobile-menu1" />
+  </head>
+  <body class="stats-page">
+    <header class="topbar stats-page-topbar">
+      <a class="brand" href="/#profile" aria-label="Tilak Varma Fan Club home">
+        <span class="brand-mark brand-mark-photo"
+          ><img
+            data-tilak-logo
+            src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+            alt=""
+            aria-hidden="true"
+        /></span>
+        <span>TILAK VARMA <small>FAN CLUB</small></span>
+      </a>
+      <button
+        class="menu-toggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        ☰
+      </button>
+      <button
+        class="pwa-install-button"
+        id="pwa-install-button"
+        type="button"
+        aria-label="Install Tilak Varma Fan Club app"
+      >
+        Install app
+      </button>
+      <nav id="main-nav" aria-label="Main navigation">
+        <a href="/#profile">Home</a>
+        <a href="/stats/" class="active" aria-current="page">Stats</a>
+        <a href="/death-overs/">Death-overs</a>
+        <a href="/matches/">Matches</a>
+        <a href="/records/">Records</a>
+        <a href="/news/">News</a>
+        <a href="/photos/">Photos</a>
+        <a href="/videos/">Videos</a>
+      </nav>
+    </header>
+    <main class="stats-page-main">
+      <section id="stats" class="section stats-section">
         <div class="section-heading">
           <div>
             <div class="eyebrow">TILAK VARMA · STATS CENTRE</div>
@@ -453,27 +526,29 @@ html body header.topbar nav a[aria-current="page"] {
           </p>
         </div>
       </section>
-  </main>
-  <footer class="stats-page-footer">
-    <a href="/">← Back to Tilak Varma Fan Club</a>
-    <span>Stats use saved source snapshots; missing figures are not estimated.</span>
-  </footer>
-  <script src="/assets/site-data-store.js?v=20261013-root-data-loader-fix1"></script>
-  <script>
-    (() => {
-      const img = document.querySelector("[data-tilak-logo]");
-      if (!img || !window.TilakSiteData) return;
-      window.TilakSiteData.load().then(data => {
-        const photo = data?.profile?.photo;
-        if (typeof photo === "string" && /^https:\/\//i.test(photo)) img.src = photo;
-      }).catch(() => {});
-    })();
-  </script>
-  <script src="/stats/app.js?v=20261013-stats-format-fix1"></script>
-  <script src="/stats/career-formats.js?v=20261011-careerfullstats2"></script>
-  <script src="/stats/statsguru.js?v=20261012-allformat-fix1"></script>
-  <script src="/stats/bowling.js?v=20261012-india-time1"></script>
-  <script src="/stats/stats.js?v=20261013-stats-page1"></script>
-  <script src="/stats/pwa-install.js?v=20261013-install-options1"></script>
-</body>
+    </main>
+    <footer class="stats-page-footer">
+      <a href="/">← Back to Tilak Varma Fan Club</a>
+      <span>Stats use saved source snapshots; missing figures are not estimated.</span>
+    </footer>
+    <script src="/assets/site-data-store.js?v=20261013-root-data-loader-fix1"></script>
+    <script>
+      (() => {
+        const img = document.querySelector("[data-tilak-logo]");
+        if (!img || !window.TilakSiteData) return;
+        window.TilakSiteData.load()
+          .then((data) => {
+            const photo = data?.profile?.photo;
+            if (typeof photo === "string" && /^https:\/\//i.test(photo)) img.src = photo;
+          })
+          .catch(() => {});
+      })();
+    </script>
+    <script src="/stats/app.js?v=20261013-stats-format-fix1"></script>
+    <script src="/stats/career-formats.js?v=20261011-careerfullstats2"></script>
+    <script src="/stats/statsguru.js?v=20261012-allformat-fix1"></script>
+    <script src="/stats/bowling.js?v=20261012-india-time1"></script>
+    <script src="/stats/stats.js?v=20261013-stats-page1"></script>
+    <script src="/stats/pwa-install.js?v=20261013-install-options1"></script>
+  </body>
 </html>

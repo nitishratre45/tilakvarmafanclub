@@ -24,7 +24,9 @@
       button.setAttribute("aria-selected", String(active));
       button.tabIndex = active ? 0 : -1;
     });
-    try { sessionStorage.setItem("tilak-stats-view", view); } catch (_) {}
+    try {
+      sessionStorage.setItem("tilak-stats-view", view);
+    } catch (_) {}
     if (updateUrl) {
       const url = new URL(location.href);
       if (view === "stats-overview") url.searchParams.delete("view");
@@ -39,8 +41,12 @@
       event.preventDefault();
       const tabs = [...root.querySelectorAll("[data-stats-tab]")];
       const current = tabs.indexOf(button);
-      const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 :
-        (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+      const next =
+        event.key === "Home"
+          ? 0
+          : event.key === "End"
+            ? tabs.length - 1
+            : (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
       tabs[next].focus();
       setView(tabs[next].dataset.statsTab);
     });

@@ -41,11 +41,15 @@
   if (sourceResults) sourceResults.insertAdjacentElement("afterend", panel);
   else section.querySelector(".section-body")?.appendChild(panel);
   const $ = (id) => panel.querySelector("#" + id);
-  const text = (id, value) => { $(id).textContent = value == null ? "—" : String(value); };
+  const text = (id, value) => {
+    $(id).textContent = value == null ? "—" : String(value);
+  };
   async function refresh() {
-    text("nph-time","Loading manager report…");
+    text("nph-time", "Loading manager report…");
     try {
-      const response = await fetch("../News/news-pipeline-report.json?t=" + Date.now(), {cache:"no-store"});
+      const response = await fetch("../News/news-pipeline-report.json?t=" + Date.now(), {
+        cache: "no-store",
+      });
       if (!response.ok) throw new Error("Report not published yet. Run the news workflow first.");
       const report = await response.json();
       const status = $("nph-status");
@@ -56,32 +60,80 @@
       text("nph-pages", report.raw?.articlePagesFetched ?? 0);
       text("nph-errors", (report.news?.errors ?? 0) + " / " + (report.news?.warnings ?? 0));
       text("nph-verified", report.contentVerification?.liveUrlsMatched ?? 0);
-      text("nph-time", "Last manager check: " + (report.generatedAt || "unknown") + " · Raw article URLs: " + (report.raw?.articleUrls ?? 0) + " · Page fetch errors: " + (report.raw?.articleFetchErrors ?? 0) + " · Live URL checks: " + (report.contentVerification?.findings?.length ?? 0));
+      text(
+        "nph-time",
+        "Last manager check: " +
+          (report.generatedAt || "unknown") +
+          " · Raw article URLs: " +
+          (report.raw?.articleUrls ?? 0) +
+          " · Page fetch errors: " +
+          (report.raw?.articleFetchErrors ?? 0) +
+          " · Live URL checks: " +
+          (report.contentVerification?.findings?.length ?? 0),
+      );
       const findings = $("nph-findings");
       findings.replaceChildren();
       const list = [];
-      (report.invalidJsonFiles || []).forEach(x => list.push({severity:"error",label:"Invalid JSON",detail:x.path + " — " + x.error}));
-      (report.news?.findings || []).forEach(x => list.push({severity:x.severity || "warning",label:"News record " + (Number(x.record)+1),detail:x.issue}));
-      (report.contentVerification?.findings || []).forEach(x => list.push({severity:x.severity || "warning",label:"Live article check " + (Number(x.record)+1),detail:x.issue}));
+      (report.invalidJsonFiles || []).forEach((x) =>
+        list.push({ severity: "error", label: "Invalid JSON", detail: x.path + " — " + x.error }),
+      );
+      (report.news?.findings || []).forEach((x) =>
+        list.push({
+          severity: x.severity || "warning",
+          label: "News record " + (Number(x.record) + 1),
+          detail: x.issue,
+        }),
+      );
+      (report.contentVerification?.findings || []).forEach((x) =>
+        list.push({
+          severity: x.severity || "warning",
+          label: "Live article check " + (Number(x.record) + 1),
+          detail: x.issue,
+        }),
+      );
       if (!list.length) {
-        const item=document.createElement("div"); item.className="nph-item"; item.textContent="✓ No JSON syntax errors or news-record validation findings in the latest report."; findings.appendChild(item);
+        const item = document.createElement("div");
+        item.className = "nph-item";
+        item.textContent =
+          "✓ No JSON syntax errors or news-record validation findings in the latest report.";
+        findings.appendChild(item);
       } else {
-        list.slice(0,80).forEach(x=>{const item=document.createElement("div");item.className="nph-item "+x.severity;item.textContent=(x.severity==="error"?"ERROR":"WARNING")+" · "+x.label+": "+x.detail;findings.appendChild(item);});
-        if(list.length>80){const more=document.createElement("p");more.className="nph-muted";more.textContent=(list.length-80)+" additional findings are in the full JSON report.";findings.appendChild(more);}
+        list.slice(0, 80).forEach((x) => {
+          const item = document.createElement("div");
+          item.className = "nph-item " + x.severity;
+          item.textContent =
+            (x.severity === "error" ? "ERROR" : "WARNING") + " · " + x.label + ": " + x.detail;
+          findings.appendChild(item);
+        });
+        if (list.length > 80) {
+          const more = document.createElement("p");
+          more.className = "nph-muted";
+          more.textContent = list.length - 80 + " additional findings are in the full JSON report.";
+          findings.appendChild(more);
+        }
       }
     } catch (error) {
-      $("nph-status").textContent="REPORT MISSING";
-      $("nph-status").className="nph-pill warning";
-      text("nph-time",error.message || "Could not load manager report.");
-      text("nph-json","—");text("nph-news","—");text("nph-pages","—");text("nph-errors","—");
+      $("nph-status").textContent = "REPORT MISSING";
+      $("nph-status").className = "nph-pill warning";
+      text("nph-time", error.message || "Could not load manager report.");
+      text("nph-json", "—");
+      text("nph-news", "—");
+      text("nph-pages", "—");
+      text("nph-errors", "—");
     }
   }
-  $("nph-refresh").addEventListener("click",refresh);
+  $("nph-refresh").addEventListener("click", refresh);
   refresh();
   let timer;
-  document.addEventListener("click",event=>{
-    const link=event.target.closest('a[data-view="news"]');
-    if(link){refresh();clearInterval(timer);timer=setInterval(()=>{if(!panel.closest("[hidden]"))refresh();},60000);}
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest('a[data-view="news"]');
+    if (link) {
+      refresh();
+      clearInterval(timer);
+      timer = setInterval(() => {
+        if (!panel.closest("[hidden]")) refresh();
+      }, 60000);
+    }
   });
-  window.addEventListener("focus",refresh);
+  window.addEventListener("focus", refresh);
 })();

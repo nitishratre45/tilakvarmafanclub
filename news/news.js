@@ -7,7 +7,7 @@
   section.dataset.newsInitialized = "true";
 
   // Load the isolated styles once and use a versioned URL to avoid stale CDN/browser CSS.
-  if (!document.querySelector('link[data-tv-news-styles]')) {
+  if (!document.querySelector("link[data-tv-news-styles]")) {
     const style = document.createElement("link");
     style.rel = "stylesheet";
     style.href = "/news/news.css?v=20261013-modular1";
@@ -43,8 +43,10 @@
   const officialArticleUrl = (value) => {
     try {
       const url = new URL(String(value || ""));
-      const officialHost = url.hostname === "bcci.tv" ||
-        url.hostname === "www.bcci.tv" || url.hostname.endsWith(".bcci.tv");
+      const officialHost =
+        url.hostname === "bcci.tv" ||
+        url.hostname === "www.bcci.tv" ||
+        url.hostname.endsWith(".bcci.tv");
       const articlePath = /\/(?:webview\/)?news\/article\//i.test(url.pathname);
       return url.protocol === "https:" && officialHost && articlePath ? url.href : "";
     } catch (_) {
@@ -53,10 +55,14 @@
   };
 
   const imageUrlOf = (item) => {
-    const value = item.imageUrl ||
+    const value =
+      item.imageUrl ||
       item.featuredImageUrl ||
-      (item.featuredImageUrlSet && (item.featuredImageUrlSet.large ||
-        item.featuredImageUrlSet.medium || item.featuredImageUrlSet.small)) || "";
+      (item.featuredImageUrlSet &&
+        (item.featuredImageUrlSet.large ||
+          item.featuredImageUrlSet.medium ||
+          item.featuredImageUrlSet.small)) ||
+      "";
     try {
       const url = new URL(String(value || ""));
       return url.protocol === "https:" ? url.href : "";
@@ -70,16 +76,25 @@
     if (!value) return "BCCI · NEWS";
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return "";
-    return new Intl.DateTimeFormat("en-IN", {
-      timeZone: "Asia/Kolkata", day: "numeric", month: "short",
-      year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true
-    }).format(date) + " IST";
+    return (
+      new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }).format(date) + " IST"
+    );
   };
 
   const plainText = (value) => {
     if (Array.isArray(value)) return value.map(plainText).filter(Boolean).join(" ");
     if (value && typeof value === "object") return String(value.text || "");
-    return String(value || "").replace(/\s+/g, " ").trim();
+    return String(value || "")
+      .replace(/\s+/g, " ")
+      .trim();
   };
 
   const excerptOf = (item) => {
@@ -120,7 +135,10 @@
     grid.replaceChildren();
     const shown = allItems.slice(0, visibleCount);
     if (!shown.length) {
-      showEmpty("No Tilak Varma stories found", "The section will update when the BCCI-only news scan saves articles whose page text mentions Tilak Varma.");
+      showEmpty(
+        "No Tilak Varma stories found",
+        "The section will update when the BCCI-only news scan saves articles whose page text mentions Tilak Varma.",
+      );
       count.textContent = "0 STORIES";
       more.hidden = true;
       return;
@@ -158,7 +176,8 @@
       const title = document.createElement("h3");
       title.textContent = item.title || "Tilak Varma mentioned in BCCI news";
       const excerpt = document.createElement("p");
-      excerpt.textContent = excerptOf(item) || "Open the saved article for the full verified details.";
+      excerpt.textContent =
+        excerptOf(item) || "Open the saved article for the full verified details.";
       const action = document.createElement("span");
       action.className = "tv-news-card-more";
       action.textContent = "Read full story ↗";
@@ -184,7 +203,7 @@
       return response.json();
     })
     .then((data) => {
-      const source = Array.isArray(data) ? data : (Array.isArray(data.news) ? data.news : []);
+      const source = Array.isArray(data) ? data : Array.isArray(data.news) ? data.news : [];
       const unique = new Map();
       source.forEach((item, index) => {
         if (!item || typeof item !== "object") return;
@@ -193,15 +212,17 @@
         // Official-feed items remain BCCI-only. Admin-authored stories can use their
         // own optional source link and are identified by their stable manual ID.
         if (!url && item.manual !== true) return;
-        const id = String(item.id || item.slug || (url ? url.split("/").filter(Boolean).pop() : "manual-" + index));
+        const id = String(
+          item.id || item.slug || (url ? url.split("/").filter(Boolean).pop() : "manual-" + index),
+        );
         const normalized = {
           ...item,
           id,
           webviewUrl: url || (item.manual === true ? "" : rawUrl),
           imageUrl: imageUrlOf(item),
-          publishedAt: dateOf(item)
+          publishedAt: dateOf(item),
         };
-        const key = url || ("manual:" + id);
+        const key = url || "manual:" + id;
         if (!unique.has(key)) unique.set(key, normalized);
       });
 
@@ -212,13 +233,15 @@
       });
 
       render();
-      updated.textContent = data.updatedAt
-        ? "Last checked: " + dateLabel(data.updatedAt)
-        : "";
+      updated.textContent = data.updatedAt ? "Last checked: " + dateLabel(data.updatedAt) : "";
     })
     .catch((error) => {
-      showEmpty("News snapshot unavailable", "The saved BCCI news file could not be loaded. Please try again after the next successful news refresh.");
+      showEmpty(
+        "News snapshot unavailable",
+        "The saved BCCI news file could not be loaded. Please try again after the next successful news refresh.",
+      );
       count.textContent = "NEWS ERROR";
-      updated.textContent = error && error.message ? error.message : "Could not load the saved news data.";
+      updated.textContent =
+        error && error.message ? error.message : "Could not load the saved news data.";
     });
 })();
