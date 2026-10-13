@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-13T16:12:48+00:00",
+  "checkedAt": "2026-10-13T16:44:56+00:00",
   "intervalMinutes": 10,
   "status": "warning",
   "summary": {
@@ -12,7 +12,7 @@
   "items": [
     {
       "level": "warning",
-      "message": "55 repeated CSS selector(s); review cascade/overrides: .site-navigation (8x), .brand (7x), .page-layout (6x), .article-data-table (6x), .menu-toggle (6x), .topbar (5x), .article-hero (5x), .mobile-back (5x)",
+      "message": "32 repeated CSS selector(s); review cascade/overrides: .site-navigation (5x), .related-card (5x), .page-layout (5x), .brand-photo (4x), .site-navigation a (4x), .article-hero h1 (4x), .topbar (4x), .related-panel (4x)",
       "file": "News-details/news-details.css"
     },
     {
@@ -27,7 +27,7 @@
     },
     {
       "level": "warning",
-      "message": "309 repeated CSS selector(s); review cascade/overrides: #photos .cricinfo-gallery (13x), .topbar (12x), #profile .profile-photo-wrap (11x), #career-formats .format-card (10x), .section (9x), #profile.profile-section (9x), #photos #cricinfo-photo-grid .tv-album-grid (9x), #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid (9x)",
+      "message": "260 repeated CSS selector(s); review cascade/overrides: .topbar (12x), #photos .cricinfo-gallery (11x), #profile .profile-photo-wrap (10x), .section (9x), #career-formats .format-card (9x), #profile.profile-section (9x), #profile .profile-copy h2 (8x), #photos #cricinfo-photo-grid .tv-album-grid (8x)",
       "file": "death-overs/premium-ui.css"
     },
     {
@@ -137,7 +137,7 @@
     },
     {
       "level": "warning",
-      "message": "309 repeated CSS selector(s); review cascade/overrides: #photos .cricinfo-gallery (13x), .topbar (12x), #profile .profile-photo-wrap (11x), #career-formats .format-card (10x), .section (9x), #profile.profile-section (9x), #photos #cricinfo-photo-grid .tv-album-grid (9x), #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid (9x)",
+      "message": "260 repeated CSS selector(s); review cascade/overrides: .topbar (12x), #photos .cricinfo-gallery (11x), #profile .profile-photo-wrap (10x), .section (9x), #career-formats .format-card (9x), #profile.profile-section (9x), #profile .profile-copy h2 (8x), #photos #cricinfo-photo-grid .tv-album-grid (8x)",
       "file": "records/premium-ui.css"
     },
     {
@@ -152,7 +152,7 @@
     },
     {
       "level": "warning",
-      "message": "309 repeated CSS selector(s); review cascade/overrides: #photos .cricinfo-gallery (13x), .topbar (12x), #profile .profile-photo-wrap (11x), #career-formats .format-card (10x), .section (9x), #profile.profile-section (9x), #photos #cricinfo-photo-grid .tv-album-grid (9x), #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid (9x)",
+      "message": "260 repeated CSS selector(s); review cascade/overrides: .topbar (12x), #photos .cricinfo-gallery (11x), #profile .profile-photo-wrap (10x), .section (9x), #career-formats .format-card (9x), #profile.profile-section (9x), #profile .profile-copy h2 (8x), #photos #cricinfo-photo-grid .tv-album-grid (8x)",
       "file": "stats/premium-ui.css"
     },
     {
@@ -172,7 +172,7 @@
     },
     {
       "level": "warning",
-      "message": "309 repeated CSS selector(s); review cascade/overrides: #photos .cricinfo-gallery (13x), .topbar (12x), #profile .profile-photo-wrap (11x), #career-formats .format-card (10x), .section (9x), #profile.profile-section (9x), #photos #cricinfo-photo-grid .tv-album-grid (9x), #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid (9x)",
+      "message": "260 repeated CSS selector(s); review cascade/overrides: .topbar (12x), #photos .cricinfo-gallery (11x), #profile .profile-photo-wrap (10x), .section (9x), #career-formats .format-card (9x), #profile.profile-section (9x), #profile .profile-copy h2 (8x), #photos #cricinfo-photo-grid .tv-album-grid (8x)",
       "file": "videos/premium-ui.css"
     },
     {
@@ -631,6 +631,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "14f287c"
+    "branch": "6cba1be"
   }
 }
