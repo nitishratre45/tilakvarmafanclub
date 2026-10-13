@@ -1,0 +1,77 @@
+name: Matches Safe Auto-Repair
+
+on:
+  workflow_run:
+    workflows: ["Matches Folder Audit (12h)"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+  issues: write
+
+concurrency:
+  group: matches-safe-auto-repair
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Apply safe deterministic repairs only
+        id: repair
+        run: |
+          python - <<'PY'
+          import pathlib, re, subprocess, os
+          root=pathlib.Path("."); changes=[]
+          # Safe repair: remove UTF-8 BOM from text assets in matches/.
+          for p in sorted((root/"matches").rglob("*")):
+              if not p.is_file() or p.suffix.lower() not in {".html",".css",".js",".json"}: continue
+              try: raw=p.read_bytes()
+              except OSError: continue
+              if raw.startswith(b"\xef\xbb\xbf"):
+                  p.write_bytes(raw[3:]); changes.append(f"Removed UTF-8 BOM: {p.as_posix()}")
+          # Do not auto-rewrite broken JS/JSON, asset routes, selectors or data; those changes can alter app behaviour.
+          pathlib.Path("matches-repair-summary.md").write_text(
+              "# Matches safe auto-repair\n\n"+("\n".join("- "+x for x in changes) if changes else "No safe deterministic repair was applicable.")+
+              "\n\nUnresolved structural, data, route and syntax problems are left unchanged and must be reviewed from the audit artifact.\n",encoding="utf-8")
+          with open(os.environ["GITHUB_OUTPUT"],"a") as f:
+              f.write("changed="+("true" if changes else "false")+"\n")
+          print(pathlib.Path("matches-repair-summary.md").read_text())
+          PY
+      - name: Commit safe repairs
+        if: steps.repair.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add matches/
+          git commit -m "fix(matches): apply safe automated text repairs" || exit 0
+          git push origin HEAD:main
+      - name: Upload repair report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: matches-auto-repair
+          path: matches-repair-summary.md
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Report completion
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue list --state open --label matches-automation --json number --jq '.[0].number' > issue.txt
+          ISSUE=$(cat issue.txt)
+          if [ -n "$ISSUE" ] && [ "$ISSUE" != "null" ]; then
+            gh issue comment "$ISSUE" --body "Safe auto-repair run completed. See the latest **Matches Safe Auto-Repair** run and its artifact. Only deterministic BOM cleanup is automated; all other code edits are deliberately not guessed."
+          fi
