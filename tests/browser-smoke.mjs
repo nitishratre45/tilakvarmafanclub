@@ -309,6 +309,10 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
   await page.locator("#player-matches-table tr").first().waitFor();
   assert(await page.locator(".recent-match-table thead th").count() >= 7, "Recent Matches should show runs, balls, dismissal, date and boundary columns");
   await page.locator("#match-tab-complete").click();
+  await page.waitForURL(url => url.pathname === "/matches/complete/");
+  assert.equal(await page.locator("#match-complete-panel").count(), 0, "Complete Match must live on its own dedicated page");
+  assert.equal(await page.locator('link[href^="/matches/complete/complete.css"]').count(), 1, "Complete page must load its own CSS");
+  assert.equal(await page.locator('script[src^="/matches/complete/complete.js"]').count(), 1, "Complete page must load its own JavaScript");
   await page.locator(".complete-match-card").first().waitFor();
   assert.equal(await page.locator(".complete-match-card").count(), 4, "Complete Match should show all indexed format rows");
   await page.locator("#match-format-filter").selectOption("First-class");
