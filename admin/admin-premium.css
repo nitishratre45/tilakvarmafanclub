@@ -3455,3 +3455,26 @@ body {
     max-width: 100%;
   }
 }
+
+/* Dedicated Admin Match section — responsive archive cards. */
+.admin-match-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.admin-match-stat{min-width:0;padding:15px;border:1px solid var(--line);border-radius:13px;background:linear-gradient(145deg,#142940,#0a1727)}
+.admin-match-stat span{display:block;color:var(--muted);font-size:12px}
+.admin-match-stat strong{display:block;margin-top:5px;font-size:22px;overflow-wrap:anywhere}
+.admin-match-filters{display:grid;grid-template-columns:minmax(0,2fr) minmax(180px,1fr);gap:14px}
+.admin-match-results-line{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:4px 0 12px;color:var(--muted);font-size:12px}
+.admin-matches-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.admin-match-card{min-width:0;padding:16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,rgba(19,37,59,.94),rgba(8,19,32,.98))}
+.admin-match-card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.admin-match-date{color:var(--muted);font-size:12px}
+.admin-match-format{padding:5px 9px;border:1px solid rgba(124,229,242,.22);border-radius:999px;background:rgba(124,229,242,.07);color:var(--cyan);font-size:10px;font-weight:800}
+.admin-match-teams{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;margin:18px 0 12px}
+.admin-match-teams strong{font-size:16px;overflow-wrap:anywhere}
+.admin-match-teams strong:last-child{text-align:right}
+.admin-match-teams span{color:var(--orange);font-size:11px;font-weight:900}
+.admin-match-venue,.admin-match-event{margin:6px 0;color:var(--muted);font-size:12px;overflow-wrap:anywhere}
+.admin-match-result{margin-top:12px;padding:10px 12px;border-radius:9px;background:rgba(115,224,174,.08);color:#91e5bd;font-weight:800;font-size:12px;overflow-wrap:anywhere}
+.admin-match-card-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+.admin-match-card-foot>span{min-width:0;color:var(--muted);font-size:10px;overflow-wrap:anywhere}
+@media(max-width:800px){.admin-matches-list{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.admin-match-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.admin-match-stat{padding:11px}.admin-match-stat strong{font-size:19px}.admin-match-filters{grid-template-columns:minmax(0,1fr);gap:0}.admin-match-teams{gap:7px}.admin-match-teams strong{font-size:14px}.admin-match-card{padding:13px}.admin-match-card-foot .btn{flex:1}}
