@@ -31,47 +31,13 @@
     <link rel="stylesheet" href="/photos/photos.css?v=20261013-dedicated-photos1" />
     <link rel="stylesheet" href="/photos/admin-inspired-ui.css?v=20261011-admin-theme1" />
 
-    <style id="site-blue-navbar">
-      html body header.topbar {
-        background: #0b5fc4 !important;
-        background-color: #0b5fc4 !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.22) !important;
-        box-shadow: 0 5px 18px rgba(0, 30, 90, 0.18) !important;
-        -webkit-backdrop-filter: none !important;
-        backdrop-filter: none !important;
-      }
-      html body header.topbar nav {
-        color: #fff !important;
-      }
-      html body header.topbar nav a {
-        color: #fff !important;
-      }
-      html body header.topbar nav a:hover,
-      html body header.topbar nav a:focus-visible,
-      html body header.topbar nav a.active,
-      html body header.topbar nav a[aria-current="page"] {
-        color: #fff !important;
-        background: rgba(255, 255, 255, 0.16) !important;
-      }
-      html body header.topbar .menu-toggle {
-        color: #fff !important;
-      }
-    </style>
-    <style id="navbar-underline-only">
-      /* Navbar: keep only the bottom active underline; remove rounded hover/active pill */
-      html body header.topbar nav a,
-      html body header.topbar nav a:hover,
-      html body header.topbar nav a:focus-visible,
-      html body header.topbar nav a.active,
-      html body header.topbar nav a[aria-current="page"] {
-        background: transparent !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-      }
-      html body header.topbar nav a.active,
-      html body header.topbar nav a[aria-current="page"] {
-        box-shadow: inset 0 -3px 0 #ff7c45 !important;
-      }
+    <style id="site-navbar-theme">
+      html body header.topbar { background: #0b5fc4 !important; background-color: #0b5fc4 !important; border-bottom: 1px solid rgba(255,255,255,.22) !important; box-shadow: 0 5px 18px rgba(0,30,90,.18) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+      html body header.topbar nav, html body header.topbar nav a { color: #fff !important; }
+      html body header.topbar nav a, html body header.topbar nav a:hover, html body header.topbar nav a:focus, html body header.topbar nav a:focus-visible, html body header.topbar nav a:active { background: transparent !important; border-color: transparent !important; border-radius: 0 !important; box-shadow: none !important; }
+      html body header.topbar nav a.active, html body header.topbar nav a[aria-current="page"] { box-shadow: inset 0 -3px 0 #ff7c45 !important; }
+      html body header.topbar nav a:focus-visible { outline: 2px solid rgba(255,255,255,.9) !important; outline-offset: 3px !important; }
+      html body header.topbar .menu-toggle { color: #fff !important; }
     </style>
 
   </head>
