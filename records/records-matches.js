@@ -33,7 +33,10 @@
 
     const recordsHost = document.getElementById("icc-record-highlights");
     if (recordsHost) {
-      const records = Array.isArray(data.iccRecords) ? data.iccRecords : [];
+      const records = [
+        ...(Array.isArray(data.iccRecords) ? data.iccRecords : []),
+        ...(Array.isArray(data.reportedRecords) ? data.reportedRecords : []),
+      ];
       const formats = data.careerFormats || {};
       const careerRecords = [
         { rank: formats.T20I?.highestScore, category: "T20I career", title: "Highest T20I score" },
@@ -55,7 +58,11 @@
                 esc(record.category || "Career record") +
                 "</span><h4>" +
                 esc(record.title || "Player record") +
-                "</h4></article>",
+                "</h4>" +
+                (record.source && /^https:\/\//i.test(record.source)
+                  ? '<a class="record-source" href="' + esc(record.source) + '" target="_blank" rel="noopener noreferrer">Source: ' + esc(record.sourceLabel || "verified report") + ' ↗</a>'
+                  : "") +
+                "</article>",
             )
             .join("")
         : '<p class="activity-empty">No verified record highlights are saved yet.</p>';
