@@ -7,6 +7,36 @@
       /[&<>"']/g,
       (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
     );
+  // Team crests: IPL badge assets where available; country flags for international teams.
+  const teamLogoData = {
+    "india": { code: "in" }, "west indies": { code: "wi" }, "pakistan": { code: "pk" },
+    "sri lanka": { code: "lk" }, "bangladesh": { code: "bd" }, "afghanistan": { code: "af" },
+    "australia": { code: "au" }, "england": { code: "gb-eng" }, "ireland": { code: "ie" },
+    "new zealand": { code: "nz" }, "south africa": { code: "za" }, "zimbabwe": { code: "zw" },
+    "nepal": { code: "np" }, "namibia": { code: "na" }, "netherlands": { code: "nl" },
+    "scotland": { code: "gb-sct" }, "united arab emirates": { code: "ae" }, "oman": { code: "om" },
+    "canada": { code: "ca" }, "usa": { code: "us" }, "united states": { code: "us" },
+    "japan": { code: "jp" }, "italy": { code: "it" },
+    "mumbai indians": { ipl: "MI" }, "chennai super kings": { ipl: "CSK" },
+    "kolkata knight riders": { ipl: "KKR" }, "royal challengers bengaluru": { ipl: "RCB" },
+    "royal challengers bangalore": { ipl: "RCB" }, "rajasthan royals": { ipl: "RR" },
+    "sunrisers hyderabad": { ipl: "SRH" }, "delhi capitals": { ipl: "DC" },
+    "punjab kings": { ipl: "PBKS" }, "gujarat titans": { ipl: "GT" },
+    "lucknow super giants": { ipl: "LSG" }
+  };
+  const normaliseTeam = (name) => String(name || "").trim().toLowerCase().replace(/\\s+/g, " ");
+  const teamInitials = (name) => {
+    const words = String(name || "?").replace(/[^a-z0-9 ]/gi, " ").trim().split(/\\s+/).filter(Boolean);
+    return (words.length > 1 ? words.slice(0, 2).map((word) => word[0]) : [(words[0] || "?").slice(0, 2)]).join("").toUpperCase();
+  };
+  function teamLogo(name) {
+    const data = teamLogoData[normaliseTeam(name)] || {};
+    const src = data.ipl
+      ? "https://scores.iplt20.com/ipl/teamlogos/" + data.ipl + ".png"
+      : data.code ? "https://flagcdn.com/w80/" + data.code + ".png" : "";
+    if (!src) return '<span class="complete-team-crest complete-team-crest-fallback" aria-hidden="true">' + esc(teamInitials(name)) + "</span>";
+    return '<span class="complete-team-crest"><img src="' + esc(src) + '" alt="" loading="lazy" decoding="async" onerror="this.parentElement.classList.add(\'is-missing\');this.remove();this.parentElement.textContent=\'' + esc(teamInitials(name)) + '\';" /></span>';
+  }
   const state = { matches: [], format: "All", query: "" };
   const returnStateKey = "completeMatchesReturnState";
   const pendingReturnKey = "completeMatchesPendingScorecardReturn";
@@ -89,11 +119,11 @@
           esc(dateLabel(m.date)) +
           '</span><span class="match-format-pill">' +
           esc(fmtLabel(m.format)) +
-          '</span></div><div class="complete-match-teams"><span>' +
-          esc(m.team || "Tilak team") +
-          "</span><b>VS</b><span>" +
-          esc(m.opposition || "Opponent") +
-          '</span></div><div class="complete-match-venue">⌖ ' +
+          '</span></div>'<div class="complete-match-teams"><div class="complete-team-side">' +
+          teamLogo(m.team || "Tilak team") + '<span>' + esc(m.team || "Tilak team") +
+          '</span></div><b class="complete-versus">VS</b><div class="complete-team-side">' +
+          teamLogo(m.opposition || "Opponent") + '<span>' + esc(m.opposition || "Opponent") +
+          '</span></div></div><div class="complete-match-venue">⌖ ' +
           esc(m.venue || "Venue unavailable") +
           '</div><div class="complete-match-result">' +
           esc(m.result || "Result unavailable") +
