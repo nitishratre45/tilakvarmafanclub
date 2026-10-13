@@ -148,7 +148,7 @@ jobs:
           from pathlib import Path
           from urllib.parse import urlsplit
 
-          pages = (Path("index.html"), Path("stats/index.html"), Path("death-overs/index.html"), Path("matches/index.html"), Path("photos/index.html"), Path("records/index.html"), Path("news/index.html"), Path("videos/index.html"))
+          pages = (Path("index.html"), Path("stats/index.html"), Path("death-overs/index.html"), Path("matches/index.html"), Path("matches/complete/index.html"), Path("matches/scorecards/index.html"), Path("photos/index.html"), Path("records/index.html"), Path("news/index.html"), Path("videos/index.html"))
           for page in pages:
               source = page.read_text(encoding="utf-8")
               ids = re.findall(r"""id=[\"']([^\"']+)[\"']""", source)
@@ -254,9 +254,12 @@ jobs:
           if any(mount not in matches for mount in required_mounts):
               raise SystemExit("Matches page is missing Upcoming mounts or the dedicated Complete Match route")
           complete = Path("matches/complete/index.html").read_text(encoding="utf-8")
-          for asset in ("/matches/complete/complete.css", "/matches/complete/complete.js", "/matches/scorecards/"):
+          for asset in ("/matches/complete/complete.css", "/matches/complete/complete.js"):
               if asset not in complete:
-                  raise SystemExit("Dedicated Complete Match page is missing required asset/link: " + asset)
+                  raise SystemExit("Dedicated Complete Match page is missing required asset: " + asset)
+          complete_js = Path("matches/complete/complete.js").read_text(encoding="utf-8")
+          if "/matches/scorecards/?match=" not in complete_js:
+              raise SystemExit("Complete Match cards must link to the dedicated Scorecards page")
           if 'id="complete-matches-list"' not in complete or 'id="match-complete-panel"' in matches:
               raise SystemExit("Complete Match data mount must live only on matches/complete/index.html")
           print("Validated isolated Upcoming and Complete Match pages.")
