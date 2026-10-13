@@ -37,6 +37,29 @@
         })
       : raw;
   };
+  const displayStat = (value) =>
+    value === null || value === undefined || value === "" || value === "—" ? "—" : String(value);
+  const dismissal = (r) => {
+    const value = String(r.dismissal || (r.notOut ? "not out" : "")).trim();
+    if (!value) return "—";
+    if (/^not\s*out$/i.test(value) || r.notOut) return "Not out";
+    const labels = {
+      bowled: "Bowled",
+      caught: "Caught",
+      "caught and bowled": "Caught & bowled",
+      lbw: "LBW",
+      "run out": "Run out",
+      stumped: "Stumped",
+      hitwicket: "Hit wicket",
+      "hit wicket": "Hit wicket",
+      "retired hurt": "Retired hurt",
+      "retired out": "Retired out",
+      obstructing: "Obstructing the field",
+      "obstructing the field": "Obstructing the field",
+      dismissed: "Dismissed"
+    };
+    return labels[value.toLowerCase()] || value.replace(/\b\w/g, (letter) => letter.toUpperCase());
+  };
   const score = (r) => {
     if (r.score && r.score !== "—") return r.score;
     if (["DNB", "TDNB"].includes(r.runs)) return r.runs;
@@ -250,9 +273,17 @@
                 "</td><td>" +
                 esc(score(r)) +
                 "</td><td>" +
+                esc(displayStat(r.balls)) +
+                "</td><td>" +
+                esc(dismissal(r)) +
+                "</td><td>" +
                 esc(r.bowlingFigures || r.bowling || findBowling(r) || "—") +
                 "</td><td>" +
                 esc(prettyDate(r.date)) +
+                "</td><td>" +
+                esc(displayStat(r.fours)) +
+                "</td><td>" +
+                esc(displayStat(r.sixes)) +
                 "</td><td>" +
                 esc(r.ground || r.venue || "—") +
                 "</td><td>" +
@@ -261,7 +292,7 @@
               );
             })
             .join("")
-        : '<tr><td colspan="6" class="empty">No verified match rows are available for this format yet. Existing saved scorecards are preserved during refresh.</td></tr>';
+        : '<tr><td colspan="10" class="empty">No verified match rows are available for this format yet. Existing saved scorecards are preserved during refresh.</td></tr>';
   }
   let snapshot = null;
   const selector = $("player-match-format");
@@ -275,6 +306,6 @@
       const table = $("player-matches-table");
       if (table)
         table.innerHTML =
-          '<tr><td colspan="6" class="empty">Match history is temporarily unavailable.</td></tr>';
+          '<tr><td colspan="10" class="empty">Match history is temporarily unavailable.</td></tr>';
     });
 })();
