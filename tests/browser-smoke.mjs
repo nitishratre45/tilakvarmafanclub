@@ -312,7 +312,7 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
   assert.equal(await page.locator(".complete-match-card").count(), 1, "First-class filter should show only its own match");
   await page.locator('[data-scorecard="fc-test"]').click();
   await page.locator(".scorecard-detail .scorecard-table").first().waitFor();
-  await page.locator(".scorecard-detail").getByText("Tilak Varma").waitFor();
+  await page.locator(".scorecard-detail .scorecard-table td").filter({ hasText: /^Tilak Varma$/ }).first().waitFor();
   await page.close();
 });
 
