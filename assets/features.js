@@ -7,38 +7,14 @@
       (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
     );
   let site = {},
-    fan = {},
     rows = [];
-  const formatIndiaTimestamp = (value) => {
-    if (!value) return "time unavailable";
-    const date = new Date(value);
-    return Number.isNaN(date.getTime())
-      ? String(value)
-      : new Intl.DateTimeFormat("en-IN", {
-          timeZone: "Asia/Kolkata",
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }).format(date) + " IST";
-  };
   const num = (r) => (typeof r.runs === "number" && Number.isFinite(r.runs) ? r.runs : null);
   async function init() {
     try {
-      const [siteData, fanResponse] = await Promise.all([
-        window.TilakSiteData.load(),
-        fetch("data/fan-zone.json", { cache: "no-store" }),
-      ]);
-      site = siteData;
-      fan = fanResponse.ok ? await fanResponse.json() : {};
+      site = await window.TilakSiteData.load();
       rows = Array.isArray(site.recentInnings) ? site.recentInnings : [];
       milestones();
       analytics();
-      poll();
-      links();
-      quiz();
     } catch (e) {
       console.error(e);
       ["milestone-grid", "analytics-grid"].forEach((id) => {
@@ -131,144 +107,7 @@
         "</div>"
       : '<p class="feature-note">No verified numeric innings are available.</p>';
   }
-  function poll() {
-    if (!fan.poll || !$("fan-poll-form")) return;
-    const p = fan.poll,
-      opts = p.options || [],
-      key = "tilakfc-poll-" + (p.id || "current");
-    $("poll-question").textContent = p.question || "Choose your favourite format";
-    let counts = {};
-    try {
-      counts = JSON.parse(localStorage.getItem(key) || "{}");
-    } catch {}
-    $("poll-options").innerHTML = opts
-      .map(
-        (x, i) =>
-          '<label class="poll-option"><input type="radio" name="fan-poll" value="' +
-          i +
-          '" ' +
-          (!i ? "checked" : "") +
-          "><span>" +
-          esc(x) +
-          "</span></label>",
-      )
-      .join("");
-    const show = () => {
-      const sum = Object.values(counts).reduce((a, b) => a + Number(b || 0), 0);
-      $("poll-results").innerHTML =
-        opts
-          .map((x, i) => {
-            const n = Number(counts[i] || 0);
-            return (
-              '<div class="poll-result"><div><span>' +
-              esc(x) +
-              "</span><b>" +
-              (sum ? Math.round((n / sum) * 100) : 0) +
-              '%</b></div><div class="poll-track"><i style="width:' +
-              (sum ? (n / sum) * 100 : 0) +
-              '%"></i></div></div>'
-            );
-          })
-          .join("") +
-        "<small>" +
-        sum +
-        " votes on this browser only</small>";
-    };
-    $("fan-poll-form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const v = document.querySelector('input[name="fan-poll"]:checked');
-      if (!v) return;
-      counts[v.value] = Number(counts[v.value] || 0) + 1;
-      try {
-        localStorage.setItem(key, JSON.stringify(counts));
-      } catch {}
-      show();
-    });
-    show();
-  }
-  function links() {
-    const host = $("fan-links");
-    if (!host) return;
-    host.innerHTML =
-      (fan.gallery || [])
-        .map(
-          (x) =>
-            '<a class="fan-link" href="' +
-            esc(x.url) +
-            '" target="_blank" rel="noopener noreferrer"><span>' +
-            esc(x.type || "RESOURCE") +
-            "</span><strong>" +
-            esc(x.title) +
-            "</strong><small>" +
-            esc(x.description || "Open source") +
-            "</small>↗</a>",
-        )
-        .join("") || host.innerHTML;
-  }
-  function quiz() {
-    const form = $("fan-quiz-form"),
-      host = $("quiz-options");
-    if (!form || !host) return;
-    const questions = Array.isArray(fan.quiz)
-      ? fan.quiz.filter((q) => q && q.question && Array.isArray(q.options) && q.options.length)
-      : [];
-    const updated = $("fan-zone-updated");
-    if (updated)
-      updated.textContent =
-        "Last update: " +
-        formatIndiaTimestamp(fan.updatedAt || site.lastUpdated) +
-        " · Stats last checked: " +
-        formatIndiaTimestamp(site.lastUpdated) +
-        " · Automatic refresh runs every 12 hours.";
-    if (!questions.length) {
-      $("quiz-question").textContent = "Quiz is taking a break";
-      host.innerHTML = '<p class="feature-note">No quiz questions are available yet.</p>';
-      return;
-    }
-    let index = 0,
-      score = 0,
-      answered = false;
-    const render = () => {
-      answered = false;
-      const q = questions[index];
-      $("quiz-question").textContent = q.question;
-      host.innerHTML = q.options
-        .map(
-          (option, i) =>
-            '<label class="poll-option"><input type="radio" name="fan-quiz-answer" value="' +
-            i +
-            '" ' +
-            (!i ? "checked" : "") +
-            "><span>" +
-            esc(option) +
-            "</span></label>",
-        )
-        .join("");
-      const button = form.querySelector('button[type="submit"]');
-      button.textContent = "CHECK ANSWER ↗";
-      $("quiz-feedback").textContent =
-        "Question " + (index + 1) + " of " + questions.length + " · Score " + score;
-    };
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const button = form.querySelector('button[type="submit"]');
-      if (answered) {
-        index = (index + 1) % questions.length;
-        render();
-        return;
-      }
-      const selected = form.querySelector('input[name="fan-quiz-answer"]:checked');
-      if (!selected) return;
-      const q = questions[index],
-        correct = Number(selected.value) === Number(q.answer);
-      if (correct) score++;
-      answered = true;
-      $("quiz-feedback").textContent =
-        (correct ? "Correct! " : "Not quite. ") + (q.explanation || "") + " · Score " + score;
-      button.textContent = index === questions.length - 1 ? "PLAY AGAIN ↻" : "NEXT QUESTION ↗";
-    });
-    render();
-  }
+
 
   init();
 })();
