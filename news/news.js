@@ -95,21 +95,46 @@
       return categoryMatch && searchMatch;
     });
 
+  let searchOpen = false;
+
   const renderTools = () => {
     if (!tools) return;
     tools.replaceChildren();
-    const search = document.createElement("input");
-    search.className = "tv-news-search";
-    search.type = "search";
-    search.placeholder = "Search Tilak news…";
-    search.setAttribute("aria-label", "Search Tilak Varma news");
-    search.value = searchQuery;
-    search.addEventListener("input", () => {
-      searchQuery = search.value;
-      visibleCount = 8;
-      render();
+
+    const searchToggle = document.createElement("button");
+    searchToggle.type = "button";
+    searchToggle.className = "tv-news-filter tv-news-search-toggle";
+    searchToggle.textContent = searchOpen ? "✕ Close search" : "⌕ Search";
+    searchToggle.setAttribute("aria-expanded", searchOpen ? "true" : "false");
+    searchToggle.setAttribute("aria-controls", "tv-news-search-input");
+    searchToggle.addEventListener("click", () => {
+      searchOpen = !searchOpen;
+      renderTools();
+      const input = tools.querySelector(".tv-news-search");
+      if (searchOpen && input) input.focus();
+      if (!searchOpen && searchQuery) {
+        searchQuery = "";
+        visibleCount = 8;
+        render();
+      }
     });
-    tools.appendChild(search);
+    tools.appendChild(searchToggle);
+
+    if (searchOpen) {
+      const search = document.createElement("input");
+      search.id = "tv-news-search-input";
+      search.className = "tv-news-search";
+      search.type = "search";
+      search.placeholder = "Search Tilak news…";
+      search.setAttribute("aria-label", "Search Tilak Varma news");
+      search.value = searchQuery;
+      search.addEventListener("input", () => {
+        searchQuery = search.value;
+        visibleCount = 8;
+        render();
+      });
+      tools.appendChild(search);
+    }
 
     const categories = [
       { id: "all", label: "All news" },
@@ -132,7 +157,7 @@
         renderTools();
         render();
         const replacement = tools.querySelector(".tv-news-search");
-        if (replacement) {
+        if (searchOpen && replacement) {
           replacement.focus();
           replacement.setSelectionRange(searchQuery.length, searchQuery.length);
         }
