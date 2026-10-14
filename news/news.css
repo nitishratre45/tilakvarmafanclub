@@ -423,8 +423,12 @@
   animation: tv-news-loading 1.5s ease-in-out infinite;
 }
 @keyframes tv-news-loading {
-  from { background-position: 100% 0; }
-  to { background-position: -120% 0; }
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -120% 0;
+  }
 }
 @media (max-width: 900px) {
   .tv-news-grid {
