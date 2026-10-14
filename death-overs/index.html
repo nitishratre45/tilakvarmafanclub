@@ -13,8 +13,8 @@
       content="Tilak Varma T20I over-by-over batting stats and death-overs calculator."
     />
     <title>Tilak Varma FC | Death-overs</title>
-    <link rel="stylesheet" href="/death-overs/style.css?v=20261013-sticky-menu-fix1" />
-    <link rel="stylesheet" href="/death-overs/premium-ui.css?v=20261011-deathovers-clean" />
+    <link rel="stylesheet" href="/death-overs/style.css?v=20261014-one-over-split1" />
+    <link rel="stylesheet" href="/death-overs/premium-ui.css?v=20261014-one-over-split1" />
     <style>
       /* Keep the stats-centre navigation visible while scrolling this standalone page. */
       .death-topbar {
@@ -2021,10 +2021,24 @@
           order: 4;
         }
       }
+
+      .analyser-actions {
+        display: flex;
+        align-items: stretch;
+        justify-content: flex-end;
+        gap: 12px;
+        max-width: min(52%, 560px);
+      }
+      .analyser-actions .coverage-summary-line { min-width: 0; }
+      .one-over-link { flex: 0 0 auto; align-self: center; white-space: nowrap; }
+      @media (max-width: 760px) {
+        .analyser-actions { width: 100%; max-width: none; flex-direction: column; }
+        .one-over-link { width: 100%; }
+      }
     </style>
     <link
       rel="stylesheet"
-      href="/death-overs/site-refinement.css?v=20261014-deathovers-glass-fix2"
+      href="/death-overs/site-refinement.css?v=20261014-one-over-split1"
     />
     <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261014-smooth-close5" />
   </head>
@@ -2173,9 +2187,12 @@
               <h2 class="section-title">DEATH-OVERS <em>ANALYSER.</em></h2>
               <p class="section-copy">Choose a format, season and over range.</p>
             </div>
-            <div class="coverage-summary-line" aria-live="polite">
-              <span class="coverage-mini-kicker">DATA</span>
-              <strong id="coverage-summary-text">Loading match data…</strong>
+            <div class="analyser-actions">
+              <div class="coverage-summary-line" aria-live="polite">
+                <span class="coverage-mini-kicker">DATA</span>
+                <strong id="coverage-summary-text">Loading match data…</strong>
+              </div>
+              <a class="button primary one-over-link" href="/death-overs/one-over/">ONE OVER ↗</a>
             </div>
           </div>
 
@@ -2233,48 +2250,6 @@
               </div>
               <div id="over-breakdown" class="over-breakdown" aria-live="polite">
                 <div class="empty-state">Loading over totals…</div>
-              </div>
-            </div>
-
-            <section class="single-over-panel" aria-labelledby="single-over-title">
-              <div class="single-over-head">
-                <div>
-                  <div class="section-kicker">SINGLE OVER ANALYSIS</div>
-                  <h3 id="single-over-title">ONE <em>OVER.</em></h3>
-                  <p>
-                    Choose one over to see its combined stats across the selected format and year.
-                  </p>
-                </div>
-                <label for="single-over"
-                  >SELECT OVER
-                  <select id="single-over"></select>
-                </label>
-              </div>
-              <div class="single-over-grid">
-                <article class="result-card">
-                  <small>RUNS</small><strong id="single-runs">—</strong>
-                </article>
-                <article class="result-card">
-                  <small>BALLS FACED</small><strong id="single-balls">—</strong>
-                </article>
-                <article class="result-card">
-                  <small>FOURS / SIXES</small><strong id="single-boundaries">—</strong>
-                </article>
-                <article class="result-card">
-                  <small>STRIKE RATE</small><strong id="single-sr">—</strong>
-                </article>
-              </div>
-            </section>
-            <div class="detail-panel ball-panel">
-              <div class="detail-heading">
-                <div>
-                  <div class="section-kicker">DELIVERY LOG</div>
-                  <h3>BALL BY <em>BALL</em></h3>
-                </div>
-                <span id="ball-summary">Select an over</span>
-              </div>
-              <div id="ball-log" class="ball-log" aria-live="polite">
-                <div class="empty-state">Loading ball-by-ball data…</div>
               </div>
             </div>
 
@@ -2459,8 +2434,6 @@
             ? ((t.runs * 100) / t.balls).toFixed(2)
             : "—";
           renderBreakdown(d, a, b);
-          renderSingleOver(d);
-          renderBallLog(d);
           document.getElementById("status").textContent =
             "FORMAT " +
             (d.label || names[active]) +
