@@ -329,6 +329,8 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
 check("One Over updates available overs when format changes", async () => {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   page.setDefaultTimeout(12000);
+  const pageErrors = [];
+  page.on("pageerror", error => pageErrors.push(error.message));
   await page.goto(baseURL + "/death-overs/one-over/", { waitUntil: "domcontentloaded" });
   await page.waitForFunction(() => document.querySelector("#format-filter")?.options.length > 0 && document.querySelector("#over-filter")?.options.length > 0);
   const format = page.locator("#format-filter");
@@ -349,6 +351,7 @@ check("One Over updates available overs when format changes", async () => {
   await page.locator("#export-over-csv").click();
   const download = await downloadPromise;
   assert.match(download.suggestedFilename(), /^tilak-over-.*\\.csv$/, "CSV export should download a named CSV file");
+  assert.deepEqual(pageErrors, [], "One Over should not throw uncaught browser errors: " + pageErrors.join(" | "));
   await page.close();
 });
 
