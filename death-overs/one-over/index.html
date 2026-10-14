@@ -663,7 +663,9 @@
                 item.fours,
                 item.sixes,
                 item.strikeRate ??
-                  (item.balls ? ((Number(item.runs || 0) * 100) / Number(item.balls)).toFixed(2) : ""),
+                  (item.balls
+                    ? ((Number(item.runs || 0) * 100) / Number(item.balls)).toFixed(2)
+                    : ""),
                 ball.ball,
                 ball.legalBall ?? "",
                 "Tilak Varma",
