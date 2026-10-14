@@ -37,11 +37,14 @@ check("dedicated Stats folder opens full Batting/Bowling/Explore page", async ()
   await page.locator("#stats").waitFor({ state: "visible" });
   assert.equal(new URL(page.url()).pathname, "/stats/", "Navbar Stats link should open the dedicated folder page");
   assert.equal(await page.locator("#stats-overview").isVisible(), true, "Batting view should be the default");
-  await page.waitForFunction(() => document.querySelector('[data-stat="t20iRuns"]')?.textContent.trim() === "1,791");
-  assert.equal(await page.locator("#career-formats .format-card").count() >= 4, true, "Format-wise batting cards should populate from saved JSON");
-  assert.notEqual(await page.locator("#data-status").innerText(), "Loading", "Career data status should finish loading");
   const snapshotResponse = await page.request.get(baseURL + "/data/site-data.json");
   assert.equal(snapshotResponse.status(), 200, "Shared JSON must be served from the site root on nested Stats routes");
+  const snapshot = await snapshotResponse.json();
+  const expectedT20IRuns = Number(snapshot.careerFormats?.T20I?.runs).toLocaleString("en-IN");
+  assert.notEqual(expectedT20IRuns, "NaN", "Saved T20I career runs must exist in the shared snapshot");
+  await page.waitForFunction((expected) => document.querySelector('[data-stat="t20iRuns"]')?.textContent.trim() === expected, expectedT20IRuns);
+  assert.equal(await page.locator("#career-formats .format-card").count() >= 4, true, "Format-wise batting cards should populate from saved JSON");
+  assert.notEqual(await page.locator("#data-status").innerText(), "Loading", "Career data status should finish loading");
   await page.locator('#stats [data-stats-tab="stats-bowling"]').click();
   assert.equal(await page.locator("#stats-bowling").isVisible(), true, "Bowling tab should open its full view");
   await page.waitForFunction(() => document.querySelector("#bowling-updated")?.textContent.trim().length > 0);
