@@ -645,8 +645,7 @@
             const tilakDeliveries = deliveries.filter(
               (ball) =>
                 ball?.tilak === true ||
-                (ball?.tilak == null &&
-                  /\btilak(?:\s+varma)?\b/i.test(String(ball?.batter || ""))),
+                (ball?.tilak == null && /\btilak(?:\s+varma)?\b/i.test(String(ball?.batter || ""))),
             );
             if (!tilakDeliveries.length) continue;
             for (const ball of tilakDeliveries) {
