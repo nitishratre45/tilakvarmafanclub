@@ -177,7 +177,11 @@ def article_fixtures(article: dict) -> list[dict]:
             match_label = str(row[match_i] or "").strip()
             date = parse_date(str(row[date_i] or ""))
             venue = str(row[venue_i] or "").strip()
-            if not date or not venue or not re.search(r"\b(T20I|ODI|Test)\b", match_label, re.I):
+            if (
+                not date
+                or not venue
+                or not re.search(r"\b(T20I|ODI|Test)\b", match_label, re.I)
+            ):
                 continue
             time_value = (
                 str(row[time_i] or "")
@@ -247,7 +251,11 @@ def article_fixtures(article: dict) -> list[dict]:
                     time_value = (
                         row[time_i] if time_i is not None and time_i < len(row) else ""
                     )
-                    if date and venue and re.search(r"\b(T20I|ODI|Test)\b", match_label, re.I):
+                    if (
+                        date
+                        and venue
+                        and re.search(r"\b(T20I|ODI|Test)\b", match_label, re.I)
+                    ):
                         fixtures.append(
                             {
                                 "date": date,
