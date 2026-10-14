@@ -110,14 +110,14 @@ def article_fixtures(article: dict) -> list[dict]:
     if not opponent:
         return []
 
-    # Require the announcement text to identify Tilak in a T20I squad; this
-    # avoids publishing fixtures from unrelated squad announcements.
+    # Require an official international squad announcement naming Tilak and a
+    # recognised format; this supports T20I, ODI and Test schedule tables.
     tilak_pos = re.search(r"Tilak\s+Varma", text, re.I)
-    t20i_pos = re.search(r"T20I", text, re.I)
-    if not tilak_pos or not t20i_pos:
+    format_match = re.search(r"\b(T20I|ODI|Test)\b", title + " " + text, re.I)
+    if not tilak_pos or not format_match:
         return []
-    squad_text = text[max(0, tilak_pos.start() - 700) : tilak_pos.end() + 700]
-    if not re.search(r"T20I", squad_text, re.I):
+    squad_text = text[max(0, tilak_pos.start() - 1000) : tilak_pos.end() + 1000]
+    if not re.search(r"\b(T20I|ODI|Test)\b", squad_text, re.I):
         return []
 
     fixtures = []
@@ -158,7 +158,7 @@ def article_fixtures(article: dict) -> list[dict]:
             match_label = str(row[match_i] or "").strip()
             date = parse_date(str(row[date_i] or ""))
             venue = str(row[venue_i] or "").strip()
-            if not date or not venue or not re.search(r"T20I", match_label, re.I):
+            if not date or not venue or not re.search(r"\b(T20I|ODI|Test)\b", match_label, re.I):
                 continue
             time_value = (
                 str(row[time_i] or "")
@@ -228,7 +228,7 @@ def article_fixtures(article: dict) -> list[dict]:
                     time_value = (
                         row[time_i] if time_i is not None and time_i < len(row) else ""
                     )
-                    if date and venue and re.search(r"T20I", match_label, re.I):
+                    if date and venue and re.search(r"\b(T20I|ODI|Test)\b", match_label, re.I):
                         fixtures.append(
                             {
                                 "date": date,
