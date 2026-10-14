@@ -326,6 +326,28 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
   await page.close();
 });
 
+check("One Over updates available overs when format changes", async () => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  page.setDefaultTimeout(12000);
+  await page.goto(baseURL + "/death-overs/one-over/", { waitUntil: "domcontentloaded" });
+  await page.waitForFunction(() => document.querySelector("#format-filter")?.options.length > 0 && document.querySelector("#over-filter")?.options.length > 0);
+  const format = page.locator("#format-filter");
+  const over = page.locator("#over-filter");
+  const available = await format.locator("option").evaluateAll(options => options.map(option => option.value));
+  if (available.includes("odi")) {
+    await format.selectOption("odi");
+    assert.equal(await over.locator("option").count(), 50, "ODI must expose overs 1–50");
+    await over.selectOption("50");
+    assert.equal(await over.inputValue(), "50");
+  }
+  if (available.includes("t20i")) {
+    await format.selectOption("t20i");
+    assert.equal(await over.locator("option").count(), 20, "T20I must expose overs 1–20");
+    assert.notEqual(await over.inputValue(), "50", "Switching back to T20I must clamp the selected over");
+  }
+  await page.close();
+});
+
 check("Death Overs page loads the saved dataset and matches its innings count", async () => {
   const data = JSON.parse(await readFile(new URL("../data/death-overs.json", import.meta.url), "utf8"));
   assert(Array.isArray(data.innings) && data.innings.length > 0, "Saved Death Overs innings must not be empty");
