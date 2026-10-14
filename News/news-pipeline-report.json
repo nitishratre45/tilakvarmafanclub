@@ -1,33 +1,28 @@
 {
   "manager": "Tilak News Pipeline Manager",
-  "generatedAt": "2026-10-14T03:41:28.227194+00:00",
-  "status": "warning",
+  "generatedAt": "2026-10-14T03:44:33.980407+00:00",
+  "status": "healthy",
   "jsonFilesScanned": 238,
   "validJsonFiles": 238,
   "invalidJsonFiles": [],
-  "totalJsonBytes": 27836706,
+  "totalJsonBytes": 27845374,
   "raw": {
     "candidateRecords": 155,
     "articleUrls": 189,
-    "articlePagesFetched": 187,
-    "articleFetchErrors": 2,
+    "articlePagesFetched": 189,
+    "articleFetchErrors": 0,
     "records": 155
   },
   "news": {
     "records": 35,
     "declaredCount": 35,
     "countConsistent": true,
-    "findings": [
-      {
-        "severity": "warning",
-        "issue": "2 BCCI article page(s) failed to fetch"
-      }
-    ],
+    "findings": [],
     "errors": 0,
-    "warnings": 1
+    "warnings": 0
   },
   "contentVerification": {
-    "checkedAt": "2026-10-14T03:41:27.779740+00:00",
+    "checkedAt": "2026-10-14T03:44:33.528889+00:00",
     "liveUrlsMatched": 34,
     "unverifiedRecordsExcluded": 0,
     "nonMatchingArticlesSkipped": 155,
@@ -114,17 +109,17 @@
     },
     {
       "path": "News/newsjson.json",
-      "bytes": 311724,
+      "bytes": 313726,
       "valid": true
     },
     {
       "path": "News/raw-news-pages.json",
-      "bytes": 1422656,
+      "bytes": 1429211,
       "valid": true
     },
     {
       "path": "News/news-pipeline-report.json",
-      "bytes": 37100,
+      "bytes": 37211,
       "valid": true
     },
     {
