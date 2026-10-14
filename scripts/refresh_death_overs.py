@@ -153,7 +153,7 @@ def parse_match(data, filename, key, totals, all_male_fallback=False):
                 ex = d.get("extras", {}) or {}
                 wide = bool(int(ex.get("wides", 0) or 0))
                 no_ball = bool(int(ex.get("noballs", 0) or 0))
-                if not wide:
+                if not wide and not no_ball:
                     legal_ball_number += 1
                 dismissed = any(
                     target(w.get("player_out", "")) for w in (d.get("wickets") or [])
