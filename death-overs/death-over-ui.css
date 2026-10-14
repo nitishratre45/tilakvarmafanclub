@@ -1,0 +1,95 @@
+/* Death Overs UI polish — CSS-only, preserves existing data hooks and interactions. */
+:root{--do-glass:rgba(14,27,46,.84);--do-line:rgba(144,190,235,.19);--do-cyan:#79e6f5;--do-orange:#ff754c;--do-shadow:0 18px 48px rgba(0,5,18,.28)}
+html{scroll-padding-top:110px}
+body{background:radial-gradient(ellipse at 8% 10%,rgba(18,91,170,.16),transparent 38rem),radial-gradient(ellipse at 92% 48%,rgba(255,112,72,.055),transparent 32rem),#070d19}
+main{isolation:isolate}
+.death-view-switch{position:sticky;top:76px;z-index:90;max-width:none;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(5,14,28,.92);border-bottom:1px solid rgba(121,230,245,.16);box-shadow:0 12px 30px rgba(0,0,0,.15)}
+.death-view-link{border-radius:14px;position:relative;overflow:hidden}
+.death-view-link:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(121,230,245,.06),transparent 60%);pointer-events:none}
+.death-view-link.is-active{box-shadow:0 8px 24px rgba(255,112,72,.2),inset 0 1px rgba(255,255,255,.18)}
+.stats-hero{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 86% 24%,rgba(25,105,190,.2),transparent 42%),radial-gradient(ellipse at 72% 90%,rgba(255,112,72,.07),transparent 38%),linear-gradient(125deg,#081323,#0b1c30 65%,#091424);border-bottom:1px solid var(--do-line)}
+.stats-hero:before{content:"72";position:absolute;z-index:-1;right:4%;top:-.18em;font:900 clamp(210px,34vw,480px)/1 var(--display);letter-spacing:-.09em;color:rgba(121,230,245,.035);pointer-events:none}
+.stats-hero .eyebrow,.section-kicker{letter-spacing:.16em}
+.stats-hero h1{max-width:950px;text-wrap:balance;text-shadow:0 8px 30px rgba(0,0,0,.22)}
+.stats-hero p{max-width:760px;font-size:clamp(14px,1.3vw,17px);line-height:1.9;color:#b7c6d9}
+.hero-tag{border:1px solid rgba(145,190,235,.22);border-radius:8px;background:rgba(7,19,35,.5);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.hero-tag:hover{transform:translateY(-2px);border-color:rgba(121,230,245,.48);background:rgba(20,46,72,.62)}
+.stats-section,.innings-section{position:relative}
+.page-shell{width:min(100% - 32px,1380px);margin-inline:auto}
+.section-head{align-items:end;gap:22px;margin-bottom:clamp(22px,3vw,36px)}
+.section-title{letter-spacing:-.035em;line-height:.98;text-wrap:balance}
+.section-copy,.innings-summary{max-width:560px;color:#a8b8ce;line-height:1.8}
+.snapshot-grid{gap:14px}
+.snapshot-card{position:relative;overflow:hidden;min-width:0;padding:clamp(18px,2.5vw,28px);border:1px solid var(--do-line);border-radius:20px;background:linear-gradient(145deg,rgba(17,34,57,.96),rgba(9,19,34,.98));box-shadow:0 10px 30px rgba(0,0,0,.13);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.snapshot-card:after,.result-card:after{content:"";position:absolute;top:0;left:18px;right:18px;height:1px;background:linear-gradient(90deg,transparent,rgba(121,230,245,.3),transparent)}
+.snapshot-card:first-child{background:linear-gradient(135deg,#ff8054,#e74e32);border-color:rgba(255,190,157,.48);color:#fff}
+.snapshot-card:first-child small,.snapshot-card:first-child span{color:rgba(255,255,255,.82)}
+.snapshot-card small,.result-card small{font:500 10px/1.5 var(--mono);letter-spacing:.11em;color:#a9bdd5}
+.snapshot-card strong{display:block;margin:15px 0 8px;font:900 clamp(34px,4vw,52px)/.98 var(--display);letter-spacing:-.035em;overflow-wrap:anywhere}
+.snapshot-card span{font-size:12px;line-height:1.65;color:#b4c2d5}
+.refresh-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px;padding:12px;border:1px solid var(--do-line);border-radius:16px;background:rgba(11,23,40,.76)}
+.refresh-item{min-width:0;padding:8px 12px}
+.refresh-item+ .refresh-item{border-left:1px solid var(--do-line)}
+.refresh-item small{display:block;margin-bottom:8px;font:500 9px/1.4 var(--mono);letter-spacing:.1em;color:#91a9c4}
+.refresh-item strong{display:block;font-size:12px;line-height:1.55;overflow-wrap:anywhere}
+.analyser-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}
+.coverage-summary-line{padding:10px 14px;border:1px solid var(--do-line);border-radius:12px;background:rgba(13,29,49,.65);max-width:100%}
+.coverage-mini-kicker{font:10px var(--mono);color:var(--do-cyan);margin-right:8px}
+.coverage-summary-line strong{font-size:12px;overflow-wrap:anywhere}
+.one-over-link,.calculate-button{border-radius:12px!important;min-height:46px;box-shadow:0 8px 24px rgba(255,112,72,.13);transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}
+.one-over-link:hover,.calculate-button:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,112,72,.2)}
+.calculator-card{padding:clamp(14px,2.4vw,28px);border:1px solid var(--do-line);border-radius:22px;background:linear-gradient(145deg,rgba(14,29,49,.96),rgba(7,16,29,.98));box-shadow:var(--do-shadow)}
+.calculator-controls{gap:14px}
+.calculator-controls label,.filter-panel label{color:#a9bdd5;font-size:10px;letter-spacing:.1em;line-height:1.6}
+.calculator-controls select,.filter-panel select{appearance:auto;width:100%;min-width:0;min-height:48px;padding:11px 13px;border:1px solid rgba(145,190,235,.24);border-radius:11px;background:#0a192c;color:#f4f8ff;font-size:13px;line-height:1.4;box-shadow:inset 0 1px rgba(255,255,255,.025)}
+.calculator-controls select:hover,.filter-panel select:hover{border-color:rgba(121,230,245,.55)}
+.calculator-controls select:focus-visible,.filter-panel select:focus-visible{outline:2px solid var(--do-cyan);outline-offset:2px}
+.result-grid{gap:12px;margin-top:18px}
+.result-card{position:relative;overflow:hidden;min-width:0;padding:20px;border:1px solid var(--do-line);border-radius:16px;background:linear-gradient(145deg,#122640,#0a1728);transition:transform .2s ease,border-color .2s ease}
+.result-card strong{display:block;margin-top:12px;font:900 clamp(30px,4vw,44px)/1 var(--display);letter-spacing:-.025em;overflow-wrap:anywhere}
+.detail-panel{margin-top:20px;padding:clamp(14px,2vw,22px);border:1px solid var(--do-line);border-radius:18px;background:rgba(5,15,28,.68)}
+.detail-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.detail-heading h3{font:900 clamp(22px,3vw,32px)/1 var(--display);margin:7px 0 0}
+.detail-heading h3 em{color:var(--do-orange);font-style:normal}
+#breakdown-summary{padding:7px 10px;border:1px solid var(--do-line);border-radius:8px;color:#b6c8dd;font:10px var(--mono)}
+.over-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px}
+.breakdown-card{min-width:0;padding:15px;border:1px solid var(--do-line);border-radius:13px;background:linear-gradient(145deg,#12243a,#0a1727);transition:transform .2s ease,border-color .2s ease}
+.breakdown-card:hover{transform:translateY(-2px);border-color:rgba(121,230,245,.42)}
+.breakdown-card strong{font:900 26px/1 var(--display)}
+.calculator-status,.method-note{color:#a4b5cb;font-size:12px;line-height:1.8}
+.method-note{padding:12px 14px;border-left:2px solid var(--do-cyan);background:rgba(121,230,245,.035);border-radius:0 8px 8px 0}
+.match-list,.innings-grid{display:grid;gap:14px}
+.match-card,.one-innings,.ball-over-group{min-width:0;padding:clamp(14px,2vw,22px);border:1px solid var(--do-line);border-radius:18px;background:linear-gradient(145deg,rgba(15,31,52,.96),rgba(8,17,30,.98));box-shadow:0 10px 28px rgba(0,0,0,.1);transition:transform .2s ease,border-color .2s ease}
+.match-card:hover,.one-innings:hover,.ball-over-group:hover{border-color:rgba(121,230,245,.34)}
+.match-card-head,.innings-top{gap:12px}
+.match-card h3,.innings-top h3{font-size:clamp(15px,2vw,19px);line-height:1.45}
+.match-meta,.innings-meta{color:#a5b7cd;line-height:1.8}
+.match-date{white-space:nowrap;color:var(--do-cyan);font:10px var(--mono)}
+.over-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.over-chip{padding:10px 12px;border:1px solid var(--do-line);border-radius:10px;background:rgba(7,17,30,.65);font-size:11px}
+.over-chip b{color:#fff}
+.empty-state{padding:22px 16px;border:1px dashed rgba(145,190,235,.28);border-radius:14px;color:#afc0d5;background:rgba(11,24,41,.55);text-align:center;line-height:1.7}
+.status-dot{box-shadow:0 0 0 4px rgba(121,230,245,.08)}
+footer{border-top:1px solid var(--do-line);background:#060d18}
+.one-page{max-width:1380px}
+.one-head{padding:clamp(8px,1vw,16px) 0 6px}
+.one-head h1{letter-spacing:-.035em;text-wrap:balance}
+.one-head p{font-size:clamp(13px,1.2vw,16px);line-height:1.85}
+.filter-panel{padding:clamp(14px,2.3vw,24px);gap:14px;border-color:var(--do-line);border-radius:20px;background:linear-gradient(145deg,rgba(14,29,49,.96),rgba(7,16,29,.98));box-shadow:var(--do-shadow)}
+.one-stats{gap:12px}
+.one-stat{position:relative;overflow:hidden;padding:clamp(15px,2vw,22px);border-radius:16px;border-color:var(--do-line);background:linear-gradient(145deg,#122640,#0a1728);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.one-stat small{font:500 10px/1.6 var(--mono);letter-spacing:.1em}
+.one-stat strong{margin-top:14px}
+.one-section{margin-top:clamp(26px,4vw,42px)}
+.one-section h2{letter-spacing:-.025em}
+.one-innings{box-shadow:0 10px 28px rgba(0,0,0,.1)}
+.ball-pills{gap:8px}
+.ball-pill{min-width:48px;min-height:54px;border-radius:11px;background:linear-gradient(145deg,#10243b,#0a1728);transition:transform .16s ease,border-color .16s ease}
+.ball-pill:hover{transform:translateY(-2px)}
+.ball-pill.boundary{background:rgba(226,163,77,.09)}
+.ball-pill.six{background:linear-gradient(145deg,rgba(255,106,53,.2),rgba(255,106,53,.07))}
+.ball-pill.wicket{background:rgba(255,91,104,.12)}
+@media(min-width:801px){.stats-hero{padding-left:clamp(44px,8vw,120px);padding-right:clamp(44px,8vw,120px)}.snapshot-card:hover{transform:translateY(-3px);border-color:rgba(121,230,245,.42);box-shadow:0 18px 38px rgba(0,0,0,.2)}.result-card:hover{transform:translateY(-2px);border-color:rgba(121,230,245,.35)}}
+@media(max-width:800px){.death-view-switch{top:70px}.stats-hero{padding:48px 6vw 40px}.stats-hero:before{right:-5%;top:4%;font-size:clamp(180px,48vw,300px)}.stats-hero h1{font-size:clamp(48px,12vw,76px)}.hero-tags{gap:8px}.hero-tag{font-size:10px;padding:10px 12px}.page-shell{width:calc(100% - 28px)}.section-head{align-items:flex-start;flex-direction:column}.analyser-actions{width:100%;justify-content:stretch}.coverage-summary-line{flex:1;min-width:0}.one-over-link{white-space:nowrap}.refresh-strip{grid-template-columns:1fr;gap:0}.refresh-item{padding:11px 10px}.refresh-item+.refresh-item{border-left:0;border-top:1px solid var(--do-line)}.calculator-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.calculator-controls label{min-width:0}.calculator-controls #calculate{grid-column:1/-1;width:100%}.result-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.match-card-head{align-items:flex-start}.one-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.filter-panel{grid-template-columns:repeat(2,minmax(0,1fr))}.one-head{align-items:flex-start}.innings-total{text-align:left}}
+@media(max-width:420px){.death-view-switch{gap:7px;padding:9px 10px}.death-view-link{padding:11px 8px;column-gap:6px}.death-view-link strong{font-size:11px;letter-spacing:.04em}.death-view-link small{font-size:9px}.stats-hero{padding-top:38px}.stats-hero h1{font-size:clamp(43px,12vw,58px)}.stats-hero p{font-size:13px;line-height:1.8}.hero-tags{display:grid;grid-template-columns:1fr;align-items:stretch}.hero-tag{width:100%}.calculator-card{padding:12px;border-radius:17px}.calculator-controls{gap:10px}.calculator-controls select,.filter-panel select{padding:10px 8px;font-size:12px}.result-card{padding:14px}.snapshot-grid{gap:10px}.snapshot-card{padding:16px;border-radius:16px}.snapshot-card strong{font-size:34px}.one-page{padding-left:14px;padding-right:14px}.filter-panel{padding:12px;gap:10px}.one-stat{padding:14px}.ball-pills{gap:6px}.ball-pill{min-width:43px;min-height:50px;padding:5px 7px}}
+@media(prefers-reduced-motion:reduce){.snapshot-card,.result-card,.match-card,.one-innings,.ball-over-group,.breakdown-card,.ball-pill,.hero-tag,.one-over-link,.calculate-button{transition:none!important;transform:none!important}}
