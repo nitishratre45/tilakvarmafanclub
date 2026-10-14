@@ -1192,3 +1192,420 @@ footer {
     font-size: 9px !important;
   }
 }
+
+
+/* Desktop/tablet typography and alignment refinement — keep the existing phone layout intact. */
+@media (min-width: 801px) {
+  html {
+    scroll-padding-top: 100px;
+  }
+
+  .death-view-switch {
+    padding: 14px clamp(28px, 5vw, 76px);
+    gap: 16px;
+  }
+
+  .death-view-link {
+    min-height: 48px;
+    padding: 12px 20px;
+    font-size: 12px;
+    line-height: 1.35;
+    letter-spacing: 0.025em;
+  }
+
+  .stats-hero {
+    padding-top: clamp(54px, 6vw, 88px);
+    padding-bottom: clamp(48px, 5vw, 72px);
+  }
+
+  .stats-hero .page-shell,
+  .stats-section .page-shell,
+  .innings-section .page-shell {
+    width: min(100% - clamp(56px, 9vw, 144px), 1380px);
+  }
+
+  .stats-hero h1 {
+    max-width: 1000px;
+    font-size: clamp(58px, 6.2vw, 88px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin-block: 20px 22px;
+  }
+
+  .stats-hero p {
+    max-width: 720px;
+    font-size: clamp(15px, 1.15vw, 17px);
+    line-height: 1.85;
+    letter-spacing: 0.005em;
+  }
+
+  .stats-hero .hero-tags {
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .stats-hero .hero-tag {
+    padding: 10px 14px;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: clamp(24px, 4vw, 58px);
+    margin-bottom: clamp(28px, 3vw, 40px);
+  }
+
+  .section-title {
+    max-width: 760px;
+    font-size: clamp(38px, 4vw, 58px);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+  }
+
+  .section-copy,
+  .innings-summary {
+    max-width: 490px;
+    font-size: 14px;
+    line-height: 1.85;
+    letter-spacing: 0.005em;
+  }
+
+  .snapshot-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .snapshot-card {
+    min-height: 190px;
+    padding: clamp(20px, 2vw, 28px);
+    border-radius: 20px;
+  }
+
+  .snapshot-card small,
+  .result-card small {
+    font-size: 10px;
+    line-height: 1.65;
+    letter-spacing: 0.12em;
+  }
+
+  .snapshot-card strong {
+    margin: 18px 0 12px;
+    font-size: clamp(38px, 3.2vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+
+  .snapshot-card span {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .refresh-strip {
+    gap: 12px;
+    margin-top: 18px;
+    padding: 14px;
+  }
+
+  .refresh-item {
+    padding: 10px 16px;
+  }
+
+  .refresh-item small {
+    font-size: 10px;
+    line-height: 1.5;
+    letter-spacing: 0.11em;
+  }
+
+  .refresh-item strong {
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .coverage-summary-line {
+    padding: 12px 16px;
+  }
+
+  .coverage-summary-line strong {
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .calculator-card {
+    padding: clamp(24px, 3vw, 38px);
+    border-radius: 24px;
+  }
+
+  .calculator-controls {
+    gap: 16px;
+    align-items: end;
+  }
+
+  .calculator-controls label,
+  .filter-panel label {
+    font-size: 11px;
+    line-height: 1.65;
+    letter-spacing: 0.075em;
+  }
+
+  .calculator-controls select,
+  .filter-panel select {
+    min-height: 50px;
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .calculate-button,
+  .one-over-link {
+    min-height: 50px;
+    padding: 13px 20px;
+    font-size: 12px;
+    line-height: 1.4;
+    letter-spacing: 0.025em;
+  }
+
+  .result-grid {
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  .result-card {
+    padding: clamp(20px, 2vw, 28px);
+    border-radius: 18px;
+  }
+
+  .result-card strong {
+    margin-top: 14px;
+    font-size: clamp(34px, 3vw, 46px);
+    line-height: 1.08;
+  }
+
+  .calculator-status,
+  .method-note {
+    font-size: 13px;
+    line-height: 1.85;
+  }
+
+  .detail-panel {
+    margin-top: 24px;
+    padding: clamp(22px, 2.5vw, 32px);
+    border-radius: 20px;
+  }
+
+  .detail-heading {
+    align-items: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .detail-heading h3 {
+    font-size: clamp(26px, 2.6vw, 36px);
+    line-height: 1.12;
+  }
+
+  #breakdown-summary {
+    padding: 9px 12px;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .over-breakdown {
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+  }
+
+  .breakdown-card {
+    padding: 18px;
+    border-radius: 15px;
+  }
+
+  .breakdown-card strong {
+    font-size: 29px;
+    line-height: 1.1;
+  }
+
+  .match-list,
+  .innings-grid {
+    gap: 16px;
+  }
+
+  .match-card,
+  .one-innings {
+    padding: clamp(22px, 2.4vw, 32px);
+    border-radius: 20px;
+  }
+
+  .match-card h3,
+  .innings-top h3 {
+    font-size: clamp(18px, 1.55vw, 22px);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+
+  .match-meta,
+  .innings-meta {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .match-date {
+    font-size: 11px;
+  }
+
+  .over-chips {
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .over-chip {
+    padding: 11px 14px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .one-page {
+    width: min(100% - clamp(56px, 9vw, 144px), 1380px);
+    padding: clamp(32px, 4vw, 58px) 0;
+  }
+
+  .one-head {
+    align-items: flex-end;
+    gap: 32px;
+    margin-bottom: 30px;
+  }
+
+  .one-head h1 {
+    font-size: clamp(52px, 5.5vw, 78px);
+    line-height: 0.98;
+    margin: 12px 0 16px;
+  }
+
+  .one-head p {
+    max-width: 720px;
+    font-size: 15px;
+    line-height: 1.85;
+  }
+
+  .one-actions {
+    gap: 12px;
+  }
+
+  .filter-panel {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    padding: clamp(22px, 2.8vw, 34px);
+    margin: 28px 0;
+    border-radius: 22px;
+  }
+
+  .one-status {
+    margin: 16px 0 24px;
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .one-stats {
+    gap: 16px;
+  }
+
+  .one-stat {
+    min-height: 150px;
+    padding: clamp(22px, 2vw, 30px);
+    border-radius: 20px;
+  }
+
+  .one-stat small {
+    font-size: 10px;
+    line-height: 1.65;
+    letter-spacing: 0.11em;
+  }
+
+  .one-stat strong {
+    font-size: clamp(36px, 3.4vw, 48px);
+    line-height: 1.05;
+  }
+
+  .one-section {
+    margin-top: clamp(34px, 4vw, 52px);
+  }
+
+  .one-section h2 {
+    font-size: clamp(30px, 3vw, 42px);
+    line-height: 1.12;
+  }
+
+  .innings-top {
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .ball-pills {
+    gap: 10px;
+  }
+
+  .ball-pill {
+    min-width: 54px;
+    min-height: 58px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+}
+
+/* Mid-size laptop/tablet landscape: let content breathe without squeezing columns. */
+@media (min-width: 801px) and (max-width: 1100px) {
+  .stats-hero .page-shell,
+  .stats-section .page-shell,
+  .innings-section .page-shell,
+  .one-page {
+    width: calc(100% - 48px);
+  }
+
+  .snapshot-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .one-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .section-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .section-copy,
+  .innings-summary {
+    max-width: 760px;
+  }
+}
+
+/* Consistent text rhythm across cards, captions, and status messages. */
+.stats-hero p,
+.section-copy,
+.innings-summary,
+.calculator-status,
+.method-note,
+.match-meta,
+.innings-meta,
+.one-head p,
+.one-status {
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snapshot-card,
+  .result-card,
+  .breakdown-card,
+  .match-card,
+  .one-innings,
+  .ball-pill,
+  .hero-tag,
+  .death-view-link {
+    transition: none !important;
+  }
+}
