@@ -530,6 +530,7 @@
               "Sixes",
               "Strike Rate",
               "Delivery Sequence",
+              "Legal Ball",
               "Batter",
               "Batter Runs",
               "Total Runs",
@@ -556,6 +557,7 @@
                 item?.fours,
                 item?.sixes,
                 item?.strikeRate,
+                "",
                 "",
                 "",
                 "",
@@ -600,7 +602,7 @@
           document.body.append(link);
           link.click();
           link.remove();
-          URL.revokeObjectURL(url);
+          window.setTimeout(() => URL.revokeObjectURL(url), 1000);
           setStatus("CSV exported · " + rows.length + " innings · Over " + selectedOver);
         });
         format.addEventListener("change", () => {
