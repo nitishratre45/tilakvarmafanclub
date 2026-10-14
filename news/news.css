@@ -278,3 +278,30 @@
     transform: none;
   }
 }
+
+
+/* Keyboard and reduced-motion polish for the news cards. */
+.tv-news-card-link:focus-visible,
+.tv-news-more:focus-visible {
+  outline: 3px solid #7ce5f2;
+  outline-offset: 4px;
+}
+.tv-news-card-link:focus-visible {
+  border-radius: 12px;
+}
+.tv-news-more {
+  min-height: 44px;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tv-news-card,
+  .tv-news-more {
+    transition: none !important;
+  }
+  .tv-news-card:hover {
+    transform: none;
+  }
+}
