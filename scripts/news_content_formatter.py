@@ -121,7 +121,13 @@ def prose_blocks(value: str, strip_chrome: bool = False) -> list[dict]:
             is_heading = len(part) < 100 and (
                 part.endswith(":")
                 or part.isupper()
-                or bool(re.fullmatch(r"(?:India(?:’s|'s)?\s+)?(?:T20I|ODI|Test)?\s*(?:squad|fixtures|schedule|playing XI|match officials|key dates)", part, re.I))
+                or bool(
+                    re.fullmatch(
+                        r"(?:India(?:’s|'s)?\s+)?(?:T20I|ODI|Test)?\s*(?:squad|fixtures|schedule|playing XI|match officials|key dates)",
+                        part,
+                        re.I,
+                    )
+                )
             )
             out.append({"type": "heading" if is_heading else "text", "text": part})
     return out
