@@ -10,7 +10,7 @@
   if (!document.querySelector("link[data-tv-news-styles]")) {
     const style = document.createElement("link");
     style.rel = "stylesheet";
-    style.href = "/news/news.css?v=20261014-news-filters1";
+    style.href = "/news/news.css?v=20261015-news-polish1";
     style.dataset.tvNewsStyles = "true";
     document.head.appendChild(style);
   }
@@ -326,7 +326,7 @@
     render();
   });
 
-  fetch("/News/newsjson.json?v=20261013-modular1", { cache: "no-store" })
+  fetch("/News/newsjson.json?v=20261015-news-polish1", { cache: "no-store" })
     .then((response) => {
       if (!response.ok) throw new Error("News snapshot request failed (" + response.status + ").");
       return response.json();
