@@ -2141,7 +2141,7 @@
         document.addEventListener("DOMContentLoaded", () => {
           const nav = document.querySelector("header.topbar #death-nav");
           if (!nav) return;
-          const normalizePath = (path) => path.replace(/index\\.html$/, "").replace(/\\/+$/, "") || "/";
+          const normalizePath = (path) => path.replace(/index\.html$/, "").replace(/\/+$/, "") || "/";
           const currentPath = normalizePath(window.location.pathname);
           nav.querySelectorAll("a").forEach((link) => {
             const linkUrl = new URL(link.getAttribute("href"), window.location.href);
