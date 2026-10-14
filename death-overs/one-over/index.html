@@ -491,7 +491,7 @@
         over.addEventListener("change", render);
         async function load() {
           try {
-            const response = await fetch(DATA_URL + "?v=" + Date.now(), { cache: "no-store" });
+            const response = await fetch(DATA_URL, { cache: "no-cache" });
             if (!response.ok) throw new Error("HTTP " + response.status);
             root = await response.json();
             const available = Object.entries(root.formats || {}).filter(
