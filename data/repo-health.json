@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-14T05:10:05+00:00",
+  "checkedAt": "2026-10-14T10:10:08+00:00",
   "intervalMinutes": 10,
   "status": "warning",
   "summary": {
-    "filesScanned": 416,
-    "checksPassed": 323,
+    "filesScanned": 418,
+    "checksPassed": 324,
     "issues": 0,
-    "warnings": 43
+    "warnings": 44
   },
   "items": [
     {
@@ -32,6 +32,11 @@
     },
     {
       "level": "warning",
+      "message": "29 repeated CSS selector(s); review cascade/overrides: .stats-hero (4x), .death-view-switch (3x), .stats-hero h1 (3x), .hero-tag (3x), .calculator-controls (3x), .filter-panel (3x), .death-view-link (2x), .stats-hero:before (2x)",
+      "file": "death-overs/death-over-ui.css"
+    },
+    {
+      "level": "warning",
       "message": "260 repeated CSS selector(s); review cascade/overrides: .topbar (12x), #photos .cricinfo-gallery (11x), #profile .profile-photo-wrap (10x), .section (9x), #career-formats .format-card (9x), #profile.profile-section (9x), #profile .profile-copy h2 (8x), #photos #cricinfo-photo-grid .tv-album-grid (8x)",
       "file": "death-overs/premium-ui.css"
     },
@@ -42,7 +47,7 @@
     },
     {
       "level": "warning",
-      "message": "346 repeated CSS selector(s); review cascade/overrides: .profile-section (15x), .profile-photo-wrap (12x), .bcci-player-head-actions .bcci-player-settings-menu (11x), .profile-copy h2 (9x), .bcci-player-options (9x), .fan-zone-grid (8x), .statsguru-category-grid button (8x), .bcci-player-head-actions .bcci-quality-head-button (8x)",
+      "message": "347 repeated CSS selector(s); review cascade/overrides: .profile-section (15x), .profile-photo-wrap (12x), .bcci-player-head-actions .bcci-player-settings-menu (11x), .profile-copy h2 (9x), .bcci-player-options (9x), .fan-zone-grid (8x), .statsguru-category-grid button (8x), .bcci-player-head-actions .bcci-quality-head-button (8x)",
       "file": "death-overs/style.css"
     },
     {
@@ -334,6 +339,11 @@
       "level": "pass",
       "message": "No duplicate HTML IDs",
       "file": "death-overs/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
+      "file": "death-overs/one-over/index.html"
     },
     {
       "level": "pass",
@@ -1249,16 +1259,6 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/scorecards/data/2025-11-06-t20-india-vs-australia-02a2adb3471a.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-11-06-t20i-india-vs-australia-02a2adb3471a.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-12-06-odi-india-vs-south-africa-cd5c20f8c9d6.json"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "0a6e3c61"
+    "branch": "52183f95"
   }
 }
