@@ -7,6 +7,7 @@ on:
       - "scripts/newsreader.py"
       - "scripts/filter_tilak_news.py"
       - "scripts/news_content_formatter.py"
+      - "scripts/test_news_content_formatter.py"
       - "scripts/news_pipeline_fixer.py"
       - "scripts/news_pipeline_manager.py"
       - "admin/news-pipeline-manager.js"
@@ -35,6 +36,9 @@ jobs:
       - name: Syntax-check pipeline scripts
         run: |
           python -m compileall -q scripts
+      - name: Test BCCI table formatting regressions
+        run: |
+          python -m unittest scripts.test_news_content_formatter -v
       - name: Fetch BCCI News API pages only
         run: |
           python scripts/news.py
