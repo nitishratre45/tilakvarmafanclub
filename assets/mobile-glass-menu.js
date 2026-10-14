@@ -10,7 +10,7 @@
     const header = document.querySelector("body > header.topbar");
     if (!header) return null;
     const button = header.querySelector(".menu-toggle");
-    const nav = header.querySelector("#main-nav, #death-nav, #site-navigation");
+    const nav = header.querySelector("#main-nav, #death-nav, #site-navigation, #one-nav");
     return button && nav ? { header, button, nav } : null;
   };
 
