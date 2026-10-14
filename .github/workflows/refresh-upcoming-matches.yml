@@ -36,7 +36,19 @@ jobs:
         run: |
           python -m py_compile scripts/refresh_upcoming_matches.py
           node --check matches/match-centre.js
+          node --check matches/upcoming-matches.js
           node --check matches/details/match-details.js
+          python - <<'PY'
+          import importlib.util
+          spec = importlib.util.spec_from_file_location("refresh_upcoming_matches", "scripts/refresh_upcoming_matches.py")
+          module = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(module)
+          assert module.parse_time("") == "", "Missing time must remain unknown"
+          assert module.parse_time("TBC") == "", "Unparseable time must remain unknown"
+          assert module.parse_time("7:30 PM IST") == "19:30"
+          assert module.parse_time("19:30 IST") == "19:30"
+          print("Verified match-time parser does not invent defaults.")
+          PY
           python - <<'PY'
           import json
           from pathlib import Path
