@@ -103,7 +103,7 @@
       match: "4th T20I",
       opponent: "West Indies",
       venue: "Hyderabad",
-      time: "19:00",
+      time: "",
       source:
         "https://www.bcci.tv/webview/news/article/indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced",
       newsUrl:
