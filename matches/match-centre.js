@@ -171,8 +171,8 @@
               "</span><span>⌖ " +
               esc(f.venue || "Venue TBA") +
               "</span><span>" +
-              esc(f.time || "Time TBA") +
-              ' IST</span></div><div class="upcoming-match-actions"><a class="match-details-link" href="' +
+              (f.time ? esc(f.time) + " IST" : "Time TBA") +
+              '</span></div><div class="upcoming-match-actions"><a class="match-details-link" href="' +
               esc(detailUrl) +
               '">Full Match Details <span aria-hidden="true">↗</span></a><a class="upcoming-source-link" href="' +
               esc(link) +
