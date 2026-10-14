@@ -981,77 +981,6 @@
         color: #6de0f5;
         letter-spacing: 0.08em;
       }
-      .ball-log {
-        display: grid;
-        gap: 12px;
-      }
-      .ball-over-group {
-        padding: 13px;
-        border: 1px solid rgba(111, 160, 205, 0.2);
-        background: #081525;
-      }
-      .ball-over-title {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-bottom: 12px;
-        color: #eaf3ff;
-        font: 700 11px/1.6 var(--mono);
-      }
-      .ball-pills {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .ball-pill {
-        display: grid;
-        place-items: center;
-        gap: 4px;
-        width: 54px;
-        min-height: 58px;
-        padding: 7px 4px;
-        border: 1px solid #29425d;
-        border-radius: 8px;
-        background: #10243a;
-        color: #f4f8ff;
-        font: 800 16px/1 var(--display);
-      }
-      .ball-pill small {
-        color: #9bb0c8;
-        font: 9px var(--mono);
-      }
-      .ball-pill.boundary {
-        border-color: #ff9e36;
-        background: rgba(255, 158, 54, 0.13);
-        color: #ffb05a;
-      }
-      .ball-pill.six {
-        border-color: #65e0f1;
-        background: rgba(101, 224, 241, 0.12);
-        color: #7ce5f2;
-      }
-      .ball-pill.wicket {
-        border-color: #ff6a76;
-        background: rgba(255, 106, 118, 0.13);
-        color: #ff9ba4;
-      }
-      @media (max-width: 600px) {
-        .detail-heading {
-          align-items: start;
-        }
-        .over-breakdown {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-        .breakdown-card {
-          padding: 11px;
-        }
-        .ball-pill {
-          width: 46px;
-          min-height: 54px;
-        }
-      }
-
       /* Embedded Stats tab: render only the death-overs tool, not a second full website. */
       html.death-embed,
       html.death-embed body {
@@ -1858,15 +1787,18 @@
         }
       }
       @media (prefers-reduced-motion: reduce) {
-        .result-card,
-        .calculate-button,
-        .calculator-controls select,
-        .over-chip,
-        .over-breakdown > * {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
         }
         .result-card:hover,
         .over-breakdown > *:hover,
         .over-chip:hover {
+          transform: none !important;
         }
       }
 
@@ -2286,7 +2218,7 @@
             </div>
             <div class="refresh-item">
               <small>NEXT SCHEDULED REFRESH</small>
-              <strong id="next-refresh">12-hour cycle</strong>
+              <strong id="next-refresh">6-hour cycle</strong>
             </div>
           </div>
         </div>
@@ -2405,7 +2337,7 @@
       (() => {
         "use strict";
         const URL_DATA = "../data/death-overs.json",
-          REFRESH = 12 * 60 * 60 * 1000;
+          REFRESH = 6 * 60 * 60 * 1000;
         const fs = document.querySelector("#data-format"),
           year = document.querySelector("#year-filter"),
           first = document.querySelector("#first-over"),
@@ -2477,16 +2409,7 @@
           );
         }
         function unavailable(msg) {
-          [
-            "runs",
-            "balls",
-            "boundaries",
-            "sr",
-            "single-runs",
-            "single-balls",
-            "single-boundaries",
-            "single-sr",
-          ].forEach((id) => {
+          ["runs", "balls", "boundaries", "sr"].forEach((id) => {
             const el = document.getElementById(id);
             if (el) el.textContent = "—";
           });
@@ -2502,9 +2425,6 @@
           const overBox = document.getElementById("over-breakdown");
           if (overBox)
             overBox.innerHTML = '<div class="empty-state">No over totals available.</div>';
-          const ballBox = document.getElementById("ball-log");
-          if (ballBox)
-            ballBox.innerHTML = '<div class="empty-state">No ball-by-ball data available.</div>';
         }
         function calculate() {
           const d = data();
@@ -2664,7 +2584,7 @@
           );
           function tick() {
             if (!Number.isFinite(stamp)) {
-              document.getElementById("next-refresh").textContent = "Every 12 hours";
+              document.getElementById("next-refresh").textContent = "Every 6 hours";
               return;
             }
             const ms = Math.max(0, stamp + REFRESH - Date.now());
@@ -2798,7 +2718,7 @@
             unavailable("Could not load stats. Refresh the page or check the published data feed.");
             document.getElementById("feed-status").textContent = "FEED UNAVAILABLE";
             document.getElementById("last-refresh").textContent = "Not connected";
-            document.getElementById("next-refresh").textContent = "Every 12 hours";
+            document.getElementById("next-refresh").textContent = "Every 6 hours";
             console.error(e);
           }
         }
