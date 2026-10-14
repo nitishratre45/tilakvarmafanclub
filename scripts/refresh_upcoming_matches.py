@@ -74,20 +74,26 @@ def parse_date(value: str) -> str | None:
 
 
 def parse_time(value: str) -> str:
+    """Return a verified 24-hour time, or an empty string when it is unknown."""
     value = str(value or "").strip()
     if not value:
-        return "19:00"
+        return ""
     match = re.search(r"\b(\d{1,2})(?::(\d{2}))?\s*(AM|PM)\b", value, re.I)
+    if match:
+        hour, minute, meridiem = match.groups()
+        hour, minute = int(hour), int(minute or 0)
+        if hour < 1 or hour > 12 or minute > 59:
+            return ""
+        if meridiem.upper() == "PM" and hour != 12:
+            hour += 12
+        if meridiem.upper() == "AM" and hour == 12:
+            hour = 0
+        return f"{hour:02d}:{minute:02d}"
+    # Accept explicit 24-hour clock values only; never invent a default time.
+    match = re.search(r"(?<!\d)([01]?\d|2[0-3]):([0-5]\d)(?!\d)", value)
     if not match:
-        return "19:00"
-    hour, minute, meridiem = match.groups()
-    hour, minute = int(hour), int(minute or 0)
-    if meridiem.upper() == "PM" and hour != 12:
-        hour += 12
-    if meridiem.upper() == "AM" and hour == 12:
-        hour = 0
-    if hour > 23 or minute > 59:
-        return "19:00"
+        return ""
+    hour, minute = map(int, match.groups())
     return f"{hour:02d}:{minute:02d}"
 
 
