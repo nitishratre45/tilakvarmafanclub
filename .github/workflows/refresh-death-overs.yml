@@ -61,6 +61,48 @@ jobs:
                   "ERROR: zero Tilak innings found. Refusing to publish an empty dataset; "
                   "check archive availability and player-name matching."
               )
+
+          # Validate the new full-over delivery log without confusing the
+          # other batter's deliveries with Tilak's batting statistics.
+          checked_overs = 0
+          checked_deliveries = 0
+          for innings in data["innings"]:
+              for over in innings.get("overs", []):
+                  deliveries = over.get("deliveries", [])
+                  if not deliveries:
+                      continue
+                  if not any("tilak" in ball for ball in deliveries):
+                      raise SystemExit(
+                          f"ERROR: {innings.get('matchId')} over {over.get('over')} "
+                          "has deliveries but no batter identity flags."
+                      )
+                  tilak_balls = [ball for ball in deliveries if ball.get("tilak") is True]
+                  runs = sum(int(ball.get("batterRuns", 0) or 0) for ball in tilak_balls)
+                  balls = sum(1 for ball in tilak_balls if not ball.get("wide"))
+                  if runs != int(over.get("runs", 0) or 0):
+                      raise SystemExit(
+                          f"ERROR: Tilak runs mismatch in {innings.get('matchId')} "
+                          f"over {over.get('over')}: {runs} != {over.get('runs')}"
+                      )
+                  if balls != int(over.get("balls", 0) or 0):
+                      raise SystemExit(
+                          f"ERROR: Tilak balls mismatch in {innings.get('matchId')} "
+                          f"over {over.get('over')}: {balls} != {over.get('balls')}"
+                      )
+                  previous_sequence = 0
+                  for ball in deliveries:
+                      sequence = int(ball.get("ball", 0) or 0)
+                      if sequence <= previous_sequence:
+                          raise SystemExit(
+                              f"ERROR: non-increasing delivery sequence in "
+                              f"{innings.get('matchId')} over {over.get('over')}"
+                          )
+                      previous_sequence = sequence
+                      if ball.get("wide") and ball.get("legalBall") is not None:
+                          raise SystemExit("ERROR: a wide cannot increment the legal-ball number")
+                  checked_overs += 1
+                  checked_deliveries += len(deliveries)
+          print("Validated full-over delivery logs:", checked_overs, "overs;", checked_deliveries, "deliveries")
           PY
 
       - name: Commit refreshed stats
