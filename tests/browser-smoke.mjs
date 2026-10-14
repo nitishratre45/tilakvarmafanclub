@@ -25,6 +25,12 @@ check("dedicated Stats folder opens full Batting/Bowling/Explore page", async ()
   page.setDefaultTimeout(10000);
   const pageErrors = [];
   page.on("pageerror", error => pageErrors.push(error.stack || error.message));
+  page.on("console", message => {
+    if (message.type() === "error") {
+      const location = message.location();
+      pageErrors.push("console: " + message.text() + (location.url ? " @ " + location.url + ":" + location.lineNumber : ""));
+    }
+  });
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   await page.locator('#main-nav a[href="/stats/"]').click();
   await page.waitForURL(url => url.pathname === "/stats/");
@@ -331,6 +337,12 @@ check("One Over updates available overs when format changes", async () => {
   page.setDefaultTimeout(12000);
   const pageErrors = [];
   page.on("pageerror", error => pageErrors.push(error.stack || error.message));
+  page.on("console", message => {
+    if (message.type() === "error") {
+      const location = message.location();
+      pageErrors.push("console: " + message.text() + (location.url ? " @ " + location.url + ":" + location.lineNumber : ""));
+    }
+  });
   await page.goto(baseURL + "/death-overs/one-over/", { waitUntil: "domcontentloaded" });
   await page.waitForFunction(() => document.querySelector("#format-filter")?.options.length > 0 && document.querySelector("#over-filter")?.options.length > 0);
   const format = page.locator("#format-filter");
@@ -360,6 +372,12 @@ check("Death Overs All Overs filters and over-range calculator work", async () =
   page.setDefaultTimeout(12000);
   const pageErrors = [];
   page.on("pageerror", error => pageErrors.push(error.stack || error.message));
+  page.on("console", message => {
+    if (message.type() === "error") {
+      const location = message.location();
+      pageErrors.push("console: " + message.text() + (location.url ? " @ " + location.url + ":" + location.lineNumber : ""));
+    }
+  });
   await page.goto(baseURL + "/death-overs/", { waitUntil: "domcontentloaded" });
   await page.waitForFunction(() => document.querySelector("#feed-status")?.textContent === "STATS LOADED");
   const format = page.locator("#data-format");
