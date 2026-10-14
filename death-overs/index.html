@@ -2364,7 +2364,6 @@
           year = document.querySelector("#year-filter"),
           first = document.querySelector("#first-over"),
           last = document.querySelector("#last-over"),
-          singleOver = document.querySelector("#single-over"),
           button = document.querySelector("#calculate");
         let root = null,
           active = "t20i",
@@ -2399,19 +2398,15 @@
         function options(max = 20) {
           const a = Number(first.value) || (max === 20 ? 16 : Math.max(1, max - 4)),
             b = Number(last.value) || max;
-          const detailValue = Number(singleOver?.value) || max;
           first.replaceChildren();
           last.replaceChildren();
-          singleOver?.replaceChildren();
           for (let n = 1; n <= max; n++) {
             first.add(new Option(n, n));
             last.add(new Option(n, n));
-            singleOver?.add(new Option("OVER " + n, n));
           }
           first.value = Math.min(a, max);
           last.value = Math.min(b, max);
           if (+first.value > +last.value) last.value = first.value;
-          if (singleOver) singleOver.value = String(Math.min(detailValue, max));
         }
         function yearOptions() {
           const d = rawData(),
@@ -2525,26 +2520,6 @@
                 }) + " IST"
               : "TIME UNKNOWN");
         }
-        function renderSingleOver(d) {
-          const selectedOver = +(singleOver?.value || 1);
-          const totals = (d?.innings || [])
-            .flatMap((i) => i.overs || [])
-            .filter((o) => +o.over === selectedOver)
-            .reduce(
-              (s, o) => {
-                for (const k of ["runs", "balls", "fours", "sixes"]) s[k] += +(o[k] || 0);
-                return s;
-              },
-              { runs: 0, balls: 0, fours: 0, sixes: 0 },
-            );
-          document.getElementById("single-runs").textContent = fmt(totals.runs);
-          document.getElementById("single-balls").textContent = fmt(totals.balls);
-          document.getElementById("single-boundaries").textContent =
-            fmt(totals.fours) + " / " + fmt(totals.sixes);
-          document.getElementById("single-sr").textContent = totals.balls
-            ? ((totals.runs * 100) / totals.balls).toFixed(2)
-            : "—";
-        }
         function renderBreakdown(d, a, b) {
           const box = document.getElementById("over-breakdown");
           if (!d?.innings?.length) {
@@ -2582,79 +2557,6 @@
             .join("");
           document.getElementById("breakdown-summary").textContent =
             "Overs " + a + "–" + b + " · " + (year.value === "all" ? "all years" : year.value);
-        }
-        function renderBallLog(d) {
-          const box = document.getElementById("ball-log");
-          const selectedOver = +(singleOver?.value || last.value || 20);
-          const rows = (d?.innings || []).filter((i) =>
-            (i.overs || []).some(
-              (o) => +o.over === selectedOver && Array.isArray(o.deliveries) && o.deliveries.length,
-            ),
-          );
-          document.getElementById("ball-summary").textContent =
-            "Over " + selectedOver + " · " + rows.length + " innings";
-          if (!rows.length) {
-            box.innerHTML =
-              '<div class="empty-state">Ball-by-ball detail will appear after the next successful data refresh for this format. Existing over totals remain available above.</div>';
-            return;
-          }
-          box.innerHTML = rows
-            .slice(0, 80)
-            .map((innings) => {
-              const over = (innings.overs || []).find((o) => +o.over === selectedOver);
-              const balls = over?.deliveries || [];
-              return (
-                '<article class="ball-over-group"><div class="ball-over-title"><span>' +
-                esc(innings.date || "Date unavailable") +
-                " · " +
-                esc(innings.opposition || innings.teams || "Match") +
-                "</span><span>" +
-                fmt(over.runs) +
-                " runs · " +
-                fmt(over.balls) +
-                " balls · " +
-                fmt(over.fours) +
-                " fours · " +
-                fmt(over.sixes) +
-                ' sixes</span></div><div class="ball-pills">' +
-                balls
-                  .map((ball) => {
-                    const label = ball.wicket
-                      ? "W"
-                      : ball.six
-                        ? "6"
-                        : ball.four
-                          ? "4"
-                          : +(ball.batterRuns || 0) === 0
-                            ? "·"
-                            : String(ball.batterRuns);
-                    const cls = ball.wicket
-                      ? " wicket"
-                      : ball.six
-                        ? " six"
-                        : ball.four
-                          ? " boundary"
-                          : "";
-                    const note = ball.wide ? "WD" : ball.noBall ? "NB" : "B" + ball.ball;
-                    return (
-                      '<span class="ball-pill' +
-                      cls +
-                      '" title="Batter ' +
-                      fmt(ball.batterRuns) +
-                      " runs; total " +
-                      fmt(ball.totalRuns) +
-                      '"><span>' +
-                      label +
-                      "</span><small>" +
-                      note +
-                      "</small></span>"
-                    );
-                  })
-                  .join("") +
-                "</div></article>"
-              );
-            })
-            .join("");
         }
         function snapshot() {
           const d = data(),
@@ -2859,10 +2761,6 @@
           calculate();
         });
         button.addEventListener("click", calculate);
-        singleOver?.addEventListener("change", () => {
-          renderSingleOver(data());
-          renderBallLog(data());
-        });
         first.addEventListener("change", calculate);
         last.addEventListener("change", calculate);
         load();
@@ -2898,7 +2796,6 @@
               document.querySelector("main"),
               document.getElementById("matches"),
               document.getElementById("over-breakdown"),
-              document.getElementById("ball-log"),
             ]
               .filter(Boolean)
               .forEach((node) => observer.observe(node));
