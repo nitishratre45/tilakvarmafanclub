@@ -313,7 +313,7 @@ def main():
     )
     with urllib.request.urlopen(request, timeout=180) as response:
         archive = zipfile.ZipFile(io.BytesIO(response.read()))
-    rows, written, malformed = [], 0, 0
+    rows, written, malformed, removed_stale = [], 0, 0, 0
     for source_file in archive.namelist():
         if not source_file.lower().endswith(".json"):
             continue
@@ -357,6 +357,7 @@ def main():
     for old_file in DATA.glob("*.json"):
         if old_file.name not in keep_files:
             old_file.unlink()
+            removed_stale += 1
     index = {
         "schemaVersion": 1,
         "player": PLAYER,
@@ -373,7 +374,7 @@ def main():
         json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(
-        f"Archive files: {len(archive.namelist())}; scorecards written: {written}; indexed matches: {len(rows)}; malformed files skipped: {malformed}"
+        f"Archive files: {len(archive.namelist())}; scorecards written: {written}; indexed matches: {len(rows)}; stale files removed: {removed_stale}; malformed files skipped: {malformed}"
     )
     if not rows:
         print(
