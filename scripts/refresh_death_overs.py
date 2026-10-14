@@ -144,37 +144,53 @@ def parse_match(data, filename, key, totals, all_male_fallback=False):
         )
         for od in inn.get("overs", []):
             number = int(od.get("over", -1)) + 1
-            for d in od.get("deliveries", []):
-                if not target(d.get("batter", d.get("batsman", ""))):
-                    continue
-                s = byover[number]
+            legal_ball_number = 0
+            for sequence, d in enumerate(od.get("deliveries", []), 1):
+                batter_name = str(d.get("batter", d.get("batsman", "")))
+                is_tilak = target(batter_name)
                 rd = d.get("runs", {})
                 br = int(rd.get("batter", rd.get("batsman", 0)) or 0)
                 ex = d.get("extras", {}) or {}
-                s["runs"] += br
-                if not int(ex.get("wides", 0) or 0):
-                    s["balls"] += 1
-                if br == 4:
-                    s["fours"] += 1
-                elif br == 6:
-                    s["sixes"] += 1
-                # Keep real delivery events for the ball-by-ball UI.
+                wide = bool(int(ex.get("wides", 0) or 0))
+                no_ball = bool(int(ex.get("noballs", 0) or 0))
+                if not wide:
+                    legal_ball_number += 1
                 dismissed = any(
                     target(w.get("player_out", "")) for w in (d.get("wickets") or [])
                 )
+                # Only Tilak's batting events contribute to his statistics.
+                # Keep the full source over sequence for the delivery log.
+                s = byover[number]
+                if is_tilak:
+                    s["runs"] += br
+                    if not wide:
+                        s["balls"] += 1
+                    if br == 4:
+                        s["fours"] += 1
+                    elif br == 6:
+                        s["sixes"] += 1
                 s["deliveries"].append(
                     {
-                        "ball": len(s["deliveries"]) + 1,
+                        "ball": sequence,
+                        "legalBall": legal_ball_number if not wide and not no_ball else None,
+                        "batter": batter_name,
+                        "tilak": is_tilak,
                         "batterRuns": br,
                         "totalRuns": int(rd.get("total", br) or 0),
                         "extras": sum(int(x or 0) for x in ex.values()),
                         "four": br == 4,
                         "six": br == 6,
                         "wicket": dismissed,
-                        "wide": bool(int(ex.get("wides", 0) or 0)),
-                        "noBall": bool(int(ex.get("noballs", 0) or 0)),
+                        "wide": wide,
+                        "noBall": no_ball,
                     }
                 )
+        # Don't expose an over as a Tilak innings unless he actually faced a delivery in it.
+        byover = {
+            number: value
+            for number, value in byover.items()
+            if any(delivery.get("tilak") for delivery in value["deliveries"])
+        }
         if not byover:
             continue
         opposition = next((t for t in teams if t != team), "Unknown")
