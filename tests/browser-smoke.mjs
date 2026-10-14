@@ -350,7 +350,7 @@ check("One Over updates available overs when format changes", async () => {
   const downloadPromise = page.waitForEvent("download");
   await page.locator("#export-over-csv").click();
   const download = await downloadPromise;
-  assert.match(download.suggestedFilename(), /^tilak-over-.*\\.csv$/, "CSV export should download a named CSV file");
+  assert.match(download.suggestedFilename(), /^tilak-over-.*\.csv$/, "CSV export should download a named CSV file");
   assert.deepEqual(pageErrors, [], "One Over should not throw uncaught browser errors: " + pageErrors.join(" | "));
   await page.close();
 });
