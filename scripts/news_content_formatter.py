@@ -44,6 +44,14 @@ ROW_NO_RE = re.compile(r"\d{1,2}")
 ROW_DATE_RE = re.compile(r"\d{1,2}[- /][A-Za-z0-9]{2,}|\d{4}")
 CHROME_RE = re.compile(r"^[^.]{0,180}Press Releases\s+")
 SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])\s+(?=[A-Z“‘])")
+# BCCI frequently places editorial labels in the middle of flattened page text.
+# Split them into real heading blocks before sentence-level formatting.
+INLINE_HEADING_RE = re.compile(
+    r"\s+(?=(?:India(?:’s|'s)?\s+(?:T20I\s+)?squad:|India A squad:|"
+    r"T20I squad:|ODI squad:|Test squad:|Playing XI:|Squad:|Fixtures:|"
+    r"Schedule:|Match officials:|Key dates:))",
+    re.I,
+)
 
 
 # --------------------------------------------------------------------------- #
@@ -99,12 +107,23 @@ def prose_blocks(value: str, strip_chrome: bool = False) -> list[dict]:
         # Page chrome / repeated headline ahead of the real body.
         value = CHROME_RE.sub("", value).strip()
     out: list[dict] = []
-    for part in SENTENCE_SPLIT_RE.split(value):
-        part = part.strip(" |")
-        if not part:
+    # Add a boundary before known editorial labels that can be concatenated
+    # directly to the preceding sentence by the source page's text extractor.
+    value = INLINE_HEADING_RE.sub("\\n", value)
+    for chunk in value.splitlines():
+        chunk = chunk.strip(" |")
+        if not chunk:
             continue
-        is_heading = len(part) < 100 and (part.endswith(":") or part.isupper())
-        out.append({"type": "heading" if is_heading else "text", "text": part})
+        for part in SENTENCE_SPLIT_RE.split(chunk):
+            part = part.strip(" |")
+            if not part:
+                continue
+            is_heading = len(part) < 100 and (
+                part.endswith(":")
+                or part.isupper()
+                or bool(re.fullmatch(r"(?:India(?:’s|'s)?\s+)?(?:T20I|ODI|Test)?\s*(?:squad|fixtures|schedule|playing XI|match officials|key dates)", part, re.I))
+            )
+            out.append({"type": "heading" if is_heading else "text", "text": part})
     return out
 
 
