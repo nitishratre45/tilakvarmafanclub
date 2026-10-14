@@ -9159,3 +9159,9 @@ body > .cs-overlay .cs-kicker {
     flex: 1 1 145px;
   }
 }
+
+/* Split All Overs and One Over navigation. */
+.analyser-actions{display:flex;align-items:stretch;justify-content:flex-end;gap:12px;max-width:min(52%,560px)}
+.analyser-actions .coverage-summary-line{min-width:0}
+.one-over-link{flex:0 0 auto;align-self:center;white-space:nowrap}
+@media(max-width:760px){.analyser-actions{width:100%;max-width:none;flex-direction:column}.one-over-link{width:100%}}
