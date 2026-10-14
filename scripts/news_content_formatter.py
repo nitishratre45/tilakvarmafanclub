@@ -109,7 +109,7 @@ def prose_blocks(value: str, strip_chrome: bool = False) -> list[dict]:
     out: list[dict] = []
     # Add a boundary before known editorial labels that can be concatenated
     # directly to the preceding sentence by the source page's text extractor.
-    value = INLINE_HEADING_RE.sub("\\n", value)
+    value = INLINE_HEADING_RE.sub("\n", value)
     for chunk in value.splitlines():
         chunk = chunk.strip(" |")
         if not chunk:
