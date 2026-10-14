@@ -242,29 +242,90 @@
 
     <style id="one-over-mobile-layout-fix">
       /* Stable card hierarchy on phones; keep delivery order in a single scrollable row. */
-      html { scroll-padding-top: 12px; }
-      body { min-width: 0; padding-bottom: max(32px, env(safe-area-inset-bottom)); }
-      .one-page, .one-head, .one-section, .innings-grid, .one-innings { min-width: 0; }
-      .one-innings { overflow: hidden; }
-      .innings-meta { overflow-wrap: anywhere; }
+      html {
+        scroll-padding-top: 12px;
+      }
+      body {
+        min-width: 0;
+        padding-bottom: max(32px, env(safe-area-inset-bottom));
+      }
+      .one-page,
+      .one-head,
+      .one-section,
+      .innings-grid,
+      .one-innings {
+        min-width: 0;
+      }
+      .one-innings {
+        overflow: hidden;
+      }
+      .innings-meta {
+        overflow-wrap: anywhere;
+      }
       @media (max-width: 600px) {
-        .one-page { padding: 22px 14px max(44px, env(safe-area-inset-bottom)) !important; }
-        .one-head { align-items: flex-start; gap: 10px; margin-bottom: 18px; }
-        .one-head h1 { font-size: clamp(34px, 10vw, 48px); line-height: 1.02; }
-        .one-stats { gap: 8px; }
-        .one-stat { padding: 12px !important; min-width: 0; }
-        .one-stat small { line-height: 1.45; }
-        .one-innings { padding: 16px !important; }
-        .innings-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
-        .innings-top > div:first-child { min-width: 0; }
-        .innings-total { text-align: left !important; line-height: 1.55; }
-        .ball-pills { flex-wrap: nowrap !important; overflow-x: auto; overflow-y: hidden; max-width: 100%; padding: 2px 1px 8px; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
-        .ball-pill { flex: 0 0 68px; min-width: 68px !important; min-height: 68px; }
-        .ball-pill small { white-space: nowrap; }
-        .filter-panel { padding: 14px !important; }
+        .one-page {
+          padding: 22px 14px max(44px, env(safe-area-inset-bottom)) !important;
+        }
+        .one-head {
+          align-items: flex-start;
+          gap: 10px;
+          margin-bottom: 18px;
+        }
+        .one-head h1 {
+          font-size: clamp(34px, 10vw, 48px);
+          line-height: 1.02;
+        }
+        .one-stats {
+          gap: 8px;
+        }
+        .one-stat {
+          padding: 12px !important;
+          min-width: 0;
+        }
+        .one-stat small {
+          line-height: 1.45;
+        }
+        .one-innings {
+          padding: 16px !important;
+        }
+        .innings-top {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr);
+          gap: 10px;
+        }
+        .innings-top > div:first-child {
+          min-width: 0;
+        }
+        .innings-total {
+          text-align: left !important;
+          line-height: 1.55;
+        }
+        .ball-pills {
+          flex-wrap: nowrap !important;
+          overflow-x: auto;
+          overflow-y: hidden;
+          max-width: 100%;
+          padding: 2px 1px 8px;
+          overscroll-behavior-x: contain;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: thin;
+        }
+        .ball-pill {
+          flex: 0 0 68px;
+          min-width: 68px !important;
+          min-height: 68px;
+        }
+        .ball-pill small {
+          white-space: nowrap;
+        }
+        .filter-panel {
+          padding: 14px !important;
+        }
       }
       @media (prefers-reduced-motion: reduce) {
-        .ball-pills { scroll-behavior: auto !important; }
+        .ball-pills {
+          scroll-behavior: auto !important;
+        }
       }
     </style>
   </head>
