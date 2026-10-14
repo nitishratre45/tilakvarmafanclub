@@ -829,3 +829,27 @@ footer {
     font-size: clamp(40px, 10.8vw, 52px) !important;
   }
 }
+
+
+/* Compact Data Snapshot on mobile */
+@media(max-width:800px){
+  .stats-section .section-head{gap:10px!important;margin-bottom:18px!important}
+  .stats-section .section-title{font-size:clamp(25px,6vw,34px)!important;line-height:1.02!important}
+  .stats-section .section-copy{font-size:12px!important;line-height:1.6!important;margin-top:4px!important}
+  .snapshot-grid{gap:9px!important}
+  .snapshot-card{padding:14px!important;border-radius:15px!important;min-height:0!important}
+  .snapshot-card small{font-size:9px!important;letter-spacing:.08em!important}
+  .snapshot-card strong{font-size:clamp(28px,7vw,36px)!important;margin:11px 0 6px!important;line-height:1!important}
+  .snapshot-card span{font-size:11px!important;line-height:1.45!important}
+}
+@media(max-width:420px){
+  .stats-section .page-shell{width:calc(100% - 36px)!important}
+  .stats-section .section-head{margin-bottom:15px!important}
+  .stats-section .section-title{font-size:27px!important}
+  .stats-section .section-copy{font-size:11px!important}
+  .snapshot-grid{gap:8px!important}
+  .snapshot-card{padding:12px!important;border-radius:14px!important}
+  .snapshot-card small{font-size:8px!important;letter-spacing:.055em!important}
+  .snapshot-card strong{font-size:29px!important;margin:10px 0 5px!important}
+  .snapshot-card span{font-size:10px!important;line-height:1.4!important}
+}
