@@ -17,7 +17,6 @@ from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
 NEWS_FILE = ROOT / "News" / "newsjson.json"
-JS_FILE = ROOT / "matches" / "upcoming-matches.js"
 REPORT_FILE = ROOT / "matches" / "upcoming-fixtures-refresh.json"
 MONTHS = {
     "jan": 1,
@@ -33,7 +32,13 @@ MONTHS = {
     "nov": 11,
     "dec": 12,
 }
-SERIES = ("West Indies", "New Zealand")
+OPPONENTS = (
+    "Afghanistan", "Australia", "Bangladesh", "England", "Ireland",
+    "New Zealand", "Pakistan", "South Africa", "Sri Lanka", "West Indies",
+    "Zimbabwe", "Nepal", "Netherlands", "Scotland", "Namibia", "Canada",
+    "United States", "United Arab Emirates", "Oman", "Hong Kong", "Uganda",
+    "Kenya", "Papua New Guinea", "Japan"
+)
 
 
 def parse_date(value: str) -> str | None:
@@ -92,11 +97,13 @@ def article_fixtures(article: dict) -> list[dict]:
     if not url.startswith("https://www.bcci.tv/"):
         return []
 
+    # Resolve the opponent from the official BCCI announcement title/body.
+    # Never infer a team from a URL slug or an unrelated article.
     opponent = next(
         (
             name
-            for name in SERIES
-            if re.search(re.escape(name), title + " " + text, re.I)
+            for name in OPPONENTS
+            if re.search(r"\b" + re.escape(name) + r"\b", title + " " + text, re.I)
         ),
         None,
     )
@@ -268,13 +275,7 @@ def render_fixture(fixture: dict) -> str:
 def main() -> None:
     if not NEWS_FILE.exists():
         raise SystemExit("News/newsjson.json is missing; refusing to change fixtures.")
-    if not JS_FILE.exists():
-        raise SystemExit(
-            "matches/upcoming-matches.js is missing; refusing to create a replacement."
-        )
-
     news = json.loads(NEWS_FILE.read_text(encoding="utf-8"))
-    existing_js = JS_FILE.read_text(encoding="utf-8")
     if not isinstance(news, dict) or not isinstance(news.get("news"), list):
         raise SystemExit(
             "News JSON has an unexpected structure; existing fixtures preserved."
@@ -295,29 +296,23 @@ def main() -> None:
     today = datetime.now().date().isoformat()
     fixtures = [fixture for fixture in fixtures if fixture["date"] >= today]
 
-    status = "updated-from-news-json" if fixtures else "no-verified-fixtures-preserved"
-    changed = False
-    if fixtures:
-        replacement = (
-            "  const fixtures = [\n"
-            + ",\n".join(render_fixture(f) for f in fixtures)
-            + "\n  ];"
-        )
-        updated_js, count = re.subn(
-            r"  const fixtures = \[.*?\n  \];",
-            lambda _: replacement,
-            existing_js,
-            count=1,
-            flags=re.S,
-        )
-        if count != 1:
-            raise SystemExit(
-                "Could not safely locate fixtures array; no files changed."
-            )
-        changed = updated_js != existing_js
-        if changed:
-            JS_FILE.write_text(updated_js, encoding="utf-8")
-
+    previous_report = {}
+    if REPORT_FILE.exists():
+        try:
+            previous_report = json.loads(REPORT_FILE.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            previous_report = {}
+    # Match Centre reads this JSON snapshot directly. Preserve prior future
+    # fixtures if the source is stale or no safe schedule rows can be extracted.
+    if not fixtures:
+        fixtures = [
+            row for row in previous_report.get("fixtures", [])
+            if isinstance(row, dict) and str(row.get("date", "")) >= today
+        ]
+        status = "no-new-verified-fixtures-preserved"
+    else:
+        status = "updated-from-news-json"
+    changed = fixtures != previous_report.get("fixtures", [])
     report = {
         "source": "News/newsjson.json (BCCI News API pipeline)",
         "newsUpdatedAt": news.get("updatedAt"),
@@ -325,18 +320,18 @@ def main() -> None:
         "status": status,
         "fixtureCount": len(fixtures),
         "fixtures": fixtures,
-        "publicJsChanged": changed,
+        "publicJsChanged": False,
         "note": (
-            "Fixtures were extracted only from squad announcement articles that name Tilak Varma and include explicit T20I fixture tables."
-            if fixtures
-            else "No safe future fixtures could be extracted from News/newsjson.json; the existing public fixture list was preserved."
+            "Live Match Centre reads this canonical JSON snapshot directly. Fixtures are extracted only from official BCCI squad announcements naming Tilak Varma and explicit schedule tables."
+            if status == "updated-from-news-json"
+            else "No new verified future fixtures could be extracted; prior future fixtures were preserved."
         ),
     }
     REPORT_FILE.write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(
-        f"Upcoming fixtures refresh: {status}; fixtures={len(fixtures)}; JS changed={changed}"
+        f"Upcoming fixtures refresh: {status}; fixtures={len(fixtures)}; snapshot changed={changed}"
     )
 
 
