@@ -286,6 +286,7 @@
           </p>
         </div>
         <div class="one-actions">
+          <button class="button outline" id="export-over-csv" type="button">Export CSV ↓</button>
           <a class="button outline" href="/death-overs/">← All overs</a>
         </div>
       </div>
@@ -493,6 +494,41 @@
               (root?.updatedAt || "timestamp unavailable"),
           );
         }
+        document.getElementById("export-over-csv").addEventListener("click", () => {
+          const source = activeData();
+          const selectedYear = year.value || "all";
+          const selectedOver = Number(over.value || 16);
+          const rows = (source?.innings || []).filter(row =>
+            (selectedYear === "all" || String(row.date || "").slice(0, 4) === selectedYear) &&
+            (row.overs || []).some(item => Number(item.over) === selectedOver),
+          );
+          const csvCell = value => '"' + String(value ?? "").replace(/"/g, '""') + '"';
+          const output = [["Date", "Format", "Over", "Teams", "Opposition", "Venue", "Innings", "Tilak Runs", "Tilak Balls Faced", "Fours", "Sixes", "Strike Rate", "Delivery Sequence", "Batter", "Batter Runs", "Total Runs", "Extras", "Wicket", "Wide", "No Ball"]];
+          for (const row of rows) {
+            const item = (row.overs || []).find(entry => Number(entry.over) === selectedOver);
+            const deliveries = Array.isArray(item?.deliveries) ? item.deliveries : [];
+            if (!deliveries.length) {
+              output.push([row.date, format.value, selectedOver, row.teams, row.opposition, row.venue, row.innings, item?.runs, item?.balls, item?.fours, item?.sixes, item?.strikeRate, "", "", "", "", "", "", "", ""]);
+              continue;
+            }
+            for (const ball of deliveries) output.push([
+              row.date, format.value, selectedOver, row.teams, row.opposition, row.venue, row.innings,
+              item.runs, item.balls, item.fours, item.sixes, item.strikeRate,
+              ball.ball, ball.batter, ball.batterRuns, ball.totalRuns, ball.extras,
+              ball.wicket ? "Yes" : "No", ball.wide ? "Yes" : "No", ball.noBall ? "Yes" : "No",
+            ]);
+          }
+          const csv = "\uFEFF" + output.map(row => row.map(csvCell).join(",")).join("\r\n");
+          const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "tilak-over-" + selectedOver + "-" + format.value + "-" + selectedYear + ".csv";
+          document.body.append(link);
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(url);
+          setStatus("CSV exported · " + rows.length + " innings · Over " + selectedOver);
+        });
         format.addEventListener("change", () => {
           fillYears();
           rebuildOvers();
