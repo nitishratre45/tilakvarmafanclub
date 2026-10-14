@@ -523,8 +523,15 @@
             .map((row) => {
               const item = (row.overs || []).find((entry) => Number(entry.over) === chosenOver);
               const deliveries = Array.isArray(item.deliveries) ? item.deliveries : [];
-              const pills = deliveries.length
-                ? deliveries
+              // One Over is Tilak's batting log only: hide deliveries faced by any other batter.
+              // Support current identity flags and older snapshots that store the batter name.
+              const tilakDeliveries = deliveries.filter(
+                (ball) =>
+                  ball?.tilak === true ||
+                  (ball?.tilak == null && /\\btilak(?:\\s+varma)?\\b/i.test(String(ball?.batter || ""))),
+              );
+              const pills = tilakDeliveries.length
+                ? tilakDeliveries
                     .map((ball) => {
                       const label = ball.wicket
                         ? "W"
@@ -536,7 +543,6 @@
                               ? "·"
                               : String(ball.batterRuns);
                       const cls =
-                        (ball.tilak === false ? " other-batter" : "") +
                         (ball.wicket
                           ? " wicket"
                           : ball.six
@@ -545,8 +551,7 @@
                               ? " boundary"
                               : "");
                       const note = ball.wide ? "WD" : ball.noBall ? "NB" : "B" + (ball.ball ?? "?");
-                      const batterLabel =
-                        ball.tilak === false ? esc(ball.batter || "Other batter") : "Tilak";
+                      const batterLabel = "Tilak";
                       return (
                         '<span class="ball-pill' +
                         cls +
