@@ -44,29 +44,56 @@
   let activeCategory = "all";
   let searchQuery = "";
   const categoryDefinitions = [
-    { id: "team", label: "Team & Squad", test: /squad|team|selection|selected|captain|vice captain|replacement|injury|tour|call.?up|named|announced/i },
-    { id: "match", label: "Match Reports", test: /match|innings|runs|score|centur|fifty|wicket|series|t20i|odi|test|final|semi.?final|performance/i },
-    { id: "interview", label: "Interviews", test: /interview|press conference|said|statement|speaks|reveals|conversation|quote/i },
-    { id: "records", label: "Records & Milestones", test: /record|milestone|rank|ranking|highest|fastest|achievement|landmark/i },
-    { id: "tournament", label: "Tournament News", test: /tournament|world cup|asian games|ipl|premier league|championship|new zealand|australia|england|west indies|sri lanka/i },
+    {
+      id: "team",
+      label: "Team & Squad",
+      test: /squad|team|selection|selected|captain|vice captain|replacement|injury|tour|call.?up|named|announced/i,
+    },
+    {
+      id: "match",
+      label: "Match Reports",
+      test: /match|innings|runs|score|centur|fifty|wicket|series|t20i|odi|test|final|semi.?final|performance/i,
+    },
+    {
+      id: "interview",
+      label: "Interviews",
+      test: /interview|press conference|said|statement|speaks|reveals|conversation|quote/i,
+    },
+    {
+      id: "records",
+      label: "Records & Milestones",
+      test: /record|milestone|rank|ranking|highest|fastest|achievement|landmark/i,
+    },
+    {
+      id: "tournament",
+      label: "Tournament News",
+      test: /tournament|world cup|asian games|ipl|premier league|championship|new zealand|australia|england|west indies|sri lanka/i,
+    },
   ];
 
   const categoryOf = (item) => {
     const content = [item.title, item.description, item.pageTitle, item.pageText, item.fullText]
-      .map(plainText).join(" ");
+      .map(plainText)
+      .join(" ");
     for (const category of categoryDefinitions) {
       if (category.test.test(content)) return category.id;
     }
     return "latest";
   };
 
-  const filteredItems = () => allItems.filter((item) => {
-    const categoryMatch = activeCategory === "all" || categoryOf(item) === activeCategory;
-    const query = searchQuery.trim().toLocaleLowerCase();
-    const searchMatch = !query || [item.title, item.description, item.pageText, item.fullText]
-      .map(plainText).join(" ").toLocaleLowerCase().includes(query);
-    return categoryMatch && searchMatch;
-  });
+  const filteredItems = () =>
+    allItems.filter((item) => {
+      const categoryMatch = activeCategory === "all" || categoryOf(item) === activeCategory;
+      const query = searchQuery.trim().toLocaleLowerCase();
+      const searchMatch =
+        !query ||
+        [item.title, item.description, item.pageText, item.fullText]
+          .map(plainText)
+          .join(" ")
+          .toLocaleLowerCase()
+          .includes(query);
+      return categoryMatch && searchMatch;
+    });
 
   const renderTools = () => {
     if (!tools) return;
@@ -84,9 +111,16 @@
     });
     tools.appendChild(search);
 
-    const categories = [{ id: "all", label: "All news" }, ...categoryDefinitions.filter((category) => allItems.some((item) => categoryOf(item) === category.id)), { id: "latest", label: "Other updates" }];
+    const categories = [
+      { id: "all", label: "All news" },
+      ...categoryDefinitions.filter((category) =>
+        allItems.some((item) => categoryOf(item) === category.id),
+      ),
+      { id: "latest", label: "Other updates" },
+    ];
     categories.forEach((category) => {
-      if (category.id === "latest" && !allItems.some((item) => categoryOf(item) === "latest")) return;
+      if (category.id === "latest" && !allItems.some((item) => categoryOf(item) === "latest"))
+        return;
       const button = document.createElement("button");
       button.type = "button";
       button.className = "tv-news-filter" + (activeCategory === category.id ? " is-active" : "");
@@ -98,7 +132,10 @@
         renderTools();
         render();
         const replacement = tools.querySelector(".tv-news-search");
-        if (replacement) { replacement.focus(); replacement.setSelectionRange(searchQuery.length, searchQuery.length); }
+        if (replacement) {
+          replacement.focus();
+          replacement.setSelectionRange(searchQuery.length, searchQuery.length);
+        }
       });
       tools.appendChild(button);
     });
@@ -202,7 +239,9 @@
     if (!shown.length) {
       showEmpty(
         "No Tilak Varma stories found",
-        searchQuery || activeCategory !== "all" ? "Try another search or choose All news to see more saved stories." : "The section will update when the official news scan saves relevant articles.",
+        searchQuery || activeCategory !== "all"
+          ? "Try another search or choose All news to see more saved stories."
+          : "The section will update when the official news scan saves relevant articles.",
       );
       count.textContent = "0 STORIES";
       more.hidden = true;

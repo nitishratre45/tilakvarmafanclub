@@ -305,7 +305,6 @@
   }
 }
 
-
 /* Search and topic filters for the official-news archive. */
 .tv-news-tools {
   display: flex;
@@ -323,10 +322,14 @@
   border-radius: 9px;
   background: #0d1a2c;
   color: #f4f7fb;
-  font: 500 13px "Manrope", sans-serif;
+  font:
+    500 13px "Manrope",
+    sans-serif;
   outline: none;
 }
-.tv-news-search::placeholder { color: #91a0b6; }
+.tv-news-search::placeholder {
+  color: #91a0b6;
+}
 .tv-news-search:focus-visible {
   border-color: #7ce5f2;
   box-shadow: 0 0 0 3px #7ce5f222;
@@ -338,9 +341,14 @@
   border-radius: 999px;
   background: #102139;
   color: #c2cede;
-  font: 700 11px "Manrope", sans-serif;
+  font:
+    700 11px "Manrope",
+    sans-serif;
   cursor: pointer;
-  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
 }
 .tv-news-filter:hover,
 .tv-news-filter.is-active {
@@ -353,10 +361,21 @@
   outline-offset: 3px;
 }
 @media (max-width: 520px) {
-  .tv-news-tools { gap: 8px; margin-bottom: 16px; }
-  .tv-news-search { flex-basis: 100%; }
-  .tv-news-filter { min-height: 40px; padding: 9px 11px; font-size: 10px; }
+  .tv-news-tools {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .tv-news-search {
+    flex-basis: 100%;
+  }
+  .tv-news-filter {
+    min-height: 40px;
+    padding: 9px 11px;
+    font-size: 10px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .tv-news-filter { transition: none; }
+  .tv-news-filter {
+    transition: none;
+  }
 }
