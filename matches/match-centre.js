@@ -113,9 +113,21 @@
       const payload = await response.json();
       const fixtures = (Array.isArray(payload.fixtures) ? payload.fixtures : [])
         .filter((f) => {
-          const start = Date.parse(
-            String(f.date || "") + "T" + String(f.time || "19:00") + ":00+05:30",
-          );
+          const date = String(f.date || "");
+          const time = String(f.time || "").trim();
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
+          // If the source has no verified time, keep today's fixture visible
+          // for the whole local date rather than expiring it at an invented hour.
+          if (!time) {
+            const today = new Intl.DateTimeFormat("en-CA", {
+              timeZone: "Asia/Kolkata",
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            }).format(new Date());
+            return date >= today;
+          }
+          const start = Date.parse(date + "T" + time + ":00+05:30");
           return Number.isFinite(start) && start + 4 * 60 * 60 * 1000 > Date.now();
         })
         .sort((a, b) => String(a.date).localeCompare(String(b.date)));
