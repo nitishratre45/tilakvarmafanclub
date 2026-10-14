@@ -606,56 +606,90 @@
           const source = activeData();
           const selectedYear = year.value || "all";
           const selectedOver = Number(over.value || 16);
+          // Keep CSV in sync with the One Over screen: Tilak's batting deliveries only.
           const rows = (source?.innings || []).filter(
             (row) =>
               (selectedYear === "all" || String(row.date || "").slice(0, 4) === selectedYear) &&
-              (row.overs || []).some((entry) => Number(entry.over) === selectedOver),
+              (row.overs || []).some((item) => Number(item.over) === selectedOver),
           );
           const csvCell = (value) => '"' + String(value ?? "").replace(/"/g, '""') + '"';
-          const output = [[
-            "Date", "Format", "Over", "Teams", "Opposition", "Venue", "Innings",
-            "Tilak Runs", "Tilak Balls Faced", "Fours", "Sixes", "Strike Rate",
-            "Delivery Sequence", "Legal Ball", "Batter", "Batter Runs", "Total Runs",
-            "Extras", "Wicket", "Wide", "No Ball",
-          ]];
+          const output = [
+            [
+              "Date",
+              "Format",
+              "Over",
+              "Teams",
+              "Opposition",
+              "Venue",
+              "Innings",
+              "Tilak Runs",
+              "Tilak Balls Faced",
+              "Fours",
+              "Sixes",
+              "Strike Rate",
+              "Tilak Delivery Number",
+              "Legal Ball",
+              "Batter",
+              "Batter Runs",
+              "Total Runs",
+              "Extras",
+              "Wicket",
+              "Wide",
+              "No Ball",
+            ],
+          ];
+          let exportedDeliveries = 0;
           for (const row of rows) {
             const item = (row.overs || []).find((entry) => Number(entry.over) === selectedOver);
             const deliveries = Array.isArray(item?.deliveries) ? item.deliveries : [];
-            // Export only balls faced by Tilak, matching the One Over screen.
             const tilakDeliveries = deliveries.filter(
               (ball) =>
                 ball?.tilak === true ||
-                (ball?.tilak == null && /\\btilak(?:\\s+varma)?\\b/i.test(String(ball?.batter || ""))),
+                (ball?.tilak == null &&
+                  /\\btilak(?:\\s+varma)?\\b/i.test(String(ball?.batter || ""))),
             );
-            if (!tilakDeliveries.length) {
-              // Keep verified over summary even if delivery-level batter identity is unavailable.
-              output.push([
-                row.date, format.value, selectedOver, row.teams, row.opposition, row.venue,
-                row.innings, item?.runs, item?.balls, item?.fours, item?.sixes, item?.strikeRate,
-                "", "", "", "", "", "", "", "", "",
-              ]);
-              continue;
-            }
+            if (!tilakDeliveries.length) continue;
             for (const ball of tilakDeliveries) {
               output.push([
-                row.date, format.value, selectedOver, row.teams, row.opposition, row.venue,
-                row.innings, item.runs, item.balls, item.fours, item.sixes, item.strikeRate,
-                ball.ball, ball.legalBall ?? "", ball.batter || "Tilak Varma", ball.batterRuns,
-                ball.totalRuns, ball.extras, ball.wicket ? "Yes" : "No",
-                ball.wide ? "Yes" : "No", ball.noBall ? "Yes" : "No",
+                row.date,
+                format.value,
+                selectedOver,
+                row.teams,
+                row.opposition,
+                row.venue,
+                row.innings,
+                item.runs,
+                item.balls,
+                item.fours,
+                item.sixes,
+                item.strikeRate ??
+                  (item.balls ? ((Number(item.runs || 0) * 100) / Number(item.balls)).toFixed(2) : ""),
+                ball.ball,
+                ball.legalBall ?? "",
+                "Tilak Varma",
+                ball.batterRuns,
+                ball.totalRuns,
+                ball.extras,
+                ball.wicket ? "Yes" : "No",
+                ball.wide ? "Yes" : "No",
+                ball.noBall ? "Yes" : "No",
               ]);
+              exportedDeliveries++;
             }
           }
-          const csv = "\uFEFF" + output.map((row) => row.map(csvCell).join(",")).join("\r\n");
+          const csv = "\\uFEFF" + output.map((row) => row.map(csvCell).join(",")).join("\\r\\n");
           const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
           const link = document.createElement("a");
           link.href = url;
-          link.download = "tilak-over-" + selectedOver + "-" + format.value + "-" + selectedYear + ".csv";
+          link.download =
+            "tilak-over-" + selectedOver + "-" + format.value + "-" + selectedYear + ".csv";
           document.body.append(link);
           link.click();
           link.remove();
           window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-          setStatus("CSV exported · " + rows.length + " innings · Over " + selectedOver);
+          setStatus(
+            "CSV exported · " + exportedDeliveries + " Tilak deliveries · Over " + selectedOver,
+          );
         });
         format.addEventListener("change", () => {
           fillYears();
