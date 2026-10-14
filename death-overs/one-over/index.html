@@ -225,6 +225,9 @@
           transition: none !important;
         }
       }
+    
+      .one-page{padding-top:clamp(20px,3vw,38px)!important}
+      @media(max-width:800px){.one-page{padding-top:22px!important}}
     </style>
   </head>
   <body>
@@ -254,6 +257,10 @@
         ><a href="/photos/">Photos</a><a href="/videos/">Videos</a>
       </nav>
     </header>
+    <nav class="death-view-switch" aria-label="Death overs views">
+      <a class="death-view-link" href="/death-overs/"><span>01</span><strong>ALL OVERS</strong><small>Complete over-range analysis</small></a>
+      <a class="death-view-link is-active" href="/death-overs/one-over/" aria-current="page"><span>02</span><strong>ONE OVER</strong><small>Single-over ball-by-ball data</small></a>
+    </nav>
     <main class="one-page">
       <div class="one-head">
         <div>
