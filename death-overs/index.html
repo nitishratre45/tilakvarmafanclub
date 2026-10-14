@@ -2518,7 +2518,10 @@
                   minute: "2-digit",
                   hour12: true,
                 }) + " IST"
-              : "TIME UNKNOWN");
+              : "TIME UNKNOWN") +
+            (root?.sourceErrors?.[active]
+              ? " · WARNING: latest refresh failed; saved snapshot retained."
+              : "");
         }
         function renderBreakdown(d, a, b) {
           const box = document.getElementById("over-breakdown");
