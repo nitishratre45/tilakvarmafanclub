@@ -2049,7 +2049,7 @@
       }
     </style>
     <link rel="stylesheet" href="/death-overs/site-refinement.css?v=20261014-one-over-split1" />
-    <link rel="stylesheet" href="/death-overs/death-over-ui.css?v=20261014-logo-parity1" />
+    <link rel="stylesheet" href="/death-overs/death-over-ui.css?v=20261014-audit-fix1" />
     <style id="death-over-compact-ui">
       /* Compact hero; hide the featured scorecard and refresh-status block as requested. */
       .stats-hero {
@@ -2101,96 +2101,7 @@
     </style>
     <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261014-smooth-close5" />
 
-    <style id="death-view-switch-style">
-      .death-view-switch {
-        position: relative;
-        z-index: 2;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-        padding: 14px clamp(16px, 5vw, 44px);
-        background: #071222;
-        border-bottom: 1px solid rgba(140, 229, 245, 0.18);
-      }
-      .death-view-link {
-        min-width: 0;
-        display: grid;
-        grid-template-columns: auto 1fr;
-        align-items: center;
-        column-gap: 10px;
-        row-gap: 4px;
-        padding: 13px 16px;
-        border: 1px solid rgba(140, 229, 245, 0.22);
-        border-radius: 12px;
-        background: linear-gradient(145deg, #12243a, #0b1728);
-        color: #eaf5ff;
-        text-decoration: none;
-        transition:
-          transform 0.2s ease,
-          border-color 0.2s ease,
-          background 0.2s ease;
-      }
-      .death-view-link > span {
-        grid-row: 1 / span 2;
-        color: #8ce5f5;
-        font: 700 12px/1 monospace;
-      }
-      .death-view-link strong {
-        font-family: inherit;
-        font-size: 14px;
-        font-weight: 800;
-        line-height: 1.2;
-        letter-spacing: 0.08em;
-      }
-      .death-view-link small {
-        grid-column: 2;
-        color: #aabbd0;
-        font-size: 11px;
-        line-height: 1.4;
-      }
-      .death-view-link.is-active {
-        border-color: #ff8056;
-        background: linear-gradient(120deg, #ff7048, #e94e32);
-        color: #fff;
-        box-shadow: 0 6px 18px rgba(255, 112, 72, 0.14);
-      }
-      .death-view-link.is-active > span,
-      .death-view-link.is-active small {
-        color: #fff;
-      }
-      .death-view-link:focus-visible {
-        outline: 2px solid #8ce5f5;
-        outline-offset: 3px;
-      }
-      @media (hover: hover) {
-        .death-view-link:hover {
-          transform: translateY(-2px);
-          border-color: #8ce5f5;
-        }
-      }
-      @media (max-width: 420px) {
-        .death-view-switch {
-          gap: 8px;
-          padding: 10px 12px;
-        }
-        .death-view-link {
-          padding: 12px 10px;
-          column-gap: 7px;
-        }
-        .death-view-link strong {
-          font-size: 12px;
-        }
-        .death-view-link small {
-          font-size: 10px;
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .death-view-link {
-          transition: none;
-        }
-      }
-    </style>
-  </head>
+    </head>
   <body>
     <script>
       if (new URLSearchParams(location.search).get("embed") === "1") {
@@ -2251,7 +2162,7 @@
       </button>
       <nav id="death-nav">
         <a href="../#profile">Home</a><a href="/stats/">Stats</a
-        ><a href="./" aria-current="page">Death-overs</a><a href="/matches/">Matches</a
+        ><a href="./" aria-current="page">Death-overs</a><a href="/death-overs/one-over/">One Over</a><a href="/matches/">Matches</a
         ><a href="/records/">Records</a><a href="/news/">News</a><a href="/photos/">Photos</a
         ><a href="/videos/">Videos</a>
       </nav>
