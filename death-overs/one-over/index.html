@@ -528,7 +528,8 @@
               const tilakDeliveries = deliveries.filter(
                 (ball) =>
                   ball?.tilak === true ||
-                  (ball?.tilak == null && /\\btilak(?:\\s+varma)?\\b/i.test(String(ball?.batter || ""))),
+                  (ball?.tilak == null &&
+                    /\\btilak(?:\\s+varma)?\\b/i.test(String(ball?.batter || ""))),
               );
               const pills = tilakDeliveries.length
                 ? tilakDeliveries
@@ -542,14 +543,13 @@
                             : Number(ball.batterRuns || 0) === 0
                               ? "·"
                               : String(ball.batterRuns);
-                      const cls =
-                        (ball.wicket
-                          ? " wicket"
-                          : ball.six
-                            ? " six"
-                            : ball.four
-                              ? " boundary"
-                              : "");
+                      const cls = ball.wicket
+                        ? " wicket"
+                        : ball.six
+                          ? " six"
+                          : ball.four
+                            ? " boundary"
+                            : "";
                       const note = ball.wide ? "WD" : ball.noBall ? "NB" : "B" + (ball.ball ?? "?");
                       const batterLabel = "Tilak";
                       return (
