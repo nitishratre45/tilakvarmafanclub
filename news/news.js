@@ -10,7 +10,7 @@
   if (!document.querySelector("link[data-tv-news-styles]")) {
     const style = document.createElement("link");
     style.rel = "stylesheet";
-    style.href = "/news/news.css?v=20261013-modular1";
+    style.href = "/news/news.css?v=20261014-news-filters1";
     style.dataset.tvNewsStyles = "true";
     document.head.appendChild(style);
   }
@@ -21,10 +21,11 @@
       <div>
         <div class="tv-news-eyebrow">THE 72 CLUB · NEWS DESK</div>
         <h2>TILAK <em>IN THE NEWS</em></h2>
-        <p>Stories mentioning Tilak Varma, checked against the official BCCI News API.</p>
+        <p>Official updates, squad news, match reports and milestones mentioning Tilak Varma.</p>
       </div>
       <span class="tv-news-count" id="tv-news-count">LOADING</span>
     </div>
+    <div id="tv-news-tools" class="tv-news-tools" aria-label="Search and filter news"></div>
     <div class="tv-news-grid" id="tv-news-grid" aria-live="polite">
       <p class="tv-news-status" role="status">Loading saved Tilak Varma news…</p>
     </div>
@@ -34,11 +35,74 @@
     <p class="tv-news-foot" id="tv-news-updated"></p>`;
 
   const grid = section.querySelector("#tv-news-grid");
+  const tools = section.querySelector("#tv-news-tools");
   const more = section.querySelector("#tv-news-more");
   const count = section.querySelector("#tv-news-count");
   const updated = section.querySelector("#tv-news-updated");
   let allItems = [];
   let visibleCount = 8;
+  let activeCategory = "all";
+  let searchQuery = "";
+  const categoryDefinitions = [
+    { id: "team", label: "Team & Squad", test: /squad|team|selection|selected|captain|vice captain|replacement|injury|tour|call.?up|named|announced/i },
+    { id: "match", label: "Match Reports", test: /match|innings|runs|score|centur|fifty|wicket|series|t20i|odi|test|final|semi.?final|performance/i },
+    { id: "interview", label: "Interviews", test: /interview|press conference|said|statement|speaks|reveals|conversation|quote/i },
+    { id: "records", label: "Records & Milestones", test: /record|milestone|rank|ranking|highest|fastest|achievement|landmark/i },
+    { id: "tournament", label: "Tournament News", test: /tournament|world cup|asian games|ipl|premier league|championship|new zealand|australia|england|west indies|sri lanka/i },
+  ];
+
+  const categoryOf = (item) => {
+    const content = [item.title, item.description, item.pageTitle, item.pageText, item.fullText]
+      .map(plainText).join(" ");
+    for (const category of categoryDefinitions) {
+      if (category.test.test(content)) return category.id;
+    }
+    return "latest";
+  };
+
+  const filteredItems = () => allItems.filter((item) => {
+    const categoryMatch = activeCategory === "all" || categoryOf(item) === activeCategory;
+    const query = searchQuery.trim().toLocaleLowerCase();
+    const searchMatch = !query || [item.title, item.description, item.pageText, item.fullText]
+      .map(plainText).join(" ").toLocaleLowerCase().includes(query);
+    return categoryMatch && searchMatch;
+  });
+
+  const renderTools = () => {
+    if (!tools) return;
+    tools.replaceChildren();
+    const search = document.createElement("input");
+    search.className = "tv-news-search";
+    search.type = "search";
+    search.placeholder = "Search Tilak news…";
+    search.setAttribute("aria-label", "Search Tilak Varma news");
+    search.value = searchQuery;
+    search.addEventListener("input", () => {
+      searchQuery = search.value;
+      visibleCount = 8;
+      render();
+    });
+    tools.appendChild(search);
+
+    const categories = [{ id: "all", label: "All news" }, ...categoryDefinitions.filter((category) => allItems.some((item) => categoryOf(item) === category.id)), { id: "latest", label: "Other updates" }];
+    categories.forEach((category) => {
+      if (category.id === "latest" && !allItems.some((item) => categoryOf(item) === "latest")) return;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "tv-news-filter" + (activeCategory === category.id ? " is-active" : "");
+      button.textContent = category.label;
+      button.setAttribute("aria-pressed", activeCategory === category.id ? "true" : "false");
+      button.addEventListener("click", () => {
+        activeCategory = category.id;
+        visibleCount = 8;
+        renderTools();
+        render();
+        const replacement = tools.querySelector(".tv-news-search");
+        if (replacement) { replacement.focus(); replacement.setSelectionRange(searchQuery.length, searchQuery.length); }
+      });
+      tools.appendChild(button);
+    });
+  };
 
   const officialArticleUrl = (value) => {
     try {
@@ -133,11 +197,12 @@
 
   const render = () => {
     grid.replaceChildren();
-    const shown = allItems.slice(0, visibleCount);
+    const filtered = filteredItems();
+    const shown = filtered.slice(0, visibleCount);
     if (!shown.length) {
       showEmpty(
         "No Tilak Varma stories found",
-        "The section will update when the BCCI-only news scan saves articles whose page text mentions Tilak Varma.",
+        searchQuery || activeCategory !== "all" ? "Try another search or choose All news to see more saved stories." : "The section will update when the official news scan saves relevant articles.",
       );
       count.textContent = "0 STORIES";
       more.hidden = true;
@@ -187,9 +252,9 @@
       grid.appendChild(card);
     });
 
-    count.textContent = allItems.length + (allItems.length === 1 ? " STORY" : " STORIES");
-    more.hidden = visibleCount >= allItems.length;
-    more.textContent = "More news · " + (allItems.length - visibleCount) + " remaining ↓";
+    count.textContent = filtered.length + (filtered.length === 1 ? " STORY" : " STORIES");
+    more.hidden = visibleCount >= filtered.length;
+    more.textContent = "More news · " + (filtered.length - visibleCount) + " remaining ↓";
   };
 
   more.addEventListener("click", () => {
@@ -232,6 +297,7 @@
         return bTime - aTime;
       });
 
+      renderTools();
       render();
       updated.textContent = data.updatedAt ? "Last checked: " + dateLabel(data.updatedAt) : "";
     })
