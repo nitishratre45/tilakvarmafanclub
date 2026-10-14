@@ -28,11 +28,30 @@ DEFAULT_REPORT = ROOT / "News" / "news-pipeline-report.json"
 PLAYER_NAME = "Tilak Varma"
 NAME_RE = re.compile(r"\btilak\s+varma\b", re.I)
 
-# Flattened HTML table headers found in BCCI page text (longest-first is not
-# needed: the two layouts differ at the 4th token).
+# BCCI article tables arrive as flattened cell text, and their column labels
+# vary by series/year. Keep common itinerary layouts here; row detection below
+# uses the header's actual Date column instead of assuming it is always column 3.
 TABLE_HEADERS: tuple[tuple[str, ...], ...] = (
     ("no.", "day", "date", "match", "venue"),
+    ("no", "day", "date", "match", "venue"),
+    ("no.", "day", "date", "time", "match", "venue"),
+    ("no.", "day", "date", "time (ist)", "match", "venue"),
     ("no.", "day", "date", "day (to)", "date (to)", "match", "venue"),
+    ("no", "day", "date", "day (to)", "date (to)", "match", "venue"),
+    ("sr no.", "day", "date", "time", "match", "venue"),
+    ("sr no.", "day", "date", "match", "venue"),
+    ("sr. no.", "day", "date", "match", "venue"),
+    ("sr no.", "day", "date", "time", "match", "venue"),
+    ("sr. no.", "day", "date", "time", "match", "venue"),
+    ("day", "date", "time (ist)", "match", "venue"),
+    ("day", "date", "time", "match", "venue"),
+    ("day", "date", "match", "venue"),
+    ("day", "date", "match"),
+    ("no.", "date", "day", "venue"),
+    ("no", "date", "day", "venue"),
+    ("date", "day", "venue"),
+    ("date", "day", "match"),
+    ("date", "day", "match", "venue"),
 )
 HEADER_SET = {h for h in TABLE_HEADERS}
 
@@ -142,9 +161,24 @@ def match_header(tokens: list[str], cursor: int) -> int:
     return 0
 
 
-def is_row(candidate: list[str]) -> bool:
-    return bool(ROW_NO_RE.fullmatch(candidate[0])) and bool(
-        ROW_DATE_RE.search(candidate[2])
+def is_row(candidate: list[str], header: list[str]) -> bool:
+    """Recognize a table row using its header's date column, not a fixed index."""
+    normalized = [value.strip().lower().rstrip(":") for value in header]
+    date_indexes = [
+        index
+        for index, value in enumerate(normalized)
+        if value == "date" or value.startswith("date ")
+    ]
+    if not date_indexes:
+        return False
+    date_index = date_indexes[0]
+    if date_index >= len(candidate) or not ROW_DATE_RE.search(candidate[date_index]):
+        return False
+    # Most BCCI fixtures include a serial number; some don't.
+    return bool(ROW_NO_RE.fullmatch(candidate[0])) or (
+        bool(candidate) and candidate[0].strip().lower() in {
+            "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"
+        }
     )
 
 
@@ -170,13 +204,14 @@ def blocks_for(text: str) -> list[dict]:
             cursor += 1
             continue
 
-        rows = [tokens[cursor : cursor + width]]
+        header = list(tokens[cursor : cursor + width])
+        rows = [header]
         pos = cursor + width
         trailing: list[str] = []
 
         while pos + width <= len(tokens):
             candidate = list(tokens[pos : pos + width])
-            if match_header(tokens, pos) or not is_row(candidate):
+            if match_header(tokens, pos) or not is_row(candidate, header):
                 break
             split = VENUE_SPLIT_RE.search(candidate[-1])
             if split:
