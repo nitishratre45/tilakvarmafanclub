@@ -385,3 +385,66 @@
   min-height: 42px;
   white-space: nowrap;
 }
+
+/* News refresh polish — consistent card rhythm, clearer loading and touch feedback. */
+.tv-news-card {
+  contain: content;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+.tv-news-card-link {
+  -webkit-tap-highlight-color: transparent;
+}
+.tv-news-card-link:active {
+  opacity: 0.94;
+}
+.tv-news-image {
+  color: transparent;
+}
+.tv-news-copy h3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  line-height: 1.12;
+}
+.tv-news-copy p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.tv-news-status {
+  grid-column: 1 / -1;
+  padding: 22px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: linear-gradient(110deg, #0d1a2c 25%, #13253a 38%, #0d1a2c 60%);
+  background-size: 220% 100%;
+  animation: tv-news-loading 1.5s ease-in-out infinite;
+}
+@keyframes tv-news-loading {
+  from { background-position: 100% 0; }
+  to { background-position: -120% 0; }
+}
+@media (max-width: 900px) {
+  .tv-news-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 520px) {
+  .tv-news-heading h2 {
+    font-size: clamp(38px, 11vw, 52px);
+  }
+  .tv-news-count {
+    font-size: 10px;
+  }
+  .tv-news-status {
+    padding: 18px 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tv-news-status {
+    animation: none;
+    background: #0d1a2c;
+  }
+}
