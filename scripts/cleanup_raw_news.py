@@ -27,9 +27,16 @@ def article_url(item: dict) -> str:
             if value.startswith("/"):
                 value = urljoin("https://www.bcci.tv", value)
             parsed = urlparse(value)
-            if parsed.hostname and (
-                parsed.hostname == "bcci.tv" or parsed.hostname.endswith(".bcci.tv")
-            ) and ("/news/article/" in parsed.path or "/webview/news/article/" in parsed.path):
+            if (
+                parsed.hostname
+                and (
+                    parsed.hostname == "bcci.tv" or parsed.hostname.endswith(".bcci.tv")
+                )
+                and (
+                    "/news/article/" in parsed.path
+                    or "/webview/news/article/" in parsed.path
+                )
+            ):
                 return value.split("#", 1)[0]
     return ""
 
@@ -37,7 +44,14 @@ def article_url(item: dict) -> str:
 def relevant_article(item: dict) -> bool:
     text = " ".join(
         str(item.get(key) or "")
-        for key in ("title", "headline", "pageTitle", "description", "pageText", "fullText")
+        for key in (
+            "title",
+            "headline",
+            "pageTitle",
+            "description",
+            "pageText",
+            "fullText",
+        )
     )
     return bool(PLAYER_RE.search(text))
 
@@ -56,7 +70,12 @@ def prune_api_value(value, relevant_urls: set[str]) -> tuple[object, int]:
     if isinstance(value, dict):
         url = article_url(value)
         title = value.get("title") or value.get("headline")
-        if url and title and url not in relevant_urls and not PLAYER_RE.search(str(title)):
+        if (
+            url
+            and title
+            and url not in relevant_urls
+            and not PLAYER_RE.search(str(title))
+        ):
             return None, 1
         cleaned = {}
         for key, child in value.items():
@@ -86,8 +105,7 @@ def main() -> None:
 
     before = len(articles)
     kept = [
-        item for item in articles
-        if isinstance(item, dict) and relevant_article(item)
+        item for item in articles if isinstance(item, dict) and relevant_article(item)
     ]
     removed_articles = before - len(kept)
     relevant_urls = {url for item in kept if (url := article_url(item))}
@@ -107,7 +125,9 @@ def main() -> None:
         "apiPagesKept": len(raw["pages"]),
         "publishedNewsFileModified": False,
     }
-    RAW.write_text(json.dumps(raw, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    RAW.write_text(
+        json.dumps(raw, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     print(json.dumps(raw["rawCleanup"], ensure_ascii=False))
 
 
