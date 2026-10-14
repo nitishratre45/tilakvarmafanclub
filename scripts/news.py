@@ -126,11 +126,11 @@ def main() -> None:
                     ensure_ascii=False,
                     indent=2,
                 )
-                + "\\n",
+                + "\n",
                 encoding="utf-8",
             )
             OUT.write_text(
-                json.dumps(document, ensure_ascii=False, indent=2) + "\\n",
+                json.dumps(document, ensure_ascii=False, indent=2) + "\n",
                 encoding="utf-8",
             )
             raise RuntimeError(
