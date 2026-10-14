@@ -115,7 +115,7 @@
       match: "5th T20I",
       opponent: "West Indies",
       venue: "Bengaluru",
-      time: "19:00",
+      time: "",
       source:
         "https://www.bcci.tv/webview/news/article/indias-squad-for-home-series-against-west-indies-and-roi-squad-for-irani-cup-announced",
       newsUrl:
@@ -127,7 +127,7 @@
       match: "1st T20I",
       opponent: "New Zealand",
       venue: "Christchurch",
-      time: "19:00",
+      time: "",
       source:
         "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
       newsUrl:
@@ -139,7 +139,7 @@
       match: "2nd T20I",
       opponent: "New Zealand",
       venue: "Christchurch",
-      time: "19:00",
+      time: "",
       source:
         "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
       newsUrl:
@@ -151,7 +151,7 @@
       match: "3rd T20I",
       opponent: "New Zealand",
       venue: "Wellington",
-      time: "19:00",
+      time: "",
       source:
         "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
       newsUrl:
@@ -163,7 +163,7 @@
       match: "4th T20I",
       opponent: "New Zealand",
       venue: "Auckland",
-      time: "19:00",
+      time: "",
       source:
         "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
       newsUrl:
@@ -175,7 +175,7 @@
       match: "5th T20I",
       opponent: "New Zealand",
       venue: "Hamilton",
-      time: "19:00",
+      time: "",
       source:
         "https://www.bcci.tv/webview/news/article/india-and-india-a-squads-for-new-zealand-tour-announced",
       newsUrl:
