@@ -426,3 +426,23 @@ html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(3) {
     animation: none !important;
   }
 }
+
+
+/* One Over nav parity: same glass grid as the main site menu */
+@media(max-width:800px){
+  html body > header.topbar nav#one-nav{
+    display:grid!important;position:absolute!important;top:calc(100% + 9px)!important;left:10px!important;right:10px!important;z-index:10002!important;width:auto!important;
+    max-height:min(68dvh,540px);overflow:auto;overscroll-behavior:contain;
+    grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:8px;padding:13px;margin:0;
+    border:1px solid rgba(255,255,255,.28);border-radius:22px;
+    background:linear-gradient(135deg,rgba(16,91,169,.78),rgba(5,20,42,.76)),rgba(8,28,54,.72);
+    -webkit-backdrop-filter:blur(24px) saturate(155%);backdrop-filter:blur(24px) saturate(155%);
+    box-shadow:0 22px 55px rgba(0,10,28,.42),inset 0 1px 0 rgba(255,255,255,.18);
+    opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-9px) scale(.985);transform-origin:top center;
+    transition:opacity .2s ease,transform .24s cubic-bezier(.2,.75,.25,1),visibility .2s ease;
+  }
+  html body > header.topbar nav#one-nav.open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1)}
+  html body > header.topbar nav#one-nav a{display:flex!important;align-items:center;justify-content:center;min-width:0;min-height:48px;padding:9px 7px;margin:0;border:1px solid rgba(255,255,255,.13)!important;border-radius:13px!important;color:#fff!important;background:rgba(255,255,255,.085)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.07);font-size:12px;font-weight:750;line-height:1.25;text-align:center;white-space:normal;overflow-wrap:anywhere;transform:none!important;touch-action:manipulation;transition:background .18s ease,border-color .18s ease,transform .18s ease}
+  html body > header.topbar nav#one-nav a[aria-current="page"]{border-color:rgba(255,145,91,.75)!important;background:linear-gradient(135deg,rgba(255,124,69,.28),rgba(255,255,255,.09))!important;box-shadow:inset 0 -2px 0 #ff8b58,inset 0 1px 0 rgba(255,255,255,.12)}
+}
+@media(max-width:390px){html body > header.topbar nav#one-nav{grid-template-columns:repeat(2,minmax(0,1fr))}}
