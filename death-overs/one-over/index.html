@@ -502,7 +502,10 @@
             "DATA LOADED · " +
               rows.length +
               " innings · Last update: " +
-              (root?.updatedAt || "timestamp unavailable"),
+              (root?.updatedAt || "timestamp unavailable") +
+              (root?.sourceErrors?.[format.value]
+                ? " · WARNING: latest refresh failed; saved snapshot retained."
+                : ""),
           );
         }
         document.getElementById("export-over-csv").addEventListener("click", () => {
