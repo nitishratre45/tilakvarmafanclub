@@ -900,3 +900,38 @@ footer {
     line-height: 1.4 !important;
   }
 }
+
+
+/* Remove excessive side gutters in the Death Overs analyser on phones */
+@media(max-width:800px){
+  .stats-section .page-shell,
+  .innings-section .page-shell,
+  .one-page{width:calc(100% - 24px)!important;max-width:none!important}
+  .calculator-card{width:100%!important;max-width:none!important;padding:12px!important;border-radius:17px!important}
+  .calculator-controls,.result-grid,.detail-panel{min-width:0!important}
+  .calculator-controls{gap:10px!important}
+  .result-grid{gap:9px!important}
+  .result-card{padding:14px!important}
+  .detail-panel{padding:12px!important;margin-top:14px!important}
+  .over-breakdown{grid-template-columns:1fr!important;gap:9px!important}
+  .breakdown-card{padding:14px!important}
+  .section-head{margin-left:0!important;margin-right:0!important}
+}
+@media(max-width:420px){
+  .stats-section .page-shell,
+  .innings-section .page-shell,
+  .one-page{width:calc(100% - 20px)!important}
+  .calculator-card{padding:10px!important}
+  .calculator-controls{gap:8px!important}
+  .calculator-controls select{min-height:44px!important;padding:9px 8px!important;font-size:12px!important}
+  .calculator-controls label{font-size:9px!important}
+  .calculate-button{min-height:44px!important}
+  .result-grid{gap:8px!important}
+  .result-card{padding:12px!important;border-radius:13px!important}
+  .result-card small{font-size:8px!important;letter-spacing:.07em!important}
+  .result-card strong{font-size:29px!important}
+  .detail-panel{padding:10px!important}
+  .detail-heading{gap:8px!important}
+  #breakdown-summary{font-size:9px!important}
+  .breakdown-card{padding:12px!important}
+}
