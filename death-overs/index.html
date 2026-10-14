@@ -2137,7 +2137,22 @@
         <span></span>
         <span></span>
       </button>
-      <nav id="death-nav">
+<script>
+      (() => {
+        const nav = document.querySelector("header.topbar #death-nav");
+        if (!nav) return;
+        const currentPath = window.location.pathname.replace(/index\\.html$/, "").replace(/\\/+$/, "") || "/";
+        nav.querySelectorAll("a").forEach((link) => {
+          const linkUrl = new URL(link.getAttribute("href"), window.location.href);
+          const linkPath = linkUrl.pathname.replace(/index\\.html$/, "").replace(/\\/+$/, "") || "/";
+          const isCurrent = linkPath === currentPath;
+          link.classList.toggle("active", isCurrent);
+          if (isCurrent) link.setAttribute("aria-current", "page");
+          else link.removeAttribute("aria-current");
+        });
+      })();
+    </script>
+          <nav id="death-nav">
         <a href="../#profile">Home</a><a href="/stats/">Stats</a
         ><a href="./" aria-current="page">Death-overs</a
         ><a href="/death-overs/one-over/">One Over</a><a href="/matches/">Matches</a
