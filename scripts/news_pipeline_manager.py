@@ -62,11 +62,35 @@ def main():
     pages_requested = raw.get("pagesRequested") if isinstance(raw, dict) else None
     pages_fetched = raw.get("pagesFetched") if isinstance(raw, dict) else None
     if source_errors:
-        findings.append({"severity": "warning", "issue": str(len(source_errors)) + " BCCI API page request(s) failed"})
-    if pages_requested is not None and pages_fetched is not None and pages_fetched < pages_requested:
-        findings.append({"severity": "warning", "issue": "Partial BCCI API refresh: " + str(pages_fetched) + "/" + str(pages_requested) + " pages fetched"})
+        findings.append(
+            {
+                "severity": "warning",
+                "issue": str(len(source_errors)) + " BCCI API page request(s) failed",
+            }
+        )
+    if (
+        pages_requested is not None
+        and pages_fetched is not None
+        and pages_fetched < pages_requested
+    ):
+        findings.append(
+            {
+                "severity": "warning",
+                "issue": "Partial BCCI API refresh: "
+                + str(pages_fetched)
+                + "/"
+                + str(pages_requested)
+                + " pages fetched",
+            }
+        )
     if article_errors:
-        findings.append({"severity": "warning", "issue": str(len(article_errors)) + " BCCI article page(s) failed to fetch"})
+        findings.append(
+            {
+                "severity": "warning",
+                "issue": str(len(article_errors))
+                + " BCCI article page(s) failed to fetch",
+            }
+        )
     for i, item in enumerate(news):
         if not isinstance(item, dict):
             findings.append(
