@@ -3,25 +3,16 @@ name: Auto-rerun and diagnose failed GitHub Actions jobs
 on:
   workflow_run:
     workflows:
-      - "Admin data editor tests"
-      - "Admin Python diagnostics"
-      - "Automation repository monitor (hourly)"
       - "Browser smoke tests"
       - "Format source code"
-      - "Photo Section Guardian"
       - "Refresh BCCI Tilak Videos"
       - "Refresh ESPNcricinfo Bowling Stats"
       - "Refresh Tilak death-overs stats"
-      - "Refresh ICC rankings and record highlights"
       - "Refresh ESPNcricinfo Statsguru"
-      - "Refresh Tilak Varma data"
       - "Refresh Tilak Varma news"
-      - "Repository health monitor (10 minutes)"
-      - "Self-healing code guard"
-      - "Validate Tilak Varma FC site"
-      - "Validate Admin Studio and Site Data"
       - "Refresh Tilak Varma Match Scorecards"
       - "Refresh Upcoming Matches from BCCI News JSON"
+      - "Validate Tilak Varma FC site"
     types: [completed]
 
 permissions:
