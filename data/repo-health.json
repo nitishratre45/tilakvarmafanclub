@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-14T10:10:08+00:00",
+  "checkedAt": "2026-10-14T15:07:13+00:00",
   "intervalMinutes": 10,
   "status": "warning",
   "summary": {
@@ -27,12 +27,12 @@
     },
     {
       "level": "warning",
-      "message": "6 repeated CSS selector(s); review cascade/overrides: html body > header.topbar .menu-toggle span (4x), html body > header.topbar .menu-toggle (3x), html body.mobile-menu-open::before (3x), html body > header.topbar .menu-toggle[aria-expanded=\"true\"] span:nth-child(1) (2x), html body > header.topbar .menu-toggle[aria-expanded=\"true\"] span:nth-child(2) (2x), html body > header.topbar .menu-toggle[aria-expanded=\"true\"] span:nth-child(3) (2x)",
+      "message": "7 repeated CSS selector(s); review cascade/overrides: html body > header.topbar .menu-toggle span (4x), html body > header.topbar .menu-toggle (3x), html body.mobile-menu-open::before (3x), html body > header.topbar .menu-toggle[aria-expanded=\"true\"] span:nth-child(1) (2x), html body > header.topbar .menu-toggle[aria-expanded=\"true\"] span:nth-child(2) (2x), html body > header.topbar .menu-toggle[aria-expanded=\"true\"] span:nth-child(3) (2x), html body > header.topbar nav#one-nav (2x)",
       "file": "assets/mobile-glass-menu.css"
     },
     {
       "level": "warning",
-      "message": "29 repeated CSS selector(s); review cascade/overrides: .stats-hero (4x), .death-view-switch (3x), .stats-hero h1 (3x), .hero-tag (3x), .calculator-controls (3x), .filter-panel (3x), .death-view-link (2x), .stats-hero:before (2x)",
+      "message": "64 repeated CSS selector(s); review cascade/overrides: .death-view-switch (9x), .stats-hero (7x), .stats-hero h1 (7x), .snapshot-grid (6x), .calculator-controls (6x), .death-view-switch .death-view-link (6x), .death-view-switch .death-view-link small (6x), .stats-hero p (5x)",
       "file": "death-overs/death-over-ui.css"
     },
     {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "52183f95"
+    "branch": "e9d8485e"
   }
 }
