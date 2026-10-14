@@ -178,7 +178,10 @@
         background: rgba(255, 106, 53, 0.13);
         color: #ff9b76;
       }
-      .ball-pill.other-batter { opacity: 0.82; border-style: dashed; }
+      .ball-pill.other-batter {
+        opacity: 0.82;
+        border-style: dashed;
+      }
       .ball-pill.wicket {
         border-color: #ff5b68;
         background: rgba(255, 60, 80, 0.14);
@@ -321,8 +324,8 @@
       </section>
       <p class="source-note">
         Data source: the published <code>data/death-overs.json</code> dataset shared with All Overs.
-        The summary counts Tilak Varma’s recorded batting runs and balls faced. Delivery labels
-        use the source sequence when available; missing source events are never invented.
+        The summary counts Tilak Varma’s recorded batting runs and balls faced. Delivery labels use
+        the source sequence when available; missing source events are never invented.
       </p>
     </main>
     <footer>
@@ -380,7 +383,10 @@
           const selected = Number(over.value || 16);
           const maxOver = format.value === "odi" ? 50 : format.value === "test" ? 90 : 20;
           over.replaceChildren(
-            ...Array.from({ length: maxOver }, (_, i) => new Option("OVER " + (i + 1), String(i + 1))),
+            ...Array.from(
+              { length: maxOver },
+              (_, i) => new Option("OVER " + (i + 1), String(i + 1)),
+            ),
           );
           over.value = String(Math.min(Math.max(selected || 16, 1), maxOver));
         }
@@ -440,15 +446,18 @@
                             : Number(ball.batterRuns || 0) === 0
                               ? "·"
                               : String(ball.batterRuns);
-                      const cls = (ball.tilak === false ? " other-batter" : "") + (ball.wicket
-                        ? " wicket"
-                        : ball.six
-                          ? " six"
-                          : ball.four
-                            ? " boundary"
-                            : "");
+                      const cls =
+                        (ball.tilak === false ? " other-batter" : "") +
+                        (ball.wicket
+                          ? " wicket"
+                          : ball.six
+                            ? " six"
+                            : ball.four
+                              ? " boundary"
+                              : "");
                       const note = ball.wide ? "WD" : ball.noBall ? "NB" : "B" + (ball.ball ?? "?");
-                      const batterLabel = ball.tilak === false ? esc(ball.batter || "Other batter") : "Tilak";
+                      const batterLabel =
+                        ball.tilak === false ? esc(ball.batter || "Other batter") : "Tilak";
                       return (
                         '<span class="ball-pill' +
                         cls +
@@ -459,7 +468,9 @@
                         '"><span>' +
                         label +
                         "</span><small>" +
-                        batterLabel + " · " + note +
+                        batterLabel +
+                        " · " +
+                        note +
                         "</small></span>"
                       );
                     })

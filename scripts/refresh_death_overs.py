@@ -172,7 +172,9 @@ def parse_match(data, filename, key, totals, all_male_fallback=False):
                 s["deliveries"].append(
                     {
                         "ball": sequence,
-                        "legalBall": legal_ball_number if not wide and not no_ball else None,
+                        "legalBall": (
+                            legal_ball_number if not wide and not no_ball else None
+                        ),
                         "batter": batter_name,
                         "tilak": is_tilak,
                         "batterRuns": br,
