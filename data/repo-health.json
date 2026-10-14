@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-14T00:23:17+00:00",
+  "checkedAt": "2026-10-14T05:10:05+00:00",
   "intervalMinutes": 10,
   "status": "warning",
   "summary": {
-    "filesScanned": 415,
-    "checksPassed": 322,
+    "filesScanned": 416,
+    "checksPassed": 323,
     "issues": 0,
     "warnings": 43
   },
@@ -117,7 +117,7 @@
     },
     {
       "level": "warning",
-      "message": "11 repeated CSS selector(s); review cascade/overrides: .tv-news-grid (4x), .tv-news-copy (4x), .tv-news-copy h3 (4x), .tv-news-copy p (3x), .tv-news-section (2x), .tv-news-heading (2x), .tv-news-count (2x), .tv-news-card:hover (2x)",
+      "message": "14 repeated CSS selector(s); review cascade/overrides: .tv-news-grid (4x), .tv-news-copy (4x), .tv-news-copy h3 (4x), .tv-news-card:hover (3x), .tv-news-copy p (3x), .tv-news-filter (3x), .tv-news-section (2x), .tv-news-heading (2x)",
       "file": "news/news.css"
     },
     {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "371070ec"
+    "branch": "0a6e3c61"
   }
 }
