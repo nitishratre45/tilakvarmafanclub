@@ -335,6 +335,17 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
 check("One Over updates available overs when format changes", async () => {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   page.setDefaultTimeout(12000);
+  await page.addInitScript(() => {
+    window.addEventListener("error", event => {
+      console.error("[window-error-detail]", JSON.stringify({
+        message: event.message,
+        filename: event.filename,
+        line: event.lineno,
+        column: event.colno,
+        stack: event.error && event.error.stack
+      }));
+    });
+  });
   const pageErrors = [];
   page.on("pageerror", error => pageErrors.push(JSON.stringify({ name: error.name, message: error.message, stack: error.stack })));
   page.on("console", message => {
@@ -370,6 +381,17 @@ check("One Over updates available overs when format changes", async () => {
 check("Death Overs All Overs filters and over-range calculator work", async () => {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   page.setDefaultTimeout(12000);
+  await page.addInitScript(() => {
+    window.addEventListener("error", event => {
+      console.error("[window-error-detail]", JSON.stringify({
+        message: event.message,
+        filename: event.filename,
+        line: event.lineno,
+        column: event.colno,
+        stack: event.error && event.error.stack
+      }));
+    });
+  });
   const pageErrors = [];
   page.on("pageerror", error => pageErrors.push(JSON.stringify({ name: error.name, message: error.message, stack: error.stack })));
   page.on("console", message => {
