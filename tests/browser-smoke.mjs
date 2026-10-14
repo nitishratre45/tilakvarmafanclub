@@ -355,6 +355,40 @@ check("One Over updates available overs when format changes", async () => {
   await page.close();
 });
 
+check("Death Overs All Overs filters and over-range calculator work", async () => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  page.setDefaultTimeout(12000);
+  const pageErrors = [];
+  page.on("pageerror", error => pageErrors.push(error.message));
+  await page.goto(baseURL + "/death-overs/", { waitUntil: "domcontentloaded" });
+  await page.waitForFunction(() => document.querySelector("#feed-status")?.textContent === "STATS LOADED");
+  const format = page.locator("#data-format");
+  const year = page.locator("#year-filter");
+  const first = page.locator("#first-over");
+  const last = page.locator("#last-over");
+  assert.equal(await format.locator("option").count() > 0, true, "All Overs should populate available formats");
+  assert.equal(await year.locator("option").count() > 1, true, "All Overs should populate year filters");
+  assert.equal(await first.locator("option").count() > 0, true, "All Overs should populate the first-over selector");
+  assert.equal(await last.locator("option").count(), await first.locator("option").count(), "First and last over selectors should expose the same over range");
+  const available = await format.locator("option").evaluateAll(options => options.map(option => option.value));
+  if (available.includes("odi")) {
+    await format.selectOption("odi");
+    assert.equal(await first.locator("option").count(), 50, "ODI must expose overs 1–50");
+    assert.equal(await last.locator("option").count(), 50, "ODI last-over selector must expose overs 1–50");
+    await year.selectOption("all");
+    await page.locator("#calculate").click();
+    assert.equal(await page.locator("#over-breakdown .breakdown-card").count() > 0, true, "All Overs calculator should render breakdown cards");
+  }
+  if (available.includes("t20i")) {
+    await format.selectOption("t20i");
+    assert.equal(await first.locator("option").count(), 20, "T20I must expose overs 1–20");
+    assert.equal(await last.locator("option").count(), 20, "T20I last-over selector must expose overs 1–20");
+    await page.locator("#calculate").click();
+  }
+  assert.deepEqual(pageErrors, [], "All Overs should not throw uncaught browser errors: " + pageErrors.join(" | "));
+  await page.close();
+});
+
 check("Death Overs page loads the saved dataset and matches its innings count", async () => {
   const data = JSON.parse(await readFile(new URL("../data/death-overs.json", import.meta.url), "utf8"));
   assert(Array.isArray(data.innings) && data.innings.length > 0, "Saved Death Overs innings must not be empty");
