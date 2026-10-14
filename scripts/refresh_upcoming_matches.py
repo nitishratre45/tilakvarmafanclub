@@ -33,11 +33,30 @@ MONTHS = {
     "dec": 12,
 }
 OPPONENTS = (
-    "Afghanistan", "Australia", "Bangladesh", "England", "Ireland",
-    "New Zealand", "Pakistan", "South Africa", "Sri Lanka", "West Indies",
-    "Zimbabwe", "Nepal", "Netherlands", "Scotland", "Namibia", "Canada",
-    "United States", "United Arab Emirates", "Oman", "Hong Kong", "Uganda",
-    "Kenya", "Papua New Guinea", "Japan"
+    "Afghanistan",
+    "Australia",
+    "Bangladesh",
+    "England",
+    "Ireland",
+    "New Zealand",
+    "Pakistan",
+    "South Africa",
+    "Sri Lanka",
+    "West Indies",
+    "Zimbabwe",
+    "Nepal",
+    "Netherlands",
+    "Scotland",
+    "Namibia",
+    "Canada",
+    "United States",
+    "United Arab Emirates",
+    "Oman",
+    "Hong Kong",
+    "Uganda",
+    "Kenya",
+    "Papua New Guinea",
+    "Japan",
 )
 
 
@@ -306,7 +325,8 @@ def main() -> None:
     # fixtures if the source is stale or no safe schedule rows can be extracted.
     if not fixtures:
         fixtures = [
-            row for row in previous_report.get("fixtures", [])
+            row
+            for row in previous_report.get("fixtures", [])
             if isinstance(row, dict) and str(row.get("date", "")) >= today
         ]
         status = "no-new-verified-fixtures-preserved"
