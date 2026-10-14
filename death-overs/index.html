@@ -2049,7 +2049,7 @@
       }
     </style>
     <link rel="stylesheet" href="/death-overs/site-refinement.css?v=20261014-one-over-split1" />
-    <link rel="stylesheet" href="/death-overs/death-over-ui.css?v=20261014-switch-textfit3" />
+    <link rel="stylesheet" href="/death-overs/death-over-ui.css?v=20261014-logo-parity1" />
     <style id="death-over-compact-ui">
       /* Compact hero; hide the featured scorecard and refresh-status block as requested. */
       .stats-hero {
@@ -2996,19 +2996,6 @@
           setTimeout(sendHeight, 350);
           setTimeout(sendHeight, 900);
         }
-      })();
-    </script>
-    <script>
-      (() => {
-        const img = document.querySelector("[data-tilak-logo]");
-        if (!img) return;
-        fetch("../data/site-data.json?v=monthly-logo", { cache: "no-store" })
-          .then((response) => (response.ok ? response.json() : Promise.reject()))
-          .then((data) => {
-            const photo = data?.profile?.photo;
-            if (typeof photo === "string" && /^https:\/\//i.test(photo)) img.src = photo;
-          })
-          .catch(() => {});
       })();
     </script>
     <script src="/death-overs/custom-selects.js?v=20261011-native-touch-fallback1"></script>
