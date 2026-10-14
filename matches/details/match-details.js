@@ -342,9 +342,9 @@
         .filter(Boolean)
         .filter((link, index, links) => links.indexOf(link) === index)
         .join("");
-      const start = Date.parse(
-        String(f.date || "") + "T" + String(f.time || "19:00") + ":00+05:30",
-      );
+      const start = f.time
+        ? Date.parse(String(f.date || "") + "T" + String(f.time) + ":00+05:30")
+        : Number.NaN;
       if (Number.isFinite(start)) {
         const mins = Math.floor((start - Date.now()) / 60000);
         set(
