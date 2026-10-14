@@ -98,7 +98,11 @@ def main() -> None:
             previous = json.loads(OUT.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             previous = {}
-        if isinstance(previous, dict) and isinstance(previous.get("pages"), list) and previous.get("pages"):
+        if (
+            isinstance(previous, dict)
+            and isinstance(previous.get("pages"), list)
+            and previous.get("pages")
+        ):
             partial_path = OUT.with_name("raw-news-pages.partial.json")
             document = {
                 **previous,
@@ -109,18 +113,26 @@ def main() -> None:
                 "lastKnownGoodSnapshotPreserved": True,
             }
             partial_path.write_text(
-                json.dumps({
-                    "player": "Tilak Varma",
-                    "source": "BCCI News API only",
-                    "pagesFetched": len(pages),
-                    "pagesRequested": expected_pages,
-                    "fetchedAt": datetime.now(timezone.utc).isoformat(),
-                    "errors": errors,
-                    "pages": pages,
-                }, ensure_ascii=False, indent=2) + "\\n",
+                json.dumps(
+                    {
+                        "player": "Tilak Varma",
+                        "source": "BCCI News API only",
+                        "pagesFetched": len(pages),
+                        "pagesRequested": expected_pages,
+                        "fetchedAt": datetime.now(timezone.utc).isoformat(),
+                        "errors": errors,
+                        "pages": pages,
+                    },
+                    ensure_ascii=False,
+                    indent=2,
+                )
+                + "\\n",
                 encoding="utf-8",
             )
-            OUT.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+            OUT.write_text(
+                json.dumps(document, ensure_ascii=False, indent=2) + "\\n",
+                encoding="utf-8",
+            )
             raise RuntimeError(
                 f"Partial BCCI refresh ({len(pages)}/{expected_pages}); kept previous snapshot and saved diagnostics"
             )
