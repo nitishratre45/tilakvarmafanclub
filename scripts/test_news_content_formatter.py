@@ -17,7 +17,9 @@ class NewsTableFormattingTests(unittest.TestCase):
         )
         tables = [block for block in blocks if block["type"] == "table"]
         self.assertEqual(len(tables), 1)
-        self.assertEqual(tables[0]["rows"][0], ["No.", "DAY", "Date", "Time", "Match", "Venue"])
+        self.assertEqual(
+            tables[0]["rows"][0], ["No.", "DAY", "Date", "Time", "Match", "Venue"]
+        )
         self.assertEqual(tables[0]["rows"][1][-2:], ["1st T20I", "Hyderabad"])
         self.assertEqual(len(tables[0]["rows"]), 3)
 
