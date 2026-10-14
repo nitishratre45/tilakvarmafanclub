@@ -90,6 +90,41 @@ def main() -> None:
             "All configured BCCI News API pages failed; preserving the previous raw news snapshot"
         )
 
+    # A partial response must never replace a complete last-known-good snapshot.
+    # This avoids silently losing discoverable stories during a BCCI API outage.
+    expected_pages = len(BCCI_PAGES) * len(BCCI_TAGS)
+    if len(pages) < expected_pages and OUT.exists():
+        try:
+            previous = json.loads(OUT.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            previous = {}
+        if isinstance(previous, dict) and isinstance(previous.get("pages"), list) and previous.get("pages"):
+            partial_path = OUT.with_name("raw-news-pages.partial.json")
+            document = {
+                **previous,
+                "latestAttemptAt": datetime.now(timezone.utc).isoformat(),
+                "latestAttemptPagesFetched": len(pages),
+                "latestAttemptPagesRequested": expected_pages,
+                "latestAttemptErrors": errors,
+                "lastKnownGoodSnapshotPreserved": True,
+            }
+            partial_path.write_text(
+                json.dumps({
+                    "player": "Tilak Varma",
+                    "source": "BCCI News API only",
+                    "pagesFetched": len(pages),
+                    "pagesRequested": expected_pages,
+                    "fetchedAt": datetime.now(timezone.utc).isoformat(),
+                    "errors": errors,
+                    "pages": pages,
+                }, ensure_ascii=False, indent=2) + "\\n",
+                encoding="utf-8",
+            )
+            OUT.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+            raise RuntimeError(
+                f"Partial BCCI refresh ({len(pages)}/{expected_pages}); kept previous snapshot and saved diagnostics"
+            )
+
     document = {
         "player": "Tilak Varma",
         "source": "BCCI News API only",
