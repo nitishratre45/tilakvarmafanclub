@@ -196,7 +196,7 @@ def editorial_copy(title: str, description: str, body: str) -> dict:
     """Build a short editorial summary from source text only; never invent facts."""
     clean = re.sub(r"\s+", " ", str(body or "")).strip()
     clean = CHROME_RE.sub("", clean).strip()
-    clean = re.sub(r"\b(?:Share|\d+\s+d ago)\b, "", clean, flags=re.I).strip()
+    clean = re.sub(r"\b(?:Share|\d+\s+d ago)\b", "", clean, flags=re.I).strip()
     summary = re.sub(r"\s+", " ", str(description or "")).strip()
     if len(summary) < 45 or summary.casefold() == str(title or "").strip().casefold():
         candidates = SENTENCE_SPLIT_RE.split(clean)
@@ -220,7 +220,7 @@ def editorial_copy(title: str, description: str, body: str) -> dict:
         if not 35 <= len(part) <= 260:
             continue
         if re.search(
-            r"\b(Tilak Varma|squad|vice.?captain|captain|T20I|New Zealand|selection committee|fitness)\b,
+            r"\b(Tilak Varma|squad|vice.?captain|captain|T20I|New Zealand|selection committee|fitness)\b",
             part,
             re.I,
         ):
