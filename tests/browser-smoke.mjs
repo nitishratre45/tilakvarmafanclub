@@ -345,6 +345,10 @@ check("One Over updates available overs when format changes", async () => {
     assert.equal(await over.locator("option").count(), 20, "T20I must expose overs 1–20");
     assert.notEqual(await over.inputValue(), "50", "Switching back to T20I must clamp the selected over");
   }
+  const downloadPromise = page.waitForEvent("download");
+  await page.locator("#export-over-csv").click();
+  const download = await downloadPromise;
+  assert.match(download.suggestedFilename(), /^tilak-over-.*\\.csv$/, "CSV export should download a named CSV file");
   await page.close();
 });
 
