@@ -11,7 +11,7 @@ import json
 import re
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "News" / "raw-news-pages.json"
@@ -24,6 +24,8 @@ def article_url(item: dict) -> str:
     for key in URL_KEYS:
         value = item.get(key)
         if isinstance(value, str) and value:
+            if value.startswith("/"):
+                value = urljoin("https://www.bcci.tv", value)
             parsed = urlparse(value)
             if parsed.hostname and (
                 parsed.hostname == "bcci.tv" or parsed.hostname.endswith(".bcci.tv")
