@@ -122,50 +122,6 @@
           ? table("BOWLING", ["Format", "Mat", "Inns", "Balls", "Runs", "Wkts", "BBI", "BBM", "Ave", "Econ", "SR", "4w", "5w", "10w"], rows, "home-bowling-table")
           : '<p class="activity-empty">No verified bowling summary is saved yet.</p>';
       }
-      const bowlingUpdated = $("home-bowling-updated");
-      const bowling = data.bowlingStats || {};
-      const bowlingFormats = bowling.formats || {};
-      if (bowlingHost) {
-        const bowlingOrder = [
-          ["T20I", "T20I"],
-          ["ODI", "ODI"],
-          ["First-class", "FC"],
-          ["List A", "LIST A"],
-          ["IPL", "IPL"],
-          ["Overall T20", "T20"],
-        ];
-        const cards = bowlingOrder
-          .map(([key, label]) => {
-            const summary = bowlingFormats[key]?.summary;
-            if (!summary) return "";
-            const facts = [
-              ["WICKETS", summary.wickets],
-              ["BEST", summary.bestBowling],
-              ["ECONOMY", summary.economy],
-              ["AVERAGE", summary.average],
-              ["OVERS", summary.overs],
-              ["INNINGS", summary.innings],
-            ].filter(([, value]) => value !== null && value !== undefined && value !== "");
-            return (
-              '<article class="home-bowling-stat"><span>' +
-              esc(label) +
-              "</span><strong>" +
-              esc(summary.wickets ?? "—") +
-              ' <small>wickets</small></strong><div class="home-bowling-facts">' +
-              facts
-                .map(
-                  ([name, value]) =>
-                    "<div><span>" + esc(name) + "</span><b>" + esc(value) + "</b></div>",
-                )
-                .join("") +
-              "</div></article>"
-            );
-          })
-          .filter(Boolean);
-        bowlingHost.innerHTML = cards.length
-          ? cards.join("")
-          : '<p class="activity-empty">No verified bowling summary is saved yet.</p>';
-      }
       if (bowlingUpdated) {
         const updated = bowling.updatedAt || bowling.lastUpdated;
         const source = bowling.source || "Saved bowling snapshot";
