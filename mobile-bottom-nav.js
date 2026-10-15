@@ -40,10 +40,10 @@
   const style = document.createElement("style");
   style.id = "tvfc-mobile-bottom-nav-style";
   style.textContent = [
-    "#tvfc-mobile-bottom-nav{display:none}",
+    "#tvfc-mobile-bottom-nav{display:none!important}",
     "@media(max-width:767px){",
     "body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))!important}",
-    "#tvfc-mobile-bottom-nav{position:fixed;left:12px;right:12px;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:9990;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:8px 7px calc(8px + env(safe-area-inset-bottom,0px));border:1px solid rgba(160,205,232,.34);border-radius:24px;background:rgba(7,19,36,.91);box-shadow:0 10px 34px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}",
+    "#tvfc-mobile-bottom-nav{position:fixed!important;left:12px;right:12px;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:2147483000;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:8px 7px calc(8px + env(safe-area-inset-bottom,0px));border:1px solid rgba(160,205,232,.34);border-radius:24px;background:rgba(7,19,36,.91);box-shadow:0 10px 34px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}",
     "#tvfc-mobile-bottom-nav a{min-width:0;min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-radius:16px;color:#c5d3e4;text-decoration:none;font:600 11px/1.1 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;letter-spacing:.01em;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:background-color .16s ease,color .16s ease,transform .16s ease}",
     "#tvfc-mobile-bottom-nav a:active{transform:scale(.96)}",
     "#tvfc-mobile-bottom-nav a[aria-current='page']{color:#8cddff;background:linear-gradient(145deg,rgba(37,126,177,.27),rgba(24,67,107,.32));box-shadow:inset 0 0 0 1px rgba(104,203,244,.25)}",
@@ -54,7 +54,7 @@
     "@media(min-width:768px){#tvfc-mobile-bottom-nav{display:none!important}body{padding-bottom:0!important}}",
     "@media(prefers-reduced-motion:reduce){#tvfc-mobile-bottom-nav a{transition:none}}",
   ].join("");
-  document.head.appendChild(style);
+  (document.head || document.documentElement).appendChild(style);
   const nav = document.createElement("nav");
   nav.id = "tvfc-mobile-bottom-nav";
   nav.setAttribute("aria-label", "Quick navigation");
@@ -75,5 +75,5 @@
       );
     })
     .join("");
-  document.body.appendChild(nav);
+  const mount = function () {\n    if (!document.body || document.getElementById("tvfc-mobile-bottom-nav")) return;\n    document.body.appendChild(nav);\n  };\n  if (document.body) mount();\n  else document.addEventListener("DOMContentLoaded", mount, { once: true });\n  window.addEventListener("pageshow", mount);
 })();
