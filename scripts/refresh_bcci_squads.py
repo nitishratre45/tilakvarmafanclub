@@ -142,10 +142,16 @@ def main():
                 previous = json.loads(OUTPUT.read_text(encoding="utf-8"))
                 for saved in previous.get("squads", []):
                     saved_team_id = str(saved.get("teamId", ""))
-                    if saved_team_id and saved_team_id not in {team_id for team_id, _ in TEAMS}:
-                        squads[saved_team_id + ":" + str(saved.get("classId", ""))] = saved
+                    if saved_team_id and saved_team_id not in {
+                        team_id for team_id, _ in TEAMS
+                    }:
+                        squads[saved_team_id + ":" + str(saved.get("classId", ""))] = (
+                            saved
+                        )
             except (OSError, json.JSONDecodeError, TypeError):
-                print("Warning: could not read previous snapshot; preserving only successfully fetched provider squads.")
+                print(
+                    "Warning: could not read previous snapshot; preserving only successfully fetched provider squads."
+                )
         for team_id, team_name in TEAMS:
             payload = payloads[team_id]
             for team, players in rows_by_team[team_id]:
