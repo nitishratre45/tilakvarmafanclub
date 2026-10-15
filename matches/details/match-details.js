@@ -220,10 +220,79 @@
       set("workflow-weather", "Weather provider did not return a usable forecast.");
     }
   }
+  const escHtml = (value) =>
+    String(value ?? "—").replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+    })[char]);
+  const scorecardTeamKey = (value) => String(value || "").toLowerCase().replace(/[^a-z]/g, "");
+  function renderScorecard(data) {
+    const host = $("details-scoreboard");
+    if (!host || !data) return false;
+    const innings = Array.isArray(data.innings) ? data.innings : [];
+    if (!innings.length) return false;
+    const extrasText = (extras) => {
+      if (!extras || typeof extras !== "object") return "Extras not listed";
+      const bits = Object.entries(extras).filter(([, value]) => Number(value) > 0)
+        .map(([name, value]) => name + " " + value);
+      return "Extras: " + (Number(data.innings?.[0]?.extras || 0) >= 0 ? bits.join(", ") || "0" : bits.join(", "));
+    };
+    host.innerHTML = (data.result ? '<div class="scoreboard-result"><h3>' + escHtml(data.result) +
+      '</h3><p>' + escHtml([data.event, data.venue, data.date].filter(Boolean).join(" · ")) + '</p></div>' : "") +
+      innings.map((inn) => {
+        const batting = Array.isArray(inn.batting) ? inn.batting : [];
+        const bowling = Array.isArray(inn.bowling) ? inn.bowling : [];
+        const fow = Array.isArray(inn.fallOfWickets) ? inn.fallOfWickets : [];
+        const batterRows = batting.map((p) => '<tr><td><strong>' + escHtml(p.batter) +
+          '</strong><span class="scoreboard-dismissal">' + escHtml(p.dismissal || (p.notOut ? "not out" : "")) +
+          '</span></td><td>' + escHtml(p.runs) + (p.notOut ? "*" : "") + '</td><td>' +
+          escHtml(p.balls) + '</td><td>' + escHtml(p.fours) + '</td><td>' + escHtml(p.sixes) +
+          '</td><td>' + escHtml(p.strikeRate) + '</td></tr>').join("");
+        const bowlRows = bowling.map((p) => '<tr><td><strong>' + escHtml(p.bowler) +
+          '</strong></td><td>' + escHtml(p.overs) + '</td><td>' + escHtml(p.maidens) +
+          '</td><td>' + escHtml(p.runs) + '</td><td>' + escHtml(p.wickets) + '</td><td>' +
+          escHtml(p.economy) + '</td></tr>').join("");
+        const extras = Object.entries(inn.extrasBreakdown || {}).filter(([, v]) => Number(v) > 0)
+          .map(([k, v]) => k + " " + v).join(" · ");
+        return '<article class="scoreboard-innings"><div class="scoreboard-innings-head"><h3>' +
+          escHtml(inn.team || ("Innings " + inn.number)) + '</h3><strong>' + escHtml(inn.runs) + '/' +
+          escHtml(inn.wickets) + ' <small>(' + escHtml(inn.overs) + ' ov)</small></strong></div>' +
+          '<div class="scoreboard-table-wrap"><table class="scoreboard-table"><thead><tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead><tbody>' +
+          (batterRows || '<tr><td colspan="6">Batting data unavailable in this scorecard.</td></tr>') +
+          '</tbody></table></div><p class="scoreboard-extras">Extras: ' + escHtml(inn.extras ?? 0) +
+          (extras ? ' (' + escHtml(extras) + ')' : '') + '</p><h4 class="scoreboard-subheading">Bowling</h4>' +
+          '<div class="scoreboard-table-wrap"><table class="scoreboard-table"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th></tr></thead><tbody>' +
+          (bowlRows || '<tr><td colspan="6">Bowling data unavailable in this scorecard.</td></tr>') +
+          '</tbody></table></div>' +
+          (fow.length ? '<details><summary>Fall of wickets (' + fow.length + ')</summary><div class="scoreboard-fow">' +
+            fow.map((w) => escHtml(w.score) + '/' + escHtml(w.wicket) + ' · ' + escHtml(w.over) + ' ov · ' + escHtml(w.batter)).join('<br>') +
+            '</div></details>' : '') + '</article>';
+      }).join("");
+    return true;
+  }
+  function renderBcciResultBoard(matches, team, opponent, date) {
+    const host = $("details-scoreboard");
+    if (!host || !Array.isArray(matches)) return false;
+    const norm = (s) => scorecardTeamKey(s).replace(/westindies/g, "westindies");
+    const names = [team, opponent].map(norm);
+    const row = matches.find((item) => {
+      const rowNames = [item.team1_name, item.team2_name, item.team1, item.team2, item.home_team, item.away_team].map(norm);
+      const sameTeams = names.every((name) => rowNames.some((candidate) => candidate && (candidate.includes(name) || name.includes(candidate))));
+      const rowDate = String(item.date || item.match_date || item.start_date || "").slice(0, 10);
+      return sameTeams && (!date || !rowDate || rowDate === String(date).slice(0, 10));
+    });
+    if (!row) return false;
+    const innings = Array.isArray(row.summary?.team) ? row.summary.team : [];
+    const scoreText = innings.map((entry) => (entry.team || entry.name || "") + " " + (entry.score || ""))
+      .filter((v) => v.trim()).join(" · ");
+    host.innerHTML = '<div class="scoreboard-result"><h3>' + escHtml(row.result_string || row.result || "Match result") +
+      '</h3><p>' + escHtml(scoreText || "BCCI result snapshot has no innings score details.") +
+      '</p><p class="scoreboard-status">BCCI results summary · Detailed innings scorecard is not present in this feed.</p></div>';
+    return true;
+  }
   async function init() {
     try {
       // Read saved JSON snapshots only; do not call BCCI's API from the browser.
-      const [newsResponse, statsResponse, resultsResponse, squadsResponse] = await Promise.all([
+      const [newsResponse, statsResponse, resultsResponse, squadsResponse, scorecardIndexResponse] = await Promise.all([
         fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-details3", {
           cache: "no-store",
         }).catch(() => null),
@@ -236,6 +305,9 @@
         fetch("/matches/bcci-squads.json?v=20261015-squads1", { cache: "no-store" }).catch(
           () => null,
         ),
+        fetch("/matches/scorecards/index.json?v=20261015-full-scoreboard1", { cache: "no-store" }).catch(
+          () => null,
+        ),
       ]);
       const snapshot =
         newsResponse && newsResponse.ok ? await newsResponse.json().catch(() => null) : null;
@@ -244,6 +316,10 @@
       const resultsSnapshot =
         resultsResponse && resultsResponse.ok
           ? await resultsResponse.json().catch(() => null)
+          : null;
+      const scorecardIndex =
+        scorecardIndexResponse && scorecardIndexResponse.ok
+          ? await scorecardIndexResponse.json().catch(() => null)
           : null;
       let manual = { matches: [] };
       try {
@@ -323,6 +399,43 @@
         return;
       }
       const detail = (manual.matches || []).find((x) => key(x) === key(f)) || {};
+      const scorecardRows = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
+      const normalizedTeam = (value) => scorecardTeamKey(value);
+      const matchingScorecard = scorecardRows.find((row) => {
+        const rowDate = String(row.date || "").slice(0, 10);
+        const sameDate = !f.date || !rowDate || rowDate === String(f.date).slice(0, 10);
+        const rowTeams = [row.team, row.opposition].map(normalizedTeam);
+        const wantedTeams = [f.team, f.opponent].map(normalizedTeam);
+        const sameTeams = wantedTeams.every((name) =>
+          rowTeams.some((candidate) => candidate && (candidate.includes(name) || name.includes(candidate))),
+        );
+        return sameDate && sameTeams;
+      });
+      let scorecardLoaded = false;
+      if (matchingScorecard?.scorecard) {
+        try {
+          const scorecardResponse = await fetch(matchingScorecard.scorecard, { cache: "no-store" });
+          if (scorecardResponse.ok) {
+            const scorecardData = await scorecardResponse.json().catch(() => null);
+            scorecardLoaded = renderScorecard(scorecardData);
+          }
+        } catch (_) {}
+      }
+      if (!scorecardLoaded) {
+        scorecardLoaded = renderBcciResultBoard(
+          Array.isArray(resultsSnapshot?.matches) ? resultsSnapshot.matches : [],
+          f.team,
+          f.opponent,
+          f.date,
+        );
+      }
+      if (!scorecardLoaded) {
+        const scoreHost = $("details-scoreboard");
+        if (scoreHost) scoreHost.innerHTML =
+          '<div class="scoreboard-result"><h3>Scorecard not available yet</h3>' +
+          '<p>Full innings data has not been verified for this fixture. Existing match details remain available below.</p>' +
+          '<p class="scoreboard-status">Saved scorecards and BCCI result snapshot were checked; no matching detailed scorecard was found.</p></div>';
+      }
       const a = f.team || "India",
         b = f.opponent || "Opponent TBA";
       document.title = a + " vs " + b + " | Match Details";
