@@ -270,9 +270,9 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
   const fixture = {
-    checkedAt: "2026-10-13T12:00:00Z",
+    checkedAt: "2026-10-15T12:00:00Z",
     fixtures: [{
-      date: "2099-08-01", label: "Sat, 1 Aug 2099", match: "Tour match",
+      date: "2026-10-17", label: "Sat, 17 Oct 2026", match: "Tour match",
       team: "India", opponent: "Australia", venue: "Test Ground", time: "19:00",
       newsUrl: "/news/", tilakInSquad: true,
       confirmationSource: "BCCI squad announcement naming Tilak Varma"
@@ -280,7 +280,7 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
   };
   const bcciFixtures = {
     fixtures: [{
-      date: "2099-08-01", match: "Tour match", team: "India", opponent: "Australia",
+      date: "2026-10-17", match: "Tour match", team: "India", opponent: "Australia",
       venue: "Test Ground", time: "19:00", source: "https://stats.bcci.tv/match/fixtures/test"
     }]
   };
@@ -346,7 +346,7 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
 });
 
 check("One Over updates available overs when format changes", async () => {
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 }, acceptDownloads: true });
   page.setDefaultTimeout(12000);
   await page.addInitScript(() => {
     window.addEventListener("error", event => {
