@@ -77,7 +77,7 @@
     img.src = photo.safe;
     img.alt = photo.title || "Tilak Varma photo";
     caption.textContent =
-      (photo.title || "Tilak Varma photo") + " · " + (photo.album || "General Photos");
+      displayTitle(photo) + " · " + (photo.album || "General Photos");
     lightbox.classList.add("is-open");
     document.body.classList.add("lightbox-locked");
     lightbox.querySelector(".lightbox-close").focus();
@@ -87,10 +87,14 @@
     lightbox.classList.remove("is-open");
     document.body.classList.remove("lightbox-locked");
   }
+  function displayTitle(photo) {
+    const title = String(photo.title || "").trim();
+    return !title || /^#?\\d{1,4}$/.test(title) ? "Photo " + title.replace(/^#/, "") : title;
+  }
   function render() {
     const term = search.value.trim().toLowerCase();
     filtered = photos.filter((photo) =>
-      [photo.title, photo.album, photo.createdAt].some((value) =>
+      [displayTitle(photo), photo.album, photo.createdAt].some((value) =>
         String(value || "")
           .toLowerCase()
           .includes(term),
