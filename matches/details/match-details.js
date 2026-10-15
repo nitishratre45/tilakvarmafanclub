@@ -131,7 +131,11 @@
         return (
           '<div class="details-player-row"><span class="details-player-avatar">' +
           (safeImage
-            ? '<img src="' + esc(safeImage) + '" alt="" loading="lazy" decoding="async"><span style="display:none">' + esc(initials) + "</span>"
+            ? '<img src="' +
+              esc(safeImage) +
+              '" alt="" loading="lazy" decoding="async"><span style="display:none">' +
+              esc(initials) +
+              "</span>"
             : esc(initials)) +
           '</span><span class="details-player-copy"><strong>' +
           esc(n) +
@@ -142,11 +146,15 @@
       })
       .join("");
     host.querySelectorAll(".details-player-avatar img").forEach((img) => {
-      img.addEventListener("error", () => {
-        img.remove();
-        const fallback = img.parentElement?.querySelector("span");
-        if (fallback) fallback.style.display = "inline";
-      }, { once: true });
+      img.addEventListener(
+        "error",
+        () => {
+          img.remove();
+          const fallback = img.parentElement?.querySelector("span");
+          if (fallback) fallback.style.display = "inline";
+        },
+        { once: true },
+      );
     });
   }
   function sourceLink(label, url) {

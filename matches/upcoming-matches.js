@@ -248,7 +248,11 @@
                   encodeURIComponent(fixture.match || "") +
                   "&opponent=" +
                   encodeURIComponent(fixture.opponent || "") +
-                  ((fixture.matchId || fixture.match_id || fixture.gid || fixture.rawBcci?.match_id || fixture.rawBcci?.gid)
+                  (fixture.matchId ||
+                  fixture.match_id ||
+                  fixture.gid ||
+                  fixture.rawBcci?.match_id ||
+                  fixture.rawBcci?.gid
                     ? "&matchId=" +
                       encodeURIComponent(
                         fixture.matchId ||
@@ -261,7 +265,9 @@
               ) +
               '">Full Match Details ↗</a>' +
               (fixture.newsUrl
-                ? ' <a class="upcoming-match-source" href="' + esc(fixture.newsUrl) + '" target="_blank" rel="noopener noreferrer">Source ↗</a>'
+                ? ' <a class="upcoming-match-source" href="' +
+                  esc(fixture.newsUrl) +
+                  '" target="_blank" rel="noopener noreferrer">Source ↗</a>'
                 : "") +
               "</div></article>",
           )
