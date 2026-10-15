@@ -195,7 +195,9 @@
           )
           .join("|");
       const overrides = new Map(manual.filter((f) => f.overrideKey).map((f) => [f.overrideKey, f]));
-      const exact = new Map(manual.filter((f) => !f.overrideKey).map((f) => [manualFixtureKey(f), f]));
+      const exact = new Map(
+        manual.filter((f) => !f.overrideKey).map((f) => [manualFixtureKey(f), f]),
+      );
       fixtures = fixtures.map((f) => ({
         ...f,
         ...(overrides.get(sourceKey(f)) || exact.get(manualFixtureKey(f)) || {}),
