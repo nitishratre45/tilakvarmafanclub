@@ -9,6 +9,11 @@ html body.tv-bottom-nav-enabled {
   display: none !important;
 }
 @media screen and (max-width: 800px) {
+  /* When the header menu is open, the fixed dock must not cover menu links. */
+  html body.tv-bottom-nav-enabled.mobile-menu-open > .tv-mobile-bottom-nav {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
   html body.tv-bottom-nav-enabled {
     padding-bottom: calc(
       var(--tv-bottom-nav-height) + 28px + env(safe-area-inset-bottom, 0px)
