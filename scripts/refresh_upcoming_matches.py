@@ -3,9 +3,9 @@
 
 The existing BCCI News API pipeline owns news discovery. This script reads its
 published JSON archive, extracts explicit fixture tables only from squad
-announcements that name Tilak Varma, and updates only the fixtures array in the
-existing renderer. If the archive is stale, missing, or cannot be parsed, the
-existing fixture array is preserved.
+announcements that name Tilak Varma, and updates the canonical fixture snapshot.
+If the archive is stale, missing, or cannot be parsed, the existing future
+fixtures are preserved.
 """
 from __future__ import annotations
 
@@ -97,6 +97,18 @@ def parse_time(value: str) -> str:
     return f"{hour:02d}:{minute:02d}"
 
 
+def clean_venue(value: str) -> str:
+    """Strip article text accidentally appended to a schedule table's last venue."""
+    venue = re.sub(r"\s+", " ", str(value or "")).strip()
+    venue = re.split(
+        r"\s+(?:Rest of India squad:|India A squad:|DEVAJIT SAIKIA)",
+        venue,
+        maxsplit=1,
+        flags=re.I,
+    )[0].strip()
+    return venue
+
+
 def article_text(article: dict) -> str:
     parts = [
         article.get("title", ""),
@@ -182,7 +194,7 @@ def article_fixtures(article: dict) -> list[dict]:
                 continue
             match_label = str(row[match_i] or "").strip()
             date = parse_date(str(row[date_i] or ""))
-            venue = str(row[venue_i] or "").strip()
+            venue = clean_venue(str(row[venue_i] or ""))
             if (
                 not date
                 or not venue
@@ -248,12 +260,7 @@ def article_fixtures(article: dict) -> list[dict]:
                     match_label = row[match_i] if match_i < len(row) else ""
                     venue = row[venue_i] if venue_i < len(row) else ""
                     # BCCI pageText may append article text to the final venue.
-                    venue = re.split(
-                        r"\s+(?:Rest of India squad:|India A squad:|DEVAJIT SAIKIA)",
-                        venue,
-                        maxsplit=1,
-                        flags=re.I,
-                    )[0].strip()
+                    venue = clean_venue(venue)
                     time_value = (
                         row[time_i] if time_i is not None and time_i < len(row) else ""
                     )
