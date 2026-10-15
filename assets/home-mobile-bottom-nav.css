@@ -139,7 +139,8 @@
 }
 
 /* Force mobile composition on narrow physical screens even if Chrome requests Desktop site. */
-@media (max-device-width: 800px) and (orientation: portrait), (pointer: coarse) and (hover: none) and (orientation: portrait) {
+@media (max-device-width: 800px) and (orientation: portrait),
+  (pointer: coarse) and (hover: none) and (orientation: portrait) {
   html {
     -webkit-text-size-adjust: 100%;
   }
