@@ -180,6 +180,18 @@ canvas {
   }
 }
 /* Respect the existing user-selected light theme. */
-
-
-
+:root[data-theme-resolved="light"] body {
+  background:
+    radial-gradient(ellipse at 78% -8%, rgba(20, 90, 150, 0.08), transparent 34rem), #f2f7ff;
+}
+:root[data-theme-resolved="light"] .section {
+  border-color: #d4e2f4;
+  background: linear-gradient(155deg, #fff, #edf4ff);
+  box-shadow: 0 12px 30px rgba(29, 71, 122, 0.08);
+}
+:root[data-theme-resolved="light"] .home-snapshot-block,
+:root[data-theme-resolved="light"] .home-bowling-card
+{
+  background: linear-gradient(145deg, #fff, #edf4ff);
+  border-color: #d4e2f4;
+}
