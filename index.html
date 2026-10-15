@@ -293,17 +293,25 @@
             document.body.style.removeProperty("padding-bottom");
             return;
           }
-          nav.style.cssText = "position:fixed!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;gap:4px;left:12px;right:12px;bottom:calc(8px + env(safe-area-inset-bottom, 0px));z-index:2147483000;padding:6px;border:1px solid rgba(125,190,226,.45);border-radius:20px;background:rgba(7,24,43,.97);box-shadow:0 8px 28px rgba(0,0,0,.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)";
-          document.body.style.setProperty("padding-bottom", "calc(86px + env(safe-area-inset-bottom, 0px))", "important");
+          nav.style.cssText =
+            "position:fixed!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;gap:4px;left:12px;right:12px;bottom:calc(8px + env(safe-area-inset-bottom, 0px));z-index:2147483000;padding:6px;border:1px solid rgba(125,190,226,.45);border-radius:20px;background:rgba(7,24,43,.97);box-shadow:0 8px 28px rgba(0,0,0,.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)";
+          document.body.style.setProperty(
+            "padding-bottom",
+            "calc(86px + env(safe-area-inset-bottom, 0px))",
+            "important",
+          );
           nav.querySelectorAll("a").forEach((a) => {
-            a.style.cssText = "display:flex;min-width:0;min-height:54px;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#c9d9eb;text-decoration:none;font:600 10px/1.1 system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent";
+            a.style.cssText =
+              "display:flex;min-width:0;min-height:54px;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#c9d9eb;text-decoration:none;font:600 10px/1.1 system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent";
             if (a.hasAttribute("aria-current")) {
               a.style.color = "#8fe0ff";
               a.style.background = "rgba(37,126,177,.25)";
               a.style.borderRadius = "14px";
             }
             const svg = a.querySelector("svg");
-            if (svg) svg.style.cssText = "display:block;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round";
+            if (svg)
+              svg.style.cssText =
+                "display:block;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round";
           });
         };
         applyDock();
