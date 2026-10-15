@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-15T00:41:42+00:00",
+  "checkedAt": "2026-10-15T05:18:13+00:00",
   "intervalMinutes": 10,
   "status": "warning",
   "summary": {
-    "filesScanned": 418,
+    "filesScanned": 419,
     "checksPassed": 324,
     "issues": 0,
-    "warnings": 44
+    "warnings": 45
   },
   "items": [
     {
@@ -24,6 +24,11 @@
       "level": "warning",
       "message": "109 repeated CSS selector(s); review cascade/overrides: .sidebar (13x), .topbar (13x), .main (12x), .stats (12x), .stat (11x), .section-head (11x), .sidebar .nav a (10x), body (9x)",
       "file": "admin/admin-premium.css"
+    },
+    {
+      "level": "warning",
+      "message": "1 repeated CSS selector(s); review cascade/overrides: body (2x)",
+      "file": "assets/india-cricket-theme.css"
     },
     {
       "level": "warning",
@@ -57,7 +62,7 @@
     },
     {
       "level": "warning",
-      "message": "39 repeated CSS selector(s); review cascade/overrides: .home-bowling-stats (6x), .profile-copy h2 (4x), .home-bowling-heading (4x), .home-bowling-facts (4x), body > main > .section (3x), body > main > .profile-section (3x), .profile-copy h2 em (3x), .profile-data-grid (3x)",
+      "message": "64 repeated CSS selector(s); review cascade/overrides: .home-bowling-stats (7x), .home-format-facts (5x), .home-bowling-heading (5x), .home-bowling-facts (5x), .profile-copy h2 (4x), .home-snapshot-heading h2 (4x), .home-format-stats (4x), .home-format-fact (4x)",
       "file": "home/home-refresh.css"
     },
     {
@@ -1254,11 +1259,6 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/scorecards/data/2025-11-02-t20i-india-vs-australia-bbcf8862fbb5.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-11-06-t20-india-vs-australia-02a2adb3471a.json"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "10e068bd"
+    "branch": "4053c861"
   }
 }
