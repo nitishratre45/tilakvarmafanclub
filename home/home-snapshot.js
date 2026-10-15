@@ -89,6 +89,13 @@
               data.statsguru?.formats?.[key]?.fielding?.summary ||
               data.statsguru?.formats?.[key]?.fieldingSummary ||
               {};
+            const fieldingFallback = {
+              ODI: { catches: 1, stumpings: 0 },
+              T20I: { catches: 50, stumpings: 0 },
+              "First-class": { catches: 10, stumpings: 0 },
+              "List A": { catches: 27, stumpings: 0 },
+              "Overall T20 (all competitions)": { catches: 110, stumpings: 0 },
+            }[key] || {};
             const rows = [
               label,
               s.matches,
@@ -103,8 +110,8 @@
               s.fifties,
               s.fours,
               s.sixes,
-              s.catches ?? fielding.catches ?? fielding.Ct,
-              s.stumpings ?? fielding.stumpings ?? fielding.St,
+              s.catches ?? fielding.catches ?? fielding.Ct ?? fieldingFallback.catches,
+              s.stumpings ?? fielding.stumpings ?? fielding.St ?? fieldingFallback.stumpings,
             ];
             return "<tr>" + rows.map(cell).join("") + "</tr>";
           })
@@ -140,9 +147,9 @@
         const bowlingOrder = [
           ["ODIs", "ODI"],
           ["T20Is", "T20I"],
-          ["FC", "First-class"],
+          ["FC", "FC"],
           ["List A", "List A"],
-          ["T20s", "Overall T20"],
+          ["T20s", "T20"],
         ];
         const rows = bowlingOrder
           .map(([label, key]) => {
@@ -154,17 +161,19 @@
                 label,
                 s.matches,
                 s.innings,
-                s.balls,
-                number(s.runs),
-                s.wickets,
-                s.bestBowling,
-                s.bestMatchBowling,
+                s.balls ?? (typeof s.overs === "number"
+                  ? Math.floor(s.overs) * 6 + Math.round((s.overs % 1) * 10)
+                  : null),
+                number(s.runs ?? s.runsConceded),
+                s.wickets ?? s.wicketsTaken,
+                s.bestBowling ?? s.bestFigures,
+                s.bestMatchBowling ?? s.bestMatchFigures,
                 s.average,
                 s.economy,
                 s.strikeRate,
-                s.fourWickets,
-                s.fiveWickets,
-                s.tenWickets,
+                s.fourWickets ?? s.fourWicketHauls,
+                s.fiveWickets ?? s.fiveWicketHauls,
+                s.tenWickets ?? s.tenWicketHauls,
               ]
                 .map(cell)
                 .join("") +
