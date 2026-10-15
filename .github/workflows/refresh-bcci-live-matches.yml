@@ -2,7 +2,7 @@ name: Refresh BCCI Live Matches
 on:
   workflow_dispatch:
   schedule:
-    # GitHub Actions scheduled workflows have a 5-minute minimum supported cadence.
+    # GitHub Actions cron schedules use UTC; scheduled runs may start with some delay.
     - cron: "*/5 * * * *"
   push:
     branches: [main]
@@ -17,7 +17,7 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,26 +25,34 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Validate Python and saved JSON
+      - name: Validate refresh script and existing JSON when present
         run: |
+          set -euo pipefail
           python -m py_compile scripts/refresh_bcci_live_matches.py
-          python -m json.tool matches/live/live-matches.json > /dev/null
+          if [ -f matches/live/live-matches.json ]; then
+            python -m json.tool matches/live/live-matches.json > /dev/null
+          else
+            echo "Live JSON does not exist yet; the refresh script must create it."
+          fi
       - name: Fetch official BCCI live scores and save JSON
         run: python scripts/refresh_bcci_live_matches.py
       - name: Validate live-only JSON
         run: |
+          set -euo pipefail
+          test -f matches/live/live-matches.json
           python -m json.tool matches/live/live-matches.json > /dev/null
           python - <<'PY'
           import json
           from pathlib import Path
           data = json.loads(Path("matches/live/live-matches.json").read_text(encoding="utf-8"))
-          assert data.get("status") == "updated-from-bcci-live-scores"
-          assert isinstance(data.get("matches"), list)
-          assert data.get("matchCount") == len(data["matches"])
+          assert data.get("status") == "updated-from-bcci-live-scores", "Unexpected live feed status"
+          assert isinstance(data.get("matches"), list), "matches must be a JSON array"
+          assert data.get("matchCount") == len(data["matches"]), "matchCount does not match matches length"
           print(f"Validated {len(data['matches'])} live match cards.")
           PY
       - name: Commit changed live JSON only
         run: |
+          set -euo pipefail
           git add matches/live/live-matches.json
           if git diff --cached --quiet; then
             echo "Live JSON unchanged."
