@@ -454,3 +454,18 @@ body {
     transition: none !important;
   }
 }
+
+
+/* Recent scorecard uses the same Matches folder header and mobile navigation. */
+body.matches-page.scorecard-page{min-height:100vh;background:radial-gradient(ellipse at 50% -18%,rgba(17,77,132,.45),transparent 46%),#061222}
+body.matches-page.scorecard-page>header.topbar{position:sticky;top:0;z-index:10000}
+body.matches-page.scorecard-page .recent-scorecard-main{width:min(1120px,calc(100% - 32px));margin:24px auto 64px}
+body.matches-page.scorecard-page .scorecard-back{display:inline-flex;margin:0 0 18px;padding:10px 14px;border:1px solid rgba(112,190,226,.22);border-radius:11px;background:rgba(12,39,65,.7)}
+.scorecard-ball-by-ball{margin-top:24px;border:1px solid var(--sc-line);border-radius:15px;background:rgba(3,15,28,.28);overflow:hidden}
+.scorecard-ball-by-ball>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;color:var(--sc-cyan);font-size:18px;font-weight:850;cursor:pointer;list-style:none}
+.scorecard-ball-by-ball>summary::-webkit-details-marker{display:none}
+.scorecard-ball-by-ball>summary::after{content:"+";display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border:1px solid var(--sc-line);border-radius:8px;color:#d7efff}
+.scorecard-ball-by-ball[open]>summary::after{content:"−"}
+.scorecard-ball-by-ball-content{padding:0 16px 14px}
+.scorecard-ball-by-ball-content>.scorecard-over:last-child{border-bottom:0}
+@media(max-width:700px){body.matches-page.scorecard-page .recent-scorecard-main{width:calc(100% - 24px);margin:18px auto 48px}.scorecard-ball-by-ball>summary{padding:14px;font-size:16px}.scorecard-ball-by-ball-content{padding:0 12px 12px}}
