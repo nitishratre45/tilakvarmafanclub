@@ -417,6 +417,10 @@
         resultsResponse && resultsResponse.ok
           ? await resultsResponse.json().catch(() => null)
           : null;
+      const squadsSnapshot =
+        squadsResponse && squadsResponse.ok
+          ? await squadsResponse.json().catch(() => null)
+          : null;
       const scorecardIndex =
         scorecardIndexResponse && scorecardIndexResponse.ok
           ? await scorecardIndexResponse.json().catch(() => null)
