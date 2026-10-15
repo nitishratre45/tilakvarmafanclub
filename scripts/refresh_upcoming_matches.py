@@ -401,7 +401,7 @@ def main() -> None:
         matched = bcci_fixture_for(news_fixture, bcci_fixtures)
         if matched:
             fixtures.append(matched)
-        else:
+        elif str(news_fixture.get("date") or "") >= datetime.now().date().isoformat():
             unmatched.append(
                 {
                     "date": news_fixture.get("date"),
@@ -413,6 +413,7 @@ def main() -> None:
 
     today = datetime.now().date().isoformat()
     fixtures = [fixture for fixture in fixtures if fixture["date"] >= today]
+    unmatched = [row for row in unmatched if str(row.get("date") or "") >= today]
 
     previous_report = {}
     if REPORT_FILE.exists():
@@ -451,9 +452,9 @@ def main() -> None:
         "fixtures": fixtures,
         "publicJsChanged": False,
         "note": (
-            "Live Match Centre reads this canonical JSON snapshot directly. Fixtures are extracted only from official BCCI squad announcements naming Tilak Varma and explicit schedule tables."
-            if status == "updated-from-news-json"
-            else "No new verified future fixtures could be extracted; prior future fixtures were preserved."
+            "News JSON confirms Tilak Varma's squad selection; every displayed fixture is joined to BCCI Stats by exact date, match label, and India/opponent pair."
+            if status == "updated-from-news-and-bcci-json"
+            else "No exact BCCI fixture match was available. Only previously verified future fixtures were preserved; unmatched fixtures are not displayed."
         ),
     }
     REPORT_FILE.write_text(
