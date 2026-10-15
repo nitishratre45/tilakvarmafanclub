@@ -77,6 +77,18 @@
   color: var(--muted, #aebbd0);
 }
 
+/* Recent innings: show a clear unavailable state instead of linking to the wrong match. */
+.matches-main .recent-match-scorecard-unavailable {
+  display: inline-block;
+  color: var(--muted, #aebbd0);
+  font-size: 0.88rem;
+  white-space: nowrap;
+  opacity: 0.82;
+}
+.matches-main .recent-match-details-link {
+  white-space: nowrap;
+}
+ 
 /* ---------- Footer ---------- */
 .matches-page footer {
   display: flex;
