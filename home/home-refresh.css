@@ -251,7 +251,7 @@ body > main > .profile-section {
   color: #f4f8ff;
   font-size: clamp(0.9rem, 1.2vw, 1.08rem);
   line-height: 1.45;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .profile-ranking-card {
   grid-column: auto;
@@ -286,7 +286,7 @@ body > main > .profile-section {
   margin-top: 8px;
   color: #fff;
   font: 800 clamp(1.2rem, 2vw, 1.7rem) / 1.2 var(--display, sans-serif);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .profile-ranking-updated,
 .home-bowling-updated {
@@ -407,7 +407,7 @@ body > main > .profile-section {
   color: #fff;
   font: 800 clamp(2rem, 3.8vw, 3.2rem) / 1 var(--display, sans-serif);
   letter-spacing: -0.025em;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .home-format-heading {
   margin: 34px 0 14px;
@@ -512,7 +512,7 @@ body > main > .profile-section {
   color: #9eb1c9;
   font-size: 0.77rem;
   line-height: 1.6;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .home-snapshot-foot {
   display: flex;
@@ -568,7 +568,6 @@ body > footer {
     padding-inline: 28px;
   }
   .profile-data-grid {
-    grid-template-columns: minmax(0, 1fr);
   }
   .profile-ranking-card {
     grid-column: auto;
@@ -577,7 +576,6 @@ body > footer {
     grid-column: auto;
   }
   .home-format-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 680px) {
@@ -587,7 +585,6 @@ body > footer {
   }
   body > main > .profile-section {
     width: 100%;
-    grid-template-columns: minmax(0, 1fr);
     gap: 26px;
     padding: 34px 18px 30px;
   }
@@ -627,7 +624,6 @@ body > footer {
     gap: 12px;
   }
   .profile-facts {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     padding: 12px;
   }
   .profile-facts > div,
@@ -642,7 +638,6 @@ body > footer {
     border-bottom: 0;
   }
   .profile-ranking-values {
-    grid-template-columns: minmax(0, 1fr);
   }
   .home-snapshot-heading,
   .home-bowling-heading,
@@ -660,7 +655,6 @@ body > footer {
     width: 100%;
   }
   .home-quick-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
   .home-mini-stat {
@@ -674,11 +668,9 @@ body > footer {
     font-size: clamp(1.8rem, 9vw, 2.6rem);
   }
   .home-format-stats {
-    grid-template-columns: minmax(0, 1fr);
   }
 
   .home-bowling-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .home-innings-row {
     grid-template-columns: 78px minmax(0, 1fr);
@@ -705,11 +697,10 @@ body > footer {
   margin-top: 16px;
   color: #9fb3cc;
   font: 500 0.72rem/1.7 var(--mono, monospace);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 @media (max-width: 680px) {
   .home-bowling-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -805,7 +796,6 @@ body > footer {
     font-size: 0.68rem;
   }
   .home-bowling-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
   }
   .home-bowling-stats > * {
@@ -818,7 +808,6 @@ body > footer {
     flex-direction: column;
   }
   .home-bowling-stats {
-    grid-template-columns: minmax(0, 1fr);
   }
 
   .profile-copy h2 {
@@ -872,7 +861,6 @@ body > footer {
     line-height: 1.08;
   }
   .home-quick-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
     margin-top: 15px;
   }
@@ -894,7 +882,6 @@ body > footer {
     letter-spacing: 0.1em;
   }
   .home-format-stats {
-    grid-template-columns: minmax(0, 1fr);
     gap: 9px;
   }
 
@@ -921,7 +908,6 @@ body > footer {
     font-size: 0.67rem;
   }
   .home-bowling-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 7px;
   }
   .home-bowling-stats > * {
@@ -1525,7 +1511,7 @@ body > main > .section > * {
 .home-mini-stat,
 .home-format-fact,
 .home-bowling-fact {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .home-snapshot-section .home-career-table-wrap {
   max-width: 100%;
@@ -1546,7 +1532,6 @@ body > main > .section > * {
   .home-format-facts,
   .home-bowling-facts {
     min-width: 0;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .home-snapshot-section .home-career-table-wrap {
     overscroll-behavior-inline: contain;
@@ -1561,6 +1546,5 @@ body > main > .section > * {
   .home-bowling-stats,
   .home-format-facts,
   .home-bowling-facts {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
