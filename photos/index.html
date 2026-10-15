@@ -24,13 +24,12 @@
       content="Tilak Varma photo archive — official images, match moments and fan-club albums arranged by date."
     />
     <title>Photos | Tilak Varma Fan Club</title>
-    <link rel="stylesheet" href="/photos/style.css?v=20261013-sticky-menu-fix1" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css" />
-    <link rel="stylesheet" href="/photos/premium-ui.css?v=20261011-audit-pro1" />
-    <link rel="stylesheet" href="/photos/site-refinement.css?v=20261013-sticky-menu-fix2" />
-    <link rel="stylesheet" href="/photos/gallery.css?v=20261013-dedicated-photos1" />
-    <link rel="stylesheet" href="/photos/photos.css?v=20261013-dedicated-photos1" />
-    <link rel="stylesheet" href="/photos/admin-inspired-ui.css?v=20261011-admin-theme1" />
+    <link rel="stylesheet" href="/photos/style.css?v=20261015-photo-audit1" />
+    <link rel="stylesheet" href="/photos/premium-ui.css?v=20261015-photo-audit1" />
+    <link rel="stylesheet" href="/photos/site-refinement.css?v=20261015-photo-audit1" />
+    <link rel="stylesheet" href="/photos/gallery.css?v=20261015-photo-audit1" />
+    <link rel="stylesheet" href="/photos/photos.css?v=20261015-photo-audit1" />
+    <link rel="stylesheet" href="/photos/admin-inspired-ui.css?v=20261015-photo-audit1" />
 
     <style id="site-navbar-theme">
       html body header.topbar {
@@ -136,37 +135,12 @@
       ><span> · <span id="year"></span></span><span>RESPECT THE GAME. BACK THE PLAYER.</span>
     </footer>
     <script src="/assets/site-data-store.js?v=20261013-root-data-loader-fix1"></script>
-    <script src="/photos/gallery.js?v=20261013-dedicated-photos1"></script>
-    <script src="/photos/theme.js?v=20261014"></script>
+    <script src="/photos/gallery.js?v=20261015-photo-audit1"></script>
     <script>
       (() => {
         const menu = document.querySelector(".menu-toggle");
         const nav = document.getElementById("main-nav");
-        if (menu && nav)
-          menu.addEventListener("click", () => {
-            const open = menu.getAttribute("aria-expanded") !== "true";
-            menu.setAttribute("aria-expanded", String(open));
-            nav.classList.toggle("is-open", open);
-          });
-        nav?.addEventListener("click", (event) => {
-          if (event.target.closest("a")) {
-            nav.classList.remove("is-open");
-            menu?.setAttribute("aria-expanded", "false");
-          }
-        });
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "Escape" && nav?.classList.contains("is-open")) {
-            nav.classList.remove("is-open");
-            menu?.setAttribute("aria-expanded", "false");
-            menu?.focus();
-          }
-        });
-        document.addEventListener("click", (event) => {
-          if (nav && menu && !nav.contains(event.target) && !menu.contains(event.target)) {
-            nav.classList.remove("is-open");
-            menu.setAttribute("aria-expanded", "false");
-          }
-        });
+        // Navigation interactions are owned by the shared mobile-glass-menu.js controller.
         const year = document.getElementById("year");
         if (year) year.textContent = new Date().getFullYear();
         const logo = document.querySelector("[data-tilak-logo]");
