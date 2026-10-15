@@ -365,11 +365,22 @@
             .filter(Boolean)
             .join(" · "),
         }));
-      showPlayers("squad-team-list", detail.squads?.[a] || f.squad || adaptPlayers(teamSquad));
-      showPlayers(
-        "squad-opponent-list",
-        detail.squads?.[b] || f.opponentSquad || adaptPlayers(opponentSquad),
+      // Additive fallback order: keep the existing manual/fixture squads working
+      // unless the refreshed BCCI snapshot actually contains player records.
+      const firstNonEmptyPlayers = (...lists) =>
+        lists.find((list) => Array.isArray(list) && list.length > 0) || [];
+      const homePlayers = firstNonEmptyPlayers(
+        detail.squads?.[a],
+        f.squad,
+        adaptPlayers(teamSquad),
       );
+      const awayPlayers = firstNonEmptyPlayers(
+        detail.squads?.[b],
+        f.opponentSquad,
+        adaptPlayers(opponentSquad),
+      );
+      showPlayers("squad-team-list", homePlayers);
+      showPlayers("squad-opponent-list", awayPlayers);
       if (squadsSnapshot?.checkedAt) {
         set(
           "workflow-squad",
