@@ -81,7 +81,12 @@
     () => {
       if (window.matchMedia("(min-width: 801px)").matches) {
         const parts = getParts();
-        if (parts) finishClose(parts);
+        if (!parts) return;
+        // Clear the mobile overlay synchronously when crossing to desktop.
+        // finishClose intentionally ignores an open panel during normal animation.
+        window.clearTimeout(closeTimer);
+        parts.nav.classList.remove("open", "is-open");
+        finishClose(parts);
       }
     },
     { passive: true },
