@@ -723,6 +723,7 @@
           // Refresh the visible scoreboard without reloading the page.
           window.setInterval(renderLiveSnapshot, 30000);
         }
+      }
       const a = f.team || "India",
         b = f.opponent || "Opponent TBA";
       document.title = a + " vs " + b + " | Match Details";
