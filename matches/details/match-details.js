@@ -121,15 +121,18 @@
           typeof p === "string"
             ? ""
             : [p.role, p.battingStyle, p.bowlingStyle].filter(Boolean).join(" · ");
+        const initials = n
+          .split(/\s+/)
+          .map((x) => x[0])
+          .slice(0, 2)
+          .join("");
+        const image = typeof p === "object" ? p.image || p.player_image || "" : "";
+        const safeImage = /^https:\/\//i.test(String(image)) ? String(image) : "";
         return (
           '<div class="details-player-row"><span class="details-player-avatar">' +
-          esc(
-            n
-              .split(/\s+/)
-              .map((x) => x[0])
-              .slice(0, 2)
-              .join(""),
-          ) +
+          (safeImage
+            ? '<img src="' + esc(safeImage) + '" alt="" loading="lazy" decoding="async"><span>' + esc(initials) + "</span>"
+            : esc(initials)) +
           '</span><span class="details-player-copy"><strong>' +
           esc(n) +
           "</strong><small>" +
@@ -138,6 +141,13 @@
         );
       })
       .join("");
+    host.querySelectorAll(".details-player-avatar img").forEach((img) => {
+      img.addEventListener("error", () => {
+        img.remove();
+        const fallback = img.parentElement?.querySelector("span");
+        if (fallback) fallback.style.display = "inline";
+      }, { once: true });
+    });
   }
   function sourceLink(label, url) {
     if (!url) return "";
@@ -691,6 +701,7 @@
       const adaptPlayers = (squad) =>
         (squad?.players || []).map((p) => ({
           name: p.player_known_as || p.player_name || "Player",
+          image: p.player_image || "",
           role: [p.player_role, p.is_captain ? "Captain" : "", p.is_keeper ? "Wicketkeeper" : ""]
             .filter(Boolean)
             .join(" · "),
