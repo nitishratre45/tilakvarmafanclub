@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261016-menu-zfix1" />
     <link
       rel="stylesheet"
-      href="/assets/mobile-bottom-nav.css?v=20261016-home-touch-viewport-fix2"
+      href="/assets/mobile-bottom-nav.css?v=20261016-home-static-fallback3"
     />
 
     <link
@@ -115,11 +115,13 @@
   </head>
   <body>
     <!-- Home mobile navigation markup stays at the top of the document; CSS pins it to the viewport bottom. -->
-    <nav
-      class="tv-mobile-bottom-nav"
-      data-tv-bottom-nav-static="home"
-      aria-label="Mobile quick navigation"
-    ></nav>
+    <nav class="tv-mobile-bottom-nav" data-tv-bottom-nav-static="home" aria-label="Mobile quick navigation">
+      <a href="/" aria-label="Home"><span>⌂</span><span>Home</span></a>
+      <a href="/matches/" aria-label="Matches"><span>▦</span><span>Matches</span></a>
+      <a href="/photos/" aria-label="Photos"><span>▧</span><span>Photos</span></a>
+      <a href="/videos/" aria-label="Videos"><span>▷</span><span>Videos</span></a>
+      <button type="button" class="tv-mobile-menu-trigger" aria-label="More sections" aria-expanded="false" aria-controls="tv-mobile-extra-menu"><span>☷</span><span>Menu</span></button>
+    </nav>
     <div class="tv-mobile-extra-menu" id="tv-mobile-extra-menu" hidden></div>
     <header class="topbar">
       <a class="brand" href="#profile" aria-label="Home"
@@ -335,6 +337,6 @@
       }
     </script>
     <script src="/assets/mobile-glass-menu.js?v=20261015-home-unused-css-cleanup1"></script>
-    <script src="/assets/mobile-bottom-nav.js?v=20261016-home-touch-viewport-fix2"></script>
+    <script src="/assets/mobile-bottom-nav.js?v=20261016-home-static-fallback3"></script>
   </body>
 </html>
