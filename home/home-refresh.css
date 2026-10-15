@@ -1349,7 +1349,6 @@ body > footer {
   }
 }
 
-
 /* Fix: section titles must stay outside horizontally scrolling career tables. */
 .home-career-table-section {
   min-width: 0;
@@ -1361,7 +1360,7 @@ body > footer {
   box-sizing: border-box;
   margin: 0;
   padding: 13px 16px;
-  border: 1px solid rgba(110, 168, 255, .22);
+  border: 1px solid rgba(110, 168, 255, 0.22);
   border-bottom: 0;
   border-radius: 15px 15px 0 0;
   background: linear-gradient(100deg, #172d4b, #13233d 70%, #182642);
@@ -1369,7 +1368,7 @@ body > footer {
   font-size: 1rem;
   line-height: 1.35;
   font-weight: 850;
-  letter-spacing: .045em;
+  letter-spacing: 0.045em;
   text-align: left;
 }
 .home-career-table-wrap {
@@ -1394,10 +1393,10 @@ body > footer {
 }
 .home-snapshot-section .home-bowling-updated {
   margin-top: 0;
-  border: 1px solid rgba(110, 168, 255, .17);
+  border: 1px solid rgba(110, 168, 255, 0.17);
   border-top: 0;
   border-radius: 0 0 13px 13px;
-  background: rgba(7, 17, 31, .75);
+  background: rgba(7, 17, 31, 0.75);
 }
 @media (max-width: 680px) {
   .home-career-table-section {
@@ -1405,7 +1404,7 @@ body > footer {
   }
   .home-career-table-title {
     padding: 12px 13px;
-    font-size: .9rem;
+    font-size: 0.9rem;
     border-radius: 12px 12px 0 0;
   }
   .home-career-table-wrap {
