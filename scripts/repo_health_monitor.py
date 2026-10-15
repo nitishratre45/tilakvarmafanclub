@@ -38,7 +38,7 @@ def css_syntax_error(text):
                 i += 1
             continue
         if quote:
-            if text[i] == "\\\\":
+            if text[i] == "\\":
                 i += 2
                 continue
             if text[i] == quote:
