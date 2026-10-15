@@ -875,9 +875,9 @@ body.photos-page {
     inset: 0;
     z-index: 2147482999;
     pointer-events: none;
-    background: rgba(3, 13, 30, .12);
-    -webkit-backdrop-filter: blur(3px) saturate(.88);
-    backdrop-filter: blur(3px) saturate(.88);
+    background: rgba(3, 13, 30, 0.12);
+    -webkit-backdrop-filter: blur(3px) saturate(0.88);
+    backdrop-filter: blur(3px) saturate(0.88);
   }
   html body.photos-page > .tv-mobile-extra-menu:not([hidden]) {
     bottom: calc(94px + env(safe-area-inset-bottom, 0px)) !important;
@@ -889,10 +889,12 @@ body.photos-page {
     overscroll-behavior: contain;
     scrollbar-width: none;
   }
-  html body.photos-page > .tv-mobile-extra-menu:not([hidden])::-webkit-scrollbar { display: none; }
+  html body.photos-page > .tv-mobile-extra-menu:not([hidden])::-webkit-scrollbar {
+    display: none;
+  }
   .tv-mobile-extra-menu__heading {
     padding: 3px 5px 9px !important;
-    letter-spacing: .18em !important;
+    letter-spacing: 0.18em !important;
   }
   .tv-mobile-extra-menu__heading > span::before {
     content: "";
@@ -915,20 +917,27 @@ body.photos-page {
     outline-offset: 2px !important;
   }
   .tv-mobile-extra-menu > a:active .tv-extra-icon {
-    transform: scale(.94);
+    transform: scale(0.94);
   }
-  .tv-extra-icon { transition: transform .18s ease; }
+  .tv-extra-icon {
+    transition: transform 0.18s ease;
+  }
   html body.photos-page > nav.tv-mobile-bottom-nav > a,
   html body.photos-page > nav.tv-mobile-bottom-nav > button.tv-mobile-menu-trigger {
-    transition: color .18s ease, background .18s ease, transform .18s ease !important;
+    transition:
+      color 0.18s ease,
+      background 0.18s ease,
+      transform 0.18s ease !important;
   }
   html body.photos-page > nav.tv-mobile-bottom-nav > a:active,
   html body.photos-page > nav.tv-mobile-bottom-nav > button.tv-mobile-menu-trigger:active {
-    transform: scale(.95) !important;
+    transform: scale(0.95) !important;
   }
 }
 @media screen and (min-width: 801px) {
-  html body.photos-page::after { display: none !important; }
+  html body.photos-page::after {
+    display: none !important;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   html body.photos-page > .tv-mobile-extra-menu:not([hidden]),
