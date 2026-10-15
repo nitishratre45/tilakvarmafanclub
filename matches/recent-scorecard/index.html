@@ -53,13 +53,13 @@
     <script src="/matches/theme.js?v=20261014-details-v1"></script>
     <script>
       (() => {
-        const menuToggle = document.querySelector('.menu-toggle');
-        const mainNav = document.getElementById('main-nav');
+        const menuToggle = document.querySelector(".menu-toggle");
+        const mainNav = document.getElementById("main-nav");
         if (menuToggle && mainNav) {
-          menuToggle.addEventListener('click', () => {
-            const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-            menuToggle.setAttribute('aria-expanded', String(!expanded));
-            mainNav.classList.toggle('open', !expanded);
+          menuToggle.addEventListener("click", () => {
+            const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+            menuToggle.setAttribute("aria-expanded", String(!expanded));
+            mainNav.classList.toggle("open", !expanded);
           });
         }
         const $ = (id) => document.getElementById(id);
