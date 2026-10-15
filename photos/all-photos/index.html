@@ -12,10 +12,19 @@
   <body class="all-photos-page">
     <header class="topbar">
       <a class="brand" href="/" aria-label="Home">
-        <span class="brand-mark"><img src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" /></span>
+        <span class="brand-mark"
+          ><img
+            src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+            alt=""
+        /></span>
         <span>TILAK VARMA <small>FAN CLUB</small></span>
       </a>
-      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+      <button
+        class="menu-toggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
         <span></span><span></span><span></span>
       </button>
       <nav id="main-nav">
@@ -27,7 +36,9 @@
     <main class="all-photos-main">
       <nav class="view-switch" aria-label="Photo archive">
         <a href="/photos/">Gallery <small>Browse albums</small></a>
-        <a href="/photos/all-photos/" class="active" aria-current="page">All Photos <small>Every photo</small></a>
+        <a href="/photos/all-photos/" class="active" aria-current="page"
+          >All Photos <small>Every photo</small></a
+        >
       </nav>
       <section class="all-photos-panel" aria-labelledby="all-photos-title">
         <header class="page-heading">
@@ -39,17 +50,37 @@
           <span id="all-photos-count" class="photo-count" aria-live="polite">Loading photos…</span>
         </header>
         <div class="toolbar">
-          <label><span>SEARCH PHOTOS</span><input id="photo-search" type="search" placeholder="Search title or album…" autocomplete="off" /></label>
-          <label><span>SORT BY</span><select id="photo-sort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="album">Album name</option></select></label>
+          <label
+            ><span>SEARCH PHOTOS</span
+            ><input
+              id="photo-search"
+              type="search"
+              placeholder="Search title or album…"
+              autocomplete="off"
+          /></label>
+          <label
+            ><span>SORT BY</span
+            ><select id="photo-sort">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="album">Album name</option>
+            </select></label
+          >
         </div>
         <div id="all-photos-grid" class="all-photos-grid" aria-live="polite">
           <p class="loading-state">Loading Tilak Varma photos…</p>
         </div>
-        <p id="all-photos-empty" class="empty-state" hidden>No photos match your search. Try another title or album.</p>
-        <button id="load-more-photos" class="load-more" type="button" hidden>Load more photos ↓</button>
+        <p id="all-photos-empty" class="empty-state" hidden>
+          No photos match your search. Try another title or album.
+        </p>
+        <button id="load-more-photos" class="load-more" type="button" hidden>
+          Load more photos ↓
+        </button>
       </section>
     </main>
-    <footer><a href="/photos/">← Back to Gallery</a><span>THE 72 CLUB · PHOTO ARCHIVE</span></footer>
+    <footer>
+      <a href="/photos/">← Back to Gallery</a><span>THE 72 CLUB · PHOTO ARCHIVE</span>
+    </footer>
     <script src="/photos/all-photos/all-photos.js?v=20261015-allphotos1"></script>
     <script src="/assets/mobile-glass-menu.js?v=20261014-smooth-close5"></script>
   </body>
