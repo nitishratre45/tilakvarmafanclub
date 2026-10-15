@@ -512,8 +512,10 @@
       };
       const matchingScorecard = scorecardRows.find((row) => {
         const rowDate = String(row.date || "").slice(0, 10);
-        return scorecardMatchesTeams(row) &&
-          (!f.date || !rowDate || rowDate === String(f.date).slice(0, 10));
+        return (
+          scorecardMatchesTeams(row) &&
+          (!f.date || !rowDate || rowDate === String(f.date).slice(0, 10))
+        );
       });
       // Use the latest saved same-teams scorecard as a clearly labelled fallback.
       const fallbackScorecard = matchingScorecard || scorecardRows.find(scorecardMatchesTeams);
@@ -528,7 +530,8 @@
               const host = $("details-scoreboard");
               const note = document.createElement("p");
               note.className = "scoreboard-status";
-              note.textContent = "Latest saved completed scorecard for these teams (" +
+              note.textContent =
+                "Latest saved completed scorecard for these teams (" +
                 String(fallbackScorecard.date || "date unavailable") +
                 "). This is not a live score for the selected fixture.";
               host.prepend(note);
