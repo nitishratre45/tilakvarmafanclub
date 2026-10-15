@@ -498,8 +498,14 @@
         fixtures.find(
           (x) =>
             (!date || x.date === date) &&
-            (!match || String(x.match || "").trim().toLowerCase() === match.trim().toLowerCase()) &&
-            (!opponent || String(x.opponent || "").trim().toLowerCase() === opponent.trim().toLowerCase()),
+            (!match ||
+              String(x.match || "")
+                .trim()
+                .toLowerCase() === match.trim().toLowerCase()) &&
+            (!opponent ||
+              String(x.opponent || "")
+                .trim()
+                .toLowerCase() === opponent.trim().toLowerCase()),
         );
       if (!f) {
         set("details-title", "Match details unavailable");
@@ -535,7 +541,8 @@
             return rowIds.includes(fixtureMatchId);
           })
         : null;
-      const normaliseTeam = (value) => scorecardTeamKey(value).replace(/unitedstatesofamerica/g, "usa");
+      const normaliseTeam = (value) =>
+        scorecardTeamKey(value).replace(/unitedstatesofamerica/g, "usa");
       const formatKey = (value) => {
         const label = String(value || "").toLowerCase();
         if (/t20i|twenty20 international/.test(label)) return "t20i";
@@ -548,9 +555,13 @@
       const exactScorecardByFixture =
         exactScorecardById ||
         scorecardRows.find((row) => {
-          const sameDate = String(row.date || "").slice(0, 10) === String(f.date || "").slice(0, 10);
+          const sameDate =
+            String(row.date || "").slice(0, 10) === String(f.date || "").slice(0, 10);
           const fixtureTeams = [f.team, f.opponent].map(normaliseTeam).filter(Boolean).sort();
-          const scorecardTeams = [row.team, row.opposition].map(normaliseTeam).filter(Boolean).sort();
+          const scorecardTeams = [row.team, row.opposition]
+            .map(normaliseTeam)
+            .filter(Boolean)
+            .sort();
           const fixtureFormat = formatKey(f.match || f.format);
           const scorecardFormat = formatKey(row.format);
           return (
@@ -564,7 +575,9 @@
       let scorecardLoaded = false;
       if (exactScorecardByFixture?.scorecard) {
         try {
-          const scorecardResponse = await fetch(exactScorecardByFixture.scorecard, { cache: "no-store" });
+          const scorecardResponse = await fetch(exactScorecardByFixture.scorecard, {
+            cache: "no-store",
+          });
           if (scorecardResponse.ok) {
             const scorecardData = await scorecardResponse.json().catch(() => null);
             scorecardLoaded = renderScorecard(scorecardData);
