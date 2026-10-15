@@ -129,13 +129,13 @@
           '<button class="photo-card" type="button" data-photo-index="' +
           index +
           '" aria-label="Open ' +
-          escapeHTML(photo.title || "Tilak Varma photo") +
+          escapeHTML(displayTitle(photo)) +
           '"><img src="' +
           photo.safe +
           '" alt="' +
-          escapeHTML(photo.title || "Tilak Varma photo") +
+          escapeHTML(displayTitle(photo)) +
           '" loading="lazy" decoding="async"><span class="photo-card-caption"><strong>' +
-          escapeHTML(photo.title || "Tilak Varma photo") +
+          escapeHTML(displayTitle(photo)) +
           "</strong><small>" +
           escapeHTML(date) +
           "</small><em>" +
