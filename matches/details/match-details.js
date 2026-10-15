@@ -222,43 +222,49 @@
   }
   async function init() {
     try {
-      const r = await fetch("/matches/upcoming-fixtures-refresh.json?v=20261014-details1", {
-        cache: "no-store",
-      });
-      if (!r.ok) throw Error("fixture snapshot unavailable");
-      const snapshot = await r.json();
+      // Read saved JSON snapshots only; do not call BCCI's API from the browser.
+      const [newsResponse, statsResponse] = await Promise.all([
+        fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-details2", { cache: "no-store" }).catch(() => null),
+        fetch("/matches/bcci-stats-fixtures.json?v=20261015-details2", { cache: "no-store" }).catch(() => null),
+      ]);
+      const snapshot = newsResponse && newsResponse.ok ? await newsResponse.json().catch(() => null) : null;
+      const statsSnapshot = statsResponse && statsResponse.ok ? await statsResponse.json().catch(() => null) : null;
       let manual = { matches: [] };
       try {
-        const mr = await fetch("/matches/details/data/match-details.json?v=20261014-details1", {
-          cache: "no-store",
-        });
+        const mr = await fetch("/matches/details/data/match-details.json?v=20261014-details1", { cache: "no-store" });
         if (mr.ok) manual = await mr.json();
       } catch (_) {}
-      const fixtures = Array.isArray(snapshot.fixtures) ? snapshot.fixtures : [];
-      const date = q.get("date"),
-        match = q.get("match"),
-        opponent = q.get("opponent");
-      const f = fixtures.find(
-        (x) =>
-          (!date || x.date === date) &&
-          (!match || String(x.match || "").toLowerCase() === match.toLowerCase()) &&
-          (!opponent || String(x.opponent || "").toLowerCase() === opponent.toLowerCase()),
+      const newsFixtures = Array.isArray(snapshot?.fixtures)
+        ? snapshot.fixtures.map((x) => ({ ...x, team: x.team || "India", tilakInSquad: true }))
+        : [];
+      const statsFixtures = Array.isArray(statsSnapshot?.fixtures)
+        ? statsSnapshot.fixtures.map((x) => ({ ...x, tilakInSquad: false }))
+        : [];
+      const byKey = new Map();
+      [...newsFixtures, ...statsFixtures].forEach((x) => {
+        const k = [x.date, x.match, x.opponent]
+          .map((v) => String(v || "").trim().toLowerCase()).join("|");
+        const current = byKey.get(k);
+        if (!current || x.tilakInSquad === true) byKey.set(k, x);
+      });
+      const fixtures = [...byKey.values()];
+      const date = q.get("date"), match = q.get("match"), opponent = q.get("opponent");
+      const f = fixtures.find((x) =>
+        (!date || x.date === date) &&
+        (!match || String(x.match || "").toLowerCase() === match.toLowerCase()) &&
+        (!opponent || String(x.opponent || "").toLowerCase() === opponent.toLowerCase())
       );
       if (!f) {
         set("details-title", "Match details unavailable");
-        set(
-          "details-series",
-          "No matching fixture in the saved snapshot. Return to Matches and choose a listed fixture.",
-        );
-        set("workflow-fixture", "No matching fixture found.");
+        set("details-series", "No matching fixture in saved JSON snapshots. Return to Matches and choose a listed fixture.");
+        set("workflow-fixture", "No matching fixture found in the saved News/BCCI Stats JSON.");
         return;
       }
       const detail = (manual.matches || []).find((x) => key(x) === key(f)) || {};
-      const a = f.team || "India",
-        b = f.opponent || "Opponent TBA";
+      const a = f.team || "India", b = f.opponent || "Opponent TBA";
       document.title = a + " vs " + b + " | Match Details";
       set("details-title", a + " vs " + b);
-      set("details-series", detail.series || f.series || "Upcoming international fixture");
+      set("details-series", detail.series || f.series || "Upcoming fixture");
       set("details-team-name", a);
       set("details-opponent-name", b);
       setTeamBadge("details-team-mark-home", a);
@@ -271,97 +277,45 @@
       set("details-status-note", "Pre-match information");
       set("overview-schedule", dateLabel(f.date) + " · " + timeLabel(f.time));
       set("overview-venue", f.venue || "Venue TBA");
-      set(
-        "overview-series",
-        (detail.series || f.series || "Series not specified") + " · " + (f.match || "Match"),
-      );
+      set("overview-series", (detail.series || f.series || "Series not specified") + " · " + (f.match || "Match"));
       set("squad-team-heading", a + " squad");
       set("squad-opponent-heading", b + " squad");
       showPlayers("squad-team-list", detail.squads?.[a] || f.squad || []);
       showPlayers("squad-opponent-list", detail.squads?.[b] || f.opponentSquad || []);
-      set(
-        "playing-xi-note",
-        detail.playingXIStatus ||
-          "Playing XI is not confirmed in saved data. Add only official announcements.",
-      );
-      set(
-        "pitch-report",
-        detail.pitchReport ||
-          "Not yet verified. Add a sourced pitch report when an official preview is published.",
-      );
-      set(
-        "toss-report",
-        detail.tossReport ||
-          "Toss has not happened yet. Tactical notes are previews, not confirmed facts.",
-      );
+      set("playing-xi-note", detail.playingXIStatus || "Playing XI is not confirmed in saved data. Add only official announcements.");
+      set("pitch-report", detail.pitchReport || "Not yet verified. Add a sourced pitch report when an official preview is published.");
+      set("toss-report", detail.tossReport || "Toss has not happened yet. Tactical notes are previews, not confirmed facts.");
       set("ground-report", detail.groundReport || "Verified venue records are not attached yet.");
-      set(
-        "tilak-preview",
-        detail.tilakPreview ||
-          "See Tilak Varma's verified career and recent match stats in the Stats section.",
-      );
+      set("tilak-preview", detail.tilakPreview || "See Tilak Varma's verified career and recent match stats in the Stats section.");
       set("h2h-title", a + " vs " + b);
-      set(
-        "h2h-summary",
-        detail.headToHead ||
-          "Verified head-to-head figures are not in the saved fixture source yet.",
-      );
-      set(
-        "team-form-summary",
-        detail.recentForm || "Verified recent results are not attached to this fixture.",
-      );
-      set(
-        "workflow-fixture",
-        "Loaded " +
-          fixtures.length +
-          " fixture(s) from the saved News JSON pipeline. Last checked: " +
-          (snapshot.checkedAt
-            ? new Date(snapshot.checkedAt).toLocaleString("en-IN")
-            : "not recorded") +
-          ".",
-      );
-      set(
-        "details-updated",
-        "Source: " +
-          (snapshot.source || "saved fixture JSON") +
-          " · Snapshot checked: " +
-          (snapshot.checkedAt || "not recorded") +
-          ". Missing squad/pitch fields are not fabricated.",
-      );
+      set("h2h-summary", detail.headToHead || "Verified head-to-head figures are not in the saved fixture source yet.");
+      set("team-form-summary", detail.recentForm || "Verified recent results are not attached to this fixture.");
+      set("workflow-fixture", "Loaded " + fixtures.length + " fixture(s) from saved News/BCCI Stats JSON. " +
+        "News fixtures: " + newsFixtures.length + "; BCCI Stats fixtures: " + statsFixtures.length + ".");
+      set("details-updated", "Source: " + (f.tilakInSquad ? (snapshot?.source || "saved News JSON") : (statsSnapshot?.source || f.source || "saved fixture JSON")) +
+        " · Snapshot checked: " + (f.tilakInSquad ? (snapshot?.checkedAt || "not recorded") : (statsSnapshot?.checkedAt || "not recorded")) +
+        ". Missing squad/pitch fields are not fabricated.");
       const reviewedSources = Array.isArray(detail.sources)
         ? detail.sources.map((source) => sourceLink(source.label || "Verified source", source.url))
         : [];
       $("details-source-links").innerHTML = [
         ...reviewedSources,
-        sourceLink("Official match news", f.newsUrl || f.source),
+        sourceLink("Official match source", f.newsUrl || f.source),
         sourceLink("Original fixture source", f.source),
         sourceLink("Weather · Open-Meteo", "https://open-meteo.com/"),
         sourceLink("Tilak Varma stats", "/stats/"),
         sourceLink("All matches", "/matches/"),
-      ]
-        .filter(Boolean)
-        .filter((link, index, links) => links.indexOf(link) === index)
-        .join("");
-      const start = f.time
-        ? Date.parse(String(f.date || "") + "T" + String(f.time) + ":00+05:30")
-        : Number.NaN;
-      if (Number.isFinite(start)) {
-        const mins = Math.floor((start - Date.now()) / 60000);
-        set(
-          "details-countdown",
-          mins > 0
-            ? Math.floor(mins / 1440) +
-                " days · " +
-                Math.floor((mins % 1440) / 60) +
-                " hrs to start"
-            : "Start time reached / passed",
-        );
+      ].filter(Boolean).filter((link, index, links) => links.indexOf(link) === index).join("");
+      const startTime = f.time ? Date.parse(String(f.date || "") + "T" + String(f.time) + ":00+05:30") : Number.NaN;
+      if (Number.isFinite(startTime)) {
+        const mins = Math.floor((startTime - Date.now()) / 60000);
+        set("details-countdown", mins > 0 ? Math.floor(mins / 1440) + " days · " + Math.floor((mins % 1440) / 60) + " hrs to start" : "Start time reached / passed");
       } else set("details-countdown", "Start time not confirmed");
       weather(f.venue, f.date);
     } catch (e) {
       console.error("Match details:", e);
       set("details-title", "Match details could not load");
-      set("details-series", "Saved fixture could not be read. Return to Matches and try again.");
+      set("details-series", "Saved fixture JSON could not be read. Return to Matches and try again.");
       set("workflow-fixture", "Fixture request failed; refresh and retry.");
     }
   }
