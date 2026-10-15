@@ -500,22 +500,14 @@
       }
       const detail = (manual.matches || []).find((x) => key(x) === key(f)) || {};
       const scorecardRows = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
-      const normalizedTeam = (value) => scorecardTeamKey(value);
-      const fixtureMatchId = String(
-        f.matchId || f.match_id || f.gid || f.fixtureId || f.id || "",
-      ).trim();
-      const exactScorecard = scorecardRows.find((row) => {
-        const rowId = String(row.matchId || row.match_id || row.gid || "").trim();
-        const rowDate = String(row.date || "").slice(0, 10);
-        const rowTeams = [row.team, row.opposition].map(normalizedTeam);
-        const wantedTeams = [f.team, f.opponent].map(normalizedTeam);
-        const sameTeams = wantedTeams.every((name) =>
-          rowTeams.some((candidate) => candidate && candidate === name),
-        );
-        // Never use another date's scorecard. Prefer the official match ID when both sides expose it.
-        if (fixtureMatchId) return Boolean(rowId && rowId === fixtureMatchId);
-        return Boolean(f.date && rowDate === String(f.date).slice(0, 10) && sameTeams);
-      });
+      const fixtureMatchId = String(f.matchId || f.match_id || f.gid || f.fixtureId || f.id || "").trim();
+      // Live scoreboard waits for the official ID; never substitute by date/team.
+      const exactScorecard = fixtureMatchId
+        ? scorecardRows.find((row) => {
+            const rowId = String(row.matchId || row.match_id || row.gid || "").trim();
+            return Boolean(rowId && rowId === fixtureMatchId);
+          })
+        : null;
       let scorecardLoaded = false;
       if (exactScorecard?.scorecard) {
         try {
