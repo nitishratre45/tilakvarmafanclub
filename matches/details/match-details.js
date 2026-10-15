@@ -579,11 +579,26 @@
             );
             if (exact) {
               const home =
-                exact.team1_name || exact.home_team_name || exact.team1 || exact.home_team || "";
+                exact.team1_name ||
+                exact.home_team_name ||
+                exact.team1_short_name ||
+                exact.home_team_short_name ||
+                exact.team1 ||
+                exact.home_team ||
+                exact.team1_display_name ||
+                "";
               const away =
-                exact.team2_name || exact.away_team_name || exact.team2 || exact.away_team || "";
+                exact.team2_name ||
+                exact.away_team_name ||
+                exact.team2_short_name ||
+                exact.away_team_short_name ||
+                exact.team2 ||
+                exact.away_team ||
+                exact.team2_display_name ||
+                "";
               const rawDate =
                 exact.start_date ||
+                exact.end_date ||
                 exact.match_date ||
                 exact.date ||
                 exact.start_datetime_utc ||
@@ -600,8 +615,13 @@
                 match: matchLabel,
                 team: home,
                 opponent: away,
-                venue: exact.ground_name || exact.venue || exact.ground || "",
-                time: exact.start_time || "",
+                venue:
+                  exact.ground_name ||
+                  exact.ground_city ||
+                  exact.venue ||
+                  exact.ground ||
+                  "",
+                time: exact.start_time || exact.start_time_ist || "",
                 matchId: String(exact.match_id || exact.gid || exact.matchId || matchId),
                 rawBcci: exact,
                 result: exact.result_string || exact.result || "",
@@ -854,10 +874,22 @@
         const wanted = String(teamName || "")
           .trim()
           .toLowerCase();
-        const firstName = String(rawFixture.team1_name || rawFixture.home_team_name || "")
+        const firstName = String(
+          rawFixture.team1_name ||
+            rawFixture.home_team_name ||
+            rawFixture.team1_short_name ||
+            rawFixture.home_team_short_name ||
+            "",
+        )
           .trim()
           .toLowerCase();
-        const secondName = String(rawFixture.team2_name || rawFixture.away_team_name || "")
+        const secondName = String(
+          rawFixture.team2_name ||
+            rawFixture.away_team_name ||
+            rawFixture.team2_short_name ||
+            rawFixture.away_team_short_name ||
+            "",
+        )
           .trim()
           .toLowerCase();
         if (wanted && wanted === firstName)
