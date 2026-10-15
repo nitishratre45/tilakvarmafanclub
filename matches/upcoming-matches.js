@@ -271,16 +271,22 @@
         : fixtures.map((fixture) => ({ ...fixture, team: "India", tilakInSquad: true }));
     const combinedFixtures = [
       ...newsFixtures,
-      ...(Array.isArray(bcciFixtures) ? bcciFixtures.map((fixture) => ({ ...fixture, tilakInSquad: false })) : []),
+      ...(Array.isArray(bcciFixtures)
+        ? bcciFixtures.map((fixture) => ({ ...fixture, tilakInSquad: false }))
+        : []),
     ];
     const uniqueSourceFixtures = new Map();
     combinedFixtures.forEach((fixture) => {
       const key =
         String(fixture.date || "") +
         "|" +
-        String(fixture.match || "").trim().toLowerCase() +
+        String(fixture.match || "")
+          .trim()
+          .toLowerCase() +
         "|" +
-        String(fixture.opponent || "").trim().toLowerCase();
+        String(fixture.opponent || "")
+          .trim()
+          .toLowerCase();
       const current = uniqueSourceFixtures.get(key);
       // Prefer squad-confirmed BCCI News records for duplicates.
       if (!current || fixture.tilakInSquad === true) uniqueSourceFixtures.set(key, fixture);
@@ -290,11 +296,19 @@
     const key = (f) =>
       String(f.date || "") +
       "|" +
-      String(f.match || "").trim().toLowerCase() +
+      String(f.match || "")
+        .trim()
+        .toLowerCase() +
       "|" +
-      String(f.opponent || "").trim().toLowerCase();
+      String(f.opponent || "")
+        .trim()
+        .toLowerCase();
     const sourceKey = (f) =>
-      String(f.date || "") + "|" + String(f.match || "").trim().toLowerCase();
+      String(f.date || "") +
+      "|" +
+      String(f.match || "")
+        .trim()
+        .toLowerCase();
     const overrides = new Map(manual.filter((f) => f.overrideKey).map((f) => [f.overrideKey, f]));
     const exact = new Map(manual.filter((f) => !f.overrideKey).map((f) => [key(f), f]));
     const merged = sourceFixtures.map((f) => ({
@@ -308,6 +322,8 @@
     merged.sort((a, b) => String(a.date).localeCompare(String(b.date)));
     renderFixtures(merged);
     const updated = document.getElementById("upcoming-matches-updated");
-    if (updated) updated.textContent = "Upcoming fixtures · Python-built BCCI Stats JSON + squad announcements + admin corrections.";
+    if (updated)
+      updated.textContent =
+        "Upcoming fixtures · Python-built BCCI Stats JSON + squad announcements + admin corrections.";
   });
 })();
