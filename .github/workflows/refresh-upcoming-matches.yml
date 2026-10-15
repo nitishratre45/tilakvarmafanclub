@@ -126,8 +126,9 @@ jobs:
               'q.get("date")',
               'q.get("match")',
               'q.get("opponent")',
-              'setTeamBadge("details-team-mark-home", a)',
-              'setTeamBadge("details-team-mark-away", b)',
+              'setTeamBadge(',
+              '"details-team-mark-home"',
+              '"details-team-mark-away"',
               'host.classList.add("details-team-mark-fallback")',
           ]
           missing = [token for token in required_js if token not in details_js]
