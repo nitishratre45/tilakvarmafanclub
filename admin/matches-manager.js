@@ -178,6 +178,11 @@
     if (!host) return;
     const names = [
       "Refresh Upcoming Matches from BCCI News JSON",
+      "Refresh BCCI Live Matches",
+      "Refresh BCCI Match Results",
+      "Refresh BCCI Squads",
+      "Refresh BCCI Stats Fixtures JSON",
+      "Refresh Tilak Varma Match Scorecards",
       "Matches Folder Audit (12h)",
       "Matches Safe Auto-Repair",
       "Matches Repair Verification & Admin Report",
@@ -300,6 +305,40 @@
     formStatus("");
   });
   $("admin-matches-refresh")?.addEventListener("click", load);
+  document.querySelectorAll("[data-match-action]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      if (button.disabled) return;
+      const action = button.dataset.matchAction;
+      const originalText = button.textContent;
+      button.disabled = true;
+      button.textContent = "Queueing…";
+      status("Requesting " + originalText.replace(/^↻ |^✓ /, "").toLowerCase() + "…");
+      try {
+        const d = await api("/api/admin/monitor", {
+          method: "POST",
+          body: JSON.stringify({ action }),
+        });
+        status(d.message || "Match workflow queued. Refresh status to see the run.");
+        await load();
+      } catch (e) {
+        status(e.message || "Could not queue match workflow.", true);
+        if (e.runUrl) {
+          const host = $("admin-match-workflows");
+          if (host) {
+            const link = document.createElement("a");
+            link.href = e.runUrl;
+            link.target = "_blank";
+            link.rel = "noopener";
+            link.textContent = "Open active workflow run ↗";
+            host.prepend(link);
+          }
+        }
+      } finally {
+        button.disabled = false;
+        button.textContent = originalText;
+      }
+    });
+  });
   $("admin-matches-source-refresh")?.addEventListener("click", async () => {
     const b = $("admin-matches-source-refresh");
     if (!b || b.disabled) return;
