@@ -574,6 +574,7 @@ check("Home responsive layout and mobile-to-desktop menu reset work at common vi
     assert.equal(layout.navLinks, 8, "All Home nav links should remain present at " + width + "px");
     assert(layout.header.left >= -1 && layout.header.right <= width + 1, "Header exceeds viewport at " + width + "px: " + JSON.stringify(layout));
     assert(layout.main.left >= -1 && layout.main.right <= width + 1, "Main exceeds viewport at " + width + "px: " + JSON.stringify(layout));
+    assert(layout.documentWidth <= width + 1, "Unexpected page-level horizontal overflow at " + width + "px: " + JSON.stringify(layout));
     if (width > 800) {
       assert.equal(layout.navVisible, true, "Desktop navigation should be visible at " + width + "px");
       assert(layout.navBox && layout.navBox.left >= -1 && layout.navBox.right <= width + 1,
