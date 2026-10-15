@@ -1512,3 +1512,55 @@ body > footer {
     transition: none;
   }
 }
+
+
+/* Final responsive/accessibility guardrails: presentation-only, no data hooks changed. */
+body > main,
+body > main > .section,
+body > main > .section > * {
+  min-width: 0;
+}
+.home-snapshot-block,
+.home-bowling-card,
+.home-mini-stat,
+.home-format-fact,
+.home-bowling-fact {
+  overflow-wrap: anywhere;
+}
+.home-snapshot-section .home-career-table-wrap {
+  max-width: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124, 229, 242, 0.55) rgba(255, 255, 255, 0.06);
+}
+.home-snapshot-section .home-career-table-wrap:focus-visible {
+  outline: 2px solid var(--cyan, #7ce5f2);
+  outline-offset: 3px;
+}
+@media (max-width: 600px) {
+  body > main > .section {
+    width: calc(100% - 24px);
+  }
+  .home-quick-stats,
+  .home-format-stats,
+  .home-bowling-stats,
+  .home-format-facts,
+  .home-bowling-facts {
+    min-width: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .home-snapshot-section .home-career-table-wrap {
+    overscroll-behavior-inline: contain;
+  }
+}
+@media (max-width: 360px) {
+  body > main > .section {
+    width: calc(100% - 16px);
+  }
+  .home-quick-stats,
+  .home-format-stats,
+  .home-bowling-stats,
+  .home-format-facts,
+  .home-bowling-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
