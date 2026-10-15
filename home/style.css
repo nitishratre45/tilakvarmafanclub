@@ -2156,34 +2156,105 @@ option {
 
 
 /* Light theme, including site components that previously used fixed dark fills */
+:root[data-theme="light"] {
+  --bg: #f4f7fb;
+  --panel: #ffffff;
+  --panel2: #e8eef5;
+  --white: #152235;
+  --muted: #627186;
+  --line: rgba(18, 35, 55, 0.16);
+  --orange: #e85d2a;
+  --cyan: #087e91;
+  color-scheme: light;
+}
+:root[data-theme="light"] body {
+  background: var(--bg);
+  color: var(--white);
+}
+:root[data-theme="light"] .topbar,
+:root[data-theme="light"] nav,
+:root[data-theme="light"] footer
+{
+  background: var(--bg);
+  color: var(--white);
+}
+
+:root[data-theme="light"] .home-snapshot-section,
+:root[data-theme="light"] .home-mini-stat,
+:root[data-theme="light"] .home-snapshot-block
+{
+  background: #fff;
+  color: var(--white);
+}
+:root[data-theme="light"] .profile-intro,
+:root[data-theme="light"] .home-snapshot-block p,
+:root[data-theme="light"] .home-snapshot-foot,
+:root[data-theme="light"] td
+{
+  color: #425269;
+}
+:root[data-theme="light"] th
+{
+  background: #e8eef5;
+  color: #087e91;
+}
+:root[data-theme="light"] td
+{
+  border-top-color: rgba(18, 35, 55, 0.13);
+  color: #24354a;
+}
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+:root[data-theme="light"] .home-snapshot-section .button.outline,
+:root[data-theme="light"] .button.outline {
+  color: var(--white);
+  border-color: rgba(18, 35, 55, 0.3);
+}
+:root[data-theme="light"] .profile-section {
+  background: #f4f7fb;
+}
 
 
 
 
 
 @media (prefers-color-scheme: light) {
+  :root[data-theme="system"] {
+    --bg: #f4f7fb;
+    --panel: #fff;
+    --panel2: #e8eef5;
+    --white: #152235;
+    --muted: #627186;
+    --line: rgba(18, 35, 55, 0.16);
+    --orange: #e85d2a;
+    --cyan: #087e91;
+    color-scheme: light;
+  }
+  :root[data-theme="system"] body {
+    background: var(--bg);
+    color: var(--white);
+  }
+  :root[data-theme="system"] .topbar,
+:root[data-theme="system"] nav,
+:root[data-theme="system"] footer
+{
+    background: var(--bg);
+    color: var(--white);
+  }
   
-  
-  
-  
-  
-  
+  :root[data-theme="system"] .home-mini-stat
+{
+    background: #fff;
+    color: var(--white);
+  }
+  :root[data-theme="system"] th {
+    background: #e8eef5;
+    color: #087e91;
+  }
   
   
   
@@ -2208,36 +2279,114 @@ option {
 
 
 /* Resolve system theme in JS so every component receives the same contrast rules. */
+:root[data-theme-resolved="light"] {
+  --bg: #f4f7fb;
+  --panel: #fff;
+  --panel2: #eaf0f7;
+  --white: #152235;
+  --muted: #5d6d82;
+  --line: rgba(18, 35, 55, 0.16);
+  --orange: #c94c20;
+  --cyan: #087e91;
+  color-scheme: light;
+}
+:root[data-theme-resolved="light"] body {
+  background: var(--bg);
+  color: var(--white);
+}
+:root[data-theme-resolved="light"] .topbar {
+  background: rgba(244, 247, 251, 0.96);
+  color: var(--white);
+}
+:root[data-theme-resolved="light"] .topbar nav {
+  background: var(--panel);
+  color: var(--white);
+}
+:root[data-theme-resolved="light"] .profile-section,
+:root[data-theme-resolved="light"] .home-snapshot-section
+{
+  background: var(--bg);
+  color: var(--white);
+}
+
+:root[data-theme-resolved="light"] .home-mini-stat,
+:root[data-theme-resolved="light"] .home-snapshot-block
+{
+  background: #fff;
+  color: var(--white);
+  border-color: var(--line);
+}
+
+:root[data-theme-resolved="light"] h1,
+:root[data-theme-resolved="light"] h2,
+:root[data-theme-resolved="light"] h3,
+:root[data-theme-resolved="light"] h4,
+:root[data-theme-resolved="light"] p,
+:root[data-theme-resolved="light"] label,
+:root[data-theme-resolved="light"] summary,
+:root[data-theme-resolved="light"] .profile-copy,
+:root[data-theme-resolved="light"] .home-snapshot-blockhead,
+:root[data-theme-resolved="light"] .home-format-heading
+{
+  color: var(--white);
+}
+:root[data-theme-resolved="light"] .eyebrow,
+:root[data-theme-resolved="light"] .activity-empty,
+:root[data-theme-resolved="light"] .home-snapshot-foot,
+:root[data-theme-resolved="light"] .home-format-heading > span,
+:root[data-theme-resolved="light"] .profile-facts small
+{
+  color: var(--muted);
+}
+:root[data-theme-resolved="light"] input,
+:root[data-theme-resolved="light"] select,
+:root[data-theme-resolved="light"] textarea {
+  background: #fff !important;
+  color: #152235 !important;
+  border-color: rgba(18, 35, 55, 0.24) !important;
+}
+:root[data-theme-resolved="light"] input::placeholder,
+:root[data-theme-resolved="light"] textarea::placeholder {
+  color: #64748b !important;
+}
+:root[data-theme-resolved="light"] th {
+  background: #e8eef5;
+  color: #34465c;
+  border-color: var(--line);
+}
+:root[data-theme-resolved="light"] td {
+  color: #26374b;
+  border-color: var(--line);
+}
 
 
 
 
 
 
+:root[data-theme-resolved="light"] .button,
+:root[data-theme-resolved="light"] button {
+  color: var(--white);
+}
+:root[data-theme-resolved="light"] .button.primary
+{
+  color: #fff;
+}
+
+:root[data-theme-resolved="light"] .profile-intro,
+:root[data-theme-resolved="light"] .home-snapshot-block p
+{
+  color: #425269;
+}
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+:root[data-theme-resolved="light"] footer {
+  background: var(--bg);
+  color: var(--white);
+}
 
 
 
@@ -2325,9 +2474,17 @@ option {
 
 
 
+:root[data-theme-resolved="light"] .home-bowling-card
+{
+  background: #fff;
+  color: #152235;
+  border-color: rgba(18, 35, 55, 0.16);
+}
 
-
-
+:root[data-theme-resolved="light"] .home-bowling-heading h3
+{
+  color: #152235;
+}
 
 
 
@@ -2492,7 +2649,16 @@ option {
 
 
 
-
+:root[data-theme-resolved="light"]
+  .stats-section
+  .statsguru-panel
+  .table-wrap
+  tbody
+  tr:hover
+  td:not(.sg-cell-runs)
+{
+  background: #eaf5f8;
+}
 @media (max-width: 600px) {
   
 }
@@ -2519,9 +2685,43 @@ option {
 .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature strong {
   color: var(--white) !important;
 }
-
-
-
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature,
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature:hover {
+  background: #fff !important;
+  color: #152235;
+  border-color: rgba(18, 35, 55, 0.16) !important;
+  border-top-color: #7ce5f2 !important;
+}
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature
+  strong {
+  color: #152235 !important;
+}
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature
+  .stat-label,
+:root[data-theme-resolved="light"]
+  .stats-section
+  #stats-overview
+  .stats-grid:not(.career-formats)
+  .stat-feature
+  .stat-note {
+  color: #5d6d82 !important;
+}
 
 /* Explore category menu: wrap onto new rows instead of requiring horizontal scrolling. */
 
