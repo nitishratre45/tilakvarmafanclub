@@ -81,7 +81,11 @@
     () => {
       if (window.matchMedia("(min-width: 801px)").matches) {
         const parts = getParts();
-        if (parts) finishClose(parts);
+        if (!parts) return;
+        // Crossing into desktop layout must clear mobile state immediately.
+        window.clearTimeout(closeTimer);
+        parts.nav.classList.remove("open", "is-open");
+        finishClose(parts);
       }
     },
     { passive: true },
