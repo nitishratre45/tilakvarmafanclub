@@ -680,14 +680,21 @@
           const selectedTeams = [f.team, f.opponent].map(normTeam).filter(Boolean);
           const renderLiveSnapshot = async () => {
             try {
-              const response = await fetch("/matches/live/live-matches.json?v=live-scoreboard2", { cache: "no-store" });
+              const response = await fetch("/matches/live/live-matches.json?v=live-scoreboard2", {
+                cache: "no-store",
+              });
               if (!response.ok) throw new Error("Live snapshot unavailable");
               const payload = await response.json();
               const liveRows = Array.isArray(payload.matches) ? payload.matches : [];
               const liveMatch = liveRows.find((row) => {
                 const rowTeams = [row.team1, row.team2].map(normTeam).filter(Boolean);
-                return selectedTeams.length === 2 && selectedTeams.every((name) =>
-                  rowTeams.some((candidate) => candidate.includes(name) || name.includes(candidate))
+                return (
+                  selectedTeams.length === 2 &&
+                  selectedTeams.every((name) =>
+                    rowTeams.some(
+                      (candidate) => candidate.includes(name) || name.includes(candidate),
+                    ),
+                  )
                 );
               });
               if (liveMatch) {
@@ -695,28 +702,45 @@
                 const score2 = String(liveMatch.score2 || "Score updating…");
                 scoreHost.innerHTML =
                   '<div class="scoreboard-result scoreboard-live-card"><p class="scoreboard-live-pill"><span></span> LIVE · BCCI VERIFIED SNAPSHOT</p>' +
-                  '<h3>' + escHtml(liveMatch.team1 || f.team) + ' <strong>' + escHtml(score1) + '</strong></h3>' +
-                  '<h3>' + escHtml(liveMatch.team2 || f.opponent) + ' <strong>' + escHtml(score2) + '</strong></h3>' +
-                  '<p class="scoreboard-status">' + escHtml(liveMatch.status || "Match in progress") +
+                  "<h3>" +
+                  escHtml(liveMatch.team1 || f.team) +
+                  " <strong>" +
+                  escHtml(score1) +
+                  "</strong></h3>" +
+                  "<h3>" +
+                  escHtml(liveMatch.team2 || f.opponent) +
+                  " <strong>" +
+                  escHtml(score2) +
+                  "</strong></h3>" +
+                  '<p class="scoreboard-status">' +
+                  escHtml(liveMatch.status || "Match in progress") +
                   (liveMatch.match ? " · " + escHtml(liveMatch.match) : "") +
-                  (liveMatch.venue ? " · " + escHtml(liveMatch.venue) : "") + '</p>' +
-                  '<p class="scoreboard-status">Updated: ' + escHtml(payload.checkedAt || "latest saved snapshot") +
+                  (liveMatch.venue ? " · " + escHtml(liveMatch.venue) : "") +
+                  "</p>" +
+                  '<p class="scoreboard-status">Updated: ' +
+                  escHtml(payload.checkedAt || "latest saved snapshot") +
                   ' · Refreshes automatically</p><p><a class="bcci-live-score-link" href="' +
-                  escHtml(bcciLiveScoresUrl) + '" target="_blank" rel="noopener noreferrer">Open official BCCI live scores ↗</a></p></div>';
+                  escHtml(bcciLiveScoresUrl) +
+                  '" target="_blank" rel="noopener noreferrer">Open official BCCI live scores ↗</a></p></div>';
                 return;
               }
               scoreHost.innerHTML =
-                '<div class="scoreboard-result"><h3>' + (matchStarted ? "Waiting for verified live score…" : "Official BCCI scoreboard") +
-                '</h3><p>' + (liveRows.length
+                '<div class="scoreboard-result"><h3>' +
+                (matchStarted ? "Waiting for verified live score…" : "Official BCCI scoreboard") +
+                "</h3><p>" +
+                (liveRows.length
                   ? "A live match is available, but it does not match this fixture. This page will not show another match’s score."
                   : "Live scores will appear here after BCCI publishes this match as live. This panel checks the saved BCCI snapshot automatically.") +
-                '</p><p class="scoreboard-status">Fixture: ' + escHtml([f.team, f.opponent, f.date].filter(Boolean).join(" · ")) +
-                '</p><p><a class="bcci-live-score-link" href="' + escHtml(bcciLiveScoresUrl) +
+                '</p><p class="scoreboard-status">Fixture: ' +
+                escHtml([f.team, f.opponent, f.date].filter(Boolean).join(" · ")) +
+                '</p><p><a class="bcci-live-score-link" href="' +
+                escHtml(bcciLiveScoresUrl) +
                 '" target="_blank" rel="noopener noreferrer">Open official BCCI live scores ↗</a></p></div>';
             } catch (_) {
               scoreHost.innerHTML =
                 '<div class="scoreboard-result"><h3>Live scoreboard temporarily unavailable</h3><p>Could not load the latest saved BCCI score snapshot. Please retry shortly.</p><p><a class="bcci-live-score-link" href="' +
-                escHtml(bcciLiveScoresUrl) + '" target="_blank" rel="noopener noreferrer">Open official BCCI live scores ↗</a></p></div>';
+                escHtml(bcciLiveScoresUrl) +
+                '" target="_blank" rel="noopener noreferrer">Open official BCCI live scores ↗</a></p></div>';
             }
           };
           renderLiveSnapshot();
