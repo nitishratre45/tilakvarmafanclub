@@ -320,3 +320,19 @@ html body.tv-bottom-nav-enabled {
     pointer-events: auto !important;
   }
 }
+
+
+/* Hard guarantee: the header hamburger panel always owns mobile pointer input. */
+@media screen and (max-width: 800px) {
+  html body.mobile-menu-open > .tv-mobile-bottom-nav,
+  html body.tv-shared-menu-open > .tv-mobile-bottom-nav,
+  html body.mobile-menu-open > nav[data-tv-bottom-nav-static="home"] {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  html body.mobile-menu-open > .tv-mobile-extra-menu,
+  html body.tv-shared-menu-open > .tv-mobile-extra-menu {
+    pointer-events: auto !important;
+  }
+}
