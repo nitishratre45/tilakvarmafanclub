@@ -228,13 +228,18 @@
       } else {
         host.innerHTML = fixtures
           .map((f) => {
+            const officialId = String(
+              f.matchId || f.match_id || f.gid || f.fixtureId || f.id ||
+              f.rawBcci?.match_id || f.rawBcci?.gid || "",
+            ).trim();
             const detailUrl =
               "/matches/details/?date=" +
               encodeURIComponent(f.date || "") +
               "&match=" +
               encodeURIComponent(f.match || "") +
               "&opponent=" +
-              encodeURIComponent(f.opponent || "");
+              encodeURIComponent(f.opponent || "") +
+              (officialId ? "&matchId=" + encodeURIComponent(officialId) : "");
             return (
               '<article class="upcoming-match-card"><div class="upcoming-match-topline"><span class="upcoming-match-date">' +
               esc(f.label || dateLabel(f.date)) +
