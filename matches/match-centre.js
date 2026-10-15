@@ -167,7 +167,7 @@
                 f &&
                 f.tilakInSquad === true &&
                 f.confirmationSource === "BCCI squad announcement naming Tilak Varma" &&
-                String(f.newsUrl || "").startsWith("/News-details/index.html?id=")
+                String(f.newsUrl || "").startsWith("/News-details/index.html?id="),
             )
           : [];
       const exactBcciFixture = (newsFixture) => {
