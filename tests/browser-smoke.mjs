@@ -563,12 +563,24 @@ check("Home responsive layout and mobile-to-desktop menu reset work at common vi
         navLinks: nav?.querySelectorAll("a").length || 0,
         menuVisible: !!button && getComputedStyle(button).display !== "none" && button.getBoundingClientRect().width > 0,
         navVisible: !!nav && getComputedStyle(nav).display !== "none",
+        navBox: rect("#main-nav"),
+        linkBoxes: [...(nav?.querySelectorAll("a") || [])].map(node => {
+          const box = node.getBoundingClientRect();
+          return { left: Math.round(box.left), right: Math.round(box.right) };
+        }),
       };
     });
     assert(layout.header && layout.main && layout.profile, "Missing Home layout at " + width + "px: " + JSON.stringify(layout));
     assert.equal(layout.navLinks, 8, "All Home nav links should remain present at " + width + "px");
     assert(layout.header.left >= -1 && layout.header.right <= width + 1, "Header exceeds viewport at " + width + "px: " + JSON.stringify(layout));
     assert(layout.main.left >= -1 && layout.main.right <= width + 1, "Main exceeds viewport at " + width + "px: " + JSON.stringify(layout));
+    if (width > 800) {
+      assert.equal(layout.navVisible, true, "Desktop navigation should be visible at " + width + "px");
+      assert(layout.navBox && layout.navBox.left >= -1 && layout.navBox.right <= width + 1,
+        "Desktop navigation exceeds viewport at " + width + "px: " + JSON.stringify(layout));
+      assert(layout.linkBoxes.every(box => box.left >= -1 && box.right <= width + 1),
+        "A desktop navigation link is clipped at " + width + "px: " + JSON.stringify(layout));
+    }
     if (width <= 800) assert.equal(layout.menuVisible, true, "Mobile menu button should be visible at " + width + "px");
     else assert.equal(layout.menuVisible, false, "Desktop should use the full nav row at " + width + "px");
     if (width <= 800) {
