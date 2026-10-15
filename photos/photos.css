@@ -353,3 +353,14 @@ body.photos-page {
     font-size: 9px;
   }
 }
+
+/* Gallery tab: use the same solid active-tab treatment as All Photos. */
+.photos-page .tv-gallery-view-tab.is-active {
+  color: #fff !important;
+  border-color: transparent !important;
+  background: linear-gradient(110deg, #ff916c, #f04f32) !important;
+}
+.photos-page .tv-gallery-view-tab.is-active small {
+  color: #fff !important;
+  opacity: .9;
+}
