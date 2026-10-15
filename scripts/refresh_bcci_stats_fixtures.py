@@ -338,9 +338,7 @@ def main():
             else 0
         ),
         "pagination": (
-            first_payload.get("page", {})
-            if isinstance(first_payload, dict)
-            else {}
+            first_payload.get("page", {}) if isinstance(first_payload, dict) else {}
         ),
         "fixtureCount": len(fixtures),
         "fixtures": fixtures,
