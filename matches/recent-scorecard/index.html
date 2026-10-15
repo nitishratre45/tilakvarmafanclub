@@ -10,32 +10,32 @@
       content="Full verified cricket scorecard with batting, bowling, fall of wickets and ball-by-ball data."
     />
     <link rel="icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="/matches/details/match-details.css?v=20261015-recent-ui4" />
-    <link
-      rel="stylesheet"
-      href="/matches/recent-scorecard/recent-scorecard.css?v=20261015-scorecard2"
-    />
+    <link rel="stylesheet" href="/matches/style.css?v=20261015-recent-scorecard-shared1" />
+    <link rel="stylesheet" href="/matches/premium-ui.css?v=20261015-recent-scorecard-shared1" />
+    <link rel="stylesheet" href="/matches/matches.css?v=20261015-recent-scorecard-shared1" />
+    <link rel="stylesheet" href="/matches/match-centre.css?v=20261015-recent-scorecard-shared1" />
+    <link rel="stylesheet" href="/matches/scorecards/scorecard-page.css?v=20261014-premium-finish2" />
+    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261014-smooth-close6" />
+    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261015-india-theme1" />
+    <link rel="stylesheet" href="/matches/recent-scorecard/recent-scorecard.css?v=20261015-scorecard3" />
   </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="/"
+  <body class="matches-page scorecard-page">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Home"
         ><span class="brand-mark brand-mark-photo"
-          ><img
+          ><img data-tilak-logo
             src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
-            alt="" /></span
+            alt="" aria-hidden="true" /></span
         ><span>TILAK VARMA <small>FAN CLUB</small></span></a
       >
-      <button
-        class="menu-toggle"
-        aria-label="Toggle menu"
-        aria-expanded="false"
-        aria-controls="main-nav"
-      >
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
         <span></span><span></span><span></span>
       </button>
       <nav id="main-nav">
-        <a href="/">Home</a><a href="/stats/">Stats</a><a href="/matches/" class="active">Matches</a
-        ><a href="/records/">Records</a><a href="/photos/">Photos</a>
+        <a href="/">Home</a><a href="/stats/">Stats</a><a href="/death-overs/">Death-overs</a
+        ><a href="/matches/" class="active" aria-current="page">Matches</a
+        ><a href="/records/">Records</a><a href="/news/">News</a><a href="/photos/">Photos</a
+        ><a href="/videos/">Videos</a>
       </nav>
     </header>
     <main class="recent-scorecard-main">
@@ -50,18 +50,10 @@
     <footer class="scorecard-footer">
       TILAK VARMA FAN CLUB · Scorecard data credited to Cricsheet
     </footer>
-    <script src="/matches/theme.js?v=20261014-details-v1"></script>
+    <script src="/matches/theme.js?v=20261014-scorecard-page1"></script>
+    <script src="/assets/mobile-glass-menu.js?v=20261014-smooth-close6"></script>
     <script>
       (() => {
-        const menuToggle = document.querySelector(".menu-toggle");
-        const mainNav = document.getElementById("main-nav");
-        if (menuToggle && mainNav) {
-          menuToggle.addEventListener("click", () => {
-            const expanded = menuToggle.getAttribute("aria-expanded") === "true";
-            menuToggle.setAttribute("aria-expanded", String(!expanded));
-            mainNav.classList.toggle("open", !expanded);
-          });
-        }
         const $ = (id) => document.getElementById(id);
         const esc = (v) =>
           String(v ?? "").replace(
@@ -235,10 +227,12 @@
             table(["Bowler", "O", "M", "R", "W", "Econ"], bowling) +
             '<h3>Fall of wickets</h3><div class="scorecard-fow">' +
             (fow || "<span>Not available in saved data</span>") +
-            "</div><h3>Ball-by-ball</h3>" +
+            "</div><details class=\"scorecard-ball-by-ball\"><summary>Ball-by-ball · " +
+            esc(overs.size) +
+            " overs</summary><div class=\"scorecard-ball-by-ball-content\">" +
             (balls ||
               '<p class="scorecard-note">Ball-by-ball data is not included in this innings.</p>') +
-            "</section>"
+            "</div></details></section>"
           );
         }
         async function init() {
