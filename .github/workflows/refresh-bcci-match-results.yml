@@ -2,8 +2,8 @@ name: Refresh BCCI Match Results
 on:
   workflow_dispatch:
   schedule:
-    # GitHub Actions scheduled workflows have a 5-minute minimum cadence.
-    - cron: "*/5 * * * *"
+    # Keep result snapshots offset by two minutes from the live-score refresh.
+    - cron: "2-59/5 * * * *"
   push:
     branches: [main]
     paths:
