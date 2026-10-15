@@ -539,6 +539,55 @@ check("Admin Studio warns before discarding unsaved edits", async () => {
   await page.close();
 });
 
+check("Home responsive layout and mobile-to-desktop menu reset work at common viewport widths", async () => {
+  const page = await browser.newPage();
+  page.setDefaultTimeout(10000);
+  for (const width of [320, 360, 390, 430, 600, 768, 800, 801, 900, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(baseURL, { waitUntil: "domcontentloaded" });
+    const layout = await page.evaluate(() => {
+      const rect = (selector) => {
+        const node = document.querySelector(selector);
+        if (!node) return null;
+        const box = node.getBoundingClientRect();
+        return { left: Math.round(box.left), right: Math.round(box.right), width: Math.round(box.width) };
+      };
+      const button = document.querySelector(".menu-toggle");
+      const nav = document.querySelector("#main-nav");
+      return {
+        viewport: window.innerWidth,
+        documentWidth: document.documentElement.scrollWidth,
+        header: rect("body > header.topbar"),
+        main: rect("body > main"),
+        profile: rect("#profile"),
+        navLinks: nav?.querySelectorAll("a").length || 0,
+        menuVisible: !!button && getComputedStyle(button).display !== "none" && button.getBoundingClientRect().width > 0,
+        navVisible: !!nav && getComputedStyle(nav).display !== "none",
+      };
+    });
+    assert(layout.header && layout.main && layout.profile, "Missing Home layout at " + width + "px: " + JSON.stringify(layout));
+    assert.equal(layout.navLinks, 8, "All Home nav links should remain present at " + width + "px");
+    assert(layout.header.left >= -1 && layout.header.right <= width + 1, "Header exceeds viewport at " + width + "px: " + JSON.stringify(layout));
+    assert(layout.main.left >= -1 && layout.main.right <= width + 1, "Main exceeds viewport at " + width + "px: " + JSON.stringify(layout));
+    if (width <= 800) assert.equal(layout.menuVisible, true, "Mobile menu button should be visible at " + width + "px");
+    else assert.equal(layout.menuVisible, false, "Desktop should use the full nav row at " + width + "px");
+    if (width <= 800) {
+      const button = page.locator(".menu-toggle");
+      await button.click();
+      assert.equal(await button.getAttribute("aria-expanded"), "true", "Menu should open at " + width + "px");
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.waitForTimeout(40);
+      assert.equal(await page.locator("#main-nav").evaluate(node => node.classList.contains("open")), false,
+        "Mobile nav must clear when resizing to desktop from " + width + "px");
+      assert.equal(await page.locator("body").evaluate(node => node.classList.contains("mobile-menu-open")), false,
+        "Mobile scrim state must clear when resizing to desktop from " + width + "px");
+      assert.equal(await page.locator(".menu-toggle").getAttribute("aria-expanded"), "false",
+        "Menu aria-expanded must reset after desktop resize from " + width + "px");
+    }
+  }
+  await page.close();
+});
+
 try {
   for (const item of checks) {
     try {
