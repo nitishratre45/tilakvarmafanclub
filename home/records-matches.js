@@ -66,7 +66,9 @@
 
     const table = document.getElementById("recent-table");
     const rows = Array.isArray(data.recentInnings) ? data.recentInnings : [];
-    if (table) {
+    // app.js owns the primary recent-innings table. This module is a recovery
+    // renderer only: do not overwrite rows already populated by the primary renderer.
+    if (table && (!table.rows.length || table.querySelector(".empty"))) {
       table.innerHTML = rows.length
         ? rows
             .map((row) => {
