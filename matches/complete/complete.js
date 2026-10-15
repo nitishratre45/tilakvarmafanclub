@@ -181,7 +181,7 @@
               encodeURIComponent(m.matchId) +
               '">Full scorecard ↗</a>'
             : '<span class="scorecard-unavailable">BCCI result · scorecard archive unavailable</span>') +
-          '</div></article>',
+          "</div></article>",
       )
       .join("");
   }
