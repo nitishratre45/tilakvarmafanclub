@@ -236,6 +236,10 @@ def normalize(row):
         "source": SOURCE_URL,
         "newsUrl": SOURCE_URL,
         "tilakInSquad": False,
+        # Preserve the complete original BCCI fixture object, including fields
+        # not currently used by the UI (IDs, competition, status, class,
+        # weather, coordinates, colours, summary, and any future API fields).
+        "rawBcci": row,
     }
 
 
@@ -332,6 +336,11 @@ def main():
             int((first_payload.get("page") or {}).get("total_rows") or 0)
             if isinstance(first_payload, dict)
             else 0
+        ),
+        "pagination": (
+            first_payload.get("page", {})
+            if isinstance(first_payload, dict)
+            else {}
         ),
         "fixtureCount": len(fixtures),
         "fixtures": fixtures,
