@@ -188,13 +188,13 @@
   }
 
   function renderAllPhotos() {
-    activeAlbum = { name: "All Photos", photos: allPhotos };
     document.getElementById("tv-gallery-hub")?.classList.remove("tv-album-view-active");
     const ordered = [...allPhotos].sort((a, b) => {
       const aTime = Date.parse(a.createdAt || "") || 0;
       const bTime = Date.parse(b.createdAt || "") || 0;
       return bTime - aTime;
     });
+    activeAlbum = { name: "All Photos", photos: ordered };
     const photoMarkup = ordered.map((photo, index) => {
       const date = photo.createdAt && !Number.isNaN(Date.parse(photo.createdAt))
         ? new Date(photo.createdAt).toLocaleDateString("en-IN", {
