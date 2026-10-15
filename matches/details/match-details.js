@@ -1166,19 +1166,15 @@
       // BCCI result JSON may be empty, so this section must not depend on it.
       const recentResultsHost = $("recent-match-results");
       if (recentResultsHost) {
-        // Always prefer the all-team archive. The Tilak-only scorecard index
-        // also has a "matches" array, so checking only whether that array exists
-        // accidentally prevented loading results for the selected team's other opponents.
-        let recentArchiveIndex = null;
-        try {
-          const recentIndexResponse = await fetch(
-            "/matches/scorecards/all-matches-index.json?v=20261016-all-team-results2",
-            { cache: "no-store" },
-          );
-          if (recentIndexResponse.ok) recentArchiveIndex = await recentIndexResponse.json();
-        } catch (_) {}
+        let recentArchiveIndex = scorecardIndex;
         if (!Array.isArray(recentArchiveIndex?.matches)) {
-          recentArchiveIndex = scorecardIndex;
+          try {
+            const recentIndexResponse = await fetch(
+              "/matches/scorecards/index.json?v=20261015-recent-results-fallback2",
+              { cache: "no-store" },
+            );
+            if (recentIndexResponse.ok) recentArchiveIndex = await recentIndexResponse.json();
+          } catch (_) {}
         }
         const archiveMatches = Array.isArray(recentArchiveIndex?.matches)
           ? recentArchiveIndex.matches
@@ -1251,9 +1247,8 @@
                           })
                         : "Date unavailable";
                       const scorecardUrl =
-                        typeof row.scorecard === "string" &&
-                        row.scorecard.startsWith("/matches/scorecards/data/")
-                          ? row.scorecard
+                        typeof row.matchId === "string" && row.matchId
+                          ? "/matches/recent-scorecard/?matchId=" + encodeURIComponent(row.matchId)
                           : "";
                       return (
                         '<article class="recent-result-row"><span class="recent-result-badge recent-result-' +
