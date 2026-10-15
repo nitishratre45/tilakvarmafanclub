@@ -246,15 +246,11 @@ export async function onRequest({ request, env }) {
             409,
           );
         }
-        await github(
-          env,
-          "/actions/workflows/" + matchWorkflow.workflow + "/dispatches",
-          { method: "POST", body: JSON.stringify({ ref: "main" }) },
-        );
-        return json(
-          { ok: true, message: matchWorkflow.label + " queued successfully." },
-          202,
-        );
+        await github(env, "/actions/workflows/" + matchWorkflow.workflow + "/dispatches", {
+          method: "POST",
+          body: JSON.stringify({ ref: "main" }),
+        });
+        return json({ ok: true, message: matchWorkflow.label + " queued successfully." }, 202);
       }
       if (body.action === "match-refresh") {
         await github(env, "/actions/workflows/refresh-upcoming-matches.yml/dispatches", {
