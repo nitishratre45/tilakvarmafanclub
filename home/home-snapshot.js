@@ -207,6 +207,22 @@
             )
           : '<p class="activity-empty">No verified bowling summary is saved yet.</p>';
       }
+      // Move the compact animated CAREER SUMMARY label beneath the complete career tables.
+      const summaryHeading = document.querySelector(".home-snapshot-section .home-snapshot-heading");
+      const bowlingTableSection = document.querySelector(".home-snapshot-section .home-bowling-table-section");
+      if (summaryHeading && bowlingTableSection) {
+        const label = summaryHeading.querySelector(".eyebrow");
+        if (label) {
+          label.textContent = "CAREER SUMMARY";
+          label.setAttribute("aria-label", "Career summary");
+        }
+        const oldTitle = summaryHeading.querySelector("h2");
+        if (oldTitle) oldTitle.remove();
+        const actions = summaryHeading.querySelector(".home-heading-actions");
+        if (actions) actions.remove();
+        summaryHeading.classList.add("home-summary-animated-label");
+        bowlingTableSection.insertAdjacentElement("afterend", summaryHeading);
+      }
       if (bowlingUpdated) {
         const updated = bowling.updatedAt || bowling.lastUpdated;
         const source = bowling.source || "Saved bowling snapshot";
