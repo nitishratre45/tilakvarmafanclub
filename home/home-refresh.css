@@ -1348,3 +1348,67 @@ body > footer {
     font-size: 0.68rem;
   }
 }
+
+
+/* Fix: section titles must stay outside horizontally scrolling career tables. */
+.home-career-table-section {
+  min-width: 0;
+  margin: 0 0 14px;
+}
+.home-career-table-title {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 13px 16px;
+  border: 1px solid rgba(110, 168, 255, .22);
+  border-bottom: 0;
+  border-radius: 15px 15px 0 0;
+  background: linear-gradient(100deg, #172d4b, #13233d 70%, #182642);
+  color: #f3f7ff;
+  font-size: 1rem;
+  line-height: 1.35;
+  font-weight: 850;
+  letter-spacing: .045em;
+  text-align: left;
+}
+.home-career-table-wrap {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.home-career-table caption {
+  display: none;
+}
+.home-snapshot-section .home-bowling-card {
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.home-snapshot-section .home-bowling-stats {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.home-snapshot-section .home-bowling-updated {
+  margin-top: 0;
+  border: 1px solid rgba(110, 168, 255, .17);
+  border-top: 0;
+  border-radius: 0 0 13px 13px;
+  background: rgba(7, 17, 31, .75);
+}
+@media (max-width: 680px) {
+  .home-career-table-section {
+    margin-bottom: 12px;
+  }
+  .home-career-table-title {
+    padding: 12px 13px;
+    font-size: .9rem;
+    border-radius: 12px 12px 0 0;
+  }
+  .home-career-table-wrap {
+    border-radius: 0 0 12px 12px;
+  }
+}
