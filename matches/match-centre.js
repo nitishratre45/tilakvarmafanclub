@@ -106,14 +106,17 @@
     try {
       // Keep the existing squad-confirmed snapshot and merge the Python-built BCCI Stats JSON.
       // The browser never calls the external BCCI API directly.
-      const [newsResponse, statsResponse, manualResponse] = await Promise.all([
-        fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-match-centre2", {
+      const [newsResponse, statsResponse, manualResponse, liveResponse] = await Promise.all([
+        fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-auto-live1", {
           cache: "no-store",
         }).catch(() => null),
-        fetch("/matches/bcci-stats-fixtures.json?v=20261015-match-centre2", {
+        fetch("/matches/bcci-stats-fixtures.json?v=20261015-auto-live1", {
           cache: "no-store",
         }).catch(() => null),
-        fetch("/matches/manual-upcoming-fixtures.json?v=20261015-match-centre2", {
+        fetch("/matches/manual-upcoming-fixtures.json?v=20261015-auto-live1", {
+          cache: "no-store",
+        }).catch(() => null),
+        fetch("/matches/live/live-matches.json?v=20261015-auto-live1", {
           cache: "no-store",
         }).catch(() => null),
       ]);
@@ -123,6 +126,16 @@
         statsResponse && statsResponse.ok ? await statsResponse.json().catch(() => null) : null;
       const manualPayload =
         manualResponse && manualResponse.ok ? await manualResponse.json().catch(() => null) : null;
+      const livePayload =
+        liveResponse && liveResponse.ok ? await liveResponse.json().catch(() => null) : null;
+      const liveMatches = Array.isArray(livePayload?.matches) ? livePayload.matches : [];
+      const norm = (value) => String(value || "").trim().toLowerCase().replace(/\\s+/g, " ");
+      const liveIds = new Set(liveMatches.map((m) => norm(m.id || m.matchId || m.match_id || m.gid)).filter(Boolean));
+      const livePairKeys = new Set(liveMatches.map((m) => {
+        const a = norm(m.team1 || m.team1_name || m.team1Name || m.homeTeam);
+        const b = norm(m.team2 || m.team2_name || m.team2Name || m.awayTeam);
+        return [a, b].filter(Boolean).sort().join("|");
+      }).filter(Boolean));
       const newsFixtures = Array.isArray(newsPayload?.fixtures)
         ? newsPayload.fixtures.map((f) => ({ ...f, team: f.team || "India", tilakInSquad: true }))
         : [];
@@ -212,6 +225,15 @@
         month: "2-digit",
         day: "2-digit",
       }).format(new Date());
+      // Once the official live snapshot marks a fixture live, remove it from Upcoming.
+      // Match by official ID first, then by both team names so feeds with different ID
+      // formats still transition correctly. The live page remains the single source of live cards.
+      fixtures = fixtures.filter((f) => {
+        const ids = [f.matchId, f.match_id, f.gid, f.fixtureId, f.id, f.rawBcci?.match_id, f.rawBcci?.gid]
+          .map(norm).filter(Boolean);
+        const pair = [norm(f.team || "India"), norm(f.opponent)].filter(Boolean).sort().join("|");
+        return !ids.some((id) => liveIds.has(id)) && !(pair && livePairKeys.has(pair));
+      });
       fixtures = fixtures
         .filter((f) => {
           const date = String(f.date || "");
