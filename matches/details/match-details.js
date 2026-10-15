@@ -1247,7 +1247,8 @@
                           })
                         : "Date unavailable";
                       const scorecardUrl =
-                        typeof row.scorecard === "string" && row.scorecard.startsWith("/matches/scorecards/data/")
+                        typeof row.scorecard === "string" &&
+                        row.scorecard.startsWith("/matches/scorecards/data/")
                           ? row.scorecard
                           : "";
                       return (
