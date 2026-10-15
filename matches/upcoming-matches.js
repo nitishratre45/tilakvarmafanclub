@@ -328,7 +328,8 @@
           ...news,
           ...bcci,
           team: "India",
-          opponent: [bcci.team, bcci.opponent].find((name) => norm(name) !== "india") || news.opponent,
+          opponent:
+            [bcci.team, bcci.opponent].find((name) => norm(name) !== "india") || news.opponent,
           venue: bcci.venue || "",
           time: bcci.time || "",
           source: bcci.source || "",
