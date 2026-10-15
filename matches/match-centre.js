@@ -155,10 +155,21 @@
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, " ")
           .trim();
-      const statsFixtures = Array.isArray(statsPayload?.fixtures) ? statsPayload.fixtures : [];
-      const newsFixtures = Array.isArray(newsPayload?.fixtures)
-        ? newsPayload.fixtures.map((f) => ({ ...f, team: f.team || "India", tilakInSquad: true }))
-        : [];
+      const statsFixtures =
+        statsPayload?.status === "updated-from-bcci-stats" && Array.isArray(statsPayload.fixtures)
+          ? statsPayload.fixtures
+          : [];
+      const newsFixtures =
+        newsPayload?.status === "updated-from-news-and-bcci-json" &&
+        Array.isArray(newsPayload.fixtures)
+          ? newsPayload.fixtures.filter(
+              (f) =>
+                f &&
+                f.tilakInSquad === true &&
+                f.confirmationSource === "BCCI squad announcement naming Tilak Varma" &&
+                String(f.newsUrl || "").startsWith("/News-details/index.html?id=")
+            )
+          : [];
       const exactBcciFixture = (newsFixture) => {
         const date = String(newsFixture.date || "");
         const match = normalMatch(newsFixture.match);
