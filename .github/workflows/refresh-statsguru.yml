@@ -3,8 +3,8 @@ name: Refresh ESPNcricinfo Statsguru
 on:
   workflow_dispatch:
   schedule:
-    # Hourly trigger; the step below enforces a rolling 12-hour interval.
-    - cron: "23 * * * *"
+    # Run at 00:23 and 12:23 UTC; the rolling interval guard remains as a safety check.
+    - cron: "23 */12 * * *"
   push:
     branches: [main]
     paths:
