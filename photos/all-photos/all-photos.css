@@ -596,24 +596,26 @@ body.lightbox-locked {
   gap: 8px;
   min-height: 40px;
   padding: 9px 13px;
-  border: 1px solid rgba(151,193,232,.24);
+  border: 1px solid rgba(151, 193, 232, 0.24);
   border-radius: 10px;
   color: #dcecff;
-  background: rgba(7,24,44,.72);
+  background: rgba(7, 24, 44, 0.72);
   font-size: 12px;
   font-weight: 800;
   line-height: 1.3;
   text-align: left;
   text-decoration: none;
-  transition: border-color .18s ease, background .18s ease;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease;
 }
 .all-photos-page .view-switch.tv-gallery-view-tabs .tv-gallery-view-tab:hover {
-  border-color: rgba(117,227,255,.65);
+  border-color: rgba(117, 227, 255, 0.65);
 }
 .all-photos-page .view-switch.tv-gallery-view-tabs .tv-gallery-view-tab.is-active {
   color: #fff;
-  border-color: rgba(255,128,87,.75);
-  background: rgba(255,128,87,.12);
+  border-color: rgba(255, 128, 87, 0.75);
+  background: rgba(255, 128, 87, 0.12);
 }
 .all-photos-page .view-switch.tv-gallery-view-tabs .tv-gallery-view-icon {
   display: inline;
@@ -644,7 +646,7 @@ body.lightbox-locked {
   width: auto;
   margin: 0;
   color: inherit;
-  opacity: .75;
+  opacity: 0.75;
   font-size: 10px;
   font-weight: 600;
   line-height: 1.3;
