@@ -115,18 +115,29 @@
     const rowDay = dayValue(row.date);
     const opponent = normalizeText(row.opposition);
     if (!rowDay || !opponent) return null;
-    const fmt = String(format || "").trim().toLowerCase();
+    const fmt = String(format || "")
+      .trim()
+      .toLowerCase();
     const allowedFormats =
-      fmt === "t20i" ? new Set(["t20i"]) :
-      fmt === "odi" ? new Set(["odi"]) :
-      fmt === "fc" ? new Set(["test", "fc"]) :
-      fmt === "list a" ? new Set(["odi", "list a"]) :
-      fmt === "t20" ? new Set(["t20", "t20i"]) :
-      new Set([fmt]);
+      fmt === "t20i"
+        ? new Set(["t20i"])
+        : fmt === "odi"
+          ? new Set(["odi"])
+          : fmt === "fc"
+            ? new Set(["test", "fc"])
+            : fmt === "list a"
+              ? new Set(["odi", "list a"])
+              : fmt === "t20"
+                ? new Set(["t20", "t20i"])
+                : new Set([fmt]);
     const matches = savedScorecards.filter((match) => {
       if (dayValue(match.date) !== rowDay) return false;
       if (normalizeText(match.opposition || match.opponent) !== opponent) return false;
-      return allowedFormats.has(String(match.format || "").trim().toLowerCase());
+      return allowedFormats.has(
+        String(match.format || "")
+          .trim()
+          .toLowerCase(),
+      );
     });
     return matches.length === 1 ? matches[0] : null;
   };
@@ -329,7 +340,10 @@
   let snapshot = null;
   const selector = $("player-match-format");
   if (selector) selector.addEventListener("change", () => snapshot && render(snapshot));
-  const scorecardsPromise = fetch("/matches/scorecards/index.json?v=20261015-recent-scorecard-links", { cache: "no-store" })
+  const scorecardsPromise = fetch(
+    "/matches/scorecards/index.json?v=20261015-recent-scorecard-links",
+    { cache: "no-store" },
+  )
     .then((response) => {
       if (!response.ok) throw new Error("Saved scorecard index unavailable");
       return response.json();
