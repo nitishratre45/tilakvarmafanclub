@@ -967,7 +967,6 @@ body > footer {
   }
 }
 
-
 /* Compact mobile homepage snapshot — keep full career data on the dedicated Stats pages. */
 :root {
   --home-accent-blue: #6ea8ff;
@@ -987,7 +986,12 @@ body > footer {
   border-color: rgba(110, 168, 255, 0.2);
 }
 .home-mini-stat::after {
-  background: linear-gradient(90deg, var(--home-accent-violet), var(--home-accent-cyan), transparent);
+  background: linear-gradient(
+    90deg,
+    var(--home-accent-violet),
+    var(--home-accent-cyan),
+    transparent
+  );
 }
 .home-format-card > span,
 .home-bowling-stat > span {
