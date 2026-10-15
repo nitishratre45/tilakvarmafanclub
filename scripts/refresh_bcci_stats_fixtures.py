@@ -290,7 +290,9 @@ def main():
         if not isinstance(first_payload, (dict, list)):
             raise ValueError("BCCI page 1 response is not a JSON object/list")
 
-        page_info = first_payload.get("page", {}) if isinstance(first_payload, dict) else {}
+        page_info = (
+            first_payload.get("page", {}) if isinstance(first_payload, dict) else {}
+        )
         last_page = int(page_info.get("last_page") or 1)
         if last_page < 1 or last_page > 100:
             raise ValueError(f"Unexpected BCCI pagination last_page: {last_page}")
@@ -300,7 +302,9 @@ def main():
         for page_number in range(2, last_page + 1):
             page_payload = fetch_page(page_number)
             if not isinstance(page_payload, (dict, list)):
-                raise ValueError(f"BCCI page {page_number} response is not a JSON object/list")
+                raise ValueError(
+                    f"BCCI page {page_number} response is not a JSON object/list"
+                )
             payloads.append(page_payload)
             print(f"Fetched BCCI Stats fixtures page {page_number}/{last_page}.")
     except Exception as exc:
@@ -324,8 +328,11 @@ def main():
         "checkedAt": datetime.now(timezone.utc).isoformat(),
         "status": "updated-from-bcci-stats",
         "sourcePagesFetched": len(payloads),
-        "sourceTotalRows": int((first_payload.get("page") or {}).get("total_rows") or 0)
-            if isinstance(first_payload, dict) else 0,
+        "sourceTotalRows": (
+            int((first_payload.get("page") or {}).get("total_rows") or 0)
+            if isinstance(first_payload, dict)
+            else 0
+        ),
         "fixtureCount": len(fixtures),
         "fixtures": fixtures,
     }
@@ -383,6 +390,7 @@ def main():
             f'{fixture["team"]} vs {fixture["opponent"]} | {fixture["venue"]}'
         )
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
