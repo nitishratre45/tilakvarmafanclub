@@ -500,7 +500,9 @@
       }
       const detail = (manual.matches || []).find((x) => key(x) === key(f)) || {};
       const scorecardRows = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
-      const fixtureMatchId = String(f.matchId || f.match_id || f.gid || f.fixtureId || f.id || "").trim();
+      const fixtureMatchId = String(
+        f.matchId || f.match_id || f.gid || f.fixtureId || f.id || "",
+      ).trim();
       // Live scoreboard waits for the official ID; never substitute by date/team.
       const exactScorecard = fixtureMatchId
         ? scorecardRows.find((row) => {
