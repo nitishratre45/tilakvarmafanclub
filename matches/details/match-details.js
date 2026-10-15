@@ -448,15 +448,14 @@
   async function init() {
     try {
       // Read saved JSON snapshots only; do not call BCCI's API from the browser.
-      const [newsResponse, statsResponse, resultsResponse, squadsResponse, scorecardIndexResponse] =
+      // Keep the multi-megabyte historical BCCI results archive off the normal page load.
+      // It is fetched only as a fallback for a fixture with a verified provider match ID.
+      const [newsResponse, statsResponse, squadsResponse, scorecardIndexResponse] =
         await Promise.all([
           fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-details3", {
             cache: "no-store",
           }).catch(() => null),
           fetch("/matches/bcci-stats-fixtures.json?v=20261015-details3", {
-            cache: "no-store",
-          }).catch(() => null),
-          fetch("/matches/bcci-match-results.json?v=20261015-results1", {
             cache: "no-store",
           }).catch(() => null),
           fetch("/matches/bcci-squads.json?v=20261015-nz-t20i1", { cache: "no-store" }).catch(
@@ -470,10 +469,6 @@
         newsResponse && newsResponse.ok ? await newsResponse.json().catch(() => null) : null;
       const statsSnapshot =
         statsResponse && statsResponse.ok ? await statsResponse.json().catch(() => null) : null;
-      const resultsSnapshot =
-        resultsResponse && resultsResponse.ok
-          ? await resultsResponse.json().catch(() => null)
-          : null;
       const squadsSnapshot =
         squadsResponse && squadsResponse.ok ? await squadsResponse.json().catch(() => null) : null;
       const scorecardIndex =
@@ -644,6 +639,13 @@
       // Match the BCCI results snapshot only by the fixture's official IDs and team IDs.
       // A result row for another match is never accepted by team names/date alone.
       if (!scorecardLoaded && fixtureMatchId) {
+        let resultsSnapshot = null;
+        try {
+          const resultsResponse = await fetch("/matches/bcci-match-results.json?v=20261015-results-lazy1", {
+            cache: "no-store",
+          });
+          if (resultsResponse.ok) resultsSnapshot = await resultsResponse.json().catch(() => null);
+        } catch (_) {}
         const resultRows = Array.isArray(resultsSnapshot?.matches) ? resultsSnapshot.matches : [];
         const exactResult = resultRows.find((row) => {
           const rowIds = [row.gid, row.match_id, row.matchId].map((v) => String(v || "").trim());
