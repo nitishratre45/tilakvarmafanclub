@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Refresh BCCI/EllipseData competition squads without losing the last good snapshot.
 
-The provider has been returning a changed/error response for team_id=6. A
-refresh is accepted only when both team requests contain identifiable players.
-An unavailable/changed provider response exits non-zero and preserves the saved
-snapshot, so the five-minute schedule can retry safely.
+Fetches both official squad endpoints (team_id=6 India, team_id=4 West Indies).
+The response contains separate ODI (class 2) and T20I (class 3) squads for each
+team. Publish only after all four team/format lists have valid player records;
+on any provider error, preserve the previous snapshot for the next retry.
 """
 import json
 import os
@@ -166,11 +166,14 @@ def main():
                     "players": players,
                     "source": BASE_URL + team_id,
                 }
+        expected_classes = {"2", "3"}
         for team_id, team_name in TEAMS:
-            if not any(
-                s["teamId"] == team_id and s["players"] for s in squads.values()
-            ):
-                raise ValueError(f"Snapshot missing non-empty {team_name} squad")
+            for class_id in expected_classes:
+                key = team_id + ":" + class_id
+                if key not in squads or not squads[key]["players"]:
+                    raise ValueError(
+                        f"Snapshot missing {team_name} squad for class_id={class_id}"
+                    )
 
         india = payloads["6"]
         west_indies = payloads["4"]
@@ -204,10 +207,13 @@ def main():
             candidate = json.loads(temp.read_text(encoding="utf-8"))
             if candidate.get("status") != "updated-from-bcci-squads" or not all(
                 any(
-                    s.get("teamId") == team_id and s.get("players")
+                    s.get("teamId") == team_id
+                    and s.get("classId") == class_id
+                    and s.get("players")
                     for s in candidate["squads"]
                 )
                 for team_id, _ in TEAMS
+                for class_id in ("2", "3")
             ):
                 raise ValueError("Squads snapshot validation failed")
             os.replace(temp, OUTPUT)
