@@ -1176,11 +1176,12 @@
         // Show the recent match history for either team in the selected fixture,
         // not only head-to-head meetings between the same two teams.
         const recentArchiveResults = archiveMatches
-          .filter((row) =>
-            [row.team, row.opposition].some((name) =>
-              wantedTeams.includes(normaliseRecentTeam(name))
-            ) &&
-            String(row.date || "").slice(0, 10) < String(f.date || "9999-12-31").slice(0, 10)
+          .filter(
+            (row) =>
+              [row.team, row.opposition].some((name) =>
+                wantedTeams.includes(normaliseRecentTeam(name)),
+              ) &&
+              String(row.date || "").slice(0, 10) < String(f.date || "9999-12-31").slice(0, 10),
           )
           .sort((left, right) => String(right.date || "").localeCompare(String(left.date || "")))
           .slice(0, 12);
