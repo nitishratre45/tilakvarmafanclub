@@ -1073,12 +1073,18 @@
       weather(f.venue, f.date);
     } catch (e) {
       console.error("Match details:", e);
-      set("details-title", "Match details could not load");
+      // Keep already-rendered fixture details visible if an optional panel fails.
+      // The old catch incorrectly made a late rendering error look like unreadable fixture JSON.
+      const message = String(e?.message || e || "Unknown rendering error").slice(0, 180);
+      const title = $("details-title");
+      if (title && (!title.textContent || /loading/i.test(title.textContent))) {
+        title.textContent = "Match details partially loaded";
+      }
       set(
         "details-series",
-        "Saved fixture JSON could not be read. Return to Matches and try again.",
+        "Some match information could not load. Refresh the page to retry.",
       );
-      set("workflow-fixture", "Fixture request failed; refresh and retry.");
+      set("workflow-fixture", "Match detail rendering issue: " + message);
     }
   }
   initDetailsSectionTabs();
