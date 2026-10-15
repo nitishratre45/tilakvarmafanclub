@@ -89,14 +89,6 @@
               data.statsguru?.formats?.[key]?.fielding?.summary ||
               data.statsguru?.formats?.[key]?.fieldingSummary ||
               {};
-            const fieldingFallback =
-              {
-                ODI: { catches: 1, stumpings: 0 },
-                T20I: { catches: 50, stumpings: 0 },
-                "First-class": { catches: 10, stumpings: 0 },
-                "List A": { catches: 27, stumpings: 0 },
-                "Overall T20 (all competitions)": { catches: 110, stumpings: 0 },
-              }[key] || {};
             const rows = [
               label,
               s.matches,
@@ -111,8 +103,8 @@
               s.fifties,
               s.fours,
               s.sixes,
-              s.catches ?? fielding.catches ?? fielding.Ct ?? fieldingFallback.catches,
-              s.stumpings ?? fielding.stumpings ?? fielding.St ?? fieldingFallback.stumpings,
+              s.catches ?? fielding.catches ?? fielding.Ct,
+              s.stumpings ?? fielding.stumpings ?? fielding.St,
             ];
             return "<tr>" + rows.map(cell).join("") + "</tr>";
           })
