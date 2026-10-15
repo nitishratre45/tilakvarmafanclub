@@ -109,6 +109,28 @@
     (row.score && row.score !== "—" ? 2 : 0) +
     (row.result ? 1 : 0);
 
+  let savedScorecards = [];
+
+  const findSavedScorecard = (row, format) => {
+    const rowDay = dayValue(row.date);
+    const opponent = normalizeText(row.opposition);
+    if (!rowDay || !opponent) return null;
+    const fmt = String(format || "").trim().toLowerCase();
+    const allowedFormats =
+      fmt === "t20i" ? new Set(["t20i"]) :
+      fmt === "odi" ? new Set(["odi"]) :
+      fmt === "fc" ? new Set(["test", "fc"]) :
+      fmt === "list a" ? new Set(["odi", "list a"]) :
+      fmt === "t20" ? new Set(["t20", "t20i"]) :
+      new Set([fmt]);
+    const matches = savedScorecards.filter((match) => {
+      if (dayValue(match.date) !== rowDay) return false;
+      if (normalizeText(match.opposition || match.opponent) !== opponent) return false;
+      return allowedFormats.has(String(match.format || "").trim().toLowerCase());
+    });
+    return matches.length === 1 ? matches[0] : null;
+  };
+
   function render(data) {
     const all = Array.isArray(data.playerMatches) ? data.playerMatches.slice() : [];
     const formats = data.statsguru?.formats || {};
@@ -289,13 +311,16 @@
                 esc(r.ground || r.venue || "—") +
                 "</td><td>" +
                 esc(fmt) +
-                '</td><td><a class="recent-match-details-link" href="/matches/details/?date=' +
-                encodeURIComponent(String(r.date || "")) +
-                "&opponent=" +
-                encodeURIComponent(String(r.opposition || "")) +
-                "&match=" +
-                encodeURIComponent(String(fmt || "Match")) +
-                '">Full details ↗</a></td></tr>'
+                "</td><td>" +
+                (() => {
+                  const saved = findSavedScorecard(r, fmt);
+                  return saved && saved.matchId
+                    ? '<a class="recent-match-details-link" href="/matches/scorecards/?match=' +
+                        encodeURIComponent(String(saved.matchId)) +
+                        '">Scorecard ↗</a>'
+                    : '<span class="recent-match-scorecard-unavailable" title="No exact saved scorecard match was found">Unavailable</span>';
+                })() +
+                "</td></tr>"
               );
             })
             .join("")
@@ -304,8 +329,19 @@
   let snapshot = null;
   const selector = $("player-match-format");
   if (selector) selector.addEventListener("change", () => snapshot && render(snapshot));
-  window.TilakSiteData.load()
-    .then((d) => {
+  const scorecardsPromise = fetch("/matches/scorecards/index.json?v=20261015-recent-scorecard-links", { cache: "no-store" })
+    .then((response) => {
+      if (!response.ok) throw new Error("Saved scorecard index unavailable");
+      return response.json();
+    })
+    .then((payload) => {
+      savedScorecards = Array.isArray(payload.matches) ? payload.matches : [];
+    })
+    .catch(() => {
+      savedScorecards = [];
+    });
+  Promise.all([window.TilakSiteData.load(), scorecardsPromise])
+    .then(([d]) => {
       snapshot = d;
       render(d);
     })
