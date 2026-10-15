@@ -14,21 +14,34 @@
     <link rel="stylesheet" href="/matches/premium-ui.css?v=20261015-recent-scorecard-shared1" />
     <link rel="stylesheet" href="/matches/matches.css?v=20261015-recent-scorecard-shared1" />
     <link rel="stylesheet" href="/matches/match-centre.css?v=20261015-recent-scorecard-shared1" />
-    <link rel="stylesheet" href="/matches/scorecards/scorecard-page.css?v=20261014-premium-finish2" />
+    <link
+      rel="stylesheet"
+      href="/matches/scorecards/scorecard-page.css?v=20261014-premium-finish2"
+    />
     <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261014-smooth-close6" />
     <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261015-india-theme1" />
-    <link rel="stylesheet" href="/matches/recent-scorecard/recent-scorecard.css?v=20261015-scorecard5" />
+    <link
+      rel="stylesheet"
+      href="/matches/recent-scorecard/recent-scorecard.css?v=20261015-scorecard5"
+    />
   </head>
   <body class="matches-page scorecard-page">
     <header class="topbar">
       <a class="brand" href="/" aria-label="Home"
         ><span class="brand-mark brand-mark-photo"
-          ><img data-tilak-logo
+          ><img
+            data-tilak-logo
             src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
-            alt="" aria-hidden="true" /></span
+            alt=""
+            aria-hidden="true" /></span
         ><span>TILAK VARMA <small>FAN CLUB</small></span></a
       >
-      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+      <button
+        class="menu-toggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
         <span></span><span></span><span></span>
       </button>
       <nav id="main-nav">
@@ -227,9 +240,9 @@
             table(["Bowler", "O", "M", "R", "W", "Econ"], bowling) +
             '<h3>Fall of wickets</h3><div class="scorecard-fow">' +
             (fow || "<span>Not available in saved data</span>") +
-            "</div><details class=\"scorecard-ball-by-ball\"><summary>Ball-by-ball · " +
+            '</div><details class="scorecard-ball-by-ball"><summary>Ball-by-ball · ' +
             esc(overs.size) +
-            " overs</summary><div class=\"scorecard-ball-by-ball-content\">" +
+            ' overs</summary><div class="scorecard-ball-by-ball-content">' +
             (balls ||
               '<p class="scorecard-note">Ball-by-ball data is not included in this innings.</p>') +
             "</div></details></section>"
