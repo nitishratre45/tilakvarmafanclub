@@ -247,10 +247,26 @@ th {
 footer {
   border-top-color: var(--tv-line);
 }
+:root[data-theme-resolved="light"] body {
+  color: #102b4d;
+  background:
+    radial-gradient(ellipse at 12% 4%, rgba(36, 112, 203, 0.12), transparent 34rem), #f2f7ff;
+}
+:root[data-theme-resolved="light"] .topbar {
+  background: rgba(7, 38, 76, 0.97);
+  color: #f7fbff;
+  border-bottom-color: rgba(255, 116, 75, 0.45);
+}
 
-
-
-
+:root[data-theme-resolved="light"] .home-snapshot-block,
+:root[data-theme-resolved="light"] .home-bowling-card,
+:root[data-theme-resolved="light"] .profile-teams-panel,
+:root[data-theme-resolved="light"] .icc-ranking-card
+{
+  background: linear-gradient(145deg, #ffffff, #edf4ff);
+  border-color: #d4e2f4;
+  box-shadow: 0 12px 30px rgba(29, 71, 122, 0.08);
+}
 
 @media (max-width: 900px) {
   .section {
@@ -327,7 +343,9 @@ footer {
   color-scheme: dark;
   --tv-focus-ring: #80e8ff;
 }
-
+:root[data-theme-resolved="light"] {
+  color-scheme: light;
+}
 img,
 video,
 iframe {
@@ -815,13 +833,45 @@ main > section[id] {
 
 
 
-
-
-
-
-
-
-
+:root[data-theme-resolved="light"] #profile.profile-section {
+  background:
+    radial-gradient(ellipse at 5% 15%, rgba(29, 102, 180, 0.08), transparent 42%),
+    linear-gradient(125deg, #f6f9ff, #eaf2fc 56%, #f7faff) !important;
+  border-color: #d3e2f4;
+}
+:root[data-theme-resolved="light"] #profile .profile-copy h2,
+:root[data-theme-resolved="light"] #profile .profile-ranking-heading h3,
+:root[data-theme-resolved="light"] #profile .profile-teams-heading h3,
+:root[data-theme-resolved="light"] #profile .profile-facts strong,
+:root[data-theme-resolved="light"] #profile .profile-ranking-values strong {
+  color: #102d50;
+}
+:root[data-theme-resolved="light"] #profile .profile-intro {
+  color: #4f6680;
+}
+:root[data-theme-resolved="light"] #profile .profile-location-line,
+:root[data-theme-resolved="light"] #profile .profile-ranking-updated
+{
+  color: #637d99;
+}
+:root[data-theme-resolved="light"] #profile .profile-facts > div,
+:root[data-theme-resolved="light"] #profile .profile-ranking-card,
+:root[data-theme-resolved="light"] #profile .profile-teams-panel
+{
+  background: linear-gradient(145deg, #fff, #f0f6ff);
+  border-color: #d3e2f4;
+  box-shadow: 0 10px 26px rgba(29, 71, 122, 0.07);
+}
+:root[data-theme-resolved="light"] #profile .profile-facts small,
+:root[data-theme-resolved="light"] #profile .profile-ranking-values small
+{
+  color: #637d99;
+}
+:root[data-theme-resolved="light"] #profile .profile-team-chip {
+  background: #f5f9ff;
+  border-color: #d5e3f5;
+  color: #234464;
+}
 
 @media (max-width: 850px) {
   #profile.profile-section {
@@ -1099,11 +1149,30 @@ main > section[id] {
   outline: 3px solid var(--profile-cyan);
   outline-offset: 3px;
 }
-
-
-
-
-
+:root[data-theme-resolved="light"] #profile .profile-location-line {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: #d6e4f5;
+}
+:root[data-theme-resolved="light"] #profile .profile-quick-actions .button.outline {
+  background: #fff;
+  border-color: #cfdeef;
+  color: #173a5e;
+}
+:root[data-theme-resolved="light"] #profile .profile-facts > div,
+:root[data-theme-resolved="light"] #profile .profile-ranking-card,
+:root[data-theme-resolved="light"] #profile .profile-teams-panel
+{
+  box-shadow:
+    0 12px 30px rgba(31, 69, 113, 0.075),
+    inset 0 1px 0 #fff;
+}
+:root[data-theme-resolved="light"] #profile .profile-ranking-values > div {
+  background: linear-gradient(145deg, #f8fbff, #edf5ff);
+  border-color: #d9e7f7;
+}
+:root[data-theme-resolved="light"] #profile .profile-ranking-values strong {
+  color: #102d50;
+}
 
 @media (min-width: 1100px) {
   #profile.profile-section {
@@ -1272,7 +1341,11 @@ main > section[id] {
   grid-column: 1 / -1;
 }
 
-
+:root[data-theme-resolved="light"] #profile .profile-highlights > span {
+  background: rgba(255, 255, 255, 0.78);
+  border-color: #d6e4f5;
+  color: #31516f;
+}
 @media (max-width: 620px) {
   #profile .profile-highlights {
     justify-content: center;
