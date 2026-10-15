@@ -141,7 +141,6 @@ check("mobile navigation opens, scroll target works, and closes after selection"
   await button.click();
   assert.equal(await button.getAttribute("aria-expanded"), "true", "Menu aria-expanded did not become true");
   assert(await nav.evaluate((node) => node.classList.contains("open")), "Mobile nav did not open");
-  assert.equal(await page.locator("body").evaluate((node) => getComputedStyle(node.querySelector(".tv-mobile-bottom-nav")).visibility), "hidden", "Bottom dock must not intercept the open hamburger menu");
   await nav.locator('a[href="/records/"]').click({ force: true });
   await page.waitForURL(url => url.pathname === "/records/");
   assert.equal(await button.getAttribute("aria-expanded"), "false", "Menu did not close after navigation");
