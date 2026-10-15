@@ -885,8 +885,7 @@
         const candidates = savedSquads.filter(
           (squad) =>
             (id && String(squad.teamId || "").trim() === String(id).trim()) ||
-            (teamName &&
-              normaliseTeamName(squad.teamName) === normaliseTeamName(teamName)),
+            (teamName && normaliseTeamName(squad.teamName) === normaliseTeamName(teamName)),
         );
         if (!candidates.length) return null;
         // Prefer the matching match format, but don't hide an available official squad
