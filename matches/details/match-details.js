@@ -459,7 +459,7 @@
           fetch("/matches/bcci-match-results.json?v=20261015-results1", {
             cache: "no-store",
           }).catch(() => null),
-          fetch("/matches/bcci-squads.json?v=20261015-squads1", { cache: "no-store" }).catch(
+          fetch("/matches/bcci-squads.json?v=20261015-nz-t20i1", { cache: "no-store" }).catch(
             () => null,
           ),
           fetch("/matches/scorecards/index.json?v=20261015-full-scoreboard1", {
