@@ -482,12 +482,18 @@
       const fixtures = [...byKey.values()];
       const date = q.get("date"),
         match = q.get("match"),
-        opponent = q.get("opponent");
-      const f = fixtures.find(
-        (x) =>
-          (!date || x.date === date) &&
-          (!match || String(x.match || "").toLowerCase() === match.toLowerCase()) &&
-          (!opponent || String(x.opponent || "").toLowerCase() === opponent.toLowerCase()),
+        opponent = q.get("opponent"),
+        matchId = q.get("matchId");
+      const fixtureIds = (x) => [
+        x.matchId, x.match_id, x.gid, x.fixtureId, x.id,
+        x.rawBcci?.match_id, x.rawBcci?.gid,
+      ].map((v) => String(v || "").trim()).filter(Boolean);
+      const f = fixtures.find((x) =>
+        matchId
+          ? fixtureIds(x).includes(matchId)
+          : (!date || x.date === date) &&
+            (!match || String(x.match || "").toLowerCase() === match.toLowerCase()) &&
+            (!opponent || String(x.opponent || "").toLowerCase() === opponent.toLowerCase()),
       );
       if (!f) {
         set("details-title", "Match details unavailable");
@@ -501,8 +507,13 @@
       const detail = (manual.matches || []).find((x) => key(x) === key(f)) || {};
       const scorecardRows = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
       const fixtureMatchId = String(
-        f.matchId || f.match_id || f.gid || f.fixtureId || f.id || "",
+        f.matchId || f.match_id || f.gid || f.fixtureId || f.id ||
+        f.rawBcci?.match_id || f.rawBcci?.gid || "",
       ).trim();
+      const fixtureTeamIds = [
+        f.rawBcci?.team1_id || f.rawBcci?.home_team_id,
+        f.rawBcci?.team2_id || f.rawBcci?.away_team_id,
+      ].map((v) => String(v || "").trim()).filter(Boolean);
       // Live scoreboard waits for the official ID; never substitute by date/team.
       const exactScorecard = fixtureMatchId
         ? scorecardRows.find((row) => {
@@ -520,8 +531,33 @@
           }
         } catch (_) {}
       }
-      // BCCI results are completed-match summaries, not a live feed. Do not use them
-      // as a substitute for the selected fixture or accidentally show a prior match.
+      // Match the BCCI results snapshot only by the fixture's official IDs and team IDs.
+      // A result row for another match is never accepted by team names/date alone.
+      if (!scorecardLoaded && fixtureMatchId) {
+        const resultRows = Array.isArray(resultsSnapshot?.matches) ? resultsSnapshot.matches : [];
+        const exactResult = resultRows.find((row) => {
+          const rowIds = [row.gid, row.match_id, row.matchId].map((v) => String(v || "").trim());
+          const rowTeamIds = [
+            row.team1_id || row.home_team_id,
+            row.team2_id || row.away_team_id,
+          ].map((v) => String(v || "").trim()).filter(Boolean);
+          const sameId = rowIds.includes(fixtureMatchId);
+          const sameTeams = !fixtureTeamIds.length ||
+            fixtureTeamIds.every((id) => rowTeamIds.includes(id));
+          return sameId && sameTeams;
+        });
+        if (exactResult) {
+          scorecardLoaded = renderBcciResultBoard([exactResult], f.team, f.opponent, f.date);
+          if (scorecardLoaded) {
+            const host = $("details-scoreboard");
+            const note = document.createElement("p");
+            note.className = "scoreboard-status";
+            note.textContent = "BCCI match-ID verified result summary; live ball-by-ball data is not included in this feed.";
+            host.prepend(note);
+          }
+        }
+      }
+      // Never use another match as a fallback. Keep the prior page/details intact.
       if (!scorecardLoaded) {
         const scoreHost = $("details-scoreboard");
         const matchStarted =
