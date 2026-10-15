@@ -767,8 +767,35 @@
         f.opponentSquad,
         adaptPlayers(opponentSquad),
       );
-      showPlayers("squad-team-list", homePlayers);
-      showPlayers("squad-opponent-list", awayPlayers);
+      // Enrich already-selected squad rows with official portraits when a matching
+      // player exists in the saved snapshot. This keeps the fixture's roster order
+      // intact and never inserts players from another team into the list.
+      const normalisePlayerName = (value) =>
+        String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+      const portraitsFor = (squad) =>
+        new Map(
+          (squad?.players || []).flatMap((player) => {
+            const name = player.player_known_as || player.player_name || "";
+            const image = player.player_image || player.image || "";
+            return name && /^https:\/\//i.test(image)
+              ? [[normalisePlayerName(name), image]]
+              : [];
+          }),
+        );
+      const enrichPlayers = (players, squad) => {
+        const portraits = portraitsFor(squad);
+        return players.map((player) => {
+          if (typeof player === "string") {
+            return { name: player, image: portraits.get(normalisePlayerName(player)) || "" };
+          }
+          const image = player.image || player.player_image || portraits.get(normalisePlayerName(player.name || player.fullName)) || "";
+          return { ...player, image };
+        });
+      };
+      const homeDisplayPlayers = enrichPlayers(homePlayers, teamSquad);
+      const awayDisplayPlayers = enrichPlayers(awayPlayers, opponentSquad);
+      showPlayers("squad-team-list", homeDisplayPlayers);
+      showPlayers("squad-opponent-list", awayDisplayPlayers);
       if (!homePlayers.length || !awayPlayers.length) {
         const missingSides = [!homePlayers.length ? a : "", !awayPlayers.length ? b : ""]
           .filter(Boolean)
