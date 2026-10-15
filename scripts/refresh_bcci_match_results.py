@@ -111,7 +111,6 @@ def main():
             with tempfile.NamedTemporaryFile(
                 mode="w",
                 encoding="utf-8",
-                newline="",
                 dir=OUTPUT.parent,
                 prefix=f".{OUTPUT.name}.",
                 suffix=".tmp",
