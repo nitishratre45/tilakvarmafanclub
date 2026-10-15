@@ -1169,11 +1169,16 @@
         let recentArchiveIndex = scorecardIndex;
         if (!Array.isArray(recentArchiveIndex?.matches)) {
           try {
-            const recentIndexResponse = await fetch("/matches/scorecards/index.json?v=20261015-recent-results-fallback2", { cache: "no-store" });
+            const recentIndexResponse = await fetch(
+              "/matches/scorecards/index.json?v=20261015-recent-results-fallback2",
+              { cache: "no-store" },
+            );
             if (recentIndexResponse.ok) recentArchiveIndex = await recentIndexResponse.json();
           } catch (_) {}
         }
-        const archiveMatches = Array.isArray(recentArchiveIndex?.matches) ? recentArchiveIndex.matches : [];
+        const archiveMatches = Array.isArray(recentArchiveIndex?.matches)
+          ? recentArchiveIndex.matches
+          : [];
         const normaliseRecentTeam = (value) =>
           String(value || "")
             .toLowerCase()
