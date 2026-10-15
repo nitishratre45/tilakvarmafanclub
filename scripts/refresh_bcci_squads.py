@@ -106,7 +106,17 @@ def main():
         payloads = {}
         rows_by_team = {}
         for team_id, team_name in TEAMS:
-            payloads[team_id], rows_by_team[team_id] = fetch(team_id, team_name)
+            try:
+                payloads[team_id], rows_by_team[team_id] = fetch(team_id, team_name)
+            except Exception as exc:
+                # A blocked/retired team_id=6 route must not prevent trying the
+                # other configured endpoint, but no partial snapshot is published.
+                print(
+                    f"WARNING: squad endpoint unavailable for {team_name} "
+                    f"(team_id={team_id}): {exc}",
+                    file=sys.stderr,
+                )
+                raise
 
         squads = {}
         for team_id, team_name in TEAMS:
