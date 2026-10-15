@@ -207,14 +207,10 @@
             )
           : '<p class="activity-empty">No verified bowling summary is saved yet.</p>';
       }
-      // Move the compact animated CAREER SUMMARY label beneath the complete career tables.
-      const summaryHeading = document.querySelector(
-        ".home-snapshot-section .home-snapshot-heading",
-      );
-      const bowlingTableSection = document.querySelector(
-        ".home-snapshot-section .home-bowling-table-section",
-      );
-      if (summaryHeading && bowlingTableSection) {
+      // Keep CAREER SUMMARY above the career tables and place the Stats link underneath them.
+      const summaryHeading = document.querySelector(".home-snapshot-section .home-snapshot-heading");
+      const bowlingTableSection = document.querySelector(".home-snapshot-section .home-bowling-table-section");
+      if (summaryHeading) {
         const label = summaryHeading.querySelector(".eyebrow");
         if (label) {
           label.textContent = "CAREER SUMMARY";
@@ -225,7 +221,21 @@
         const actions = summaryHeading.querySelector(".home-heading-actions");
         if (actions) actions.remove();
         summaryHeading.classList.add("home-summary-animated-label");
-        bowlingTableSection.insertAdjacentElement("afterend", summaryHeading);
+        const formatHost = $("home-format-stats");
+        if (formatHost && summaryHeading.parentElement !== formatHost.parentElement) {
+          formatHost.insertAdjacentElement("beforebegin", summaryHeading);
+        }
+      }
+      if (bowlingTableSection) {
+        let allStatsLink = document.querySelector(".home-snapshot-section .home-all-stats-bottom");
+        if (!allStatsLink) {
+          allStatsLink = document.createElement("a");
+          allStatsLink.className = "button outline home-all-stats-bottom";
+          allStatsLink.href = "/stats/";
+          allStatsLink.textContent = "All career stats ↗";
+          allStatsLink.setAttribute("aria-label", "Open all career stats in the Stats section");
+        }
+        bowlingTableSection.insertAdjacentElement("afterend", allStatsLink);
       }
       if (bowlingUpdated) {
         const updated = bowling.updatedAt || bowling.lastUpdated;
