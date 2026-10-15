@@ -615,3 +615,69 @@
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
+
+/* Desktop polish: use the wide canvas instead of leaving a half-empty last row. */
+@media (min-width: 1100px) {
+  #tv-gallery-hub .tv-gallery-hub__shell {
+    width: 100% !important;
+    padding: clamp(22px, 2.2vw, 34px) !important;
+  }
+  #tv-gallery-hub #tv-gallery-grid > .tv-album-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: clamp(14px, 1.25vw, 20px) !important;
+  }
+  #tv-gallery-hub #tv-gallery-grid > .tv-album-grid > .tv-album-card {
+    border-color: rgba(124, 199, 255, .28);
+    border-radius: 17px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, .2);
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  }
+  #tv-gallery-hub #tv-gallery-grid > .tv-album-grid > .tv-album-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(112, 228, 245, .68);
+    box-shadow: 0 18px 34px rgba(0, 0, 0, .28), 0 0 0 1px rgba(112, 228, 245, .08);
+  }
+  #tv-gallery-hub #tv-gallery-grid .tv-album-cover {
+    aspect-ratio: 16 / 10 !important;
+  }
+  #tv-gallery-hub #tv-gallery-grid .tv-album-info {
+    gap: 7px;
+    padding: 15px 16px 16px;
+  }
+  #tv-gallery-hub #tv-gallery-grid .tv-album-info strong {
+    color: #f8fbff;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  #tv-gallery-hub #tv-gallery-grid .tv-album-info small {
+    color: #c0d5ef;
+    font-size: 12px;
+  }
+}
+#tv-gallery-hub .tv-gallery-toolbar-copy strong {
+  color: #f8fbff !important;
+}
+#tv-gallery-hub .tv-gallery-toolbar-copy small,
+#tv-gallery-hub .tv-gallery-sort-note {
+  color: #c0d5ef !important;
+}
+#tv-gallery-hub .tv-gallery-filters label > span {
+  color: #b9d2ee !important;
+}
+#tv-gallery-hub .tv-gallery-filters select,
+#tv-gallery-hub .tv-gallery-clear,
+#tv-gallery-hub .tv-gallery-more {
+  color: #f7fbff !important;
+  border-color: rgba(150, 198, 239, .28) !important;
+}
+#tv-gallery-hub .tv-album-info small {
+  color: #c0d5ef !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  #tv-gallery-hub #tv-gallery-grid > .tv-album-grid > .tv-album-card {
+    transition: none !important;
+  }
+  #tv-gallery-hub #tv-gallery-grid > .tv-album-grid > .tv-album-card:hover {
+    transform: none !important;
+  }
+}
