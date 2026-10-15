@@ -40,19 +40,34 @@
     />
     <link rel="stylesheet" href="/assets/home-mobile-bottom-nav.css?v=20261015-bottom-nav2" />
     <style id="tv-mobile-bottom-nav-critical">
-      .tv-mobile-bottom-nav { display: none; }
-      @media screen and (max-width: 800px) {
-        body { padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important; }
-        body > nav.tv-mobile-bottom-nav[data-tv-mobile-bottom-nav] {
-          position: fixed !important; display: grid !important;
-          grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-          left: 12px !important; right: 12px !important;
-          bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
-          z-index: 2147483000 !important; visibility: visible !important; opacity: 1 !important;
-        }
-        body > nav.tv-mobile-menu[data-tv-mobile-menu] { z-index: 2147482999 !important; }
+      .tv-mobile-bottom-nav {
+        display: none;
       }
-      @media screen and (min-width: 801px) { body > nav.tv-mobile-bottom-nav, body > nav.tv-mobile-menu { display: none !important; } }
+      @media screen and (max-width: 800px) {
+        body {
+          padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important;
+        }
+        body > nav.tv-mobile-bottom-nav[data-tv-mobile-bottom-nav] {
+          position: fixed !important;
+          display: grid !important;
+          grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+          left: 12px !important;
+          right: 12px !important;
+          bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+          z-index: 2147483000 !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+        body > nav.tv-mobile-menu[data-tv-mobile-menu] {
+          z-index: 2147482999 !important;
+        }
+      }
+      @media screen and (min-width: 801px) {
+        body > nav.tv-mobile-bottom-nav,
+        body > nav.tv-mobile-menu {
+          display: none !important;
+        }
+      }
     </style>
   </head>
   <body>
