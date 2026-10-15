@@ -18,6 +18,7 @@ from urllib.parse import quote
 ROOT = Path(__file__).resolve().parents[1]
 NEWS_FILE = ROOT / "News" / "newsjson.json"
 REPORT_FILE = ROOT / "matches" / "upcoming-fixtures-refresh.json"
+BCCI_FIXTURES_FILE = ROOT / "matches" / "bcci-stats-fixtures.json"
 MONTHS = {
     "jan": 1,
     "feb": 2,
@@ -290,6 +291,48 @@ def article_fixtures(article: dict) -> list[dict]:
     return fixtures
 
 
+def normalise_match_text(value: object) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", str(value or "").lower()).strip()
+
+
+def bcci_fixture_for(news_fixture: dict, bcci_fixtures: list[dict]) -> dict | None:
+    """Only enrich a squad-confirmed news fixture with an exact BCCI fixture match."""
+    news_date = str(news_fixture.get("date") or "")
+    news_match = normalise_match_text(news_fixture.get("match"))
+    news_opponent = normalise_match_text(news_fixture.get("opponent"))
+    if not news_date or not news_match or not news_opponent:
+        return None
+    for row in bcci_fixtures:
+        if not isinstance(row, dict):
+            continue
+        if str(row.get("date") or "") != news_date:
+            continue
+        if normalise_match_text(row.get("match")) != news_match:
+            continue
+        team = normalise_match_text(row.get("team"))
+        opponent = normalise_match_text(row.get("opponent"))
+        sides = {team, opponent}
+        if "india" not in sides or news_opponent not in sides or len(sides) != 2:
+            continue
+        # BCCI's fixture row is the authority for schedule fields and IDs.
+        return {
+            **row,
+            "date": row.get("date") or news_fixture.get("date"),
+            "label": row.get("label") or news_fixture.get("label"),
+            "match": row.get("match") or news_fixture.get("match"),
+            "team": row.get("team") or "India",
+            "opponent": row.get("opponent") or news_fixture.get("opponent"),
+            "venue": row.get("venue") or "",
+            "time": row.get("time") or "",
+            "source": row.get("source") or "",
+            "newsUrl": news_fixture.get("newsUrl") or "",
+            "squadSource": news_fixture.get("source") or "",
+            "tilakInSquad": True,
+            "confirmationSource": "BCCI squad announcement naming Tilak Varma",
+        }
+    return None
+
+
 def js_string(value: str) -> str:
     return json.dumps(value, ensure_ascii=False)
 
@@ -326,13 +369,36 @@ def main() -> None:
         if isinstance(article, dict):
             candidates.extend(article_fixtures(article))
 
-    # Newer announcements win when the same match appears more than once.
+    # Newer squad announcements win when the same match appears more than once.
     unique = {}
     for fixture in candidates:
         unique[(fixture["date"], fixture["opponent"], fixture["match"])] = fixture
-    fixtures = sorted(unique.values(), key=lambda row: (row["date"], row["match"]))
-    # Only use fixtures from the current/future date onward. Past matches are
-    # not needed in the public Upcoming Matches list.
+    news_confirmed = sorted(unique.values(), key=lambda row: (row["date"], row["match"]))
+
+    # News confirms Tilak's selection; BCCI Stats supplies canonical schedule
+    # fields. Require exact date + match label + India/opponent pair; never guess.
+    bcci_fixtures = []
+    if BCCI_FIXTURES_FILE.exists():
+        try:
+            bcci_payload = json.loads(BCCI_FIXTURES_FILE.read_text(encoding="utf-8"))
+            if bcci_payload.get("status") == "updated-from-bcci-stats":
+                bcci_fixtures = bcci_payload.get("fixtures", [])
+        except (json.JSONDecodeError, OSError, AttributeError):
+            bcci_fixtures = []
+    fixtures = []
+    unmatched = []
+    for news_fixture in news_confirmed:
+        matched = bcci_fixture_for(news_fixture, bcci_fixtures)
+        if matched:
+            fixtures.append(matched)
+        else:
+            unmatched.append({
+                "date": news_fixture.get("date"),
+                "match": news_fixture.get("match"),
+                "opponent": news_fixture.get("opponent"),
+                "source": news_fixture.get("source"),
+            })
+
     today = datetime.now().date().isoformat()
     fixtures = [fixture for fixture in fixtures if fixture["date"] >= today]
 
@@ -348,15 +414,23 @@ def main() -> None:
         fixtures = [
             row
             for row in previous_report.get("fixtures", [])
-            if isinstance(row, dict) and str(row.get("date", "")) >= today
+            if isinstance(row, dict)
+            and row.get("tilakInSquad") is True
+            and row.get("confirmationSource") == "BCCI squad announcement naming Tilak Varma"
+            and str(row.get("date", "")) >= today
         ]
-        status = "no-new-verified-fixtures-preserved"
+        status = "no-exact-bcci-match-preserved-verified" if fixtures else "no-exact-bcci-match"
     else:
-        status = "updated-from-news-json"
+        status = "updated-from-news-and-bcci-json"
     changed = fixtures != previous_report.get("fixtures", [])
     report = {
-        "source": "News/newsjson.json (BCCI News API pipeline)",
+        "source": "News/newsjson.json squad confirmation + matches/bcci-stats-fixtures.json exact fixture match",
         "newsUpdatedAt": news.get("updatedAt"),
+        "bcciFixturesCheckedAt": (
+            json.loads(BCCI_FIXTURES_FILE.read_text(encoding="utf-8")).get("checkedAt")
+            if BCCI_FIXTURES_FILE.exists() else None
+        ),
+        "unmatchedNewsFixtures": unmatched,
         "checkedAt": datetime.now(timezone.utc).isoformat(),
         "status": status,
         "fixtureCount": len(fixtures),
@@ -372,7 +446,8 @@ def main() -> None:
         json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(
-        f"Upcoming fixtures refresh: {status}; fixtures={len(fixtures)}; snapshot changed={changed}"
+        f"Upcoming fixtures refresh: {status}; confirmed News fixtures={len(news_confirmed)}; "
+        f"exact BCCI matches={len(fixtures)}; unmatched={len(unmatched)}; snapshot changed={changed}"
     )
 
 
