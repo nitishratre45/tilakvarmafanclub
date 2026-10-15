@@ -271,46 +271,61 @@ def collect(payload):
 
 
 def main():
-    # Fetch both BCCI pagination pages and merge them into one snapshot.
-    # If either request fails, abort the refresh so the previous snapshot survives.
-    source_urls = [
-        SOURCE_URL,
-        SOURCE_URL.replace("page=1&size=12", "page=2&size=12"),
-    ]
-    payloads = []
-    for page_number, source_url in enumerate(source_urls, start=1):
-        req = Request(
-            source_url,
-            headers={
-                "User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClubFixtures/1.0)",
-                "Accept": "application/json, text/plain, */*",
-                "Referer": "https://www.bcci.tv/",
-            },
-        )
-        try:
-            with urlopen(req, timeout=30) as response:
-                page_payload = json.loads(response.read().decode("utf-8-sig"))
+    # Fetch every page reported by BCCI's pagination metadata.
+    # Any page failure aborts the refresh; the previous snapshot remains intact.
+    headers = {
+        "User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClubFixtures/1.0)",
+        "Accept": "application/json, text/plain, */*",
+        "Referer": "https://www.bcci.tv/",
+    }
+
+    def fetch_page(page_number):
+        source_url = re.sub(r"([?&]page=)\\d+", rf"\\g<1>{page_number}", SOURCE_URL)
+        req = Request(source_url, headers=headers)
+        with urlopen(req, timeout=30) as response:
+            return json.loads(response.read().decode("utf-8-sig"))
+
+    try:
+        first_payload = fetch_page(1)
+        if not isinstance(first_payload, (dict, list)):
+            raise ValueError("BCCI page 1 response is not a JSON object/list")
+
+        page_info = first_payload.get("page", {}) if isinstance(first_payload, dict) else {}
+        last_page = int(page_info.get("last_page") or 1)
+        if last_page < 1 or last_page > 100:
+            raise ValueError(f"Unexpected BCCI pagination last_page: {last_page}")
+
+        payloads = [first_payload]
+        print(f"Fetched BCCI Stats fixtures page 1/{last_page}.")
+        for page_number in range(2, last_page + 1):
+            page_payload = fetch_page(page_number)
+            if not isinstance(page_payload, (dict, list)):
+                raise ValueError(f"BCCI page {page_number} response is not a JSON object/list")
             payloads.append(page_payload)
-            print(f"Fetched BCCI Stats fixtures page {page_number}.")
-        except Exception as exc:
-            print(
-                f"ERROR: BCCI Stats page {page_number} fetch/JSON parse failed; previous snapshot preserved: {exc}",
-                file=sys.stderr,
-            )
-            return 1
+            print(f"Fetched BCCI Stats fixtures page {page_number}/{last_page}.")
+    except Exception as exc:
+        print(
+            f"ERROR: BCCI Stats pagination fetch/JSON parse failed; previous snapshot preserved: {exc}",
+            file=sys.stderr,
+        )
+        return 1
+
     fixtures = collect(payloads)
     if not fixtures:
         print(
             "ERROR: response had no rows matching known fixture fields; previous snapshot preserved.",
             file=sys.stderr,
         )
-        if isinstance(payload, dict):
-            print("Top-level keys:", list(payload.keys()), file=sys.stderr)
+        if isinstance(first_payload, dict):
+            print("Top-level keys:", list(first_payload.keys()), file=sys.stderr)
         return 2
     report = {
         "source": SOURCE_URL,
         "checkedAt": datetime.now(timezone.utc).isoformat(),
         "status": "updated-from-bcci-stats",
+        "sourcePagesFetched": len(payloads),
+        "sourceTotalRows": int((first_payload.get("page") or {}).get("total_rows") or 0)
+            if isinstance(first_payload, dict) else 0,
         "fixtureCount": len(fixtures),
         "fixtures": fixtures,
     }
@@ -323,23 +338,23 @@ def main():
         with tempfile.NamedTemporaryFile(
             mode="w",
             encoding="utf-8",
-            newline="\n",
+            newline="\\n",
             dir=OUTPUT.parent,
             prefix=f".{OUTPUT.name}.",
             suffix=".tmp",
             delete=False,
         ) as temp_file:
             temp_path = Path(temp_file.name)
-            temp_file.write(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+            temp_file.write(json.dumps(report, ensure_ascii=False, indent=2) + "\\n")
             temp_file.flush()
             os.fsync(temp_file.fileno())
 
-        # Validate the exact bytes we are about to publish.
         candidate = json.loads(temp_path.read_text(encoding="utf-8"))
         if (
             candidate.get("status") != "updated-from-bcci-stats"
             or not isinstance(candidate.get("fixtures"), list)
             or not candidate["fixtures"]
+            or candidate.get("sourcePagesFetched") != len(payloads)
         ):
             raise ValueError("Generated snapshot failed final validation")
 
@@ -358,13 +373,16 @@ def main():
             except OSError:
                 pass
 
-    print(f"Saved {len(fixtures)} future fixtures to {OUTPUT.relative_to(ROOT)}")
-    for f in fixtures[:12]:
+    print(
+        f"Saved {len(fixtures)} future fixtures from {len(payloads)} BCCI pages "
+        f"to {OUTPUT.relative_to(ROOT)}"
+    )
+    for fixture in fixtures[:12]:
         print(
-            f'{f["date"]} | {f["match"]} | {f["team"]} vs {f["opponent"]} | {f["venue"]}'
+            f'{fixture["date"]} | {fixture["match"]} | '
+            f'{fixture["team"]} vs {fixture["opponent"]} | {fixture["venue"]}'
         )
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())
