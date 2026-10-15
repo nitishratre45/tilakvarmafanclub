@@ -1168,33 +1168,59 @@
       if (recentResultsHost) {
         const archiveMatches = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
         const normaliseRecentTeam = (value) =>
-          String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "")
+          String(value || "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "")
             .replace(/unitedstatesofamerica/g, "usa");
         const wantedTeams = [a, b].map(normaliseRecentTeam).filter(Boolean);
         const recentArchiveResults = archiveMatches
           .filter((row) => {
             const rowTeams = [row.team, row.opposition].map(normaliseRecentTeam);
-            return wantedTeams.length === 2 &&
+            return (
+              wantedTeams.length === 2 &&
               wantedTeams.every((name) => rowTeams.includes(name)) &&
-              String(row.date || "").slice(0, 10) < String(f.date || "9999-12-31").slice(0, 10);
+              String(row.date || "").slice(0, 10) < String(f.date || "9999-12-31").slice(0, 10)
+            );
           })
           .sort((left, right) => String(right.date || "").localeCompare(String(left.date || "")))
           .slice(0, 6);
         recentResultsHost.innerHTML = recentArchiveResults.length
-          ? recentArchiveResults.map((row) => {
-              const scorecardUrl = typeof row.scorecard === "string" && row.scorecard.startsWith("/")
-                ? row.scorecard : "";
-              return '<article class="details-insight-card recent-match-result-card">' +
-                '<span>' + escHtml([row.format, row.date].filter(Boolean).join(" · ")) + '</span>' +
-                '<h3>' + escHtml((row.team || "Team") + " vs " + (row.opposition || "Opponent")) + '</h3>' +
-                '<p><strong>' + escHtml(row.result || "Result not recorded in saved scorecard index") + '</strong></p>' +
-                '<p>' + escHtml([row.venue, row.event].filter(Boolean).join(" · ") || "Venue/event not listed") + '</p>' +
-                (scorecardUrl ? '<a href="' + escHtml(scorecardUrl) + '" target="_blank" rel="noopener noreferrer">Open verified scorecard ↗</a>' : "") +
-                '</article>';
-            }).join("")
+          ? recentArchiveResults
+              .map((row) => {
+                const scorecardUrl =
+                  typeof row.scorecard === "string" && row.scorecard.startsWith("/")
+                    ? row.scorecard
+                    : "";
+                return (
+                  '<article class="details-insight-card recent-match-result-card">' +
+                  "<span>" +
+                  escHtml([row.format, row.date].filter(Boolean).join(" · ")) +
+                  "</span>" +
+                  "<h3>" +
+                  escHtml((row.team || "Team") + " vs " + (row.opposition || "Opponent")) +
+                  "</h3>" +
+                  "<p><strong>" +
+                  escHtml(row.result || "Result not recorded in saved scorecard index") +
+                  "</strong></p>" +
+                  "<p>" +
+                  escHtml(
+                    [row.venue, row.event].filter(Boolean).join(" · ") || "Venue/event not listed",
+                  ) +
+                  "</p>" +
+                  (scorecardUrl
+                    ? '<a href="' +
+                      escHtml(scorecardUrl) +
+                      '" target="_blank" rel="noopener noreferrer">Open verified scorecard ↗</a>'
+                    : "") +
+                  "</article>"
+                );
+              })
+              .join("")
           : '<article class="details-insight-card"><h3>No verified recent result found</h3><p>The saved Cricsheet archive does not currently contain a completed scorecard for both ' +
-            escHtml(a) + ' and ' + escHtml(b) +
-            '. No unrelated match has been substituted.</p></article>';
+            escHtml(a) +
+            " and " +
+            escHtml(b) +
+            ". No unrelated match has been substituted.</p></article>";
       }
       const teamNames = [a, b].map((name) => String(name || "").toLowerCase());
       const recentForTeams = resultMatches
