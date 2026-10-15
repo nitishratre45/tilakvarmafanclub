@@ -794,10 +794,29 @@ footer {
 
 /* Keep the existing Light/System appearance switch fully supported after the new visual layer. */
 
-
-
-
-
+:root[data-theme-resolved="light"] .home-bowling-card
+{
+  background: #fff !important;
+  color: #152235;
+  border-color: rgba(18, 35, 55, 0.16);
+  box-shadow: 0 8px 24px rgba(25, 45, 70, 0.06);
+}
+:root[data-theme-resolved="light"] .home-snapshot-block
+{
+  background: #fff;
+  color: #152235;
+  border-color: rgba(18, 35, 55, 0.16);
+}
+:root[data-theme-resolved="light"] .home-snapshot-block h3,
+:root[data-theme-resolved="light"] .home-bowling-heading h3
+{
+  color: #152235;
+}
+:root[data-theme-resolved="light"] .feature-eyebrow,
+:root[data-theme-resolved="light"] .home-snapshot-block a
+{
+  color: #087e91;
+}
 
 
 
