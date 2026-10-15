@@ -380,13 +380,16 @@ def main() -> None:
     # News confirms Tilak's selection; BCCI Stats supplies canonical schedule
     # fields. Require exact date + match label + India/opponent pair; never guess.
     bcci_fixtures = []
+    bcci_checked_at = None
     if BCCI_FIXTURES_FILE.exists():
         try:
             bcci_payload = json.loads(BCCI_FIXTURES_FILE.read_text(encoding="utf-8"))
             if bcci_payload.get("status") == "updated-from-bcci-stats":
                 bcci_fixtures = bcci_payload.get("fixtures", [])
+                bcci_checked_at = bcci_payload.get("checkedAt")
         except (json.JSONDecodeError, OSError, AttributeError):
             bcci_fixtures = []
+            bcci_checked_at = None
     fixtures = []
     unmatched = []
     for news_fixture in news_confirmed:
@@ -435,11 +438,7 @@ def main() -> None:
     report = {
         "source": "News/newsjson.json squad confirmation + matches/bcci-stats-fixtures.json exact fixture match",
         "newsUpdatedAt": news.get("updatedAt"),
-        "bcciFixturesCheckedAt": (
-            json.loads(BCCI_FIXTURES_FILE.read_text(encoding="utf-8")).get("checkedAt")
-            if BCCI_FIXTURES_FILE.exists()
-            else None
-        ),
+        "bcciFixturesCheckedAt": bcci_checked_at,
         "unmatchedNewsFixtures": unmatched,
         "checkedAt": datetime.now(timezone.utc).isoformat(),
         "status": status,
