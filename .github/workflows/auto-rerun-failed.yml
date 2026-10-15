@@ -34,6 +34,7 @@ jobs:
   diagnose-and-retry:
     # Never diagnose/retry the recovery workflow itself or repository monitors.
     if: >-
+      contains(fromJSON('["failure","timed_out"]'), github.event.workflow_run.conclusion) &&
       github.event.workflow_run.name != 'Auto-rerun and diagnose failed GitHub Actions jobs' &&
       github.event.workflow_run.name != 'Repository health monitor (10 minutes)' &&
       github.event.workflow_run.name != 'Automation repository monitor (hourly)' &&
