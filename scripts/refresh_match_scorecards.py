@@ -304,7 +304,6 @@ def parse_match(match, source_file):
     }
 
 
-
 def parse_archive_summary(match, source_file):
     """Return a lightweight result row for any match in Cricsheet's archive."""
     info = match.get("info") or {}
