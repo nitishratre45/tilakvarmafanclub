@@ -31,14 +31,15 @@ jobs:
             const path = 'data/automation-repo-monitor.json';
             const now = new Date();
             const cutoff = now.getTime() - 15 * 60 * 60 * 1000;
-            const [workflowResponse, runResponse] = await Promise.all([
-              github.rest.actions.listRepoWorkflows({ owner, repo, per_page: 100 }),
-              github.rest.actions.listWorkflowRunsForRepo({ owner, repo, per_page: 100 })
-            ]);
+            const workflowResponse = await github.rest.actions.listRepoWorkflows({ owner, repo, per_page: 100 });
             const workflows = workflowResponse.data.workflows;
-            const recentRuns = runResponse.data.workflow_runs;
+            // Fetch history per workflow. A single repository-wide first page is
+            // dominated by 5-minute jobs and falsely reports slower schedules as missing.
             const entries = await Promise.all(workflows.map(async workflow => {
-              const runs = recentRuns.filter(run => run.path === workflow.path).slice(0, 10);
+              const runResponse = await github.rest.actions.listWorkflowRuns({
+                owner, repo, workflow_id: workflow.id, per_page: 10
+              });
+              const runs = runResponse.data.workflow_runs || [];
               let schedule = [];
               let triggers = [];
               try {
