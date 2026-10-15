@@ -1080,10 +1080,7 @@
       if (title && (!title.textContent || /loading/i.test(title.textContent))) {
         title.textContent = "Match details partially loaded";
       }
-      set(
-        "details-series",
-        "Some match information could not load. Refresh the page to retry.",
-      );
+      set("details-series", "Some match information could not load. Refresh the page to retry.");
       set("workflow-fixture", "Match detail rendering issue: " + message);
     }
   }
