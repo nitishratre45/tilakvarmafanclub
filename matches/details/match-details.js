@@ -223,11 +223,14 @@
   async function init() {
     try {
       // Read saved JSON snapshots only; do not call BCCI's API from the browser.
-      const [newsResponse, statsResponse] = await Promise.all([
-        fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-details2", {
+      const [newsResponse, statsResponse, resultsResponse] = await Promise.all([
+        fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-details3", {
           cache: "no-store",
         }).catch(() => null),
-        fetch("/matches/bcci-stats-fixtures.json?v=20261015-details2", { cache: "no-store" }).catch(
+        fetch("/matches/bcci-stats-fixtures.json?v=20261015-details3", { cache: "no-store" }).catch(
+          () => null,
+        ),
+        fetch("/matches/bcci-match-results.json?v=20261015-results1", { cache: "no-store" }).catch(
           () => null,
         ),
       ]);
@@ -235,6 +238,8 @@
         newsResponse && newsResponse.ok ? await newsResponse.json().catch(() => null) : null;
       const statsSnapshot =
         statsResponse && statsResponse.ok ? await statsResponse.json().catch(() => null) : null;
+      const resultsSnapshot =
+        resultsResponse && resultsResponse.ok ? await resultsResponse.json().catch(() => null) : null;
       let manual = { matches: [] };
       try {
         const mr = await fetch("/matches/details/data/match-details.json?v=20261014-details1", {
@@ -365,10 +370,49 @@
         detail.headToHead ||
           "Verified head-to-head figures are not in the saved fixture source yet.",
       );
+      const resultMatches = Array.isArray(resultsSnapshot?.matches) ? resultsSnapshot.matches : [];
+      const teamNames = [a, b].map((name) => String(name || "").toLowerCase());
+      const recentForTeams = resultMatches
+        .filter((row) => {
+          const names = [row.team1_name, row.team2_name].map((name) => String(name || "").toLowerCase());
+          return names.some((name) => teamNames.includes(name)) && row.match_status === "complete";
+        })
+        .slice(0, 6);
+      const recentLines = recentForTeams.map((row) => {
+        const innings = Array.isArray(row.summary?.team) ? row.summary.team : [];
+        const scores = innings.map((entry) => String(entry.score || "").trim()).filter(Boolean).join(" · ");
+        return [row.title || row.match_short_name || row.name, scores, row.result_string]
+          .filter(Boolean).join(": ");
+      });
+      const tilakLines = resultMatches
+        .filter((row) => row.match_status === "complete" && /tilak varma/i.test(
+          (Array.isArray(row.summary?.player) ? row.summary.player : [])
+            .map((entry) => String(entry.batting || ""))
+            .join("\n")
+        ))
+        .slice(0, 5)
+        .map((row) => {
+          const innings = (Array.isArray(row.summary?.player) ? row.summary.player : [])
+            .filter((entry) => /tilak varma/i.test(String(entry.batting || "")))
+            .map((entry) => String(entry.batting).split("\n").filter((line) => /tilak varma/i.test(line)).join(", "));
+          return [row.title || row.match_short_name || row.name, ...innings].filter(Boolean).join(": ");
+        });
       set(
         "team-form-summary",
-        detail.recentForm || "Verified recent results are not attached to this fixture.",
+        detail.recentForm ||
+          (recentLines.length ? recentLines.join(" | ") : "Recent completed results are not available in the saved BCCI results snapshot."),
       );
+      if (!detail.tilakPreview && tilakLines.length) {
+        set("tilak-preview", "Recent BCCI result summaries: " + tilakLines.join(" | "));
+      }
+      if (resultsSnapshot?.checkedAt) {
+        set(
+          "workflow-fixture",
+          "Upcoming fixtures: " + fixtures.length + ". BCCI results snapshot: " +
+            resultMatches.length + " unique matches; checked " + resultsSnapshot.checkedAt +
+            ". India and West Indies results are merged by BCCI match ID.",
+        );
+      }
       set(
         "workflow-fixture",
         "Loaded " +
