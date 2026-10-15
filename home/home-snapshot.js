@@ -84,7 +84,8 @@
             if (!s) return "";
             // Prefer verified fielding totals from the Statsguru format summary
             // when the batting career snapshot does not carry them yet.
-            const fielding = data.statsguru?.formats?.[key]?.fieldingSummary ||
+            const fielding =
+              data.statsguru?.formats?.[key]?.fieldingSummary ||
               data.statsguru?.formats?.[key]?.fielding?.summary ||
               data.statsguru?.formats?.[key]?.fieldingSummary ||
               {};
