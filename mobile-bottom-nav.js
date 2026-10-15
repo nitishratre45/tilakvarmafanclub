@@ -75,5 +75,11 @@
       );
     })
     .join("");
-  const mount = function () {\n    if (!document.body || document.getElementById("tvfc-mobile-bottom-nav")) return;\n    document.body.appendChild(nav);\n  };\n  if (document.body) mount();\n  else document.addEventListener("DOMContentLoaded", mount, { once: true });\n  window.addEventListener("pageshow", mount);
+  const mount = function () {
+    if (!document.body || document.getElementById("tvfc-mobile-bottom-nav")) return;
+    document.body.appendChild(nav);
+  };
+  if (document.body) mount();
+  else document.addEventListener("DOMContentLoaded", mount, { once: true });
+  window.addEventListener("pageshow", mount);
 })();
