@@ -349,22 +349,23 @@
       const squadClassId = /t20/i.test(String(f.match || "")) ? "3" : "2";
       const savedSquads = Array.isArray(squadsSnapshot?.squads) ? squadsSnapshot.squads : [];
       const teamSquad = savedSquads.find(
-        (s) => String(s.teamId) === (String(a).toLowerCase() === "india" ? "6" : "4") &&
+        (s) =>
+          String(s.teamId) === (String(a).toLowerCase() === "india" ? "6" : "4") &&
           String(s.classId) === squadClassId,
       );
       const opponentSquad = savedSquads.find(
-        (s) => String(s.teamId) === (String(b).toLowerCase() === "india" ? "6" : "4") &&
+        (s) =>
+          String(s.teamId) === (String(b).toLowerCase() === "india" ? "6" : "4") &&
           String(s.classId) === squadClassId,
       );
-      const adaptPlayers = (squad) => (squad?.players || []).map((p) => ({
-        name: p.player_known_as || p.player_name || "Player",
-        role: [p.player_role, p.is_captain ? "Captain" : "", p.is_keeper ? "Wicketkeeper" : ""]
-          .filter(Boolean).join(" · "),
-      }));
-      showPlayers(
-        "squad-team-list",
-        detail.squads?.[a] || f.squad || adaptPlayers(teamSquad),
-      );
+      const adaptPlayers = (squad) =>
+        (squad?.players || []).map((p) => ({
+          name: p.player_known_as || p.player_name || "Player",
+          role: [p.player_role, p.is_captain ? "Captain" : "", p.is_keeper ? "Wicketkeeper" : ""]
+            .filter(Boolean)
+            .join(" · "),
+        }));
+      showPlayers("squad-team-list", detail.squads?.[a] || f.squad || adaptPlayers(teamSquad));
       showPlayers(
         "squad-opponent-list",
         detail.squads?.[b] || f.opponentSquad || adaptPlayers(opponentSquad),
@@ -372,10 +373,19 @@
       if (squadsSnapshot?.checkedAt) {
         set(
           "workflow-squad",
-          "Saved official squad snapshot checked " + squadsSnapshot.checkedAt +
-            ". Displayed list: " + (teamSquad?.players?.length || 0) + " " + a +
-            " and " + (opponentSquad?.players?.length || 0) + " " + b +
-            " player records for class " + squadClassId + ".",
+          "Saved official squad snapshot checked " +
+            squadsSnapshot.checkedAt +
+            ". Displayed list: " +
+            (teamSquad?.players?.length || 0) +
+            " " +
+            a +
+            " and " +
+            (opponentSquad?.players?.length || 0) +
+            " " +
+            b +
+            " player records for class " +
+            squadClassId +
+            ".",
         );
       }
       set(
@@ -500,9 +510,18 @@
       $("details-source-links").innerHTML = [
         ...reviewedSources,
         sourceLink("Official match source", f.newsUrl || f.source),
-        sourceLink("BCCI match squads", "https://www.bcci.tv/matches/b567f7d4-7455-48b3-8ec2-f76ce4788e70/india-vs-west-indies/squads"),
-        sourceLink("EllipseData squad source · India", "https://epr.ellipsedata.com/redirect/1/comp/9060/squads?team_id=6"),
-        sourceLink("EllipseData squad source · West Indies", "https://epr.ellipsedata.com/redirect/1/comp/9060/squads?team_id=4"),
+        sourceLink(
+          "BCCI match squads",
+          "https://www.bcci.tv/matches/b567f7d4-7455-48b3-8ec2-f76ce4788e70/india-vs-west-indies/squads",
+        ),
+        sourceLink(
+          "EllipseData squad source · India",
+          "https://epr.ellipsedata.com/redirect/1/comp/9060/squads?team_id=6",
+        ),
+        sourceLink(
+          "EllipseData squad source · West Indies",
+          "https://epr.ellipsedata.com/redirect/1/comp/9060/squads?team_id=4",
+        ),
         sourceLink("Original fixture source", f.source),
         sourceLink("Weather · Open-Meteo", "https://open-meteo.com/"),
         sourceLink("Tilak Varma stats", "/stats/"),
