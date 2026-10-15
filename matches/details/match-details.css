@@ -902,7 +902,6 @@
   }
 }
 
-
 /* Official BCCI live-score source — no Python-generated live-score snapshot. */
 .bcci-live-score-link {
   display: inline-flex;
@@ -939,6 +938,10 @@
   background: #fff;
 }
 @media (max-width: 600px) {
-  .bcci-live-score-frame-wrap { border-radius: 10px; }
-  .bcci-live-score-frame { height: 620px; }
+  .bcci-live-score-frame-wrap {
+    border-radius: 10px;
+  }
+  .bcci-live-score-frame {
+    height: 620px;
+  }
 }
