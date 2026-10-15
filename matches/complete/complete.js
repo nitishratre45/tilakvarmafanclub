@@ -183,7 +183,7 @@
             ? '<a class="scorecard-open" href="/matches/scorecards/?match=' +
               encodeURIComponent(m.matchId) +
               '">Full scorecard ↗</a>'
-            : '<span class="scorecard-unavailable">BCCI result · scorecard archive unavailable</span>') +
+            : '<span class="scorecard-unavailable">Cricsheet scorecard unavailable</span>') +
           "</div></article>",
       )
       .join("");
@@ -191,100 +191,49 @@
   async function loadMatches() {
     const host = $("complete-matches-list");
     try {
-      const [archiveResponse, resultsResponse] = await Promise.all([
-        fetch("/matches/scorecards/index.json?v=20261015-bcci-recent1", { cache: "no-store" }),
-        fetch("/matches/bcci-match-results.json?v=20261015-bcci-recent1", { cache: "no-store" }),
-      ]);
-      if (!archiveResponse.ok) throw new Error("Scorecard index unavailable");
-      const archive = await archiveResponse.json();
+      // Complete Match archive is Cricsheet-only. Never merge BCCI fixtures/results.
+      const response = await fetch("/matches/scorecards/index.json?v=20261015-cricsheet-only1", {
+        cache: "no-store",
+      });
+      if (!response.ok) throw new Error("Cricsheet scorecard index unavailable");
+      const archive = await response.json();
       const archiveMatches = Array.isArray(archive.matches) ? archive.matches : [];
-      const archiveById = new Map();
-      archiveMatches.forEach((m) => {
-        const id = String(m.matchId || m.match_id || m.gid || "").trim();
-        if (id) archiveById.set(id, m);
-      });
-      let resultPayload = null;
-      if (resultsResponse.ok) resultPayload = await resultsResponse.json().catch(() => null);
-      const bcciRows = Array.isArray(resultPayload?.matches) ? resultPayload.matches : [];
-      const norm = (v) =>
-        String(v || "")
-          .trim()
-          .toLowerCase();
-      const formatFromBcci = (m) => {
-        const classes = Array.isArray(m.class) ? m.class.map((x) => norm(x.name)).join(" ") : "";
-        const title = norm(m.title || m.name || "");
-        if (/test|first.class|multi.day/.test(classes + " " + title))
-          return /test/.test(classes + " " + title) ? "Test" : "First-class";
-        if (/one.day|list a|odi/.test(classes + " " + title))
-          return /international|odi/.test(classes + " " + title) ? "ODI" : "List A";
-        if (/t20 international|t20i/.test(classes + " " + title)) return "T20I";
-        if (/twenty20|t20|ipl/.test(classes + " " + title)) return "T20";
-        return "";
-      };
-      const bcciMatches = bcciRows
-        .map((m) => {
-          const id = String(m.gid || m.match_id || "").trim();
-          const archived = archiveById.get(id);
-          const home = String(m.team1_name || m.team1_short_name || "").trim();
-          const away = String(m.team2_name || m.team2_short_name || "").trim();
-          const format = formatFromBcci(m);
-          const date = String(m.start_date || m.end_date || "").slice(0, 10);
-          const result = String(m.result_string || m.result || m.status || "").trim();
-          const completed =
-            /complete|result|won by|tied|drawn|abandon/i.test(result) ||
-            (m.result_id && String(m.result_id) !== "0") ||
-            (m.match_status && /complete|result|finished/i.test(String(m.match_status)));
-          if (!id || !home || !away || !date || !format || !completed) return null;
-          return {
-            ...(archived || {}),
-            matchId: archived?.matchId || id,
-            date: archived?.date || date,
-            team: archived?.team || home,
-            opposition: archived?.opposition || away,
-            venue: archived?.venue || m.ground_name || m.ground_city || "Venue unavailable",
-            event: archived?.event || m.comp_name || m.alt_comp_name || "",
-            format: archived?.format || format,
-            result: archived?.result || result || "Result available from BCCI",
-            bcciResult: true,
-            hasScorecard: Boolean(archived),
-          };
-        })
-        .filter(Boolean);
-      const merged = new Map();
-      [...archiveMatches, ...bcciMatches].forEach((m) => {
-        const id = String(m.matchId || m.match_id || m.gid || "").trim();
+      const unique = new Map();
+      archiveMatches.forEach((match) => {
+        const id = String(match.matchId || match.match_id || match.gid || "").trim();
         if (!id) return;
-        const previous = merged.get(id);
-        merged.set(
-          id,
-          previous
-            ? { ...m, ...previous, hasScorecard: Boolean(previous.hasScorecard || m.hasScorecard) }
-            : {
-                ...m,
-                hasScorecard: Boolean(m.hasScorecard || archiveById.has(id)),
-              },
-        );
+        unique.set(id, {
+          ...match,
+          matchId: id,
+          hasScorecard: true,
+        });
       });
-      state.matches = [...merged.values()].sort((a, b) =>
+      state.matches = [...unique.values()].sort((a, b) =>
         String(b.date || "").localeCompare(String(a.date || "")),
       );
-      $("scorecard-count").textContent = state.matches.length.toLocaleString("en-IN");
-      const updatedAt = resultPayload?.checkedAt || archive.updatedAt;
-      $("scorecard-updated").textContent = updatedAt
-        ? "Updated " +
-          new Date(updatedAt).toLocaleString("en-IN") +
-          (bcciMatches.length ? " · BCCI results + verified scorecards" : " · verified scorecards")
-        : "BCCI results + verified scorecard archive";
-      $("scorecard-source-note").textContent = bcciMatches.length
-        ? "Recent completed results are merged from BCCI India (team_id=6) and West Indies (team_id=4) feeds. Full scorecards open where a verified archive is available."
-        : archive.coverageNote || "Only verified available scorecards are shown.";
+      const count = $("scorecard-count");
+      if (count) count.textContent = state.matches.length.toLocaleString("en-IN");
+      const updatedAt = archive.updatedAt;
+      const updated = $("scorecard-updated");
+      if (updated) {
+        updated.textContent = updatedAt
+          ? "Updated " + new Date(updatedAt).toLocaleString("en-IN") + " · Cricsheet archive"
+          : "Cricsheet archive";
+      }
+      const note = $("scorecard-source-note");
+      if (note) {
+        note.textContent =
+          archive.coverageNote ||
+          "Only matches and scorecards available in the Cricsheet archive are shown.";
+      }
       restoreReturnState();
       renderMatches();
     } catch (error) {
-      if (host)
+      if (host) {
         host.innerHTML =
-          '<div class="match-empty"><strong>Match archive could not load</strong><span>Saved verified scorecard index ko refresh karke dobara try karein.</span></div>';
-      console.error("Complete Match archive:", error);
+          '<div class="match-empty"><strong>Cricsheet match archive could not load</strong><span>Saved Cricsheet scorecard index ko refresh karke dobara try karein.</span></div>';
+      }
+      console.error("Complete Match Cricsheet archive:", error);
     }
   }
   $("match-format-filter")?.addEventListener("change", (event) => {
