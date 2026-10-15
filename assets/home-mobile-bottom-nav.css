@@ -2,7 +2,7 @@
 .tv-mobile-bottom-nav {
   display: none;
 }
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-device-width: 800px) {
   body {
     padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
   }
@@ -120,7 +120,7 @@
     background: rgba(255, 255, 255, 0.09);
   }
 }
-@media (min-width: 801px) {
+@media (min-width: 801px) and (min-device-width: 801px) {
   .tv-mobile-bottom-nav,
   .tv-mobile-menu {
     display: none !important;
