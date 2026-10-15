@@ -1,0 +1,53 @@
+name: Refresh BCCI Match Results
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub Actions scheduled workflows have a 5-minute minimum cadence.
+    - cron: "*/5 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/refresh_bcci_match_results.py"
+      - ".github/workflows/refresh-bcci-match-results.yml"
+permissions:
+  contents: write
+concurrency:
+  group: refresh-bcci-match-results
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate Python syntax
+        run: python -m py_compile scripts/refresh_bcci_match_results.py
+      - name: Fetch all BCCI result pages and create snapshot
+        run: python scripts/refresh_bcci_match_results.py
+      - name: Validate snapshot
+        run: |
+          python -m json.tool matches/bcci-match-results.json > /dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("matches/bcci-match-results.json").read_text(encoding="utf-8"))
+          assert data.get("status") == "updated-from-bcci-match-results"
+          assert set(data.get("teamsFetched", [])) == {"6", "4"}
+          assert isinstance(data.get("matches"), list) and data["matches"]
+          assert all(isinstance(row, dict) and (row.get("gid") or row.get("match_id")) for row in data["matches"])
+          print(f"Validated {data['matchCount']} unique complete match records.")
+          PY
+      - name: Commit snapshot if changed
+        run: |
+          git add matches/bcci-match-results.json
+          if git diff --cached --quiet; then echo "No result changes."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: refresh BCCI match results snapshot"
+          git pull --rebase origin main
+          git push origin HEAD:main
