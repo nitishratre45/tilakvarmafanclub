@@ -1168,7 +1168,9 @@
       if (recentResultsHost) {
         const archiveMatches = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
         const normaliseRecentTeam = (value) =>
-          String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "")
+          String(value || "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "")
             .replace(/unitedstatesofamerica/g, "usa");
         const logoForRecentTeam = (name) => teamLogoUrl(name, "");
         const recentTeamNames = [a, b].filter(Boolean);
@@ -1188,37 +1190,83 @@
           }
           return { outcome: "N", label: result };
         };
-        const resultRowsForTeam = (teamName) => archiveMatches
-          .filter((row) =>
-            [row.team, row.opposition].some((name) => normaliseRecentTeam(name) === normaliseRecentTeam(teamName)) &&
-            String(row.date || "").slice(0, 10) < String(f.date || "9999-12-31").slice(0, 10)
-          )
-          .sort((left, right) => String(right.date || "").localeCompare(String(left.date || "")))
-          .slice(0, 8);
-        recentResultsHost.innerHTML = recentTeamNames.map((teamName) => {
-          const teamKey = normaliseRecentTeam(teamName);
-          const rows = resultRowsForTeam(teamName);
-          const logo = logoForRecentTeam(teamName);
-          const logoMarkup = logo
-            ? '<img src="' + escHtml(logo) + '" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode(' + JSON.stringify(String(teamName).slice(0, 2).toUpperCase()) + '))">'
-            : '<span class="recent-team-initials">' + escHtml(String(teamName).slice(0, 2).toUpperCase()) + '</span>';
-          return '<section class="recent-team-group">' +
-            '<h3 class="recent-team-heading"><span class="recent-team-logo">' + logoMarkup + '</span>' + escHtml(teamName) + '</h3>' +
-            (rows.length ? rows.map((row) => {
-              const otherTeam = normaliseRecentTeam(row.team) === teamKey ? row.opposition : row.team;
-              const perspective = resultPerspective(row, teamName);
-              const dateText = row.date ? new Date(row.date + "T12:00:00Z").toLocaleDateString("en-IN", {
-                weekday: "short", day: "numeric", month: "short", year: "numeric", timeZone: "UTC"
-              }) : "Date unavailable";
-              const scorecardUrl = typeof row.scorecard === "string" && row.scorecard.startsWith("/") ? row.scorecard : "";
-              return '<article class="recent-result-row">' +
-                '<span class="recent-result-badge recent-result-' + escHtml(perspective.outcome.toLowerCase()) + '">' + escHtml(perspective.outcome === "N" ? "–" : perspective.outcome) + '</span>' +
-                '<div class="recent-result-copy"><h4>v ' + escHtml(otherTeam || "Opponent") + '</h4><p>' + escHtml(perspective.label) + '</p>' +
-                (scorecardUrl ? '<a href="' + escHtml(scorecardUrl) + '">View scorecard ↗</a>' : '') +
-                '</div><time>' + escHtml(dateText) + '</time></article>';
-            }).join("") : '<article class="recent-result-row"><p>No verified recent results in the saved archive.</p></article>') +
-            '</section>';
-        }).join("");
+        const resultRowsForTeam = (teamName) =>
+          archiveMatches
+            .filter(
+              (row) =>
+                [row.team, row.opposition].some(
+                  (name) => normaliseRecentTeam(name) === normaliseRecentTeam(teamName),
+                ) &&
+                String(row.date || "").slice(0, 10) < String(f.date || "9999-12-31").slice(0, 10),
+            )
+            .sort((left, right) => String(right.date || "").localeCompare(String(left.date || "")))
+            .slice(0, 8);
+        recentResultsHost.innerHTML = recentTeamNames
+          .map((teamName) => {
+            const teamKey = normaliseRecentTeam(teamName);
+            const rows = resultRowsForTeam(teamName);
+            const logo = logoForRecentTeam(teamName);
+            const logoMarkup = logo
+              ? '<img src="' +
+                escHtml(logo) +
+                '" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode(' +
+                JSON.stringify(String(teamName).slice(0, 2).toUpperCase()) +
+                '))">'
+              : '<span class="recent-team-initials">' +
+                escHtml(String(teamName).slice(0, 2).toUpperCase()) +
+                "</span>";
+            return (
+              '<section class="recent-team-group">' +
+              '<h3 class="recent-team-heading"><span class="recent-team-logo">' +
+              logoMarkup +
+              "</span>" +
+              escHtml(teamName) +
+              "</h3>" +
+              (rows.length
+                ? rows
+                    .map((row) => {
+                      const otherTeam =
+                        normaliseRecentTeam(row.team) === teamKey ? row.opposition : row.team;
+                      const perspective = resultPerspective(row, teamName);
+                      const dateText = row.date
+                        ? new Date(row.date + "T12:00:00Z").toLocaleDateString("en-IN", {
+                            weekday: "short",
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                            timeZone: "UTC",
+                          })
+                        : "Date unavailable";
+                      const scorecardUrl =
+                        typeof row.scorecard === "string" && row.scorecard.startsWith("/")
+                          ? row.scorecard
+                          : "";
+                      return (
+                        '<article class="recent-result-row">' +
+                        '<span class="recent-result-badge recent-result-' +
+                        escHtml(perspective.outcome.toLowerCase()) +
+                        '">' +
+                        escHtml(perspective.outcome === "N" ? "–" : perspective.outcome) +
+                        "</span>" +
+                        '<div class="recent-result-copy"><h4>v ' +
+                        escHtml(otherTeam || "Opponent") +
+                        "</h4><p>" +
+                        escHtml(perspective.label) +
+                        "</p>" +
+                        (scorecardUrl
+                          ? '<a href="' + escHtml(scorecardUrl) + '">View scorecard ↗</a>'
+                          : "") +
+                        "</div><time>" +
+                        escHtml(dateText) +
+                        "</time></article>"
+                      );
+                    })
+                    .join("")
+                : '<article class="recent-result-row"><p>No verified recent results in the saved archive.</p></article>') +
+              "</section>"
+            );
+          })
+          .join("");
       }
       const teamNames = [a, b].map((name) => String(name || "").toLowerCase());
       const recentForTeams = resultMatches
