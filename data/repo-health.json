@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-15T05:18:13+00:00",
+  "checkedAt": "2026-10-15T10:03:43+00:00",
   "intervalMinutes": 10,
   "status": "warning",
   "summary": {
-    "filesScanned": 419,
-    "checksPassed": 324,
+    "filesScanned": 416,
+    "checksPassed": 323,
     "issues": 0,
-    "warnings": 45
+    "warnings": 42
   },
   "items": [
     {
@@ -57,27 +57,27 @@
     },
     {
       "level": "warning",
-      "message": "5 repeated CSS selector(s); review cascade/overrides: .section (4x), html (2x), .topbar (2x), .section-heading (2x), .section-heading > p (2x)",
+      "message": "3 repeated CSS selector(s); review cascade/overrides: .section (4x), html (2x), .topbar (2x)",
       "file": "home/admin-inspired-ui.css"
     },
     {
       "level": "warning",
-      "message": "64 repeated CSS selector(s); review cascade/overrides: .home-bowling-stats (7x), .home-format-facts (5x), .home-bowling-heading (5x), .home-bowling-facts (5x), .profile-copy h2 (4x), .home-snapshot-heading h2 (4x), .home-format-stats (4x), .home-format-fact (4x)",
+      "message": "57 repeated CSS selector(s); review cascade/overrides: .home-bowling-stats (7x), .home-bowling-heading (5x), .profile-copy h2 (4x), .home-snapshot-heading h2 (4x), .home-format-stats (4x), .home-bowling-card (4x), .home-bowling-stats > * (4x), .home-innings-row (4x)",
       "file": "home/home-refresh.css"
     },
     {
       "level": "warning",
-      "message": "260 repeated CSS selector(s); review cascade/overrides: .topbar (12x), #photos .cricinfo-gallery (11x), #profile .profile-photo-wrap (10x), .section (9x), #career-formats .format-card (9x), #profile.profile-section (9x), #profile .profile-copy h2 (8x), #photos #cricinfo-photo-grid .tv-album-grid (8x)",
+      "message": "66 repeated CSS selector(s); review cascade/overrides: .topbar (14x), #profile .profile-photo-wrap (10x), .section (9x), #profile.profile-section (9x), #profile .profile-copy h2 (8x), #profile .profile-intro (7x), #profile .profile-team-chip (7x), .home-mini-stat (6x)",
       "file": "home/premium-ui.css"
     },
     {
       "level": "warning",
-      "message": "60 repeated CSS selector(s); review cascade/overrides: #profile .profile-data-grid (6x), #profile .profile-photo-wrap (5x), #profile .profile-copy h2 (5x), .topbar nav a (4x), .section (4x), #profile .profile-intro (4x), #profile .profile-quick-actions .button (4x), #profile .profile-facts (4x)",
+      "message": "44 repeated CSS selector(s); review cascade/overrides: #profile .profile-data-grid (6x), #profile .profile-photo-wrap (5x), #profile .profile-copy h2 (5x), .topbar nav a (4x), .section (4x), #profile .profile-intro (4x), #profile .profile-quick-actions .button (4x), #profile .profile-facts (4x)",
       "file": "home/site-refinement.css"
     },
     {
       "level": "warning",
-      "message": "346 repeated CSS selector(s); review cascade/overrides: .profile-section (15x), .profile-photo-wrap (12x), .bcci-player-head-actions .bcci-player-settings-menu (11x), .profile-copy h2 (9x), .bcci-player-options (9x), .fan-zone-grid (8x), .statsguru-category-grid button (8x), .bcci-player-head-actions .bcci-quality-head-button (8x)",
+      "message": "91 repeated CSS selector(s); review cascade/overrides: .profile-section (14x), .profile-photo-wrap (12x), .profile-copy h2 (9x), .profile-intro (8x), .topbar (7x), .profile-facts (7x), .profile-quick-actions .button (7x), .profile-facts > div (6x)",
       "file": "home/style.css"
     },
     {
@@ -147,33 +147,18 @@
     },
     {
       "level": "warning",
-      "message": "5 repeated CSS selector(s); review cascade/overrides: .section (4x), html (2x), .topbar (2x), .section-heading (2x), .section-heading > p (2x)",
-      "file": "photos/admin-inspired-ui.css"
+      "message": "29 repeated CSS selector(s); review cascade/overrides: .all-photos-page .view-switch.tv-gallery-view-tabs .tv-gallery-view-tab (5x), .all-photos-page .view-switch.tv-gallery-view-tabs .tv-gallery-view-tab strong (4x), .all-photos-page .view-switch.tv-gallery-view-tabs .tv-gallery-view-tab small (4x), .all-photos-main (3x), .all-photos-grid (3x), .all-photos-page .view-switch.tv-gallery-view-tabs .tv-gallery-view-tab:hover (3x), .topbar (2x), .brand (2x)",
+      "file": "photos/all-photos/all-photos.css"
     },
     {
       "level": "warning",
-      "message": "15 repeated CSS selector(s); review cascade/overrides: #tv-gallery-hub .tv-album-grid (4x), #tv-gallery-hub .tv-gallery-toolbar (3x), #tv-gallery-hub .tv-album-photo-grid (3x), #tv-gallery-hub #tv-gallery-grid > .tv-album-grid (3x), #tv-gallery-hub .tv-gallery-hub__shell (2x), #tv-gallery-hub .tv-gallery-hub__header (2x), #tv-gallery-hub #tv-gallery-hub-title (2x), #tv-gallery-hub .tv-gallery-filters (2x)",
+      "message": "20 repeated CSS selector(s); review cascade/overrides: #tv-gallery-hub .tv-album-grid (4x), #tv-gallery-hub #tv-gallery-grid > .tv-album-grid (4x), #tv-gallery-hub .tv-gallery-hub__shell (3x), #tv-gallery-hub .tv-gallery-toolbar (3x), #tv-gallery-hub .tv-album-photo-grid (3x), #tv-gallery-hub #tv-gallery-grid > .tv-album-grid > .tv-album-card (3x), #tv-gallery-hub #tv-gallery-grid .tv-album-cover (3x), #tv-gallery-hub .tv-gallery-hub__header (2x)",
       "file": "photos/gallery.css"
     },
     {
       "level": "warning",
-      "message": "2 repeated CSS selector(s); review cascade/overrides: .photos-main (5x), .photos-page footer (2x)",
+      "message": "16 repeated CSS selector(s); review cascade/overrides: .photos-main (4x), .photos-page .tv-gallery-view-tab (4x), .photos-page .tv-gallery-view-tab small (3x), .photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab (3x), .photos-page header.topbar (2x), .photos-page .brand (2x), .photos-page .brand-mark (2x), .photos-page #main-nav (2x)",
       "file": "photos/photos.css"
-    },
-    {
-      "level": "warning",
-      "message": "309 repeated CSS selector(s); review cascade/overrides: #photos .cricinfo-gallery (13x), .topbar (12x), #profile .profile-photo-wrap (11x), #career-formats .format-card (10x), .section (9x), #profile.profile-section (9x), #photos #cricinfo-photo-grid .tv-album-grid (9x), #photos .cricinfo-gallery #cricinfo-photo-grid > .tv-album-grid (9x)",
-      "file": "photos/premium-ui.css"
-    },
-    {
-      "level": "warning",
-      "message": "60 repeated CSS selector(s); review cascade/overrides: #profile .profile-data-grid (6x), #profile .profile-photo-wrap (5x), #profile .profile-copy h2 (5x), .topbar nav a (4x), .section (4x), #profile .profile-intro (4x), #profile .profile-quick-actions .button (4x), #profile .profile-facts (4x)",
-      "file": "photos/site-refinement.css"
-    },
-    {
-      "level": "warning",
-      "message": "346 repeated CSS selector(s); review cascade/overrides: .profile-section (15x), .profile-photo-wrap (12x), .bcci-player-head-actions .bcci-player-settings-menu (11x), .profile-copy h2 (9x), .bcci-player-options (9x), .fan-zone-grid (8x), .statsguru-category-grid button (8x), .bcci-player-head-actions .bcci-quality-head-button (8x)",
-      "file": "photos/style.css"
     },
     {
       "level": "warning",
@@ -423,27 +408,7 @@
     {
       "level": "pass",
       "message": "JavaScript syntax OK",
-      "file": "home/career-formats.js"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "home/custom-selects.js"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "home/features.js"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
       "file": "home/home-snapshot.js"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "home/records-matches.js"
     },
     {
       "level": "pass",
@@ -1259,6 +1224,41 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/scorecards/data/2025-11-02-t20i-india-vs-australia-bbcf8862fbb5.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/data/2025-11-06-t20-india-vs-australia-02a2adb3471a.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/data/2025-11-06-t20i-india-vs-australia-02a2adb3471a.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/data/2025-12-06-odi-india-vs-south-africa-cd5c20f8c9d6.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/data/2025-12-09-t20-india-vs-south-africa-eaeb39187b97.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/data/2025-12-09-t20i-india-vs-south-africa-eaeb39187b97.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/data/2025-12-11-t20-india-vs-south-africa-79c319e94c15.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/data/2025-12-11-t20i-india-vs-south-africa-79c319e94c15.json"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "4053c861"
+    "branch": "ce891f46"
   }
 }
