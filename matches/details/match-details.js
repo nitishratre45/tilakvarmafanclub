@@ -874,12 +874,31 @@
       };
       const teamId = idForTeam(a);
       const opponentTeamId = idForTeam(b);
-      const findSquad = (id) =>
-        id && squadClassId
-          ? savedSquads.find((s) => String(s.teamId) === id && String(s.classId) === squadClassId)
-          : null;
-      const teamSquad = findSquad(teamId);
-      const opponentSquad = findSquad(opponentTeamId);
+      const normaliseTeamName = (value) =>
+        String(value || "")
+          .trim()
+          .toLowerCase()
+          .replace(/&/g, "and")
+          .replace(/[^a-z0-9]/g, "");
+      const findSquad = (id, teamName) => {
+        if (!savedSquads.length) return null;
+        const candidates = savedSquads.filter(
+          (squad) =>
+            (id && String(squad.teamId || "").trim() === String(id).trim()) ||
+            (teamName &&
+              normaliseTeamName(squad.teamName) === normaliseTeamName(teamName)),
+        );
+        if (!candidates.length) return null;
+        // Prefer the matching match format, but don't hide an available official squad
+        // merely because a fixture label uses a different format spelling/class ID.
+        return (
+          candidates.find((squad) => squadClassId && String(squad.classId) === squadClassId) ||
+          candidates.find((squad) => Array.isArray(squad.players) && squad.players.length) ||
+          candidates[0]
+        );
+      };
+      const teamSquad = findSquad(teamId, a);
+      const opponentSquad = findSquad(opponentTeamId, b);
       const adaptPlayers = (squad) =>
         (squad?.players || []).map((p) => ({
           name: p.player_known_as || p.player_name || "Player",
