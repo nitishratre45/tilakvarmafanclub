@@ -46,10 +46,24 @@
       rel="stylesheet"
       href="/assets/india-cricket-theme.css?v=20261015-home-unused-css-cleanup1"
     />
-    <link rel="stylesheet" href="/assets/home-mobile-bottom-nav.css?v=20261015-bottom-nav7" />
+    <link rel="stylesheet" href="/assets/home-mobile-bottom-nav.css?v=20261015-bottom-nav8" />
     <style id="tv-mobile-bottom-nav-critical">
       .tv-mobile-bottom-nav {
-        display: none;
+        position: fixed !important;
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        left: 8px !important;
+        right: 8px !important;
+        bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+        z-index: 2147483000 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        padding: 7px 6px !important;
+        border: 1px solid rgba(125,204,255,.52) !important;
+        border-radius: 26px !important;
+        background: linear-gradient(135deg,rgba(14,43,73,.9),rgba(5,19,37,.88)) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(1.5) !important;
+        backdrop-filter: blur(24px) saturate(1.5) !important;
       }
       /* Device-based fallback: works when Android Chrome has Desktop site enabled. */
       html[data-mobile-touch="true"] body {
