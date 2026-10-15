@@ -72,6 +72,8 @@
       (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
     );
   let albums = [];
+  let allPhotos = [];
+  let activeView = "gallery";
   let activeAlbum = null;
   let activeIndex = 0;
   let lightbox = null;
@@ -173,6 +175,51 @@
     },
     true,
   );
+  function setActiveGalleryView(view) {
+    activeView = view === "all-photos" ? "all-photos" : "gallery";
+    document.querySelectorAll("[data-gallery-view]").forEach((button) => {
+      const active = button.dataset.galleryView === activeView;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-selected", String(active));
+      button.tabIndex = active ? 0 : -1;
+    });
+    if (activeView === "all-photos") renderAllPhotos();
+    else renderAlbums();
+  }
+
+  function renderAllPhotos() {
+    activeAlbum = { name: "All Photos", photos: allPhotos };
+    document.getElementById("tv-gallery-hub")?.classList.remove("tv-album-view-active");
+    const ordered = [...allPhotos].sort((a, b) => {
+      const aTime = Date.parse(a.createdAt || "") || 0;
+      const bTime = Date.parse(b.createdAt || "") || 0;
+      return bTime - aTime;
+    });
+    const photoMarkup = ordered.map((photo, index) => {
+      const date = photo.createdAt && !Number.isNaN(Date.parse(photo.createdAt))
+        ? new Date(photo.createdAt).toLocaleDateString("en-IN", {
+            timeZone: "Asia/Kolkata", day: "numeric", month: "short", year: "numeric"
+          })
+        : "Date unavailable";
+      return '<button class="tv-album-photo tv-all-photo-card" type="button" data-photo-index="' +
+        index + '" aria-label="Open ' + esc(photo.title || "Tilak Varma photo") +
+        '"><img src="' + photo.safe + '" alt="' + esc(photo.title || "Tilak Varma photo") +
+        '" loading="lazy" decoding="async"><span class="tv-photo-open-icon">↗</span><span class="tv-all-photo-caption"><strong>' +
+        esc(photo.title || "Tilak Varma photo") + '</strong><small>' + esc(date) +
+        '</small><em>' + esc(photo.album || "General Photos") + '</em></span></button>';
+    }).join("");
+    host.innerHTML =
+      '<div class="tv-all-photos-heading"><div><span class="eyebrow">THE COMPLETE ARCHIVE</span><h3>All <em>Photos.</em></h3><p>Every available image, collected from all albums.</p></div><span class="tv-all-photos-total">' +
+      ordered.length + ' photos</span></div>' +
+      (ordered.length
+        ? '<div class="tv-album-photo-grid tv-all-photos-grid">' + photoMarkup + '</div>'
+        : '<div class="bcci-photo-empty"><strong>No photos available</strong><p>There are no photo records to show right now.</p></div>');
+    applyCompactPhotoLayout();
+    host.querySelectorAll("[data-photo-index]").forEach((button) =>
+      button.addEventListener("click", () => openPhoto(Number(button.dataset.photoIndex))),
+    );
+  }
+
   function renderAlbumPhotos(album) {
     activeAlbum = album;
     document.getElementById("tv-gallery-hub")?.classList.add("tv-album-view-active");
@@ -390,6 +437,9 @@
         ),
       );
   }
+  document.querySelectorAll("[data-gallery-view]").forEach((button) => {
+    button.addEventListener("click", () => setActiveGalleryView(button.dataset.galleryView));
+  });
   fetch("/data/admin-media.json?v=20261011-series-albums", { cache: "no-store" })
     .then((response) => {
       if (!response.ok) throw new Error("Gallery data unavailable");
@@ -399,6 +449,7 @@
       const items = (Array.isArray(data.items) ? data.items : [])
         .map((item) => ({ ...item, safe: safeUrl(item.url) }))
         .filter((item) => item.safe && item.type !== "video");
+      allPhotos = items;
       const names = Array.isArray(data.albums) ? data.albums : [];
       const albumDates =
         data.albumDates && typeof data.albumDates === "object" ? data.albumDates : {};
@@ -442,7 +493,8 @@
         if (!bTime) return -1;
         return aTime - bTime;
       });
-      renderAlbums();
+      if (activeView === "all-photos") renderAllPhotos();
+      else renderAlbums();
       if (stamp)
         stamp.textContent =
           albums.length +
