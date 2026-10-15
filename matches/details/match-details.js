@@ -1166,15 +1166,19 @@
       // BCCI result JSON may be empty, so this section must not depend on it.
       const recentResultsHost = $("recent-match-results");
       if (recentResultsHost) {
-        let recentArchiveIndex = scorecardIndex;
+        // Always prefer the all-team archive. The Tilak-only scorecard index
+        // also has a "matches" array, so checking only whether that array exists
+        // accidentally prevented loading results for the selected team's other opponents.
+        let recentArchiveIndex = null;
+        try {
+          const recentIndexResponse = await fetch(
+            "/matches/scorecards/all-matches-index.json?v=20261016-all-team-results2",
+            { cache: "no-store" },
+          );
+          if (recentIndexResponse.ok) recentArchiveIndex = await recentIndexResponse.json();
+        } catch (_) {}
         if (!Array.isArray(recentArchiveIndex?.matches)) {
-          try {
-            const recentIndexResponse = await fetch(
-              "/matches/scorecards/all-matches-index.json?v=20261016-all-team-results1",
-              { cache: "no-store" },
-            );
-            if (recentIndexResponse.ok) recentArchiveIndex = await recentIndexResponse.json();
-          } catch (_) {}
+          recentArchiveIndex = scorecardIndex;
         }
         const archiveMatches = Array.isArray(recentArchiveIndex?.matches)
           ? recentArchiveIndex.matches
