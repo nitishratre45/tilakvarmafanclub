@@ -335,12 +335,21 @@ body.photos-page {
   white-space: nowrap;
 }
 .photos-page .tv-gallery-view-tab.is-active {
-  background: rgba(255, 128, 87, .12);
-  border-color: rgba(255, 128, 87, .75);
+  background: rgba(255, 128, 87, 0.12);
+  border-color: rgba(255, 128, 87, 0.75);
 }
 @media (max-width: 600px) {
-  .photos-page .tv-gallery-view-tabs { gap: 6px; }
-  .photos-page .tv-gallery-view-tab { gap: 6px; padding: 8px 10px; }
-  .photos-page .tv-gallery-view-tab strong { font-size: 11px; }
-  .photos-page .tv-gallery-view-tab small { font-size: 9px; }
+  .photos-page .tv-gallery-view-tabs {
+    gap: 6px;
+  }
+  .photos-page .tv-gallery-view-tab {
+    gap: 6px;
+    padding: 8px 10px;
+  }
+  .photos-page .tv-gallery-view-tab strong {
+    font-size: 11px;
+  }
+  .photos-page .tv-gallery-view-tab small {
+    font-size: 9px;
+  }
 }
