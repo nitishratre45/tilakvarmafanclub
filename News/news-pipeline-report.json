@@ -1,11 +1,11 @@
 {
   "manager": "Tilak News Pipeline Manager",
-  "generatedAt": "2026-10-15T07:46:22.411021+00:00",
+  "generatedAt": "2026-10-15T14:18:32.413867+00:00",
   "status": "healthy",
-  "jsonFilesScanned": 240,
-  "validJsonFiles": 240,
+  "jsonFilesScanned": 245,
+  "validJsonFiles": 245,
   "invalidJsonFiles": [],
-  "totalJsonBytes": 32499742,
+  "totalJsonBytes": 35183296,
   "raw": {
     "candidateRecords": 34,
     "articleUrls": 189,
@@ -22,7 +22,7 @@
     "warnings": 0
   },
   "contentVerification": {
-    "checkedAt": "2026-10-15T07:46:21.924356+00:00",
+    "checkedAt": "2026-10-15T14:18:31.909088+00:00",
     "liveUrlsMatched": 34,
     "unverifiedRecordsExcluded": 0,
     "nonMatchingArticlesSkipped": 155,
@@ -53,13 +53,28 @@
       "valid": true
     },
     {
+      "path": "matches/bcci-squads.json",
+      "bytes": 31945,
+      "valid": true
+    },
+    {
       "path": "matches/manual-upcoming-fixtures.json",
       "bytes": 80,
       "valid": true
     },
     {
+      "path": "matches/bcci-match-results.json",
+      "bytes": 2494906,
+      "valid": true
+    },
+    {
+      "path": "matches/bcci-stats-fixtures.json",
+      "bytes": 130448,
+      "valid": true
+    },
+    {
       "path": "matches/upcoming-fixtures-refresh.json",
-      "bytes": 3203,
+      "bytes": 2944,
       "valid": true
     },
     {
@@ -79,12 +94,12 @@
     },
     {
       "path": "data/repo-health.json",
-      "bytes": 49240,
+      "bytes": 49105,
       "valid": true
     },
     {
       "path": "data/automation-repo-monitor.json",
-      "bytes": 51127,
+      "bytes": 54844,
       "valid": true
     },
     {
@@ -104,7 +119,7 @@
     },
     {
       "path": "data/admin-media.json",
-      "bytes": 9890,
+      "bytes": 9834,
       "valid": true
     },
     {
@@ -119,12 +134,17 @@
     },
     {
       "path": "News/news-pipeline-report.json",
-      "bytes": 37098,
+      "bytes": 37400,
       "valid": true
     },
     {
       "path": "matches/scorecards/index.json",
       "bytes": 84563,
+      "valid": true
+    },
+    {
+      "path": "matches/live/live-matches.json",
+      "bytes": 1387,
       "valid": true
     },
     {
@@ -1240,6 +1260,11 @@
     {
       "path": "matches/scorecards/data/2025-04-27-t20-mumbai-indians-vs-lucknow-super-giants-e3dc91ffe7ae.json",
       "bytes": 89278,
+      "valid": true
+    },
+    {
+      "path": "photos/all-photos/photos.json",
+      "bytes": 21299,
       "valid": true
     }
   ]
