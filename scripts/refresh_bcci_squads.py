@@ -123,19 +123,15 @@ def main():
             details = "; ".join(
                 f"{name} team_id={team_id}: {exc}" for team_id, name, exc in errors
             )
-            # A blocked upstream endpoint is not a successful data refresh, but it
-            # is also not a reason to fail the scheduled maintenance job. Never
-            # replace the existing snapshot with incomplete or invented squads.
-            # This is an optional enrichment feed; keep the workflow green while
-            # the upstream service is denying access. The browser already has
-            # manual/fixture squad fallbacks and must not receive invented players.
-            # Do not create an empty snapshot when none exists.
+            # Do not report a successful refresh when the provider denied access.
+            # The workflow must visibly fail so monitoring can distinguish a real
+            # refresh from a no-op. Existing snapshots remain untouched.
             print(
-                "NO UPDATE: squad provider unavailable; no data was written. "
+                "ERROR: squad provider unavailable; no data was written. "
                 f"Details: {details}",
                 file=sys.stderr,
             )
-            return 0
+            return 1
 
         squads = {}
         for team_id, team_name in TEAMS:
