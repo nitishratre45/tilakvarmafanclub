@@ -1190,3 +1190,157 @@ body > footer {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+
+/* Homepage career summary: compact, scrollable tables inspired by the full Stats page. */
+.home-snapshot-section .home-snapshot-heading h2 {
+  font-size: clamp(1.65rem, 4.5vw, 2.65rem) !important;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+.home-snapshot-section .home-quick-stats,
+.home-snapshot-section .home-format-heading {
+  display: none !important;
+}
+.home-snapshot-section .home-format-stats,
+.home-snapshot-section .home-bowling-stats {
+  display: block;
+  min-width: 0;
+}
+.home-snapshot-section .home-bowling-card {
+  margin-top: 12px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(110, 168, 255, .22);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(12, 29, 51, .98), rgba(7, 17, 32, .98));
+}
+.home-snapshot-section .home-bowling-heading {
+  display: none;
+}
+.home-snapshot-section .home-bowling-updated {
+  margin: 0;
+  padding: 10px 14px;
+  border-top: 1px solid rgba(110, 168, 255, .15);
+  font-size: .68rem;
+}
+.home-career-table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(110, 168, 255, .55) rgba(255,255,255,.04);
+  border: 1px solid rgba(110, 168, 255, .2);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(13, 30, 52, .98), rgba(7, 17, 31, .98));
+}
+.home-career-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: #e7eefb;
+  font-variant-numeric: tabular-nums;
+}
+.home-bowling-table {
+  min-width: 850px;
+}
+.home-career-table caption {
+  padding: 15px 16px;
+  text-align: left;
+  color: #f4f7ff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: .01em;
+  background: linear-gradient(90deg, rgba(110,168,255,.12), rgba(181,160,255,.07), transparent);
+  border-bottom: 1px solid rgba(110,168,255,.18);
+}
+.home-career-table th,
+.home-career-table td {
+  padding: 12px 13px;
+  border-right: 1px solid rgba(152, 177, 211, .12);
+  border-bottom: 1px solid rgba(152, 177, 211, .12);
+  text-align: center;
+  white-space: nowrap;
+  font-size: .83rem;
+}
+.home-career-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #132641;
+  color: #9ddff4;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .035em;
+}
+.home-career-table td:first-child,
+.home-career-table th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 88px;
+  text-align: left;
+  font-weight: 800;
+  background: #10233c;
+  color: #f4f7ff;
+}
+.home-career-table th:first-child {
+  z-index: 3;
+  color: #9ddff4;
+  background: #132641;
+}
+.home-career-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.home-career-table tr > *:last-child {
+  border-right: 0;
+}
+.home-career-table tbody tr:nth-child(even) td:not(:first-child) {
+  background: rgba(110,168,255,.035);
+}
+.home-career-table tbody tr:hover td {
+  background-color: rgba(181,160,255,.08);
+}
+.home-snapshot-section .home-snapshot-foot {
+  margin-top: 12px;
+}
+@media (max-width: 680px) {
+  .home-snapshot-section {
+    padding-top: 26px !important;
+    padding-bottom: 26px !important;
+  }
+  .home-snapshot-section .home-snapshot-heading {
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .home-snapshot-section .home-snapshot-heading h2 {
+    font-size: clamp(1.4rem, 6vw, 1.9rem) !important;
+  }
+  .home-snapshot-section .home-snapshot-heading .eyebrow {
+    font-size: .62rem;
+  }
+  .home-career-table-wrap {
+    border-radius: 12px;
+  }
+  .home-career-table {
+    min-width: 900px;
+  }
+  .home-bowling-table {
+    min-width: 820px;
+  }
+  .home-career-table caption {
+    padding: 12px 13px;
+    font-size: .95rem;
+  }
+  .home-career-table th,
+  .home-career-table td {
+    padding: 10px 11px;
+    font-size: .77rem;
+  }
+  .home-career-table th {
+    font-size: .68rem;
+  }
+}
