@@ -1238,8 +1238,8 @@
                           })
                         : "Date unavailable";
                       const scorecardUrl =
-                        typeof row.scorecard === "string" && row.scorecard.startsWith("/")
-                          ? row.scorecard
+                        typeof row.matchId === "string" && row.matchId
+                          ? "/matches/recent-scorecard/?matchId=" + encodeURIComponent(row.matchId)
                           : "";
                       return (
                         '<article class="recent-result-row">' +
