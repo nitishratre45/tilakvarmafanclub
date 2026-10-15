@@ -137,15 +137,6 @@
       });
       profileSet("profile-teams-count", teams.length + (teams.length === 1 ? " TEAM" : " TEAMS"));
     }
-    const profileStamp = document.getElementById("profile-data-updated");
-    if (profileStamp) {
-      const profileDate = profile.photoCheckedAt || profile.photoUpdated || data.lastUpdated;
-      profileStamp.textContent =
-        "Profile snapshot: " +
-        (profileDate ? formatIndiaTimestamp(profileDate) : "date unavailable") +
-        " · Site data: " +
-        (data.lastUpdated ? formatIndiaTimestamp(data.lastUpdated) : "date unavailable");
-    }
     document.querySelectorAll("[data-stat]").forEach((el) => {
       const key = el.dataset.stat;
       if (stats[key] !== undefined) {
