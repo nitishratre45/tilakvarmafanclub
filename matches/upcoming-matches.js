@@ -327,8 +327,8 @@
         return {
           ...news,
           ...bcci,
-          team: bcci.team || "India",
-          opponent: bcci.opponent || news.opponent,
+          team: "India",
+          opponent: [bcci.team, bcci.opponent].find((name) => norm(name) !== "india") || news.opponent,
           venue: bcci.venue || "",
           time: bcci.time || "",
           source: bcci.source || "",
