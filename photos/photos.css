@@ -1,64 +1,199 @@
-/* Dedicated Photos page layout; gallery-specific styling lives here, shared tokens remain in /assets/*.css. */
-.photos-page {
+/* Photos page: compact page-level styles. Gallery component rules live in gallery.css. */
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+:root {
+  color-scheme: dark;
+  --bg: #07101f;
+  --panel: #0d1a2c;
+  --panel2: #122238;
+  --white: #f4f7fb;
+  --text: #f4f7fb;
+  --muted: #a8bfd9;
+  --orange: #ff8057;
+  --cyan: #75e3ff;
+  --line: rgba(169, 194, 229, 0.18);
+  --mono: "DM Mono", monospace;
+  --display: "Barlow Condensed", sans-serif;
+  --body: "Manrope", sans-serif;
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--white);
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+* { box-sizing: border-box; }
+body.photos-page {
+  min-width: 320px;
   min-height: 100vh;
   min-height: 100dvh;
+  margin: 0;
+  overflow-x: clip;
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(43, 92, 157, 0.14), transparent 34rem),
+    radial-gradient(ellipse at 100% 35%, rgba(255, 83, 100, 0.055), transparent 32rem),
+    var(--bg);
+  color: var(--white);
+  font-family: var(--body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+.photos-page a { color: inherit; text-decoration: none; }
+.photos-page button, .photos-page input, .photos-page select { font: inherit; }
+.photos-page button, .photos-page a { -webkit-tap-highlight-color: transparent; }
+.photos-page :focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+.photos-page header.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 76px;
+  padding: 10px clamp(16px, 4vw, 64px);
+  color: #fff;
+  background: linear-gradient(105deg, #052552, #0b5fc4 54%, #083a7b);
+  border-bottom: 1px solid rgba(124, 229, 242, .5);
+  box-shadow: 0 10px 28px rgba(0, 12, 35, .28);
+}
+.photos-page .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  flex: 0 0 auto;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .075em;
+}
+.photos-page .brand-mark {
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 13px;
+  background: rgba(5,24,48,.7);
+}
+.photos-page .brand-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.photos-page .brand small {
+  display: block;
+  margin-top: 3px;
+  color: rgba(255,255,255,.78);
+  font: 10px var(--mono);
+  letter-spacing: .2em;
+}
+.photos-page #main-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  gap: clamp(12px, 1.65vw, 25px);
+  color: #fff;
+  white-space: nowrap;
+}
+.photos-page #main-nav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 2px;
+  color: #f4f8ff;
+  font-size: clamp(11px, .85vw, 13px);
+  font-weight: 750;
+  transition: color .2s ease, transform .22s ease;
+}
+.photos-page #main-nav a::after {
+  position: absolute;
+  right: 0;
+  bottom: 1px;
+  left: 0;
+  height: 3px;
+  content: "";
+  border-radius: 5px;
+  background: linear-gradient(90deg, #ff744b, #ffd08a);
+  box-shadow: 0 0 12px rgba(255,116,75,.35);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 260ms cubic-bezier(.2,.75,.25,1);
+}
+.photos-page #main-nav a:hover,
+.photos-page #main-nav a:focus-visible { color: #fff; transform: translateY(-1px); }
+.photos-page #main-nav a:hover::after,
+.photos-page #main-nav a:focus-visible::after,
+.photos-page #main-nav a.active::after,
+.photos-page #main-nav a[aria-current="page"]::after { transform: scaleX(1); }
+.photos-page .menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-width: 48px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid rgba(124,229,242,.38);
+  border-radius: 12px;
+  color: #fff;
+  background: rgba(255,255,255,.08);
+  cursor: pointer;
 }
 .photos-main {
   width: min(1240px, calc(100% - 28px));
+  min-width: 0;
   margin: 0 auto;
-  padding: 12px 0 42px;
-  /* Let the gallery shrink inside flex/grid parents instead of forcing sideways scroll. */
-  min-width: 0;
+  padding: 18px 0 42px;
 }
-.photos-main #tv-gallery-hub {
-  width: 100%;
-  margin: 0;
-  min-width: 0;
-}
-/* Photos never overflow their card or the page. */
-.photos-main #tv-gallery-hub img {
-  max-width: 100%;
-}
+.photos-main #tv-gallery-hub { width: 100%; min-width: 0; margin: 0; }
+.photos-main #tv-gallery-hub img { max-width: 100%; }
 .photos-page footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  padding: 18px clamp(16px, 4vw, 64px) max(16px, env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(124,229,242,.18);
+  color: var(--muted);
+  background: #080f1c;
+  font-size: 11px;
 }
-
-/* Tablet */
+.photos-page footer .brand { color: var(--white); }
 @media (max-width: 900px) {
-  .photos-main {
-    width: min(1240px, calc(100% - 24px));
+  .photos-main { width: min(1240px, calc(100% - 24px)); }
+}
+@media (max-width: 800px) {
+  .photos-page header.topbar { gap: 10px; padding: 9px 14px; }
+  .photos-page .brand { max-width: calc(100% - 64px); }
+  .photos-page .menu-toggle { display: inline-flex; }
+  .photos-page #main-nav {
+    gap: 0;
+    white-space: normal;
   }
 }
-
-/* Phones */
 @media (max-width: 640px) {
-  .photos-main {
-    width: calc(100% - 16px);
-    padding-top: 8px;
-    padding-bottom: 32px;
-  }
-  .photos-page footer {
-    justify-content: center;
-    text-align: center;
-  }
+  .photos-main { width: calc(100% - 16px); padding-top: 8px; padding-bottom: 32px; }
+  .photos-page footer { justify-content: center; text-align: center; }
 }
-
-/* Very small phones */
 @media (max-width: 380px) {
-  .photos-main {
-    width: calc(100% - 12px);
-  }
+  .photos-main { width: calc(100% - 12px); }
+  .photos-page .brand-mark { flex-basis: 42px; width: 42px; height: 42px; }
 }
-
-/* Large screens */
-@media (min-width: 1400px) {
-  .photos-main {
-    width: min(1320px, calc(100% - 64px));
-    padding-top: 20px;
+@media (prefers-reduced-motion: reduce) {
+  .photos-page *, .photos-page *::before, .photos-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
   }
 }
