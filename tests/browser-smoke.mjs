@@ -273,8 +273,15 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
     checkedAt: "2026-10-13T12:00:00Z",
     fixtures: [{
       date: "2099-08-01", label: "Sat, 1 Aug 2099", match: "Tour match",
-      opponent: "Australia", venue: "Test Ground", time: "19:00",
-      newsUrl: "/news/"
+      team: "India", opponent: "Australia", venue: "Test Ground", time: "19:00",
+      newsUrl: "/news/", tilakInSquad: true,
+      confirmationSource: "BCCI squad announcement naming Tilak Varma"
+    }]
+  };
+  const bcciFixtures = {
+    fixtures: [{
+      date: "2099-08-01", match: "Tour match", team: "India", opponent: "Australia",
+      venue: "Test Ground", time: "19:00", source: "https://stats.bcci.tv/match/fixtures/test"
     }]
   };
   const rows = [
@@ -299,6 +306,9 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
   }));
   await page.route("**/matches/upcoming-fixtures-refresh.json*", (route) => route.fulfill({
     status: 200, contentType: "application/json", body: JSON.stringify(fixture)
+  }));
+  await page.route("**/matches/bcci-stats-fixtures.json*", (route) => route.fulfill({
+    status: 200, contentType: "application/json", body: JSON.stringify(bcciFixtures)
   }));
   await page.route("**/matches/scorecards/index.json*", (route) => route.fulfill({
     status: 200, contentType: "application/json",
