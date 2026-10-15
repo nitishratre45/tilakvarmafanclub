@@ -2,7 +2,7 @@ name: Refresh BCCI Stats Fixtures JSON
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 */12 * * *"
+    - cron: "37 */12 * * *"
   push:
     branches: [main]
     paths:
