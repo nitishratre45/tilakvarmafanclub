@@ -2,7 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <script>
+      (() => {
+        const touchPhone = Math.min(screen.width || innerWidth, screen.height || innerHeight) <= 800 ||
+          (navigator.maxTouchPoints > 0 && matchMedia("(orientation: portrait)").matches);
+        if (touchPhone) document.documentElement.setAttribute("data-mobile-touch", "true");
+      })();
+    </script>
     <meta name="theme-color" content="#0b5fc4" />
     <meta name="application-name" content="Tilak Varma Fan Club" />
     <link rel="manifest" href="/manifest.json" />
@@ -38,10 +45,90 @@
       rel="stylesheet"
       href="/assets/india-cricket-theme.css?v=20261015-home-unused-css-cleanup1"
     />
-    <link rel="stylesheet" href="/assets/home-mobile-bottom-nav.css?v=20261015-bottom-nav6" />
+    <link rel="stylesheet" href="/assets/home-mobile-bottom-nav.css?v=20261015-bottom-nav7" />
     <style id="tv-mobile-bottom-nav-critical">
       .tv-mobile-bottom-nav {
         display: none;
+      }
+      /* Device-based fallback: works when Android Chrome has Desktop site enabled. */
+      html[data-mobile-touch="true"] body {
+        padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
+      }
+      html[data-mobile-touch="true"] body > nav.tv-mobile-bottom-nav[data-tv-mobile-bottom-nav] {
+        position: fixed !important;
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        left: 8px !important;
+        right: 8px !important;
+        bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+        z-index: 2147483000 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        padding: 7px 6px !important;
+        border: 1px solid rgba(125,204,255,.52) !important;
+        border-radius: 26px !important;
+        background: linear-gradient(135deg, rgba(14,43,73,.88), rgba(5,19,37,.86)) !important;
+        box-shadow: 0 12px 34px rgba(0,7,20,.42), inset 0 1px rgba(255,255,255,.18) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(1.5) !important;
+        backdrop-filter: blur(24px) saturate(1.5) !important;
+      }
+      html[data-mobile-touch="true"] body > nav.tv-mobile-bottom-nav a,
+      html[data-mobile-touch="true"] body > nav.tv-mobile-bottom-nav button {
+        display: flex !important;
+        min-height: 52px !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 4px !important;
+        color: #eaf4ff !important;
+        background: transparent !important;
+        font: 600 10px/1.15 system-ui, sans-serif !important;
+        text-decoration: none !important;
+      }
+      html[data-mobile-touch="true"] body > nav.tv-mobile-bottom-nav svg {
+        width: 23px !important;
+        height: 23px !important;
+        fill: none !important;
+        stroke: currentColor !important;
+        stroke-width: 1.8 !important;
+      }
+      html[data-mobile-touch="true"] body > nav.tv-mobile-menu[data-tv-mobile-menu] {
+        position: fixed !important;
+        z-index: 2147482999 !important;
+        right: 18px !important;
+        bottom: calc(82px + env(safe-area-inset-bottom, 0px)) !important;
+        background: rgba(15,29,47,.97) !important;
+        border: 1px solid rgba(125,204,255,.45) !important;
+        border-radius: 18px !important;
+        padding: 9px !important;
+      }
+      html[data-mobile-touch="true"] body > nav.tv-mobile-menu.is-open {
+        display: grid !important;
+      }
+      @media (max-device-width: 800px) and (orientation: portrait), (pointer: coarse) and (hover: none) and (orientation: portrait) {
+        html[data-mobile-touch="true"] body > main > .profile-section {
+          display: grid !important;
+          grid-template-columns: minmax(0,1fr) !important;
+          gap: 18px !important;
+          padding: 16px 14px 22px !important;
+          margin: 0 !important;
+        }
+        html[data-mobile-touch="true"] body > main > .profile-section .profile-photo-wrap {
+          width: min(100%,360px) !important;
+          min-height: 0 !important;
+          max-height: none !important;
+          aspect-ratio: 4/4.2 !important;
+          justify-self: center !important;
+        }
+        html[data-mobile-touch="true"] body > main > .profile-section .profile-data-grid {
+          display: grid !important;
+          grid-template-columns: minmax(0,1fr) !important;
+          gap: 10px !important;
+          width: 100% !important;
+        }
+        html[data-mobile-touch="true"] body > main > .profile-section .profile-facts {
+          grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+        }
       }
       @media screen and (max-width: 800px),
         screen and (max-device-width: 800px),
