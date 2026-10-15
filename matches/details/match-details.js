@@ -615,12 +615,7 @@
                 match: matchLabel,
                 team: home,
                 opponent: away,
-                venue:
-                  exact.ground_name ||
-                  exact.ground_city ||
-                  exact.venue ||
-                  exact.ground ||
-                  "",
+                venue: exact.ground_name || exact.ground_city || exact.venue || exact.ground || "",
                 time: exact.start_time || exact.start_time_ist || "",
                 matchId: String(exact.match_id || exact.gid || exact.matchId || matchId),
                 rawBcci: exact,
