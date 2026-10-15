@@ -76,8 +76,7 @@
     };
     img.src = photo.safe;
     img.alt = photo.title || "Tilak Varma photo";
-    caption.textContent =
-      displayTitle(photo) + " · " + (photo.album || "General Photos");
+    caption.textContent = displayTitle(photo) + " · " + (photo.album || "General Photos");
     lightbox.classList.add("is-open");
     document.body.classList.add("lightbox-locked");
     lightbox.querySelector(".lightbox-close").focus();
