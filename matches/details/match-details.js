@@ -501,59 +501,46 @@
       const detail = (manual.matches || []).find((x) => key(x) === key(f)) || {};
       const scorecardRows = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
       const normalizedTeam = (value) => scorecardTeamKey(value);
-      const scorecardMatchesTeams = (row) => {
+      const fixtureMatchId = String(f.matchId || f.match_id || f.gid || f.fixtureId || f.id || "").trim();
+      const exactScorecard = scorecardRows.find((row) => {
+        const rowId = String(row.matchId || row.match_id || row.gid || "").trim();
+        const rowDate = String(row.date || "").slice(0, 10);
         const rowTeams = [row.team, row.opposition].map(normalizedTeam);
         const wantedTeams = [f.team, f.opponent].map(normalizedTeam);
-        return wantedTeams.every((name) =>
-          rowTeams.some(
-            (candidate) => candidate && (candidate.includes(name) || name.includes(candidate)),
-          ),
+        const sameTeams = wantedTeams.every((name) =>
+          rowTeams.some((candidate) => candidate && candidate === name),
         );
-      };
-      const matchingScorecard = scorecardRows.find((row) => {
-        const rowDate = String(row.date || "").slice(0, 10);
-        return (
-          scorecardMatchesTeams(row) &&
-          (!f.date || !rowDate || rowDate === String(f.date).slice(0, 10))
-        );
+        // Never use another date's scorecard. Prefer the official match ID when both sides expose it.
+        if (fixtureMatchId) return Boolean(rowId && rowId === fixtureMatchId);
+        return Boolean(f.date && rowDate === String(f.date).slice(0, 10) && sameTeams);
       });
-      // Use the latest saved same-teams scorecard as a clearly labelled fallback.
-      const fallbackScorecard = matchingScorecard || scorecardRows.find(scorecardMatchesTeams);
       let scorecardLoaded = false;
-      if (fallbackScorecard?.scorecard) {
+      if (exactScorecard?.scorecard) {
         try {
-          const scorecardResponse = await fetch(fallbackScorecard.scorecard, { cache: "no-store" });
+          const scorecardResponse = await fetch(exactScorecard.scorecard, { cache: "no-store" });
           if (scorecardResponse.ok) {
             const scorecardData = await scorecardResponse.json().catch(() => null);
             scorecardLoaded = renderScorecard(scorecardData);
-            if (scorecardLoaded && !matchingScorecard) {
-              const host = $("details-scoreboard");
-              const note = document.createElement("p");
-              note.className = "scoreboard-status";
-              note.textContent =
-                "Latest saved completed scorecard for these teams (" +
-                String(fallbackScorecard.date || "date unavailable") +
-                "). This is not a live score for the selected fixture.";
-              host.prepend(note);
-            }
           }
         } catch (_) {}
       }
-      if (!scorecardLoaded) {
-        scorecardLoaded = renderBcciResultBoard(
-          Array.isArray(resultsSnapshot?.matches) ? resultsSnapshot.matches : [],
-          f.team,
-          f.opponent,
-          f.date,
-        );
-      }
+      // BCCI results are completed-match summaries, not a live feed. Do not use them
+      // as a substitute for the selected fixture or accidentally show a prior match.
       if (!scorecardLoaded) {
         const scoreHost = $("details-scoreboard");
-        if (scoreHost)
+        const matchStarted = f.date && Date.parse(String(f.date) + "T" + String(f.time || "00:00") + ":00+05:30") <= Date.now();
+        if (scoreHost) {
           scoreHost.innerHTML =
-            '<div class="scoreboard-result"><h3>Scorecard not available yet</h3>' +
-            "<p>Full innings data has not been verified for this fixture. Existing match details remain available below.</p>" +
-            '<p class="scoreboard-status">Saved scorecards and BCCI result snapshot were checked; no matching detailed scorecard was found.</p></div>';
+            '<div class="scoreboard-result"><h3>' +
+            (matchStarted ? "Live score not available yet" : "Live scoreboard will appear when the match starts") +
+            '</h3><p>' +
+            (matchStarted
+              ? "No verified live score feed is connected for this match yet. The previous match score will not be shown here."
+              : "This fixture has not started. No score is shown yet, and previous matches are never used as a substitute.") +
+            '</p><p class="scoreboard-status">Fixture: ' +
+            escHtml([f.team, f.opponent, f.date].filter(Boolean).join(" · ")) +
+            '. Waiting for this match\'s own verified score data.</p></div>';
+        }
       }
       const a = f.team || "India",
         b = f.opponent || "Opponent TBA";
