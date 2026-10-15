@@ -563,20 +563,37 @@
       // Recent/played matches may no longer be present in the upcoming-fixtures snapshots.
       // For a Full Details link carrying a BCCI match ID, resolve only that exact ID from
       // the Python-generated results JSON; never guess by team names or a nearby date.
-      if (!resolvedFixture && matchId) {
+      if (!resolvedFixture && (matchId || (date && opponent))) {
         try {
           const response = await fetch(
-            "/matches/bcci-match-results.json?v=20261015-recent-match-details1",
+            "/matches/bcci-match-results.json?v=20261015-recent-match-details2",
             { cache: "no-store" },
           );
           if (response.ok) {
             const saved = await response.json().catch(() => null);
             const rows = Array.isArray(saved?.matches) ? saved.matches : [];
-            const exact = rows.find((row) =>
-              [row.gid, row.match_id, row.matchId]
-                .map((value) => String(value || "").trim())
-                .includes(String(matchId).trim()),
-            );
+            const normalizeTeam = (value) =>
+              String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+            const exact = rows.find((row) => {
+              const ids = [row.gid, row.match_id, row.matchId].map((value) =>
+                String(value || "").trim(),
+              );
+              if (matchId) return ids.includes(String(matchId).trim());
+              const rowDate = String(
+                row.start_date || row.end_date || row.match_date || row.date || "",
+              ).slice(0, 10);
+              const teams = [
+                row.team1_name || row.home_team_name || row.team1_short_name || "",
+                row.team2_name || row.away_team_name || row.team2_short_name || "",
+              ].map(normalizeTeam);
+              const wantedOpponent = normalizeTeam(opponent);
+              const wantedTeam = normalizeTeam(q.get("team") || "India");
+              return (
+                rowDate === String(date).slice(0, 10) &&
+                teams.includes(wantedOpponent) &&
+                teams.includes(wantedTeam)
+              );
+            });
             if (exact) {
               const home =
                 exact.team1_name ||
