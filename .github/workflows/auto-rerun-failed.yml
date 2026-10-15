@@ -5,13 +5,19 @@ on:
     workflows:
       - "Browser smoke tests"
       - "Format source code"
-      - "Refresh BCCI Tilak Videos"
-      - "Refresh ESPNcricinfo Bowling Stats"
-      - "Refresh Tilak death-overs stats"
-      - "Refresh ESPNcricinfo Statsguru"
-      - "Refresh Tilak Varma news"
-      - "Refresh Tilak Varma Match Scorecards"
-      - "Refresh Upcoming Matches from BCCI News JSON"
+      - "Refresh BCCI Live Matches"
+      - "Refresh BCCI Match Results"
+      - "Refresh BCCI Squads"
+      - "Refresh BCCI Stats Fixtures"
+      - "Refresh BCCI Videos"
+      - "Refresh Bowling Stats"
+      - "Refresh Death Overs"
+      - "Refresh ICC Records"
+      - "Refresh Match Scorecards"
+      - "Refresh Statsguru"
+      - "Refresh Tilak Data"
+      - "Refresh Tilak News"
+      - "Refresh Upcoming Matches"
       - "Validate Tilak Varma FC site"
     types: [completed]
 
@@ -20,13 +26,24 @@ permissions:
   contents: read
   issues: write
 
+# Recovery workflow must not listen to itself or other repair/monitor workflows.
 concurrency:
   group: auto-rerun-${{ github.event.workflow_run.id }}
   cancel-in-progress: false
 
 jobs:
   diagnose-and-retry:
-    name: Diagnose failure and retry failed jobs once
+    # Explicit allow-list blocks any recovery/monitor workflow from starting another recovery chain.
+    if: >-
+      github.event.workflow_run.name != 'Auto-rerun and diagnose failed GitHub Actions jobs' &&
+      github.event.workflow_run.name != 'Repository health monitor (10 minutes)' &&
+      github.event.workflow_run.name != 'Automation repository monitor (hourly)' &&
+      github.event.workflow_run.name != 'Job recovery manager' &&
+      github.event.workflow_run.name != 'Self-healing code guard' &&
+      github.event.workflow_run.name != 'Matches Safe Auto-Repair' &&
+      github.event.workflow_run.name != 'Matches Folder Audit (12h)' &&
+      github.event.workflow_run.name != 'Admin diagnostics' &&
+      github.event.workflow_run.name != 'Admin data editor tests'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -39,21 +56,8 @@ jobs:
             const issueTitle = `[Workflow Recovery] ${run.name}`;
             const runUrl = run.html_url || `${context.serverUrl}/${owner}/${repo}/actions/runs/${run.id}`;
 
-            // A later successful run closes the recovery issue for that workflow.
+            // Successful runs do not need a recovery action.
             if (run.conclusion === 'success') {
-              const { data: openIssues } = await github.rest.issues.listForRepo({
-                owner, repo, state: 'open', per_page: 100
-              });
-              const issue = openIssues.find(x => !x.pull_request && x.title === issueTitle);
-              if (issue) {
-                await github.rest.issues.createComment({
-                  owner, repo, issue_number: issue.number,
-                  body: `✅ Recovery check passed. Latest run: ${runUrl}`
-                });
-                await github.rest.issues.update({
-                  owner, repo, issue_number: issue.number, state: 'closed'
-                });
-              }
               core.notice(`Workflow completed successfully: ${run.name}`);
               return;
             }
@@ -68,11 +72,11 @@ jobs:
               owner, repo, run_id: run.id, per_page: 100
             });
             const failedJobs = data.jobs.filter(job =>
-              ['failure', 'timed_out', 'cancelled'].includes(job.conclusion)
+              ['failure', 'timed_out'].includes(job.conclusion)
             );
             const details = failedJobs.map(job => {
               const failedSteps = (job.steps || [])
-                .filter(step => ['failure', 'timed_out', 'cancelled'].includes(step.conclusion))
+                .filter(step => ['failure', 'timed_out'].includes(step.conclusion))
                 .map(step => `  - Step: ${step.name} — ${step.conclusion}`);
               return [
                 `- Job: ${job.name} — ${job.conclusion}`,
@@ -93,10 +97,10 @@ jobs:
               '',
               '### Recovery policy',
               attempt < 2
-                ? 'One automatic retry of failed jobs only will be requested. If it fails again, this issue remains open for a code-level fix.'
-                : 'Automatic retry limit reached. No further retry will be started, to prevent loops. Inspect the linked failed step logs and fix the underlying cause.',
+                ? 'One automatic retry of failed jobs only may be requested. If it fails again, fix the underlying cause.'
+                : 'Automatic retry limit reached. No further retry will be started.',
               '',
-              'This report identifies failed jobs and steps from GitHub Actions metadata. It does not claim a root cause until the logs or checks confirm it.'
+              'This report lists GitHub Actions metadata and does not assume a root cause without logs.'
             ].join('\n');
 
             const { data: openIssues } = await github.rest.issues.listForRepo({
@@ -114,19 +118,16 @@ jobs:
             }
 
             if (attempt >= 2) {
-              core.warning(`Retry limit reached for run ${run.id}; issue updated and no further retry will occur.`);
+              core.warning(`Retry limit reached for run ${run.id}; no further retry will occur.`);
               return;
             }
 
-            const retryable = failedJobs.filter(job =>
-              ['failure', 'timed_out'].includes(job.conclusion)
-            );
-            if (!retryable.length) {
+            if (!failedJobs.length) {
               core.warning('No failed/timed-out jobs eligible for retry. Diagnosis issue created.');
               return;
             }
 
-            core.notice(`Requesting one retry for ${retryable.length} failed/timed-out job(s) in run ${run.id}.`);
+            core.notice(`Requesting one retry for ${failedJobs.length} failed/timed-out job(s) in run ${run.id}.`);
             await github.request(
               'POST /repos/{owner}/{repo}/actions/runs/{run_id}/rerun-failed-jobs',
               { owner, repo, run_id: run.id }
