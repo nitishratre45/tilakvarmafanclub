@@ -280,7 +280,7 @@ def main():
     }
 
     def fetch_page(page_number):
-        source_url = re.sub(r"([?&]page=)\\d+", rf"\\g<1>{page_number}", SOURCE_URL)
+        source_url = SOURCE_URL.replace("page=1&size=12", f"page={page_number}&size=12")
         req = Request(source_url, headers=headers)
         with urlopen(req, timeout=30) as response:
             return json.loads(response.read().decode("utf-8-sig"))
@@ -338,14 +338,14 @@ def main():
         with tempfile.NamedTemporaryFile(
             mode="w",
             encoding="utf-8",
-            newline="\\n",
+            newline="\n",
             dir=OUTPUT.parent,
             prefix=f".{OUTPUT.name}.",
             suffix=".tmp",
             delete=False,
         ) as temp_file:
             temp_path = Path(temp_file.name)
-            temp_file.write(json.dumps(report, ensure_ascii=False, indent=2) + "\\n")
+            temp_file.write(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
             temp_file.flush()
             os.fsync(temp_file.fileno())
 
