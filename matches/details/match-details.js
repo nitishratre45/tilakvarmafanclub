@@ -248,17 +248,39 @@
       const statsFixtures = Array.isArray(statsSnapshot?.fixtures)
         ? statsSnapshot.fixtures.map((x) => ({ ...x, tilakInSquad: false }))
         : [];
+      const fixtureKey = (x) => {
+        const sides = [x.team, x.opponent]
+          .map((v) => String(v || "").trim().toLowerCase())
+          .filter(Boolean)
+          .sort();
+        return [String(x.date || "").trim(), ...sides].join("|");
+      };
       const byKey = new Map();
-      [...newsFixtures, ...statsFixtures].forEach((x) => {
-        const k = [x.date, x.match, x.opponent]
-          .map((v) =>
-            String(v || "")
-              .trim()
-              .toLowerCase(),
-          )
-          .join("|");
+      [...statsFixtures, ...newsFixtures].forEach((x) => {
+        const k = fixtureKey(x);
         const current = byKey.get(k);
-        if (!current || x.tilakInSquad === true) byKey.set(k, x);
+        if (!current) {
+          byKey.set(k, x);
+          return;
+        }
+        const preferred = x.tilakInSquad === true ? x : current;
+        const fallback = preferred === x ? current : x;
+        byKey.set(k, {
+          ...fallback,
+          ...preferred,
+          time: String(preferred.time || "").trim() || String(fallback.time || "").trim(),
+          match: preferred.tilakInSquad === true && preferred.match !== "Match"
+            ? preferred.match
+            : (fallback.match || preferred.match),
+          venue: String(preferred.venue || "").trim() || String(fallback.venue || "").trim(),
+          team: [preferred.team, preferred.opponent].some((v) => String(v || "").toLowerCase() === "india")
+            ? "India"
+            : (preferred.team || fallback.team),
+          opponent: [preferred.team, preferred.opponent].some((v) => String(v || "").toLowerCase() === "india")
+            ? ([preferred.team, preferred.opponent].find((v) => String(v || "").toLowerCase() !== "india") || fallback.opponent)
+            : (preferred.opponent || fallback.opponent),
+          tilakInSquad: Boolean(preferred.tilakInSquad || fallback.tilakInSquad),
+        });
       });
       const fixtures = [...byKey.values()];
       const date = q.get("date"),
