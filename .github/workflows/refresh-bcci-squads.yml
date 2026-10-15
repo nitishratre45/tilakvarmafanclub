@@ -2,7 +2,7 @@ name: Refresh BCCI Squads
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "17 */12 * * *"
   push:
     branches: [main]
     paths:
@@ -31,8 +31,8 @@ jobs:
       - name: Validate squads snapshot
         run: |
           if [ ! -f matches/bcci-squads.json ]; then
-            echo "No squad snapshot exists yet and the upstream provider denied access; skipping validation without creating fake data."
-            exit 0
+            echo "::error::Squad refresh did not create matches/bcci-squads.json; refusing to mark this run successful."
+            exit 1
           fi
           python -m json.tool matches/bcci-squads.json > /dev/null
           python - <<'PY'
@@ -52,8 +52,8 @@ jobs:
       - name: Commit snapshot if changed
         run: |
           if [ ! -f matches/bcci-squads.json ]; then
-            echo "No verified squad snapshot to commit; provider denied access and no data was written."
-            exit 0
+            echo "::error::No verified squad snapshot exists to publish."
+            exit 1
           fi
           git add matches/bcci-squads.json
           if git diff --cached --quiet; then echo "No squad changes."; exit 0; fi
