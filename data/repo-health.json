@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-15T17:26:29+00:00",
+  "checkedAt": "2026-10-15T18:51:30+00:00",
   "intervalMinutes": 10,
   "status": "healthy",
   "summary": {
-    "filesScanned": 434,
-    "checksPassed": 379,
+    "filesScanned": 435,
+    "checksPassed": 380,
     "issues": 0,
     "warnings": 0
   },
@@ -414,6 +414,11 @@
       "level": "pass",
       "message": "CSS block/string/comment structure OK",
       "file": "matches/recent-scorecard/recent-scorecard.css"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/all-matches-index.json"
     },
     {
       "level": "pass",
@@ -1254,11 +1259,6 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/scorecards/data/2026-02-18-t20i-india-vs-netherlands-0d24435c4164.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2026-02-22-t20-india-vs-south-africa-7ffd51ae832a.json"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "7c7dad05"
+    "branch": "d5bb07d4"
   }
 }
