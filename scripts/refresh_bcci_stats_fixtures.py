@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Fetch BCCI Stats fixtures and normalize them into a same-origin JSON snapshot."""
-import json, re, sys
+import json, os, re, sys, tempfile
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
@@ -301,10 +301,50 @@ def main():
         "fixtureCount": len(fixtures),
         "fixtures": fixtures,
     }
+    # Write to a temporary file in the same directory, then atomically replace.
+    # Any fetch/parse/validation/write failure before os.replace leaves the old
+    # published snapshot untouched.
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(
-        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
+    temp_path = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            newline="\n",
+            dir=OUTPUT.parent,
+            prefix=f".{OUTPUT.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as temp_file:
+            temp_path = Path(temp_file.name)
+            temp_file.write(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+            temp_file.flush()
+            os.fsync(temp_file.fileno())
+
+        # Validate the exact bytes we are about to publish.
+        candidate = json.loads(temp_path.read_text(encoding="utf-8"))
+        if (
+            candidate.get("status") != "updated-from-bcci-stats"
+            or not isinstance(candidate.get("fixtures"), list)
+            or not candidate["fixtures"]
+        ):
+            raise ValueError("Generated snapshot failed final validation")
+
+        os.replace(temp_path, OUTPUT)
+        temp_path = None
+    except Exception as exc:
+        print(
+            f"ERROR: snapshot write/validation failed; previous snapshot preserved: {exc}",
+            file=sys.stderr,
+        )
+        return 3
+    finally:
+        if temp_path is not None:
+            try:
+                temp_path.unlink(missing_ok=True)
+            except OSError:
+                pass
+
     print(f"Saved {len(fixtures)} future fixtures to {OUTPUT.relative_to(ROOT)}")
     for f in fixtures[:12]:
         print(
