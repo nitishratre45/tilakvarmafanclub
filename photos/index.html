@@ -159,17 +159,46 @@
         </svg>
         <span>Videos</span>
       </a>
-      <button type="button" class="tv-mobile-menu-trigger" aria-expanded="false" aria-controls="tv-mobile-extra-menu">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><path d="M4 5h16M4 19h16"/></svg>
+      <button
+        type="button"
+        class="tv-mobile-menu-trigger"
+        aria-expanded="false"
+        aria-controls="tv-mobile-extra-menu"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="5" cy="12" r="1" />
+          <circle cx="12" cy="12" r="1" />
+          <circle cx="19" cy="12" r="1" />
+          <path d="M4 5h16M4 19h16" />
+        </svg>
         <span>Menu</span>
       </button>
     </nav>
     <div class="tv-mobile-extra-menu" id="tv-mobile-extra-menu" hidden>
-      <div class="tv-mobile-extra-menu__heading"><span>MORE SECTIONS</span><button type="button" class="tv-mobile-menu-close" aria-label="Close menu">×</button></div>
-      <a href="/stats/"><span class="tv-extra-icon">▥</span><span><strong>Stats</strong><small>Career and player statistics</small></span><span class="tv-extra-arrow">↗</span></a>
-      <a href="/death-overs/"><span class="tv-extra-icon">◷</span><span><strong>Death-overs</strong><small>Finishing-overs analysis</small></span><span class="tv-extra-arrow">↗</span></a>
-      <a href="/records/"><span class="tv-extra-icon">✦</span><span><strong>Records</strong><small>Milestones and achievements</small></span><span class="tv-extra-arrow">↗</span></a>
-      <a href="/news/"><span class="tv-extra-icon">▤</span><span><strong>News</strong><small>Latest updates</small></span><span class="tv-extra-arrow">↗</span></a>
+      <div class="tv-mobile-extra-menu__heading">
+        <span>MORE SECTIONS</span
+        ><button type="button" class="tv-mobile-menu-close" aria-label="Close menu">×</button>
+      </div>
+      <a href="/stats/"
+        ><span class="tv-extra-icon">▥</span
+        ><span><strong>Stats</strong><small>Career and player statistics</small></span
+        ><span class="tv-extra-arrow">↗</span></a
+      >
+      <a href="/death-overs/"
+        ><span class="tv-extra-icon">◷</span
+        ><span><strong>Death-overs</strong><small>Finishing-overs analysis</small></span
+        ><span class="tv-extra-arrow">↗</span></a
+      >
+      <a href="/records/"
+        ><span class="tv-extra-icon">✦</span
+        ><span><strong>Records</strong><small>Milestones and achievements</small></span
+        ><span class="tv-extra-arrow">↗</span></a
+      >
+      <a href="/news/"
+        ><span class="tv-extra-icon">▤</span
+        ><span><strong>News</strong><small>Latest updates</small></span
+        ><span class="tv-extra-arrow">↗</span></a
+      >
     </div>
     <script>
       (() => {
@@ -183,14 +212,23 @@
           panel.hidden = !open;
         };
         trigger.addEventListener("click", () => setOpen(panel.hidden));
-        close?.addEventListener("click", () => { setOpen(false); trigger.focus(); });
+        close?.addEventListener("click", () => {
+          setOpen(false);
+          trigger.focus();
+        });
         document.addEventListener("keydown", (event) => {
-          if (event.key === "Escape" && !panel.hidden) { setOpen(false); trigger.focus(); }
+          if (event.key === "Escape" && !panel.hidden) {
+            setOpen(false);
+            trigger.focus();
+          }
         });
         document.addEventListener("click", (event) => {
-          if (!panel.hidden && !panel.contains(event.target) && !trigger.contains(event.target)) setOpen(false);
+          if (!panel.hidden && !panel.contains(event.target) && !trigger.contains(event.target))
+            setOpen(false);
         });
-        panel.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
+        panel
+          .querySelectorAll("a")
+          .forEach((link) => link.addEventListener("click", () => setOpen(false)));
       })();
     </script>
     <footer>
