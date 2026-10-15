@@ -578,11 +578,23 @@
                 .includes(String(matchId).trim()),
             );
             if (exact) {
-              const home = exact.team1_name || exact.home_team_name || exact.team1 || exact.home_team || "";
-              const away = exact.team2_name || exact.away_team_name || exact.team2 || exact.away_team || "";
-              const rawDate = exact.start_date || exact.match_date || exact.date || exact.start_datetime_utc || "";
+              const home =
+                exact.team1_name || exact.home_team_name || exact.team1 || exact.home_team || "";
+              const away =
+                exact.team2_name || exact.away_team_name || exact.team2 || exact.away_team || "";
+              const rawDate =
+                exact.start_date ||
+                exact.match_date ||
+                exact.date ||
+                exact.start_datetime_utc ||
+                "";
               const parsedDate = String(rawDate).slice(0, 10);
-              const matchLabel = exact.match_short_name || exact.name || exact.match_name || exact.match_type || "Match";
+              const matchLabel =
+                exact.match_short_name ||
+                exact.name ||
+                exact.match_name ||
+                exact.match_type ||
+                "Match";
               resolvedFixture = {
                 date: parsedDate,
                 match: matchLabel,
