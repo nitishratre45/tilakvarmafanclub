@@ -303,15 +303,15 @@ html body.tv-bottom-nav-enabled {
 
 /* Keep the fixed bar visually present without intercepting clicks on page controls
    that are scrolled underneath its transparent gaps. */
-@media screen and (max-width:800px) {
+@media screen and (max-width: 800px) {
   html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav {
-    pointer-events:none !important;
+    pointer-events: none !important;
   }
   html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > a,
   html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > button {
-    pointer-events:auto !important;
+    pointer-events: auto !important;
   }
   html body.tv-bottom-nav-enabled > .tv-mobile-extra-menu:not([hidden]) {
-    pointer-events:auto !important;
+    pointer-events: auto !important;
   }
 }
