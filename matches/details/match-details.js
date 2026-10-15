@@ -1173,17 +1173,17 @@
             .replace(/[^a-z0-9]/g, "")
             .replace(/unitedstatesofamerica/g, "usa");
         const wantedTeams = [a, b].map(normaliseRecentTeam).filter(Boolean);
+        // Show the recent match history for either team in the selected fixture,
+        // not only head-to-head meetings between the same two teams.
         const recentArchiveResults = archiveMatches
-          .filter((row) => {
-            const rowTeams = [row.team, row.opposition].map(normaliseRecentTeam);
-            return (
-              wantedTeams.length === 2 &&
-              wantedTeams.every((name) => rowTeams.includes(name)) &&
-              String(row.date || "").slice(0, 10) < String(f.date || "9999-12-31").slice(0, 10)
-            );
-          })
+          .filter((row) =>
+            [row.team, row.opposition].some((name) =>
+              wantedTeams.includes(normaliseRecentTeam(name))
+            ) &&
+            String(row.date || "").slice(0, 10) < String(f.date || "9999-12-31").slice(0, 10)
+          )
           .sort((left, right) => String(right.date || "").localeCompare(String(left.date || "")))
-          .slice(0, 6);
+          .slice(0, 12);
         recentResultsHost.innerHTML = recentArchiveResults.length
           ? recentArchiveResults
               .map((row) => {
