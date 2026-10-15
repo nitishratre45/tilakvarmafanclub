@@ -490,13 +490,17 @@
         [x.matchId, x.match_id, x.gid, x.fixtureId, x.id, x.rawBcci?.match_id, x.rawBcci?.gid]
           .map((v) => String(v || "").trim())
           .filter(Boolean);
-      const f = fixtures.find((x) =>
-        matchId
-          ? fixtureIds(x).includes(matchId)
-          : (!date || x.date === date) &&
-            (!match || String(x.match || "").toLowerCase() === match.toLowerCase()) &&
-            (!opponent || String(x.opponent || "").toLowerCase() === opponent.toLowerCase()),
-      );
+      // Prefer the official ID, but allow the exact date + match label + opponent
+      // route key if an older cached link carries a stale/missing provider ID.
+      // This is not a score fallback: it only resolves the requested fixture.
+      const f =
+        (matchId ? fixtures.find((x) => fixtureIds(x).includes(matchId)) : null) ||
+        fixtures.find(
+          (x) =>
+            (!date || x.date === date) &&
+            (!match || String(x.match || "").trim().toLowerCase() === match.trim().toLowerCase()) &&
+            (!opponent || String(x.opponent || "").trim().toLowerCase() === opponent.trim().toLowerCase()),
+        );
       if (!f) {
         set("details-title", "Match details unavailable");
         set(
@@ -525,16 +529,42 @@
         .map((v) => String(v || "").trim())
         .filter(Boolean);
       // Live scoreboard waits for the official ID; never substitute by date/team.
-      const exactScorecard = fixtureMatchId
+      const exactScorecardById = fixtureMatchId
         ? scorecardRows.find((row) => {
-            const rowId = String(row.matchId || row.match_id || row.gid || "").trim();
-            return Boolean(rowId && rowId === fixtureMatchId);
+            const rowIds = [row.matchId, row.match_id, row.gid].map((v) => String(v || "").trim());
+            return rowIds.includes(fixtureMatchId);
           })
         : null;
+      const normaliseTeam = (value) => scorecardTeamKey(value).replace(/unitedstatesofamerica/g, "usa");
+      const formatKey = (value) => {
+        const label = String(value || "").toLowerCase();
+        if (/t20i|twenty20 international/.test(label)) return "t20i";
+        if (/\bodi\b|one day international/.test(label)) return "odi";
+        if (/test|first.class/.test(label)) return "test";
+        return "";
+      };
+      // Cricsheet uses its own archive IDs, not BCCI match IDs. Connect only an
+      // exact same-date, same-teams, same-format scorecard from the archive.
+      const exactScorecardByFixture =
+        exactScorecardById ||
+        scorecardRows.find((row) => {
+          const sameDate = String(row.date || "").slice(0, 10) === String(f.date || "").slice(0, 10);
+          const fixtureTeams = [f.team, f.opponent].map(normaliseTeam).filter(Boolean).sort();
+          const scorecardTeams = [row.team, row.opposition].map(normaliseTeam).filter(Boolean).sort();
+          const fixtureFormat = formatKey(f.match || f.format);
+          const scorecardFormat = formatKey(row.format);
+          return (
+            sameDate &&
+            fixtureTeams.length === 2 &&
+            fixtureTeams[0] === scorecardTeams[0] &&
+            fixtureTeams[1] === scorecardTeams[1] &&
+            (!fixtureFormat || !scorecardFormat || fixtureFormat === scorecardFormat)
+          );
+        });
       let scorecardLoaded = false;
-      if (exactScorecard?.scorecard) {
+      if (exactScorecardByFixture?.scorecard) {
         try {
-          const scorecardResponse = await fetch(exactScorecard.scorecard, { cache: "no-store" });
+          const scorecardResponse = await fetch(exactScorecardByFixture.scorecard, { cache: "no-store" });
           if (scorecardResponse.ok) {
             const scorecardData = await scorecardResponse.json().catch(() => null);
             scorecardLoaded = renderScorecard(scorecardData);
