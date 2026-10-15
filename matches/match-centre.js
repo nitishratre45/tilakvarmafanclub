@@ -235,17 +235,8 @@
         ...f,
         ...(overrides.get(sourceKey(f)) || exact.get(manualFixtureKey(f)) || {}),
       }));
-      const sourceKeys = new Set(fixtures.map(fixtureKey));
-      manual.forEach((f) => {
-        if (
-          !f.overrideKey &&
-          f.tilakInSquad === true &&
-          f.confirmationSource === "BCCI squad announcement naming Tilak Varma" &&
-          !sourceKeys.has(fixtureKey(f))
-        ) {
-          fixtures.push(f);
-        }
-      });
+      // Manual records may annotate an exact verified fixture, but cannot add a
+      // new Upcoming card without the News + exact BCCI fixture join above.
       const today = new Intl.DateTimeFormat("en-CA", {
         timeZone: "Asia/Kolkata",
         year: "numeric",
