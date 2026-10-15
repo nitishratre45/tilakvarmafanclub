@@ -1477,7 +1477,6 @@ body > footer {
   }
 }
 
-
 /* 2026-10-15 mobile career tables: reliable horizontal touch scrolling and summary label */
 .home-snapshot-section .home-career-table-wrap {
   position: relative;
@@ -1525,25 +1524,43 @@ body > footer {
   padding: 10px 20px;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 190, 65, .6);
+  border: 1px solid rgba(255, 190, 65, 0.6);
   border-radius: 999px;
-  background: linear-gradient(110deg, rgba(255, 153, 51, .1), rgba(255, 211, 92, .12), rgba(54, 201, 143, .08));
-  box-shadow: 0 0 18px rgba(255, 173, 51, .13), inset 0 0 12px rgba(255, 210, 91, .06);
+  background: linear-gradient(
+    110deg,
+    rgba(255, 153, 51, 0.1),
+    rgba(255, 211, 92, 0.12),
+    rgba(54, 201, 143, 0.08)
+  );
+  box-shadow:
+    0 0 18px rgba(255, 173, 51, 0.13),
+    inset 0 0 12px rgba(255, 210, 91, 0.06);
   animation: career-summary-glow 3s ease-in-out infinite;
 }
 .home-snapshot-section .home-summary-animated-label .eyebrow {
   margin: 0;
   color: #ffd65a;
   font-family: "Barlow Condensed", "Manrope", sans-serif;
-  font-size: clamp(.9rem, 3vw, 1.15rem);
+  font-size: clamp(0.9rem, 3vw, 1.15rem);
   font-weight: 900;
-  letter-spacing: .2em;
+  letter-spacing: 0.2em;
   text-align: center;
-  text-shadow: 0 0 10px rgba(255, 191, 58, .4);
+  text-shadow: 0 0 10px rgba(255, 191, 58, 0.4);
 }
 @keyframes career-summary-glow {
-  0%, 100% { border-color: rgba(255, 170, 45, .45); box-shadow: 0 0 12px rgba(255, 170, 45, .1), inset 0 0 8px rgba(255, 210, 91, .04); }
-  50% { border-color: rgba(255, 220, 92, .95); box-shadow: 0 0 24px rgba(255, 170, 45, .25), inset 0 0 14px rgba(255, 210, 91, .1); }
+  0%,
+  100% {
+    border-color: rgba(255, 170, 45, 0.45);
+    box-shadow:
+      0 0 12px rgba(255, 170, 45, 0.1),
+      inset 0 0 8px rgba(255, 210, 91, 0.04);
+  }
+  50% {
+    border-color: rgba(255, 220, 92, 0.95);
+    box-shadow:
+      0 0 24px rgba(255, 170, 45, 0.25),
+      inset 0 0 14px rgba(255, 210, 91, 0.1);
+  }
 }
 @media (max-width: 680px) {
   .home-snapshot-section .home-career-table-wrap {
@@ -1558,5 +1575,7 @@ body > footer {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .home-snapshot-section .home-summary-animated-label { animation: none !important; }
+  .home-snapshot-section .home-summary-animated-label {
+    animation: none !important;
+  }
 }
