@@ -123,8 +123,18 @@ def main():
             details = "; ".join(
                 f"{name} team_id={team_id}: {exc}" for team_id, name, exc in errors
             )
+            # A blocked upstream endpoint is not a successful data refresh, but it
+            # is also not a reason to fail the scheduled maintenance job. Never
+            # replace the existing snapshot with incomplete or invented squads.
+            if OUTPUT.exists():
+                print(
+                    "NO UPDATE: squad provider unavailable; keeping the existing "
+                    f"snapshot unchanged. Details: {details}",
+                    file=sys.stderr,
+                )
+                return 0
             raise ValueError(
-                f"Could not refresh every required squad ({details}); saved snapshot preserved"
+                f"Could not refresh every required squad and no saved snapshot exists ({details})"
             )
 
         squads = {}
