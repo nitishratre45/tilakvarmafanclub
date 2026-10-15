@@ -1166,7 +1166,14 @@
       // BCCI result JSON may be empty, so this section must not depend on it.
       const recentResultsHost = $("recent-match-results");
       if (recentResultsHost) {
-        const archiveMatches = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
+        let recentArchiveIndex = scorecardIndex;
+        if (!Array.isArray(recentArchiveIndex?.matches)) {
+          try {
+            const recentIndexResponse = await fetch("/matches/scorecards/index.json?v=20261015-recent-results-fallback2", { cache: "no-store" });
+            if (recentIndexResponse.ok) recentArchiveIndex = await recentIndexResponse.json();
+          } catch (_) {}
+        }
+        const archiveMatches = Array.isArray(recentArchiveIndex?.matches) ? recentArchiveIndex.matches : [];
         const normaliseRecentTeam = (value) =>
           String(value || "")
             .toLowerCase()
