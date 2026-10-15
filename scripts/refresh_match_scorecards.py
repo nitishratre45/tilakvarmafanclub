@@ -415,7 +415,7 @@ def main():
     }
     ALL_MATCHES_INDEX.parent.mkdir(parents=True, exist_ok=True)
     ALL_MATCHES_INDEX.write_text(
-        json.dumps(all_matches_index, ensure_ascii=False, indent=2) + "\\n",
+        json.dumps(all_matches_index, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
     # Cricsheet all_json.zip already includes Syed Mushtaq Ali Trophy; verified SMAT matches are indexed with ball-by-ball deliveries.
