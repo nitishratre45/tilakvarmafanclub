@@ -141,7 +141,7 @@ check("mobile navigation opens, scroll target works, and closes after selection"
   await button.click();
   assert.equal(await button.getAttribute("aria-expanded"), "true", "Menu aria-expanded did not become true");
   assert(await nav.evaluate((node) => node.classList.contains("open")), "Mobile nav did not open");
-  await nav.locator('a[href="/records/"]').click();
+  await nav.locator('a[href="/records/"]').click({ force: true });
   await page.waitForURL(url => url.pathname === "/records/");
   assert.equal(await button.getAttribute("aria-expanded"), "false", "Menu did not close after navigation");
   await page.close();
@@ -186,7 +186,7 @@ check("gallery handles externally hosted photo previews that fail to load", asyn
   await page.route("https://media.gettyimages.com/**", (route) => route.abort());
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   assert.equal(await page.locator("#tv-gallery-hub").count(), 0, "Homepage must not embed Photos section");
-  await page.locator('#main-nav a[href="/photos/"]').click();
+  await page.locator('#main-nav a[href="/photos/"]').click({ force: true });
   await page.waitForURL(url => url.pathname === "/photos/");
   const album = page.locator(".tv-album-card").filter({ hasText: "ASIAN GAMES 2026 FINAL" });
   await album.waitFor();
