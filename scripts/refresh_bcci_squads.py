@@ -48,6 +48,14 @@ def fetch(team_id, expected_name):
         )
     teams = payload.get("teams")
     if not isinstance(teams, list):
+        # The endpoint is currently returning {"error": ...} for team_id=6.
+        # Treat provider-side errors as a transient refresh failure, retaining
+        # the last saved squad snapshot and letting the scheduled job retry.
+        if payload.get("error"):
+            message = str(payload["error"]).replace("\\n", " ").strip()[:240]
+            raise ValueError(
+                f"Squads provider error for team_id={team_id}: {message}; saved snapshot preserved"
+            )
         keys = ", ".join(sorted(str(k) for k in payload.keys())[:12]) or "no keys"
         raise ValueError(
             f"Unexpected squads response for team_id={team_id} (keys: {keys}); saved snapshot preserved"
