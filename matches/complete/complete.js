@@ -176,9 +176,6 @@
           '</div><div class="complete-match-result">' +
           esc(m.result || "Result unavailable") +
           '</div><div class="complete-match-bottom">' +
-          '<a class="scorecard-open" href="/matches/details/?matchId=' +
-          encodeURIComponent(m.matchId) +
-          '">Full details ↗</a>' +
           (m.hasScorecard !== false
             ? '<a class="scorecard-open" href="/matches/scorecards/?match=' +
               encodeURIComponent(m.matchId) +
