@@ -513,3 +513,13 @@ html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(3) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+
+/* Desktop navigation uses the full link row; hamburger is mobile-only. */
+@media (min-width: 801px) {
+  html body > header.topbar > .menu-toggle {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
