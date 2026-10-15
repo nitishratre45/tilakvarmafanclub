@@ -155,9 +155,7 @@
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, " ")
           .trim();
-      const statsFixtures = Array.isArray(statsPayload?.fixtures)
-        ? statsPayload.fixtures
-        : [];
+      const statsFixtures = Array.isArray(statsPayload?.fixtures) ? statsPayload.fixtures : [];
       const newsFixtures = Array.isArray(newsPayload?.fixtures)
         ? newsPayload.fixtures.map((f) => ({ ...f, team: f.team || "India", tilakInSquad: true }))
         : [];
