@@ -39,9 +39,10 @@
     ["photos", "Photos", "/photos/"],
     ["videos", "Videos", "/videos/"],
   ];
-  const nav = document.createElement("nav");
+  const nav = document.querySelector("body > nav.tv-mobile-bottom-nav") || document.createElement("nav");
   nav.className = "tv-mobile-bottom-nav";
   nav.setAttribute("aria-label", "Mobile quick navigation");
+  nav.replaceChildren();
   items.forEach(([key, label, url]) => {
     const a = document.createElement("a");
     a.href = url;
@@ -63,10 +64,11 @@
   if (["stats", "death-overs", "records", "news"].includes(current))
     trigger.classList.add("is-active");
   nav.appendChild(trigger);
-  const panel = document.createElement("div");
+  const panel = document.querySelector("body > .tv-mobile-extra-menu#tv-mobile-extra-menu") || document.createElement("div");
   panel.className = "tv-mobile-extra-menu";
   panel.id = "tv-mobile-extra-menu";
   panel.hidden = true;
+  panel.replaceChildren();
   const more = [
     ["stats", "Stats", "Career and player statistics", "/stats/", "▥"],
     ["death-overs", "Death-overs", "Finishing-overs analysis", "/death-overs/", "◷"],
@@ -92,7 +94,8 @@
       '</small></span><span class="tv-extra-arrow" aria-hidden="true">↗</span>';
     panel.appendChild(a);
   });
-  document.body.append(nav, panel);
+  if (nav.parentElement !== document.body) document.body.appendChild(nav);
+  if (panel.parentElement !== document.body) document.body.appendChild(panel);
   const close = panel.querySelector(".tv-mobile-menu-close");
   const setOpen = (open) => {
     panel.hidden = !open;
