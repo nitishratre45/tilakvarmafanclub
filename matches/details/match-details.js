@@ -501,25 +501,38 @@
       const detail = (manual.matches || []).find((x) => key(x) === key(f)) || {};
       const scorecardRows = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
       const normalizedTeam = (value) => scorecardTeamKey(value);
-      const matchingScorecard = scorecardRows.find((row) => {
-        const rowDate = String(row.date || "").slice(0, 10);
-        const sameDate = !f.date || !rowDate || rowDate === String(f.date).slice(0, 10);
+      const scorecardMatchesTeams = (row) => {
         const rowTeams = [row.team, row.opposition].map(normalizedTeam);
         const wantedTeams = [f.team, f.opponent].map(normalizedTeam);
-        const sameTeams = wantedTeams.every((name) =>
+        return wantedTeams.every((name) =>
           rowTeams.some(
             (candidate) => candidate && (candidate.includes(name) || name.includes(candidate)),
           ),
         );
-        return sameDate && sameTeams;
+      };
+      const matchingScorecard = scorecardRows.find((row) => {
+        const rowDate = String(row.date || "").slice(0, 10);
+        return scorecardMatchesTeams(row) &&
+          (!f.date || !rowDate || rowDate === String(f.date).slice(0, 10));
       });
+      // Use the latest saved same-teams scorecard as a clearly labelled fallback.
+      const fallbackScorecard = matchingScorecard || scorecardRows.find(scorecardMatchesTeams);
       let scorecardLoaded = false;
-      if (matchingScorecard?.scorecard) {
+      if (fallbackScorecard?.scorecard) {
         try {
-          const scorecardResponse = await fetch(matchingScorecard.scorecard, { cache: "no-store" });
+          const scorecardResponse = await fetch(fallbackScorecard.scorecard, { cache: "no-store" });
           if (scorecardResponse.ok) {
             const scorecardData = await scorecardResponse.json().catch(() => null);
             scorecardLoaded = renderScorecard(scorecardData);
+            if (scorecardLoaded && !matchingScorecard) {
+              const host = $("details-scoreboard");
+              const note = document.createElement("p");
+              note.className = "scoreboard-status";
+              note.textContent = "Latest saved completed scorecard for these teams (" +
+                String(fallbackScorecard.date || "date unavailable") +
+                "). This is not a live score for the selected fixture.";
+              host.prepend(note);
+            }
           }
         } catch (_) {}
       }
