@@ -35,7 +35,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for attempt in 1 2 3; do
+          for attempt in 1 2 3 4 5 6; do
             git fetch origin main
             git reset --hard origin/main
             python -u scripts/refresh_bowling.py
@@ -50,7 +50,7 @@ jobs:
             git commit -m "chore: refresh ESPNcricinfo bowling data"
             if git push origin HEAD:main; then exit 0; fi
             echo "Concurrent update on attempt $attempt; retrying from latest main."
-            sleep 2
+            sleep $((attempt * 5))
           done
           echo "Unable to publish bowling data after 3 attempts."
           exit 1
