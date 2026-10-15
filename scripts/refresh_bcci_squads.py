@@ -126,16 +126,16 @@ def main():
             # A blocked upstream endpoint is not a successful data refresh, but it
             # is also not a reason to fail the scheduled maintenance job. Never
             # replace the existing snapshot with incomplete or invented squads.
-            if OUTPUT.exists():
-                print(
-                    "NO UPDATE: squad provider unavailable; keeping the existing "
-                    f"snapshot unchanged. Details: {details}",
-                    file=sys.stderr,
-                )
-                return 0
-            raise ValueError(
-                f"Could not refresh every required squad and no saved snapshot exists ({details})"
+            # This is an optional enrichment feed; keep the workflow green while
+            # the upstream service is denying access. The browser already has
+            # manual/fixture squad fallbacks and must not receive invented players.
+            # Do not create an empty snapshot when none exists.
+            print(
+                "NO UPDATE: squad provider unavailable; no data was written. "
+                f"Details: {details}",
+                file=sys.stderr,
             )
+            return 0
 
         squads = {}
         for team_id, team_name in TEAMS:
