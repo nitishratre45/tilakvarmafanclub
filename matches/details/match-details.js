@@ -1170,7 +1170,7 @@
         if (!Array.isArray(recentArchiveIndex?.matches)) {
           try {
             const recentIndexResponse = await fetch(
-              "/matches/scorecards/index.json?v=20261015-recent-results-fallback2",
+              "/matches/scorecards/all-matches-index.json?v=20261016-all-team-results1",
               { cache: "no-store" },
             );
             if (recentIndexResponse.ok) recentArchiveIndex = await recentIndexResponse.json();
@@ -1247,8 +1247,8 @@
                           })
                         : "Date unavailable";
                       const scorecardUrl =
-                        typeof row.matchId === "string" && row.matchId
-                          ? "/matches/recent-scorecard/?matchId=" + encodeURIComponent(row.matchId)
+                        typeof row.scorecard === "string" && row.scorecard.startsWith("/matches/scorecards/data/")
+                          ? row.scorecard
                           : "";
                       return (
                         '<article class="recent-result-row"><span class="recent-result-badge recent-result-' +
