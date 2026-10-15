@@ -610,24 +610,37 @@
       set("squad-team-heading", a + " squad");
       set("squad-opponent-heading", b + " squad");
       const matchLabel = String(f.match || detail.format || f.format || "");
-      const squadClassId = /t20/i.test(matchLabel) ? "3" : /odi|one.?day/i.test(matchLabel) ? "2" : "";
+      const squadClassId = /t20/i.test(matchLabel)
+        ? "3"
+        : /odi|one.?day/i.test(matchLabel)
+          ? "2"
+          : "";
       const savedSquads = Array.isArray(squadsSnapshot?.squads) ? squadsSnapshot.squads : [];
       const rawFixture = f.rawBcci || {};
       const idForTeam = (teamName) => {
-        const wanted = String(teamName || "").trim().toLowerCase();
-        const firstName = String(rawFixture.team1_name || rawFixture.home_team_name || "").trim().toLowerCase();
-        const secondName = String(rawFixture.team2_name || rawFixture.away_team_name || "").trim().toLowerCase();
-        if (wanted && wanted === firstName) return String(rawFixture.team1_id || rawFixture.home_team_id || "");
-        if (wanted && wanted === secondName) return String(rawFixture.team2_id || rawFixture.away_team_id || "");
+        const wanted = String(teamName || "")
+          .trim()
+          .toLowerCase();
+        const firstName = String(rawFixture.team1_name || rawFixture.home_team_name || "")
+          .trim()
+          .toLowerCase();
+        const secondName = String(rawFixture.team2_name || rawFixture.away_team_name || "")
+          .trim()
+          .toLowerCase();
+        if (wanted && wanted === firstName)
+          return String(rawFixture.team1_id || rawFixture.home_team_id || "");
+        if (wanted && wanted === secondName)
+          return String(rawFixture.team2_id || rawFixture.away_team_id || "");
         if (wanted === "india") return "6";
         if (wanted === "west indies") return "4";
         return "";
       };
       const teamId = idForTeam(a);
       const opponentTeamId = idForTeam(b);
-      const findSquad = (id) => id && squadClassId
-        ? savedSquads.find((s) => String(s.teamId) === id && String(s.classId) === squadClassId)
-        : null;
+      const findSquad = (id) =>
+        id && squadClassId
+          ? savedSquads.find((s) => String(s.teamId) === id && String(s.classId) === squadClassId)
+          : null;
       const teamSquad = findSquad(teamId);
       const opponentSquad = findSquad(opponentTeamId);
       const adaptPlayers = (squad) =>
@@ -654,13 +667,13 @@
       showPlayers("squad-team-list", homePlayers);
       showPlayers("squad-opponent-list", awayPlayers);
       if (!homePlayers.length || !awayPlayers.length) {
-        const missingSides = [
-          !homePlayers.length ? a : "",
-          !awayPlayers.length ? b : "",
-        ].filter(Boolean).join(" and ");
+        const missingSides = [!homePlayers.length ? a : "", !awayPlayers.length ? b : ""]
+          .filter(Boolean)
+          .join(" and ");
         set(
           "playing-xi-note",
-          "Squad data is not available for " + missingSides +
+          "Squad data is not available for " +
+            missingSides +
             ". Official squad snapshot is missing or does not include this team/format yet. Existing match details are unchanged.",
         );
       }
