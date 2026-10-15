@@ -76,7 +76,7 @@
     };
     img.src = photo.safe;
     img.alt = photo.title || "Tilak Varma photo";
-    caption.textContent = displayTitle(photo) + " · " + (photo.album || "General Photos");
+    caption.textContent = displayTitle(photo);
     lightbox.classList.add("is-open");
     document.body.classList.add("lightbox-locked");
     lightbox.querySelector(".lightbox-close").focus();
@@ -93,7 +93,7 @@
   function render() {
     const term = search.value.trim().toLowerCase();
     filtered = photos.filter((photo) =>
-      [displayTitle(photo), photo.album, photo.createdAt].some((value) =>
+      [displayTitle(photo), photo.createdAt].some((value) =>
         String(value || "")
           .toLowerCase()
           .includes(term),
@@ -101,11 +101,7 @@
     );
     const order = sort.value;
     filtered.sort((a, b) => {
-      if (order === "album")
-        return (
-          String(a.album || "").localeCompare(String(b.album || "")) ||
-          String(a.title || "").localeCompare(String(b.title || ""))
-        );
+      if (order === "album") return String(a.title || "").localeCompare(String(b.title || ""));
       const at = Date.parse(a.createdAt || "") || 0;
       const bt = Date.parse(b.createdAt || "") || 0;
       return order === "oldest" ? at - bt : bt - at;
@@ -137,9 +133,7 @@
           escapeHTML(displayTitle(photo)) +
           "</strong><small>" +
           escapeHTML(date) +
-          "</small><em>" +
-          escapeHTML(photo.album || "General Photos") +
-          "</em></span></button>"
+          "</small></span></button>"
         );
       })
       .join("");
@@ -173,7 +167,7 @@
     visibleCount += 40;
     render();
   });
-  fetch("/data/admin-media.json?v=20261015-allphotos1", { cache: "no-store" })
+  fetch("/photos/all-photos/photos.json?v=20261015-archive1", { cache: "no-store" })
     .then((response) => {
       if (!response.ok) throw new Error("Photo data unavailable");
       return response.json();
