@@ -81,7 +81,11 @@
     () => {
       if (window.matchMedia("(min-width: 801px)").matches) {
         const parts = getParts();
-        if (parts) finishClose(parts);
+        if (!parts) return;
+        // A desktop resize must cancel a pending mobile close and clear all mobile state.
+        window.clearTimeout(closeTimer);
+        parts.nav.classList.remove("open", "is-open");
+        finishClose(parts);
       }
     },
     { passive: true },
