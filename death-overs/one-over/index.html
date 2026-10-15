@@ -368,7 +368,11 @@
           const currentPath = normalizePath(window.location.pathname);
           nav.querySelectorAll("a").forEach((link) => {
             const linkUrl = new URL(link.getAttribute("href"), window.location.href);
-            const isCurrent = normalizePath(linkUrl.pathname) === currentPath;
+            const linkPath = normalizePath(linkUrl.pathname);
+            // Keep the parent Death-overs item active on both All Overs and One Over pages.
+            const isDeathOversSection =
+              currentPath.startsWith("/death-overs/") && linkPath === "/death-overs";
+            const isCurrent = linkPath === currentPath || isDeathOversSection;
             link.classList.toggle("active", isCurrent);
             if (isCurrent) link.setAttribute("aria-current", "page");
             else link.removeAttribute("aria-current");
