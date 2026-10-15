@@ -307,7 +307,17 @@
     const newsFixtures = report && Array.isArray(report.fixtures) && report.fixtures.length
       ? report.fixtures.map((fixture) => ({ ...fixture, team: "India", tilakInSquad: true }))
       : fixtures.map((fixture) => ({ ...fixture, team: "India", tilakInSquad: true }));
-    const sourceFixtures = [...newsFixtures, ...(Array.isArray(bcciFixtures) ? bcciFixtures : [])];
+    const combinedFixtures = [...newsFixtures, ...(Array.isArray(bcciFixtures) ? bcciFixtures : [])];
+    const uniqueSourceFixtures = new Map();
+    combinedFixtures.forEach((fixture) => {
+      const key = String(fixture.date || "") + "|" +
+        String(fixture.match || "").trim().toLowerCase() + "|" +
+        String(fixture.opponent || "").trim().toLowerCase();
+      const current = uniqueSourceFixtures.get(key);
+      // Keep the squad-confirmed News JSON record when both feeds describe the same match.
+      if (!current || fixture.tilakInSquad === true) uniqueSourceFixtures.set(key, fixture);
+    });
+    const sourceFixtures = [...uniqueSourceFixtures.values()];
     const manual = Array.isArray(manualData?.fixtures) ? manualData.fixtures : [];
     const key = (f) =>
       String(f.date || "") +
