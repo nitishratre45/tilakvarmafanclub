@@ -40,6 +40,15 @@ jobs:
           from pathlib import Path
           data = json.loads(Path("matches/bcci-squads.json").read_text(encoding="utf-8"))
           assert isinstance(data.get("squads"), list), "Squads snapshot must contain a squads array"
+          # New Zealand is maintained from its official NZC announcement, not the
+          # India/West Indies EllipseData endpoint. Never let that refresh drop it.
+          assert any(
+              str(x.get("teamId")) == "5"
+              and str(x.get("classId")) == "3"
+              and x.get("players")
+              and str(x.get("source", "")).startswith("https://www.nzc.nz/")
+              for x in data["squads"]
+          ), "Official New Zealand T20I squad snapshot was lost"
           if data.get("status") != "updated-from-bcci-squads":
               # A legacy/previously saved snapshot may be retained while the
               # provider is unavailable; do not reject it just for its status.
