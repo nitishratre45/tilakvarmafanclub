@@ -129,17 +129,41 @@
       const statsFixtures = Array.isArray(statsPayload?.fixtures)
         ? statsPayload.fixtures.map((f) => ({ ...f, tilakInSquad: false }))
         : [];
+      const fixtureKey = (f) => {
+        const sides = [f.team, f.opponent]
+          .map((v) => String(v || "").trim().toLowerCase())
+          .filter(Boolean)
+          .sort();
+        return [String(f.date || "").trim(), ...sides].join("|");
+      };
       const byKey = new Map();
-      [...newsFixtures, ...statsFixtures].forEach((f) => {
-        const key = [f.date, f.match, f.opponent]
-          .map((v) =>
-            String(v || "")
-              .trim()
-              .toLowerCase(),
-          )
-          .join("|");
+      [...statsFixtures, ...newsFixtures].forEach((f) => {
+        const key = fixtureKey(f);
         const existing = byKey.get(key);
-        if (!existing || f.tilakInSquad === true) byKey.set(key, f);
+        if (!existing) {
+          byKey.set(key, f);
+          return;
+        }
+        // Prefer the squad-confirmed/news record, but fill its missing fields
+        // (especially time) from another source when that source has a value.
+        const preferred = f.tilakInSquad === true ? f : existing;
+        const fallback = preferred === f ? existing : f;
+        byKey.set(key, {
+          ...fallback,
+          ...preferred,
+          time: String(preferred.time || "").trim() || String(fallback.time || "").trim(),
+          match: preferred.tilakInSquad === true && preferred.match !== "Match"
+            ? preferred.match
+            : (fallback.match || preferred.match),
+          venue: String(preferred.venue || "").trim() || String(fallback.venue || "").trim(),
+          team: [preferred.team, preferred.opponent].some((v) => String(v || "").toLowerCase() === "india")
+            ? "India"
+            : (preferred.team || fallback.team),
+          opponent: [preferred.team, preferred.opponent].some((v) => String(v || "").toLowerCase() === "india")
+            ? ([preferred.team, preferred.opponent].find((v) => String(v || "").toLowerCase() !== "india") || fallback.opponent)
+            : (preferred.opponent || fallback.opponent),
+          tilakInSquad: Boolean(preferred.tilakInSquad || fallback.tilakInSquad),
+        });
       });
       let fixtures = [...byKey.values()];
       const manual = Array.isArray(manualPayload?.fixtures) ? manualPayload.fixtures : [];
@@ -227,7 +251,7 @@
               "</span><span>⌖ " +
               esc(f.venue || "Venue TBA") +
               "</span><span>" +
-              (f.time ? esc(f.time) + " IST" : "Time TBA") +
+              (f.time ? esc(f.time) + " IST" : "Time not announced") +
               '</span></div><div class="upcoming-match-actions"><a class="match-details-link" href="' +
               esc(detailUrl) +
               '">Full Match Details <span aria-hidden="true">↗</span></a><a class="upcoming-source-link" href="' +
