@@ -180,8 +180,10 @@
           return {
             ...newsFixture,
             ...bcci,
-            team: bcci.team || "India",
-            opponent: bcci.opponent || newsFixture.opponent,
+            team: "India",
+            opponent:
+              [bcci.team, bcci.opponent].find((name) => normalMatch(name) !== "india") ||
+              newsFixture.opponent,
             date: bcci.date,
             label: bcci.label || newsFixture.label,
             match: bcci.match || newsFixture.match,
