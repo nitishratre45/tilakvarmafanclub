@@ -1,0 +1,52 @@
+name: Refresh BCCI Stats Fixtures JSON
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */12 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/refresh_bcci_stats_fixtures.py"
+      - ".github/workflows/refresh-bcci-stats-fixtures.yml"
+permissions:
+  contents: write
+concurrency:
+  group: refresh-bcci-stats-fixtures
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate Python syntax
+        run: python -m py_compile scripts/refresh_bcci_stats_fixtures.py
+      - name: Fetch BCCI Stats and generate local JSON
+        run: python scripts/refresh_bcci_stats_fixtures.py
+      - name: Validate JSON
+        run: |
+          python -m json.tool matches/bcci-stats-fixtures.json > /dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("matches/bcci-stats-fixtures.json").read_text(encoding="utf-8"))
+          assert data.get("status") == "updated-from-bcci-stats"
+          assert isinstance(data.get("fixtures"), list) and data["fixtures"]
+          for row in data["fixtures"]:
+              for key in ("date", "match", "team", "opponent", "source"):
+                  assert str(row.get(key, "")).strip(), f"Missing {key}: {row}"
+          print(f'Validated {len(data["fixtures"])} fixtures.')
+          PY
+      - name: Commit snapshot if changed
+        run: |
+          git add matches/bcci-stats-fixtures.json
+          if git diff --cached --quiet; then echo "No fixture changes."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: refresh BCCI Stats fixtures JSON"
+          git push origin HEAD:main
