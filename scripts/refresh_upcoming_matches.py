@@ -320,8 +320,12 @@ def bcci_fixture_for(news_fixture: dict, bcci_fixtures: list[dict]) -> dict | No
             "date": row.get("date") or news_fixture.get("date"),
             "label": row.get("label") or news_fixture.get("label"),
             "match": row.get("match") or news_fixture.get("match"),
-            "team": row.get("team") or "India",
-            "opponent": row.get("opponent") or news_fixture.get("opponent"),
+            "team": "India",
+            "opponent": (
+                row.get("opponent")
+                if normalise_match_text(row.get("team")) == "india"
+                else row.get("team")
+            ) or news_fixture.get("opponent"),
             "venue": row.get("venue") or "",
             "time": row.get("time") or "",
             "source": row.get("source") or "",
