@@ -233,8 +233,7 @@
     if (
       select.dataset.customSelectReady === "true" ||
       select.multiple ||
-      select.size > 1 ||
-      select.id === "bcci-playback-quality"
+      select.size > 1
     )
       return;
     select.dataset.customSelectReady = "true";
