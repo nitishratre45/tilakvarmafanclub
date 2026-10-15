@@ -107,13 +107,22 @@
       // Keep the existing squad-confirmed snapshot and merge the Python-built BCCI Stats JSON.
       // The browser never calls the external BCCI API directly.
       const [newsResponse, statsResponse, manualResponse] = await Promise.all([
-        fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-match-centre2", { cache: "no-store" }).catch(() => null),
-        fetch("/matches/bcci-stats-fixtures.json?v=20261015-match-centre2", { cache: "no-store" }).catch(() => null),
-        fetch("/matches/manual-upcoming-fixtures.json?v=20261015-match-centre2", { cache: "no-store" }).catch(() => null),
+        fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-match-centre2", {
+          cache: "no-store",
+        }).catch(() => null),
+        fetch("/matches/bcci-stats-fixtures.json?v=20261015-match-centre2", {
+          cache: "no-store",
+        }).catch(() => null),
+        fetch("/matches/manual-upcoming-fixtures.json?v=20261015-match-centre2", {
+          cache: "no-store",
+        }).catch(() => null),
       ]);
-      const newsPayload = newsResponse && newsResponse.ok ? await newsResponse.json().catch(() => null) : null;
-      const statsPayload = statsResponse && statsResponse.ok ? await statsResponse.json().catch(() => null) : null;
-      const manualPayload = manualResponse && manualResponse.ok ? await manualResponse.json().catch(() => null) : null;
+      const newsPayload =
+        newsResponse && newsResponse.ok ? await newsResponse.json().catch(() => null) : null;
+      const statsPayload =
+        statsResponse && statsResponse.ok ? await statsResponse.json().catch(() => null) : null;
+      const manualPayload =
+        manualResponse && manualResponse.ok ? await manualResponse.json().catch(() => null) : null;
       const newsFixtures = Array.isArray(newsPayload?.fixtures)
         ? newsPayload.fixtures.map((f) => ({ ...f, team: f.team || "India", tilakInSquad: true }))
         : [];
@@ -123,71 +132,124 @@
       const byKey = new Map();
       [...newsFixtures, ...statsFixtures].forEach((f) => {
         const key = [f.date, f.match, f.opponent]
-          .map((v) => String(v || "").trim().toLowerCase())
+          .map((v) =>
+            String(v || "")
+              .trim()
+              .toLowerCase(),
+          )
           .join("|");
         const existing = byKey.get(key);
         if (!existing || f.tilakInSquad === true) byKey.set(key, f);
       });
       let fixtures = [...byKey.values()];
       const manual = Array.isArray(manualPayload?.fixtures) ? manualPayload.fixtures : [];
-      const fixtureKey = (f) => [f.date, f.match, f.opponent]
-        .map((v) => String(v || "").trim().toLowerCase()).join("|");
-      const sourceKey = (f) => [f.date, f.match]
-        .map((v) => String(v || "").trim().toLowerCase()).join("|");
+      const fixtureKey = (f) =>
+        [f.date, f.match, f.opponent]
+          .map((v) =>
+            String(v || "")
+              .trim()
+              .toLowerCase(),
+          )
+          .join("|");
+      const sourceKey = (f) =>
+        [f.date, f.match]
+          .map((v) =>
+            String(v || "")
+              .trim()
+              .toLowerCase(),
+          )
+          .join("|");
       const overrides = new Map(manual.filter((f) => f.overrideKey).map((f) => [f.overrideKey, f]));
       const exact = new Map(manual.filter((f) => !f.overrideKey).map((f) => [fixtureKey(f), f]));
-      fixtures = fixtures.map((f) => ({ ...f, ...(overrides.get(sourceKey(f)) || exact.get(fixtureKey(f)) || {}) }));
+      fixtures = fixtures.map((f) => ({
+        ...f,
+        ...(overrides.get(sourceKey(f)) || exact.get(fixtureKey(f)) || {}),
+      }));
       const sourceKeys = new Set(fixtures.map(fixtureKey));
       manual.forEach((f) => {
         if (!f.overrideKey && !sourceKeys.has(fixtureKey(f))) fixtures.push(f);
       });
       const today = new Intl.DateTimeFormat("en-CA", {
-        timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit",
+        timeZone: "Asia/Kolkata",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
       }).format(new Date());
-      fixtures = fixtures.filter((f) => {
-        const date = String(f.date || "");
-        const time = String(f.time || "").trim();
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
-        if (!time) return date >= today;
-        const start = Date.parse(date + "T" + time + ":00+05:30");
-        return Number.isFinite(start) && start + 4 * 60 * 60 * 1000 > Date.now();
-      }).sort((a, b) => String(a.date).localeCompare(String(b.date)));
+      fixtures = fixtures
+        .filter((f) => {
+          const date = String(f.date || "");
+          const time = String(f.time || "").trim();
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
+          if (!time) return date >= today;
+          const start = Date.parse(date + "T" + time + ":00+05:30");
+          return Number.isFinite(start) && start + 4 * 60 * 60 * 1000 > Date.now();
+        })
+        .sort((a, b) => String(a.date).localeCompare(String(b.date)));
       if (!fixtures.length) {
         host.innerHTML =
           '<div class="match-empty"><strong>No upcoming fixtures found</strong><span>Saved fixture JSON update hote hi yahan dikhega.</span></div>';
       } else {
-        host.innerHTML = fixtures.map((f) => {
-          const link = f.newsUrl || f.source || "/news/";
-          const target = /^https?:\/\//i.test(link) ? ' target="_blank"' : "";
-          const detailUrl = "/matches/details/?date=" + encodeURIComponent(f.date || "") +
-            "&match=" + encodeURIComponent(f.match || "") +
-            "&opponent=" + encodeURIComponent(f.opponent || "");
-          return '<article class="upcoming-match-card"><div class="upcoming-match-topline"><span class="upcoming-match-date">' +
-            esc(f.label || dateLabel(f.date)) +
-            '</span><span class="match-live-tag">' +
-            (f.tilakInSquad === true ? "TILAK IN SQUAD" : "BCCI FIXTURE") +
-            '</span></div><div class="upcoming-match-teams"><div class="upcoming-team-side">' +
-            renderTeamLogo(f.team || "India", f.teamLogo || f.teamImageUrl || f.team?.imageUrl || f.team?.image?.url) +
-            "<span>" + esc(f.team || "India") +
-            '</span></div><span class="versus">VS</span><div class="upcoming-team-side">' +
-            renderTeamLogo(f.opponent || "Opponent TBA", f.opponentLogo || f.opponentImageUrl || f.opponent?.imageUrl || f.opponent?.image?.url) +
-            "<span>" + esc(f.opponent || "Opponent TBA") +
-            '</span></div></div><div class="upcoming-match-meta"><span>' +
-            esc(f.match || "International match") + "</span><span>⌖ " +
-            esc(f.venue || "Venue TBA") + "</span><span>" +
-            (f.time ? esc(f.time) + " IST" : "Time TBA") +
-            '</span></div><div class="upcoming-match-actions"><a class="match-details-link" href="' +
-            esc(detailUrl) + '">Full Match Details <span aria-hidden="true">↗</span></a><a class="upcoming-source-link" href="' +
-            esc(link) + '"' + target + ' rel="noopener">Match Source</a></div></article>';
-        }).join("");
+        host.innerHTML = fixtures
+          .map((f) => {
+            const link = f.newsUrl || f.source || "/news/";
+            const target = /^https?:\/\//i.test(link) ? ' target="_blank"' : "";
+            const detailUrl =
+              "/matches/details/?date=" +
+              encodeURIComponent(f.date || "") +
+              "&match=" +
+              encodeURIComponent(f.match || "") +
+              "&opponent=" +
+              encodeURIComponent(f.opponent || "");
+            return (
+              '<article class="upcoming-match-card"><div class="upcoming-match-topline"><span class="upcoming-match-date">' +
+              esc(f.label || dateLabel(f.date)) +
+              '</span><span class="match-live-tag">' +
+              (f.tilakInSquad === true ? "TILAK IN SQUAD" : "BCCI FIXTURE") +
+              '</span></div><div class="upcoming-match-teams"><div class="upcoming-team-side">' +
+              renderTeamLogo(
+                f.team || "India",
+                f.teamLogo || f.teamImageUrl || f.team?.imageUrl || f.team?.image?.url,
+              ) +
+              "<span>" +
+              esc(f.team || "India") +
+              '</span></div><span class="versus">VS</span><div class="upcoming-team-side">' +
+              renderTeamLogo(
+                f.opponent || "Opponent TBA",
+                f.opponentLogo ||
+                  f.opponentImageUrl ||
+                  f.opponent?.imageUrl ||
+                  f.opponent?.image?.url,
+              ) +
+              "<span>" +
+              esc(f.opponent || "Opponent TBA") +
+              '</span></div></div><div class="upcoming-match-meta"><span>' +
+              esc(f.match || "International match") +
+              "</span><span>⌖ " +
+              esc(f.venue || "Venue TBA") +
+              "</span><span>" +
+              (f.time ? esc(f.time) + " IST" : "Time TBA") +
+              '</span></div><div class="upcoming-match-actions"><a class="match-details-link" href="' +
+              esc(detailUrl) +
+              '">Full Match Details <span aria-hidden="true">↗</span></a><a class="upcoming-source-link" href="' +
+              esc(link) +
+              '"' +
+              target +
+              ' rel="noopener">Match Source</a></div></article>'
+            );
+          })
+          .join("");
       }
       const note = $("upcoming-matches-updated");
       if (note) {
         const sources = [];
         if (newsFixtures.length) sources.push("squad-confirmed News JSON");
         if (statsFixtures.length) sources.push("Python-built BCCI Stats JSON");
-        note.textContent = "Upcoming fixtures · " + (sources.join(" + ") || "saved fixture snapshots") +
-          " · checked " + new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) + ".";
+        note.textContent =
+          "Upcoming fixtures · " +
+          (sources.join(" + ") || "saved fixture snapshots") +
+          " · checked " +
+          new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) +
+          ".";
       }
       const announcement = $("upcoming-team-announcement-link");
       const squadFixture = fixtures.find((f) => f.tilakInSquad === true && f.newsUrl);
