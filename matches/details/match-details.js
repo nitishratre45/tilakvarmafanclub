@@ -733,8 +733,12 @@
           return String(rawFixture.team1_id || rawFixture.home_team_id || "");
         if (wanted && wanted === secondName)
           return String(rawFixture.team2_id || rawFixture.away_team_id || "");
+        // The BCCI fixture feed does not always include stable team IDs.
+        // Keep known squad IDs as a fallback so the saved official NZC T20I
+        // snapshot can render even when rawBcci only contains team names.
         if (wanted === "india") return "6";
         if (wanted === "west indies") return "4";
+        if (wanted === "new zealand" || wanted === "new zealand women") return "5";
         return "";
       };
       const teamId = idForTeam(a);
@@ -965,7 +969,7 @@
         ),
         sourceLink(
           "New Zealand Cricket · official T20I squad updates",
-          "https://www.nzc.nz/chapman-and-foulkes-ruled-out-of-india-t20is-clarkson-and-tickner-called-in/",
+          "https://www.nzc.nz/blackcaps-unleash-pace-attack-milne-returns-ravindra-ruled-out/",
         ),
         sourceLink("Original fixture source", f.source),
         sourceLink("Weather · Open-Meteo", "https://open-meteo.com/"),
