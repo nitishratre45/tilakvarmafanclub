@@ -390,11 +390,12 @@ html body.tv-bottom-nav-enabled {
   }
 }
 
-
 /* Records/mobile fix: keep the dock stable after scrolling stops, even when page CSS
    applies nav animations, transforms, or hidden states to generic navigation elements. */
 @media screen and (max-width: 800px) {
-  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav {
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav {
     position: fixed !important;
     inset: auto 16px max(8px, env(safe-area-inset-bottom, 0px)) 16px !important;
     display: grid !important;
@@ -407,8 +408,14 @@ html body.tv-bottom-nav-enabled {
     pointer-events: none !important;
     z-index: 2147483000 !important;
   }
-  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav > a,
-  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav > button {
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav
+    > a,
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav
+    > button {
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -417,8 +424,16 @@ html body.tv-bottom-nav-enabled {
     pointer-events: auto !important;
     color: #26364c !important;
   }
-  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav > a > span,
-  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav > button > span {
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav
+    > a
+    > span,
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav
+    > button
+    > span {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
