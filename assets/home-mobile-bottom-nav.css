@@ -6,9 +6,7 @@
   body {
     padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
   }
-  body > header.topbar .menu-toggle {
-    display: none !important;
-  }
+  /* Keep the original header hamburger menu unchanged. */
   .tv-mobile-bottom-nav {
     position: fixed;
     z-index: 1000;
