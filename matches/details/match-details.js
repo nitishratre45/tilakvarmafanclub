@@ -963,6 +963,10 @@
           "EllipseData squad source · West Indies",
           "https://epr.ellipsedata.com/redirect/1/comp/9060/squads?team_id=4",
         ),
+        sourceLink(
+          "New Zealand Cricket · official T20I squad updates",
+          "https://www.nzc.nz/chapman-and-foulkes-ruled-out-of-india-t20is-clarkson-and-tickner-called-in/",
+        ),
         sourceLink("Original fixture source", f.source),
         sourceLink("Weather · Open-Meteo", "https://open-meteo.com/"),
         sourceLink("Tilak Varma stats", "/stats/"),
