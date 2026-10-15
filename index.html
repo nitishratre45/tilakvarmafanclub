@@ -223,19 +223,21 @@
     </nav>
     <style>
       .tvfc-home-bottom-nav {
-        display: none;
+        display: none !important;
       }
-      @media (max-width: 760px) {
+      @media screen and (max-width: 760px) {
         body {
-          padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+          padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important;
         }
-        .tvfc-home-bottom-nav {
-          position: fixed;
-          z-index: 1000;
-          left: 12px;
-          right: 12px;
-          bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-          display: grid;
+        body .tvfc-home-bottom-nav {
+          display: grid !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          position: fixed !important;
+          z-index: 2147483000 !important;
+          left: 12px !important;
+          right: 12px !important;
+          bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
           grid-template-columns: repeat(4, minmax(0, 1fr));
           gap: 4px;
           padding: 8px 6px;
