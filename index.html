@@ -7,7 +7,7 @@
       (() => {
         const touchPhone =
           navigator.maxTouchPoints > 0 ||
-          ("ontouchstart" in window) ||
+          "ontouchstart" in window ||
           Math.min(screen.width || innerWidth, screen.height || innerHeight) <= 800;
         if (touchPhone) document.documentElement.setAttribute("data-mobile-touch", "true");
       })();
