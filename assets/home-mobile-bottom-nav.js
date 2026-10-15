@@ -29,7 +29,11 @@
       trigger.focus();
     }
   });
-  window.addEventListener("resize", () => {
-    if (window.matchMedia("(min-width: 801px)").matches) closeMenu();
-  }, { passive: true });
+  window.addEventListener(
+    "resize",
+    () => {
+      if (window.matchMedia("(min-width: 801px)").matches) closeMenu();
+    },
+    { passive: true },
+  );
 })();
