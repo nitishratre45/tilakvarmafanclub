@@ -718,3 +718,57 @@ body.photos-page {
     animation: none !important;
   }
 }
+
+/* Final override: keep the Menu trigger visually identical to the other bottom-nav items. */
+@media screen and (max-width: 800px) {
+  html body.photos-page > nav.tv-mobile-bottom-nav > button.tv-mobile-menu-trigger {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    display: flex !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 50px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: 1 1 0 !important;
+    align-self: stretch !important;
+    justify-self: stretch !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    border: 0 !important;
+    border-radius: 15px !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    color: #313746 !important;
+    font-family: var(--body, system-ui, sans-serif) !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    line-height: 1.15 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+  }
+  html body.photos-page > nav.tv-mobile-bottom-nav > button.tv-mobile-menu-trigger svg {
+    display: block !important;
+    width: 23px !important;
+    height: 23px !important;
+    margin: 0 !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.8 !important;
+  }
+  html body.photos-page > nav.tv-mobile-bottom-nav > button.tv-mobile-menu-trigger span {
+    display: block !important;
+    margin: 0 !important;
+    color: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+  html body.photos-page > nav.tv-mobile-bottom-nav > button.tv-mobile-menu-trigger[aria-expanded="true"] {
+    background: rgba(237,73,56,.09) !important;
+    color: #ed4938 !important;
+  }
+}
