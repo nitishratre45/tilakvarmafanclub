@@ -129,13 +129,23 @@
       const livePayload =
         liveResponse && liveResponse.ok ? await liveResponse.json().catch(() => null) : null;
       const liveMatches = Array.isArray(livePayload?.matches) ? livePayload.matches : [];
-      const norm = (value) => String(value || "").trim().toLowerCase().replace(/\\s+/g, " ");
-      const liveIds = new Set(liveMatches.map((m) => norm(m.id || m.matchId || m.match_id || m.gid)).filter(Boolean));
-      const livePairKeys = new Set(liveMatches.map((m) => {
-        const a = norm(m.team1 || m.team1_name || m.team1Name || m.homeTeam);
-        const b = norm(m.team2 || m.team2_name || m.team2Name || m.awayTeam);
-        return [a, b].filter(Boolean).sort().join("|");
-      }).filter(Boolean));
+      const norm = (value) =>
+        String(value || "")
+          .trim()
+          .toLowerCase()
+          .replace(/\\s+/g, " ");
+      const liveIds = new Set(
+        liveMatches.map((m) => norm(m.id || m.matchId || m.match_id || m.gid)).filter(Boolean),
+      );
+      const livePairKeys = new Set(
+        liveMatches
+          .map((m) => {
+            const a = norm(m.team1 || m.team1_name || m.team1Name || m.homeTeam);
+            const b = norm(m.team2 || m.team2_name || m.team2Name || m.awayTeam);
+            return [a, b].filter(Boolean).sort().join("|");
+          })
+          .filter(Boolean),
+      );
       const newsFixtures = Array.isArray(newsPayload?.fixtures)
         ? newsPayload.fixtures.map((f) => ({ ...f, team: f.team || "India", tilakInSquad: true }))
         : [];
@@ -229,8 +239,17 @@
       // Match by official ID first, then by both team names so feeds with different ID
       // formats still transition correctly. The live page remains the single source of live cards.
       fixtures = fixtures.filter((f) => {
-        const ids = [f.matchId, f.match_id, f.gid, f.fixtureId, f.id, f.rawBcci?.match_id, f.rawBcci?.gid]
-          .map(norm).filter(Boolean);
+        const ids = [
+          f.matchId,
+          f.match_id,
+          f.gid,
+          f.fixtureId,
+          f.id,
+          f.rawBcci?.match_id,
+          f.rawBcci?.gid,
+        ]
+          .map(norm)
+          .filter(Boolean);
         const pair = [norm(f.team || "India"), norm(f.opponent)].filter(Boolean).sort().join("|");
         return !ids.some((id) => liveIds.has(id)) && !(pair && livePairKeys.has(pair));
       });
