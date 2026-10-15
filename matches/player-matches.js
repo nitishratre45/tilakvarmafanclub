@@ -326,7 +326,7 @@
                 (() => {
                   const saved = findSavedScorecard(r, fmt);
                   return saved && saved.matchId
-                    ? '<a class="recent-match-details-link" href="/matches/scorecards/?match=' +
+                    ? '<a class="recent-match-details-link" href="/matches/recent-scorecard/?matchId=' +
                         encodeURIComponent(String(saved.matchId)) +
                         '">Scorecard ↗</a>'
                     : '<span class="recent-match-scorecard-unavailable" title="No exact saved scorecard match was found">Unavailable</span>';
