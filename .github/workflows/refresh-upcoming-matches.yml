@@ -76,17 +76,6 @@ jobs:
               assert all(str(fixture.get(k, "")).strip() for k in ("date", "match", "opponent", "source"))
           print(f"Live Match Centre JSON is valid: {len(snapshot['fixtures'])} fixtures")
           PY
-      - name: Commit refreshed fixture snapshot when changed
-        run: |
-          git add matches/upcoming-fixtures-refresh.json
-          if git diff --cached --quiet; then
-            echo "No verified fixture changes to publish."
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "chore: refresh verified upcoming fixtures"
-            git push
-          fi
       - name: Validate refresh report and updated JavaScript
         run: |
           python -m json.tool matches/upcoming-fixtures-refresh.json > /dev/null
@@ -180,24 +169,55 @@ jobs:
           node --check matches/details/match-details.js
           node --check matches/match-centre.js
           git diff --check
-      - name: Commit fixture list and refresh report when changed
+      - name: Publish verified fixture snapshot safely
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add matches/upcoming-matches.js matches/upcoming-fixtures-refresh.json
-          if git diff --cached --quiet; then
-            echo "No fixture or report changes."
-            exit 0
-          fi
-          git commit -m "chore: refresh upcoming matches from BCCI news"
           for attempt in 1 2 3 4 5; do
-            if git push origin HEAD:main; then
-              echo "Published verified fixtures extracted from BCCI News JSON."
+            git fetch origin main
+            git reset --hard origin/main
+            python scripts/refresh_upcoming_matches.py
+            python -m json.tool matches/upcoming-fixtures-refresh.json > /dev/null
+            python - <<'PY'
+            import json
+            from pathlib import Path
+
+            report = json.loads(Path("matches/upcoming-fixtures-refresh.json").read_text(encoding="utf-8"))
+            bcci = json.loads(Path("matches/bcci-stats-fixtures.json").read_text(encoding="utf-8"))
+            rows = bcci.get("fixtures", [])
+            fixtures = report.get("fixtures", [])
+            if report.get("status") != "updated-from-news-and-bcci-json" or not fixtures:
+                raise SystemExit("No exact BCCI fixtures available for squad-confirmed upcoming matches.")
+            for fixture in fixtures:
+                if fixture.get("tilakInSquad") is not True or fixture.get("confirmationSource") != "BCCI squad announcement naming Tilak Varma":
+                    raise SystemExit("Fixture is missing explicit Tilak Varma squad confirmation.")
+                if not str(fixture.get("newsUrl", "")).startswith("/News-details/index.html?id="):
+                    raise SystemExit("Fixture is missing its internal squad-announcement link.")
+                if not str(fixture.get("source", "")).startswith("https://stats.bcci.tv/"):
+                    raise SystemExit("Fixture schedule is not sourced from BCCI Stats.")
+                sides = {str(fixture.get("team", "")).strip().lower(), str(fixture.get("opponent", "")).strip().lower()}
+                exact = [
+                    row for row in rows
+                    if str(row.get("date", "")) == str(fixture.get("date", ""))
+                    and str(row.get("match", "")).strip().lower() == str(fixture.get("match", "")).strip().lower()
+                    and {str(row.get("team", "")).strip().lower(), str(row.get("opponent", "")).strip().lower()} == sides
+                ]
+                if not exact:
+                    raise SystemExit("Fixture failed exact BCCI date/match/team validation: " + repr(fixture))
+            print(f"Validated {len(fixtures)} squad-confirmed fixtures against exact BCCI rows.")
+            PY
+            git add matches/upcoming-fixtures-refresh.json
+            if git diff --cached --quiet; then
+              echo "Verified fixture snapshot is already current."
               exit 0
             fi
-            git fetch origin main
-            git rebase origin/main
+            git commit -m "chore: refresh verified upcoming fixtures"
+            if git push origin HEAD:main; then
+              echo "Published verified squad-confirmed fixture snapshot."
+              exit 0
+            fi
+            echo "Push conflict on attempt $attempt; retrying against latest main."
             sleep $((attempt * 3))
           done
-          echo "::error::Could not publish fixture refresh after retries."
+          echo "::error::Could not publish fixture refresh after five attempts."
           exit 1
