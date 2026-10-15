@@ -1,0 +1,64 @@
+name: Refresh BCCI Live Matches
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub Actions scheduled workflows have a 5-minute minimum supported cadence.
+    - cron: "*/5 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/refresh_bcci_live_matches.py"
+      - ".github/workflows/refresh-bcci-live-matches.yml"
+      - "matches/live/**"
+permissions:
+  contents: write
+concurrency:
+  group: refresh-bcci-live-matches
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate Python and saved JSON
+        run: |
+          python -m py_compile scripts/refresh_bcci_live_matches.py
+          python -m json.tool matches/live/live-matches.json > /dev/null
+      - name: Fetch official BCCI live scores and save JSON
+        run: python scripts/refresh_bcci_live_matches.py
+      - name: Validate live-only JSON
+        run: |
+          python -m json.tool matches/live/live-matches.json > /dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("matches/live/live-matches.json").read_text(encoding="utf-8"))
+          assert data.get("status") == "updated-from-bcci-live-scores"
+          assert isinstance(data.get("matches"), list)
+          assert data.get("matchCount") == len(data["matches"])
+          print(f"Validated {len(data['matches'])} live match cards.")
+          PY
+      - name: Commit changed live JSON only
+        run: |
+          git add matches/live/live-matches.json
+          if git diff --cached --quiet; then
+            echo "Live JSON unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: refresh BCCI live matches JSON"
+          for attempt in 1 2 3 4; do
+            if git push origin HEAD:main; then exit 0; fi
+            git fetch origin main
+            git rebase origin/main
+            sleep $((attempt * 2))
+          done
+          echo "::error::Could not publish live match JSON after retries."
+          exit 1
