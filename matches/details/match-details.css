@@ -1047,9 +1047,11 @@
   min-width: 0;
   padding: 17px 16px;
   border: 1px solid rgba(120, 145, 170, 0.13);
-  border-radius: 7px;
-  background: #f7f7f8;
-  color: #101828;
+  border-radius: 15px;
+  background: linear-gradient(145deg, rgba(12, 31, 51, 0.96), rgba(5, 18, 32, 0.98));
+  border-color: rgba(98, 193, 230, 0.22);
+  color: #e5f1fb;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
 }
 #recent-match-results .recent-result-badge {
   display: inline-flex;
@@ -1079,26 +1081,26 @@
 }
 #recent-match-results .recent-result-copy h4 {
   margin: 0 0 4px;
-  color: #101828;
+  color: #f0f7ff;
   font-size: clamp(15px, 2.1vw, 19px);
   font-weight: 800;
 }
 #recent-match-results .recent-result-copy p {
   margin: 0;
-  color: #6b7280;
+  color: #a8bbce;
   font-size: 14px;
   line-height: 1.45;
 }
 #recent-match-results .recent-result-copy a {
   display: inline-block;
   margin-top: 5px;
-  color: #175fa8;
-  font-size: 12px;
+  color: #69d9ff;
+  font-size: 13px;
   font-weight: 750;
   text-decoration: none;
 }
 #recent-match-results .recent-result-row time {
-  color: #737782;
+  color: #8fa9c1;
   font-size: clamp(12px, 1.8vw, 16px);
   text-align: right;
   white-space: nowrap;
