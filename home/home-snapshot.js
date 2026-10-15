@@ -89,13 +89,14 @@
               data.statsguru?.formats?.[key]?.fielding?.summary ||
               data.statsguru?.formats?.[key]?.fieldingSummary ||
               {};
-            const fieldingFallback = {
-              ODI: { catches: 1, stumpings: 0 },
-              T20I: { catches: 50, stumpings: 0 },
-              "First-class": { catches: 10, stumpings: 0 },
-              "List A": { catches: 27, stumpings: 0 },
-              "Overall T20 (all competitions)": { catches: 110, stumpings: 0 },
-            }[key] || {};
+            const fieldingFallback =
+              {
+                ODI: { catches: 1, stumpings: 0 },
+                T20I: { catches: 50, stumpings: 0 },
+                "First-class": { catches: 10, stumpings: 0 },
+                "List A": { catches: 27, stumpings: 0 },
+                "Overall T20 (all competitions)": { catches: 110, stumpings: 0 },
+              }[key] || {};
             const rows = [
               label,
               s.matches,
@@ -161,9 +162,10 @@
                 label,
                 s.matches,
                 s.innings,
-                s.balls ?? (typeof s.overs === "number"
-                  ? Math.floor(s.overs) * 6 + Math.round((s.overs % 1) * 10)
-                  : null),
+                s.balls ??
+                  (typeof s.overs === "number"
+                    ? Math.floor(s.overs) * 6 + Math.round((s.overs % 1) * 10)
+                    : null),
                 number(s.runs ?? s.runsConceded),
                 s.wickets ?? s.wicketsTaken,
                 s.bestBowling ?? s.bestFigures,
