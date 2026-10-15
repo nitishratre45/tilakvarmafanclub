@@ -110,6 +110,16 @@
               Loading gallery…
             </div>
           </header>
+          <div class="tv-gallery-view-tabs" role="tablist" aria-label="Photo archive views">
+            <button type="button" class="tv-gallery-view-tab is-active" id="tv-view-gallery" role="tab" aria-selected="true" aria-controls="tv-gallery-grid" data-gallery-view="gallery">
+              <span class="tv-gallery-view-icon" aria-hidden="true">▦</span>
+              <span><strong>Gallery</strong><small>Browse by album</small></span>
+            </button>
+            <button type="button" class="tv-gallery-view-tab" id="tv-view-all-photos" role="tab" aria-selected="false" aria-controls="tv-gallery-grid" data-gallery-view="all-photos">
+              <span class="tv-gallery-view-icon" aria-hidden="true">▧</span>
+              <span><strong>All Photos</strong><small>Every photo in one place</small></span>
+            </button>
+          </div>
           <div id="tv-gallery-grid" class="tv-gallery-hub__content" aria-live="polite">
             <p class="tv-gallery-hub__loading">Loading Tilak Varma photo albums…</p>
           </div>
