@@ -1579,3 +1579,34 @@ body > footer {
     animation: none !important;
   }
 }
+
+
+/* Career summary order: label first, all-stats navigation after both tables. */
+.home-snapshot-section .home-snapshot-heading.home-summary-animated-label {
+  order: -1;
+  margin: 0 auto 18px;
+}
+.home-snapshot-section .home-all-stats-bottom {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  margin: 16px auto 22px;
+  padding: 12px 22px;
+  border: 1px solid rgba(255, 190, 65, .58);
+  border-radius: 999px;
+  color: #ffe1a0;
+  background: linear-gradient(110deg, rgba(255,153,51,.12), rgba(16,53,84,.92));
+  box-shadow: 0 7px 22px rgba(0,0,0,.18);
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+}
+.home-snapshot-section .home-all-stats-bottom:hover,
+.home-snapshot-section .home-all-stats-bottom:focus-visible {
+  color: #fff;
+  border-color: #ffd65a;
+  box-shadow: 0 0 18px rgba(255,190,65,.2);
+}
