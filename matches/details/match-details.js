@@ -239,7 +239,9 @@
       const statsSnapshot =
         statsResponse && statsResponse.ok ? await statsResponse.json().catch(() => null) : null;
       const resultsSnapshot =
-        resultsResponse && resultsResponse.ok ? await resultsResponse.json().catch(() => null) : null;
+        resultsResponse && resultsResponse.ok
+          ? await resultsResponse.json().catch(() => null)
+          : null;
       let manual = { matches: [] };
       try {
         const mr = await fetch("/matches/details/data/match-details.json?v=20261014-details1", {
@@ -374,33 +376,52 @@
       const teamNames = [a, b].map((name) => String(name || "").toLowerCase());
       const recentForTeams = resultMatches
         .filter((row) => {
-          const names = [row.team1_name, row.team2_name].map((name) => String(name || "").toLowerCase());
+          const names = [row.team1_name, row.team2_name].map((name) =>
+            String(name || "").toLowerCase(),
+          );
           return names.some((name) => teamNames.includes(name)) && row.match_status === "complete";
         })
         .slice(0, 6);
       const recentLines = recentForTeams.map((row) => {
         const innings = Array.isArray(row.summary?.team) ? row.summary.team : [];
-        const scores = innings.map((entry) => String(entry.score || "").trim()).filter(Boolean).join(" · ");
+        const scores = innings
+          .map((entry) => String(entry.score || "").trim())
+          .filter(Boolean)
+          .join(" · ");
         return [row.title || row.match_short_name || row.name, scores, row.result_string]
-          .filter(Boolean).join(": ");
+          .filter(Boolean)
+          .join(": ");
       });
       const tilakLines = resultMatches
-        .filter((row) => row.match_status === "complete" && /tilak varma/i.test(
-          (Array.isArray(row.summary?.player) ? row.summary.player : [])
-            .map((entry) => String(entry.batting || ""))
-            .join("\n")
-        ))
+        .filter(
+          (row) =>
+            row.match_status === "complete" &&
+            /tilak varma/i.test(
+              (Array.isArray(row.summary?.player) ? row.summary.player : [])
+                .map((entry) => String(entry.batting || ""))
+                .join("\n"),
+            ),
+        )
         .slice(0, 5)
         .map((row) => {
           const innings = (Array.isArray(row.summary?.player) ? row.summary.player : [])
             .filter((entry) => /tilak varma/i.test(String(entry.batting || "")))
-            .map((entry) => String(entry.batting).split("\n").filter((line) => /tilak varma/i.test(line)).join(", "));
-          return [row.title || row.match_short_name || row.name, ...innings].filter(Boolean).join(": ");
+            .map((entry) =>
+              String(entry.batting)
+                .split("\n")
+                .filter((line) => /tilak varma/i.test(line))
+                .join(", "),
+            );
+          return [row.title || row.match_short_name || row.name, ...innings]
+            .filter(Boolean)
+            .join(": ");
         });
       set(
         "team-form-summary",
         detail.recentForm ||
-          (recentLines.length ? recentLines.join(" | ") : "Recent completed results are not available in the saved BCCI results snapshot."),
+          (recentLines.length
+            ? recentLines.join(" | ")
+            : "Recent completed results are not available in the saved BCCI results snapshot."),
       );
       if (!detail.tilakPreview && tilakLines.length) {
         set("tilak-preview", "Recent BCCI result summaries: " + tilakLines.join(" | "));
@@ -408,8 +429,12 @@
       if (resultsSnapshot?.checkedAt) {
         set(
           "workflow-fixture",
-          "Upcoming fixtures: " + fixtures.length + ". BCCI results snapshot: " +
-            resultMatches.length + " unique matches; checked " + resultsSnapshot.checkedAt +
+          "Upcoming fixtures: " +
+            fixtures.length +
+            ". BCCI results snapshot: " +
+            resultMatches.length +
+            " unique matches; checked " +
+            resultsSnapshot.checkedAt +
             ". India and West Indies results are merged by BCCI match ID.",
         );
       }

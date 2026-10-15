@@ -19,7 +19,14 @@ MAX_PAGES = 100
 
 
 def fetch_page(team_id, page_number):
-    query = urlencode({"team_id": team_id, "class_id": CLASS_IDS, "page": page_number, "size": PAGE_SIZE})
+    query = urlencode(
+        {
+            "team_id": team_id,
+            "class_id": CLASS_IDS,
+            "page": page_number,
+            "size": PAGE_SIZE,
+        }
+    )
     request = Request(
         BASE_URL + "?" + query,
         headers={
@@ -31,7 +38,9 @@ def fetch_page(team_id, page_number):
     with urlopen(request, timeout=35) as response:
         payload = json.loads(response.read().decode("utf-8-sig"))
     if not isinstance(payload, dict) or not isinstance(payload.get("match"), list):
-        raise ValueError(f"Unexpected BCCI results payload for team_id={team_id}, page={page_number}")
+        raise ValueError(
+            f"Unexpected BCCI results payload for team_id={team_id}, page={page_number}"
+        )
     return payload
 
 
@@ -69,10 +78,14 @@ def main():
                     raise ValueError("BCCI match array contains a non-object record")
                 stable_id = str(match.get("gid") or match.get("match_id") or "").strip()
                 if not stable_id:
-                    raise ValueError("BCCI match record has neither gid nor match_id; refusing partial snapshot")
+                    raise ValueError(
+                        "BCCI match record has neither gid nor match_id; refusing partial snapshot"
+                    )
                 by_id[stable_id] = match
         if not by_id:
-            raise ValueError("No match records received; existing snapshot will be preserved")
+            raise ValueError(
+                "No match records received; existing snapshot will be preserved"
+            )
         snapshot = {
             "source": BASE_URL,
             "checkedAt": datetime.now(timezone.utc).isoformat(),
@@ -96,8 +109,13 @@ def main():
         temp_path = None
         try:
             with tempfile.NamedTemporaryFile(
-                mode="w", encoding="utf-8", newline="",
-                dir=OUTPUT.parent, prefix=f".{OUTPUT.name}.", suffix=".tmp", delete=False
+                mode="w",
+                encoding="utf-8",
+                newline="",
+                dir=OUTPUT.parent,
+                prefix=f".{OUTPUT.name}.",
+                suffix=".tmp",
+                delete=False,
             ) as stream:
                 temp_path = Path(stream.name)
                 stream.write(json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n")
@@ -108,7 +126,10 @@ def main():
                 candidate.get("status") != "updated-from-bcci-match-results"
                 or not candidate.get("matches")
                 or set(candidate.get("teamsFetched", [])) != set(TEAM_IDS)
-                or any(not (row.get("gid") or row.get("match_id")) for row in candidate["matches"])
+                or any(
+                    not (row.get("gid") or row.get("match_id"))
+                    for row in candidate["matches"]
+                )
             ):
                 raise ValueError("Snapshot validation failed")
             os.replace(temp_path, OUTPUT)
@@ -116,10 +137,15 @@ def main():
         finally:
             if temp_path is not None:
                 temp_path.unlink(missing_ok=True)
-        print(f"Saved {len(by_id)} unique complete BCCI match records to {OUTPUT.relative_to(ROOT)}")
+        print(
+            f"Saved {len(by_id)} unique complete BCCI match records to {OUTPUT.relative_to(ROOT)}"
+        )
         return 0
     except Exception as exc:
-        print(f"ERROR: BCCI results refresh failed; previous snapshot preserved: {exc}", file=sys.stderr)
+        print(
+            f"ERROR: BCCI results refresh failed; previous snapshot preserved: {exc}",
+            file=sys.stderr,
+        )
         return 1
 
 
