@@ -250,7 +250,11 @@
         : [];
       const fixtureKey = (x) => {
         const sides = [x.team, x.opponent]
-          .map((v) => String(v || "").trim().toLowerCase())
+          .map((v) =>
+            String(v || "")
+              .trim()
+              .toLowerCase(),
+          )
           .filter(Boolean)
           .sort();
         return [String(x.date || "").trim(), ...sides].join("|");
@@ -269,16 +273,23 @@
           ...fallback,
           ...preferred,
           time: String(preferred.time || "").trim() || String(fallback.time || "").trim(),
-          match: preferred.tilakInSquad === true && preferred.match !== "Match"
-            ? preferred.match
-            : (fallback.match || preferred.match),
+          match:
+            preferred.tilakInSquad === true && preferred.match !== "Match"
+              ? preferred.match
+              : fallback.match || preferred.match,
           venue: String(preferred.venue || "").trim() || String(fallback.venue || "").trim(),
-          team: [preferred.team, preferred.opponent].some((v) => String(v || "").toLowerCase() === "india")
+          team: [preferred.team, preferred.opponent].some(
+            (v) => String(v || "").toLowerCase() === "india",
+          )
             ? "India"
-            : (preferred.team || fallback.team),
-          opponent: [preferred.team, preferred.opponent].some((v) => String(v || "").toLowerCase() === "india")
-            ? ([preferred.team, preferred.opponent].find((v) => String(v || "").toLowerCase() !== "india") || fallback.opponent)
-            : (preferred.opponent || fallback.opponent),
+            : preferred.team || fallback.team,
+          opponent: [preferred.team, preferred.opponent].some(
+            (v) => String(v || "").toLowerCase() === "india",
+          )
+            ? [preferred.team, preferred.opponent].find(
+                (v) => String(v || "").toLowerCase() !== "india",
+              ) || fallback.opponent
+            : preferred.opponent || fallback.opponent,
           tilakInSquad: Boolean(preferred.tilakInSquad || fallback.tilakInSquad),
         });
       });
