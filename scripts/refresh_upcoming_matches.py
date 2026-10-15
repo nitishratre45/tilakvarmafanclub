@@ -373,7 +373,9 @@ def main() -> None:
     unique = {}
     for fixture in candidates:
         unique[(fixture["date"], fixture["opponent"], fixture["match"])] = fixture
-    news_confirmed = sorted(unique.values(), key=lambda row: (row["date"], row["match"]))
+    news_confirmed = sorted(
+        unique.values(), key=lambda row: (row["date"], row["match"])
+    )
 
     # News confirms Tilak's selection; BCCI Stats supplies canonical schedule
     # fields. Require exact date + match label + India/opponent pair; never guess.
@@ -392,12 +394,14 @@ def main() -> None:
         if matched:
             fixtures.append(matched)
         else:
-            unmatched.append({
-                "date": news_fixture.get("date"),
-                "match": news_fixture.get("match"),
-                "opponent": news_fixture.get("opponent"),
-                "source": news_fixture.get("source"),
-            })
+            unmatched.append(
+                {
+                    "date": news_fixture.get("date"),
+                    "match": news_fixture.get("match"),
+                    "opponent": news_fixture.get("opponent"),
+                    "source": news_fixture.get("source"),
+                }
+            )
 
     today = datetime.now().date().isoformat()
     fixtures = [fixture for fixture in fixtures if fixture["date"] >= today]
@@ -416,10 +420,15 @@ def main() -> None:
             for row in previous_report.get("fixtures", [])
             if isinstance(row, dict)
             and row.get("tilakInSquad") is True
-            and row.get("confirmationSource") == "BCCI squad announcement naming Tilak Varma"
+            and row.get("confirmationSource")
+            == "BCCI squad announcement naming Tilak Varma"
             and str(row.get("date", "")) >= today
         ]
-        status = "no-exact-bcci-match-preserved-verified" if fixtures else "no-exact-bcci-match"
+        status = (
+            "no-exact-bcci-match-preserved-verified"
+            if fixtures
+            else "no-exact-bcci-match"
+        )
     else:
         status = "updated-from-news-and-bcci-json"
     changed = fixtures != previous_report.get("fixtures", [])
@@ -428,7 +437,8 @@ def main() -> None:
         "newsUpdatedAt": news.get("updatedAt"),
         "bcciFixturesCheckedAt": (
             json.loads(BCCI_FIXTURES_FILE.read_text(encoding="utf-8")).get("checkedAt")
-            if BCCI_FIXTURES_FILE.exists() else None
+            if BCCI_FIXTURES_FILE.exists()
+            else None
         ),
         "unmatchedNewsFixtures": unmatched,
         "checkedAt": datetime.now(timezone.utc).isoformat(),
