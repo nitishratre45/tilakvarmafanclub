@@ -545,7 +545,7 @@
       // Prefer the official ID, but allow the exact date + match label + opponent
       // route key if an older cached link carries a stale/missing provider ID.
       // This is not a score fallback: it only resolves the requested fixture.
-      const f =
+      const initialFixture =
         (matchId ? fixtures.find((x) => fixtureIds(x).includes(matchId)) : null) ||
         fixtures.find(
           (x) =>
@@ -559,7 +559,7 @@
                 .trim()
                 .toLowerCase() === opponent.trim().toLowerCase()),
         );
-      let resolvedFixture = f;
+      let resolvedFixture = initialFixture;
       // Recent/played matches may no longer be present in the upcoming-fixtures snapshots.
       // For a Full Details link carrying a BCCI match ID, resolve only that exact ID from
       // the Python-generated results JSON; never guess by team names or a nearby date.
