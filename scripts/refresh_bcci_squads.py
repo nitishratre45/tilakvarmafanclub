@@ -105,18 +105,27 @@ def main():
     try:
         payloads = {}
         rows_by_team = {}
+        errors = []
         for team_id, team_name in TEAMS:
             try:
                 payloads[team_id], rows_by_team[team_id] = fetch(team_id, team_name)
             except Exception as exc:
-                # A blocked/retired team_id=6 route must not prevent trying the
-                # other configured endpoint, but no partial snapshot is published.
+                # Try both team endpoints even if one is blocked, so diagnostics
+                # show which provider routes are actually usable. Never publish
+                # a partial snapshot: both teams must have valid player records.
+                errors.append((team_id, team_name, exc))
                 print(
                     f"WARNING: squad endpoint unavailable for {team_name} "
                     f"(team_id={team_id}): {exc}",
                     file=sys.stderr,
                 )
-                raise
+        if errors:
+            details = "; ".join(
+                f"{name} team_id={team_id}: {exc}" for team_id, name, exc in errors
+            )
+            raise ValueError(
+                f"Could not refresh every required squad ({details}); saved snapshot preserved"
+            )
 
         squads = {}
         for team_id, team_name in TEAMS:
