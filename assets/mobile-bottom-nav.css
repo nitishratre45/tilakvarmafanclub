@@ -389,3 +389,39 @@ html body.tv-bottom-nav-enabled {
     flex: 0 0 24px !important;
   }
 }
+
+
+/* Records/mobile fix: keep the dock stable after scrolling stops, even when page CSS
+   applies nav animations, transforms, or hidden states to generic navigation elements. */
+@media screen and (max-width: 800px) {
+  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav {
+    position: fixed !important;
+    inset: auto 16px max(8px, env(safe-area-inset-bottom, 0px)) 16px !important;
+    display: grid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    translate: none !important;
+    animation: none !important;
+    transition: none !important;
+    pointer-events: none !important;
+    z-index: 2147483000 !important;
+  }
+  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav > a,
+  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav > button {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    pointer-events: auto !important;
+    color: #26364c !important;
+  }
+  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav > a > span,
+  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav > button > span {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: inherit !important;
+  }
+}
