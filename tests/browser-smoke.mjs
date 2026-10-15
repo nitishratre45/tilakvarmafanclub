@@ -482,6 +482,27 @@ check("video hub puts the newest published BCCI video first", async () => {
   await page.close();
 });
 
+check("New Zealand official T20I squad renders in Full Match Details", async () => {
+  const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  page.setDefaultTimeout(12000);
+  const pageErrors = [];
+  page.on("pageerror", error => pageErrors.push(error.message));
+  await page.goto(
+    baseURL + "/matches/details/?date=2026-10-24&match=2nd%20T20I&opponent=New%20Zealand&matchId=242109",
+    { waitUntil: "domcontentloaded" },
+  );
+  await page.waitForFunction(() => {
+    const heading = document.querySelector("#squad-opponent-heading")?.textContent || "";
+    const list = document.querySelector("#squad-opponent-list")?.textContent || "";
+    return /New Zealand/i.test(heading) && /Mitchell Santner/i.test(list);
+  });
+  assert.match(await page.locator("#squad-opponent-list").innerText(), /Mitchell Santner/);
+  assert.equal(await page.locator("#squad-opponent-list .details-player-row").count(), 16,
+    "Official New Zealand T20I squad should render all 16 announced players");
+  assert.deepEqual(pageErrors, [], "Match Details page errors: " + pageErrors.join(" | "));
+  await page.close();
+});
+
 check("News Details opens article and returns safely on desktop and mobile", async () => {
   for (const viewport of [{ width: 1280, height: 800 }, { width: 390, height: 844 }]) {
     const page = await browser.newPage({ viewport });
