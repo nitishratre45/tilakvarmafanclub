@@ -789,10 +789,12 @@
           }
         } catch (_) {}
       }
+      // Keep the saved results snapshot in init scope because the Recent Results,
+      // form and Tilak summary panels also use it later in this render pass.
+      let resultsSnapshot = null;
       // Match the BCCI results snapshot only by the fixture's official IDs and team IDs.
       // A result row for another match is never accepted by team names/date alone.
       if (!scorecardLoaded && fixtureMatchId) {
-        let resultsSnapshot = null;
         try {
           const resultsResponse = await fetch(
             "/matches/bcci-match-results.json?v=20261015-results-lazy1",
