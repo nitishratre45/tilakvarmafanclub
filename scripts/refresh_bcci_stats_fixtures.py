@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fetch BCCI Stats fixtures and normalize them into a same-origin JSON snapshot."""
 import json, re, sys
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
 
@@ -58,6 +58,10 @@ AWAY_KEYS = (
     "teamB",
 )
 MATCH_KEYS = (
+    "title",
+    "match_short_name",
+    "matchShortName",
+    "name",
     "match_name",
     "matchName",
     "match_number",
@@ -85,6 +89,12 @@ VENUE_KEYS = (
 TIME_KEYS = (
     "start_time_ist",
     "startTimeIST",
+    "start_time_local",
+    "startTimeLocal",
+    "start_datetime_utc",
+    "startDateTimeUtc",
+    "start_datetime",
+    "startDateTime",
     "match_time",
     "matchTime",
     "time",
@@ -166,6 +176,33 @@ def clean_time(value):
     return f"{hour:02d}:{minute:02d}"
 
 
+def time_in_ist(row, embedded_time=""):
+    # Convert the API's UTC kickoff to IST; never label venue-local time as IST.
+    raw_utc = first(row, ("start_datetime_utc", "startDateTimeUtc"))
+    if raw_utc:
+        text = str(raw_utc).strip().replace("Z", "+00:00")
+        try:
+            dt = datetime.fromisoformat(text)
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt.astimezone(timezone(timedelta(hours=5, minutes=30))).strftime("%H:%M")
+        except (ValueError, TypeError):
+            pass
+
+    local_time = clean_time(first(row, ("start_time_local", "startTimeLocal")))
+    offset = first(row, ("start_time_offset", "startTimeOffset"))
+    if local_time and offset not in (None, ""):
+        try:
+            minutes = int(offset)
+            hour, minute = map(int, local_time.split(":"))
+            ist_minutes = (hour * 60 + minute - minutes + 330) % (24 * 60)
+            return f"{ist_minutes // 60:02d}:{ist_minutes % 60:02d}"
+        except (ValueError, TypeError):
+            pass
+
+    return clean_time(first(row, ("start_time_ist", "startTimeIST", "match_time", "matchTime", "time")) or embedded_time)
+
+
 def normalize(row):
     raw_date = first(row, DATE_KEYS)
     home, away = team_name(first(row, HOME_KEYS)), team_name(first(row, AWAY_KEYS))
@@ -188,7 +225,7 @@ def normalize(row):
         "team": home,
         "opponent": away,
         "venue": venue or "Venue TBC",
-        "time": clean_time(first(row, TIME_KEYS)) or embedded_time,
+        "time": time_in_ist(row, embedded_time),
         "source": SOURCE_URL,
         "newsUrl": SOURCE_URL,
         "tilakInSquad": False,
