@@ -289,8 +289,8 @@ body > main > .profile-section {
   overflow-wrap: anywhere;
 }
 .profile-ranking-updated,
-.profile-teams-note,
-.home-bowling-updated {
+.home-bowling-updated
+{
   color: #91a7c1;
   font-size: 0.76rem;
   line-height: 1.65;
@@ -418,57 +418,14 @@ body > main > .profile-section {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
-.home-format-card {
-  min-width: 0;
-  padding: clamp(17px, 2.1vw, 24px);
-  border: 1px solid rgba(144, 177, 218, 0.18);
-  border-radius: 20px;
-  background: linear-gradient(145deg, rgba(16, 34, 57, 0.86), rgba(8, 18, 32, 0.95));
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
-}
-.home-format-card > span {
-  color: #8edff2;
-  font: 700 0.72rem var(--mono, monospace);
-  letter-spacing: 0.1em;
-}
-.home-format-card > strong {
-  display: block;
-  margin: 9px 0 4px;
-  color: #fff;
-  font: 800 clamp(2rem, 3.4vw, 2.8rem) / 1 var(--display, sans-serif);
-}
-.home-format-card > small {
-  color: #9eb1c9;
-  font-size: 0.75rem;
-  line-height: 1.7;
-}
-.home-format-facts {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin: 16px 0 12px;
-}
-.home-format-fact {
-  min-width: 0;
-  padding: 9px 8px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.035);
-}
-.home-format-fact span {
-  display: block;
-  color: #8fa5bf;
-  font: 500 0.63rem var(--mono, monospace);
-}
-.home-format-fact strong {
-  display: block;
-  margin-top: 4px;
-  color: #edf6ff;
-  font-size: 0.92rem;
-  overflow-wrap: anywhere;
-}
+
+
+
+
+
+
+
+
 .home-bowling-card {
   margin-top: 20px;
   padding: clamp(20px, 3vw, 32px);
@@ -599,8 +556,8 @@ body > footer {
     transform: translateY(-2px);
     box-shadow: 0 13px 28px rgba(255, 106, 53, 0.22);
   }
-  .home-mini-stat:hover,
-  .home-format-card:hover {
+  .home-mini-stat:hover
+{
     transform: translateY(-4px);
     border-color: rgba(117, 227, 255, 0.38);
     box-shadow: 0 18px 36px rgba(0, 0, 0, 0.2);
@@ -728,9 +685,7 @@ body > footer {
   .home-format-stats {
     grid-template-columns: minmax(0, 1fr);
   }
-  .home-format-facts {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+  
   .home-bowling-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -746,57 +701,23 @@ body > footer {
 }
 @media (prefers-reduced-motion: reduce) {
   .profile-photo-wrap img#tilak-photo,
-  .profile-quick-actions .button,
-  .home-mini-stat,
-  .home-format-card,
-  .home-innings-row {
+.profile-quick-actions .button,
+.home-mini-stat,
+.home-innings-row
+{
     transition: none;
   }
 }
 
 /* Rendered bowling summaries: compact, legible and responsive on mobile. */
-.home-bowling-stat > span {
-  display: block;
-  color: #82e4f7;
-  font: 800 0.7rem/1.5 var(--mono, monospace);
-  letter-spacing: 0.1em;
-}
-.home-bowling-stat > strong {
-  display: block;
-  margin: 10px 0 14px;
-  color: #f7f9ff;
-  font: 900 clamp(1.8rem, 3vw, 2.4rem) / 1 var(--display, sans-serif);
-}
-.home-bowling-stat > strong small {
-  color: #b7c7da;
-  font: 600 0.76rem/1.3 var(--body, sans-serif);
-}
-.home-bowling-facts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px;
-}
-.home-bowling-facts > div {
-  min-width: 0;
-  padding: 8px;
-  border: 1px solid rgba(144, 177, 218, 0.13);
-  border-radius: 9px;
-  background: rgba(255, 255, 255, 0.025);
-}
-.home-bowling-facts > div span,
-.home-bowling-facts > div b {
-  display: block;
-  overflow-wrap: anywhere;
-}
-.home-bowling-facts > div span {
-  color: #9fb3cc;
-  font: 600 0.6rem/1.5 var(--mono, monospace);
-}
-.home-bowling-facts > div b {
-  margin-top: 2px;
-  color: #f1f6ff;
-  font-size: 0.8rem;
-}
+
+
+
+
+
+
+
+
 .home-bowling-updated {
   margin-top: 16px;
   color: #9fb3cc;
@@ -807,9 +728,7 @@ body > footer {
   .home-bowling-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .home-bowling-stat {
-    padding: 12px;
-  }
+  
 }
 
 /* Compact bowling snapshot and clearer display typography. Header/nav/menu are intentionally untouched. */
@@ -828,9 +747,9 @@ body > footer {
 }
 .home-snapshot-heading h2,
 .home-format-heading,
-.home-format-card > span,
 .home-bowling-heading h3,
-.home-snapshot-blockhead h3 {
+.home-snapshot-blockhead h3
+{
   font-family: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
   letter-spacing: 0.005em;
 }
@@ -863,33 +782,13 @@ body > footer {
   padding: 11px;
   border-radius: 12px;
 }
-.home-bowling-stat > span {
-  font-size: 0.62rem;
-  letter-spacing: 0.07em;
-}
-.home-bowling-stat > strong {
-  margin: 6px 0 8px;
-  font-size: clamp(1.45rem, 2.2vw, 1.9rem);
-}
-.home-bowling-stat > strong small {
-  font-size: 0.68rem;
-}
-.home-bowling-facts {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 5px;
-}
-.home-bowling-facts > div {
-  padding: 6px;
-  border-radius: 7px;
-}
-.home-bowling-facts > div span {
-  font-size: 0.54rem;
-  letter-spacing: 0.015em;
-}
-.home-bowling-facts > div b {
-  font-size: 0.72rem;
-  line-height: 1.25;
-}
+
+
+
+
+
+
+
 .home-bowling-updated {
   margin-top: 9px;
   font-size: 0.67rem;
@@ -900,17 +799,13 @@ body > footer {
 .home-snapshot-columns {
   gap: 12px;
 }
-.home-format-card,
 .home-mini-stat,
-.home-snapshot-block {
+.home-snapshot-block
+{
   border-radius: 18px;
 }
-.home-format-facts {
-  gap: 6px;
-}
-.home-format-fact {
-  padding: 8px 7px;
-}
+
+
 @media (max-width: 680px) {
   .profile-copy h2 {
     font-size: clamp(3.4rem, 15vw, 4.7rem);
@@ -943,13 +838,8 @@ body > footer {
   .home-bowling-stats > * {
     padding: 10px;
   }
-  .home-bowling-facts {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 5px;
-  }
-  .home-bowling-facts > div {
-    padding: 6px;
-  }
+  
+  
 }
 @media (max-width: 380px) {
   .home-bowling-heading {
@@ -959,9 +849,7 @@ body > footer {
   .home-bowling-stats {
     grid-template-columns: minmax(0, 1fr);
   }
-  .home-bowling-facts {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+  
   .profile-copy h2 {
     font-size: clamp(3rem, 14vw, 3.6rem);
   }
@@ -979,9 +867,9 @@ body > footer {
   letter-spacing: -0.035em;
 }
 .home-mini-stat,
-.home-format-card,
 .home-bowling-card,
-.home-snapshot-block {
+.home-snapshot-block
+{
   background: linear-gradient(145deg, rgba(14, 35, 61, 0.96), rgba(7, 19, 36, 0.98));
   border-color: rgba(110, 168, 255, 0.2);
 }
@@ -993,14 +881,8 @@ body > footer {
     transparent
   );
 }
-.home-format-card > span,
-.home-bowling-stat > span {
-  color: var(--home-accent-cyan);
-}
-.home-format-fact {
-  background: rgba(110, 168, 255, 0.055);
-  border: 1px solid rgba(110, 168, 255, 0.1);
-}
+
+
 .home-snapshot-blockhead > a,
 .home-snapshot-foot > a {
   color: var(--home-accent-cyan);
@@ -1046,33 +928,13 @@ body > footer {
     grid-template-columns: minmax(0, 1fr);
     gap: 9px;
   }
-  .home-format-card {
-    padding: 14px;
-    border-radius: 16px;
-  }
-  .home-format-card > strong {
-    margin: 6px 0 2px;
-    font-size: 1.9rem;
-  }
-  .home-format-card > small {
-    font-size: 0.7rem;
-    line-height: 1.45;
-  }
-  .home-format-facts {
-    gap: 6px;
-    margin: 10px 0 8px;
-  }
-  .home-format-fact {
-    padding: 7px 8px;
-    border-radius: 8px;
-  }
-  .home-format-fact span {
-    font-size: 0.57rem;
-  }
-  .home-format-fact strong {
-    margin-top: 2px;
-    font-size: 0.8rem;
-  }
+  
+  
+  
+  
+  
+  
+  
   .home-bowling-card {
     margin-top: 12px;
     padding: 14px;
@@ -1103,23 +965,11 @@ body > footer {
     padding: 9px;
     border-radius: 11px;
   }
-  .home-bowling-stat > strong {
-    margin: 5px 0 7px;
-    font-size: 1.45rem;
-  }
-  .home-bowling-facts {
-    gap: 5px;
-  }
-  .home-bowling-facts > div {
-    padding: 6px;
-    border-radius: 7px;
-  }
-  .home-bowling-facts > div span {
-    font-size: 0.52rem;
-  }
-  .home-bowling-facts > div b {
-    font-size: 0.7rem;
-  }
+  
+  
+  
+  
+  
   .home-bowling-updated {
     margin-top: 9px;
     font-size: 0.62rem;
@@ -1186,9 +1036,7 @@ body > footer {
     gap: 8px;
     padding: 9px;
   }
-  .home-format-facts {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+  
 }
 
 /* Homepage career summary: compact, scrollable tables inspired by the full Stats page. */

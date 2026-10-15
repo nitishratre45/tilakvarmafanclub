@@ -57,72 +57,34 @@ body {
   background: linear-gradient(90deg, #ff8748, #78e4ef 48%, transparent);
   opacity: 0.72;
 }
-.section-heading {
-  gap: 14px;
-}
-.section-heading h2,
-.section-heading h3 {
-  letter-spacing: -0.025em;
-  text-wrap: balance;
-}
-.section-heading > p {
-  max-width: 760px;
-  line-height: 1.7;
-}
+
+
+
 .eyebrow {
   color: #78e4ef;
   letter-spacing: 0.12em;
 }
-.stat-card,
 .home-snapshot-block,
 .home-bowling-card,
-.match-history-summary,
 .profile-teams-panel,
-.icc-ranking-card,
-.statsguru-panel,
-.player-analysis-filter,
-.fan-card,
-.upcoming-match-card,
-.home-format-card,
-.format-card,
-.settings-card,
-.cricinfo-gallery,
-.tilak-news-content,
-.upcoming-matches-panel {
+.icc-ranking-card
+{
   border-color: var(--admin-line);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
-.stat-card,
 .home-snapshot-block,
-.home-bowling-card,
-.match-history-summary,
-.statsguru-panel,
-.player-analysis-filter,
-.settings-card {
+.home-bowling-card
+{
   background: linear-gradient(155deg, rgba(17, 36, 58, 0.96), rgba(10, 23, 40, 0.96));
 }
-.stat-card,
-.home-format-card,
-.format-card,
-.fan-card,
-.upcoming-match-card,
-.tv-album-card,
-.icc-ranking-card {
+.icc-ranking-card
+{
   transition:
     border-color 0.18s ease,
     transform 0.18s ease,
     box-shadow 0.18s ease;
 }
-.stat-card:hover,
-.home-format-card:hover,
-.format-card:hover,
-.fan-card:hover,
-.upcoming-match-card:hover,
-.tv-album-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(120, 228, 239, 0.3);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
-}
+
 .button,
 button,
 select,
@@ -173,14 +135,7 @@ summary:focus-visible {
   outline: 2px solid #78e4ef;
   outline-offset: 3px;
 }
-.table-wrap,
-.statsguru-table-wrap,
-.match-history-table-wrap {
-  max-width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-inline: contain;
-}
+
 img,
 video,
 iframe,
@@ -203,12 +158,8 @@ canvas {
     border-radius: 16px;
     margin-bottom: 16px;
   }
-  .section-heading {
-    gap: 10px;
-  }
-  .section-heading > p {
-    font-size: 13px;
-  }
+  
+  
   .button,
   button {
     min-height: 40px;
@@ -238,13 +189,9 @@ canvas {
   background: linear-gradient(155deg, #fff, #edf4ff);
   box-shadow: 0 12px 30px rgba(29, 71, 122, 0.08);
 }
-:root[data-theme-resolved="light"] .stat-card,
 :root[data-theme-resolved="light"] .home-snapshot-block,
-:root[data-theme-resolved="light"] .home-bowling-card,
-:root[data-theme-resolved="light"] .match-history-summary,
-:root[data-theme-resolved="light"] .statsguru-panel,
-:root[data-theme-resolved="light"] .player-analysis-filter,
-:root[data-theme-resolved="light"] .settings-card {
+:root[data-theme-resolved="light"] .home-bowling-card
+{
   background: linear-gradient(145deg, #fff, #edf4ff);
   border-color: #d4e2f4;
 }
