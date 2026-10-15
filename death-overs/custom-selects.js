@@ -228,19 +228,8 @@
   }
 
   function enhance(select) {
-    // On touch devices keep the native select control. Android can use a wide
-    // layout viewport inside embedded pages, and custom fixed dialogs can be
-    // painted behind the iframe/browser compositing layer even when the overlay
-    // receives taps. Native selects are rendered by the browser and remain reliable.
-    if (isMobile()) {
-      select.dataset.customSelectReady = "native-mobile";
-      select.classList.remove("cs-native-select");
-      select.removeAttribute("aria-hidden");
-      select.tabIndex = 0;
-      return;
-    }
-
-    // Use the branded picker on desktop only; native touch pickers stay native.
+    // Use the branded picker on touch and desktop. The mobile dialog is rendered
+    // in document.body with fixed positioning and its own scrollable option list.
     if (
       select.dataset.customSelectReady === "true" ||
       select.multiple ||
