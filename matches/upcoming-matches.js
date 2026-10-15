@@ -185,8 +185,14 @@
   function renderFixtures(inputFixtures) {
     const now = Date.now();
     const upcoming = inputFixtures.filter((fixture) => {
-      const start = Date.parse(fixture.date + "T" + fixture.time + ":00+05:30");
-      return Number.isFinite(start) && now < start + 4 * 60 * 60 * 1000;
+      const hasTime = Boolean(String(fixture.time || "").trim());
+      // If the official source does not publish a start time, keep the fixture
+      // visible for its scheduled date instead of hiding it as an invalid date.
+      const start = Date.parse(
+        fixture.date + (hasTime ? "T" + fixture.time + ":00+05:30" : "T00:00:00+05:30"),
+      );
+      const visibilityWindow = (hasTime ? 4 : 24) * 60 * 60 * 1000;
+      return Number.isFinite(start) && now < start + visibilityWindow;
     });
     const announcementLink = document.getElementById("upcoming-team-announcement-link");
     if (announcementLink && upcoming.length)
