@@ -83,7 +83,7 @@ jobs:
               `- **Workflow run:** ${runUrl}`,
               '',
               'Inspect the failed “Fetch India and West Indies squads” step. This alert closes automatically after a successful refresh.'
-            ].join('\\n');
+            ].join(String.fromCharCode(10));
             const { data: issues } = await github.rest.issues.listForRepo({
               owner, repo, state: 'open', per_page: 100
             });
