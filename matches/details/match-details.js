@@ -106,6 +106,38 @@
     );
     host.setAttribute("aria-label", String(name || "Team"));
   }
+  // Section switcher: show only the section the user selects; keep the scoreboard as its own panel.
+  function initDetailsSectionTabs() {
+    const nav = document.querySelector(".details-tabs");
+    const sections = Array.from(document.querySelectorAll(".match-details-main > .details-section"));
+    if (!nav || !sections.length) return;
+    const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+    const activate = (id, updateHash) => {
+      const target = sections.find((section) => section.id === id);
+      if (!target) return;
+      sections.forEach((section) => {
+        const active = section === target;
+        section.hidden = !active;
+        section.setAttribute("aria-hidden", String(!active));
+      });
+      links.forEach((link) => {
+        const active = link.hash === "#" + id;
+        link.classList.toggle("is-active", active);
+        if (active) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+      if (updateHash && location.hash !== "#" + id) history.replaceState(null, "", "#" + id);
+    };
+    links.forEach((link) => link.addEventListener("click", (event) => {
+      const id = link.hash.slice(1);
+      if (!sections.some((section) => section.id === id)) return;
+      event.preventDefault();
+      activate(id, true);
+      window.scrollTo({ top: Math.max(0, nav.getBoundingClientRect().top + window.scrollY - 88), behavior: "smooth" });
+    }));
+    const initial = location.hash.slice(1);
+    activate(sections.some((section) => section.id === initial) ? initial : "overview", false);
+  }
   function showPlayers(id, players) {
     const host = $(id);
     if (!host) return;
@@ -927,5 +959,6 @@
       set("workflow-fixture", "Fixture request failed; refresh and retry.");
     }
   }
+  initDetailsSectionTabs();
   init();
 })();
