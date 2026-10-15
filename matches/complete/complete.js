@@ -203,61 +203,78 @@
       let resultPayload = null;
       if (resultsResponse.ok) resultPayload = await resultsResponse.json().catch(() => null);
       const bcciRows = Array.isArray(resultPayload?.matches) ? resultPayload.matches : [];
-      const norm = (v) => String(v || "").trim().toLowerCase();
+      const norm = (v) =>
+        String(v || "")
+          .trim()
+          .toLowerCase();
       const formatFromBcci = (m) => {
         const classes = Array.isArray(m.class) ? m.class.map((x) => norm(x.name)).join(" ") : "";
         const title = norm(m.title || m.name || "");
-        if (/test|first.class|multi.day/.test(classes + " " + title)) return /test/.test(classes + " " + title) ? "Test" : "First-class";
-        if (/one.day|list a|odi/.test(classes + " " + title)) return /international|odi/.test(classes + " " + title) ? "ODI" : "List A";
+        if (/test|first.class|multi.day/.test(classes + " " + title))
+          return /test/.test(classes + " " + title) ? "Test" : "First-class";
+        if (/one.day|list a|odi/.test(classes + " " + title))
+          return /international|odi/.test(classes + " " + title) ? "ODI" : "List A";
         if (/t20 international|t20i/.test(classes + " " + title)) return "T20I";
         if (/twenty20|t20|ipl/.test(classes + " " + title)) return "T20";
         return "";
       };
-      const bcciMatches = bcciRows.map((m) => {
-        const id = String(m.gid || m.match_id || "").trim();
-        const archived = archiveById.get(id);
-        const home = String(m.team1_name || m.team1_short_name || "").trim();
-        const away = String(m.team2_name || m.team2_short_name || "").trim();
-        const format = formatFromBcci(m);
-        const date = String(m.start_date || m.end_date || "").slice(0, 10);
-        const result = String(m.result_string || m.result || m.status || "").trim();
-        const completed = /complete|result|won by|tied|drawn|abandon/i.test(result) ||
-          (m.result_id && String(m.result_id) !== "0") ||
-          (m.match_status && /complete|result|finished/i.test(String(m.match_status)));
-        if (!id || !home || !away || !date || !format || !completed) return null;
-        return {
-          ...(archived || {}),
-          matchId: archived?.matchId || id,
-          date: archived?.date || date,
-          team: archived?.team || home,
-          opposition: archived?.opposition || away,
-          venue: archived?.venue || m.ground_name || m.ground_city || "Venue unavailable",
-          event: archived?.event || m.comp_name || m.alt_comp_name || "",
-          format: archived?.format || format,
-          result: archived?.result || result || "Result available from BCCI",
-          bcciResult: true,
-          hasScorecard: Boolean(archived),
-        };
-      }).filter(Boolean);
+      const bcciMatches = bcciRows
+        .map((m) => {
+          const id = String(m.gid || m.match_id || "").trim();
+          const archived = archiveById.get(id);
+          const home = String(m.team1_name || m.team1_short_name || "").trim();
+          const away = String(m.team2_name || m.team2_short_name || "").trim();
+          const format = formatFromBcci(m);
+          const date = String(m.start_date || m.end_date || "").slice(0, 10);
+          const result = String(m.result_string || m.result || m.status || "").trim();
+          const completed =
+            /complete|result|won by|tied|drawn|abandon/i.test(result) ||
+            (m.result_id && String(m.result_id) !== "0") ||
+            (m.match_status && /complete|result|finished/i.test(String(m.match_status)));
+          if (!id || !home || !away || !date || !format || !completed) return null;
+          return {
+            ...(archived || {}),
+            matchId: archived?.matchId || id,
+            date: archived?.date || date,
+            team: archived?.team || home,
+            opposition: archived?.opposition || away,
+            venue: archived?.venue || m.ground_name || m.ground_city || "Venue unavailable",
+            event: archived?.event || m.comp_name || m.alt_comp_name || "",
+            format: archived?.format || format,
+            result: archived?.result || result || "Result available from BCCI",
+            bcciResult: true,
+            hasScorecard: Boolean(archived),
+          };
+        })
+        .filter(Boolean);
       const merged = new Map();
       [...archiveMatches, ...bcciMatches].forEach((m) => {
         const id = String(m.matchId || m.match_id || m.gid || "").trim();
         if (!id) return;
         const previous = merged.get(id);
-        merged.set(id, previous ? { ...m, ...previous, hasScorecard: Boolean(previous.hasScorecard || m.hasScorecard) } : {
-          ...m,
-          hasScorecard: Boolean(m.hasScorecard || archiveById.has(id)),
-        });
+        merged.set(
+          id,
+          previous
+            ? { ...m, ...previous, hasScorecard: Boolean(previous.hasScorecard || m.hasScorecard) }
+            : {
+                ...m,
+                hasScorecard: Boolean(m.hasScorecard || archiveById.has(id)),
+              },
+        );
       });
-      state.matches = [...merged.values()].sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
+      state.matches = [...merged.values()].sort((a, b) =>
+        String(b.date || "").localeCompare(String(a.date || "")),
+      );
       $("scorecard-count").textContent = state.matches.length.toLocaleString("en-IN");
       const updatedAt = resultPayload?.checkedAt || archive.updatedAt;
       $("scorecard-updated").textContent = updatedAt
-        ? "Updated " + new Date(updatedAt).toLocaleString("en-IN") + (bcciMatches.length ? " · BCCI results + verified scorecards" : " · verified scorecards")
+        ? "Updated " +
+          new Date(updatedAt).toLocaleString("en-IN") +
+          (bcciMatches.length ? " · BCCI results + verified scorecards" : " · verified scorecards")
         : "BCCI results + verified scorecard archive";
       $("scorecard-source-note").textContent = bcciMatches.length
         ? "Recent completed results are merged from BCCI India (team_id=6) and West Indies (team_id=4) feeds. Full scorecards open where a verified archive is available."
-        : (archive.coverageNote || "Only verified available scorecards are shown.");
+        : archive.coverageNote || "Only verified available scorecards are shown.";
       restoreReturnState();
       renderMatches();
     } catch (error) {
