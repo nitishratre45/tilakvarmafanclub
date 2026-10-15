@@ -945,3 +945,52 @@
     height: 620px;
   }
 }
+
+
+/* Live scoreboard: readable score rows instead of an embedded raw JSON document. */
+.scoreboard-live-card {
+  border-color: rgba(72, 210, 157, 0.3);
+  background: linear-gradient(145deg, rgba(13, 47, 47, 0.96), rgba(8, 20, 34, 0.98));
+}
+.scoreboard-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  color: #86f0be;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: .07em;
+}
+.scoreboard-live-pill span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #57e6a5;
+  box-shadow: 0 0 0 4px rgba(87, 230, 165, .12);
+  animation: scoreboard-live-pulse 1.5s ease-in-out infinite;
+}
+.scoreboard-live-card h3 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 10px 0;
+  padding: 13px 14px;
+  border: 1px solid rgba(169, 194, 229, .13);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .035);
+  font-size: clamp(15px, 2.5vw, 20px);
+}
+.scoreboard-live-card h3 strong {
+  color: #fff;
+  font-size: clamp(17px, 3vw, 25px);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+@keyframes scoreboard-live-pulse {
+  50% { opacity: .45; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scoreboard-live-pill span { animation: none; }
+}
