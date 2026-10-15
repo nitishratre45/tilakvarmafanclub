@@ -8,7 +8,7 @@ on:
       - '.github/workflows/refresh-tilak-data.yml'
   workflow_dispatch:
   schedule:
-    - cron: "17 */12 * * *"
+    - cron: "57 */12 * * *"
 permissions:
   contents: write
 concurrency:
