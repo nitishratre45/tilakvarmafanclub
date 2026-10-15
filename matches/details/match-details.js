@@ -1174,24 +1174,17 @@
         const recentTeamNames = [a, b].filter(Boolean);
         const resultPerspective = (row, teamName) => {
           const target = normaliseRecentTeam(teamName);
-          const recordedTeam = normaliseRecentTeam(row.team);
-          const recordedOpponent = normaliseRecentTeam(row.opposition);
           const result = String(row.result || "").trim();
           if (!result) return { outcome: "N", label: "Result unavailable" };
           if (/no result|abandoned|cancelled|canceled|tied|drawn/i.test(result)) {
             return { outcome: "N", label: result };
           }
-          const recordedWinner = normaliseRecentTeam(result.split(/\\s+won\\s+/i)[0]);
           if (/\\s+won\\s+/i.test(result)) {
-            const wonBy = result.split(/\\s+won\\s+/i).slice(1).join(" won ");
-            if (recordedWinner === target) return { outcome: "W", label: teamName + " won " + wonBy };
-            if (recordedWinner && (recordedWinner === recordedTeam || recordedWinner === recordedOpponent)) {
-              const other = recordedWinner === recordedTeam ? row.opposition : row.team;
-              if (normaliseRecentTeam(other) === target) return { outcome: "W", label: teamName + " won " + wonBy };
-              return { outcome: "L", label: result };
-            }
-            if (recordedWinner === recordedTeam || recordedWinner === recordedOpponent) return { outcome: "L", label: result };
-            return { outcome: "N", label: result };
+            const winnerName = result.split(/\\s+won\\s+/i)[0];
+            const winner = normaliseRecentTeam(winnerName);
+            if (winner === target) return { outcome: "W", label: result };
+            const knownTeams = [row.team, row.opposition].map(normaliseRecentTeam);
+            if (knownTeams.includes(winner)) return { outcome: "L", label: result };
           }
           return { outcome: "N", label: result };
         };
