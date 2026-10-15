@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "matches" / "scorecards"
 DATA = OUT / "data"
 INDEX = OUT / "index.json"
+ALL_MATCHES_INDEX = OUT / "all-matches-index.json"
 ARCHIVE_URL = "https://cricsheet.org/downloads/all_json.zip"
 PLAYER = "Tilak Varma"
 PLAYER_KEY = PLAYER.casefold()
@@ -303,6 +304,53 @@ def parse_match(match, source_file):
     }
 
 
+
+def parse_archive_summary(match, source_file):
+    """Return a lightweight result row for any match in Cricsheet's archive."""
+    info = match.get("info") or {}
+    teams = info.get("teams") or list((info.get("players") or {}).keys())
+    if len(teams) < 2:
+        return None
+    dates = info.get("dates") or []
+    date = str(dates[0]) if dates else ""
+    raw_type = str(info.get("match_type") or "Unknown")
+    team_type = str(info.get("team_type") or "").casefold()
+    fmt = {
+        "IT20": "T20I",
+        "T20": "T20I" if team_type == "international" else "T20",
+        "ODI": "ODI",
+        "ODM": "List A",
+        "Test": "Test",
+        "MDM": "First-class",
+    }.get(raw_type, raw_type)
+    outcome = info.get("outcome") or {}
+    winner, by = outcome.get("winner"), outcome.get("by") or {}
+    if winner:
+        margin = next((f"{v} {k}" for k, v in by.items() if v is not None), "")
+        result = f"{winner} won by {margin}".strip()
+    elif outcome.get("result"):
+        result = str(outcome["result"]).replace("_", " ").title()
+    else:
+        result = "Result unavailable"
+    event = info.get("event") or {}
+    event_name = event.get("name") if isinstance(event, dict) else str(event or "")
+    first, second = str(teams[0]), str(teams[1])
+    suffix = hashlib.sha1(source_file.encode()).hexdigest()[:12]
+    match_id = f"{slug(date)}-{slug(fmt)}-{slug(first)}-vs-{slug(second)}-{suffix}"
+    return {
+        "matchId": match_id,
+        "date": date,
+        "format": fmt,
+        "team": first,
+        "opposition": second,
+        "teams": [first, second],
+        "venue": str(info.get("venue") or info.get("city") or "Venue unavailable"),
+        "event": event_name,
+        "result": result,
+        "source": "https://cricsheet.org/",
+    }
+
+
 def main():
     DATA.mkdir(parents=True, exist_ok=True)
     request = urllib.request.Request(
@@ -313,7 +361,7 @@ def main():
     )
     with urllib.request.urlopen(request, timeout=180) as response:
         archive = zipfile.ZipFile(io.BytesIO(response.read()))
-    rows, written, malformed, removed_stale = [], 0, 0, 0
+    rows, all_match_rows, written, malformed, removed_stale = [], [], 0, 0, 0
     for source_file in archive.namelist():
         if not source_file.lower().endswith(".json"):
             continue
@@ -322,6 +370,9 @@ def main():
         except (json.JSONDecodeError, UnicodeDecodeError):
             malformed += 1
             continue
+        summary = parse_archive_summary(match, source_file)
+        if summary:
+            all_match_rows.append(summary)
         card = parse_match(match, source_file)
         if not card:
             continue
@@ -350,6 +401,23 @@ def main():
                 "source": card["source"],
             }
         )
+    # Build a separate all-team index; the Tilak-only index cannot power opponent results.
+    all_match_rows.sort(key=lambda row: row.get("date") or "", reverse=True)
+    all_matches_index = {
+        "schemaVersion": 1,
+        "updatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "source": "Cricsheet all-match JSON archive",
+        "sourceUrl": ARCHIVE_URL,
+        "attribution": "Match data provided by Cricsheet; Open Data Commons Attribution License (ODC-BY).",
+        "coverageNote": "Lightweight match summaries for all teams in the Cricsheet archive. Full ball-by-ball scorecards are linked only when available in the Tilak Varma scorecard collection.",
+        "matchCount": len(all_match_rows),
+        "matches": all_match_rows,
+    }
+    ALL_MATCHES_INDEX.parent.mkdir(parents=True, exist_ok=True)
+    ALL_MATCHES_INDEX.write_text(
+        json.dumps(all_matches_index, ensure_ascii=False, indent=2) + "\\n",
+        encoding="utf-8",
+    )
     # Cricsheet all_json.zip already includes Syed Mushtaq Ali Trophy; verified SMAT matches are indexed with ball-by-ball deliveries.
     rows.sort(key=lambda row: row.get("date") or "", reverse=True)
     # Remove stale files for unrelated/same-name club entries no longer in the verified index.
@@ -374,7 +442,7 @@ def main():
         json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(
-        f"Archive files: {len(archive.namelist())}; scorecards written: {written}; indexed matches: {len(rows)}; stale files removed: {removed_stale}; malformed files skipped: {malformed}"
+        f"Archive files: {len(archive.namelist())}; all-team summaries: {len(all_match_rows)}; scorecards written: {written}; Tilak-indexed matches: {len(rows)}; stale files removed: {removed_stale}; malformed files skipped: {malformed}"
     )
     if not rows:
         print(
