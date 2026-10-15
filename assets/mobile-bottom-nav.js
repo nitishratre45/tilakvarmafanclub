@@ -148,3 +148,63 @@
     { passive: true },
   );
 })();
+
+
+/* Lightweight site-wide performance helpers: safe image loading + no layout hacks. */
+(function siteSmoothRuntime() {
+  if (window.__tvSiteSmoothRuntime) return;
+  window.__tvSiteSmoothRuntime = true;
+
+  const optimizeImages = () => {
+    const images = Array.from(document.images || []);
+    images.forEach((img, index) => {
+      if (!img || img.dataset.noLazy === "true" || img.loading === "eager" ||
+          img.hasAttribute("data-src") || img.hasAttribute("data-lazy-src")) return;
+
+      // Preserve the first two images and explicitly high-priority assets for LCP.
+      if (index < 2 || img.fetchPriority === "high" ||
+          img.closest("header, .hero, .topbar, .bcci-video-player")) {
+        img.decoding = img.decoding || "async";
+        return;
+      }
+
+      const rect = img.getBoundingClientRect();
+      if (rect.top > window.innerHeight * 1.15) img.loading = "lazy";
+      if (!img.decoding) img.decoding = "async";
+    });
+  };
+
+  const runWhenIdle = (callback) => {
+    if ("requestIdleCallback" in window) window.requestIdleCallback(callback, { timeout: 1200 });
+    else window.setTimeout(callback, 180);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => runWhenIdle(optimizeImages), { once: true });
+  } else {
+    runWhenIdle(optimizeImages);
+  }
+
+  // Optimize images added later by galleries and feed renderers without observing every mutation.
+  const startObserver = () => {
+    if (!("MutationObserver" in window) || !document.body) return;
+    let queued = false;
+    const observer = new MutationObserver((mutations) => {
+      const hasImages = mutations.some((mutation) =>
+        Array.from(mutation.addedNodes || []).some((node) =>
+          node.nodeType === 1 && (node.matches?.("img") || node.querySelector?.("img"))
+        )
+      );
+      if (!hasImages || queued) return;
+      queued = true;
+      runWhenIdle(() => {
+        queued = false;
+        optimizeImages();
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startObserver, { once: true });
+  } else startObserver();
+})();
