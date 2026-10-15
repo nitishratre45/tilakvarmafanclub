@@ -39,7 +39,8 @@
     ["photos", "Photos", "/photos/"],
     ["videos", "Videos", "/videos/"],
   ];
-  const nav = document.querySelector("body > nav.tv-mobile-bottom-nav") || document.createElement("nav");
+  const nav =
+    document.querySelector("body > nav.tv-mobile-bottom-nav") || document.createElement("nav");
   nav.className = "tv-mobile-bottom-nav";
   nav.setAttribute("aria-label", "Mobile quick navigation");
   nav.replaceChildren();
@@ -64,7 +65,9 @@
   if (["stats", "death-overs", "records", "news"].includes(current))
     trigger.classList.add("is-active");
   nav.appendChild(trigger);
-  const panel = document.querySelector("body > .tv-mobile-extra-menu#tv-mobile-extra-menu") || document.createElement("div");
+  const panel =
+    document.querySelector("body > .tv-mobile-extra-menu#tv-mobile-extra-menu") ||
+    document.createElement("div");
   panel.className = "tv-mobile-extra-menu";
   panel.id = "tv-mobile-extra-menu";
   panel.hidden = true;
