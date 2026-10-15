@@ -212,6 +212,45 @@
         </div>
       </section>
     </main>
+
+    <nav class="tvfc-home-bottom-nav" aria-label="Quick navigation">
+      <a href="#profile" aria-current="page"><span aria-hidden="true">⌂</span><small>Home</small></a>
+      <a href="/matches/"><span aria-hidden="true">▤</span><small>Match</small></a>
+      <a href="/photos/"><span aria-hidden="true">▧</span><small>Photo</small></a>
+      <a href="/videos/"><span aria-hidden="true">▷</span><small>Video</small></a>
+    </nav>
+    <style>
+      .tvfc-home-bottom-nav { display:none; }
+      @media (max-width: 760px) {
+        body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+        .tvfc-home-bottom-nav {
+          position: fixed; z-index: 1000; left: 12px; right: 12px;
+          bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+          display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 4px; padding: 8px 6px;
+          border: 1px solid rgba(255,255,255,.16); border-radius: 20px;
+          background: rgba(8, 24, 46, .94); color: #fff;
+          box-shadow: 0 10px 35px rgba(0,0,0,.28);
+          -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+        }
+        .tvfc-home-bottom-nav a {
+          min-width: 0; min-height: 48px; display: flex; flex-direction: column;
+          align-items: center; justify-content: center; gap: 3px;
+          border-radius: 13px; color: inherit; text-decoration: none;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .tvfc-home-bottom-nav a span { font-size: 21px; line-height: 1; }
+        .tvfc-home-bottom-nav a small { font: 600 11px/1.2 system-ui, sans-serif; }
+        .tvfc-home-bottom-nav a[aria-current="page"] {
+          background: linear-gradient(135deg, #1769d2, #0b8b83);
+          color: #fff;
+        }
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .tvfc-home-bottom-nav a { transition: background-color .18s ease, transform .18s ease; }
+        .tvfc-home-bottom-nav a:active { transform: scale(.96); }
+      }
+    </style>
     <footer>
       <a class="brand" href="#"
         ><span class="brand-mark brand-mark-photo"
