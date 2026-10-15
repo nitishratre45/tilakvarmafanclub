@@ -205,6 +205,57 @@ export async function onRequest({ request, env }) {
           202,
         );
       }
+      const matchWorkflowActions = {
+        "match-live-refresh": {
+          workflow: "refresh-bcci-live-matches.yml",
+          label: "BCCI live-score refresh",
+        },
+        "match-results-refresh": {
+          workflow: "refresh-bcci-match-results.yml",
+          label: "BCCI match-results refresh",
+        },
+        "match-squads-refresh": {
+          workflow: "refresh-bcci-squads.yml",
+          label: "BCCI squads refresh",
+        },
+        "match-stats-refresh": {
+          workflow: "refresh-bcci-stats-fixtures.yml",
+          label: "BCCI stats-fixtures refresh",
+        },
+        "match-audit": {
+          workflow: "matches-folder-audit.yml",
+          label: "Matches folder audit",
+        },
+      };
+      const matchWorkflow = matchWorkflowActions[body.action];
+      if (matchWorkflow) {
+        const recent = await github(
+          env,
+          "/actions/workflows/" + matchWorkflow.workflow + "/runs?per_page=10",
+        );
+        const active = (recent.workflow_runs || []).find((run) =>
+          ["queued", "in_progress", "waiting", "requested", "pending"].includes(run.status),
+        );
+        if (active) {
+          return json(
+            {
+              error: matchWorkflow.label + " is already queued or running.",
+              runUrl: active.html_url,
+              runId: active.id,
+            },
+            409,
+          );
+        }
+        await github(
+          env,
+          "/actions/workflows/" + matchWorkflow.workflow + "/dispatches",
+          { method: "POST", body: JSON.stringify({ ref: "main" }) },
+        );
+        return json(
+          { ok: true, message: matchWorkflow.label + " queued successfully." },
+          202,
+        );
+      }
       if (body.action === "match-refresh") {
         await github(env, "/actions/workflows/refresh-upcoming-matches.yml/dispatches", {
           method: "POST",
