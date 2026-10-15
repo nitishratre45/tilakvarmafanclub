@@ -43,28 +43,46 @@
     document.querySelector("body > nav.tv-mobile-bottom-nav") || document.createElement("nav");
   nav.className = "tv-mobile-bottom-nav";
   nav.setAttribute("aria-label", "Mobile quick navigation");
-  nav.replaceChildren();
-  items.forEach(([key, label, url]) => {
-    const a = document.createElement("a");
-    a.href = url;
+  const hasStaticLinks = nav.querySelector('a[href="/"]') && nav.querySelector('a[href="/matches/"]');
+  if (!hasStaticLinks) {
+    nav.replaceChildren();
+    items.forEach(([key, label, url]) => {
+      const a = document.createElement("a");
+      a.href = url;
+      a.setAttribute("aria-label", label);
+      a.innerHTML = makeIcon(key) + "<span>" + label + "</span>";
+      nav.appendChild(a);
+    });
+  }
+  nav.querySelectorAll("a").forEach((a) => {
+    const item = items.find((entry) => entry[2] === a.getAttribute("href"));
+    if (!item) return;
+    const [key, label] = item;
     a.setAttribute("aria-label", label);
-    a.innerHTML = makeIcon(key) + "<span>" + label + "</span>";
-    if (current === key) {
-      a.classList.add("is-active");
-      a.setAttribute("aria-current", "page");
+    if (!a.querySelector("svg")) {
+      const labelNode = Array.from(a.children).find((node) => node.textContent.trim() === label);
+      a.innerHTML = makeIcon(key) + "<span>" + label + "</span>";
     }
-    nav.appendChild(a);
+    a.classList.toggle("is-active", current === key);
+    if (current === key) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
   });
-  const trigger = document.createElement("button");
-  trigger.type = "button";
-  trigger.className = "tv-mobile-menu-trigger";
-  trigger.setAttribute("aria-label", "More sections");
-  trigger.setAttribute("aria-expanded", "false");
-  trigger.setAttribute("aria-controls", "tv-mobile-extra-menu");
-  trigger.innerHTML = makeIcon("menu") + "<span>Menu</span>";
+  let trigger = nav.querySelector(".tv-mobile-menu-trigger");
+  if (!trigger) {
+    trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "tv-mobile-menu-trigger";
+    trigger.setAttribute("aria-label", "More sections");
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.setAttribute("aria-controls", "tv-mobile-extra-menu");
+    trigger.innerHTML = makeIcon("menu") + "<span>Menu</span>";
+    nav.appendChild(trigger);
+  } else if (!trigger.querySelector("svg")) {
+    trigger.innerHTML = makeIcon("menu") + "<span>Menu</span>";
+  }
   if (["stats", "death-overs", "records", "news"].includes(current))
     trigger.classList.add("is-active");
-  nav.appendChild(trigger);
+  else trigger.classList.remove("is-active");
   const panel =
     document.querySelector("body > .tv-mobile-extra-menu#tv-mobile-extra-menu") ||
     document.createElement("div");
