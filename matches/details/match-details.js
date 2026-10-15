@@ -109,7 +109,9 @@
   // Section switcher: show only the section the user selects; keep the scoreboard as its own panel.
   function initDetailsSectionTabs() {
     const nav = document.querySelector(".details-tabs");
-    const sections = Array.from(document.querySelectorAll(".match-details-main > .details-section"));
+    const sections = Array.from(
+      document.querySelectorAll(".match-details-main > .details-section"),
+    );
     if (!nav || !sections.length) return;
     const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
     const activate = (id, updateHash) => {
@@ -128,13 +130,18 @@
       });
       if (updateHash && location.hash !== "#" + id) history.replaceState(null, "", "#" + id);
     };
-    links.forEach((link) => link.addEventListener("click", (event) => {
-      const id = link.hash.slice(1);
-      if (!sections.some((section) => section.id === id)) return;
-      event.preventDefault();
-      activate(id, true);
-      window.scrollTo({ top: Math.max(0, nav.getBoundingClientRect().top + window.scrollY - 88), behavior: "smooth" });
-    }));
+    links.forEach((link) =>
+      link.addEventListener("click", (event) => {
+        const id = link.hash.slice(1);
+        if (!sections.some((section) => section.id === id)) return;
+        event.preventDefault();
+        activate(id, true);
+        window.scrollTo({
+          top: Math.max(0, nav.getBoundingClientRect().top + window.scrollY - 88),
+          behavior: "smooth",
+        });
+      }),
+    );
     const initial = location.hash.slice(1);
     activate(sections.some((section) => section.id === initial) ? initial : "overview", false);
   }

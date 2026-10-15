@@ -861,21 +861,43 @@
 }
 
 /* Compact tabbed Match Details: only the selected section is visible. */
-.match-details-main > .details-section[hidden] { display: none !important; }
+.match-details-main > .details-section[hidden] {
+  display: none !important;
+}
 .details-tabs a.is-active,
 .details-tabs a[aria-current="location"] {
   color: #fff;
-  background: linear-gradient(135deg, rgba(11,95,196,.95), rgba(255,124,69,.82));
-  box-shadow: 0 5px 18px rgba(0,0,0,.2);
+  background: linear-gradient(135deg, rgba(11, 95, 196, 0.95), rgba(255, 124, 69, 0.82));
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.2);
 }
-.details-tabs { scroll-behavior: smooth; }
-.details-tabs a { transition: background-color .18s ease, color .18s ease, transform .18s ease; }
-.details-tabs a:active { transform: scale(.97); }
+.details-tabs {
+  scroll-behavior: smooth;
+}
+.details-tabs a {
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+.details-tabs a:active {
+  transform: scale(0.97);
+}
 @media (max-width: 640px) {
-  .details-tabs { top: 64px; gap: 5px; padding: 6px; }
-  .details-tabs a { padding: 10px 11px; font-size: 11px; }
+  .details-tabs {
+    top: 64px;
+    gap: 5px;
+    padding: 6px;
+  }
+  .details-tabs a {
+    padding: 10px 11px;
+    font-size: 11px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .details-tabs a { transition: none; }
-  html:focus-within { scroll-behavior: auto; }
+  .details-tabs a {
+    transition: none;
+  }
+  html:focus-within {
+    scroll-behavior: auto;
+  }
 }
