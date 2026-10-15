@@ -45,10 +45,16 @@
           .toLowerCase(),
       )
       .join("|");
-  const teamLogoUrl = (name) => {
+  const teamLogoUrl = (name, supplied) => {
+    const value = String(supplied || "").trim();
+    // Prefer a real logo URL already present in the selected fixture/JSON.
+    if (/^https?:\/\//i.test(value)) return value;
+    if (value.startsWith("/")) return "https://img1.hscicdn.com" + value;
     const n = String(name || "")
       .trim()
-      .toLowerCase();
+      .toLowerCase()
+      .replace(/&/g, "and")
+      .replace(/\s+/g, " ");
     const logos = {
       india: "https://flagcdn.com/w160/in.png",
       "west indies":
@@ -76,10 +82,21 @@
       "papua new guinea": "https://flagcdn.com/w160/pg.png",
       uganda: "https://flagcdn.com/w160/ug.png",
       kenya: "https://flagcdn.com/w160/ke.png",
+      "mumbai indians": "https://scores.iplt20.com/ipl/teamlogos/MI.png",
+      "chennai super kings": "https://scores.iplt20.com/ipl/teamlogos/CSK.png",
+      "kolkata knight riders": "https://scores.iplt20.com/ipl/teamlogos/KKR.png",
+      "royal challengers bengaluru": "https://scores.iplt20.com/ipl/teamlogos/RCB.png",
+      "royal challengers bangalore": "https://scores.iplt20.com/ipl/teamlogos/RCB.png",
+      "rajasthan royals": "https://scores.iplt20.com/ipl/teamlogos/RR.png",
+      "sunrisers hyderabad": "https://scores.iplt20.com/ipl/teamlogos/SRH.png",
+      "delhi capitals": "https://scores.iplt20.com/ipl/teamlogos/DC.png",
+      "punjab kings": "https://scores.iplt20.com/ipl/teamlogos/PBKS.png",
+      "gujarat titans": "https://scores.iplt20.com/ipl/teamlogos/GT.png",
+      "lucknow super giants": "https://scores.iplt20.com/ipl/teamlogos/LSG.png",
     };
     return logos[n] || "";
   };
-  function setTeamBadge(id, name) {
+  function setTeamBadge(id, name, suppliedLogo) {
     const host = $(id);
     if (!host) return;
     const initials = String(name || "?")
@@ -89,7 +106,7 @@
       .map((part) => part[0])
       .join("")
       .toUpperCase();
-    const src = teamLogoUrl(name);
+    const src = teamLogoUrl(name, suppliedLogo);
     if (!src) {
       host.textContent = initials;
       return;
@@ -907,8 +924,30 @@
       set("details-series", detail.series || f.series || "Upcoming fixture");
       set("details-team-name", a);
       set("details-opponent-name", b);
-      setTeamBadge("details-team-mark-home", a);
-      setTeamBadge("details-team-mark-away", b);
+      const logoFrom = (object, keys) => {
+        for (const key of keys) {
+          const value = object?.[key];
+          if (typeof value === "string" && value.trim()) return value.trim();
+          if (value && typeof value === "object") {
+            const nested = value.url || value.imageUrl || value.src;
+            if (typeof nested === "string" && nested.trim()) return nested.trim();
+          }
+        }
+        return "";
+      };
+      const rawTeams = f.rawBcci || {};
+      setTeamBadge(
+        "details-team-mark-home",
+        a,
+        logoFrom(f, ["teamLogo", "teamImageUrl", "teamLogoUrl", "team_image", "team_image_url"]) ||
+          logoFrom(rawTeams, ["team1_logo", "team1_image", "team1_image_url", "home_team_logo", "home_team_image"]),
+      );
+      setTeamBadge(
+        "details-team-mark-away",
+        b,
+        logoFrom(f, ["opponentLogo", "opponentImageUrl", "opponentLogoUrl", "opponent_image", "opponent_image_url"]) ||
+          logoFrom(rawTeams, ["team2_logo", "team2_image", "team2_image_url", "away_team_logo", "away_team_image"]),
+      );
       set("details-date", dateLabel(f.date) + " · " + timeLabel(f.time));
       set("details-venue", f.venue || "Venue TBA");
       set("details-location", detail.ground || "City / ground as listed by source");
