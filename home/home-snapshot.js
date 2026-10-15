@@ -208,8 +208,12 @@
           : '<p class="activity-empty">No verified bowling summary is saved yet.</p>';
       }
       // Keep CAREER SUMMARY above the career tables and place the Stats link underneath them.
-      const summaryHeading = document.querySelector(".home-snapshot-section .home-snapshot-heading");
-      const bowlingTableSection = document.querySelector(".home-snapshot-section .home-bowling-table-section");
+      const summaryHeading = document.querySelector(
+        ".home-snapshot-section .home-snapshot-heading",
+      );
+      const bowlingTableSection = document.querySelector(
+        ".home-snapshot-section .home-bowling-table-section",
+      );
       if (summaryHeading) {
         const label = summaryHeading.querySelector(".eyebrow");
         if (label) {
