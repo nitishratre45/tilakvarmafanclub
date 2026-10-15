@@ -96,11 +96,11 @@ def main():
         temp_path = None
         try:
             with tempfile.NamedTemporaryFile(
-                mode="w", encoding="utf-8", newline="\\n",
+                mode="w", encoding="utf-8", newline="",
                 dir=OUTPUT.parent, prefix=f".{OUTPUT.name}.", suffix=".tmp", delete=False
             ) as stream:
                 temp_path = Path(stream.name)
-                stream.write(json.dumps(snapshot, ensure_ascii=False, indent=2) + "\\n")
+                stream.write(json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n")
                 stream.flush()
                 os.fsync(stream.fileno())
             candidate = json.loads(temp_path.read_text(encoding="utf-8"))
