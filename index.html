@@ -24,19 +24,25 @@
       content="Tilak Varma fan club — career snapshot, recent innings, match moments and fan gallery."
     />
     <title>Tilak Varma FC | The 72 Club</title>
-    <link rel="stylesheet" href="/home/style.css?v=20261015-home-unused-css-cleanup1" />
-    <link rel="stylesheet" href="/home/premium-ui.css?v=20261015-home-unused-css-cleanup1" />
-    <link rel="stylesheet" href="/home/site-refinement.css?v=20261015-home-unused-css-cleanup1" />
-    <link rel="stylesheet" href="/home/admin-inspired-ui.css?v=20261015-home-unused-css-cleanup1" />
-    <link rel="stylesheet" href="/home/home-refresh.css?v=20261015-home-unused-css-cleanup1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
+    />
+    <link rel="stylesheet" href="/home/style.css?v=20261015-home-audit-fix1" />
+    <link rel="stylesheet" href="/home/premium-ui.css?v=20261015-home-audit-fix1" />
+    <link rel="stylesheet" href="/home/site-refinement.css?v=20261015-home-audit-fix1" />
+    <link rel="stylesheet" href="/home/admin-inspired-ui.css?v=20261015-home-audit-fix1" />
+    <link rel="stylesheet" href="/home/home-refresh.css?v=20261015-home-audit-fix1" />
 
     <link
       rel="stylesheet"
-      href="/assets/mobile-glass-menu.css?v=20261015-desktop-menu-toggle-fix1"
+      href="/assets/mobile-glass-menu.css?v=20261015-home-audit-fix1"
     />
     <link
       rel="stylesheet"
-      href="/assets/india-cricket-theme.css?v=20261015-home-unused-css-cleanup1"
+      href="/assets/india-cricket-theme.css?v=20261015-home-audit-fix1"
     />
   </head>
   <body>
@@ -51,7 +57,7 @@
         ><span>TILAK VARMA <small>FAN CLUB</small></span></a
       ><button
         class="menu-toggle"
-        aria-label="Toggle menu"
+        aria-label="Open navigation menu"
         aria-expanded="false"
         aria-controls="main-nav"
       >
@@ -59,7 +65,7 @@
         <span></span>
         <span></span>
       </button>
-      <nav id="main-nav">
+      <nav id="main-nav" aria-label="Primary navigation">
         <a href="#profile">Home</a><a href="/stats/">Stats</a><a href="/death-overs/">Death-overs</a
         ><a href="/matches/">Matches</a><a href="/records/">Records</a><a href="/news/">News</a
         ><a href="/photos/">Photos</a><a href="/videos/">Videos</a>
@@ -223,7 +229,7 @@
         ><span>TILAK VARMA <small>FAN CLUB</small></span></a
       ><span> · <span id="year"></span></span><span>RESPECT THE GAME. BACK THE PLAYER.</span>
     </footer>
-    <script src="assets/site-data-store.js?v=20261013-root-data-loader-fix1"></script>
+    <script src="assets/site-data-store.js?v=20261015-home-audit-fix1"></script>
     <script>
       (() => {
         const img = document.querySelector("[data-tilak-logo]");
@@ -236,12 +242,12 @@
           .catch(() => {});
       })();
     </script>
-    <script src="/home/app.js?v=20261015-home-ranking-updater-cleanup1"></script>
-    <script src="/home/section-tabs.js?v=20261013-modular-routes1"></script>
+    <script src="/home/app.js?v=20261015-home-audit-fix1"></script>
+    <script src="/home/section-tabs.js?v=20261015-home-audit-fix1"></script>
 
-    <script src="/home/upgrade.js"></script>
-    <script src="/home/home-snapshot.js?v=20261015-fielding-fallback-fix1"></script>
-    <script src="/home/theme.js?v=20261015-home-unused-css-cleanup1"></script>
+    <script src="/home/upgrade.js?v=20261015-home-audit-fix1"></script>
+    <script src="/home/home-snapshot.js?v=20261015-home-audit-fix1"></script>
+    <script src="/home/theme.js?v=20261015-home-audit-fix1"></script>
 
     <script>
       if ("serviceWorker" in navigator) {
@@ -252,6 +258,6 @@
         });
       }
     </script>
-    <script src="/assets/mobile-glass-menu.js?v=20261015-home-unused-css-cleanup1"></script>
+    <script src="/assets/mobile-glass-menu.js?v=20261015-home-audit-fix1"></script>
   </body>
 </html>
