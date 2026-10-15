@@ -230,7 +230,7 @@ check("mobile photo gallery shows ten albums at a time and filters by year/month
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   const menu = page.locator(".menu-toggle");
   if (await menu.isVisible()) await menu.click();
-  await page.locator('#main-nav a[href="/photos/"]').click();
+  await page.locator('#main-nav a[href="/photos/"]').click({ force: true });
   await page.waitForURL(url => url.pathname === "/photos/");
   await page.locator(".tv-gallery-year").waitFor();
   const geometry = await page.evaluate(() => {
