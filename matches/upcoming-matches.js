@@ -241,8 +241,29 @@
               (fixture.time ? "<span>" + esc(fixture.time) + " IST</span>" : "") +
               "</div>" +
               '<div class="upcoming-match-link"><a href="' +
-              esc(fixture.newsUrl || "/news/") +
-              '">Match Details ↗</a></div></article>',
+              esc(
+                "/matches/details/?date=" +
+                  encodeURIComponent(fixture.date || "") +
+                  "&match=" +
+                  encodeURIComponent(fixture.match || "") +
+                  "&opponent=" +
+                  encodeURIComponent(fixture.opponent || "") +
+                  ((fixture.matchId || fixture.match_id || fixture.gid || fixture.rawBcci?.match_id || fixture.rawBcci?.gid)
+                    ? "&matchId=" +
+                      encodeURIComponent(
+                        fixture.matchId ||
+                          fixture.match_id ||
+                          fixture.gid ||
+                          fixture.rawBcci?.match_id ||
+                          fixture.rawBcci?.gid,
+                      )
+                    : ""),
+              ) +
+              '">Full Match Details ↗</a>' +
+              (fixture.newsUrl
+                ? ' <a class="upcoming-match-source" href="' + esc(fixture.newsUrl) + '" target="_blank" rel="noopener noreferrer">Source ↗</a>'
+                : "") +
+              "</div></article>",
           )
           .join("")
       : '<p class="activity-empty">No upcoming fixtures are currently listed for a squad that includes Tilak Varma.</p>';
