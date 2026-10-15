@@ -175,9 +175,13 @@
           esc(m.venue || "Venue unavailable") +
           '</div><div class="complete-match-result">' +
           esc(m.result || "Result unavailable") +
-          '</div><div class="complete-match-bottom"><a class="scorecard-open" href="/matches/scorecards/?match=' +
-          encodeURIComponent(m.matchId) +
-          '">Full scorecard ↗</a></div></article>',
+          '</div><div class="complete-match-bottom">' +
+          (m.hasScorecard !== false
+            ? '<a class="scorecard-open" href="/matches/scorecards/?match=' +
+              encodeURIComponent(m.matchId) +
+              '">Full scorecard ↗</a>'
+            : '<span class="scorecard-unavailable">BCCI result · scorecard archive unavailable</span>') +
+          '</div></article>',
       )
       .join("");
   }
