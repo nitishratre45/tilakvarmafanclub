@@ -38,12 +38,12 @@
       rel="stylesheet"
       href="/assets/india-cricket-theme.css?v=20261015-home-unused-css-cleanup1"
     />
-    <link rel="stylesheet" href="/assets/home-mobile-bottom-nav.css?v=20261015-bottom-nav3" />
+    <link rel="stylesheet" href="/assets/home-mobile-bottom-nav.css?v=20261015-bottom-nav4" />
     <style id="tv-mobile-bottom-nav-critical">
       .tv-mobile-bottom-nav {
         display: none;
       }
-      @media screen and (max-width: 800px) {
+      @media screen and (max-width: 800px), screen and (max-device-width: 800px) {
         body {
           padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important;
         }
@@ -62,7 +62,7 @@
           z-index: 2147482999 !important;
         }
       }
-      @media screen and (min-width: 801px) {
+      @media screen and (min-width: 801px) and (min-device-width: 801px) {
         body > nav.tv-mobile-bottom-nav,
         body > nav.tv-mobile-menu {
           display: none !important;
