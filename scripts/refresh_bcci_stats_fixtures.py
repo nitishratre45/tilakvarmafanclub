@@ -271,21 +271,34 @@ def collect(payload):
 
 
 def main():
-    req = Request(
+    # Fetch both BCCI pagination pages and merge them into one snapshot.
+    # If either request fails, abort the refresh so the previous snapshot survives.
+    source_urls = [
         SOURCE_URL,
-        headers={
-            "User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClubFixtures/1.0)",
-            "Accept": "application/json, text/plain, */*",
-            "Referer": "https://www.bcci.tv/",
-        },
-    )
-    try:
-        with urlopen(req, timeout=30) as response:
-            payload = json.loads(response.read().decode("utf-8-sig"))
-    except Exception as exc:
-        print(f"ERROR: BCCI Stats fetch/JSON parse failed: {exc}", file=sys.stderr)
-        return 1
-    fixtures = collect(payload)
+        SOURCE_URL.replace("page=1&size=12", "page=2&size=12"),
+    ]
+    payloads = []
+    for page_number, source_url in enumerate(source_urls, start=1):
+        req = Request(
+            source_url,
+            headers={
+                "User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClubFixtures/1.0)",
+                "Accept": "application/json, text/plain, */*",
+                "Referer": "https://www.bcci.tv/",
+            },
+        )
+        try:
+            with urlopen(req, timeout=30) as response:
+                page_payload = json.loads(response.read().decode("utf-8-sig"))
+            payloads.append(page_payload)
+            print(f"Fetched BCCI Stats fixtures page {page_number}.")
+        except Exception as exc:
+            print(
+                f"ERROR: BCCI Stats page {page_number} fetch/JSON parse failed; previous snapshot preserved: {exc}",
+                file=sys.stderr,
+            )
+            return 1
+    fixtures = collect(payloads)
     if not fixtures:
         print(
             "ERROR: response had no rows matching known fixture fields; previous snapshot preserved.",
