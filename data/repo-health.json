@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-15T10:03:43+00:00",
+  "checkedAt": "2026-10-15T14:55:39+00:00",
   "intervalMinutes": 10,
   "status": "warning",
   "summary": {
-    "filesScanned": 416,
-    "checksPassed": 323,
+    "filesScanned": 432,
+    "checksPassed": 334,
     "issues": 0,
-    "warnings": 42
+    "warnings": 43
   },
   "items": [
     {
@@ -92,8 +92,13 @@
     },
     {
       "level": "warning",
-      "message": "26 repeated CSS selector(s); review cascade/overrides: .details-tabs (5x), .details-team-mark (4x), .details-hero (3x), .details-tabs a (3x), .details-section (3x), .details-weather-card (3x), .details-backbar (2x), .details-versus (2x)",
+      "message": "32 repeated CSS selector(s); review cascade/overrides: .details-tabs (7x), .details-tabs a (6x), .details-team-mark (4x), .details-hero (3x), .details-section (3x), .details-weather-card (3x), .details-backbar (2x), .details-versus (2x)",
       "file": "matches/details/match-details.css"
+    },
+    {
+      "level": "warning",
+      "message": "6 repeated CSS selector(s); review cascade/overrides: .live-top (2x), .live-main (2x), .live-hero (2x), .live-section-head (2x), .live-grid (2x), .live-teams (2x)",
+      "file": "matches/live/live.css"
     },
     {
       "level": "warning",
@@ -437,6 +442,21 @@
     },
     {
       "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/bcci-match-results.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/bcci-squads.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/bcci-stats-fixtures.json"
+    },
+    {
+      "level": "pass",
       "message": "JavaScript syntax OK",
       "file": "matches/complete/complete.js"
     },
@@ -464,6 +484,21 @@
       "level": "pass",
       "message": "No duplicate HTML IDs",
       "file": "matches/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
+      "file": "matches/live/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/live/live-matches.json"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "matches/live/live.js"
     },
     {
       "level": "pass",
@@ -1224,41 +1259,6 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/scorecards/data/2025-11-02-t20i-india-vs-australia-bbcf8862fbb5.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-11-06-t20-india-vs-australia-02a2adb3471a.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-11-06-t20i-india-vs-australia-02a2adb3471a.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-12-06-odi-india-vs-south-africa-cd5c20f8c9d6.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-12-09-t20-india-vs-south-africa-eaeb39187b97.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-12-09-t20i-india-vs-south-africa-eaeb39187b97.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-12-11-t20-india-vs-south-africa-79c319e94c15.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-12-11-t20i-india-vs-south-africa-79c319e94c15.json"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "ce891f46"
+    "branch": "009fbdd3"
   }
 }
