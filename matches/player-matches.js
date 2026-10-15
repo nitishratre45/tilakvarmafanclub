@@ -299,7 +299,7 @@
               );
             })
             .join("")
-        : '<tr><td colspan="10" class="empty">No verified match rows are available for this format yet. Existing saved scorecards are preserved during refresh.</td></tr>';
+        : '<tr><td colspan="11" class="empty">No verified match rows are available for this format yet. Existing saved scorecards are preserved during refresh.</td></tr>';
   }
   let snapshot = null;
   const selector = $("player-match-format");
@@ -313,6 +313,6 @@
       const table = $("player-matches-table");
       if (table)
         table.innerHTML =
-          '<tr><td colspan="10" class="empty">Match history is temporarily unavailable.</td></tr>';
+          '<tr><td colspan="11" class="empty">Match history is temporarily unavailable.</td></tr>';
     });
 })();
