@@ -47,7 +47,9 @@ jobs:
           assert module.parse_time("TBC") == "", "Unparseable time must remain unknown"
           assert module.parse_time("7:30 PM IST") == "19:30"
           assert module.parse_time("19:30 IST") == "19:30"
-          print("Verified match-time parser does not invent defaults.")
+          assert module.clean_venue("Bengaluru Rest of India squad:Rishabh Pant") == "Bengaluru"
+          assert module.clean_venue("Hamilton DEVAJIT SAIKIA Honorary Secretary") == "Hamilton"
+          print("Verified match-time parser and venue cleanup preserve only schedule data.")
           PY
           python - <<'PY'
           import json
