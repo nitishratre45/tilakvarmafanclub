@@ -10,6 +10,7 @@ on:
       - ".github/workflows/refresh-bcci-squads.yml"
 permissions:
   contents: write
+  issues: write
 concurrency:
   group: refresh-bcci-squads
   cancel-in-progress: false
@@ -27,6 +28,8 @@ jobs:
       - name: Validate Python syntax
         run: python -m py_compile scripts/refresh_bcci_squads.py
       - name: Fetch India and West Indies squads
+        id: refresh
+        continue-on-error: true
         run: python scripts/refresh_bcci_squads.py
       - name: Validate squads snapshot
         run: |
@@ -58,6 +61,60 @@ jobs:
               assert any(x.get("teamId") == "4" and x.get("players") for x in data["squads"])
           print(f"Validated {len(data['squads'])} squad lists.")
           PY
+      - name: Track upstream provider outage while retaining the verified snapshot
+        if: steps.refresh.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const title = '[Squad Refresh] Upstream provider unavailable';
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const fs = require('fs');
+            let snapshot = {};
+            try {
+              snapshot = JSON.parse(fs.readFileSync('matches/bcci-squads.json', 'utf8'));
+            } catch {}
+            const body = [
+              'The scheduled squad refresh could not retrieve the India/West Indies squads from the upstream provider.',
+              '',
+              '- **Action:** The last saved snapshot was retained; no partial provider response was published.',
+              `- **Saved snapshot status:** ${snapshot.status || 'unknown'}`,
+              `- **Saved snapshot timestamp:** ${snapshot.checkedAt || 'unknown'}`,
+              `- **Workflow run:** ${runUrl}`,
+              '',
+              'Inspect the failed “Fetch India and West Indies squads” step. This alert closes automatically after a successful refresh.'
+            ].join('\\n');
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner, repo, state: 'open', per_page: 100
+            });
+            const existing = issues.find(issue => !issue.pull_request && issue.title === title);
+            if (existing) {
+              await github.rest.issues.update({
+                owner, repo, issue_number: existing.number, body
+              });
+            } else {
+              await github.rest.issues.create({ owner, repo, title, body });
+            }
+            core.warning('Provider refresh failed. Existing verified squads were preserved and a tracking issue was opened/updated.');
+
+      - name: Close provider outage issue after successful refresh
+        if: steps.refresh.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const title = '[Squad Refresh] Upstream provider unavailable';
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner, repo, state: 'open', per_page: 100
+            });
+            const existing = issues.find(issue => !issue.pull_request && issue.title === title);
+            if (existing) {
+              await github.rest.issues.update({
+                owner, repo, issue_number: existing.number, state: 'closed'
+              });
+              core.notice('Closed the squad provider outage issue after a successful refresh.');
+            }
+
       - name: Commit snapshot if changed
         run: |
           if [ ! -f matches/bcci-squads.json ]; then
