@@ -55,57 +55,73 @@
           .join("");
       }
       const formatHost = $("home-format-stats");
+      const formatOrder = [
+        ["ODIs", "ODI"],
+        ["T20Is", "T20I"],
+        ["FC", "First-class"],
+        ["List A", "List A"],
+        ["T20s", "Overall T20 (all competitions)"],
+      ];
+      const cell = (value) => "<td>" + esc(value ?? "—") + "</td>";
+      const table = (heading, columns, rows, className) =>
+        '<div class="home-career-table-wrap"><table class="home-career-table ' + className + '"><caption>' + esc(heading) + '</caption><thead><tr>' +
+        columns.map((column) => "<th scope=\"col\">" + esc(column) + "</th>").join("") +
+        "</tr></thead><tbody>" + rows.join("") + "</tbody></table></div>";
       if (formatHost) {
-        const order = [
-          ["ODI", "ODI"],
-          ["FC", "First-class"],
-          ["T20I", "T20I"],
-          ["LIST A", "List A"],
-          ["IPL", "IPL"],
-          ["OVERALL T20", "Overall T20 (all competitions)"],
-        ];
-        formatHost.innerHTML = order
-          .map(([label, key]) => {
-            const s = data.careerFormats?.[key];
-            if (!s) return "";
-            return (
-              '<article class="home-format-card"><span>' +
-              esc(label) +
-              "</span><strong>" +
-              esc(number(s.runs)) +
-              "</strong><small>" +
-              esc(s.matches ?? "—") +
-              " matches · HS " +
-              esc(s.highestScore ?? "—") +
-              '</small><div class="home-format-facts">' +
-              [
-                ["INN", s.innings],
-                ["NO", s.notOuts],
-                ["4s", s.fours],
-                ["6s", s.sixes],
-                ["50s", s.fifties],
-                ["100s", s.hundreds],
-              ]
-                .map(
-                  ([fact, value]) =>
-                    '<div class="home-format-fact"><span>' +
-                    esc(fact) +
-                    "</span><strong>" +
-                    esc(value ?? "—") +
-                    "</strong></div>",
-                )
-                .join("") +
-              "</div><small>AVG " +
-              esc(s.average ?? "—") +
-              " · SR " +
-              esc(s.strikeRate ?? "—") +
-              "</small></article>"
-            );
-          })
-          .filter(Boolean)
-          .join("");
+        const formats = formatOrder.map(([label, key]) => {
+          const s = data.careerFormats?.[key];
+          if (!s) return "";
+          const rows = [
+            label,
+            s.matches,
+            s.innings,
+            s.notOuts,
+            number(s.runs),
+            s.highestScore,
+            s.average,
+            number(s.balls),
+            s.strikeRate,
+            s.hundreds,
+            s.fifties,
+            s.fours,
+            s.sixes,
+            s.catches,
+            s.stumpings,
+          ];
+          return "<tr>" + rows.map(cell).join("") + "</tr>";
+        }).filter(Boolean);
+        formatHost.innerHTML = table(
+          "BATTING & FIELDING",
+          ["Format", "Mat", "Inns", "NO", "Runs", "HS", "Ave", "BF", "SR", "100s", "50s", "4s", "6s", "Ct", "St"],
+          formats,
+          "home-batting-table"
+        );
       }
       const bowlingHost = $("home-bowling-stats");
+      const bowlingUpdated = $("home-bowling-updated");
+      const bowling = data.bowlingStats || {};
+      const bowlingFormats = bowling.formats || {};
+      if (bowlingHost) {
+        const bowlingOrder = [
+          ["ODIs", "ODI"],
+          ["T20Is", "T20I"],
+          ["FC", "First-class"],
+          ["List A", "List A"],
+          ["T20s", "Overall T20"],
+        ];
+        const rows = bowlingOrder.map(([label, key]) => {
+          const s = bowlingFormats[key]?.summary || bowlingFormats[key];
+          if (!s) return "";
+          return "<tr>" + [
+            label, s.matches, s.innings, s.balls, number(s.runs), s.wickets,
+            s.bestBowling, s.bestMatchBowling, s.average, s.economy,
+            s.strikeRate, s.fourWickets, s.fiveWickets, s.tenWickets
+          ].map(cell).join("") + "</tr>";
+        }).filter(Boolean);
+        bowlingHost.innerHTML = rows.length
+          ? table("BOWLING", ["Format", "Mat", "Inns", "Balls", "Runs", "Wkts", "BBI", "BBM", "Ave", "Econ", "SR", "4w", "5w", "10w"], rows, "home-bowling-table")
+          : '<p class="activity-empty">No verified bowling summary is saved yet.</p>';
+      }
       const bowlingUpdated = $("home-bowling-updated");
       const bowling = data.bowlingStats || {};
       const bowlingFormats = bowling.formats || {};
