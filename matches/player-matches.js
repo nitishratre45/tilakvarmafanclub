@@ -120,7 +120,7 @@
       .toLowerCase();
     const allowedFormats =
       fmt === "t20i"
-        ? new Set(["t20i"])
+        ? new Set(["t20i", "t20"])
         : fmt === "odi"
           ? new Set(["odi"])
           : fmt === "fc"
@@ -139,7 +139,11 @@
           .toLowerCase(),
       );
     });
-    return matches.length === 1 ? matches[0] : null;
+    // Cricsheet may store the same T20I fixture under both T20 and T20I
+    // labels. Collapse those duplicate index entries by stable match ID before
+    // deciding whether the match is unique.
+    const uniqueMatches = [...new Map(matches.map((match) => [match.matchId || match.match_id, match])).values()];
+    return uniqueMatches.length === 1 ? uniqueMatches[0] : null;
   };
 
   function render(data) {
