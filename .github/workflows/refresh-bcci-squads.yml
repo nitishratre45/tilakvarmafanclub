@@ -1,0 +1,51 @@
+name: Refresh BCCI Squads
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/5 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/refresh_bcci_squads.py"
+      - ".github/workflows/refresh-bcci-squads.yml"
+permissions:
+  contents: write
+concurrency:
+  group: refresh-bcci-squads
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate Python syntax
+        run: python -m py_compile scripts/refresh_bcci_squads.py
+      - name: Fetch India and West Indies squads
+        run: python scripts/refresh_bcci_squads.py
+      - name: Validate squads snapshot
+        run: |
+          python -m json.tool matches/bcci-squads.json > /dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("matches/bcci-squads.json").read_text(encoding="utf-8"))
+          assert data.get("status") == "updated-from-bcci-squads"
+          assert any(x.get("teamId") == "6" and x.get("players") for x in data["squads"])
+          assert any(x.get("teamId") == "4" and x.get("players") for x in data["squads"])
+          print(f"Validated {len(data['squads'])} squad lists.")
+          PY
+      - name: Commit snapshot if changed
+        run: |
+          git add matches/bcci-squads.json
+          if git diff --cached --quiet; then echo "No squad changes."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: refresh BCCI squads snapshot"
+          git pull --rebase origin main
+          git push origin HEAD:main
