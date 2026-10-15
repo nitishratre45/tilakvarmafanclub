@@ -641,9 +641,12 @@
       if (!scorecardLoaded && fixtureMatchId) {
         let resultsSnapshot = null;
         try {
-          const resultsResponse = await fetch("/matches/bcci-match-results.json?v=20261015-results-lazy1", {
-            cache: "no-store",
-          });
+          const resultsResponse = await fetch(
+            "/matches/bcci-match-results.json?v=20261015-results-lazy1",
+            {
+              cache: "no-store",
+            },
+          );
           if (resultsResponse.ok) resultsSnapshot = await resultsResponse.json().catch(() => null);
         } catch (_) {}
         const resultRows = Array.isArray(resultsSnapshot?.matches) ? resultsSnapshot.matches : [];
