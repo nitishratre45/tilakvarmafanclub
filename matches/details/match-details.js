@@ -940,13 +940,31 @@
         "details-team-mark-home",
         a,
         logoFrom(f, ["teamLogo", "teamImageUrl", "teamLogoUrl", "team_image", "team_image_url"]) ||
-          logoFrom(rawTeams, ["team1_logo", "team1_image", "team1_image_url", "home_team_logo", "home_team_image"]),
+          logoFrom(rawTeams, [
+            "team1_logo",
+            "team1_image",
+            "team1_image_url",
+            "home_team_logo",
+            "home_team_image",
+          ]),
       );
       setTeamBadge(
         "details-team-mark-away",
         b,
-        logoFrom(f, ["opponentLogo", "opponentImageUrl", "opponentLogoUrl", "opponent_image", "opponent_image_url"]) ||
-          logoFrom(rawTeams, ["team2_logo", "team2_image", "team2_image_url", "away_team_logo", "away_team_image"]),
+        logoFrom(f, [
+          "opponentLogo",
+          "opponentImageUrl",
+          "opponentLogoUrl",
+          "opponent_image",
+          "opponent_image_url",
+        ]) ||
+          logoFrom(rawTeams, [
+            "team2_logo",
+            "team2_image",
+            "team2_image_url",
+            "away_team_logo",
+            "away_team_image",
+          ]),
       );
       set("details-date", dateLabel(f.date) + " · " + timeLabel(f.time));
       set("details-venue", f.venue || "Venue TBA");
