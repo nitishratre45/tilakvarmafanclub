@@ -195,29 +195,49 @@
       return bTime - aTime;
     });
     activeAlbum = { name: "All Photos", photos: ordered };
-    const photoMarkup = ordered.map((photo, index) => {
-      const date = photo.createdAt && !Number.isNaN(Date.parse(photo.createdAt))
-        ? new Date(photo.createdAt).toLocaleDateString("en-IN", {
-            timeZone: "Asia/Kolkata", day: "numeric", month: "short", year: "numeric"
-          })
-        : "Date unavailable";
-      return '<button class="tv-album-photo tv-all-photo-card" type="button" data-photo-index="' +
-        index + '" aria-label="Open ' + esc(photo.title || "Tilak Varma photo") +
-        '"><img src="' + photo.safe + '" alt="' + esc(photo.title || "Tilak Varma photo") +
-        '" loading="lazy" decoding="async"><span class="tv-photo-open-icon">↗</span><span class="tv-all-photo-caption"><strong>' +
-        esc(photo.title || "Tilak Varma photo") + '</strong><small>' + esc(date) +
-        '</small><em>' + esc(photo.album || "General Photos") + '</em></span></button>';
-    }).join("");
+    const photoMarkup = ordered
+      .map((photo, index) => {
+        const date =
+          photo.createdAt && !Number.isNaN(Date.parse(photo.createdAt))
+            ? new Date(photo.createdAt).toLocaleDateString("en-IN", {
+                timeZone: "Asia/Kolkata",
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })
+            : "Date unavailable";
+        return (
+          '<button class="tv-album-photo tv-all-photo-card" type="button" data-photo-index="' +
+          index +
+          '" aria-label="Open ' +
+          esc(photo.title || "Tilak Varma photo") +
+          '"><img src="' +
+          photo.safe +
+          '" alt="' +
+          esc(photo.title || "Tilak Varma photo") +
+          '" loading="lazy" decoding="async"><span class="tv-photo-open-icon">↗</span><span class="tv-all-photo-caption"><strong>' +
+          esc(photo.title || "Tilak Varma photo") +
+          "</strong><small>" +
+          esc(date) +
+          "</small><em>" +
+          esc(photo.album || "General Photos") +
+          "</em></span></button>"
+        );
+      })
+      .join("");
     host.innerHTML =
       '<div class="tv-all-photos-heading"><div><span class="eyebrow">THE COMPLETE ARCHIVE</span><h3>All <em>Photos.</em></h3><p>Every available image, collected from all albums.</p></div><span class="tv-all-photos-total">' +
-      ordered.length + ' photos</span></div>' +
+      ordered.length +
+      " photos</span></div>" +
       (ordered.length
-        ? '<div class="tv-album-photo-grid tv-all-photos-grid">' + photoMarkup + '</div>'
+        ? '<div class="tv-album-photo-grid tv-all-photos-grid">' + photoMarkup + "</div>"
         : '<div class="bcci-photo-empty"><strong>No photos available</strong><p>There are no photo records to show right now.</p></div>');
     applyCompactPhotoLayout();
-    host.querySelectorAll("[data-photo-index]").forEach((button) =>
-      button.addEventListener("click", () => openPhoto(Number(button.dataset.photoIndex))),
-    );
+    host
+      .querySelectorAll("[data-photo-index]")
+      .forEach((button) =>
+        button.addEventListener("click", () => openPhoto(Number(button.dataset.photoIndex))),
+      );
   }
 
   function renderAlbumPhotos(album) {
