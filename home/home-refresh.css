@@ -1191,7 +1191,6 @@ body > footer {
   }
 }
 
-
 /* Homepage career summary: compact, scrollable tables inspired by the full Stats page. */
 .home-snapshot-section .home-snapshot-heading h2 {
   font-size: clamp(1.65rem, 4.5vw, 2.65rem) !important;
@@ -1211,9 +1210,9 @@ body > footer {
   margin-top: 12px;
   padding: 0;
   overflow: hidden;
-  border: 1px solid rgba(110, 168, 255, .22);
+  border: 1px solid rgba(110, 168, 255, 0.22);
   border-radius: 18px;
-  background: linear-gradient(145deg, rgba(12, 29, 51, .98), rgba(7, 17, 32, .98));
+  background: linear-gradient(145deg, rgba(12, 29, 51, 0.98), rgba(7, 17, 32, 0.98));
 }
 .home-snapshot-section .home-bowling-heading {
   display: none;
@@ -1221,8 +1220,8 @@ body > footer {
 .home-snapshot-section .home-bowling-updated {
   margin: 0;
   padding: 10px 14px;
-  border-top: 1px solid rgba(110, 168, 255, .15);
-  font-size: .68rem;
+  border-top: 1px solid rgba(110, 168, 255, 0.15);
+  font-size: 0.68rem;
 }
 .home-career-table-wrap {
   width: 100%;
@@ -1231,10 +1230,10 @@ body > footer {
   overscroll-behavior-inline: contain;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  scrollbar-color: rgba(110, 168, 255, .55) rgba(255,255,255,.04);
-  border: 1px solid rgba(110, 168, 255, .2);
+  scrollbar-color: rgba(110, 168, 255, 0.55) rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(110, 168, 255, 0.2);
   border-radius: 16px;
-  background: linear-gradient(145deg, rgba(13, 30, 52, .98), rgba(7, 17, 31, .98));
+  background: linear-gradient(145deg, rgba(13, 30, 52, 0.98), rgba(7, 17, 31, 0.98));
 }
 .home-career-table {
   width: 100%;
@@ -1253,18 +1252,23 @@ body > footer {
   color: #f4f7ff;
   font-size: 1.1rem;
   font-weight: 800;
-  letter-spacing: .01em;
-  background: linear-gradient(90deg, rgba(110,168,255,.12), rgba(181,160,255,.07), transparent);
-  border-bottom: 1px solid rgba(110,168,255,.18);
+  letter-spacing: 0.01em;
+  background: linear-gradient(
+    90deg,
+    rgba(110, 168, 255, 0.12),
+    rgba(181, 160, 255, 0.07),
+    transparent
+  );
+  border-bottom: 1px solid rgba(110, 168, 255, 0.18);
 }
 .home-career-table th,
 .home-career-table td {
   padding: 12px 13px;
-  border-right: 1px solid rgba(152, 177, 211, .12);
-  border-bottom: 1px solid rgba(152, 177, 211, .12);
+  border-right: 1px solid rgba(152, 177, 211, 0.12);
+  border-bottom: 1px solid rgba(152, 177, 211, 0.12);
   text-align: center;
   white-space: nowrap;
-  font-size: .83rem;
+  font-size: 0.83rem;
 }
 .home-career-table th {
   position: sticky;
@@ -1272,9 +1276,9 @@ body > footer {
   z-index: 1;
   background: #132641;
   color: #9ddff4;
-  font-size: .72rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: .035em;
+  letter-spacing: 0.035em;
 }
 .home-career-table td:first-child,
 .home-career-table th:first-child {
@@ -1299,10 +1303,10 @@ body > footer {
   border-right: 0;
 }
 .home-career-table tbody tr:nth-child(even) td:not(:first-child) {
-  background: rgba(110,168,255,.035);
+  background: rgba(110, 168, 255, 0.035);
 }
 .home-career-table tbody tr:hover td {
-  background-color: rgba(181,160,255,.08);
+  background-color: rgba(181, 160, 255, 0.08);
 }
 .home-snapshot-section .home-snapshot-foot {
   margin-top: 12px;
@@ -1320,7 +1324,7 @@ body > footer {
     font-size: clamp(1.4rem, 6vw, 1.9rem) !important;
   }
   .home-snapshot-section .home-snapshot-heading .eyebrow {
-    font-size: .62rem;
+    font-size: 0.62rem;
   }
   .home-career-table-wrap {
     border-radius: 12px;
@@ -1333,14 +1337,14 @@ body > footer {
   }
   .home-career-table caption {
     padding: 12px 13px;
-    font-size: .95rem;
+    font-size: 0.95rem;
   }
   .home-career-table th,
   .home-career-table td {
     padding: 10px 11px;
-    font-size: .77rem;
+    font-size: 0.77rem;
   }
   .home-career-table th {
-    font-size: .68rem;
+    font-size: 0.68rem;
   }
 }
