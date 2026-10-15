@@ -23,6 +23,52 @@ def add(level, text, file=""):
     )
 
 
+def css_syntax_error(text):
+    """Check CSS lexical structure without treating normal cascade overrides as defects."""
+    depth = 0
+    quote = None
+    comment = False
+    i = 0
+    while i < len(text):
+        if comment:
+            if text.startswith("*/", i):
+                comment = False
+                i += 2
+            else:
+                i += 1
+            continue
+        if quote:
+            if text[i] == "\\\\":
+                i += 2
+                continue
+            if text[i] == quote:
+                quote = None
+            i += 1
+            continue
+        if text.startswith("/*", i):
+            comment = True
+            i += 2
+            continue
+        if text[i] in ('"', "'"):
+            quote = text[i]
+            i += 1
+            continue
+        if text[i] == "{":
+            depth += 1
+        elif text[i] == "}":
+            depth -= 1
+            if depth < 0:
+                return "Unexpected closing brace"
+        i += 1
+    if comment:
+        return "Unclosed CSS comment"
+    if quote:
+        return "Unclosed CSS string"
+    if depth:
+        return f"Unclosed CSS block(s): {depth}"
+    return ""
+
+
 class IdParser(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -131,31 +177,18 @@ def main():
             except Exception as e:
                 add("error", f"HTML scan failed: {e}", rel)
         elif path.suffix == ".css":
-            text = path.read_text(encoding="utf-8")
-            # Repeated selectors are a review signal, not automatically a bug:
-            # media queries and intentional overrides can legitimately repeat.
-            selectors = []
-            for m in re.finditer(r"([^{}]+)\{", text):
-                selector = m.group(1).strip()
-                if (
-                    selector
-                    and not selector.startswith("@")
-                    and "\n" not in selector
-                    and len(selector) < 240
-                ):
-                    selectors.append(selector)
-            repeated = [(s, n) for s, n in Counter(selectors).items() if n > 1]
-            if repeated:
-                sample = ", ".join(
-                    f"{s} ({n}x)" for s, n in sorted(repeated, key=lambda x: -x[1])[:8]
-                )
-                add(
-                    "warning",
-                    f"{len(repeated)} repeated CSS selector(s); review cascade/overrides: {sample}",
-                    rel,
-                )
-            else:
-                add("pass", "No repeated CSS selectors detected", rel)
+            css = path.read_text(encoding="utf-8")
+            # Repeated selectors are normal in layered stylesheets: media queries,
+            # state rules and later cascade overrides commonly reuse selectors.
+            # The old regex counted these as warnings without checking scope or
+            # declarations. Validate lexical structure here; browser smoke tests
+            # cover rendered behavior and responsive interactions.
+            error = css_syntax_error(css)
+            add(
+                "error" if error else "pass",
+                error or "CSS block/string/comment structure OK",
+                rel,
+            )
     report = {
         "schemaVersion": 1,
         "checkedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
