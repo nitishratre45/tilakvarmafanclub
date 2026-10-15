@@ -1167,12 +1167,16 @@
       const recentResultsHost = $("recent-match-results");
       if (recentResultsHost) {
         const archiveMatches = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
-        const normaliseRecentTeam = (value) => String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+        const normaliseRecentTeam = (value) =>
+          String(value || "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "");
         const recentTeamNames = [a, b].filter(Boolean);
         const resultPerspective = (row, teamName) => {
           const result = String(row.result || "").trim();
           if (!result) return { outcome: "N", label: "Result unavailable" };
-          if (/no result|abandoned|cancelled|canceled|tied|drawn/i.test(result)) return { outcome: "N", label: result };
+          if (/no result|abandoned|cancelled|canceled|tied|drawn/i.test(result))
+            return { outcome: "N", label: result };
           if (/\\s+won\\s+/i.test(result)) {
             const winner = normaliseRecentTeam(result.split(/\\s+won\\s+/i)[0]);
             return winner === normaliseRecentTeam(teamName)
@@ -1181,37 +1185,105 @@
           }
           return { outcome: "N", label: result };
         };
-        const recentRowsForTeam = (teamName) => archiveMatches
-          .filter((row) =>
-            [row.team, row.opposition].some((name) => normaliseRecentTeam(name) === normaliseRecentTeam(teamName)) &&
-            String(row.date || "").slice(0, 10) < String(f.date || "9999-12-31").slice(0, 10)
-          )
-          .sort((left, right) => String(right.date || "").localeCompare(String(left.date || "")))
-          .slice(0, 8);
-        recentResultsHost.innerHTML = '<div class="recent-results-team-picker" role="group" aria-label="Choose team recent results">' +
-          recentTeamNames.map((teamName, i) => '<button type="button" class="recent-results-team-button" data-recent-team="' + i + '" aria-pressed="' + (i === 0) + '">' +
-            escHtml(teamName) + '<span>Recent matches</span></button>').join("") + '</div>' +
-          recentTeamNames.map((teamName, i) => {
-            const teamKey = normaliseRecentTeam(teamName);
-            const rows = recentRowsForTeam(teamName);
-            const logo = teamLogoUrl(teamName, "");
-            const logoMarkup = logo ? '<img src="' + escHtml(logo) + '" alt="" onerror="this.style.display=\'none\'">' : '';
-            const cards = rows.length ? rows.map((row) => {
-              const opponent = normaliseRecentTeam(row.team) === teamKey ? row.opposition : row.team;
-              const perspective = resultPerspective(row, teamName);
-              const dateText = row.date ? new Date(row.date + "T12:00:00Z").toLocaleDateString("en-IN", { weekday:"short",day:"numeric",month:"short",year:"numeric",timeZone:"UTC" }) : "Date unavailable";
-              const scorecardUrl = typeof row.matchId === "string" && row.matchId
-                ? "/matches/recent-scorecard/?matchId=" + encodeURIComponent(row.matchId) : "";
-              return '<article class="recent-result-row"><span class="recent-result-badge recent-result-' + escHtml(perspective.outcome.toLowerCase()) + '">' + escHtml(perspective.outcome === "N" ? "–" : perspective.outcome) + '</span><div class="recent-result-copy"><h4>v ' + escHtml(opponent || "Opponent") + '</h4><p>' + escHtml(perspective.label) + '</p>' +
-                (scorecardUrl ? '<a href="' + escHtml(scorecardUrl) + '">Open full scorecard ↗</a>' : '') + '</div><time>' + escHtml(dateText) + '</time></article>';
-            }).join("") : '<article class="recent-result-row"><p>No verified recent matches in the saved archive.</p></article>';
-            return '<section class="recent-team-group" data-recent-team-panel="' + i + '"' + (i ? ' hidden' : '') + '><h3 class="recent-team-heading"><span class="recent-team-logo">' + logoMarkup + '</span>' + escHtml(teamName) + ' recent matches</h3>' + cards + '</section>';
-          }).join("");
-        recentResultsHost.querySelectorAll("[data-recent-team]").forEach((button) => button.addEventListener("click", () => {
-          const selected = button.getAttribute("data-recent-team");
-          recentResultsHost.querySelectorAll("[data-recent-team]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
-          recentResultsHost.querySelectorAll("[data-recent-team-panel]").forEach((panel) => { panel.hidden = panel.getAttribute("data-recent-team-panel") !== selected; });
-        }));
+        const recentRowsForTeam = (teamName) =>
+          archiveMatches
+            .filter(
+              (row) =>
+                [row.team, row.opposition].some(
+                  (name) => normaliseRecentTeam(name) === normaliseRecentTeam(teamName),
+                ) &&
+                String(row.date || "").slice(0, 10) < String(f.date || "9999-12-31").slice(0, 10),
+            )
+            .sort((left, right) => String(right.date || "").localeCompare(String(left.date || "")))
+            .slice(0, 8);
+        recentResultsHost.innerHTML =
+          '<div class="recent-results-team-picker" role="group" aria-label="Choose team recent results">' +
+          recentTeamNames
+            .map(
+              (teamName, i) =>
+                '<button type="button" class="recent-results-team-button" data-recent-team="' +
+                i +
+                '" aria-pressed="' +
+                (i === 0) +
+                '">' +
+                escHtml(teamName) +
+                "<span>Recent matches</span></button>",
+            )
+            .join("") +
+          "</div>" +
+          recentTeamNames
+            .map((teamName, i) => {
+              const teamKey = normaliseRecentTeam(teamName);
+              const rows = recentRowsForTeam(teamName);
+              const logo = teamLogoUrl(teamName, "");
+              const logoMarkup = logo
+                ? '<img src="' + escHtml(logo) + '" alt="" onerror="this.style.display=\'none\'">'
+                : "";
+              const cards = rows.length
+                ? rows
+                    .map((row) => {
+                      const opponent =
+                        normaliseRecentTeam(row.team) === teamKey ? row.opposition : row.team;
+                      const perspective = resultPerspective(row, teamName);
+                      const dateText = row.date
+                        ? new Date(row.date + "T12:00:00Z").toLocaleDateString("en-IN", {
+                            weekday: "short",
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                            timeZone: "UTC",
+                          })
+                        : "Date unavailable";
+                      const scorecardUrl =
+                        typeof row.matchId === "string" && row.matchId
+                          ? "/matches/recent-scorecard/?matchId=" + encodeURIComponent(row.matchId)
+                          : "";
+                      return (
+                        '<article class="recent-result-row"><span class="recent-result-badge recent-result-' +
+                        escHtml(perspective.outcome.toLowerCase()) +
+                        '">' +
+                        escHtml(perspective.outcome === "N" ? "–" : perspective.outcome) +
+                        '</span><div class="recent-result-copy"><h4>v ' +
+                        escHtml(opponent || "Opponent") +
+                        "</h4><p>" +
+                        escHtml(perspective.label) +
+                        "</p>" +
+                        (scorecardUrl
+                          ? '<a href="' + escHtml(scorecardUrl) + '">Open full scorecard ↗</a>'
+                          : "") +
+                        "</div><time>" +
+                        escHtml(dateText) +
+                        "</time></article>"
+                      );
+                    })
+                    .join("")
+                : '<article class="recent-result-row"><p>No verified recent matches in the saved archive.</p></article>';
+              return (
+                '<section class="recent-team-group" data-recent-team-panel="' +
+                i +
+                '"' +
+                (i ? " hidden" : "") +
+                '><h3 class="recent-team-heading"><span class="recent-team-logo">' +
+                logoMarkup +
+                "</span>" +
+                escHtml(teamName) +
+                " recent matches</h3>" +
+                cards +
+                "</section>"
+              );
+            })
+            .join("");
+        recentResultsHost.querySelectorAll("[data-recent-team]").forEach((button) =>
+          button.addEventListener("click", () => {
+            const selected = button.getAttribute("data-recent-team");
+            recentResultsHost
+              .querySelectorAll("[data-recent-team]")
+              .forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+            recentResultsHost.querySelectorAll("[data-recent-team-panel]").forEach((panel) => {
+              panel.hidden = panel.getAttribute("data-recent-team-panel") !== selected;
+            });
+          }),
+        );
       }
       const teamNames = [a, b].map((name) => String(name || "").toLowerCase());
       const recentForTeams = resultMatches
