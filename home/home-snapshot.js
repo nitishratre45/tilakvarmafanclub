@@ -64,15 +64,14 @@
       ];
       const cell = (value) => "<td>" + esc(value ?? "—") + "</td>";
       const table = (heading, columns, rows, className) =>
-        '<div class="home-career-table-wrap"><table class="home-career-table ' +
-        className +
-        '"><caption>' +
-        esc(heading) +
-        "</caption><thead><tr>" +
+        '<section class="home-career-table-section ' + className + '-section" aria-label="' + esc(heading) +
+        '"><h3 class="home-career-table-title">' + esc(heading) +
+        '</h3><div class="home-career-table-wrap"><table class="home-career-table ' + className +
+        '"><thead><tr>' +
         columns.map((column) => '<th scope="col">' + esc(column) + "</th>").join("") +
         "</tr></thead><tbody>" +
         rows.join("") +
-        "</tbody></table></div>";
+        "</tbody></table></div></section>";
       if (formatHost) {
         const formats = formatOrder
           .map(([label, key]) => {
