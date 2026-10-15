@@ -58,8 +58,6 @@ body {
   opacity: 0.72;
 }
 
-
-
 .eyebrow {
   color: #78e4ef;
   letter-spacing: 0.12em;
@@ -67,18 +65,15 @@ body {
 .home-snapshot-block,
 .home-bowling-card,
 .profile-teams-panel,
-.icc-ranking-card
-{
+.icc-ranking-card {
   border-color: var(--admin-line);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 .home-snapshot-block,
-.home-bowling-card
-{
+.home-bowling-card {
   background: linear-gradient(155deg, rgba(17, 36, 58, 0.96), rgba(10, 23, 40, 0.96));
 }
-.icc-ranking-card
-{
+.icc-ranking-card {
   transition:
     border-color 0.18s ease,
     transform 0.18s ease,
@@ -158,8 +153,7 @@ canvas {
     border-radius: 16px;
     margin-bottom: 16px;
   }
-  
-  
+
   .button,
   button {
     min-height: 40px;
@@ -190,8 +184,7 @@ canvas {
   box-shadow: 0 12px 30px rgba(29, 71, 122, 0.08);
 }
 :root[data-theme-resolved="light"] .home-snapshot-block,
-:root[data-theme-resolved="light"] .home-bowling-card
-{
+:root[data-theme-resolved="light"] .home-bowling-card {
   background: linear-gradient(145deg, #fff, #edf4ff);
   border-color: #d4e2f4;
 }

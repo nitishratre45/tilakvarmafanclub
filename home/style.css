@@ -79,8 +79,7 @@ nav {
   font-size: clamp(10px, 0.82vw, 12px);
   color: #c6d0df;
 }
-nav a:hover
-{
+nav a:hover {
   color: var(--orange);
 }
 .menu-toggle {
@@ -107,14 +106,11 @@ nav a:hover
   display: inline-block;
   box-shadow: 0 0 12px #ff6a3588;
 }
-.section h2
-{
+.section h2 {
   font: 900 clamp(54px, 7vw, 98px) / 0.9 var(--display);
   letter-spacing: -0.025em;
   margin: 25px 0;
 }
-
-
 
 .button {
   display: inline-flex;
@@ -133,22 +129,6 @@ nav a:hover
   background: #ff865c;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @keyframes scroll {
   to {
     transform: translateX(-35%);
@@ -162,25 +142,10 @@ nav a:hover
   font-size: clamp(42px, 5vw, 68px);
   margin: 17px 0 0;
 }
-.section h2 em
-{
+.section h2 em {
   font-style: normal;
   color: var(--orange);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 table {
   width: 100%;
@@ -210,12 +175,6 @@ tbody tr:hover {
   padding: 28px;
 }
 
-
-
-
-
-
-
 .outline {
   border: 1px solid #71829a;
   margin-top: 15px;
@@ -224,10 +183,6 @@ tbody tr:hover {
   border-color: var(--orange);
   color: var(--orange);
 }
-
-
-
-
 
 footer {
   display: flex;
@@ -265,20 +220,11 @@ footer .brand {
   nav.open {
     display: flex;
   }
-  
-  
-  
+
   .section {
     padding: 72px 7vw;
   }
-  
-  
-  
-  
-  
-  
-  
-  
+
   footer {
     padding: 25px 6vw;
     flex-wrap: wrap;
@@ -288,22 +234,10 @@ footer .brand {
   }
 }
 @media (max-width: 430px) {
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   .section h2 {
     font-size: 44px;
   }
-  
+
   footer .brand {
     font-size: 11px;
   }
@@ -387,7 +321,6 @@ footer .brand {
   font-size: 12px;
 }
 
-
 @media (max-width: 800px) {
   .profile-section {
     grid-template-columns: 1fr;
@@ -401,13 +334,7 @@ footer .brand {
   }
 }
 
-
-
-
-
-
 @media (max-width: 800px) {
-  
 }
 
 /* Profile-first layout and stronger career-run hierarchy */
@@ -419,7 +346,6 @@ footer .brand {
   min-height: 390px;
   box-shadow: 0 24px 70px #0004;
 }
-
 
 .stats-grid:not(.career-formats) .stat-feature {
   grid-column: span 2;
@@ -447,7 +373,6 @@ footer .brand {
 .stats-grid:not(.career-formats) .stat-feature .stat-note {
   font-size: 11px;
 }
-
 
 @media (max-width: 800px) {
   .profile-section {
@@ -485,16 +410,14 @@ img {
 }
 .button,
 .primary,
-.outline
-{
+.outline {
   transition:
     transform 0.18s ease,
     background 0.18s ease,
     border-color 0.18s ease,
     box-shadow 0.18s ease;
 }
-.button:hover
-{
+.button:hover {
   transform: translateY(-2px);
 }
 .profile-photo-wrap img {
@@ -504,36 +427,6 @@ img {
   transform: scale(1.025);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .activity-empty {
   padding: 22px;
   border: 1px dashed var(--line);
@@ -541,21 +434,9 @@ img {
   font-size: 12px;
 }
 
-
 @media (max-width: 900px) {
-  
-  
 }
 @media (max-width: 600px) {
-  
-  
-  
-  
-  
-  
-  
-  
-  
   .profile-facts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -564,7 +445,7 @@ img {
     min-height: 0;
     aspect-ratio: 4/5;
   }
-  
+
   footer {
     gap: 12px;
   }
@@ -591,144 +472,31 @@ img {
   --panel2: #122b49;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .feature-eyebrow {
   color: #1765bd;
   font: 9px var(--mono);
   letter-spacing: 0.1em;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .poll-option:has(input:checked) {
   border-color: #1765bd;
   background: #edf5ff;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 900px) {
-  
-  
-  
 }
 @media (max-width: 600px) {
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 650px) {
 }
 
 /* Refined editorial layout: compact search, restrained labels, less template-like chrome */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .profile-section {
   padding-top: clamp(36px, 5vw, 70px) !important;
   padding-bottom: clamp(38px, 5vw, 70px) !important;
 }
 @media (max-width: 700px) {
-  
-  
-  
-  
-  
-  
 }
 
 /* Final visual system: one consistent navy canvas, warm India-orange accent */
@@ -744,8 +512,7 @@ img {
   --india-green: #138808;
 }
 body,
-.profile-section
-{
+.profile-section {
   background: #07101f !important;
   color: var(--white);
 }
@@ -754,10 +521,8 @@ body,
   background: #091626 !important;
 }
 
-
 .section h2 em,
-.profile-copy h2 em
-{
+.profile-copy h2 em {
   color: var(--orange) !important;
 }
 .stats-grid:not(.career-formats) .stat-feature {
@@ -767,32 +532,14 @@ body,
   box-shadow: none !important;
 }
 
-
-
-
-
-
-
-
-.profile-intro
-{
+.profile-intro {
   color: var(--muted) !important;
 }
-
-
-
-
-
-
 
 .poll-option:has(input:checked) {
   background: #12243a !important;
   border-color: var(--orange) !important;
 }
-
-
-
-
 
 .button.primary,
 .primary {
@@ -815,8 +562,7 @@ body,
   color: var(--orange) !important;
 }
 .feature-eyebrow,
-.eyebrow
-{
+.eyebrow {
   color: var(--cyan) !important;
 }
 .live-dot {
@@ -824,14 +570,9 @@ body,
   box-shadow: 0 0 10px #ff993344 !important;
 }
 
-
-
-
 @media (max-width: 900px) {
-  
 }
 @media (max-width: 650px) {
-  
   .section {
     padding-top: 58px;
     padding-bottom: 58px;
@@ -845,14 +586,11 @@ body,
 /* Three balanced Fan Zone panels on desktop */
 
 @media (max-width: 900px) {
-  
 }
 @media (max-width: 650px) {
-  
 }
 
 /* The 72 Dashboard + Moments Archive */
-
 
 .upgrade-card,
 .moment-card {
@@ -885,9 +623,6 @@ body,
   color: var(--muted);
 }
 
-
-
-
 .moments-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -916,18 +651,15 @@ body,
   color: #d9e4f3;
 }
 @media (max-width: 900px) {
-  
   .moments-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 600px) {
-  .moments-grid
-{
+  .moments-grid {
     grid-template-columns: 1fr;
   }
-  
-  
+
   .upgrade-card,
   .moment-card {
     padding: 19px;
@@ -935,11 +667,6 @@ body,
 }
 
 /* Personal, browser-only fan streak */
-
-
-
-
-
 
 /* Layout alignment pass — keep new sections on the same grid rhythm */
 .topbar {
@@ -954,7 +681,6 @@ body,
 .topbar nav a {
   white-space: nowrap;
 }
-
 
 .upgrade-card {
   display: flex;
@@ -1061,7 +787,6 @@ body,
   .format-snapshot-card {
     padding: 14px;
   }
-  
 }
 
 /* Format-aware delivery archive snapshot on the homepage */
@@ -1128,25 +853,6 @@ body,
   gap: 10px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 800px) {
   .profile-section {
     grid-template-columns: 112px minmax(0, 1fr);
@@ -1185,8 +891,7 @@ body,
   .profile-facts strong {
     font-size: 10px;
   }
-  
-  
+
   .profile-quick-actions {
     margin: 10px 0 4px;
     gap: 6px;
@@ -1195,35 +900,17 @@ body,
     font-size: 9px;
     padding: 8px 9px;
   }
-  
-  
+
   .section {
     padding: 34px 5vw;
   }
-  
+
   .section h2 {
     font-size: clamp(29px, 7vw, 39px);
     line-height: 1;
     margin: 8px 0 0;
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   th {
     padding: 10px 12px;
     font-size: 9px;
@@ -1232,9 +919,6 @@ body,
     padding: 10px 12px;
     font-size: 11px;
   }
-  
-  
-  
 }
 @media (max-width: 430px) {
   .topbar {
@@ -1279,13 +963,7 @@ body,
     font-size: 8px;
     padding: 7px;
   }
-  
-  
-  
-  
-  
-  
-  
+
   .section {
     padding: 28px 4vw;
   }
@@ -1297,36 +975,7 @@ body,
 
 /* Statsguru analysis */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 760px) {
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 
 /* Section tabs: show only the selected page section */
@@ -1501,11 +1150,6 @@ main > section[hidden] {
   margin-top: 3px;
 }
 
-
-
-
-
-
 .home-snapshot-foot {
   display: flex;
   align-items: center;
@@ -1591,16 +1235,12 @@ main > section[hidden] {
   margin-bottom: 16px;
 }
 
-
-
-
 @media (max-width: 760px) {
   .home-format-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 7px;
   }
-  
-  
+
   .profile-section {
     padding-bottom: 24px !important;
   }
@@ -1623,13 +1263,6 @@ option {
   background: #0d1a2c;
   color: #f4f7fb;
 }
-
-
-
-
-
-
-
 
 .icc-ranking-card {
   display: grid;
@@ -1660,14 +1293,6 @@ option {
   font: 8px/1.5 var(--mono);
 }
 
-
-
-
-
-
-
-
-
 @media (max-width: 800px) {
   .topbar {
     z-index: 30;
@@ -1696,19 +1321,11 @@ option {
   nav.open a.active:after {
     display: none;
   }
-  
-  
-  
+
   .icc-ranking-card {
     max-width: none;
     grid-template-columns: 1fr 1fr;
   }
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 430px) {
   nav.open {
@@ -1722,8 +1339,7 @@ option {
     min-height: 38px;
     padding: 8px;
   }
-  
-  
+
   .icc-ranking-card strong {
     font-size: 21px;
   }
@@ -1732,42 +1348,11 @@ option {
 /* Keep the focused Statsguru categories balanced on desktop. */
 
 @media (max-width: 760px) {
-  
 }
 
 /* Site-wide custom select controls: dark, branded, and consistent on mobile. */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 640px) {
-  
-  
-  
-  
-  
-  
-  
 }
 @keyframes cs-fade-in {
   from {
@@ -1788,57 +1373,15 @@ option {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  
-  
 }
 
 /* ESPNcricinfo-style player analysis filter, adapted to the fan site's dark UI. */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 850px) {
-  
 }
 @media (max-width: 560px) {
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 360px) {
-  
-  
 }
 
 /* Final polish: mobile-first player hero, highlighted Explore controls, and photo gallery. */
@@ -1882,29 +1425,15 @@ option {
 .home-snapshot-heading h2 {
   letter-spacing: -0.025em;
 }
-.home-mini-stat
-{
+.home-mini-stat {
   transition:
     transform 0.18s ease,
     border-color 0.18s ease;
 }
-.home-mini-stat:hover
-{
+.home-mini-stat:hover {
   transform: translateY(-2px);
   border-color: rgba(255, 106, 53, 0.45);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 @keyframes explore-reveal {
   from {
@@ -1916,38 +1445,6 @@ option {
     transform: translateY(0);
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @media (max-width: 760px) {
   .profile-section {
@@ -1984,26 +1481,6 @@ option {
     min-height: 42px;
     padding: 10px 12px !important;
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 390px) {
   .profile-section {
@@ -2024,92 +1501,24 @@ option {
   .profile-facts > div {
     padding: 8px !important;
   }
-  
-  
 }
 @media (prefers-reduced-motion: reduce) {
   .profile-facts > div,
-.home-mini-stat
-{
+  .home-mini-stat {
     transition: none !important;
     animation: none !important;
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 640px) {
-  
-  
-  
 }
 
-
-
-
-
-
-
 @media (max-width: 560px) {
-  
-  
-  
-  
 }
 
 /* Explore: compact ESPNcricinfo-style batting analysis */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 760px) {
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 
 /* Compact home theme selector */
@@ -2123,10 +1532,6 @@ option {
   gap: 9px;
   flex-wrap: wrap;
 }
-
-
-
-
 
 .home-all-stats {
   white-space: nowrap;
@@ -2142,9 +1547,7 @@ option {
     justify-content: space-between;
     gap: 8px;
   }
-  
-  
-  
+
   .home-all-stats {
     padding: 9px 10px;
     font-size: 9px;
@@ -2152,8 +1555,6 @@ option {
   }
 }
 /* Runs should be an accent, not a solid orange column */
-
-
 
 /* Light theme, including site components that previously used fixed dark fills */
 :root[data-theme="light"] {
@@ -2173,41 +1574,31 @@ option {
 }
 :root[data-theme="light"] .topbar,
 :root[data-theme="light"] nav,
-:root[data-theme="light"] footer
-{
+:root[data-theme="light"] footer {
   background: var(--bg);
   color: var(--white);
 }
 
 :root[data-theme="light"] .home-snapshot-section,
 :root[data-theme="light"] .home-mini-stat,
-:root[data-theme="light"] .home-snapshot-block
-{
+:root[data-theme="light"] .home-snapshot-block {
   background: #fff;
   color: var(--white);
 }
 :root[data-theme="light"] .profile-intro,
 :root[data-theme="light"] .home-snapshot-block p,
 :root[data-theme="light"] .home-snapshot-foot,
-:root[data-theme="light"] td
-{
+:root[data-theme="light"] td {
   color: #425269;
 }
-:root[data-theme="light"] th
-{
+:root[data-theme="light"] th {
   background: #e8eef5;
   color: #087e91;
 }
-:root[data-theme="light"] td
-{
+:root[data-theme="light"] td {
   border-top-color: rgba(18, 35, 55, 0.13);
   color: #24354a;
 }
-
-
-
-
-
 
 :root[data-theme="light"] .home-snapshot-section .button.outline,
 :root[data-theme="light"] .button.outline {
@@ -2217,10 +1608,6 @@ option {
 :root[data-theme="light"] .profile-section {
   background: #f4f7fb;
 }
-
-
-
-
 
 @media (prefers-color-scheme: light) {
   :root[data-theme="system"] {
@@ -2239,15 +1626,13 @@ option {
     color: var(--white);
   }
   :root[data-theme="system"] .topbar,
-:root[data-theme="system"] nav,
-:root[data-theme="system"] footer
-{
+  :root[data-theme="system"] nav,
+  :root[data-theme="system"] footer {
     background: var(--bg);
     color: var(--white);
   }
-  
-  :root[data-theme="system"] .home-mini-stat
-{
+
+  :root[data-theme="system"] .home-mini-stat {
     background: #fff;
     color: var(--white);
   }
@@ -2255,28 +1640,9 @@ option {
     background: #e8eef5;
     color: #087e91;
   }
-  
-  
-  
 }
 
 /* Centralised appearance settings and readable theme contrast */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* Resolve system theme in JS so every component receives the same contrast rules. */
 :root[data-theme-resolved="light"] {
@@ -2303,15 +1669,13 @@ option {
   color: var(--white);
 }
 :root[data-theme-resolved="light"] .profile-section,
-:root[data-theme-resolved="light"] .home-snapshot-section
-{
+:root[data-theme-resolved="light"] .home-snapshot-section {
   background: var(--bg);
   color: var(--white);
 }
 
 :root[data-theme-resolved="light"] .home-mini-stat,
-:root[data-theme-resolved="light"] .home-snapshot-block
-{
+:root[data-theme-resolved="light"] .home-snapshot-block {
   background: #fff;
   color: var(--white);
   border-color: var(--line);
@@ -2326,16 +1690,14 @@ option {
 :root[data-theme-resolved="light"] summary,
 :root[data-theme-resolved="light"] .profile-copy,
 :root[data-theme-resolved="light"] .home-snapshot-blockhead,
-:root[data-theme-resolved="light"] .home-format-heading
-{
+:root[data-theme-resolved="light"] .home-format-heading {
   color: var(--white);
 }
 :root[data-theme-resolved="light"] .eyebrow,
 :root[data-theme-resolved="light"] .activity-empty,
 :root[data-theme-resolved="light"] .home-snapshot-foot,
 :root[data-theme-resolved="light"] .home-format-heading > span,
-:root[data-theme-resolved="light"] .profile-facts small
-{
+:root[data-theme-resolved="light"] .profile-facts small {
   color: var(--muted);
 }
 :root[data-theme-resolved="light"] input,
@@ -2359,52 +1721,27 @@ option {
   border-color: var(--line);
 }
 
-
-
-
-
-
 :root[data-theme-resolved="light"] .button,
 :root[data-theme-resolved="light"] button {
   color: var(--white);
 }
-:root[data-theme-resolved="light"] .button.primary
-{
+:root[data-theme-resolved="light"] .button.primary {
   color: #fff;
 }
 
 :root[data-theme-resolved="light"] .profile-intro,
-:root[data-theme-resolved="light"] .home-snapshot-block p
-{
+:root[data-theme-resolved="light"] .home-snapshot-block p {
   color: #425269;
 }
-
-
-
-
 
 :root[data-theme-resolved="light"] footer {
   background: var(--bg);
   color: var(--white);
 }
 
-
-
-
-
 @media (max-width: 760px) {
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 390px) {
-  
-  
-  
-  
 }
 
 /* Bowling career: compact home preview and full Stats subview */
@@ -2416,21 +1753,18 @@ option {
   border-left: 3px solid var(--cyan);
   border-radius: 5px;
 }
-.home-bowling-heading
-{
+.home-bowling-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
-.home-bowling-heading h3
-{
+.home-bowling-heading h3 {
   margin: 5px 0 0;
   color: var(--white);
   font: 800 clamp(22px, 3vw, 29px) / 1 var(--display);
 }
-.home-bowling-heading h3 em
-{
+.home-bowling-heading h3 em {
   color: var(--cyan);
   font-style: normal;
 }
@@ -2446,49 +1780,21 @@ option {
   margin-top: 14px;
 }
 
-
-
 .home-bowling-updated {
   margin: 11px 0 0;
   color: var(--muted);
   font: 9px/1.5 var(--mono);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-:root[data-theme-resolved="light"] .home-bowling-card
-{
+:root[data-theme-resolved="light"] .home-bowling-card {
   background: #fff;
   color: #152235;
   border-color: rgba(18, 35, 55, 0.16);
 }
 
-:root[data-theme-resolved="light"] .home-bowling-heading h3
-{
+:root[data-theme-resolved="light"] .home-bowling-heading h3 {
   color: #152235;
 }
-
-
-
-
 
 @media (max-width: 760px) {
   .home-bowling-card {
@@ -2499,17 +1805,6 @@ option {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 5px;
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 420px) {
   .home-bowling-heading {
@@ -2522,27 +1817,11 @@ option {
   .home-bowling-stats {
     gap: 4px;
   }
-  
-  
-  
-  
 }
 
 /* Mobile custom-select readability fix (2026-10). */
 
-
-
-
-
-
-
-
 @media (max-width: 640px) {
-  
-  
-  
-  
-  
 }
 
 /* Homepage bowling snapshot: match the batting format cards and stay readable on phones. */
@@ -2551,47 +1830,24 @@ option {
   gap: 9px;
 }
 
-
-
-
-
-
-
 @media (max-width: 760px) {
   .home-bowling-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 7px;
   }
-  
-  
-  
 }
 @media (max-width: 360px) {
   .home-bowling-stats {
     grid-template-columns: 1fr 1fr;
   }
-  
 }
 
 /* Explore: complete Statsguru-style category selector */
 
-
-
-
-
-
 @media (max-width: 600px) {
-  
-  
-  
 }
 
 /* Stats summary: keep the cards uniform; retain the original orange Runs highlight. */
-
-
-
-
-
 
 /* Keep the Explore table clean and neutral, with Runs highlighted in orange. */
 
@@ -2602,20 +1858,11 @@ option {
   box-shadow: none;
 }
 
-
-
 .statsguru-panel .table-wrap tbody tr:hover td:not(.sg-cell-runs) {
   background: var(--panel);
 }
 
-
-
-
-
 @media (max-width: 600px) {
-  
-  
-  
 }
 
 /* Consistent restrained colour accents for tables and cards across every stats section. */
@@ -2624,30 +1871,16 @@ option {
   --stats-accent-soft: rgba(124, 229, 242, 0.075);
 }
 
-.stats-section .stat-card:not(.stat-feature)
-{
+.stats-section .stat-card:not(.stat-feature) {
   border-top: 2px solid var(--stats-accent);
 }
-.stats-section .stat-card:not(.stat-feature) .stat-label
-{
+.stats-section .stat-card:not(.stat-feature) .stat-label {
   color: var(--muted);
 }
 
-
-
-
-
-
-.stats-section .statsguru-panel .table-wrap tbody tr:hover td:not(.sg-cell-runs)
-{
+.stats-section .statsguru-panel .table-wrap tbody tr:hover td:not(.sg-cell-runs) {
   background: rgba(124, 229, 242, 0.065);
 }
-
-
-
-
-
-
 
 :root[data-theme-resolved="light"]
   .stats-section
@@ -2655,20 +1888,13 @@ option {
   .table-wrap
   tbody
   tr:hover
-  td:not(.sg-cell-runs)
-{
+  td:not(.sg-cell-runs) {
   background: #eaf5f8;
 }
 @media (max-width: 600px) {
-  
 }
 
 /* Runs must stay highlighted after the global Stats table theme rules. */
-
-
-
-
-
 
 /* Main Batting career summary: Runs card matches the neutral stat cards. */
 .stats-section #stats-overview .stats-grid:not(.career-formats) .stat-feature,
@@ -2725,57 +1951,21 @@ option {
 
 /* Explore category menu: wrap onto new rows instead of requiring horizontal scrolling. */
 
-
 @media (max-width: 600px) {
-  
-  
 }
 
 /* Make every Statsguru table header cell clearly highlighted, including on mobile. */
 
-
-
 /* Restore the Runs-column accent across Explore tables (the neutral override was hiding it). */
-.stats-section .statsguru-panel .table-wrap th:has(+ td.sg-cell-runs)
-{
+.stats-section .statsguru-panel .table-wrap th:has(+ td.sg-cell-runs) {
   background: color-mix(in srgb, #ff8a5b 18%, var(--panel2)) !important;
   color: #ffad8b !important;
   box-shadow: inset 0 -3px 0 #ff8a5b !important;
 }
 
-
-
-
-
 /* Statsguru: show the complete analysis chooser when the filter is expanded. */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 650px) {
-  
-  
-  
-  
-  
-  
-  
-  
 }
 
 /* Compact phone profile: keep the player portrait prominent without letting copy dominate. */
@@ -2868,7 +2058,7 @@ option {
     line-height: 1.4;
     overflow-wrap: anywhere;
   }
-  
+
   .profile-quick-actions {
     grid-column: 1 / -1;
     display: flex;
@@ -3016,7 +2206,7 @@ option {
     font-size: 7px !important;
     line-height: 1.3 !important;
   }
-  
+
   #profile .profile-quick-actions {
     gap: 6px !important;
     margin-top: 8px !important;
@@ -3119,168 +2309,39 @@ option {
 
 /* Squad-confirmed upcoming fixtures in the Matches section. */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 650px) {
-  
-  
-  
-  
-  
-  
 }
 
 /* Keep debut/last-match cards grouped directly beneath the upcoming fixtures. */
 
-
-
-
 @media (max-width: 650px) {
-  
 }
 
 /* Debut/last-match cards sit below, not inside, the upcoming fixtures panel. */
 
-
-
 /* Fan Zone expansion — personal tools, one consistent dark theme */
-
-
-
-
-
-
-
-
-
-
 
 .fan-card .poll-option:has(input:checked) {
   background: #182d43;
   border-color: var(--orange);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 900px) {
-  
 }
 @media (max-width: 600px) {
-  
-  
-  
-  
-  
 }
 
 /* Official BCCI video hub */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 body.bcci-player-open {
   overflow: hidden;
 }
 @media (max-width: 900px) {
-  
 }
 @media (max-width: 560px) {
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 
 /* Full-page style BCCI/Shaka experience with a Tilak-only Up Next queue */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .bcci-up-next-thumb > span:not(.bcci-up-next-duration) {
   display: grid;
@@ -3290,46 +2351,17 @@ body.bcci-player-open {
   font-weight: 900;
 }
 
-
-
-
-
 @media (max-width: 760px) {
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 
 /* Fan gallery: two columns on phones and four on desktop. */
 
-
 @media (max-width: 700px) {
-  
 }
 @media (min-width: 701px) and (max-width: 1000px) {
-  
 }
 
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 560px) {
-  
-  
-  
 }
 @media (max-width: 900px) {
 }
@@ -3403,143 +2435,52 @@ body.bcci-player-open {
 
 /* Compact playback quality control over the Shaka video surface. */
 
-
-
-
-
 @media (max-width: 640px) {
-  
-  
-  
 }
 
 /* Player settings: compact gear button; quality menu opens on demand. */
 
-
-
-
-
-
-
-
-
-
 @media (max-width: 640px) {
-  
-  
-  
-  
 }
 
 /* Keep video settings in the top player bar, away from the playing picture. */
 
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 640px) {
-  
-  
-  
-  
-  
 }
 
 /* Settings popover is anchored to the header, never over the playing picture. */
 
-
-
 @media (max-width: 640px) {
-  
 }
 
 /* Center the quality control in the video header; keep close at the far right. */
 
-
-
-
-
-
 @media (max-width: 640px) {
-  
-  
-  
 }
 
 /* Video hub quality popover: tidy, readable and anchored below the centered header control. */
 
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 640px) {
-  
-  
 }
 
 /* Video Hub quality menu: clean compact dropdown anchored to the top bar */
 
-
-
-
-
-
-
-
 @media (max-width: 600px) {
-  
-  
-  
 }
 
 /* Video quality control: compact, readable, and anchored to the player header. */
 
-
-
-
-
-
-
 @media (max-width: 600px) {
-  
-  
 }
 
 /* Fix custom option picker scrolling on desktop and touch devices. */
 
-
-
-
-
-
-
 /* Video Hub: keep the quality control on the left and show only its label. */
 
-
-
 @media (max-width: 600px) {
-  
 }
 
 /* Emergency hardening: keep custom option dialogs above every section and fully scrollable. */
-
-
-
-
-
 
 /* Readability pass: consistent contrast, line lengths, and uploaded media cards. */
 :root {
@@ -3555,27 +2496,23 @@ body {
 }
 p,
 li,
-.profile-intro
-{
+.profile-intro {
   color: var(--text-secondary);
   line-height: 1.8;
 }
-small
-{
+small {
   color: var(--text-muted);
 }
 h1,
 h2,
 h3,
-h4
-{
+h4 {
   color: var(--text-primary);
   line-height: 1.08;
   text-wrap: balance;
 }
 h2 em,
-h3 em
-{
+h3 em {
   color: var(--text-accent);
 }
 button,
@@ -3589,56 +2526,21 @@ textarea {
   outline-offset: 3px;
 }
 
-
-
-
-
-
-
-
 @media (max-width: 600px) {
   body {
     font-size: 14px;
   }
   p,
-li
-{
+  li {
     line-height: 1.72;
   }
-  
 }
 
 /* Records and milestones: clearer hierarchy and responsive cards. */
 
-
-
-
-
-
-
-
-
-
-
 /* Player quality control: compact gear menu over the video, like the BCCI player. */
 
-
-
-
-
-
-
-
-
-
 @media (max-width: 760px) {
-  
-  
-  
-  
-  
-  
-  
 }
 
 /* Replace the jersey-number brand tile with Tilak's auto-refreshed profile PNG. */
@@ -3700,15 +2602,7 @@ li
 
 /* Custom picker emergency fix: keep the dialog visible above blurred backdrop. */
 
-
-
-
-
-
 @media (max-width: 760px), (pointer: coarse) and (max-width: 899px) {
-  
-  
-  
 }
 
 /* FINAL PROFILE LAYOUT OVERRIDE — override legacy narrow-phone !important rules. */
@@ -3821,7 +2715,7 @@ li
     padding: 8px 10px !important;
     font-size: 10px !important;
   }
-  
+
   html body main #profile .profile-quick-actions {
     margin-top: 12px !important;
     gap: 8px !important;
@@ -3942,7 +2836,7 @@ li
     font-size: 9px !important;
     border-radius: 8px !important;
   }
-  
+
   html body main #profile .profile-quick-actions {
     margin-top: 9px !important;
   }
@@ -3981,22 +2875,14 @@ li
   margin: 0 !important;
 }
 
-
-
 @media (max-width: 800px) {
   .profile-eyebrow-row {
     margin-bottom: 6px;
     gap: 8px;
   }
-  
-  
 }
 
 /* Format selectors: keep every option visible on phones without horizontal scrolling. */
 
-
 @media (max-width: 600px) {
-  
-  
-  
 }

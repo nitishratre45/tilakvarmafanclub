@@ -289,8 +289,7 @@ body > main > .profile-section {
   overflow-wrap: anywhere;
 }
 .profile-ranking-updated,
-.home-bowling-updated
-{
+.home-bowling-updated {
   color: #91a7c1;
   font-size: 0.76rem;
   line-height: 1.65;
@@ -418,13 +417,6 @@ body > main > .profile-section {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
-
-
-
-
-
-
-
 
 .home-bowling-card {
   margin-top: 20px;
@@ -556,8 +548,7 @@ body > footer {
     transform: translateY(-2px);
     box-shadow: 0 13px 28px rgba(255, 106, 53, 0.22);
   }
-  .home-mini-stat:hover
-{
+  .home-mini-stat:hover {
     transform: translateY(-4px);
     border-color: rgba(117, 227, 255, 0.38);
     box-shadow: 0 18px 36px rgba(0, 0, 0, 0.2);
@@ -685,7 +676,7 @@ body > footer {
   .home-format-stats {
     grid-template-columns: minmax(0, 1fr);
   }
-  
+
   .home-bowling-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -701,22 +692,14 @@ body > footer {
 }
 @media (prefers-reduced-motion: reduce) {
   .profile-photo-wrap img#tilak-photo,
-.profile-quick-actions .button,
-.home-mini-stat,
-.home-innings-row
-{
+  .profile-quick-actions .button,
+  .home-mini-stat,
+  .home-innings-row {
     transition: none;
   }
 }
 
 /* Rendered bowling summaries: compact, legible and responsive on mobile. */
-
-
-
-
-
-
-
 
 .home-bowling-updated {
   margin-top: 16px;
@@ -728,7 +711,6 @@ body > footer {
   .home-bowling-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  
 }
 
 /* Compact bowling snapshot and clearer display typography. Header/nav/menu are intentionally untouched. */
@@ -748,8 +730,7 @@ body > footer {
 .home-snapshot-heading h2,
 .home-format-heading,
 .home-bowling-heading h3,
-.home-snapshot-blockhead h3
-{
+.home-snapshot-blockhead h3 {
   font-family: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
   letter-spacing: 0.005em;
 }
@@ -783,12 +764,6 @@ body > footer {
   border-radius: 12px;
 }
 
-
-
-
-
-
-
 .home-bowling-updated {
   margin-top: 9px;
   font-size: 0.67rem;
@@ -800,11 +775,9 @@ body > footer {
   gap: 12px;
 }
 .home-mini-stat,
-.home-snapshot-block
-{
+.home-snapshot-block {
   border-radius: 18px;
 }
-
 
 @media (max-width: 680px) {
   .profile-copy h2 {
@@ -838,8 +811,6 @@ body > footer {
   .home-bowling-stats > * {
     padding: 10px;
   }
-  
-  
 }
 @media (max-width: 380px) {
   .home-bowling-heading {
@@ -849,7 +820,7 @@ body > footer {
   .home-bowling-stats {
     grid-template-columns: minmax(0, 1fr);
   }
-  
+
   .profile-copy h2 {
     font-size: clamp(3rem, 14vw, 3.6rem);
   }
@@ -868,8 +839,7 @@ body > footer {
 }
 .home-mini-stat,
 .home-bowling-card,
-.home-snapshot-block
-{
+.home-snapshot-block {
   background: linear-gradient(145deg, rgba(14, 35, 61, 0.96), rgba(7, 19, 36, 0.98));
   border-color: rgba(110, 168, 255, 0.2);
 }
@@ -881,7 +851,6 @@ body > footer {
     transparent
   );
 }
-
 
 .home-snapshot-blockhead > a,
 .home-snapshot-foot > a {
@@ -928,13 +897,7 @@ body > footer {
     grid-template-columns: minmax(0, 1fr);
     gap: 9px;
   }
-  
-  
-  
-  
-  
-  
-  
+
   .home-bowling-card {
     margin-top: 12px;
     padding: 14px;
@@ -965,11 +928,7 @@ body > footer {
     padding: 9px;
     border-radius: 11px;
   }
-  
-  
-  
-  
-  
+
   .home-bowling-updated {
     margin-top: 9px;
     font-size: 0.62rem;
@@ -1036,7 +995,6 @@ body > footer {
     gap: 8px;
     padding: 9px;
   }
-  
 }
 
 /* Homepage career summary: compact, scrollable tables inspired by the full Stats page. */

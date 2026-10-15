@@ -100,14 +100,12 @@ nav a:focus-visible::after {
   line-height: 1.6;
 }
 .section h2,
-.profile-copy h2
-{
+.profile-copy h2 {
   letter-spacing: -0.035em;
   text-wrap: balance;
 }
 .section h2 em,
-.profile-copy h2 em
-{
+.profile-copy h2 em {
   color: var(--orange);
 }
 .profile-section {
@@ -161,13 +159,11 @@ nav a:focus-visible::after {
 }
 .icc-ranking-card,
 .home-bowling-card,
-.home-snapshot-block
-{
+.home-snapshot-block {
   border-radius: var(--ui-radius);
   border-color: rgba(160, 190, 230, 0.16);
 }
-.button
-{
+.button {
   min-height: 44px;
   border-radius: 12px;
   justify-content: center;
@@ -196,12 +192,10 @@ nav a:focus-visible::after {
 }
 .home-quick-stats,
 .home-format-stats,
-.home-bowling-stats
-{
+.home-bowling-stats {
   gap: 14px;
 }
-.home-mini-stat
-{
+.home-mini-stat {
   border-radius: 16px;
   border-color: rgba(160, 190, 230, 0.15);
   background: linear-gradient(145deg, rgba(16, 28, 46, 0.98), rgba(10, 17, 29, 0.98));
@@ -211,8 +205,7 @@ nav a:focus-visible::after {
     border-color 0.22s ease,
     box-shadow 0.22s ease;
 }
-.home-mini-stat:hover
-{
+.home-mini-stat:hover {
   transform: translateY(-4px);
   border-color: rgba(117, 227, 255, 0.38);
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
@@ -222,10 +215,6 @@ nav a:focus-visible::after {
   border-radius: 18px;
   box-shadow: 0 18px 42px rgba(255, 83, 100, 0.16);
 }
-
-
-
-
 
 input,
 select,
@@ -267,7 +256,6 @@ tbody tr:hover {
 .home-snapshot-foot {
   border-color: rgba(160, 190, 230, 0.16);
 }
-
 
 footer {
   border-color: rgba(160, 190, 230, 0.16);
@@ -348,8 +336,7 @@ img {
   .section {
     padding: 56px 18px;
   }
-  
-  
+
   .profile-section {
     gap: 28px;
   }
@@ -365,23 +352,20 @@ img {
   .profile-facts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  
+
   .stats-grid:not(.career-formats) .stat-feature {
     grid-column: 1 / -1;
   }
-  
+
   .stats-grid:not(.career-formats) .stat-card:not(.stat-feature) {
     min-height: 128px;
   }
-  
+
   .stats-grid:not(.career-formats) .stat-feature strong {
     font-size: clamp(54px, 14vw, 68px);
   }
-  
-  
-  
-  .home-snapshot-columns
-{
+
+  .home-snapshot-columns {
     grid-template-columns: 1fr;
     gap: 26px;
   }
@@ -389,21 +373,14 @@ img {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .home-snapshot-heading,
-.home-bowling-heading
-{
+  .home-bowling-heading {
     align-items: flex-start;
     flex-direction: column;
   }
   .home-format-stats {
     grid-template-columns: 1fr;
   }
-  
-  
-  
-  
-  
-  
-  
+
   .button {
     max-width: 100%;
   }
@@ -418,9 +395,6 @@ img {
   .profile-copy h2 {
     font-size: 50px;
   }
-  
-  
-  
 }
 
 /* SECTION FINISHING PASS — stronger hierarchy, cleaner grids, and consistent orange accents. */
@@ -443,37 +417,16 @@ img {
   background: radial-gradient(ellipse at 92% 0%, rgba(124, 229, 242, 0.035), transparent 36rem);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-.home-snapshot-block h3
-{
+.home-snapshot-block h3 {
   line-height: 1.35;
   text-wrap: balance;
 }
 
-
-
-
-
-
-
 .home-snapshot-section .home-mini-stat strong,
-.home-bowling-stats strong
-{
+.home-bowling-stats strong {
   font-variant-numeric: tabular-nums;
 }
-.home-mini-stat span
-{
+.home-mini-stat span {
   letter-spacing: 0.09em;
 }
 .home-bowling-card {
@@ -482,16 +435,9 @@ img {
     linear-gradient(145deg, #101d30, #0a111d);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.16);
 }
-.home-snapshot-foot
-{
+.home-snapshot-foot {
   line-height: 1.7;
 }
-
-
-
-
-
-
 
 .button:focus-visible,
 button:focus-visible,
@@ -503,18 +449,11 @@ textarea:focus-visible {
   outline-offset: 3px;
 }
 @media (max-width: 760px) {
-  
-  
-  
-  
-  
   .home-snapshot-foot {
     align-items: flex-start;
     flex-direction: column;
     gap: 10px;
   }
-  
-  
 }
 @media (max-width: 420px) {
   .section h2 {
@@ -529,7 +468,6 @@ textarea:focus-visible {
   .home-mini-stat strong {
     font-size: clamp(25px, 8vw, 34px);
   }
-  
 }
 
 /* Distinct, coordinated stat accents — Runs remains the hero metric. */
@@ -549,12 +487,6 @@ textarea:focus-visible {
   border-top-color: rgba(251, 191, 36, 0.8);
 }
 
-
-
-
-
-
-
 /* VISUAL EXPANSION 02 — bold editorial sections, depth, and matchday UI. */
 :root {
   --club-orange: #ff6a35;
@@ -563,16 +495,13 @@ textarea:focus-visible {
   --club-green: #a3e635;
 }
 .home-snapshot-heading .eyebrow,
-.home-snapshot-blockhead .eyebrow
-{
+.home-snapshot-blockhead .eyebrow {
   text-transform: uppercase;
 }
-.home-snapshot-heading h2
-{
+.home-snapshot-heading h2 {
   line-height: 0.98;
 }
-.home-snapshot-heading h2 em
-{
+.home-snapshot-heading h2 em {
   text-shadow: 0 8px 36px rgba(255, 106, 53, 0.12);
 }
 .profile-copy .eyebrow::before {
@@ -606,13 +535,11 @@ textarea:focus-visible {
   pointer-events: none;
 }
 .home-snapshot-block,
-.home-bowling-card
-{
+.home-bowling-card {
   position: relative;
   overflow: hidden;
 }
-.home-snapshot-block::before
-{
+.home-snapshot-block::before {
   content: "";
   position: absolute;
   left: 0;
@@ -625,8 +552,7 @@ textarea:focus-visible {
   background: var(--club-cyan);
 }
 .home-bowling-heading h3,
-.home-snapshot-blockhead h3
-{
+.home-snapshot-blockhead h3 {
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
@@ -635,21 +561,10 @@ textarea:focus-visible {
   overflow: hidden;
 }
 
-
-
-
-
-
-
-
-
-
 .bcci-video-modal:not([hidden]) {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
-
-
 
 /* Style expansion: stronger section identity and richer matchday cards. */
 .profile-section {
@@ -726,142 +641,66 @@ textarea:focus-visible {
   letter-spacing: -0.04em;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .feature-eyebrow {
   color: var(--cyan);
   letter-spacing: 0.14em;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 footer {
   background: #060a12;
   padding-block: 26px;
 }
 @media (min-width: 1000px) {
-  
-  
 }
 @media (max-width: 760px) {
   .profile-section::after {
     right: -12vw;
     bottom: -8vw;
   }
-  
-  
-  
-  
-  
 }
 @media (prefers-reduced-motion: reduce) {
-  
 }
 
 /* Keep the existing Light/System appearance switch fully supported after the new visual layer. */
 
-:root[data-theme-resolved="light"] .home-bowling-card
-{
+:root[data-theme-resolved="light"] .home-bowling-card {
   background: #fff !important;
   color: #152235;
   border-color: rgba(18, 35, 55, 0.16);
   box-shadow: 0 8px 24px rgba(25, 45, 70, 0.06);
 }
-:root[data-theme-resolved="light"] .home-snapshot-block
-{
+:root[data-theme-resolved="light"] .home-snapshot-block {
   background: #fff;
   color: #152235;
   border-color: rgba(18, 35, 55, 0.16);
 }
 :root[data-theme-resolved="light"] .home-snapshot-block h3,
-:root[data-theme-resolved="light"] .home-bowling-heading h3
-{
+:root[data-theme-resolved="light"] .home-bowling-heading h3 {
   color: #152235;
 }
 :root[data-theme-resolved="light"] .feature-eyebrow,
-:root[data-theme-resolved="light"] .home-snapshot-block a
-{
+:root[data-theme-resolved="light"] .home-snapshot-block a {
   color: #087e91;
 }
 
-
-
-
-
-
-
 /* FORMAT-WISE CAREER — compact dashboard cards on phones, roomier grid on desktop. */
 
-
-
-
-
-
-
-
-
 @media (min-width: 1200px) {
-  
-  
 }
 @media (max-width: 760px) {
-  
-  
-  
-  
-  
 }
 @media (max-width: 350px) {
-  
 }
-
-
 
 /* MOBILE NAV FIX — fully opaque menu surface, above page content, scroll-safe. */
 @media (max-width: 800px) {
-  .topbar
-{
+  .topbar {
     position: sticky;
     z-index: 5000 !important;
     isolation: isolate;
   }
   #main-nav,
-.topbar nav
-{
+  .topbar nav {
     background: #0a1220 !important;
     background-color: #0a1220 !important;
     opacity: 1 !important;
@@ -874,21 +713,18 @@ footer {
     border-top: 1px solid #26364c !important;
   }
   #main-nav.open,
-.topbar nav.open
-{
+  .topbar nav.open {
     display: grid !important;
     background: #0a1220 !important;
     background-color: #0a1220 !important;
   }
   #main-nav a,
-.topbar nav a
-{
+  .topbar nav a {
     background: #111f33 !important;
     opacity: 1 !important;
     color: #e5edf8;
   }
-  #main-nav a[aria-current="page"]
-{
+  #main-nav a[aria-current="page"] {
     color: var(--orange) !important;
   }
 }
@@ -909,12 +745,10 @@ body {
 }
 .section,
 .section > *,
-.profile-section > *
-{
+.profile-section > * {
   min-width: 0;
 }
-.home-mini-stat
-{
+.home-mini-stat {
   overflow-wrap: anywhere;
 }
 
@@ -922,7 +756,7 @@ body {
   .section {
     padding-inline: clamp(48px, 7.5vw, 120px);
   }
-  
+
   .profile-section {
     padding-inline: clamp(48px, 7.5vw, 120px);
   }
@@ -934,10 +768,8 @@ body {
   .section {
     padding: 48px 18px;
   }
-  
-  
-  .topbar
-{
+
+  .topbar {
     min-height: 70px;
   }
   .menu-toggle {
@@ -964,12 +796,9 @@ body {
   .home-quick-stats {
     gap: 8px;
   }
-  .home-mini-stat
-{
+  .home-mini-stat {
     min-width: 0;
   }
-  
-  
 }
 @media (max-width: 480px) {
   .section {
@@ -978,15 +807,10 @@ body {
   .section h2 {
     overflow-wrap: anywhere;
   }
-  .home-quick-stats
-{
+  .home-quick-stats {
     gap: 9px;
   }
-  
-  
-  
-  
-  
+
   footer {
     gap: 12px;
   }
@@ -999,33 +823,10 @@ body {
 
 /* Career format cards: use the right-hand space for key batting milestones. */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 760px) {
-  
-  
-  
-  
 }
 @media (max-width: 360px) {
-  
-  
-  
-  
 }
-
-
 
 /* NAVBAR BLUE FINISH — mobile-first, consistent with The 72 Club navy/cyan palette */
 .topbar {
@@ -1072,46 +873,18 @@ body {
 
 /* Keep the quick format cards informative, matching the full career stats section */
 
-
-
-
-
 @media (max-width: 420px) {
-  
-  
-  
-  
 }
 
 /* MOBILE CAREER CARDS — prevent labels and multi-digit values breaking across lines */
 @media (max-width: 760px) {
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 390px) {
-  
-  
-  
-  
-  
-  
-  
 }
 
 /* Main-page Death Overs section: keep the analyser visually integrated with the site. */
 
-
-
-
 @media (max-width: 640px) {
-  
-  
 }
 
 /* ACCESSIBLE TEXT COLOURS — stronger contrast and consistent hierarchy across the site */
@@ -1129,18 +902,15 @@ body {
 }
 p,
 .profile-intro,
-.home-bowling-updated
-{
+.home-bowling-updated {
   color: #b9c7d9;
 }
 small,
-.home-snapshot-foot
-{
+.home-snapshot-foot {
   color: #aebed2;
 }
 .eyebrow,
-.home-snapshot-blockhead a
-{
+.home-snapshot-blockhead a {
   color: #80e8ff;
 }
 label,
@@ -1170,34 +940,22 @@ footer .brand small {
   color: #d4deec;
 }
 
-
-
-
-
-
-
 :focus-visible {
   outline: 2px solid #80e8ff;
   outline-offset: 3px;
 }
 @media (prefers-contrast: more) {
   body,
-p,
-small,
-label
-{
+  p,
+  small,
+  label {
     color: #f4f8ff !important;
   }
 }
 
 /* Death Overs section refresh: remove the duplicate intro and give the tool a cleaner premium frame. */
 
-
-
-
 @media (max-width: 640px) {
-  
-  
 }
 
 /* 72 CLUB PROFILE REFRESH */
@@ -1345,7 +1103,6 @@ label
   overflow-wrap: anywhere;
 }
 
-
 #profile .profile-quick-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1435,7 +1192,7 @@ label
   #profile .icc-ranking-card small {
     line-height: 1.35;
   }
-  
+
   #profile .profile-quick-actions {
     gap: 6px;
   }
@@ -1791,7 +1548,7 @@ label
     padding: 8px 10px;
     font-size: 10px;
   }
-  
+
   #profile .profile-quick-actions {
     margin-top: 12px;
   }
@@ -1820,18 +1577,6 @@ label
 
 /* MOBILE RECOVERY — keep touch-screen layout compact and prevent sticky tabs covering content. */
 @media (max-width: 760px), (pointer: coarse) and (hover: none) {
-  
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
   #profile.profile-section {
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 13px !important;
@@ -1893,8 +1638,6 @@ label
   #profile .profile-quick-actions {
     margin-top: 10px !important;
   }
-  
-  
 }
 
 /* Touch devices may request desktop-site mode; keep the site navigation phone-friendly. */
@@ -1916,8 +1659,7 @@ label
 
 /* Mobile navigation recovery: handle Android Chrome's "Desktop site" viewport. */
 @media (pointer: coarse) and (hover: none) {
-  main > section[hidden]
-{
+  main > section[hidden] {
     display: none !important;
   }
 
@@ -1993,8 +1735,7 @@ main > section[id][hidden],
 #innings[hidden],
 #photos[hidden],
 #news[hidden],
-#tilak-videos[hidden]
-{
+#tilak-videos[hidden] {
   display: none !important;
 }
 
@@ -2044,12 +1785,7 @@ main > section[id][hidden],
     white-space: normal !important;
     font-size: 12px !important;
   }
-  
-  
-  
-  
-  
-  
+
   #profile.profile-section {
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 13px !important;
@@ -2153,20 +1889,7 @@ main > section[id][hidden],
     box-sizing: border-box;
     padding-inline: 12px;
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
-  
-  
-
-  
   input,
   select,
   textarea,
@@ -2188,9 +1911,6 @@ main > section[id][hidden],
   #profile .icc-ranking-card > div {
     padding: 8px !important;
   }
-  
-  
-  
 }
 
 /* 72 CLUB — colourful motion polish (progressive, non-destructive) */
@@ -2218,8 +1938,7 @@ body {
     0 0 0 5px rgba(155, 123, 255, 0.14),
     0 0 28px rgba(98, 200, 255, 0.22);
 }
-.profile-copy h2 em
-{
+.profile-copy h2 em {
   background: linear-gradient(100deg, var(--orange), var(--club-pink) 48%, var(--club-violet));
   -webkit-background-clip: text;
   background-clip: text;
@@ -2228,8 +1947,7 @@ body {
 .home-mini-stat,
 .home-snapshot-block,
 .home-bowling-card,
-.profile-teams-panel
-{
+.profile-teams-panel {
   transition:
     transform 0.24s ease,
     border-color 0.24s ease,
@@ -2237,12 +1955,10 @@ body {
     background-color 0.24s ease;
 }
 
-
 .home-mini-stat:hover,
 .home-snapshot-block:hover,
 .home-bowling-card:hover,
-.profile-teams-panel:hover
-{
+.profile-teams-panel:hover {
   transform: translateY(-3px);
   border-color: rgba(98, 200, 255, 0.42);
   box-shadow:
@@ -2250,8 +1966,7 @@ body {
     0 0 24px rgba(155, 123, 255, 0.07);
 }
 .button,
-button
-{
+button {
   transition:
     transform 0.18s ease,
     filter 0.18s ease,
@@ -2328,8 +2043,7 @@ nav a.active::after {
 main > section:not([hidden]) {
   animation: clubRiseIn 0.32s ease both;
 }
-.home-mini-stat
-{
+.home-mini-stat {
   animation: clubRiseIn 0.42s ease both;
 }
 .live-dot {
@@ -2347,10 +2061,9 @@ main > section:not([hidden]) {
     border-image: none;
   }
   .home-mini-stat:hover,
-.home-snapshot-block:hover,
-.home-bowling-card:hover,
-.profile-teams-panel:hover
-{
+  .home-snapshot-block:hover,
+  .home-bowling-card:hover,
+  .profile-teams-panel:hover {
     transform: none;
   }
   .button,
@@ -2365,187 +2078,27 @@ main > section:not([hidden]) {
   --stats-card-glow: 0 14px 36px rgba(0, 0, 0, 0.18);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 900px) {
-  
-  
 }
 @media (max-width: 600px) {
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 360px) {
-  
-  
 }
 @media (prefers-reduced-motion: reduce) {
-  
 }
 
 /* Explore compact layout: reduce vertical scrolling without changing data or behavior. */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 900px) {
-  
-  
-  
 }
 @media (max-width: 600px) {
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 360px) {
-  
 }
 
 /* STATS / BATTING OVERVIEW — polished cards, restrained accents, scoped away from other sections. */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 700px) {
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 360px) {
   #stats #stats-overview .stats-grid:not(.career-formats) {
@@ -2553,41 +2106,18 @@ main > section:not([hidden]) {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  
 }
 
 /* EXPLORE format selector — make the selected format unmistakable. */
 
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 760px) {
-  
-  
-  
 }
 @media (prefers-reduced-motion: reduce) {
-  
 }
 
 /* Explore intro copy: turn the long plain sentence into a deliberate supporting callout. */
 
-
-
-
-
-
 @media (max-width: 760px) {
-  
-  
-  
 }
 
 /* VIDEO PLAYER VISIBILITY + NAVBAR PERSISTENCE FIX.
@@ -2597,9 +2127,6 @@ main > section:not([hidden]) {
   overflow: auto;
   overscroll-behavior: contain;
 }
-
-
-
 
 .topbar {
   z-index: 7005 !important;
@@ -2614,10 +2141,6 @@ body.bcci-player-open .topbar {
     padding: 8px;
     align-items: start;
   }
-  
-  
-  
-  
 }
 
 /* HOTFIX: keep the actual player panel above its dim/blur backdrop on desktop Chrome. */
@@ -2656,9 +2179,6 @@ body.bcci-player-open .topbar {
   box-shadow: 0 28px 100px rgba(0, 0, 0, 0.8) !important;
 }
 
-
-
-
 .topbar,
 body.bcci-player-open .topbar {
   z-index: 10000 !important;
@@ -2672,24 +2192,11 @@ body.bcci-player-open .topbar {
     width: calc(100vw - 16px) !important;
     max-height: calc(100dvh - 16px) !important;
   }
-  
 }
 
 /* Quality control redesign: visible over the video, desktop + mobile. */
 
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 760px) {
-  
-  
 }
 
 /* Final fix: keep the quality menu as a compact panel and hide the native select face. */
@@ -2700,9 +2207,6 @@ body.bcci-player-open .topbar {
   background: #07142f !important;
 }
 
-
-
-
 @media (max-width: 760px) {
   #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu:not([hidden]) {
     padding: 12px !important;
@@ -2710,7 +2214,6 @@ body.bcci-player-open .topbar {
 }
 
 /* Quality selector placement correction from desktop screenshot. */
-
 
 #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu:not([hidden]) {
   position: absolute !important;
@@ -2728,11 +2231,7 @@ body.bcci-player-open .topbar {
   border-radius: 13px !important;
 }
 
-
-
-
 @media (max-width: 760px) {
-  
   #bcci-video-player-modal .bcci-player-quality-control .bcci-player-settings-menu:not([hidden]) {
     width: 205px !important;
     min-width: 205px !important;
@@ -2741,23 +2240,10 @@ body.bcci-player-open .topbar {
 
 /* Plyr player skin adapted to the Tilak Varma Video Hub. */
 
-
-
-
-
-
-
-
-
-
 @media (max-width: 760px) {
-  
-  
-  
 }
 
 /* Keep quality controls below the video, never floating over the playing picture. */
-
 
 #bcci-video-player-modal .bcci-player-title-block .bcci-player-settings-menu:not([hidden]) {
   position: absolute !important;
@@ -2775,7 +2261,6 @@ body.bcci-player-open .topbar {
   gap: 8px !important;
 }
 @media (max-width: 760px) {
-  
   #bcci-video-player-modal .bcci-player-title-block .bcci-player-settings-menu:not([hidden]) {
     width: 205px !important;
     min-width: 205px !important;
@@ -2929,43 +2414,6 @@ textarea:focus-visible {
 
 /* Series-wise photo albums and same-page glowing lightbox */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @keyframes tv-lightbox-in {
   from {
     opacity: 0;
@@ -2975,60 +2423,20 @@ textarea:focus-visible {
   }
 }
 @media (max-width: 640px) {
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (prefers-reduced-motion: reduce) {
-  
-  
 }
 
 /* Gallery layout repair: balanced cards, consistent cover crops, desktop + mobile */
 
-
-
-
-
-
 @media (min-width: 1100px) {
-  
-  
 }
 @media (max-width: 760px) {
   #photos.section {
     padding: 54px 14px;
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 360px) {
-  
-  
-  
-  
 }
 
 /* PHOTO SECTION — premium responsive gallery refresh */
@@ -3039,184 +2447,52 @@ textarea:focus-visible {
   scroll-margin-top: 90px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (min-width: 1200px) {
-  
-  
 }
 @media (max-width: 760px) {
   #photos.tilak-photos-section {
     scroll-margin-top: 72px;
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 380px) {
-  
-  
-  
-  
 }
 @media (prefers-reduced-motion: reduce) {
-  
 }
 
 /* Album card width hotfix: override inherited compact button sizing */
 
-
-
-
-
 @media (min-width: 761px) {
-  
 }
 @media (max-width: 760px) {
-  
 }
 @media (max-width: 380px) {
-  
 }
 
 /* Final album-card polish: compact natural height and refined Explore Photos action */
 
-
-
-
-
-
-
-
 @media (max-width: 760px) {
-  
-  
 }
 
 /* Mobile-first album/folder gallery: readable cards, inline folder contents */
-
-
-
-
-
 
 @media (max-width: 760px) {
   #photos.tilak-photos-section {
     padding: 32px 12px !important;
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 380px) {
-  
-  
-  
-  
-  
-  
 }
 
 /* Album detail view: compact back row + balanced 3-column photo gallery */
 
-
-
-
-
-
-
-
-
 @media (max-width: 760px) {
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (max-width: 360px) {
-  
-  
-  
-  
 }
 
 /* Definitive album-detail layout: header above a full-width 3x3 photo grid */
 
-
-
-
-
-
-
 @media (max-width: 760px) {
-  
-  
-  
-  
-  
-  
-  
 }
 
 /* BCCI-inspired photo gallery redesign: light editorial canvas, wide image cards */
@@ -3224,182 +2500,57 @@ textarea:focus-visible {
   padding: clamp(30px, 4vw, 58px) clamp(14px, 3vw, 48px) !important;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 1000px) {
-  
-  
 }
 @media (max-width: 640px) {
   #photos.tilak-photos-section {
     padding: 25px 10px !important;
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 @media (prefers-reduced-motion: reduce) {
-  
 }
 
 /* Hotfix: neutralize legacy narrow album-card rules that caused vertical text */
 
-
-
-
-
-
 @media (max-width: 640px) {
-  
 }
 
 /* Album-open state: preserve the gallery's original listing palette; use BCCI-style series page only inside an opened album */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 900px) {
-  
 }
 @media (max-width: 600px) {
   #photos.tv-album-view-active {
     padding: 12px 0 !important;
   }
-  
-  
-  
-  
-  
-  
-  
 }
 
 /* Preserve the fan club's original navy, cyan and orange palette in album view */
-#photos.tv-album-view-active
-{
+#photos.tv-album-view-active {
   background: #070b14 !important;
   color: #f7f9ff !important;
 }
 
-
-
 @media (max-width: 600px) {
-  
 }
 
 /* Final photo gallery listing fix: retain original dark navy/cyan/orange theme and remove empty oversized panel */
 
-
-
 @media (max-width: 1000px) {
-  
 }
 @media (max-width: 640px) {
-  
-  
-  
-  
 }
 
 /* Image visibility recovery: keep real image elements visible in both album cards and opened albums */
-
-
-
-
-
-
 
 /* Photo gallery: unified full-page royal-blue fan-club layout */
 #photos.tilak-photos-section {
   padding: clamp(28px, 4vw, 54px) clamp(12px, 3vw, 46px) !important;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 1050px) {
-  
 }
 @media (max-width: 650px) {
-  
-  
-  
-  
-  
-  
-  
-  
 }
 
 /* BCCI-inspired all-blue photo album detail page */
@@ -3410,55 +2561,25 @@ textarea:focus-visible {
   background: linear-gradient(145deg, #0645a3 0%, #07377f 55%, #06275e 100%) !important;
 }
 
-
-
-
-
 @media (max-width: 650px) {
-  
 }
 
 /* Fix album detail: blue the actual rendered hero, not unrelated selectors */
-#photos.tv-album-view-active
-{
+#photos.tv-album-view-active {
   background: #073b8f !important;
 }
 
-
-
-
-
-
-
-
-
-
 @media (max-width: 650px) {
-  
-  
-  
-  
 }
 
 /* Keep album photo area blue, make the upper album header white as requested */
 
-
-
 /* Gallery overview polish: light page canvas, blue album cards */
-
-
-
-
-
-
-
-
 
 @media (max-width: 650px) {
   #photos.tilak-photos-section {
     padding: 22px 10px !important;
   }
-  
 }
 
 /* Requested: royal-blue background for the entire Photos page */
@@ -3467,55 +2588,20 @@ textarea:focus-visible {
   color: #f5f9ff !important;
 }
 
-
-
-
-
-
-
-
-
 /* Mobile photo gallery: remove Explore Photos overlay and use a single-column layout */
 @media (max-width: 650px) {
-  #photos .tv-album-card .tv-album-cover a:not(img)
-{
+  #photos .tv-album-card .tv-album-cover a:not(img) {
     display: none !important;
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 
 /* Album detail: show two photos per row on phones */
 @media (max-width: 650px) {
-  
-  
-  
 }
 
 /* Hide the redundant Photos page intro/header; retain the gallery itself */
 
-
 /* Gallery detail + footer polish (mobile and desktop) */
-
-
-
-
-
-
-
-
-
-
-
 
 /* Compact, balanced site footer: no oversized blank strip on phones */
 body > footer,
@@ -3554,12 +2640,6 @@ footer > span:last-child {
   text-align: center !important;
 }
 @media (max-width: 650px) {
-  
-  
-  
-  
-  
-  
   footer {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) auto !important;
@@ -3592,7 +2672,6 @@ footer > span:last-child {
   scroll-behavior: auto !important;
 }
 
-
 @media (prefers-reduced-motion: no-preference) {
   #photos,
   #photos * {
@@ -3602,14 +2681,7 @@ footer > span:last-child {
 
 /* FIX: Stats format choices must wrap into rows on mobile; never make a horizontal scroller. */
 
-
-
 @media (max-width: 760px) {
-  
-  
-  
 }
 
 /* Graceful fallback for external image hosts that deny hotlinking. */
-
-
