@@ -6,8 +6,9 @@
     <script>
       (() => {
         const touchPhone =
-          Math.min(screen.width || innerWidth, screen.height || innerHeight) <= 800 ||
-          (navigator.maxTouchPoints > 0 && matchMedia("(orientation: portrait)").matches);
+          navigator.maxTouchPoints > 0 ||
+          ("ontouchstart" in window) ||
+          Math.min(screen.width || innerWidth, screen.height || innerHeight) <= 800;
         if (touchPhone) document.documentElement.setAttribute("data-mobile-touch", "true");
       })();
     </script>
@@ -46,7 +47,7 @@
       rel="stylesheet"
       href="/assets/india-cricket-theme.css?v=20261015-home-unused-css-cleanup1"
     />
-    <link rel="stylesheet" href="/assets/home-mobile-bottom-nav.css?v=20261015-bottom-nav10" />
+    <link rel="stylesheet" href="/assets/home-mobile-bottom-nav.css?v=20261015-bottom-nav11" />
     <style id="tv-mobile-bottom-nav-critical">
       .tv-mobile-bottom-nav {
         position: fixed !important;
