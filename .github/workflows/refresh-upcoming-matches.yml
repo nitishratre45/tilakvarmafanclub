@@ -140,6 +140,8 @@ jobs:
               raise SystemExit("Responsive match details navigation CSS is missing.")
           if "renderTeamLogo(" not in match_js or "upcoming-team-logo-initials" not in match_js:
               raise SystemExit("Upcoming match cards need dynamic team logos and initials fallback.")
+          if 'const hasTime = Boolean(String(fixture.time || "").trim());' not in match_js or "hasTime ? 4 : 24" not in match_js:
+              raise SystemExit("Upcoming fixtures without an official start time must remain visible for their scheduled date.")
           keys = set()
           for fixture in fixtures:
               for field in ("date", "match", "opponent"):
