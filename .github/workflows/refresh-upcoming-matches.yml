@@ -7,6 +7,7 @@ on:
     branches: [main]
     paths:
       - "News/newsjson.json"
+      - "matches/bcci-stats-fixtures.json"
       - "scripts/refresh_upcoming_matches.py"
       - ".github/workflows/refresh-upcoming-matches.yml"
       - "matches/details/**"
@@ -97,17 +98,27 @@ jobs:
           report = json.loads(Path("matches/upcoming-fixtures-refresh.json").read_text(encoding="utf-8"))
           js = Path("matches/upcoming-matches.js").read_text(encoding="utf-8")
           fixtures = report.get("fixtures", [])
-          if report.get("status") != "updated-from-news-json" or not fixtures:
-              raise SystemExit("No verified future squad fixtures were generated.")
+          if report.get("status") != "updated-from-news-and-bcci-json" or not fixtures:
+              raise SystemExit("No exact BCCI fixture matches were generated for squad-confirmed News fixtures.")
+          bcci = json.loads(Path("matches/bcci-stats-fixtures.json").read_text(encoding="utf-8"))
+          bcci_rows = bcci.get("fixtures", [])
           for fixture in fixtures:
               if not str(fixture.get("newsUrl", "")).startswith("/News-details/index.html?id="):
                   raise SystemExit("Fixture is missing its internal Fan Club news link.")
+              if fixture.get("tilakInSquad") is not True or fixture.get("confirmationSource") != "BCCI squad announcement naming Tilak Varma":
+                  raise SystemExit("Upcoming fixture lacks explicit Tilak squad confirmation.")
+              if not str(fixture.get("source", "")).startswith("https://stats.bcci.tv/"):
+                  raise SystemExit("Fixture details must come from the BCCI Stats fixture JSON.")
               venue = str(fixture.get("venue", ""))
-              if any(marker in venue.lower() for marker in ("rest of india squad", "honorary secretary", "updated squad")):
-                  raise SystemExit("Venue contains unrelated article text: " + venue)
+              if not venue or any(marker in venue.lower() for marker in ("rest of india squad", "honorary secretary", "updated squad")):
+                  raise SystemExit("Venue is missing or contains unrelated article text: " + venue)
+              sides = {str(fixture.get("team", "")).strip().lower(), str(fixture.get("opponent", "")).strip().lower()}
+              exact = [row for row in bcci_rows if str(row.get("date", "")) == str(fixture.get("date", "")) and str(row.get("match", "")).strip().lower() == str(fixture.get("match", "")).strip().lower() and {str(row.get("team", "")).strip().lower(), str(row.get("opponent", "")).strip().lower()} == sides]
+              if not exact:
+                  raise SystemExit("Fixture does not match a BCCI row exactly: " + repr(fixture))
           if "Match Details ↗" not in js or "upcoming-team-announcement-link" not in js:
               raise SystemExit("Matches page is missing internal news-link UI.")
-          print(f"Validated {len(fixtures)} fixtures and their internal news links.")
+          print(f"Validated {len(fixtures)} Tilak squad-confirmed fixtures against exact BCCI Stats rows.")
           PY
           git diff --check
       - name: Validate automatic match details and team badge fallback
