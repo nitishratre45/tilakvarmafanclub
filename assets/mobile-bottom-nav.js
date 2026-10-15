@@ -43,7 +43,8 @@
     document.querySelector("body > nav.tv-mobile-bottom-nav") || document.createElement("nav");
   nav.className = "tv-mobile-bottom-nav";
   nav.setAttribute("aria-label", "Mobile quick navigation");
-  const hasStaticLinks = nav.querySelector('a[href="/"]') && nav.querySelector('a[href="/matches/"]');
+  const hasStaticLinks =
+    nav.querySelector('a[href="/"]') && nav.querySelector('a[href="/matches/"]');
   if (!hasStaticLinks) {
     nav.replaceChildren();
     items.forEach(([key, label, url]) => {
