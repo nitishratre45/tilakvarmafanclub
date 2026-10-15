@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Fetch paginated BCCI match results for India and West Indies into a safe JSON snapshot."""
+"""Fetch paginated BCCI match results for supported teams into a safe JSON snapshot.
+
+The results workflow is triggered on changes to this script so an empty or stale
+snapshot is regenerated after result-pipeline fixes.
+"""
 import json
 import os
 import sys
