@@ -192,10 +192,13 @@
         if (sameFormat && url && itemUrl) return url === itemUrl;
         if (normalizeText(item.opposition) !== normalizedOpposition) return false;
         const dateDistance = Math.abs(day - dayValue(item.date));
-        // Same-format rows must fall on the same day; the overlapping T20 feed may be
-        // off by one day (timezone). Different grounds mean different matches.
+        // Same-format Statsguru feeds can label the same ground differently
+        // (for example, abbreviated venue vs full venue). A player cannot have
+        // two appearances for the same opposition in the same format on the same
+        // date, so date + opposition + format is the stable de-duplication key.
+        // T20I/T20 cross-feed duplicates can differ by one date due to timezone.
         if (dateDistance > (overlap ? 1 : 0)) return false;
-        return groundsCompatible(item.ground || item.venue, ground);
+        return true;
       });
       if (existingIndex < 0) {
         matches.push({ ...row, format: fmt, ground });
