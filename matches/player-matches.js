@@ -289,7 +289,13 @@
                 esc(r.ground || r.venue || "—") +
                 "</td><td>" +
                 esc(fmt) +
-                "</td></tr>"
+                '</td><td><a class="recent-match-details-link" href="/matches/details/?date=' +
+                encodeURIComponent(String(r.date || "")) +
+                '&opponent=' +
+                encodeURIComponent(String(r.opposition || "")) +
+                '&match=' +
+                encodeURIComponent(String(fmt || "Match")) +
+                '">Full details ↗</a></td></tr>'
               );
             })
             .join("")
