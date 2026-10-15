@@ -185,7 +185,9 @@ def time_in_ist(row, embedded_time=""):
             dt = datetime.fromisoformat(text)
             if dt.tzinfo is None:
                 dt = dt.replace(tzinfo=timezone.utc)
-            return dt.astimezone(timezone(timedelta(hours=5, minutes=30))).strftime("%H:%M")
+            return dt.astimezone(timezone(timedelta(hours=5, minutes=30))).strftime(
+                "%H:%M"
+            )
         except (ValueError, TypeError):
             pass
 
@@ -200,7 +202,12 @@ def time_in_ist(row, embedded_time=""):
         except (ValueError, TypeError):
             pass
 
-    return clean_time(first(row, ("start_time_ist", "startTimeIST", "match_time", "matchTime", "time")) or embedded_time)
+    return clean_time(
+        first(
+            row, ("start_time_ist", "startTimeIST", "match_time", "matchTime", "time")
+        )
+        or embedded_time
+    )
 
 
 def normalize(row):
