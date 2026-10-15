@@ -178,7 +178,7 @@
       });
       let fixtures = [...byKey.values()];
       const manual = Array.isArray(manualPayload?.fixtures) ? manualPayload.fixtures : [];
-      const fixtureKey = (f) =>
+      const manualFixtureKey = (f) =>
         [f.date, f.match, f.opponent]
           .map((v) =>
             String(v || "")
@@ -195,10 +195,10 @@
           )
           .join("|");
       const overrides = new Map(manual.filter((f) => f.overrideKey).map((f) => [f.overrideKey, f]));
-      const exact = new Map(manual.filter((f) => !f.overrideKey).map((f) => [fixtureKey(f), f]));
+      const exact = new Map(manual.filter((f) => !f.overrideKey).map((f) => [manualFixtureKey(f), f]));
       fixtures = fixtures.map((f) => ({
         ...f,
-        ...(overrides.get(sourceKey(f)) || exact.get(fixtureKey(f)) || {}),
+        ...(overrides.get(sourceKey(f)) || exact.get(manualFixtureKey(f)) || {}),
       }));
       const sourceKeys = new Set(fixtures.map(fixtureKey));
       manual.forEach((f) => {
