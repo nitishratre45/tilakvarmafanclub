@@ -966,3 +966,223 @@ body > footer {
     font-size: clamp(3rem, 14vw, 3.6rem);
   }
 }
+
+
+/* Compact mobile homepage snapshot — keep full career data on the dedicated Stats pages. */
+:root {
+  --home-accent-blue: #6ea8ff;
+  --home-accent-violet: #b5a0ff;
+  --home-accent-cyan: #80e5f2;
+  --home-accent-coral: #ff9a78;
+}
+.home-snapshot-heading h2 {
+  font-size: clamp(1.75rem, 4vw, 3.25rem);
+  letter-spacing: -0.035em;
+}
+.home-mini-stat,
+.home-format-card,
+.home-bowling-card,
+.home-snapshot-block {
+  background: linear-gradient(145deg, rgba(14, 35, 61, 0.96), rgba(7, 19, 36, 0.98));
+  border-color: rgba(110, 168, 255, 0.2);
+}
+.home-mini-stat::after {
+  background: linear-gradient(90deg, var(--home-accent-violet), var(--home-accent-cyan), transparent);
+}
+.home-format-card > span,
+.home-bowling-stat > span {
+  color: var(--home-accent-cyan);
+}
+.home-format-fact {
+  background: rgba(110, 168, 255, 0.055);
+  border: 1px solid rgba(110, 168, 255, 0.1);
+}
+.home-snapshot-blockhead > a,
+.home-snapshot-foot > a {
+  color: var(--home-accent-cyan);
+}
+@media (max-width: 680px) {
+  .home-snapshot-section {
+    padding-top: 30px !important;
+    padding-bottom: 32px !important;
+  }
+  .home-snapshot-heading,
+  .home-bowling-heading,
+  .home-snapshot-blockhead {
+    gap: 10px;
+  }
+  .home-snapshot-heading h2 {
+    margin-top: 5px;
+    font-size: clamp(1.55rem, 6.3vw, 2rem) !important;
+    line-height: 1.08;
+  }
+  .home-quick-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 15px;
+  }
+  .home-mini-stat {
+    padding: 13px 12px;
+    border-radius: 14px;
+  }
+  .home-mini-stat span {
+    font-size: 0.58rem;
+    letter-spacing: 0.04em;
+  }
+  .home-mini-stat strong {
+    margin-top: 7px;
+    font-size: clamp(1.55rem, 7vw, 2.1rem);
+  }
+  .home-format-heading {
+    margin: 23px 0 10px;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+  }
+  .home-format-stats {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+  }
+  .home-format-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+  .home-format-card > strong {
+    margin: 6px 0 2px;
+    font-size: 1.9rem;
+  }
+  .home-format-card > small {
+    font-size: 0.7rem;
+    line-height: 1.45;
+  }
+  .home-format-facts {
+    gap: 6px;
+    margin: 10px 0 8px;
+  }
+  .home-format-fact {
+    padding: 7px 8px;
+    border-radius: 8px;
+  }
+  .home-format-fact span {
+    font-size: 0.57rem;
+  }
+  .home-format-fact strong {
+    margin-top: 2px;
+    font-size: 0.8rem;
+  }
+  .home-bowling-card {
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 17px;
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(181, 160, 255, 0.09), transparent 60%),
+      linear-gradient(145deg, rgba(14, 35, 61, 0.96), rgba(7, 19, 36, 0.98));
+  }
+  .home-bowling-heading {
+    margin-bottom: 12px;
+  }
+  .home-bowling-heading h3 {
+    font-size: 1.25rem;
+    line-height: 1.1;
+  }
+  .home-bowling-heading .button,
+  .home-heading-actions .button {
+    min-height: 34px;
+    padding: 7px 9px;
+    border-radius: 9px;
+    font-size: 0.67rem;
+  }
+  .home-bowling-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+  .home-bowling-stats > * {
+    padding: 9px;
+    border-radius: 11px;
+  }
+  .home-bowling-stat > strong {
+    margin: 5px 0 7px;
+    font-size: 1.45rem;
+  }
+  .home-bowling-facts {
+    gap: 5px;
+  }
+  .home-bowling-facts > div {
+    padding: 6px;
+    border-radius: 7px;
+  }
+  .home-bowling-facts > div span {
+    font-size: 0.52rem;
+  }
+  .home-bowling-facts > div b {
+    font-size: 0.7rem;
+  }
+  .home-bowling-updated {
+    margin-top: 9px;
+    font-size: 0.62rem;
+  }
+  .home-snapshot-columns {
+    gap: 11px;
+    margin-top: 13px;
+  }
+  .home-snapshot-block {
+    padding: 13px;
+    border-radius: 17px;
+  }
+  .home-snapshot-blockhead {
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .home-snapshot-blockhead h3 {
+    margin-top: 4px;
+    font-size: 1.2rem;
+    line-height: 1.15;
+  }
+  .home-snapshot-blockhead > a,
+  .home-snapshot-foot > a {
+    font-size: 0.75rem;
+  }
+  .home-recent-innings {
+    gap: 7px;
+  }
+  .home-innings-row {
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 10px;
+    padding: 11px;
+    border-radius: 13px;
+    background: rgba(5, 15, 28, 0.46);
+    border-color: rgba(110, 168, 255, 0.14);
+  }
+  .home-innings-score strong {
+    font-size: 1.5rem;
+  }
+  .home-innings-score span {
+    margin-top: 4px;
+    font-size: 0.65rem;
+  }
+  .home-innings-detail strong {
+    font-size: 0.85rem;
+    line-height: 1.25;
+  }
+  .home-innings-detail span,
+  .home-innings-detail small {
+    margin-top: 3px;
+    font-size: 0.68rem;
+    line-height: 1.4;
+  }
+  .home-snapshot-foot {
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 10px;
+    font-size: 0.65rem;
+  }
+}
+@media (max-width: 380px) {
+  .home-innings-row {
+    grid-template-columns: 65px minmax(0, 1fr);
+    gap: 8px;
+    padding: 9px;
+  }
+  .home-format-facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
