@@ -10,6 +10,8 @@ on:
       - "data/admin-media.json"
       - "photos/gallery.js"
       - "photos/gallery.css"
+      - "photos/photos.css"
+      - "tests/photos-page-assets.test.mjs"
       - "photos/index.html"
       - "index.html"
       - "scripts/photo-section-guardian.mjs"
@@ -39,6 +41,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Test Photos page asset cleanup
+        run: node --test tests/photos-page-assets.test.mjs
       - name: Test guardian safety rules
         run: node --test tests/photo-section-guardian.test.mjs
       - name: Test external photo URL health reporting
@@ -49,6 +53,8 @@ jobs:
           test -f photos/index.html
           test -f photos/gallery.js
           test -f photos/gallery.css
+          test -f photos/photos.css
+          node --check photos/gallery.js
           node --check scripts/photo-section-guardian.mjs
           node --check scripts/photo-link-health.mjs
           node scripts/photo-section-guardian.mjs
