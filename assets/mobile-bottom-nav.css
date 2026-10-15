@@ -321,7 +321,6 @@ html body.tv-bottom-nav-enabled {
   }
 }
 
-
 /* Hard guarantee: the header hamburger panel always owns mobile pointer input. */
 @media screen and (max-width: 800px) {
   html body.mobile-menu-open > .tv-mobile-bottom-nav,
@@ -337,19 +336,34 @@ html body.tv-bottom-nav-enabled {
   }
 }
 
-
 /* Recovery for pages whose global theme rules hide generic nav descendants. */
 @media screen and (max-width: 800px) {
-  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav,
-  html body:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav[data-tv-bottom-nav-static="home"] {
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav,
+  html
+    body:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav[data-tv-bottom-nav-static="home"] {
     visibility: visible !important;
     opacity: 1 !important;
     color: #26364c !important;
   }
-  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav > a,
-  html body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav.tv-mobile-bottom-nav > button,
-  html body:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav[data-tv-bottom-nav-static="home"] > a,
-  html body:not(.mobile-menu-open):not(.tv-shared-menu-open) > nav[data-tv-bottom-nav-static="home"] > button {
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav
+    > a,
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav
+    > button,
+  html
+    body:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav[data-tv-bottom-nav-static="home"]
+    > a,
+  html
+    body:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav[data-tv-bottom-nav-static="home"]
+    > button {
     visibility: visible !important;
     opacity: 1 !important;
     color: #26364c !important;
