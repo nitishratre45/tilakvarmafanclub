@@ -38,7 +38,6 @@
       rel="stylesheet"
       href="/assets/india-cricket-theme.css?v=20261015-home-unused-css-cleanup1"
     />
-    <link rel="stylesheet" href="/assets/profile-dock.css?v=20261015-fresh2" />
   </head>
   <body>
     <header class="topbar">
@@ -254,88 +253,5 @@
       }
     </script>
     <script src="/assets/mobile-glass-menu.js?v=20261015-home-unused-css-cleanup1"></script>
-    <!-- Fresh mobile navigation v2: self-contained in the homepage, no external JS dependency. -->
-    <link rel="stylesheet" href="/assets/profile-dock.css?v=20261015-fresh2" />
-    <nav
-      id="tvfc-fresh-mobile-dock-v2"
-      aria-label="Mobile quick navigation"
-      style="
-        position: fixed !important;
-        display: grid !important;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        align-items: stretch;
-        gap: 4px;
-        left: 12px;
-        right: 12px;
-        bottom: 8px;
-        z-index: 2147483000;
-        padding: 6px;
-        border: 1px solid rgba(125, 190, 226, 0.45);
-        border-radius: 20px;
-        background: rgba(7, 24, 43, 0.97);
-        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
-      "
-    >
-      <a href="/" aria-current="page"
-        ><svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m3 10 9-7 9 7v10H14v-6h-4v6H3z" /></svg
-        ><span>Home</span></a
-      >
-      <a href="/matches/"
-        ><svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M8 8l8 8M16 8l-8 8" /></svg
-        ><span>Match</span></a
-      >
-      <a href="/photos/"
-        ><svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="3" y="4" width="18" height="16" rx="2" />
-          <circle cx="8" cy="9" r="1" />
-          <path d="m4 17 5-5 4 4 3-3 4 4" /></svg
-        ><span>Photo</span></a
-      >
-      <a href="/videos/"
-        ><svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="3" y="5" width="18" height="14" rx="2" />
-          <path d="m10 9 5 3-5 3z" /></svg
-        ><span>Video</span></a
-      >
-    </nav>
-    <script>
-      (() => {
-        const nav = document.getElementById("tvfc-fresh-mobile-dock-v2");
-        if (!nav) return;
-        const applyDock = () => {
-          const mobile = window.matchMedia("(max-width: 767px)").matches;
-          if (!mobile) {
-            nav.style.setProperty("display", "none", "important");
-            document.body.style.removeProperty("padding-bottom");
-            return;
-          }
-          nav.style.cssText =
-            "position:fixed!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;gap:4px;left:12px;right:12px;bottom:calc(8px + env(safe-area-inset-bottom, 0px));z-index:2147483000;padding:6px;border:1px solid rgba(125,190,226,.45);border-radius:20px;background:rgba(7,24,43,.97);box-shadow:0 8px 28px rgba(0,0,0,.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)";
-          document.body.style.setProperty(
-            "padding-bottom",
-            "calc(86px + env(safe-area-inset-bottom, 0px))",
-            "important",
-          );
-          nav.querySelectorAll("a").forEach((a) => {
-            a.style.cssText =
-              "display:flex;min-width:0;min-height:54px;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#c9d9eb;text-decoration:none;font:600 10px/1.1 system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent";
-            if (a.hasAttribute("aria-current")) {
-              a.style.color = "#8fe0ff";
-              a.style.background = "rgba(37,126,177,.25)";
-              a.style.borderRadius = "14px";
-            }
-            const svg = a.querySelector("svg");
-            if (svg)
-              svg.style.cssText =
-                "display:block;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round";
-          });
-        };
-        applyDock();
-        window.addEventListener("resize", applyDock, { passive: true });
-      })();
-    </script>
   </body>
 </html>
