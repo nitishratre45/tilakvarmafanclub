@@ -131,7 +131,7 @@
         return (
           '<div class="details-player-row"><span class="details-player-avatar">' +
           (safeImage
-            ? '<img src="' + esc(safeImage) + '" alt="" loading="lazy" decoding="async"><span>' + esc(initials) + "</span>"
+            ? '<img src="' + esc(safeImage) + '" alt="" loading="lazy" decoding="async"><span style="display:none">' + esc(initials) + "</span>"
             : esc(initials)) +
           '</span><span class="details-player-copy"><strong>' +
           esc(n) +
