@@ -1,25 +1,15 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-15T17:22:20+00:00",
+  "checkedAt": "2026-10-15T17:26:29+00:00",
   "intervalMinutes": 10,
-  "status": "error",
+  "status": "healthy",
   "summary": {
     "filesScanned": 434,
-    "checksPassed": 378,
-    "issues": 2,
+    "checksPassed": 379,
+    "issues": 0,
     "warnings": 0
   },
   "items": [
-    {
-      "level": "error",
-      "message": "Duplicate HTML IDs: conditions, ground-report, pitch-report, toss-report, weather-label, weather-rain, weather-summary, weather-symbol, weather-temperature, weather-wind",
-      "file": "matches/details/index.html"
-    },
-    {
-      "level": "error",
-      "message": "Missing local asset: /favicon.ico",
-      "file": "matches/recent-scorecard/index.html"
-    },
     {
       "level": "pass",
       "message": "Valid JSON",
@@ -344,6 +334,11 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/details/data/match-details.json"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
+      "file": "matches/details/index.html"
     },
     {
       "level": "pass",
@@ -1259,6 +1254,11 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/scorecards/data/2026-02-18-t20i-india-vs-netherlands-0d24435c4164.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/data/2026-02-22-t20-india-vs-south-africa-7ffd51ae832a.json"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "4b3a09af"
+    "branch": "7c7dad05"
   }
 }
