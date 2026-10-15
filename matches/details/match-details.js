@@ -1189,8 +1189,8 @@
           if (!result) return { outcome: "N", label: "Result unavailable" };
           if (/no result|abandoned|cancelled|canceled|tied|drawn/i.test(result))
             return { outcome: "N", label: result };
-          if (/\\s+won\\s+/i.test(result)) {
-            const winner = normaliseRecentTeam(result.split(/\\s+won\\s+/i)[0]);
+          if (/\s+won\s+/i.test(result)) {
+            const winner = normaliseRecentTeam(result.split(/\s+won\s+/i)[0]);
             return winner === normaliseRecentTeam(teamName)
               ? { outcome: "W", label: result }
               : { outcome: "L", label: result };
