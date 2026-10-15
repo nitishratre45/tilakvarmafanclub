@@ -501,7 +501,9 @@
       const detail = (manual.matches || []).find((x) => key(x) === key(f)) || {};
       const scorecardRows = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
       const normalizedTeam = (value) => scorecardTeamKey(value);
-      const fixtureMatchId = String(f.matchId || f.match_id || f.gid || f.fixtureId || f.id || "").trim();
+      const fixtureMatchId = String(
+        f.matchId || f.match_id || f.gid || f.fixtureId || f.id || "",
+      ).trim();
       const exactScorecard = scorecardRows.find((row) => {
         const rowId = String(row.matchId || row.match_id || row.gid || "").trim();
         const rowDate = String(row.date || "").slice(0, 10);
@@ -528,18 +530,22 @@
       // as a substitute for the selected fixture or accidentally show a prior match.
       if (!scorecardLoaded) {
         const scoreHost = $("details-scoreboard");
-        const matchStarted = f.date && Date.parse(String(f.date) + "T" + String(f.time || "00:00") + ":00+05:30") <= Date.now();
+        const matchStarted =
+          f.date &&
+          Date.parse(String(f.date) + "T" + String(f.time || "00:00") + ":00+05:30") <= Date.now();
         if (scoreHost) {
           scoreHost.innerHTML =
             '<div class="scoreboard-result"><h3>' +
-            (matchStarted ? "Live score not available yet" : "Live scoreboard will appear when the match starts") +
-            '</h3><p>' +
+            (matchStarted
+              ? "Live score not available yet"
+              : "Live scoreboard will appear when the match starts") +
+            "</h3><p>" +
             (matchStarted
               ? "No verified live score feed is connected for this match yet. The previous match score will not be shown here."
               : "This fixture has not started. No score is shown yet, and previous matches are never used as a substitute.") +
             '</p><p class="scoreboard-status">Fixture: ' +
             escHtml([f.team, f.opponent, f.date].filter(Boolean).join(" · ")) +
-            '. Waiting for this match\'s own verified score data.</p></div>';
+            ". Waiting for this match's own verified score data.</p></div>";
         }
       }
       const a = f.team || "India",
