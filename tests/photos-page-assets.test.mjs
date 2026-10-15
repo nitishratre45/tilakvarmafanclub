@@ -41,3 +41,13 @@ test("Gallery and dedicated page styles are present", () => {
   assert.match(html, /\/photos\/photos\.css/);
   assert.ok(fs.existsSync(path.join(ROOT, "photos", "gallery.js")));
 });
+
+test("Photo album date metadata only references configured albums", () => {
+  const data = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "admin-media.json"), "utf8"));
+  const configuredAlbums = new Set(Array.isArray(data.albums) ? data.albums : []);
+  for (const name of Object.keys(data.albumDates || {})) {
+    assert.ok(configuredAlbums.has(name), `stale album date metadata: ${name}`);
+  }
+  assert.ok(Array.isArray(data.items), "photo records must remain available");
+  assert.ok(data.items.length > 0, "photo library must not be empty");
+});
