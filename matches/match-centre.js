@@ -228,8 +228,6 @@
       } else {
         host.innerHTML = fixtures
           .map((f) => {
-            const link = f.newsUrl || f.source || "/news/";
-            const target = /^https?:\/\//i.test(link) ? ' target="_blank"' : "";
             const detailUrl =
               "/matches/details/?date=" +
               encodeURIComponent(f.date || "") +
@@ -267,11 +265,7 @@
               (f.time ? esc(f.time) + " IST" : "Time not announced") +
               '</span></div><div class="upcoming-match-actions"><a class="match-details-link" href="' +
               esc(detailUrl) +
-              '">Full Match Details <span aria-hidden="true">↗</span></a><a class="upcoming-source-link" href="' +
-              esc(link) +
-              '"' +
-              target +
-              ' rel="noopener">Match Source</a></div></article>'
+              '">Full Match Details <span aria-hidden="true">↗</span></a></div></article>'
             );
           })
           .join("");
