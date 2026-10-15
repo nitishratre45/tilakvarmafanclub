@@ -559,15 +559,58 @@
                 .trim()
                 .toLowerCase() === opponent.trim().toLowerCase()),
         );
-      if (!f) {
+      let resolvedFixture = f;
+      // Recent/played matches may no longer be present in the upcoming-fixtures snapshots.
+      // For a Full Details link carrying a BCCI match ID, resolve only that exact ID from
+      // the Python-generated results JSON; never guess by team names or a nearby date.
+      if (!resolvedFixture && matchId) {
+        try {
+          const response = await fetch(
+            "/matches/bcci-match-results.json?v=20261015-recent-match-details1",
+            { cache: "no-store" },
+          );
+          if (response.ok) {
+            const saved = await response.json().catch(() => null);
+            const rows = Array.isArray(saved?.matches) ? saved.matches : [];
+            const exact = rows.find((row) =>
+              [row.gid, row.match_id, row.matchId]
+                .map((value) => String(value || "").trim())
+                .includes(String(matchId).trim()),
+            );
+            if (exact) {
+              const home = exact.team1_name || exact.home_team_name || exact.team1 || exact.home_team || "";
+              const away = exact.team2_name || exact.away_team_name || exact.team2 || exact.away_team || "";
+              const rawDate = exact.start_date || exact.match_date || exact.date || exact.start_datetime_utc || "";
+              const parsedDate = String(rawDate).slice(0, 10);
+              const matchLabel = exact.match_short_name || exact.name || exact.match_name || exact.match_type || "Match";
+              resolvedFixture = {
+                date: parsedDate,
+                match: matchLabel,
+                team: home,
+                opponent: away,
+                venue: exact.ground_name || exact.venue || exact.ground || "",
+                time: exact.start_time || "",
+                matchId: String(exact.match_id || exact.gid || exact.matchId || matchId),
+                rawBcci: exact,
+                result: exact.result_string || exact.result || "",
+                series: exact.comp_name || exact.series_name || exact.event_name || "",
+                format: exact.match_type || exact.format || "",
+                tilakInSquad: false,
+              };
+            }
+          }
+        } catch (_) {}
+      }
+      if (!resolvedFixture) {
         set("details-title", "Match details unavailable");
         set(
           "details-series",
-          "No matching fixture in saved JSON snapshots. Return to Matches and choose a listed fixture.",
+          "No exact match ID was found in the saved fixture or BCCI results JSON. No other match will be substituted.",
         );
-        set("workflow-fixture", "No matching fixture found in the saved News/BCCI Stats JSON.");
+        set("workflow-fixture", "Exact match not found in the saved JSON snapshots.");
         return;
       }
+      const f = resolvedFixture;
       const detail = (manual.matches || []).find((x) => key(x) === key(f)) || {};
       const scorecardRows = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
       const fixtureMatchId = String(
