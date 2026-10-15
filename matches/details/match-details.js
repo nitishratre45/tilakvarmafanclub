@@ -560,9 +560,50 @@
                 .toLowerCase() === opponent.trim().toLowerCase()),
         );
       let resolvedFixture = initialFixture;
-      // Recent/played matches may no longer be present in the upcoming-fixtures snapshots.
-      // For a Full Details link carrying a BCCI match ID, resolve only that exact ID from
-      // the Python-generated results JSON; never guess by team names or a nearby date.
+      // Resolve recent match links against the verified saved scorecard archive first.
+      // Match only exact date, both teams and compatible format; never substitute another match.
+      if (!resolvedFixture && !matchId && date && opponent) {
+        const archiveRows = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
+        const normaliseName = (value) =>
+          String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+        const requestedFormat = String(match || "").trim().toLowerCase();
+        const requestedOpponent = normaliseName(opponent);
+        const requestedTeam = normaliseName(q.get("team") || "India");
+        const archiveMatch = archiveRows.find((row) => {
+          const rowDate = String(row.date || "").slice(0, 10);
+          const rowTeams = [row.team, row.opposition].map(normaliseName);
+          const rowFormat = String(row.format || "").trim().toLowerCase();
+          const sameFormat =
+            !requestedFormat ||
+            requestedFormat === "match" ||
+            rowFormat === requestedFormat ||
+            (["t20i", "t20"].includes(rowFormat) && ["t20i", "t20"].includes(requestedFormat));
+          return (
+            rowDate === String(date).slice(0, 10) &&
+            rowTeams.includes(requestedOpponent) &&
+            rowTeams.includes(requestedTeam) &&
+            sameFormat
+          );
+        });
+        if (archiveMatch) {
+          resolvedFixture = {
+            date: archiveMatch.date,
+            match: archiveMatch.format || match || "Match",
+            team: archiveMatch.team,
+            opponent: archiveMatch.opposition,
+            venue: archiveMatch.venue || "",
+            time: "",
+            matchId: archiveMatch.matchId || "",
+            rawBcci: {},
+            result: archiveMatch.result || "",
+            series: archiveMatch.event || "",
+            format: archiveMatch.format || "",
+            tilakInSquad: false,
+          };
+        }
+      }
+      // Recent/played matches may no longer be present in upcoming fixtures.
+      // Resolve BCCI records by exact ID, or by exact date + both teams for recent rows.
       if (!resolvedFixture && (matchId || (date && opponent))) {
         try {
           const response = await fetch(
