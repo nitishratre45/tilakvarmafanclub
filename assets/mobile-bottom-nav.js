@@ -149,7 +149,6 @@
   );
 })();
 
-
 /* Lightweight site-wide performance helpers: safe image loading + no layout hacks. */
 (function siteSmoothRuntime() {
   if (window.__tvSiteSmoothRuntime) return;
@@ -158,12 +157,21 @@
   const optimizeImages = () => {
     const images = Array.from(document.images || []);
     images.forEach((img, index) => {
-      if (!img || img.dataset.noLazy === "true" || img.loading === "eager" ||
-          img.hasAttribute("data-src") || img.hasAttribute("data-lazy-src")) return;
+      if (
+        !img ||
+        img.dataset.noLazy === "true" ||
+        img.loading === "eager" ||
+        img.hasAttribute("data-src") ||
+        img.hasAttribute("data-lazy-src")
+      )
+        return;
 
       // Preserve the first two images and explicitly high-priority assets for LCP.
-      if (index < 2 || img.fetchPriority === "high" ||
-          img.closest("header, .hero, .topbar, .bcci-video-player")) {
+      if (
+        index < 2 ||
+        img.fetchPriority === "high" ||
+        img.closest("header, .hero, .topbar, .bcci-video-player")
+      ) {
         img.decoding = img.decoding || "async";
         return;
       }
@@ -180,7 +188,9 @@
   };
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => runWhenIdle(optimizeImages), { once: true });
+    document.addEventListener("DOMContentLoaded", () => runWhenIdle(optimizeImages), {
+      once: true,
+    });
   } else {
     runWhenIdle(optimizeImages);
   }
@@ -191,9 +201,9 @@
     let queued = false;
     const observer = new MutationObserver((mutations) => {
       const hasImages = mutations.some((mutation) =>
-        Array.from(mutation.addedNodes || []).some((node) =>
-          node.nodeType === 1 && (node.matches?.("img") || node.querySelector?.("img"))
-        )
+        Array.from(mutation.addedNodes || []).some(
+          (node) => node.nodeType === 1 && (node.matches?.("img") || node.querySelector?.("img")),
+        ),
       );
       if (!hasImages || queued) return;
       queued = true;
