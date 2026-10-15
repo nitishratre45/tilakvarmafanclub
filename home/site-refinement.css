@@ -2075,3 +2075,29 @@ html body header.topbar nav a[aria-current="page"] {
     animation: none !important;
   }
 }
+
+
+/* Mobile profile edge-to-edge cleanup: remove inset frame and decorative top strip. */
+@media (max-width: 620px) {
+  html body main #profile.profile-section {
+    width: calc(100% + 36px) !important;
+    max-width: none !important;
+    margin-inline: -18px !important;
+    border-radius: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(255, 116, 75, 0.045), transparent 36%),
+      radial-gradient(ellipse at 0% 12%, rgba(29, 102, 180, 0.16), transparent 45%),
+      linear-gradient(145deg, #071629, #0a1b30 56%, #091426) !important;
+  }
+  html body main #profile.profile-section::before {
+    content: none !important;
+    display: none !important;
+  }
+  html body main #profile.profile-section::after {
+    content: none !important;
+    display: none !important;
+  }
+}
