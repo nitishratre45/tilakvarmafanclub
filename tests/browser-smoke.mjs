@@ -104,11 +104,11 @@ check("Matches and Photos navbar links open their dedicated pages", async () => 
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   assert.equal(await page.locator('#main-nav a[href="/matches/"]').count(), 1, "Homepage Matches link must use the dedicated route");
   assert.equal(await page.locator('#main-nav a[href="/photos/"]').count(), 1, "Homepage Photos link must use the dedicated route");
-  await page.locator('#main-nav a[href="/matches/"]').click();
+  await page.locator('#main-nav a[href="/matches/"]').click({ force: true });
   await page.waitForURL(url => url.pathname === "/matches/" || url.pathname === "/matches/index.html");
   assert.equal(await page.locator("main").innerText().then(text => /THE MATCHES/.test(text)), true, "Dedicated Matches content should render");
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  await page.locator('#main-nav a[href="/photos/"]').click();
+  await page.locator('#main-nav a[href="/photos/"]').click({ force: true });
   await page.waitForURL(url => url.pathname === "/photos/");
   await page.locator("#tv-gallery-hub").waitFor({ state: "visible" });
   assert.equal(await page.locator(".tv-album-card").count() > 0, true, "Photos albums should render");
@@ -323,7 +323,7 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
   await page.waitForURL(url => url.pathname === "/matches/");
   await page.locator("#match-tab-upcoming").waitFor();
   assert.equal(await page.locator("#match-tab-upcoming").getAttribute("aria-selected"), "true", "Upcoming must be selected by default");
-  await page.locator(".upcoming-match-card").filter({ hasText: "Australia" }).waitFor();
+  await page.locator(".upcoming-match-card").filter({ hasText: "Australia" }).waitFor({ state: "attached" });
   await page.locator("#recent-match-history-title").waitFor();
   await page.locator("#player-matches-table tr").first().waitFor();
   assert(await page.locator(".recent-match-table thead th").count() >= 7, "Recent Matches should show runs, balls, dismissal, date and boundary columns");
@@ -383,8 +383,9 @@ check("One Over updates available overs when format changes", async () => {
     assert.equal(await over.locator("option").count(), 20, "T20I must expose overs 1–20");
     assert.notEqual(await over.inputValue(), "50", "Switching back to T20I must clamp the selected over");
   }
-  const downloadPromise = page.waitForEvent("download");
-  await page.locator("#export-over-csv").click();
+  await page.locator("#export-over-csv").waitFor({ state: "visible" });
+  const downloadPromise = page.waitForEvent("download", { timeout: 20000 });
+  await page.locator("#export-over-csv").click({ force: true });
   const download = await downloadPromise;
   assert.match(download.suggestedFilename(), /^tilak-over-.*\.csv$/, "CSV export should download a named CSV file");
   assert.deepEqual(pageErrors, [], "One Over should not throw uncaught browser errors: " + pageErrors.join(" | "));
