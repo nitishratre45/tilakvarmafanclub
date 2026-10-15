@@ -371,7 +371,9 @@
             const linkPath = normalizePath(linkUrl.pathname);
             // Keep the parent Death-overs item active on both All Overs and One Over pages.
             const isDeathOversSection =
-              currentPath.startsWith("/death-overs/") && linkPath === "/death-overs";
+              currentPath.startsWith("/death-overs/") &&
+              linkPath === "/death-overs" &&
+              !linkUrl.hash;
             const isCurrent = linkPath === currentPath || isDeathOversSection;
             link.classList.toggle("active", isCurrent);
             if (isCurrent) link.setAttribute("aria-current", "page");
