@@ -230,12 +230,7 @@
   function enhance(select) {
     // Use the branded picker on touch and desktop. The mobile dialog is rendered
     // in document.body with fixed positioning and its own scrollable option list.
-    if (
-      select.dataset.customSelectReady === "true" ||
-      select.multiple ||
-      select.size > 1
-    )
-      return;
+    if (select.dataset.customSelectReady === "true" || select.multiple || select.size > 1) return;
     select.dataset.customSelectReady = "true";
     const wrapper = document.createElement("div");
     wrapper.className = "custom-select";
