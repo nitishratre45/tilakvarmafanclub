@@ -739,6 +739,21 @@
   .recent-match-table tbody td:nth-child(10)::before {
     content: "Format";
   }
+  .recent-match-table tbody td:nth-child(11)::before {
+    content: "Details";
+  }
+  .recent-match-table tbody td:nth-child(11) a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    padding: 5px 9px;
+    border: 1px solid rgba(87, 211, 255, 0.35);
+    border-radius: 8px;
+    background: rgba(23, 126, 173, 0.15);
+    font-weight: 750;
+    white-space: nowrap;
+  }
   .recent-match-table tbody td:nth-child(2),
   .recent-match-table tbody td:nth-child(3),
   .recent-match-table tbody td:nth-child(7),
