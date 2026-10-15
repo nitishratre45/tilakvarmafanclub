@@ -278,8 +278,8 @@
       updated.textContent =
         "Upcoming fixtures · News JSON pipeline with admin-managed corrections.";
   }
-  renderFixtures(fixtures);
-  // Load Python-normalized BCCI Stats JSON from this site; browser never calls the external API.
+  host.innerHTML = '<div class="match-empty"><strong>Checking confirmed fixtures…</strong><span>Upcoming matches tabhi dikhenge jab squad confirmation aur BCCI fixture exact match hoga.</span></div>';
+  // News confirms Tilak selection; BCCI Stats supplies the canonical fixture details.
   Promise.all([
     fetch("/matches/bcci-stats-fixtures.json?v=bcci-stats-json1", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
@@ -292,65 +292,66 @@
       .then((r) => (r.ok ? r.json() : null))
       .catch(() => null),
   ]).then(([bcciFixtures, report, manualData]) => {
+    const norm = (value) =>
+      String(value || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
     const newsFixtures =
-      report && Array.isArray(report.fixtures) && report.fixtures.length
-        ? report.fixtures.map((fixture) => ({ ...fixture, team: "India", tilakInSquad: true }))
-        : fixtures.map((fixture) => ({ ...fixture, team: "India", tilakInSquad: true }));
-    const combinedFixtures = [
-      ...newsFixtures,
-      ...(Array.isArray(bcciFixtures)
-        ? bcciFixtures.map((fixture) => ({ ...fixture, tilakInSquad: false }))
-        : []),
-    ];
-    const uniqueSourceFixtures = new Map();
-    combinedFixtures.forEach((fixture) => {
-      const key =
-        String(fixture.date || "") +
-        "|" +
-        String(fixture.match || "")
-          .trim()
-          .toLowerCase() +
-        "|" +
-        String(fixture.opponent || "")
-          .trim()
-          .toLowerCase();
-      const current = uniqueSourceFixtures.get(key);
-      // Prefer squad-confirmed BCCI News records for duplicates.
-      if (!current || fixture.tilakInSquad === true) uniqueSourceFixtures.set(key, fixture);
-    });
-    const sourceFixtures = [...uniqueSourceFixtures.values()];
-    const manual = Array.isArray(manualData?.fixtures) ? manualData.fixtures : [];
+      report && Array.isArray(report.fixtures)
+        ? report.fixtures.filter((fixture) =>
+            fixture.tilakInSquad === true &&
+            fixture.confirmationSource === "BCCI squad announcement naming Tilak Varma"
+          )
+        : [];
+    const exactBcciFixture = (news) => {
+      const date = String(news.date || "");
+      const match = norm(news.match);
+      const opponent = norm(news.opponent);
+      if (!date || !match || !opponent) return null;
+      return bcciFixtures.find((bcci) => {
+        if (String(bcci.date || "") !== date || norm(bcci.match) !== match) return false;
+        const sides = [norm(bcci.team), norm(bcci.opponent)];
+        return sides.includes("india") && sides.includes(opponent) && new Set(sides).size === 2;
+      }) || null;
+    };
+    const confirmed = newsFixtures.map((news) => {
+      const bcci = exactBcciFixture(news);
+      if (!bcci) return null;
+      return {
+        ...news,
+        ...bcci,
+        team: bcci.team || "India",
+        opponent: bcci.opponent || news.opponent,
+        venue: bcci.venue || "",
+        time: bcci.time || "",
+        source: bcci.source || "",
+        newsUrl: news.newsUrl || "",
+        squadSource: news.squadSource || news.source || "",
+        tilakInSquad: true,
+        confirmationSource: "BCCI squad announcement naming Tilak Varma",
+      };
+    }).filter(Boolean);
     const key = (f) =>
-      String(f.date || "") +
-      "|" +
-      String(f.match || "")
-        .trim()
-        .toLowerCase() +
-      "|" +
-      String(f.opponent || "")
-        .trim()
-        .toLowerCase();
-    const sourceKey = (f) =>
-      String(f.date || "") +
-      "|" +
-      String(f.match || "")
-        .trim()
-        .toLowerCase();
-    const overrides = new Map(manual.filter((f) => f.overrideKey).map((f) => [f.overrideKey, f]));
-    const exact = new Map(manual.filter((f) => !f.overrideKey).map((f) => [key(f), f]));
-    const merged = sourceFixtures.map((f) => ({
+      String(f.date || "") + "|" + norm(f.match) + "|" + norm(f.opponent);
+    const sourceKeys = new Set(confirmed.map(key));
+    const overrides = new Map(
+      (Array.isArray(manualData?.fixtures) ? manualData.fixtures : [])
+        .filter((f) => f.overrideKey && f.tilakInSquad === true &&
+          f.confirmationSource === "BCCI squad announcement naming Tilak Varma")
+        .map((f) => [f.overrideKey, f])
+    );
+    const merged = confirmed.map((f) => ({
       ...f,
-      ...(overrides.get(sourceKey(f)) || exact.get(key(f)) || {}),
+      ...(overrides.get(String(f.date || "") + "|" + norm(f.match)) || {}),
     }));
-    const sourceKeys = new Set(sourceFixtures.map(key));
-    manual.forEach((f) => {
-      if (!f.overrideKey && !sourceKeys.has(key(f))) merged.push(f);
+    (Array.isArray(manualData?.fixtures) ? manualData.fixtures : []).forEach((f) => {
+      if (f.overrideKey || f.tilakInSquad !== true ||
+          f.confirmationSource !== "BCCI squad announcement naming Tilak Varma") return;
+      if (!sourceKeys.has(key(f))) merged.push(f);
     });
     merged.sort((a, b) => String(a.date).localeCompare(String(b.date)));
     renderFixtures(merged);
     const updated = document.getElementById("upcoming-matches-updated");
     if (updated)
       updated.textContent =
-        "Upcoming fixtures · Python-built BCCI Stats JSON + squad announcements + admin corrections.";
+        "Upcoming fixtures · confirmed Tilak squad announcements matched exactly to BCCI Stats fixtures.";
   });
 })();
