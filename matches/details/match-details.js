@@ -565,14 +565,20 @@
       if (!resolvedFixture && !matchId && date && opponent) {
         const archiveRows = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
         const normaliseName = (value) =>
-          String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
-        const requestedFormat = String(match || "").trim().toLowerCase();
+          String(value || "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "");
+        const requestedFormat = String(match || "")
+          .trim()
+          .toLowerCase();
         const requestedOpponent = normaliseName(opponent);
         const requestedTeam = normaliseName(q.get("team") || "India");
         const archiveMatch = archiveRows.find((row) => {
           const rowDate = String(row.date || "").slice(0, 10);
           const rowTeams = [row.team, row.opposition].map(normaliseName);
-          const rowFormat = String(row.format || "").trim().toLowerCase();
+          const rowFormat = String(row.format || "")
+            .trim()
+            .toLowerCase();
           const sameFormat =
             !requestedFormat ||
             requestedFormat === "match" ||
