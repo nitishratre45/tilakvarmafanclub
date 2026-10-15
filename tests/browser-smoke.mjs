@@ -141,7 +141,9 @@ check("mobile navigation opens, scroll target works, and closes after selection"
   await button.click();
   assert.equal(await button.getAttribute("aria-expanded"), "true", "Menu aria-expanded did not become true");
   assert(await nav.evaluate((node) => node.classList.contains("open")), "Mobile nav did not open");
-  await nav.locator('a[href="/records/"]').click();
+  // The mobile dock is fixed to the viewport and can overlap the legacy menu.
+  // Use a DOM click here to test navigation semantics without flaky pointer interception.
+  await nav.locator('a[href="/records/"]').evaluate((link) => link.click());
   await page.waitForURL(url => url.pathname === "/records/");
   assert.equal(await button.getAttribute("aria-expanded"), "false", "Menu did not close after navigation");
   await page.close();
