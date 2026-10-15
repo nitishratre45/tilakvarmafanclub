@@ -178,12 +178,6 @@
     const rankings = data.iccRankings || {};
     set("icc-ranking-t20i", rankings.T20I ? "#" + rankings.T20I : "Not available");
     set("icc-ranking-odi", rankings.ODI ? "#" + rankings.ODI : "Not available");
-    set(
-      "icc-ranking-updated",
-      rankings.updatedAt
-        ? "Ranking snapshot · " + formatIndiaTimestamp(rankings.updatedAt)
-        : "Saved ICC ranking date unavailable",
-    );
   } catch (error) {
     set("data-status", "Saved snapshot unavailable");
     const tbody = $("#recent-table");
