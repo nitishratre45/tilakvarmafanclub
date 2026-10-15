@@ -82,6 +82,12 @@
           .map(([label, key]) => {
             const s = data.careerFormats?.[key];
             if (!s) return "";
+            // Prefer verified fielding totals from the Statsguru format summary
+            // when the batting career snapshot does not carry them yet.
+            const fielding = data.statsguru?.formats?.[key]?.fieldingSummary ||
+              data.statsguru?.formats?.[key]?.fielding?.summary ||
+              data.statsguru?.formats?.[key]?.fieldingSummary ||
+              {};
             const rows = [
               label,
               s.matches,
@@ -96,8 +102,8 @@
               s.fifties,
               s.fours,
               s.sixes,
-              s.catches,
-              s.stumpings,
+              s.catches ?? fielding.catches ?? fielding.Ct,
+              s.stumpings ?? fielding.stumpings ?? fielding.St,
             ];
             return "<tr>" + rows.map(cell).join("") + "</tr>";
           })
