@@ -573,7 +573,9 @@
             const saved = await response.json().catch(() => null);
             const rows = Array.isArray(saved?.matches) ? saved.matches : [];
             const normalizeTeam = (value) =>
-              String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+              String(value || "")
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, "");
             const exact = rows.find((row) => {
               const ids = [row.gid, row.match_id, row.matchId].map((value) =>
                 String(value || "").trim(),

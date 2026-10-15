@@ -291,9 +291,9 @@
                 esc(fmt) +
                 '</td><td><a class="recent-match-details-link" href="/matches/details/?date=' +
                 encodeURIComponent(String(r.date || "")) +
-                '&opponent=' +
+                "&opponent=" +
                 encodeURIComponent(String(r.opposition || "")) +
-                '&match=' +
+                "&match=" +
                 encodeURIComponent(String(fmt || "Match")) +
                 '">Full details ↗</a></td></tr>'
               );
