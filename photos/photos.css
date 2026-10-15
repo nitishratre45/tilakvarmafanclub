@@ -478,17 +478,17 @@ body.photos-page {
 .tv-mobile-bottom-nav {
   display: none;
 }
-@media (max-width: 800px) {
-  body.photos-page {
-    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+@media screen and (max-width: 800px) {
+  html body.photos-page {
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important;
   }
-  .tv-mobile-bottom-nav {
-    position: fixed;
-    z-index: 800;
-    left: 16px;
-    right: 16px;
-    bottom: calc(9px + env(safe-area-inset-bottom, 0px));
-    display: grid;
+  html body.photos-page > .tv-mobile-bottom-nav {
+    position: fixed !important;
+    z-index: 2147483000 !important;
+    left: 16px !important;
+    right: 16px !important;
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+    display: grid !important;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     align-items: stretch;
     min-height: 68px;
@@ -537,12 +537,12 @@ body.photos-page {
     outline-offset: 2px;
   }
 }
-@media (min-width: 801px) {
-  .tv-mobile-bottom-nav {
+@media screen and (min-width: 801px) {
+  html body.photos-page > .tv-mobile-bottom-nav {
     display: none !important;
   }
-  body.photos-page {
-    padding-bottom: 0;
+  html body.photos-page {
+    padding-bottom: 0 !important;
   }
 }
 @media (max-width: 360px) {
@@ -557,5 +557,18 @@ body.photos-page {
 @media (prefers-reduced-motion: reduce) {
   .tv-mobile-bottom-nav * {
     transition: none !important;
+  }
+}
+
+/* Keep the isolated quick-nav above gallery content and legacy generic nav rules. */
+@media screen and (max-width: 800px) {
+  html body.photos-page > nav.tv-mobile-bottom-nav {
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  html body.photos-page > nav.tv-mobile-bottom-nav a {
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 }
