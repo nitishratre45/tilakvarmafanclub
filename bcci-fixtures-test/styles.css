@@ -450,3 +450,88 @@ footer a {
     grid-column: auto;
   }
 }
+
+
+/* BCCI live score card: innings and overs-first scoreboard layout */
+#liveScoresPanel .fixture-list { gap: 14px; }
+#liveScoresPanel .live-score-card {
+  overflow: hidden;
+  border: 1px solid #263a50;
+  border-radius: 15px;
+  background: #081321;
+}
+#liveScoresPanel .live-card-status {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #26364a;
+  background: #0d1a2a;
+  color: #e8f0fa;
+  font-size: 12px;
+}
+#liveScoresPanel .live-card-status > span {
+  font-weight: 700;
+  text-transform: capitalize;
+  color: var(--accent);
+}
+#liveScoresPanel .live-card-status > strong { font-size: 12px; }
+#liveScoresPanel .live-card-main {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 42px minmax(0,1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 18px 16px 14px;
+}
+#liveScoresPanel .live-team {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+#liveScoresPanel .live-team-right { align-items: flex-end; text-align: right; }
+#liveScoresPanel .live-team-badge {
+  width: 38px; height: 38px; display: grid; place-items: center;
+  border-radius: 50%; background: #172b40; color: #bcd6f4;
+  border: 1px solid #30465e; font-size: 10px; font-weight: 800;
+}
+#liveScoresPanel .live-team > strong { font-size: 15px; overflow-wrap: anywhere; }
+#liveScoresPanel .live-team > small { font-size: 10px; color: var(--accent); }
+#liveScoresPanel .live-versus {
+  justify-self: center; display: grid; place-items: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #172638; color: #9fb1c7; font-size: 11px; font-weight: 800;
+}
+#liveScoresPanel .live-score-strip {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap; padding: 12px 16px;
+  border-top: 1px solid #25364a; border-bottom: 1px solid #25364a;
+  background: #0b1725;
+}
+#liveScoresPanel .live-batting-name { color: var(--muted); font-size: 12px; }
+#liveScoresPanel .live-score-value { display: flex; align-items: center; justify-content: flex-end; gap: 13px; }
+#liveScoresPanel .live-score-value > strong { font: 700 19px "Space Grotesk",sans-serif; color: #f5f8fc; }
+#liveScoresPanel .live-overs { color: var(--muted); font-size: 13px; font-weight: 600; white-space: nowrap; }
+#liveScoresPanel .live-yet { color: var(--muted); font-size: 13px; }
+#liveScoresPanel .live-card-footer {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 12px; padding: 13px 16px 15px;
+}
+#liveScoresPanel .live-card-footer > div { min-width: 0; display: grid; gap: 4px; }
+#liveScoresPanel .live-card-footer strong { color: var(--blue); font-size: 12px; }
+#liveScoresPanel .live-card-footer span { color: var(--muted); font-size: 11px; line-height: 1.45; }
+#liveScoresPanel .live-card-footer time { color: var(--text); font-size: 11px; font-weight: 700; text-align: right; white-space: nowrap; }
+@media (max-width: 600px) {
+  #liveScoresPanel.panel { padding: 16px 12px; }
+  #liveScoresPanel .live-card-main { grid-template-columns: minmax(0,1fr) 30px minmax(0,1fr); gap: 6px; padding: 15px 12px 12px; }
+  #liveScoresPanel .live-team > strong { font-size: 13px; }
+  #liveScoresPanel .live-team-badge { width: 32px; height: 32px; }
+  #liveScoresPanel .live-score-strip { padding: 11px 12px; }
+  #liveScoresPanel .live-card-footer { padding: 12px; flex-direction: column; }
+  #liveScoresPanel .live-card-footer time { text-align: left; white-space: normal; }
+  #liveScoresPanel .live-card-status { padding: 10px 12px; }
+}
