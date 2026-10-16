@@ -1,0 +1,39 @@
+/* Tilak Varma Fan Club shared shell for the isolated BCCI fixtures area. */
+:root{--tv-blue:#0b5fc4;--tv-blue-deep:#064994;--tv-orange:#ff8b58;--tv-glass:rgba(9,28,52,.94)}
+body{padding-bottom:0}
+.tvfc-header{position:sticky;top:0;z-index:10000;display:flex;align-items:center;gap:14px;min-height:74px;padding:10px max(18px,calc((100% - 1120px)/2));color:#fff;background:linear-gradient(110deg,#0b5fc4,#0755ad 55%,#064994);border-bottom:1px solid rgba(150,210,255,.5);box-shadow:0 6px 22px rgba(0,15,45,.2)}
+.tvfc-brand{display:flex;align-items:center;gap:11px;min-width:0;color:#fff;text-decoration:none;font:800 13px/1.15 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.09em}
+.tvfc-brand-photo{display:block;flex:0 0 48px;width:48px;height:48px;overflow:hidden;border:1px solid #ffffff80;border-radius:14px;background:#071a34;box-shadow:0 4px 14px #00102d3d}
+.tvfc-brand-photo img{width:100%;height:100%;display:block;object-fit:cover;object-position:center top}
+.tvfc-brand small{display:block;margin-top:4px;color:#dceaff;font-size:9px;letter-spacing:.16em}
+.tvfc-nav{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-left:auto}
+.tvfc-nav a,.tvfc-nav button{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 10px;border:1px solid transparent;border-radius:11px;background:transparent;color:#fff;text-decoration:none;font:700 11px/1.2 system-ui,sans-serif;white-space:nowrap;cursor:pointer}
+.tvfc-nav a:hover,.tvfc-nav a[aria-current=page],.tvfc-nav button:hover{border-color:#ffffff35;background:#ffffff17}
+.tvfc-menu-toggle{display:none!important}
+.tvfc-mobile-dock,.tvfc-mobile-menu{display:none}
+.tvfc-shell-note{color:#a8bbd2}
+@media(max-width:800px){
+ body{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}
+ .tvfc-header{min-height:66px;padding:8px 13px;gap:10px}
+ .tvfc-brand{max-width:calc(100% - 62px);font-size:12px;letter-spacing:.06em}
+ .tvfc-brand-photo{flex-basis:46px;width:46px;height:46px}
+ .tvfc-menu-toggle{display:flex!important;flex:0 0 48px;width:48px;height:48px;align-items:center;justify-content:center;flex-direction:column;gap:5px;margin-left:auto;padding:0;border:1px solid #ffffff55;border-radius:15px;background:#ffffff16;color:white}
+ .tvfc-menu-toggle span{display:block;width:22px;height:2px;border-radius:3px;background:#fff;transition:transform .2s,opacity .2s}
+ .tvfc-menu-toggle[aria-expanded=true] span:first-child{transform:translateY(7px) rotate(45deg)}
+ .tvfc-menu-toggle[aria-expanded=true] span:nth-child(2){opacity:0}
+ .tvfc-menu-toggle[aria-expanded=true] span:last-child{transform:translateY(-7px) rotate(-45deg)}
+ .tvfc-nav{display:none}
+ .tvfc-mobile-menu:not([hidden]){position:fixed;z-index:10002;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;top:76px;left:12px;right:12px;max-height:68dvh;overflow:auto;padding:13px;border:1px solid #ffffff38;border-radius:22px;background:linear-gradient(135deg,rgba(14,75,139,.97),rgba(4,20,42,.97));box-shadow:0 22px 55px #0007;backdrop-filter:blur(22px);animation:tvfc-menu-in .18s ease-out}
+ .tvfc-mobile-menu a,.tvfc-mobile-menu button{display:flex;align-items:center;justify-content:flex-start;min-height:46px;padding:11px 12px;border:1px solid #ffffff20;border-radius:12px;background:#ffffff0d;color:#fff;text-decoration:none;font:750 12px/1.25 system-ui,sans-serif;text-align:left}
+ .tvfc-mobile-menu .tvfc-menu-heading{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;color:#cce2ff;font:800 10px system-ui,sans-serif;letter-spacing:.16em;padding:4px 2px}
+ .tvfc-mobile-menu .tvfc-close{width:32px;min-height:32px;justify-content:center;padding:0;border-radius:50%;font-size:19px}
+ .tvfc-mobile-dock{position:fixed!important;z-index:10001!important;left:12px!important;right:12px!important;bottom:calc(7px + env(safe-area-inset-bottom,0px))!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;min-height:70px;padding:7px 6px;border:1px solid #ffffffc7;border-radius:24px;background:rgba(244,248,255,.91);box-shadow:0 12px 34px #0004,inset 0 1px 0 #fff;backdrop-filter:blur(25px) saturate(1.4)}
+ .tvfc-mobile-dock a,.tvfc-mobile-dock button{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;min-width:0;min-height:54px;padding:4px 1px;border:0;border-radius:15px;background:transparent;color:#354256;text-decoration:none;font:700 10px/1.1 system-ui,sans-serif}
+ .tvfc-mobile-dock .tvfc-dock-icon{font-size:21px;line-height:1}
+ .tvfc-mobile-dock .is-active{background:#0b5fc41a;color:#0b5fc4}
+ body.tvfc-menu-open:after{content:"";position:fixed;z-index:10000;inset:0;background:#020d1c66;backdrop-filter:blur(2px)}
+ body.tvfc-menu-open .tvfc-mobile-dock{visibility:hidden;pointer-events:none}
+ .tvfc-menu-toggle{z-index:10003}
+}
+@keyframes tvfc-menu-in{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.tvfc-mobile-menu{animation:none!important;transition:none!important}}
