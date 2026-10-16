@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-16T10:11:48+00:00",
+  "checkedAt": "2026-10-16T12:49:16+00:00",
   "intervalMinutes": 10,
   "status": "healthy",
   "summary": {
-    "filesScanned": 459,
-    "checksPassed": 393,
+    "filesScanned": 461,
+    "checksPassed": 395,
     "issues": 0,
     "warnings": 0
   },
@@ -109,6 +109,11 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "assets/bcci-videos.json"
+    },
+    {
+      "level": "pass",
+      "message": "CSS block/string/comment structure OK",
+      "file": "assets/custom-selects.css"
     },
     {
       "level": "pass",
@@ -454,6 +459,11 @@
       "level": "pass",
       "message": "JavaScript syntax OK",
       "file": "matches/match-centre.js"
+    },
+    {
+      "level": "pass",
+      "message": "CSS block/string/comment structure OK",
+      "file": "matches/matches-motion.css"
     },
     {
       "level": "pass",
@@ -1249,16 +1259,6 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/scorecards/data/2025-12-09-t20-india-vs-south-africa-eaeb39187b97.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-12-09-t20i-india-vs-south-africa-eaeb39187b97.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-12-11-t20-india-vs-south-africa-79c319e94c15.json"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "052b0649"
+    "branch": "eb60d9d0"
   }
 }
