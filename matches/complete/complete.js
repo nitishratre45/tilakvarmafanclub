@@ -229,7 +229,13 @@
       const updated = $("scorecard-updated");
       if (updated) {
         updated.textContent = updatedAt
-          ? "Updated " + new Date(updatedAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" }) + " · Cricsheet archive"
+          ? "Updated " +
+            new Date(updatedAt).toLocaleString("en-IN", {
+              timeZone: "Asia/Kolkata",
+              dateStyle: "medium",
+              timeStyle: "short",
+            }) +
+            " · Cricsheet archive"
           : "Cricsheet archive";
       }
       const note = $("scorecard-source-note");
