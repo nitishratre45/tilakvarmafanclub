@@ -149,7 +149,7 @@ jobs:
           from pathlib import Path
           from urllib.parse import urlsplit
 
-          pages = (Path("index.html"), Path("stats/index.html"), Path("death-overs/index.html"), Path("matches/index.html"), Path("matches/complete/index.html"), Path("matches/scorecards/index.html"), Path("bcci-fixtures-test/index.html"), Path("bcci-fixtures-test/fixtures.html"), Path("bcci-fixtures-test/live-scores.html"), Path("bcci-fixtures-test/scorecard.html"), Path("bcci-fixtures-test/bcci-scorecard-page.html"), Path("bcci-fixtures-test/results/index.html"), Path("photos/index.html"), Path("records/index.html"), Path("news/index.html"), Path("videos/index.html"))
+          pages = (Path("index.html"), Path("stats/index.html"), Path("death-overs/index.html"), Path("matches/index.html"), Path("matches/complete/index.html"), Path("matches/scorecards/index.html"), Path("bcci-fixtures-test/index.html"), Path("bcci-fixtures-test/fixtures.html"), Path("bcci-fixtures-test/scorecard.html"), Path("bcci-fixtures-test/bcci-scorecard-page.html"), Path("bcci-fixtures-test/complete/index.html"), Path("photos/index.html"), Path("records/index.html"), Path("news/index.html"), Path("videos/index.html"))
           for page in pages:
               source = page.read_text(encoding="utf-8")
               ids = re.findall(r"""id=[\"']([^\"']+)[\"']""", source)
