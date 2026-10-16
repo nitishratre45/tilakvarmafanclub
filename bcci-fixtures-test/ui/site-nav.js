@@ -17,7 +17,7 @@
  const current = path.endsWith("/bcci-fixtures-test/") || path.endsWith("/bcci-fixtures-test/index.html") ? "BCCI Fixtures" :
   path.includes("/results/") ? "Match Results" : path.endsWith("/live-scores.html") || path.endsWith("/bcci-scorecard-page.html") ? "Live Scores" :
   path.endsWith("/scorecard.html") ? "Live Scores" : path.endsWith("/fixtures.html") ? "BCCI Fixtures" : "";
- const header = document.querySelector("body > header.topbar, body > header.top");
+ const header = document.querySelector("body > header.topbar, body > header.top, body > header.tvfc-header");
  if (header) {
   header.className = "tvfc-header";
   header.innerHTML = '<a class="tvfc-brand" href="/" aria-label="Tilak Varma Fan Club home"><span class="tvfc-brand-photo"><img src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="Tilak Varma" loading="eager"></span><span>TILAK VARMA<small>FAN CLUB · THE 72 CLUB</small></span></a><nav class="tvfc-nav" aria-label="Main navigation"></nav><button class="tvfc-menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>';
