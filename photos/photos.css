@@ -415,8 +415,37 @@ body.photos-page {
 }
 .photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab > span {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 7px;
+}
+.photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab > span:last-child {
+  min-width: 0;
+}
+.photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab .tv-gallery-view-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 19px;
+  width: 19px;
+  height: 19px;
+  color: currentColor;
+}
+.photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab .tv-gallery-view-icon svg {
+  display: block;
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab strong {
+  letter-spacing: -0.01em;
+}
+.photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab small {
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 .photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-icon {
   display: inline;
