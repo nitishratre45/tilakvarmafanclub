@@ -45,7 +45,7 @@ jobs:
       - name: Fetch dedicated score folder JSON
         id: scorefolder
         continue-on-error: true
-        run: python score/fetch_score.py
+        run: python bcci-fixtures-test/fetch_bcci_scorecard.py
 
       - name: Upload all separate JSON snapshots
         if: always()
@@ -56,7 +56,7 @@ jobs:
             bcci-fixtures-test/bcci-fixtures.json
             bcci-fixtures-test/bcci-live-scores.json
             matches/scorecards/bcci-scorecard.json
-            score/score.json
+            bcci-fixtures-test/bcci-scorecard.json
           if-no-files-found: warn
           retention-days: 7
 
@@ -94,4 +94,4 @@ jobs:
           echo "Fixtures step outcome: ${{ steps.fixtures.outcome }}"
           echo "Live scores step outcome: ${{ steps.live.outcome }}"
           echo "Scorecard step outcome: ${{ steps.scorecard.outcome }}"
-          echo "Dedicated score folder outcome: ${{ steps.scorefolder.outcome }}"
+          echo "BCCI folder scorecard outcome: ${{ steps.scorefolder.outcome }}"
