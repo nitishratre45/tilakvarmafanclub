@@ -12,7 +12,7 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 BASE_URL = "https://stats.bcci.tv/match/results/"
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "results", "results.json")
+OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "results.json")
 TIMEOUT_SECONDS = 35
 PAGE_SIZE = 100
 MIN_START_DATE = "2026-01-01"
@@ -63,7 +63,7 @@ def request_page(page):
               ("page", str(page)), ("size", str(PAGE_SIZE))]
     url = BASE_URL + "?" + urlencode(params)
     req = Request(url, headers={
-        "User-Agent": "Mozilla/5.0 (compatible; CricZone-BCCI-Results/1.0)",
+        "User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClub-BCCI-Results/1.0)",
         "Accept": "application/json, text/plain, */*",
         "Referer": "https://www.bcci.tv/",
     })
