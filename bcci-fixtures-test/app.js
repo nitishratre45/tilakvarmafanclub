@@ -519,7 +519,11 @@
             });
             const data = await again.json();
             const root = data?.data ?? data;
-            const items = Array.isArray(root?.match) ? root.match : Array.isArray(root?.matches) ? root.matches : [];
+            const items = Array.isArray(root?.match)
+              ? root.match
+              : Array.isArray(root?.matches)
+                ? root.matches
+                : [];
             const stillLive = items.some((match) => {
               const status = [
                 match.match_status,
