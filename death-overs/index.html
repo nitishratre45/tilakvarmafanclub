@@ -2913,27 +2913,50 @@
               }),
               { runs: 0, balls: 0, fours: 0, sixes: 0 },
             ),
-            matchCount = new Set(innings.map((i) => i.matchId || i.date + "|" + i.teams)).size;
+            matchCount = new Set(innings.map((i) => i.matchId || i.date + "|" + i.teams)).size,
+            yearFilter = year?.value || "all",
+            knownKeys = new Set(
+              innings.map((i) => String(i.date || "") + "|" + String(i.opposition || "").toLowerCase()),
+            ),
+            manualRows = active === "t20i"
+              ? (supplemental?.matches || []).filter((m) => {
+                  const inYear = yearFilter === "all" || String(m.date || "").slice(0, 4) === yearFilter;
+                  const key = String(m.date || "") + "|" + String(m.opposition || "").toLowerCase();
+                  return inYear && !knownKeys.has(key);
+                })
+              : [],
+            manual = manualRows.reduce((s, m) => ({
+              runs: s.runs + (+m.runs || 0),
+              balls: s.balls + (+m.balls || 0),
+              fours: s.fours + (m.fours == null ? 0 : +m.fours || 0),
+              sixes: s.sixes + (m.sixes == null ? 0 : +m.sixes || 0),
+            }), { runs: 0, balls: 0, fours: 0, sixes: 0 }),
+            combined = {
+              runs: t.runs + manual.runs,
+              balls: t.balls + manual.balls,
+              fours: t.fours + manual.fours,
+              sixes: t.sixes + manual.sixes,
+            },
+            combinedInnings = (d?.inningsFound || innings.length) + manualRows.length;
           document.getElementById("coverage-summary-text").textContent =
             (d?.label || names[active]) +
             " · " +
-            fmt(matchCount) +
+            fmt(matchCount + manualRows.length) +
             " matches · " +
-            fmt(t.runs) +
+            fmt(combined.runs) +
             " runs · " +
-            fmt(t.fours) +
+            fmt(combined.fours) +
             " fours · " +
-            fmt(t.sixes) +
+            fmt(combined.sixes) +
             " sixes" +
+            (manualRows.length ? " · includes " + manualRows.length + " manual records" : "") +
             " · " +
-            (year.value === "all" ? "all years" : year.value);
-          document.getElementById("total-runs").textContent = fmt(t.runs);
-          document.getElementById("total-innings").textContent = fmt(
-            d?.inningsFound || innings.length,
-          );
-          document.getElementById("total-balls").textContent = fmt(t.balls);
-          document.getElementById("overall-sr").textContent = t.balls
-            ? ((t.runs * 100) / t.balls).toFixed(2)
+            (yearFilter === "all" ? "all years" : yearFilter);
+          document.getElementById("total-runs").textContent = fmt(combined.runs);
+          document.getElementById("total-innings").textContent = fmt(combinedInnings);
+          document.getElementById("total-balls").textContent = fmt(combined.balls);
+          document.getElementById("overall-sr").textContent = combined.balls
+            ? ((combined.runs * 100) / combined.balls).toFixed(2)
             : "—";
           document.getElementById("feed-status").textContent = innings.length
             ? "STATS LOADED"
