@@ -71,3 +71,40 @@
     animation: none;
   }
 }
+
+/* StatsGuru: keep the column/group header visible below the sticky site navbar.
+   The table itself remains in normal page flow; only the header row sticks. */
+.stats-page #stats .statsguru-panel .table-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.stats-page #stats .statsguru-panel .table-wrap table {
+  min-width: 760px;
+  width: max-content;
+  max-width: none;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.stats-page #stats .statsguru-panel .table-wrap thead th {
+  position: sticky;
+  top: 82px;
+  z-index: 12;
+  background: #173d60;
+  box-shadow: 0 2px 0 rgba(124, 229, 242, 0.75);
+}
+@media (max-width: 760px) {
+  .stats-page #stats .statsguru-panel .table-wrap thead th {
+    top: 82px;
+  }
+}
+@media (max-width: 420px) {
+  .stats-page #stats .statsguru-panel .table-wrap table {
+    min-width: 760px;
+  }
+}
