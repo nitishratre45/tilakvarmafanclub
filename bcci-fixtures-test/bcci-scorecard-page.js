@@ -186,88 +186,66 @@
     $("status").textContent = "Loading the selected BCCI match…";
     try {
       const requestedGid = new URLSearchParams(location.search).get("gid");
-      const [scoreResponse, resultsResponse] = await Promise.all([
+      const [scoreResponse, fixturesResponse, resultsResponse] = await Promise.all([
         fetch("./bcci-scorecard.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
-        requestedGid
-          ? fetch("./results/results.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null)
-          : Promise.resolve(null),
+        fetch("./bcci-fixtures.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
+        fetch("./results/results.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
       ]);
-      let scorePayload = null;
-      if (scoreResponse?.ok) scorePayload = await scoreResponse.json();
+      const scorePayload = scoreResponse?.ok ? await scoreResponse.json().catch(() => null) : null;
+      let selected = null;
+      if (requestedGid && fixturesResponse?.ok) {
+        const snapshot = await fixturesResponse.json().catch(() => null);
+        const data = snapshot?.data ?? snapshot;
+        const matches = Array.isArray(data?.match) ? data.match : [];
+        selected = matches.find((m) =>
+          String(m.gid || m.match_gid || m.match_id || m.id || "") === String(requestedGid)
+        ) || null;
+      }
+      if (requestedGid && !selected && resultsResponse?.ok) {
+        const archive = await resultsResponse.json().catch(() => null);
+        const rows = Array.isArray(archive?.matches) ? archive.matches : [];
+        selected = rows.find((m) =>
+          String(m.gid || m.match_gid || m.match_id || m.id || "") === String(requestedGid)
+        ) || null;
+      }
       if (requestedGid) {
-        if (resultsResponse?.ok) {
-          const archive = await resultsResponse.json();
-          const rows = Array.isArray(archive.matches) ? archive.matches : [];
-          const selected = rows.find(
-            (m) =>
-              String(m.gid || m.match_gid || m.match_id || m.id || "") === String(requestedGid),
-          );
-          if (selected) {
-            const detailed = scorePayload?.data?.match || scorePayload?.liveMatch || {};
-            const detailedGid = String(
-              detailed.gid || detailed.match_gid || detailed.match_id || "",
-            );
-            if (detailedGid === String(requestedGid)) {
-              render(scorePayload);
-              $("status").textContent =
-                "FULL SCORECARD · " +
-                (selected.name || selected.match_short_name || "Selected match") +
-                " · Detailed BCCI snapshot";
-              return;
-            }
-            const summary = selected.summary || {};
-            const innings = Array.isArray(summary.innings) ? summary.innings : [];
-            const teams = Array.isArray(summary.team) ? summary.team : [];
-            const teamNames = {};
-            teamNames[String(selected.team1_id)] =
-              selected.team1_name || selected.team1_short_name || "Team 1";
-            teamNames[String(selected.team2_id)] =
-              selected.team2_name || selected.team2_short_name || "Team 2";
-            render({
-              data: {
-                match: selected,
-                team: teams.map((t) => ({ ...t, name: teamNames[String(t.team_id)] || "Team" })),
-                innings: innings.map((inn) => ({
-                  ...inn,
-                  total_runs: inn.runs,
-                  team_id: inn.batting_team_id,
-                  team_name: teamNames[String(inn.batting_team_id)] || "Team",
-                })),
-              },
-              matchName: selected.name || selected.match_short_name,
-            });
-            $("status").textContent =
-              "SELECTED MATCH · " +
-              (selected.name || selected.match_short_name || "BCCI result") +
-              " · Team totals from saved results archive; batter-by-batter data is not available in this archive.";
-            return;
-          }
-          throw new Error("The selected match ID was not found in the saved BCCI results archive.");
+        if (!selected) throw new Error("The selected match ID was not found in the saved BCCI fixtures or results archive.");
+        const detailed = scorePayload?.data?.match || scorePayload?.liveMatch || {};
+        const detailedId = String(detailed.gid || detailed.match_gid || detailed.match_id || "");
+        if (scorePayload?.status === "ok" && detailedId === String(requestedGid) && Array.isArray(scorePayload?.data?.innings) && scorePayload.data.innings.length) {
+          render(scorePayload);
+          $("status").textContent = "FULL SCORECARD · " + (selected.name || selected.match_short_name || "Selected match") + " · Detailed BCCI batting and bowling data";
+          return;
         }
-        throw new Error("Could not load results/results.json to identify the selected match.");
+        const summary = selected.summary || {};
+        const innings = Array.isArray(summary.innings) ? summary.innings : [];
+        const teams = Array.isArray(summary.team) ? summary.team : [];
+        const teamNames = {};
+        teamNames[String(selected.team1_id)] = selected.team1_name || selected.team1_short_name || "Team 1";
+        teamNames[String(selected.team2_id)] = selected.team2_name || selected.team2_short_name || "Team 2";
+        render({
+          data: {
+            match: selected,
+            team: teams.map((t) => ({ ...t, name: teamNames[String(t.team_id)] || "Team" })),
+            innings: innings.map((inn) => ({
+              ...inn,
+              total_runs: inn.runs,
+              team_id: inn.batting_team_id,
+              team_name: teamNames[String(inn.batting_team_id)] || "Team",
+            })),
+          },
+          matchName: selected.name || selected.match_short_name,
+        });
+        $("status").textContent = "MATCH SCORECARD · " + (selected.name || selected.match_short_name || "Selected match") + " · " + (innings.length ? "BCCI innings totals" : "Detailed score data not yet available");
+        return;
       }
       if (!scorePayload) throw new Error("Could not load bcci-scorecard.json");
-      if (scorePayload.status && scorePayload.status !== "ok")
-        throw new Error(scorePayload.error || "BCCI snapshot status: " + scorePayload.status);
+      if (scorePayload.status && scorePayload.status !== "ok") throw new Error(scorePayload.error || "BCCI snapshot status: " + scorePayload.status);
       render(scorePayload);
       const liveMeta = scorePayload.liveMatch || scorePayload.data?.match || {};
-      const liveName =
-        liveMeta.name ||
-        liveMeta.match_name ||
-        scorePayload.matchName ||
-        $("title").textContent ||
-        "BCCI Scorecard";
-      const liveState =
-        scorePayload.isLive === true ||
-        /^(live|in play|innings break)$/i.test(
-          String(liveMeta.match_status || liveMeta.live_status_name || ""),
-        );
-      $("status").textContent =
-        (liveState ? "LIVE MATCH · " : "LATEST AVAILABLE MATCH · ") +
-        liveName +
-        " · Snapshot HTTP " +
-        (scorePayload.httpStatus || scoreResponse?.status || "—") +
-        " · JSON refreshed every 5 min";
+      const liveName = liveMeta.name || liveMeta.match_name || scorePayload.matchName || $("title").textContent || "BCCI Scorecard";
+      const liveState = scorePayload.isLive === true || /^(live|in play|in progress|innings break)$/i.test(String(liveMeta.match_status || liveMeta.live_status_name || ""));
+      $("status").textContent = (liveState ? "LIVE MATCH · " : "LATEST SCORECARD · ") + liveName + " · Snapshot HTTP " + (scorePayload.httpStatus || scoreResponse?.status || "—") + " · Auto-refresh every 60 sec";
     } catch (error) {
       $("status").textContent = "Could not load scorecard: " + error.message;
     } finally {
