@@ -96,6 +96,35 @@
         }).format(date);
   }
 
+  // Reuse the free team-logo strategy from /matches/match-centre.js: official IPL PNGs,
+  // country flag PNGs, and a Commons-hosted West Indies cricket crest.
+  const teamAssets = {
+    india:{flag:"in"}, "west indies":{logo:"https://commons.wikimedia.org/wiki/Special:FilePath/Cricket_West_Indies_Logo_2017.svg"},
+    pakistan:{flag:"pk"}, "sri lanka":{flag:"lk"}, bangladesh:{flag:"bd"}, afghanistan:{flag:"af"},
+    australia:{flag:"au"}, england:{flag:"gb-eng"}, ireland:{flag:"ie"}, "new zealand":{flag:"nz"},
+    "south africa":{flag:"za"}, zimbabwe:{flag:"zw"}, nepal:{flag:"np"}, namibia:{flag:"na"},
+    netherlands:{flag:"nl"}, scotland:{flag:"gb-sct"}, "united arab emirates":{flag:"ae"},
+    oman:{flag:"om"}, canada:{flag:"ca"}, usa:{flag:"us"}, "united states":{flag:"us"}, japan:{flag:"jp"},
+    "mumbai indians":{ipl:"MI"}, "chennai super kings":{ipl:"CSK"}, "kolkata knight riders":{ipl:"KKR"},
+    "royal challengers bengaluru":{ipl:"RCB"}, "royal challengers bangalore":{ipl:"RCB"},
+    "rajasthan royals":{ipl:"RR"}, "sunrisers hyderabad":{ipl:"SRH"}, "delhi capitals":{ipl:"DC"},
+    "punjab kings":{ipl:"PBKS"}, "gujarat titans":{ipl:"GT"}, "lucknow super giants":{ipl:"LSG"}
+  };
+  const teamInitials = (name) => {
+    const words = String(name || "?").replace(/[^a-z0-9 ]/gi," ").trim().split(/\\s+/).filter(Boolean);
+    return (words.length > 1 ? words.slice(0,2).map(w=>w[0]) : [(words[0] || "?").slice(0,2)]).join("").toUpperCase();
+  };
+  const renderTeam = (name) => {
+    const label = String(name || "Team");
+    const asset = teamAssets[label.trim().toLowerCase().replace(/\\s+/g," ")] || {};
+    const src = asset.logo || (asset.ipl ? "https://scores.iplt20.com/ipl/teamlogos/" + asset.ipl + ".png" : asset.flag ? "https://flagcdn.com/w80/" + asset.flag + ".png" : "");
+    const initials = esc(teamInitials(label));
+    const logo = src
+      ? '<span class="team-logo"><img src="' + esc(src) + '" alt="" loading="lazy" decoding="async" onerror="this.style.display=\'none\';this.parentElement.classList.add(\'logo-unavailable\');"><span class="team-logo-fallback" aria-hidden="true">' + initials + '</span></span>'
+      : '<span class="team-logo team-logo-fallback-only" aria-hidden="true">' + initials + '</span>';
+    return '<span class="team-identity">' + logo + '<span class="team-name">' + esc(label) + '</span></span>';
+  };
+
   function render() {
     const query = $("searchInput").value.trim().toLowerCase();
     const statusFilter = $("statusFilter").value;
@@ -134,10 +163,10 @@
           '">' +
           esc(f.status) +
           "</span></div>" +
-          '<div class="teams"><div class="team">' +
-          esc(f.home) +
-          '</div><div class="versus">VS</div><div class="team">' +
-          esc(f.away) +
+          '<div class="teams"><div class="team team-home">' +
+          renderTeam(f.home) +
+          '</div><div class="versus">VS</div><div class="team team-away">' +
+          renderTeam(f.away) +
           '</div></div><div class="match-meta">' +
           [f.venue && "📍 " + f.venue, f.time && "◷ " + f.time]
             .filter(Boolean)
