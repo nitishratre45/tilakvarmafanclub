@@ -68,7 +68,7 @@
     </header>
     <main class="scorecard-page-main">
       <div class="scorecard-backbar">
-        <a class="scorecard-back" href="/matches/complete/" id="scorecard-back-link"
+        <a class="scorecard-back" href="/bcci-fixtures-test/complete/index.html" id="scorecard-back-link"
           >← Back to Complete Matches</a
         ><span class="scorecard-page-status" id="scorecard-page-status" aria-live="polite"
           >Loading verified scorecard…</span
@@ -94,18 +94,6 @@
     </footer>
     <script src="/matches/theme.js?v=20261014-scorecard-page1"></script>
     <script src="/matches/scorecards/scorecard-page.js?v=20261014-return-state1"></script>
-    <script>
-      const backLink = document.getElementById("scorecard-back-link");
-      if (backLink) backLink.addEventListener("click", function (event) {
-        try {
-          const referrer = new URL(document.referrer);
-          if (referrer.origin === location.origin && referrer.pathname.replace(/\\/$/, "") === "/matches/complete/" && history.length > 1) {
-            event.preventDefault();
-            history.back();
-          }
-        } catch (_) {}
-      });
-    </script>
     <script>
       const year = document.getElementById("year");
       if (year) year.textContent = new Date().getFullYear();
