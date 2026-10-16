@@ -777,7 +777,7 @@
       source = sourceData(),
       rows = source.innings.slice();
     const stamp = formatIndiaTimestamp(sg.updatedAt || "Waiting for update");
-    $("statsguru-updated").textContent = "Last update: " + stamp;
+    $("statsguru-updated").textContent = "LAST UPDATE: " + stamp;
     $("statsguru-format-label").textContent =
       selectedFormat === "T20" ? "T20 · all competitions" : selectedFormat;
     $("statsguru-title").textContent = titles[selectedCategory] || "Player analysis";
@@ -808,9 +808,8 @@
         const stamp = formatIndiaTimestamp(data?.statsguru?.updatedAt || "timestamp unavailable");
         const allSource = sourceData();
         detailNote.textContent =
-          "Last update: " +
+          "LAST UPDATE: " +
           stamp +
-          ". Automatic refresh checks every 12 hours." +
           (allSource.summary?.ballsInferred
             ? " Overall-format strike rate is approximate because at least one source format did not provide balls faced; missing balls were estimated from its published strike rate."
             : "");
@@ -1132,17 +1131,15 @@
       (selectedFormat === "List A" && !sg.formats?.["List A"]?.summary);
     note.textContent =
       selectedFormat === "All"
-        ? "Last update: " +
+        ? "LAST UPDATE: " +
           formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable") +
-          ". Automatic refresh checks every 12 hours." +
           (source.summary?.ballsInferred
             ? " Overall-format strike rate is approximate because at least one source format did not provide balls faced; missing balls were estimated from its published strike rate."
             : "")
         : domesticSummaryOnly
           ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. Snapshot refresh checks every 12 hours."
-          : "Last update: " +
-            (sg.updatedAt || "timestamp unavailable") +
-            ". Automatic refresh checks every 12 hours; last saved figures remain available if an update is delayed.";
+           : "LAST UPDATE: " +
+            formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable");
   }
   function resetFilters() {
     $("sg-filter-type").value = "all";
