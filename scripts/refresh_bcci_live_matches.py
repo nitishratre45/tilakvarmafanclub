@@ -254,7 +254,7 @@ def main():
             ) as stream:
                 temp_path = Path(stream.name)
                 json.dump(snapshot, stream, ensure_ascii=False, indent=2)
-                stream.write("\\n")
+                stream.write("\n")
                 stream.flush()
                 os.fsync(stream.fileno())
             check = json.loads(temp_path.read_text(encoding="utf-8"))
