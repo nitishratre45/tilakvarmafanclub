@@ -20,11 +20,15 @@
   function normalise(payload) {
     // The saved Python wrapper contains the original BCCI response under payload.data.
     const bcci = payload?.data ?? payload;
-    const matches = Array.isArray(bcci?.match) ? bcci.match
-      : Array.isArray(bcci?.data?.match) ? bcci.data.match
-      : Array.isArray(bcci?.fixtures) ? bcci.fixtures
-      : Array.isArray(bcci?.matches) ? bcci.matches
-      : [];
+    const matches = Array.isArray(bcci?.match)
+      ? bcci.match
+      : Array.isArray(bcci?.data?.match)
+        ? bcci.data.match
+        : Array.isArray(bcci?.fixtures)
+          ? bcci.fixtures
+          : Array.isArray(bcci?.matches)
+            ? bcci.matches
+            : [];
     // Keep the requested display limit at 12 even if the JSON later contains more.
     return matches.slice(0, 12).map((m, i) => ({
       home: pick(m, ["team1_name", "team1_short_name", "home_team_name"], "Team A"),
@@ -36,32 +40,48 @@
       status: pick(m, ["match_status", "live_status_name"], "Scheduled"),
       id: pick(m, ["match_id", "gid"], String(i)),
       title: pick(m, ["title", "match_short_name", "name"]),
-      result: pick(m, ["result_string"])
+      result: pick(m, ["result_string"]),
     }));
   }
 
-  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-  })[c]);
+  const esc = (s) =>
+    String(s ?? "").replace(
+      /[&<>"']/g,
+      (c) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[c],
+    );
 
   function fmt(value) {
     if (!value) return "Date TBA";
     // BCCI's date_string is already human-readable (e.g. "16 October 2026").
     if (/\D/.test(value) && !/^\d{4}-\d{2}-\d{2}/.test(value)) return value;
     const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat("en-IN", {
-      day: "2-digit", month: "short", year: "numeric"
-    }).format(date);
+    return Number.isNaN(date.getTime())
+      ? value
+      : new Intl.DateTimeFormat("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }).format(date);
   }
 
   function render() {
     const query = $("searchInput").value.trim().toLowerCase();
     const statusFilter = $("statusFilter").value;
     const sort = $("sortFilter").value;
-    const list = state.fixtures.filter((f) =>
-      [f.home, f.away, f.venue, f.competition, f.status, f.date, f.title, f.result]
-        .join(" ").toLowerCase().includes(query) &&
-      (statusFilter === "all" || f.status.toLowerCase() === statusFilter.toLowerCase())
+    const list = state.fixtures.filter(
+      (f) =>
+        [f.home, f.away, f.venue, f.competition, f.status, f.date, f.title, f.result]
+          .join(" ")
+          .toLowerCase()
+          .includes(query) &&
+        (statusFilter === "all" || f.status.toLowerCase() === statusFilter.toLowerCase()),
     );
 
     list.sort((a, b) => {
@@ -71,20 +91,43 @@
     });
 
     $("resultCount").textContent = list.length + " of " + state.fixtures.length + " fixtures";
-    $("fixtureList").innerHTML = list.map((f) => {
-      const isLive = /live|progress|in play/i.test(f.status);
-      const extra = f.result && !/teams will be announced/i.test(f.result)
-        ? '<div class="match-meta"><span>' + esc(f.result) + '</span></div>' : "";
-      return '<article class="fixture-card"><div><div class="fixture-topline">' +
-        '<span class="competition">' + esc(f.competition) + (f.title ? " · " + esc(f.title) : "") + '</span>' +
-        '<span class="status-pill ' + (isLive ? "upcoming" : "") + '">' + esc(f.status) + '</span></div>' +
-        '<div class="teams"><div class="team">' + esc(f.home) + '</div><div class="versus">VS</div><div class="team">' +
-        esc(f.away) + '</div></div><div class="match-meta">' +
-        [f.venue && "📍 " + f.venue, f.time && "◷ " + f.time]
-          .filter(Boolean).map((v) => "<span>" + esc(v) + "</span>").join("") +
-        '</div>' + extra + '</div><div class="fixture-date"><strong>' + esc(fmt(f.date)) +
-        '</strong><span>Fixture date · ' + esc(f.id) + '</span></div></article>';
-    }).join("");
+    $("fixtureList").innerHTML = list
+      .map((f) => {
+        const isLive = /live|progress|in play/i.test(f.status);
+        const extra =
+          f.result && !/teams will be announced/i.test(f.result)
+            ? '<div class="match-meta"><span>' + esc(f.result) + "</span></div>"
+            : "";
+        return (
+          '<article class="fixture-card"><div><div class="fixture-topline">' +
+          '<span class="competition">' +
+          esc(f.competition) +
+          (f.title ? " · " + esc(f.title) : "") +
+          "</span>" +
+          '<span class="status-pill ' +
+          (isLive ? "upcoming" : "") +
+          '">' +
+          esc(f.status) +
+          "</span></div>" +
+          '<div class="teams"><div class="team">' +
+          esc(f.home) +
+          '</div><div class="versus">VS</div><div class="team">' +
+          esc(f.away) +
+          '</div></div><div class="match-meta">' +
+          [f.venue && "📍 " + f.venue, f.time && "◷ " + f.time]
+            .filter(Boolean)
+            .map((v) => "<span>" + esc(v) + "</span>")
+            .join("") +
+          "</div>" +
+          extra +
+          '</div><div class="fixture-date"><strong>' +
+          esc(fmt(f.date)) +
+          "</strong><span>Fixture date · " +
+          esc(f.id) +
+          "</span></div></article>"
+        );
+      })
+      .join("");
 
     $("emptyState").hidden = list.length !== 0;
     $("fixtureList").hidden = list.length === 0;
@@ -97,9 +140,11 @@
     $("fixtureList").innerHTML = '<div class="loading-state">Loading saved BCCI fixtures…</div>';
     try {
       const response = await fetch("./bcci-fixtures.json?t=" + Date.now(), { cache: "no-store" });
-      if (!response.ok) throw new Error("Could not load bcci-fixtures.json (HTTP " + response.status + ").");
+      if (!response.ok)
+        throw new Error("Could not load bcci-fixtures.json (HTTP " + response.status + ").");
       const payload = await response.json();
-      if (payload.status && payload.status !== "ok") throw new Error(payload.error || "Python fetch status: " + payload.status);
+      if (payload.status && payload.status !== "ok")
+        throw new Error(payload.error || "Python fetch status: " + payload.status);
 
       state.fixtures = normalise(payload);
       const bcci = payload.data ?? payload;
@@ -107,19 +152,23 @@
       $("totalCount").textContent = state.fixtures.length;
       $("pageCount").textContent = page.last_page ?? 1;
       $("lastUpdated").textContent = payload.fetchedAt ? fmt(payload.fetchedAt) : "Unknown";
-      $("sourceStatus").textContent = payload.httpStatus ? "HTTP " + payload.httpStatus + " · " + payload.status : "Snapshot loaded";
+      $("sourceStatus").textContent = payload.httpStatus
+        ? "HTTP " + payload.httpStatus + " · " + payload.status
+        : "Snapshot loaded";
 
       const statuses = [...new Set(state.fixtures.map((f) => f.status).filter(Boolean))].sort();
       const filter = $("statusFilter");
       const old = filter.value;
-      filter.innerHTML = '<option value="all">All statuses</option>' +
-        statuses.map((s) => '<option value="' + esc(s) + '">' + esc(s) + '</option>').join("");
+      filter.innerHTML =
+        '<option value="all">All statuses</option>' +
+        statuses.map((s) => '<option value="' + esc(s) + '">' + esc(s) + "</option>").join("");
       if (statuses.includes(old)) filter.value = old;
       render();
 
       if (!state.fixtures.length) {
         $("fixtureList").hidden = false;
-        $("fixtureList").innerHTML = '<div class="loading-state">JSON loaded, but no records were found at data.match.</div>';
+        $("fixtureList").innerHTML =
+          '<div class="loading-state">JSON loaded, but no records were found at data.match.</div>';
       }
     } catch (error) {
       $("totalCount").textContent = "—";
@@ -127,7 +176,9 @@
       $("lastUpdated").textContent = "Unavailable";
       $("sourceStatus").textContent = "Could not load snapshot";
       $("fixtureList").hidden = false;
-      $("fixtureList").innerHTML = '<div class="loading-state">' + esc(error.message) +
+      $("fixtureList").innerHTML =
+        '<div class="loading-state">' +
+        esc(error.message) +
         '<br><br><a class="secondary-btn" href="./bcci-fixtures.json" target="_blank" rel="noopener">Open JSON file</a></div>';
       $("resultCount").textContent = "No data";
     } finally {
