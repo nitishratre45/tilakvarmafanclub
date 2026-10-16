@@ -229,3 +229,17 @@ h3 {
     margin: 14px 0;
   }
 }
+
+
+/* Dual-team scoreboard and premium live score presentation */
+.top-scoreboard{margin:18px 0 24px;padding:clamp(15px,3vw,24px);border:1px solid #2d4d69;border-radius:18px;background:linear-gradient(135deg,#10375a,#0d1b2d 72%);box-shadow:0 14px 36px #0003}
+.top-scoreboard-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;color:#8ed9ff;font-size:11px;font-weight:800;letter-spacing:.14em}
+.top-scoreboard-heading span{display:flex;align-items:center;gap:8px}
+.top-scoreboard-heading i{width:8px;height:8px;border-radius:50%;background:#78e2b6;box-shadow:0 0 0 5px #78e2b622;display:inline-block}
+.top-scoreboard-heading small{color:var(--muted);font-size:11px;letter-spacing:0}
+.top-scoreboard-teams{display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr);align-items:center;gap:12px}
+.top-score-team{min-width:0;padding:15px;border:1px solid #2a455f;border-radius:14px;background:#071626a8}
+.top-score-team span,.top-score-team small{display:block;overflow-wrap:anywhere;color:var(--muted)}
+.top-score-team strong{display:block;margin:8px 0 3px;color:#f4f8ff;font:700 clamp(22px,4vw,34px)/1.15 "Space Grotesk",system-ui,sans-serif;overflow-wrap:anywhere}
+.top-score-vs{text-align:center;color:#ff987e;font-size:12px}
+@media(max-width:480px){.top-scoreboard{padding:13px}.top-scoreboard-teams{gap:7px;grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr)}.top-score-team{padding:10px 8px}.top-score-team strong{font-size:22px}.top-score-team span{font-size:12px}.top-score-team small{font-size:10px}}
