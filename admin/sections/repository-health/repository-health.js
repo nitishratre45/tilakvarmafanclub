@@ -1,0 +1,1 @@
+(() => { const root=document.getElementById("repo-health"); if(!root)return; root.dataset.adminSectionModule="repository-health"; })();
