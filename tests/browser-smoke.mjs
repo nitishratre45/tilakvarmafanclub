@@ -102,16 +102,13 @@ check("Matches and Photos navbar links open their dedicated pages", async () => 
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
-  assert.equal(await page.locator('#main-nav a[href="/matches/"]').count(), 1, "Homepage Matches link must use the dedicated route");
+  assert.equal(await page.locator('#main-nav a[href="/bcci-fixtures-test/"]').count(), 1, "Homepage Matches link must open the integrated BCCI Matches section");
   assert.equal(await page.locator('#main-nav a[href="/photos/"]').count(), 1, "Homepage Photos link must use the dedicated route");
-  const matchesHref = await page.locator('#main-nav a[href="/matches/"]').getAttribute("href");
-  await page.locator('#main-nav a[href="/matches/"]').click({ force: true });
-  await page.waitForTimeout(250);
-  if (!["/matches/", "/matches/index.html"].includes(new URL(page.url()).pathname)) {
-    await page.goto(new URL(matchesHref, baseURL).href, { waitUntil: "domcontentloaded" });
-  }
+  const matchesHref = await page.locator('#main-nav a[href="/bcci-fixtures-test/"]').getAttribute("href");
+  await page.locator('#main-nav a[href="/bcci-fixtures-test/"]').click({ force: true });
+  await page.waitForURL(url => url.pathname === "/bcci-fixtures-test/");
   await page.locator("main").waitFor();
-  assert.equal(await page.locator("main").innerText().then(text => /THE MATCHES/.test(text)), true, "Dedicated Matches content should render");
+  assert.equal(await page.locator("main").innerText().then(text => /UPCOMING MATCHES/.test(text)), true, "Integrated Matches content should render");
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   const photosHref = await page.locator('#main-nav a[href="/photos/"]').getAttribute("href");
   await page.locator('#main-nav a[href="/photos/"]').click({ force: true });
@@ -336,8 +333,8 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
   }));
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   assert.equal(await page.locator("#match-tab-upcoming").count(), 0, "Homepage must not embed the Match Centre");
-  await page.locator('#main-nav a[href="/matches/"]').click();
-  await page.waitForURL(url => url.pathname === "/matches/");
+  // The visible navbar now opens the integrated BCCI Matches view; test the legacy match archive directly.
+  await page.goto(new URL("/matches/", baseURL).href, { waitUntil: "domcontentloaded" });
   await page.locator("#match-tab-upcoming").waitFor();
   assert.equal(await page.locator("#match-tab-upcoming").getAttribute("aria-selected"), "true", "Upcoming must be selected by default");
   await page.locator(".upcoming-match-card").filter({ hasText: "Australia" }).waitFor({ state: "attached" });
