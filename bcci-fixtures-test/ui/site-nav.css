@@ -709,3 +709,17 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Compact section tabs make Live, Results and Completed Matches part of the same page family. */
+.bcci-view-tabs {
+  width: min(1120px, calc(100% - 32px));
+  margin: 14px auto 18px;
+  padding: 7px;
+}
+.bcci-view-tabs .match-centre-tabs { width: 100%; }
+.bcci-view-tabs .match-centre-tab { flex: 1 1 0; min-width: 0; padding-inline: 12px; }
+@media (max-width: 760px) {
+  .bcci-view-tabs { width: calc(100% - 22px); margin: 10px auto 14px; padding: 6px; }
+  .bcci-view-tabs .match-centre-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bcci-view-tabs .match-centre-tab { min-height: 42px; padding-inline: 7px; font-size: 12px; }
+}
