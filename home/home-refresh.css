@@ -1718,3 +1718,64 @@ body > footer {
     font-size: 12px;
   }
 }
+
+
+/* Final responsive override: keep all six Bowling columns visible on phones. */
+#home-snapshot .home-bowling-table-section,
+#home-snapshot .home-bowling-table-section .home-career-table-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+}
+#home-snapshot .home-bowling-table-section table.home-career-table {
+  display: table !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+#home-snapshot .home-bowling-table-section table.home-career-table th,
+#home-snapshot .home-bowling-table-section table.home-career-table td {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  padding: 12px 5px !important;
+  font-size: clamp(10px, 2.9vw, 13px) !important;
+  line-height: 1.25 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+}
+#home-snapshot .home-bowling-table-section table.home-career-table th:first-child,
+#home-snapshot .home-bowling-table-section table.home-career-table td:first-child {
+  width: 24% !important;
+}
+#home-snapshot .home-bowling-table-section table.home-career-table th:not(:first-child),
+#home-snapshot .home-bowling-table-section table.home-career-table td:not(:first-child) {
+  width: 15.2% !important;
+}
+@media (max-width: 390px) {
+  #home-snapshot .home-bowling-table-section table.home-career-table th,
+  #home-snapshot .home-bowling-table-section table.home-career-table td {
+    padding: 10px 2px !important;
+    font-size: 10px !important;
+  }
+  #home-snapshot .home-bowling-table-section table.home-career-table th:first-child,
+  #home-snapshot .home-bowling-table-section table.home-career-table td:first-child {
+    width: 23% !important;
+  }
+  #home-snapshot .home-bowling-table-section table.home-career-table th:not(:first-child),
+  #home-snapshot .home-bowling-table-section table.home-career-table td:not(:first-child) {
+    width: 15.4% !important;
+  }
+}
+@media (min-width: 391px) and (max-width: 680px) {
+  #home-snapshot .home-bowling-table-section table.home-career-table th,
+  #home-snapshot .home-bowling-table-section table.home-career-table td {
+    padding: 11px 4px !important;
+    font-size: 12px !important;
+  }
+}
