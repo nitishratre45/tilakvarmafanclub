@@ -585,6 +585,31 @@ check("Admin Studio warns before discarding unsaved edits", async () => {
   await page.close();
 });
 
+check("Admin Studio mobile bottom navigation switches sections and desktop sidebar stays separate", async () => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  page.setDefaultTimeout(10000);
+  await page.route("**/api/admin/**", async (route) => {
+    const req = route.request();
+    const url = new URL(req.url());
+    if (url.pathname.endsWith("/session")) return route.fulfill({ json: { authenticated: true } });
+    if (url.pathname.endsWith("/content")) return route.fulfill({ json: url.searchParams.get("kind") === "media" ? { items: [], albums: [] } : { feedUrl: "" } });
+    if (url.pathname.endsWith("/data-editor") && req.method() === "GET") return route.fulfill({ json: { kind: "stats", path: "data/site-data.json", data: {} } });
+    return route.fulfill({ json: { ok: true, items: [], runs: [], datasets: [] } });
+  });
+  await page.goto(baseURL + "/admin/index.html", { waitUntil: "domcontentloaded" });
+  const mobileNav = page.locator("#admin-mobile-bottom-nav");
+  await mobileNav.waitFor({ state: "visible" });
+  assert.equal(await mobileNav.locator("a[data-view]").count(), await page.locator("#admin-nav a[data-view]").count(),
+    "Mobile nav should expose every desktop section");
+  await mobileNav.locator("a[data-view='news']").click();
+  await page.waitForFunction(() => location.hash === "#news");
+  await page.waitForFunction(() => document.querySelector("#admin-mobile-bottom-nav a[data-view='news']")?.classList.contains("active"));
+  assert.equal(await page.locator("#admin-mobile-bottom-nav a[data-view='news']").getAttribute("aria-current"), "page");
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.waitForFunction(() => getComputedStyle(document.querySelector("#admin-mobile-bottom-nav")).display === "none");
+  await page.close();
+});
+
 try {
   for (const item of checks) {
     try {
