@@ -940,8 +940,9 @@
                   "</p>" +
                   '<p class="scoreboard-status">Updated: ' +
                   escHtml(payload.checkedAt || "latest saved snapshot") +
-                  ' · Refreshes automatically</p><p><a class="bcci-live-score-link" href="' +
-                  escHtml(bcciLiveScoresUrl) +
+                  ' · Refreshes automatically</p><p class="scoreboard-actions">' +
+                  (fixtureMatchId ? '<a class="bcci-live-score-link" href="/bcci-fixtures-test/bcci-scorecard-page.html?gid=' + encodeURIComponent(fixtureMatchId) + '">Open full scorecard ↗</a>' : '') +
+                  '<a class="bcci-live-score-link" href="' + escHtml(bcciLiveScoresUrl) +
                   '" target="_blank" rel="noopener noreferrer">Open official BCCI live scores ↗</a></p></div>';
                 return;
               }
