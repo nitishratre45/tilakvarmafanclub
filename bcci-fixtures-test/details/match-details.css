@@ -1170,3 +1170,15 @@
     font-size: 14px;
   }
 }
+
+
+/* BCCI integrated live-match centre finish */
+.details-status.is-live{border-color:rgba(255,88,98,.48);background:rgba(255,58,74,.13);color:#ffb5bc}
+.details-status.is-live i{background:#ff4757;box-shadow:0 0 0 4px rgba(255,71,87,.14);animation:details-live-pulse 1.5s ease-in-out infinite}
+.scoreboard-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.bcci-live-score-link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border:1px solid rgba(114,177,255,.35);border-radius:12px;background:linear-gradient(135deg,#0b5fc4,#12478c);color:#fff;text-decoration:none!important;font-weight:800}
+.bcci-live-score-link:hover{border-color:#8de4ff;filter:brightness(1.08)}
+.match-details-main a,.match-details-main a:hover,.match-details-main a:focus{text-decoration:none}
+.details-tabs a{text-decoration:none!important}
+@keyframes details-live-pulse{50%{box-shadow:0 0 0 7px rgba(255,71,87,0)}}
+@media(prefers-reduced-motion:reduce){.details-status.is-live i{animation:none}}
