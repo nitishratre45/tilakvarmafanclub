@@ -115,6 +115,7 @@
   function setOpen(open) {
     mobileMenu.hidden = !open;
     document.body.classList.toggle("tvfc-menu-open", open);
+    document.body.classList.toggle("mobile-menu-open", open);
     toggle?.setAttribute("aria-expanded", String(open));
     toggle?.setAttribute("aria-label", open ? "Close navigation menu" : "Toggle menu");
     dockMenu?.setAttribute("aria-expanded", String(open));
