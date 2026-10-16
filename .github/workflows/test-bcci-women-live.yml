@@ -1,0 +1,42 @@
+name: Test BCCI Women Live Feed
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bcci-women-live-test
+  cancel-in-progress: false
+
+jobs:
+  test-women-live-feed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Test BCCI live-scores endpoint
+        id: test
+        continue-on-error: true
+        run: python scripts/test_bcci_women_live.py
+
+      - name: Upload diagnostic JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bcci-women-live-test
+          path: matches/live/bcci-women-live-test.json
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Fail if endpoint test failed
+        if: steps.test.outcome != 'success'
+        run: exit 1
