@@ -150,7 +150,7 @@
           esc(m.venue || "Venue unavailable") +
           '</div><div class="complete-match-result"><span class="result-label">FINAL RESULT</span><strong>' +
           esc(m.result || "Completed") +
-          '</strong></div><div class="complete-match-bottom"><a class="scorecard-open" href="/matches/scorecards/?match=' +
+          '</strong></div><div class="complete-match-bottom"><a class="scorecard-open" href="/bcci-fixtures-test/scorecards/?match=' +
           encodeURIComponent(id) +
           '">Full scorecard ↗</a></div></article>'
         );
