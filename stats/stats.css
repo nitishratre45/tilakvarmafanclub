@@ -71,28 +71,3 @@
     animation: none;
   }
 }
-
-/* Stats Explorer: soften the active Runs sort highlight to match the blue/cyan palette. */
-.stats-page #statsguru .table-wrap thead th,
-.stats-page #statsguru .table-wrap thead th[aria-sort],
-.stats-page #statsguru .table-wrap thead th[aria-selected="true"],
-.stats-page #statsguru .table-wrap tbody td[aria-current="true"] {
-  background-color: #102a43 !important;
-  color: #bcecf5 !important;
-  box-shadow: none !important;
-}
-.stats-page #statsguru .table-wrap thead th[aria-sort="ascending"],
-.stats-page #statsguru .table-wrap thead th[aria-sort="descending"],
-.stats-page #statsguru .table-wrap thead th[aria-sort] {
-  background: linear-gradient(180deg, #183b59, #102a43) !important;
-  color: #bcecf5 !important;
-  border-bottom: 2px solid #72e2f1 !important;
-}
-.stats-page #statsguru .table-wrap tbody td {
-  background-color: transparent;
-  color: #d7e2f0;
-}
-.stats-page #statsguru .table-wrap tbody tr:hover td {
-  background-color: rgba(114, 226, 241, 0.055) !important;
-  color: #f4f8ff !important;
-}
