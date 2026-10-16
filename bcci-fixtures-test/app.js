@@ -111,12 +111,12 @@
     "punjab kings":{ipl:"PBKS"}, "gujarat titans":{ipl:"GT"}, "lucknow super giants":{ipl:"LSG"}
   };
   const teamInitials = (name) => {
-    const words = String(name || "?").replace(/[^a-z0-9 ]/gi," ").trim().split(/\\s+/).filter(Boolean);
+    const words = String(name || "?").replace(/[^a-z0-9 ]/gi," ").trim().split(/\s+/).filter(Boolean);
     return (words.length > 1 ? words.slice(0,2).map(w=>w[0]) : [(words[0] || "?").slice(0,2)]).join("").toUpperCase();
   };
   const renderTeam = (name) => {
     const label = String(name || "Team");
-    const asset = teamAssets[label.trim().toLowerCase().replace(/\\s+/g," ")] || {};
+    const asset = teamAssets[label.trim().toLowerCase().replace(/\s+/g," ")] || {};
     const src = asset.logo || (asset.ipl ? "https://scores.iplt20.com/ipl/teamlogos/" + asset.ipl + ".png" : asset.flag ? "https://flagcdn.com/w80/" + asset.flag + ".png" : "");
     const initials = esc(teamInitials(label));
     const logo = src
