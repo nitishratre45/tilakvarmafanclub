@@ -31,14 +31,18 @@
             : Array.isArray(bcci?.matches)
               ? bcci.matches
               : [];
-    // Upcoming fixtures only: remove live and finished matches before the 12-item limit.
+    // BCCI uses canonical values such as "forthcoming", "live", and "complete".
+    // Exclude active/terminal games, but do not mistake the scheduled placeholder
+    // "Teams will be announced at the toss" for a completed result.
     const upcoming = matches.filter((m) => {
-      const status = [m.match_status, m.match_status_str, m.match_status_name, m.live_status_name, m.status].filter(Boolean).join(" ").toLowerCase();
-      const result = String(m.result_string || m.result || "").trim();
-      if (/live|in progress|in play|innings break|stumps|lunch|tea break/.test(status)) return false;
-      if (/complete|completed|finished|result|abandoned|no result|cancelled|canceled|won by|drawn|tied/.test(status)) return false;
-      if (result && !/teams will be announced|to be played|scheduled/i.test(result)) return false;
-      return true;
+      const status = [m.match_status, m.match_status_str, m.match_status_name, m.live_status_name, m.status]
+        .filter(Boolean).join(" ").toLowerCase().replace(/[_-]+/g, " ");
+      const result = String(m.result_string || m.result || "").trim().toLowerCase();
+      const placeholder = !result || /^(teams will be announced(?: at the toss)?|match yet to begin|to be announced|toss yet to take place|scheduled|to be played)$/.test(result);
+      const live = /(^|\\b)(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed)(\\b|$)/.test(status);
+      const terminal = /(^|\\b)(complete|completed|finished|result|abandoned|no result|cancelled|canceled|won by|win by|drawn|tied|end of match)(\\b|$)/.test(status);
+      const resultIsFinal = !placeholder && /\\b(win by|won by|drawn|tied|no result|abandoned|match forfeited)\\b/.test(result);
+      return !live && !terminal && !resultIsFinal;
     });
     return upcoming.slice(0, 12).map((m, i) => ({
       home: pick(m, ["team1_name", "team1_short_name", "home_team_name"], "Team A"),
