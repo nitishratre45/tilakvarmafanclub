@@ -5,6 +5,7 @@ This diagnostic does not write to production matches/ data.
 """
 from __future__ import annotations
 
+import gzip
 import json
 import os
 import sys
@@ -66,6 +67,11 @@ def main() -> int:
             raw = response.read()
             report["httpStatus"] = response.status
             report["contentType"] = response.headers.get("Content-Type", "")
+            content_encoding = response.headers.get("Content-Encoding", "").lower()
+        # Some BCCI responses arrive gzip-compressed despite missing or unusual
+        # Content-Encoding headers. The 0x1f 0x8b prefix is the gzip signature.
+        if content_encoding == "gzip" or raw.startswith(b"\\x1f\\x8b"):
+            raw = gzip.decompress(raw)
         # BCCI occasionally labels the response JSON while returning a legacy
         # single-byte encoding. Try UTF-8 first, then Windows-1252/Latin-1.
         try:
