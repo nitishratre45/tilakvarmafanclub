@@ -47,7 +47,7 @@
       const team = teams.find((t) => String(t.team_id) === String(id));
       return team?.name || team?.short_name || "Team";
     };
-    const match = data?.match || payload?.match || {};
+    const match = data?.match || payload?.match || payload?.liveMatch || {};
     const name = match.name || match.match_name || payload?.matchName || "BCCI Match Scorecard";
     $("title").textContent = name;
     $("meta").textContent = [
@@ -133,9 +133,10 @@
         throw new Error(payload.error || "BCCI snapshot status: " + payload.status);
       render(payload);
       $("status").textContent =
-        "Snapshot loaded · HTTP " +
-        (payload.httpStatus || response.status) +
-        " · auto-refreshed by repository workflow";
+        (payload.isLive ? "LIVE MATCH · " : "LATEST AVAILABLE MATCH · ") +
+        (payload.liveMatch?.name || match.name || "BCCI Scorecard") +
+        " · Snapshot HTTP " + (payload.httpStatus || response.status) +
+        " · repository refresh every 5 minutes";
     } catch (error) {
       $("status").textContent = "Could not load scorecard: " + error.message;
     } finally {
@@ -144,4 +145,5 @@
   }
   $("reload").addEventListener("click", load);
   load();
+  window.setInterval(load, 60000);
 })();
