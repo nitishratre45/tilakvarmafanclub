@@ -1892,7 +1892,82 @@
           animation-duration: 3s;
         }
       }
-    </style>
+    
+      /* Dedicated mobile bottom navigation; desktop sidebar stays desktop-only. */
+      .admin-mobile-bottom-nav { display: none; }
+      @media (max-width: 720px) {
+        .sidebar {
+          position: relative;
+          inset: auto;
+          width: 100%;
+          height: auto;
+          min-height: 74px;
+          padding: 12px 16px;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+          gap: 0;
+          background: rgba(8, 21, 37, .98);
+        }
+        .sidebar .nav-label,
+        .sidebar .nav,
+        .sidebar .sidebar-bottom,
+        .sidebar .mobile-brand { display: none !important; }
+        .main { margin-left: 0; padding: 0 14px 100px; }
+        .topbar { min-height: 66px; }
+        .admin-mobile-bottom-nav {
+          position: fixed;
+          inset: auto 0 0;
+          z-index: 1000;
+          display: flex;
+          gap: 5px;
+          align-items: stretch;
+          padding: 8px max(8px, env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom));
+          overflow-x: auto;
+          overscroll-behavior-x: contain;
+          background: rgba(5, 14, 27, .97);
+          border-top: 1px solid #304761;
+          box-shadow: 0 -10px 30px rgba(0,0,0,.28);
+          scrollbar-width: none;
+          -webkit-overflow-scrolling: touch;
+        }
+        .admin-mobile-bottom-nav::-webkit-scrollbar { display: none; }
+        .admin-mobile-bottom-nav a {
+          flex: 0 0 74px;
+          min-width: 74px;
+          min-height: 54px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 3px;
+          padding: 5px 3px;
+          border-radius: 10px;
+          color: #b9c7da;
+          font-size: 10px;
+          font-weight: 800;
+          line-height: 1.15;
+          text-align: center;
+          white-space: normal;
+        }
+        .admin-mobile-bottom-nav a .nav-icon {
+          width: 23px;
+          height: 23px;
+          font-size: 13px;
+        }
+        .admin-mobile-bottom-nav a.active {
+          background: #142b45;
+          color: #fff;
+          box-shadow: inset 0 -3px var(--orange);
+        }
+        .hero { align-items: flex-start; flex-direction: column; }
+        .hero-badge { align-self: flex-start; }
+        .stats { grid-template-columns: 1fr; }
+        .section-head, .section-body { padding-left: 15px; padding-right: 15px; }
+      }
+      @media (min-width: 721px) {
+        .admin-mobile-bottom-nav { display: none !important; }
+      }
+</style>
     <link rel="stylesheet" href="admin-premium.css?v=20261016-admin-picker-undo1" />
     <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261015-india-theme1" />
     <link rel="stylesheet" href="/assets/site-loading-media.css?v=20261016-loading-media3" />
@@ -2013,6 +2088,7 @@
         </div>
         <a class="mobile-brand" href="../">← View website</a>
       </aside>
+      <nav id="admin-mobile-bottom-nav" class="admin-mobile-bottom-nav" aria-label="Mobile admin navigation"></nav>
       <main class="main">
         <header class="topbar">
           <div class="top-meta">
@@ -6068,7 +6144,7 @@
           const view = allowedViews.includes(requestedView) ? requestedView : "dashboard";
           const app = $("admin-app");
           app.dataset.currentView = view;
-          app.querySelectorAll("#admin-nav [data-view]").forEach((link) => {
+          app.querySelectorAll("#admin-nav [data-view], #admin-mobile-bottom-nav [data-view]").forEach((link) => {
             const active = link.dataset.view === view;
             link.classList.toggle("active", active);
             if (active) link.setAttribute("aria-current", "page");
@@ -6148,6 +6224,20 @@
         document.addEventListener("keydown", (event) => {
           if (event.key === "Escape") setMobileMenu(false);
         });
+        const mobileBottomNav = $("admin-mobile-bottom-nav");
+        if (mobileBottomNav && adminNav) {
+          mobileBottomNav.innerHTML = adminNav.innerHTML;
+          mobileBottomNav.querySelectorAll("a[data-view]").forEach((link) => {
+            link.classList.remove("active");
+            link.removeAttribute("aria-current");
+          });
+          mobileBottomNav.addEventListener("click", (event) => {
+            const link = event.target.closest("a[data-view]");
+            if (!link) return;
+            event.preventDefault();
+            showAdminView(link.dataset.view, true);
+          });
+        }
         $("admin-nav").addEventListener("click", (event) => {
           const link = event.target.closest("a[data-view]");
           if (!link) return;
