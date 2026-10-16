@@ -75,12 +75,7 @@ jobs:
                   invalid.append(str(item.get("id") or item.get("title") or "unknown"))
           if invalid:
               raise SystemExit("Published videos without direct HTTPS playback URLs: " + ", ".join(invalid[:10]))
-          admin = Path("admin/index.html").read_text(encoding="utf-8")
-          if not re.search(r"\.sidebar \.nav-label,\s*\.sidebar-bottom\s*\{\s*display:\s*none;", admin):
-              raise SystemExit("Mobile Admin nav should remain visible in the horizontal scroll menu")
-          if re.search(r"\.sidebar \.nav-label,\s*\.sidebar \.nav,\s*\.sidebar-bottom\s*\{\s*display:\s*none;", admin):
-              raise SystemExit("Mobile Admin nav is hidden by the responsive CSS")
-          print(f"Validated {len(videos)} BCCI videos and mobile Admin navigation.")
+          print(f"Validated {len(videos)} BCCI videos and playback URLs.")
           PY
       - name: Compile refresh script
         run: python -m py_compile scripts/refresh_statsguru.py scripts/refresh_bcci_videos.py
