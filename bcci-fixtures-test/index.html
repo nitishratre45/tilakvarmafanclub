@@ -9,7 +9,6 @@
     <script src="./app.js" defer></script>
     <link rel="stylesheet" href="./match-centre-modal.css?v=1" />
     <script src="./match-centre-modal.js?v=1" defer></script>
-    <script src="./live-scores.js" defer></script>
     <link rel="stylesheet" href="./ui/site-nav.css?v=20261016-tvfc-shell1" />
   </head>
   <body>
@@ -85,28 +84,6 @@
             rel="noopener"
             >⚙ Run BCCI Workflow ↗</a
           >
-        </div>
-      </section>
-      <section id="liveScoresPanel" class="filters panel">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">LIVE DATA</p>
-            <h2>BCCI Live Scores</h2>
-          </div>
-          <div class="hero-actions live-action-buttons">
-            <button class="primary-btn" type="button" data-live-refresh>↻ Reload Live JSON</button>
-            <a
-              class="secondary-btn"
-              href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/fetch-bcci-fixtures-json.yml"
-              target="_blank"
-              rel="noopener"
-              >⚙ Run Refresh Workflow ↗</a
-            >
-          </div>
-        </div>
-        <p class="subhead" data-live-status>Connecting to BCCI…</p>
-        <div class="fixture-list" data-live-list>
-          <div class="loading-state">Loading live scores…</div>
         </div>
       </section>
       <section class="stats-grid">
