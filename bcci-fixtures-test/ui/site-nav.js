@@ -43,7 +43,26 @@
     });
   }
 
-  // Match the main website's 5-item glass dock, with BCCI-specific shortcuts.
+  // Reproduce the main website's glass-grid mobile menu inside this BCCI-only folder.
+  const mobileMenu = document.createElement("nav");
+  mobileMenu.className = "tvfc-mobile-menu";
+  mobileMenu.id = "tvfc-mobile-menu";
+  mobileMenu.hidden = true;
+  mobileMenu.setAttribute("aria-label", "Site menu");
+  const menuHeading = document.createElement("div");
+  menuHeading.className = "tvfc-menu-heading";
+  menuHeading.innerHTML = '<span>TILAK VARMA FAN CLUB</span><button class="tvfc-close" type="button" aria-label="Close menu">×</button>';
+  mobileMenu.append(menuHeading);
+  routes.forEach(([label, href]) => {
+    const a = document.createElement("a");
+    a.href = href;
+    a.textContent = label;
+    if (label === current) a.setAttribute("aria-current", "page");
+    mobileMenu.append(a);
+  });
+  document.body.append(mobileMenu);
+
+  // Keep the same five-item quick-navigation dock used on BCCI pages.
   const dock = document.createElement("nav");
   dock.className = "tvfc-mobile-dock";
   dock.setAttribute("aria-label", "Quick navigation");
@@ -70,22 +89,24 @@
 
   const toggle = header?.querySelector(".menu-toggle");
   const nav = header?.querySelector("#main-nav");
-  const dockMenu = dock.querySelector('button');
+  const dockMenu = dock.querySelector("button");
+  const closeMenu = mobileMenu.querySelector(".tvfc-close");
   function setOpen(open) {
-    nav?.classList.toggle("open", open);
-    document.body.classList.toggle("mobile-menu-open", open);
+    mobileMenu.hidden = !open;
+    document.body.classList.toggle("tvfc-menu-open", open);
     toggle?.setAttribute("aria-expanded", String(open));
     toggle?.setAttribute("aria-label", open ? "Close navigation menu" : "Toggle menu");
     dockMenu?.setAttribute("aria-expanded", String(open));
   }
-  toggle?.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
+  toggle?.addEventListener("click", () => setOpen(mobileMenu.hidden));
+  closeMenu?.addEventListener("click", () => setOpen(false));
   dockMenu?.addEventListener("click", () => {
-    if (window.matchMedia("(max-width: 800px)").matches) setOpen(!nav.classList.contains("open"));
+    if (window.matchMedia("(max-width: 800px)").matches) setOpen(mobileMenu.hidden);
     else location.href = "/matches/";
   });
-  nav?.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setOpen(false)));
+  mobileMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setOpen(false)));
   document.addEventListener("click", e => {
-    if (nav?.classList.contains("open") && !nav.contains(e.target) && !toggle?.contains(e.target) && !dock.contains(e.target)) setOpen(false);
+    if (!mobileMenu.hidden && !mobileMenu.contains(e.target) && !toggle?.contains(e.target) && !dock.contains(e.target)) setOpen(false);
   });
   document.addEventListener("keydown", e => { if (e.key === "Escape") setOpen(false); });
 })();
