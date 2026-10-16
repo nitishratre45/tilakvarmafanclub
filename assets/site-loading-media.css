@@ -1,0 +1,11 @@
+/* Shared lightweight loading and image polish; preserves original imagery. */
+#site-load-progress{position:fixed;inset:0 auto auto 0;width:0;height:3px;z-index:2147483647;background:linear-gradient(90deg,#0b5fc4,#29c7d8,#f6a623);box-shadow:0 0 10px #29c7d866;opacity:0;pointer-events:none;transition:width .22s ease,opacity .25s ease}
+#site-load-progress.is-loading{width:72%;opacity:1}
+#site-load-progress.is-finishing{width:100%;opacity:1}
+img{content-visibility:auto}
+img[loading="lazy"]{background-color:rgba(120,145,170,.08)}
+img.is-image-loading{background-image:linear-gradient(100deg,transparent 20%,rgba(140,165,190,.13) 40%,transparent 60%);background-size:200% 100%;animation:site-image-shimmer 1.4s ease-in-out infinite}
+img.is-image-ready{animation:none}
+img.is-image-error{opacity:.72}
+@keyframes site-image-shimmer{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){#site-load-progress,img.is-image-loading{transition:none;animation:none}}
