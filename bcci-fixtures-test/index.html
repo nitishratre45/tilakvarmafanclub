@@ -1,2 +1,93 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#07111f"><title>BCCI Fixtures Test Centre</title><link rel="stylesheet" href="./styles.css"><script src="./app.js" defer></script></head><body><header class="topbar"><a class="brand" href="./"><span class="brand-mark">C</span><span>CRICZONE <small>FIXTURE LAB</small></span></a><span class="test-label"><i></i> TEST DATA</span></header><main class="container"><section class="hero"><p class="eyebrow">BCCI · CUSTOM FIXTURES</p><h1>Fixture Match Centre</h1><p class="subhead">A separate preview of fixtures fetched from the custom BCCI endpoint. Production match data remains untouched.</p><div class="hero-actions"><button id="refreshBtn" class="primary-btn" type="button">↻ Refresh JSON</button><a class="secondary-btn" href="./bcci-custom-fixtures.json" target="_blank" rel="noopener">View raw JSON ↗</a></div></section><section class="stats-grid"><article class="stat-card"><span>Fixtures loaded</span><strong id="totalCount">—</strong><small>From saved snapshot</small></article><article class="stat-card"><span>Pages fetched</span><strong id="pageCount">—</strong><small>BCCI response pages</small></article><article class="stat-card"><span>Last snapshot</span><strong id="lastUpdated" class="stat-date">—</strong><small id="sourceStatus">Waiting for data</small></article></section><section class="filters panel"><div class="section-heading"><div><p class="eyebrow">EXPLORE DATA</p><h2>Fixtures</h2></div><span id="resultCount" class="result-count">Loading…</span></div><div class="filter-row"><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search team, venue, competition…" autocomplete="off"></label><select id="statusFilter" aria-label="Filter by match status"><option value="all">All statuses</option></select><select id="sortFilter" aria-label="Sort fixtures"><option value="date-asc">Date: earliest first</option><option value="date-desc">Date: latest first</option></select></div><div id="fixtureList" class="fixture-list" aria-live="polite"><div class="loading-state">Loading saved BCCI fixtures…</div></div><div id="emptyState" class="empty-state" hidden><span>⌕</span><h3>No fixtures found</h3><p>Try another search or status filter.</p></div></section><footer><span>Independent test view · Not official BCCI output</span><a href="https://github.com/nitishratre45/tilakvarmafanclub/tree/main/bcci-fixtures-test" target="_blank" rel="noopener">Source folder ↗</a></footer></main></body></html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07111f" />
+    <title>BCCI Fixtures Test Centre</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./"
+        ><span class="brand-mark">C</span><span>CRICZONE <small>FIXTURE LAB</small></span></a
+      ><span class="test-label"><i></i> TEST DATA</span>
+    </header>
+    <main class="container">
+      <section class="hero">
+        <p class="eyebrow">BCCI · CUSTOM FIXTURES</p>
+        <h1>Fixture Match Centre</h1>
+        <p class="subhead">
+          A separate preview of fixtures fetched from the custom BCCI endpoint. Production match
+          data remains untouched.
+        </p>
+        <div class="hero-actions">
+          <button id="refreshBtn" class="primary-btn" type="button">↻ Refresh JSON</button
+          ><a
+            class="secondary-btn"
+            href="./bcci-custom-fixtures.json"
+            target="_blank"
+            rel="noopener"
+            >View raw JSON ↗</a
+          >
+        </div>
+      </section>
+      <section class="stats-grid">
+        <article class="stat-card">
+          <span>Fixtures loaded</span><strong id="totalCount">—</strong
+          ><small>From saved snapshot</small>
+        </article>
+        <article class="stat-card">
+          <span>Pages fetched</span><strong id="pageCount">—</strong
+          ><small>BCCI response pages</small>
+        </article>
+        <article class="stat-card">
+          <span>Last snapshot</span><strong id="lastUpdated" class="stat-date">—</strong
+          ><small id="sourceStatus">Waiting for data</small>
+        </article>
+      </section>
+      <section class="filters panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">EXPLORE DATA</p>
+            <h2>Fixtures</h2>
+          </div>
+          <span id="resultCount" class="result-count">Loading…</span>
+        </div>
+        <div class="filter-row">
+          <label class="search-box"
+            ><span>⌕</span
+            ><input
+              id="searchInput"
+              type="search"
+              placeholder="Search team, venue, competition…"
+              autocomplete="off" /></label
+          ><select id="statusFilter" aria-label="Filter by match status">
+            <option value="all">All statuses</option></select
+          ><select id="sortFilter" aria-label="Sort fixtures">
+            <option value="date-asc">Date: earliest first</option>
+            <option value="date-desc">Date: latest first</option>
+          </select>
+        </div>
+        <div id="fixtureList" class="fixture-list" aria-live="polite">
+          <div class="loading-state">Loading saved BCCI fixtures…</div>
+        </div>
+        <div id="emptyState" class="empty-state" hidden>
+          <span>⌕</span>
+          <h3>No fixtures found</h3>
+          <p>Try another search or status filter.</p>
+        </div>
+      </section>
+      <footer>
+        <span>Independent test view · Not official BCCI output</span
+        ><a
+          href="https://github.com/nitishratre45/tilakvarmafanclub/tree/main/bcci-fixtures-test"
+          target="_blank"
+          rel="noopener"
+          >Source folder ↗</a
+        >
+      </footer>
+    </main>
+  </body>
+</html>
