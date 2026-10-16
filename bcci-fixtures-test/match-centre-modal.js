@@ -57,7 +57,9 @@
       (score(m, m.team2_id) || "—") +
       "</div></div></div>" +
       (m.result_string ? '<p class="match-centre-result">' + esc(m.result_string) + "</p>" : "") +
-      '</div><a class="match-centre-scoreboard" href="./scorecard.html?gid=' + encodeURIComponent(gid) + '"><span class="match-centre-scoreboard-icon">▥</span><span>Scoreboard</span><span class="match-centre-scoreboard-arrow">›</span></a></article>'
+      '</div><a class="match-centre-scoreboard" href="./scorecard.html?gid=' +
+      encodeURIComponent(gid) +
+      '"><span class="match-centre-scoreboard-icon">▥</span><span>Scoreboard</span><span class="match-centre-scoreboard-arrow">›</span></a></article>'
     );
   }
   async function load() {
