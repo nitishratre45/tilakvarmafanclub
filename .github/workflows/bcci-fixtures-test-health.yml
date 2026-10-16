@@ -75,13 +75,15 @@ jobs:
           print(f"Validated local asset references and duplicate IDs in {len(pages)} BCCI HTML pages.")
           PY
 
-      - name: Verify fixtures refresh logic and navigation shell
+      - name: Verify integrated Matches navigation and live-aware refresh
         run: |
-          grep -q 'tvfc-mobile-menu' bcci-fixtures-test/ui/site-nav.js
-          grep -q 'tvfc-mobile-dock' bcci-fixtures-test/ui/site-nav.css
+          grep -q 'id="main-nav"' bcci-fixtures-test/ui/site-nav.js
+          grep -q '/assets/mobile-glass-menu.js' bcci-fixtures-test/index.html
+          grep -q '/assets/mobile-bottom-nav.js' bcci-fixtures-test/index.html
           grep -q 'liveRefreshState' bcci-fixtures-test/index.html
-          grep -q 'live-aware updates\|Live-aware updates' bcci-fixtures-test/index.html
-          echo "BCCI navigation and live-aware refresh indicators are present."
+          grep -q 'tilakInSquad === true' bcci-fixtures-test/app.js
+          grep -q 'No unconfirmed matches are shown' bcci-fixtures-test/app.js
+          echo "Integrated Matches shell and squad-confirmed live-aware refresh are present."
 
       - name: Check deployed BCCI page
         shell: bash
