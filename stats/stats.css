@@ -421,3 +421,76 @@
     transform: none !important;
   }
 }
+
+
+/* Smooth motion pass: consistent easing, stable transforms, and gentle page navigation. */
+.stats-page {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+.stats-page #stats .stats-subview {
+  animation: stats-enter 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.stats-page .stat-card,
+.stats-page .format-card,
+.stats-page .statsguru-panel,
+.stats-page .bowling-summary > *,
+.stats-page .statsguru-metric,
+.stats-page .stats-subnav button,
+.stats-page .statsguru-format-tabs button,
+.stats-page .bowling-format-tabs button,
+.stats-page .player-analysis-actions button,
+.stats-page .statsguru-category-grid button {
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  backface-visibility: hidden;
+}
+.stats-page .stat-card:hover,
+.stats-page .format-card:hover,
+.stats-page .bowling-summary > *:hover,
+.stats-page .statsguru-metric:hover {
+  transform: translate3d(0, -2px, 0);
+}
+.stats-page .stats-subnav button:active,
+.stats-page .statsguru-format-tabs button:active,
+.stats-page .bowling-format-tabs button:active,
+.stats-page .player-analysis-actions button:active,
+.stats-page .statsguru-category-grid button:active {
+  transform: scale(0.985);
+}
+.stats-page .table-wrap,
+.stats-page .statsguru-table-wrap,
+.stats-page .statsguru-format-tabs,
+.stats-page .bowling-format-tabs {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+}
+.stats-page .stats-page-topbar,
+.stats-page .stats-subnav {
+  transition: box-shadow 220ms ease, background-color 220ms ease;
+}
+@media (max-width: 760px) {
+  .stats-page #stats .stats-subview {
+    animation-duration: 220ms;
+  }
+  .stats-page .stat-card,
+  .stats-page .format-card,
+  .stats-page .statsguru-panel,
+  .stats-page .bowling-summary > *,
+  .stats-page .statsguru-metric,
+  .stats-page .stats-subnav button,
+  .stats-page .statsguru-format-tabs button,
+  .stats-page .bowling-format-tabs button,
+  .stats-page .player-analysis-actions button,
+  .stats-page .statsguru-category-grid button {
+    backface-visibility: visible;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stats-page,
+  .stats-page * {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
