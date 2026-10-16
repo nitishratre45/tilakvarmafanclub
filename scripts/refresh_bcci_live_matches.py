@@ -4,6 +4,7 @@ import json
 import os
 import sys
 import tempfile
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
@@ -121,14 +122,28 @@ def main():
         )
         with urlopen(request, timeout=25) as response:
             raw = response.read()
-            if response.status != 200:
-                raise ValueError(f"BCCI returned HTTP {response.status}")
+            http_status = response.status
+            content_type = response.headers.get("Content-Type", "")
+            print(f"BCCI_FETCH http_status={http_status} content_type={content_type!r} bytes={len(raw)}")
+            if http_status != 200:
+                raise ValueError(f"BCCI returned HTTP {http_status}")
         payload = json.loads(raw.decode("utf-8-sig"))
+        if isinstance(payload, dict):
+            print(f"BCCI_SCHEMA top_level_keys={sorted(payload.keys())[:60]}")
+        elif isinstance(payload, list):
+            print("BCCI_SCHEMA top_level_type=list")
+        else:
+            print(f"BCCI_SCHEMA top_level_type={type(payload).__name__}")
         rows = rows_from(payload)
+        print(f"BCCI_RECORDS total={len(rows)}")
         if not all(isinstance(row, dict) for row in rows):
             raise ValueError(
                 "BCCI live-score rows are not objects; previous JSON preserved"
             )
+        status_counts = Counter(status_of(row) or "<empty>" for row in rows)
+        print(f"BCCI_STATUS_COUNTS {json.dumps(dict(status_counts.most_common(30)), ensure_ascii=False, sort_keys=True)}")
+        if rows:
+            print(f"BCCI_SAMPLE_ROW_KEYS {json.dumps([sorted(row.keys())[:60] for row in rows[:3]], ensure_ascii=False)}")
         live = []
         for row in rows:
             if not is_live(row):
@@ -189,6 +204,7 @@ def main():
                     "raw": row,
                 }
             )
+        print(f"BCCI_FILTER_RESULT total={len(rows)} live={len(live)} rejected={len(rows) - len(live)}")
         snapshot = {
             "source": SOURCE_URL,
             "checkedAt": datetime.now(timezone.utc).isoformat(),
