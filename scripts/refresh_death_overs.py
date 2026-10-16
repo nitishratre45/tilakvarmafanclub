@@ -421,7 +421,9 @@ def main():
             continue
         if str(match.get("format", "")).lower() != "t20i":
             continue
-        grouped = defaultdict(lambda: {"runs": 0, "balls": 0, "fours": 0, "sixes": 0, "deliveries": []})
+        grouped = defaultdict(
+            lambda: {"runs": 0, "balls": 0, "fours": 0, "sixes": 0, "deliveries": []}
+        )
         for ball in ball_rows:
             over_no = int(ball["over"])
             br = int(ball.get("batterRuns", ball.get("runs", 0)) or 0)
@@ -430,31 +432,39 @@ def main():
             g["balls"] += 1
             g["fours"] += int(br == 4)
             g["sixes"] += int(br == 6)
-            g["deliveries"].append({
-                "ball": int(ball.get("ball", 0)),
-                "legalBall": int(ball.get("ball", 0)),
-                "displayOver": ball.get("displayOver", ""),
-                "batter": "Tilak Varma",
-                "tilak": True,
-                "batterRuns": br,
-                "totalRuns": int(ball.get("runs", br) or 0),
-                "extras": 0,
-                "four": br == 4,
-                "six": br == 6,
-                "wicket": bool(ball.get("dismissal")),
-                "wide": False,
-                "noBall": False,
-                "bowler": ball.get("bowler", ""),
-                "commentary": ball.get("commentary", ""),
-                "scoring": ball.get("scoring", str(br)),
-            })
+            g["deliveries"].append(
+                {
+                    "ball": int(ball.get("ball", 0)),
+                    "legalBall": int(ball.get("ball", 0)),
+                    "displayOver": ball.get("displayOver", ""),
+                    "batter": "Tilak Varma",
+                    "tilak": True,
+                    "batterRuns": br,
+                    "totalRuns": int(ball.get("runs", br) or 0),
+                    "extras": 0,
+                    "four": br == 4,
+                    "six": br == 6,
+                    "wicket": bool(ball.get("dismissal")),
+                    "wide": False,
+                    "noBall": False,
+                    "bowler": ball.get("bowler", ""),
+                    "commentary": ball.get("commentary", ""),
+                    "scoring": ball.get("scoring", str(br)),
+                }
+            )
         overs = []
         for over_no, values in sorted(grouped.items()):
-            overs.append({
-                "over": over_no,
-                **values,
-                "strikeRate": round(values["runs"] * 100 / values["balls"], 2) if values["balls"] else 0,
-            })
+            overs.append(
+                {
+                    "over": over_no,
+                    **values,
+                    "strikeRate": (
+                        round(values["runs"] * 100 / values["balls"], 2)
+                        if values["balls"]
+                        else 0
+                    ),
+                }
+            )
         match_id = "manual-afin09172026273950"
         row = {
             "date": match.get("date", ""),
@@ -474,13 +484,18 @@ def main():
                 continue
             existing = any(
                 str(existing_row.get("date", "")) == row["date"]
-                and str(existing_row.get("opposition", "")).lower() == row["opposition"].lower()
-                and any(str(o.get("matchId", "")).startswith("manual-") for o in [existing_row])
+                and str(existing_row.get("opposition", "")).lower()
+                == row["opposition"].lower()
+                and any(
+                    str(o.get("matchId", "")).startswith("manual-")
+                    for o in [existing_row]
+                )
                 for existing_row in target_format.get("innings", [])
             )
             official_match_exists = any(
                 str(existing_row.get("date", "")) == row["date"]
-                and str(existing_row.get("opposition", "")).lower() == row["opposition"].lower()
+                and str(existing_row.get("opposition", "")).lower()
+                == row["opposition"].lower()
                 for existing_row in target_format.get("innings", [])
             )
             if official_match_exists:
@@ -491,14 +506,18 @@ def main():
                 if target_key == "overall_t20":
                     target_row["matchId"] = "manual:afin09172026273950"
                 target_format.setdefault("innings", []).append(target_row)
-                target_format["matchesFound"] = int(target_format.get("matchesFound", 0)) + 1
-        
+                target_format["matchesFound"] = (
+                    int(target_format.get("matchesFound", 0)) + 1
+                )
+
     # Recompute over totals after the supplemental T20I rows are appended.
     for target_key in ("t20i", "overall_t20"):
         target_format = formats.get(target_key)
         if not target_format:
             continue
-        target_totals = defaultdict(lambda: {"runs": 0, "balls": 0, "fours": 0, "sixes": 0})
+        target_totals = defaultdict(
+            lambda: {"runs": 0, "balls": 0, "fours": 0, "sixes": 0}
+        )
         unique_ids = set()
         for row in target_format.get("innings", []):
             unique_ids.add(str(row.get("matchId", "")))
@@ -511,12 +530,20 @@ def main():
             {
                 "over": n,
                 **target_totals[n],
-                "strikeRate": round(target_totals[n]["runs"] * 100 / target_totals[n]["balls"], 2) if target_totals[n]["balls"] else 0,
+                "strikeRate": (
+                    round(target_totals[n]["runs"] * 100 / target_totals[n]["balls"], 2)
+                    if target_totals[n]["balls"]
+                    else 0
+                ),
             }
             for n in range(1, maximum + 1)
         ]
         target_format["innings"].sort(
-            key=lambda row: (row.get("date", ""), row.get("matchId", ""), row.get("innings", 0)),
+            key=lambda row: (
+                row.get("date", ""),
+                row.get("matchId", ""),
+                row.get("innings", 0),
+            ),
             reverse=True,
         )
         target_format["inningsFound"] = len(target_format["innings"])
