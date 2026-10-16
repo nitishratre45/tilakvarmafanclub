@@ -448,14 +448,25 @@ check("Death Overs All Overs filters and over-range calculator work", async () =
 
 check("Death Overs page loads the saved dataset and matches its innings count", async () => {
   const data = JSON.parse(await readFile(new URL("../data/death-overs.json", import.meta.url), "utf8"));
+  const manualData = JSON.parse(await readFile(new URL("../data/manual-t20i-match-overrides.json", import.meta.url), "utf8"));
   assert(Array.isArray(data.innings) && data.innings.length > 0, "Saved Death Overs innings must not be empty");
   assert(data.updatedAt, "Death Overs dataset should include its update timestamp");
+  const knownKeys = new Set(data.innings.map((i) =>
+    String(i.date || "") + "|" + String(i.opposition || "").toLowerCase()
+  ));
+  const extraManualRows = (manualData.matches || []).filter((m) => {
+    const key = String(m.date || "") + "|" + String(m.opposition || "").toLowerCase();
+    return String(m.format || "").toUpperCase() === "T20I" &&
+      m.includeInAllOvers === true &&
+      !knownKeys.has(key);
+  }).length;
+  const expected = Number(data.inningsFound || data.innings.length) + extraManualRows;
   const page = await browser.newPage();
   page.setDefaultTimeout(12000);
   await page.goto(baseURL + "/death-overs/index.html", { waitUntil: "domcontentloaded" });
   await page.waitForFunction(() => document.querySelector("#feed-status")?.textContent === "STATS LOADED");
   const displayed = Number((await page.locator("#total-innings").innerText()).replace(/,/g, ""));
-  assert.equal(displayed, Number(data.inningsFound || data.innings.length), "Displayed innings count must match saved JSON");
+  assert.equal(displayed, expected, "Displayed innings count must match saved innings plus unique eligible manual T20I records");
   await page.close();
 });
 
