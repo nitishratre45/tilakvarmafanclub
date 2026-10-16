@@ -39,10 +39,21 @@
         .filter(Boolean).join(" ").toLowerCase().replace(/[_-]+/g, " ");
       const result = String(m.result_string || m.result || "").trim().toLowerCase();
       const placeholder = !result || /^(teams will be announced(?: at the toss)?|match yet to begin|to be announced|toss yet to take place|scheduled|to be played)$/.test(result);
-      const live = /(^|\b)(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed)(\b|$)/.test(status);
-      const terminal = /(^|\b)(complete|completed|finished|result|abandoned|no result|cancelled|canceled|won by|win by|drawn|tied|end of match)(\b|$)/.test(status);
-      const resultIsFinal = !placeholder && /\b(win by|won by|drawn|tied|no result|abandoned|match forfeited)\b/.test(result);
-      return !live && !terminal && !resultIsFinal;
+      const live = /(^|\\b)(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed)(\\b|$)/.test(status);
+      const terminal = /(^|\\b)(complete|completed|finished|result|abandoned|no result|cancelled|canceled|won by|win by|drawn|tied|end of match)(\\b|$)/.test(status);
+      const resultIsFinal = !placeholder && /\\b(win by|won by|drawn|tied|no result|abandoned|match forfeited)\\b/.test(result);
+      if (live || terminal || resultIsFinal) return false;
+
+      // This fixtures feed contains team-level records, not confirmed player squads.
+      // Keep only upcoming senior India men's fixtures as Tilak Varma-related fixtures;
+      // exclude women's, A-team, and domestic fixtures that cannot feature him for India.
+      const teams = [m.team1_name, m.team2_name, m.home_team_name, m.away_team_name]
+        .filter(Boolean).join(" ").toLowerCase();
+      const competition = [m.comp_name, m.alt_comp_name, m.primary_event_name, m.name, m.match_short_name]
+        .filter(Boolean).join(" ").toLowerCase();
+      const hasIndiaMen = /(^|\\b)india(\\b|$)/.test(teams)
+        && !/women|\b(a team|india a|emerging|under ?19|u19|youth|junior)\b/.test(teams + " " + competition);
+      return hasIndiaMen;
     });
     return upcoming.slice(0, 12).map((m, i) => ({
       home: pick(m, ["team1_name", "team1_short_name", "home_team_name"], "Team A"),
