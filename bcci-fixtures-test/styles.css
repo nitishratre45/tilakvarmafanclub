@@ -646,3 +646,143 @@ footer a {
     padding: 4px;
   }
 }
+
+
+/* Compact live card matching the mobile reference */
+#liveScoresPanel .live-score-card {
+  border-top: 5px solid #ef292f;
+  border-radius: 12px;
+  background: #fff;
+  color: #20242b;
+}
+#liveScoresPanel .live-card-status {
+  min-height: 49px;
+  padding: 9px 14px;
+  background: #fff;
+  color: #20242b;
+  border-bottom: 1px solid #e7e7e7;
+  justify-content: flex-start;
+  gap: 8px;
+}
+#liveScoresPanel .live-card-status .live-status-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  color: #f21f2b;
+  font-size: 14px;
+  font-weight: 800;
+}
+#liveScoresPanel .live-status-label i {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  border-radius: 50%;
+  background: #f21f2b;
+  box-shadow: 0 0 0 4px #fde8e9;
+}
+#liveScoresPanel .live-card-status > strong {
+  margin-left: 0;
+  font-size: 14px;
+  line-height: 1.25;
+  color: #20242b;
+}
+#liveScoresPanel .live-card-main {
+  background: #fff;
+  grid-template-columns: minmax(0,1fr) 36px minmax(0,1fr);
+  gap: 8px;
+  padding: 16px 14px 12px;
+}
+#liveScoresPanel .live-team {
+  gap: 5px;
+  color: #20242b;
+}
+#liveScoresPanel .live-team-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+}
+#liveScoresPanel .live-team > strong {
+  font-size: 14px;
+  line-height: 1.2;
+  color: #20242b;
+}
+#liveScoresPanel .live-team > small {
+  color: #7b8794;
+  font-size: 10px;
+}
+#liveScoresPanel .live-versus {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #edf0f6;
+  color: #697386;
+  font-size: 12px;
+}
+#liveScoresPanel .live-team-score {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-top: 20px;
+  white-space: nowrap;
+}
+#liveScoresPanel .live-team-score strong {
+  color: #20242b;
+  font-size: 16px;
+  font-weight: 800;
+}
+#liveScoresPanel .live-team-score span {
+  color: #858585;
+  font-size: 12px;
+  font-weight: 600;
+}
+#liveScoresPanel .live-card-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 13px 14px 14px;
+  border-top: 1px solid #e7e7e7;
+  background: #fff;
+  color: #555b66;
+  font-size: 12px;
+  line-height: 1.4;
+}
+#liveScoresPanel .live-card-footer > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+#liveScoresPanel .live-card-footer strong {
+  color: #06a5d7;
+  font-size: 14px;
+}
+#liveScoresPanel .live-card-footer time {
+  flex: 0 0 auto;
+  color: #555b66;
+  font-size: 11px;
+  text-align: right;
+}
+@media (max-width: 520px) {
+  #liveScoresPanel .live-card-status {
+    align-items: flex-start;
+    flex-wrap: nowrap;
+  }
+  #liveScoresPanel .live-card-status > strong {
+    min-width: 0;
+  }
+  #liveScoresPanel .live-card-main {
+    padding: 15px 14px 12px;
+  }
+  #liveScoresPanel .live-team-score {
+    margin-top: 19px;
+  }
+  #liveScoresPanel .live-card-footer time {
+    max-width: 86px;
+    overflow-wrap: anywhere;
+  }
+}
