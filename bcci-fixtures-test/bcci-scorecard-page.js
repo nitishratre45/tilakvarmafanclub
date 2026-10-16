@@ -42,6 +42,7 @@
     const data = payload?.data ?? payload;
     const innings = Array.isArray(data?.innings) ? data.innings : [];
     const teams = Array.isArray(data?.team) ? data.team : [];
+    const players = new Map(teams.flatMap(team => (Array.isArray(team.player) ? team.player : []).map(player => [String(player.player_id), player])));
     const teamName = (id) => {
       const team = teams.find((t) => String(t.team_id) === String(id));
       return team?.name || team?.short_name || "Team";
