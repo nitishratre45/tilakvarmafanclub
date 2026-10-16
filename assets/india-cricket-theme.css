@@ -222,3 +222,17 @@ hr {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Site-wide link underline guard: keep links clean across every section and state. */
+html body a,
+html body a:link,
+html body a:visited,
+html body a:hover,
+html body a:focus,
+html body a:active,
+html body u,
+html body [style*="text-decoration: underline"],
+html body [style*="text-decoration:underline"] {
+  text-decoration: none !important;
+}
