@@ -161,7 +161,7 @@ check("native navigation uses section-local UI assets without the removed global
 
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   const nav = page.locator("#main-nav");
-  for (const href of ["/stats/", "/death-overs/", "/matches/", "/records/", "/news/", "/photos/", "/videos/"]) {
+  for (const href of ["/stats/", "/death-overs/", "/bcci-fixtures-test/", "/records/", "/news/", "/photos/", "/videos/"]) {
     assert.equal(await nav.locator('a[href="' + href + '"]').count(), 1, "Native navbar route is missing: " + href);
   }
   assert.equal(await page.locator('script[src^="/home/app.js"]').count(), 1, "Home UI script should load from the home folder");
