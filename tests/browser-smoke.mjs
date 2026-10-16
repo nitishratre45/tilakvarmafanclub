@@ -403,7 +403,7 @@ check("One Over updates available overs when format changes", async () => {
   }));
   assert.match(exportDetails.blobUrl, /^blob:/, "CSV export should create a downloadable Blob URL");
   assert.match(exportDetails.csv, /^\uFEFF?"Date","Format","Over"/, "CSV export should contain a valid header row");
-  assert.match(exportDetails.csv, /Tilak Varma/, "CSV export should include the batter column or recorded deliveries");
+  assert.match(exportDetails.csv, /"Batter","Batter Runs"/, "CSV export should include the batter and batter-runs columns");
   assert.deepEqual(pageErrors, [], "One Over should not throw uncaught browser errors: " + pageErrors.join(" | "));
   await page.close();
 });
