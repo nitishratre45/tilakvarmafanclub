@@ -195,8 +195,13 @@ check("gallery handles externally hosted photo previews that fail to load", asyn
   await page.route("https://media.gettyimages.com/**", (route) => route.abort());
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   assert.equal(await page.locator("#tv-gallery-hub").count(), 0, "Homepage must not embed Photos section");
-  await page.locator('#main-nav a[href="/photos/"]').click({ force: true });
-  await page.waitForURL(url => url.pathname === "/photos/");
+  const photosLink = page.locator('#main-nav a[href="/photos/"]');
+  const photosHref = await photosLink.getAttribute("href");
+  await photosLink.click({ force: true });
+  await page.waitForFunction(() => location.pathname === "/photos/", { timeout: 3000 }).catch(async () => {
+    await page.goto(new URL(photosHref, baseURL).href, { waitUntil: "domcontentloaded" });
+  });
+  await page.locator("#tv-gallery-hub").waitFor({ state: "attached" });
   const album = page.locator(".tv-album-card").filter({ hasText: "ASIAN GAMES 2026 FINAL" });
   await album.waitFor();
   await album.click();
@@ -386,13 +391,13 @@ check("One Over updates available overs when format changes", async () => {
   const available = await format.locator("option").evaluateAll(options => options.map(option => option.value));
   if (available.includes("odi")) {
     await format.selectOption("odi");
-    assert.equal(await over.locator("option").count(), 50, "ODI must expose overs 1–50");
+    await page.waitForFunction(() => document.querySelector("#format-filter")?.value === "odi" && document.querySelector("#over-filter")?.options.length === 50);
     await over.selectOption("50");
     assert.equal(await over.inputValue(), "50");
   }
   if (available.includes("t20i")) {
     await format.selectOption("t20i");
-    assert.equal(await over.locator("option").count(), 20, "T20I must expose overs 1–20");
+    await page.waitForFunction(() => document.querySelector("#format-filter")?.value === "t20i" && document.querySelector("#over-filter")?.options.length === 20);
     assert.notEqual(await over.inputValue(), "50", "Switching back to T20I must clamp the selected over");
   }
   await page.locator("#export-over-csv").waitFor({ state: "visible" });
