@@ -48,10 +48,21 @@
             : String(battingId) === String(m.team2_id)
               ? b
               : "";
-        const score = latest
-          ? String(latest.runs ?? 0) + (latest.wickets != null ? "/" + latest.wickets : "")
-          : "";
-        const overs = latest?.overs != null ? String(latest.overs) : "";
+        const scoreOf = (inningsRow) =>
+          inningsRow
+            ? String(inningsRow.runs ?? 0) + (inningsRow.wickets != null ? "/" + inningsRow.wickets : "")
+            : "";
+        const oversOf = (inningsRow) => inningsRow?.overs != null ? String(inningsRow.overs) : "";
+        const inningsForTeam = (teamId) =>
+          innings.find((row) => String(row.batting_team_id) === String(teamId)) || null;
+        const inningsA = inningsForTeam(m.team1_id);
+        const inningsB = inningsForTeam(m.team2_id);
+        const scoreA = scoreOf(inningsA);
+        const scoreB = scoreOf(inningsB);
+        const oversA = oversOf(inningsA);
+        const oversB = oversOf(inningsB);
+        const score = latest ? scoreOf(latest) : "";
+        const overs = oversOf(latest);
         const statusText = m.live_status_name || m.match_status || "Live";
         // BCCI live_scores payload does not include team-logo URLs, so use PNG country-flag
         // images as a reliable visual fallback for these national teams.
@@ -93,6 +104,7 @@
           esc(a) +
           "</strong>" +
           (battingName === a && score ? "<small>Batting</small>" : "") +
+          (scoreA ? '<div class="live-team-score"><strong>' + esc(scoreA) + '</strong><span>' + esc(oversA) + ' ov</span></div>' : "") +
           "</div>" +
           '<div class="live-versus">VS</div>' +
           '<div class="live-team live-team-right">' +
@@ -101,6 +113,7 @@
           esc(b) +
           "</strong>" +
           (battingName === b && score ? "<small>Batting</small>" : "") +
+          (scoreB ? '<div class="live-team-score"><strong>' + esc(scoreB) + '</strong><span>' + esc(oversB) + ' ov</span></div>' : "") +
           "</div>" +
           "</div>" +
           '<div class="live-score-strip"><div class="live-batting-name">' +
