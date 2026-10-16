@@ -25,7 +25,8 @@
   function card(m) {
     const a = m.team1_name || m.team1_short_name || "Team 1",
       b = m.team2_name || m.team2_short_name || "Team 2",
-      k = kind(m);
+      k = kind(m),
+      gid = m.gid || m.match_id || "";
     const date = m.start_datetime_utc
       ? new Intl.DateTimeFormat("en-IN", {
           timeZone: "Asia/Kolkata",
@@ -43,7 +44,7 @@
       '">' +
       k[0] +
       "</span><span>" +
-      esc(m.class?.[0]?.name || "Cricket") +
+      esc(m.class?.[0]?.name || m.comp_name || "Cricket") +
       " · " +
       esc(date) +
       '</span></div><div class="match-centre-teams"><div class="match-centre-team"><div class="match-centre-team-name">' +
@@ -56,7 +57,7 @@
       (score(m, m.team2_id) || "—") +
       "</div></div></div>" +
       (m.result_string ? '<p class="match-centre-result">' + esc(m.result_string) + "</p>" : "") +
-      '</div><a class="match-centre-scoreboard" href="./bcci-scorecard-page"><span class="match-centre-scoreboard-icon">▥</span><span>Scoreboard</span><span class="match-centre-scoreboard-arrow">›</span></a></article>'
+      '</div><a class="match-centre-scoreboard" href="./scorecard.html?gid=' + encodeURIComponent(gid) + '"><span class="match-centre-scoreboard-icon">▥</span><span>Scoreboard</span><span class="match-centre-scoreboard-arrow">›</span></a></article>'
     );
   }
   async function load() {
@@ -64,8 +65,8 @@
       const r = await fetch("./bcci-live-scores.json?t=" + Date.now(), { cache: "no-store" });
       if (!r.ok) throw Error();
       const j = await r.json(),
-        m = j?.data?.live_scores || j?.live_scores || [];
-      if (!m.length) throw Error();
+        m = j?.data?.live_scores || j?.data?.match || j?.live_scores || j?.matches || [];
+      if (!Array.isArray(m) || !m.length) throw Error();
       host.innerHTML = [...m]
         .sort((a, b) => (kind(a)[0] === "LIVE" ? 0 : 1) - (kind(b)[0] === "LIVE" ? 0 : 1))
         .slice(0, 4)
