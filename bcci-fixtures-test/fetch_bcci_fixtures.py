@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch BCCI fixtures into an isolated JSON artifact.
+"""Fetch BCCI live-score data into an isolated JSON artifact.
 
 This diagnostic does not write to production matches/ data.
 """
@@ -13,7 +13,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-BASE_URL = "https://stats.bcci.tv/match/fixtures/"
+BASE_URL = "https://stats.bcci.tv/match/live_scores/"
 OUTPUT_PATH = os.environ.get(
     "BCCI_FIXTURES_OUTPUT",
     "bcci-fixtures-test/bcci-fixtures.json",
@@ -70,18 +70,16 @@ TEAM_GIDS = [
 
 
 def main() -> int:
+    # Use the same competition/team filters supplied in the requested live_scores URL.
     params = [
         *(("comp_gid", value) for value in COMP_GIDS),
-        ("min_start_date", "2026-01-01"),
         *(("team_gid", value) for value in TEAM_GIDS),
-        ("page", "1"),
-        ("size", "12"),
     ]
     url = BASE_URL + "?" + urlencode(params)
     request = Request(
         url,
         headers={
-            "User-Agent": "Mozilla/5.0 (compatible; CricZone-BCCI-Fixtures-Test/1.0)",
+            "User-Agent": "Mozilla/5.0 (compatible; CricZone-BCCI-LiveScores-Test/1.0)",
             "Accept": "application/json, text/plain, */*",
             "Referer": "https://www.bcci.tv/",
         },
@@ -94,7 +92,7 @@ def main() -> int:
         "contentType": None,
         "data": None,
         "error": None,
-        "note": "Isolated diagnostic output only; does not update production matches/ data.",
+        "note": "Isolated BCCI live-scores diagnostic output only; does not update production matches/ data.",
     }
     try:
         with urlopen(request, timeout=TIMEOUT_SECONDS) as response:
