@@ -75,15 +75,20 @@ jobs:
           print(f"Validated local asset references and duplicate IDs in {len(pages)} BCCI HTML pages.")
           PY
 
-      - name: Verify integrated Matches navigation and live-aware refresh
+      - name: Verify integrated Matches navigation and view separation
+        shell: bash
         run: |
+          set -euo pipefail
           grep -q 'id="main-nav"' bcci-fixtures-test/ui/site-nav.js
           grep -q '/assets/mobile-glass-menu.js' bcci-fixtures-test/index.html
           grep -q '/assets/mobile-bottom-nav.js' bcci-fixtures-test/index.html
-          grep -q 'liveRefreshState' bcci-fixtures-test/index.html
-          grep -q 'tilakInSquad === true' bcci-fixtures-test/app.js
-          grep -q 'No unconfirmed matches are shown' bcci-fixtures-test/app.js
-          echo "Integrated Matches shell and squad-confirmed live-aware refresh are present."
+          grep -q 'Upcoming Match' bcci-fixtures-test/index.html
+          grep -q 'Complete Match' bcci-fixtures-test/index.html
+          test -f bcci-fixtures-test/complete/index.html
+          test -f bcci-fixtures-test/complete/complete.js
+          ! grep -Eqi 'Live Scores|href=["'\''"]/results/|Results tab' bcci-fixtures-test/index.html
+          ! grep -Eqi 'Live Scores|Results tab' bcci-fixtures-test/complete/index.html
+          echo "Matches navigation, upcoming/completed views, and removal of obsolete Live/Results tabs verified."
 
       - name: Check deployed BCCI page
         shell: bash
