@@ -1562,7 +1562,6 @@ body > footer {
   }
 }
 
-
 /* Home: remove redundant outer bowling frame; keep the table's own box. */
 #home-snapshot .home-bowling-card {
   width: 100%;
@@ -1576,7 +1575,9 @@ body > footer {
   box-shadow: none;
   overflow: visible;
 }
-#home-snapshot .home-bowling-heading { display: none; }
+#home-snapshot .home-bowling-heading {
+  display: none;
+}
 #home-snapshot #home-bowling-stats {
   width: 100%;
   max-width: 100%;
