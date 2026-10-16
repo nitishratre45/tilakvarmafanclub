@@ -273,3 +273,152 @@
     font-size: 11px;
   }
 }
+
+/* Premium Stats polish: tighter hierarchy, restrained motion, and compact mobile spacing. */
+.stats-page #stats .section-heading h2 {
+  font-size: clamp(1.45rem, 2.7vw, 2.35rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.stats-page #stats .eyebrow {
+  font-size: clamp(9px, 0.72vw, 11px);
+  line-height: 1.45;
+}
+.stats-page .stat-card,
+.stats-page .statsguru-panel,
+.stats-page .bowling-summary > *,
+.stats-page .statsguru-metric,
+.stats-page .format-card {
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+.stats-page .stat-card:hover,
+.stats-page .format-card:hover,
+.stats-page .bowling-summary > *:hover,
+.stats-page .statsguru-metric:hover {
+  transform: translateY(-2px);
+  border-color: rgba(124, 229, 242, 0.32);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+}
+.stats-page .stats-subnav button,
+.stats-page .statsguru-format-tabs button,
+.stats-page .bowling-format-tabs button,
+.stats-page .player-analysis-actions button {
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+.stats-page .stats-subnav button:hover,
+.stats-page .statsguru-format-tabs button:hover,
+.stats-page .bowling-format-tabs button:hover,
+.stats-page .player-analysis-actions button:hover {
+  transform: translateY(-1px);
+}
+.stats-page .table-wrap tbody tr,
+.stats-page .statsguru-table-wrap tbody tr {
+  transition: background-color 150ms ease;
+}
+.stats-page .table-wrap tbody tr:hover,
+.stats-page .statsguru-table-wrap tbody tr:hover {
+  background-color: rgba(124, 229, 242, 0.055);
+}
+.stats-page .table-wrap tbody tr:hover td:first-child,
+.stats-page .statsguru-panel tbody tr:hover td:first-child {
+  background: #14263b;
+}
+.stats-page .statsguru-sourcebar,
+.stats-page .bowling-sourcebar,
+.stats-page .data-line {
+  gap: 8px 16px;
+  line-height: 1.5;
+}
+.stats-page .statsguru-section,
+.stats-page #stats-bowling,
+.stats-page #stats-overview {
+  scroll-margin-top: 92px;
+}
+@media (max-width: 760px) {
+  .stats-page #stats .section-heading h2 {
+    font-size: clamp(1.25rem, 5.2vw, 1.75rem);
+    line-height: 1.12;
+  }
+  .stats-page #stats .eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.11em;
+  }
+  .stats-page .section {
+    padding: 24px 14px;
+  }
+  .stats-page .section-heading {
+    gap: 9px;
+    margin-bottom: 18px;
+  }
+  .stats-page .stat-card,
+  .stats-page .format-card,
+  .stats-page .statsguru-metric {
+    border-radius: 14px;
+  }
+  .stats-page .stat-card:hover,
+  .stats-page .format-card:hover,
+  .stats-page .bowling-summary > *:hover,
+  .stats-page .statsguru-metric:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .stats-page .table-wrap th,
+  .stats-page .table-wrap td,
+  .stats-page .statsguru-panel th,
+  .stats-page .statsguru-panel td {
+    padding: 9px 10px;
+    font-size: 11px;
+  }
+  .stats-page .statsguru-sourcebar,
+  .stats-page .bowling-sourcebar,
+  .stats-page .data-line {
+    font-size: 11px;
+  }
+}
+@media (max-width: 380px) {
+  .stats-page #stats .section-heading h2 {
+    font-size: 1.2rem;
+  }
+  .stats-page .section {
+    padding: 20px 11px;
+  }
+  .stats-page .stats-subnav button {
+    padding: 9px 4px;
+    font-size: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stats-page .stat-card,
+  .stats-page .statsguru-panel,
+  .stats-page .bowling-summary > *,
+  .stats-page .statsguru-metric,
+  .stats-page .format-card,
+  .stats-page .stats-subnav button,
+  .stats-page .statsguru-format-tabs button,
+  .stats-page .bowling-format-tabs button,
+  .stats-page .player-analysis-actions button,
+  .stats-page .table-wrap tbody tr,
+  .stats-page .statsguru-table-wrap tbody tr {
+    transition: none !important;
+  }
+  .stats-page .stat-card:hover,
+  .stats-page .format-card:hover,
+  .stats-page .bowling-summary > *:hover,
+  .stats-page .statsguru-metric:hover,
+  .stats-page .stats-subnav button:hover,
+  .stats-page .statsguru-format-tabs button:hover,
+  .stats-page .bowling-format-tabs button:hover,
+  .stats-page .player-analysis-actions button:hover {
+    transform: none !important;
+  }
+}
+
