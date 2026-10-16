@@ -13,6 +13,7 @@
   function extract(p) {
     const d = p?.data ?? p;
     if (Array.isArray(d?.match)) return d.match;
+    if (Array.isArray(d?.live_scores)) return d.live_scores;
     if (Array.isArray(d?.data?.match)) return d.data.match;
     if (Array.isArray(d?.matches)) return d.matches;
     if (Array.isArray(d)) return d;
@@ -27,7 +28,7 @@
       .map((m) => {
         const a = m.team1_name || m.home_team_name || "Team 1",
           b = m.team2_name || m.away_team_name || "Team 2";
-        const score = m.result_string || "";
+        const score = m.result_string || (m.summary?.innings || []).map(i => [i.runs != null ? i.runs : "", i.wickets != null ? "/" + i.wickets : "", i.overs ? " (" + i.overs + " ov)" : ""].join("")).filter(Boolean).join(" · ");
         return (
           '<article class="fixture-card"><div><div class="fixture-topline"><span class="competition">' +
           esc(m.comp_name || m.primary_event_name || "BCCI Live Score") +
@@ -45,7 +46,7 @@
           "</div>" +
           (score ? '<div class="match-meta"><strong>' + esc(score) + "</strong></div>" : "") +
           '</div><div class="fixture-date"><strong>' +
-          esc(m.date_string || m.start_date || "Date TBA") +
+          esc(m.date_string || m.start_date || m.start_datetime_utc || "Date TBA") +
           "</strong><span>Match ID · " +
           esc(m.match_id || m.gid || "—") +
           "</span></div></article>"
