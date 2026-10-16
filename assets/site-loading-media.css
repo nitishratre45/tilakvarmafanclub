@@ -13,10 +13,11 @@
     opacity 0.24s ease,
     visibility 0.24s ease;
 }
-#site-page-loader.is-hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+#site-page-loader.is-hidden,
+#site-page-loader[aria-hidden="true"] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 .site-loader-panel {
   display: grid;
