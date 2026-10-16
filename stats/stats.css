@@ -422,7 +422,6 @@
   }
 }
 
-
 /* Smooth motion pass: consistent easing, stable transforms, and gentle page navigation. */
 .stats-page {
   scroll-behavior: smooth;
@@ -466,7 +465,9 @@
 }
 .stats-page .stats-page-topbar,
 .stats-page .stats-subnav {
-  transition: box-shadow 220ms ease, background-color 220ms ease;
+  transition:
+    box-shadow 220ms ease,
+    background-color 220ms ease;
 }
 @media (max-width: 760px) {
   .stats-page #stats .stats-subview {
