@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-15T21:26:35.646Z",
+  "checkedAt": "2026-10-16T00:22:41.576Z",
   "retentionHours": 15,
   "intervalMinutes": 60,
   "summary": {
     "workflows": 28,
     "enabled": 28,
-    "running": 3,
+    "running": 1,
     "failedLatest": 0,
-    "successfulLatest": 23,
+    "successfulLatest": 25,
     "noRecentRun": 0
   },
   "workflows": [
@@ -171,25 +171,36 @@
         "push"
       ],
       "latest": {
-        "id": 38809771239,
-        "status": "pending",
-        "conclusion": null,
+        "id": 38809950089,
+        "status": "completed",
+        "conclusion": "success",
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-15T21:25:39Z",
-        "updatedAt": "2026-10-15T21:25:41Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809771239",
-        "title": "Avoid blocking native mobile scroll gestures"
+        "createdAt": "2026-10-15T21:27:03Z",
+        "updatedAt": "2026-10-15T21:30:37Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809950089",
+        "title": "Undo custom select popup on Admin page"
       },
       "recentRuns": [
         {
+          "id": 38809950089,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:03Z",
+          "updatedAt": "2026-10-15T21:30:37Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809950089",
+          "title": "Undo custom select popup on Admin page"
+        },
+        {
           "id": 38809771239,
-          "status": "pending",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "cancelled",
           "event": "push",
           "branch": "main",
           "createdAt": "2026-10-15T21:25:39Z",
-          "updatedAt": "2026-10-15T21:25:41Z",
+          "updatedAt": "2026-10-15T21:27:04Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809771239",
           "title": "Avoid blocking native mobile scroll gestures"
         },
@@ -206,12 +217,12 @@
         },
         {
           "id": 38809727748,
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "cancelled",
           "event": "push",
           "branch": "main",
           "createdAt": "2026-10-15T21:25:18Z",
-          "updatedAt": "2026-10-15T21:25:22Z",
+          "updatedAt": "2026-10-15T21:30:23Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809727748",
           "title": "Add lightweight site-wide image performance helpers"
         },
@@ -280,24 +291,13 @@
           "updatedAt": "2026-10-15T21:11:17Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38807899011",
           "title": "Refresh death overs picker asset versions"
-        },
-        {
-          "id": 38806500145,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:00:30Z",
-          "updatedAt": "2026-10-15T21:00:40Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38806500145",
-          "title": "Add stable mobile bottom navigation to home page"
         }
       ],
       "counts": {
         "recent": 10,
         "successful": 7,
         "failed": 0,
-        "running": 1
+        "running": 0
       }
     },
     {
@@ -312,17 +312,105 @@
         "workflow_run"
       ],
       "latest": {
-        "id": 38809856654,
+        "id": 38822976321,
         "status": "completed",
         "conclusion": "skipped",
         "event": "workflow_run",
         "branch": "main",
-        "createdAt": "2026-10-15T21:26:19Z",
-        "updatedAt": "2026-10-15T21:26:20Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809856654",
+        "createdAt": "2026-10-15T23:20:27Z",
+        "updatedAt": "2026-10-15T23:20:28Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38822976321",
         "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
       },
       "recentRuns": [
+        {
+          "id": 38822976321,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-15T23:20:27Z",
+          "updatedAt": "2026-10-15T23:20:28Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38822976321",
+          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
+        },
+        {
+          "id": 38810097750,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:28:12Z",
+          "updatedAt": "2026-10-15T21:28:22Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38810097750",
+          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
+        },
+        {
+          "id": 38810047982,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:49Z",
+          "updatedAt": "2026-10-15T21:27:50Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38810047982",
+          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
+        },
+        {
+          "id": 38810008138,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:30Z",
+          "updatedAt": "2026-10-15T21:27:31Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38810008138",
+          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
+        },
+        {
+          "id": 38809999271,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:26Z",
+          "updatedAt": "2026-10-15T21:27:27Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809999271",
+          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
+        },
+        {
+          "id": 38809998402,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:25Z",
+          "updatedAt": "2026-10-15T21:27:27Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809998402",
+          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
+        },
+        {
+          "id": 38809984479,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:19Z",
+          "updatedAt": "2026-10-15T21:27:26Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809984479",
+          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
+        },
+        {
+          "id": 38809966352,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:11Z",
+          "updatedAt": "2026-10-15T21:27:12Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809966352",
+          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
+        },
         {
           "id": 38809856654,
           "status": "completed",
@@ -343,94 +431,6 @@
           "createdAt": "2026-10-15T21:26:18Z",
           "updatedAt": "2026-10-15T21:26:25Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809854834",
-          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
-        },
-        {
-          "id": 38809818855,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:26:01Z",
-          "updatedAt": "2026-10-15T21:26:03Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809818855",
-          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
-        },
-        {
-          "id": 38809792016,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:25:49Z",
-          "updatedAt": "2026-10-15T21:25:57Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809792016",
-          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
-        },
-        {
-          "id": 38809779326,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:25:43Z",
-          "updatedAt": "2026-10-15T21:25:53Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809779326",
-          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
-        },
-        {
-          "id": 38809778918,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:25:43Z",
-          "updatedAt": "2026-10-15T21:25:44Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809778918",
-          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
-        },
-        {
-          "id": 38809777823,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:25:42Z",
-          "updatedAt": "2026-10-15T21:25:43Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809777823",
-          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
-        },
-        {
-          "id": 38809772180,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:25:40Z",
-          "updatedAt": "2026-10-15T21:25:41Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809772180",
-          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
-        },
-        {
-          "id": 38809694705,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:25:03Z",
-          "updatedAt": "2026-10-15T21:25:04Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809694705",
-          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
-        },
-        {
-          "id": 38809572751,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:24:05Z",
-          "updatedAt": "2026-10-15T21:24:07Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809572751",
           "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
         }
       ],
@@ -457,25 +457,36 @@
         "push"
       ],
       "latest": {
-        "id": 38809876812,
+        "id": 38829126644,
         "status": "in_progress",
         "conclusion": null,
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-15T21:26:28Z",
-        "updatedAt": "2026-10-15T21:26:31Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809876812",
+        "createdAt": "2026-10-16T00:22:34Z",
+        "updatedAt": "2026-10-16T00:22:38Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38829126644",
         "title": "Automation repository monitor (hourly)"
       },
       "recentRuns": [
         {
-          "id": 38809876812,
+          "id": 38829126644,
           "status": "in_progress",
           "conclusion": null,
           "event": "schedule",
           "branch": "main",
+          "createdAt": "2026-10-16T00:22:34Z",
+          "updatedAt": "2026-10-16T00:22:38Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38829126644",
+          "title": "Automation repository monitor (hourly)"
+        },
+        {
+          "id": 38809876812,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
           "createdAt": "2026-10-15T21:26:28Z",
-          "updatedAt": "2026-10-15T21:26:31Z",
+          "updatedAt": "2026-10-15T21:26:40Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809876812",
           "title": "Automation repository monitor (hourly)"
         },
@@ -566,17 +577,6 @@
           "updatedAt": "2026-10-14T17:51:28Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38610178288",
           "title": "Automation repository monitor (hourly)"
-        },
-        {
-          "id": 38605554364,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "workflow_dispatch",
-          "branch": "main",
-          "createdAt": "2026-10-14T17:18:34Z",
-          "updatedAt": "2026-10-14T17:18:52Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38605554364",
-          "title": "Automation repository monitor (hourly)"
         }
       ],
       "counts": {
@@ -600,25 +600,47 @@
         "workflow_dispatch"
       ],
       "latest": {
-        "id": 38809771127,
-        "status": "in_progress",
-        "conclusion": null,
+        "id": 38809960093,
+        "status": "completed",
+        "conclusion": "success",
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-15T21:25:39Z",
-        "updatedAt": "2026-10-15T21:26:20Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809771127",
-        "title": "Avoid blocking native mobile scroll gestures"
+        "createdAt": "2026-10-15T21:27:08Z",
+        "updatedAt": "2026-10-15T21:28:10Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809960093",
+        "title": "Remove Admin custom picker styling"
       },
       "recentRuns": [
         {
+          "id": 38809960093,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:08Z",
+          "updatedAt": "2026-10-15T21:28:10Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809960093",
+          "title": "Remove Admin custom picker styling"
+        },
+        {
+          "id": 38809950122,
+          "status": "completed",
+          "conclusion": "cancelled",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:03Z",
+          "updatedAt": "2026-10-15T21:27:09Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809950122",
+          "title": "Undo custom select popup on Admin page"
+        },
+        {
           "id": 38809771127,
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "event": "push",
           "branch": "main",
           "createdAt": "2026-10-15T21:25:39Z",
-          "updatedAt": "2026-10-15T21:26:20Z",
+          "updatedAt": "2026-10-15T21:27:17Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809771127",
           "title": "Avoid blocking native mobile scroll gestures"
         },
@@ -698,35 +720,13 @@
           "updatedAt": "2026-10-15T21:24:03Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809453078",
           "title": "Enable custom picker for video playback quality"
-        },
-        {
-          "id": 38809212540,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:21:14Z",
-          "updatedAt": "2026-10-15T21:22:49Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809212540",
-          "title": "Revert accidental site-wide dropdown integration on matches/details/i…"
-        },
-        {
-          "id": 38809204849,
-          "status": "completed",
-          "conclusion": "cancelled",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:21:10Z",
-          "updatedAt": "2026-10-15T21:21:15Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809204849",
-          "title": "Revert accidental site-wide dropdown integration on matches/complete/…"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 4,
+        "successful": 5,
         "failed": 0,
-        "running": 1
+        "running": 0
       }
     },
     {
@@ -742,17 +742,39 @@
         "workflow_dispatch"
       ],
       "latest": {
-        "id": 38809771121,
+        "id": 38809960077,
         "status": "completed",
         "conclusion": "success",
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-15T21:25:39Z",
-        "updatedAt": "2026-10-15T21:26:16Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809771121",
-        "title": "Avoid blocking native mobile scroll gestures"
+        "createdAt": "2026-10-15T21:27:08Z",
+        "updatedAt": "2026-10-15T21:27:47Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809960077",
+        "title": "Remove Admin custom picker styling"
       },
       "recentRuns": [
+        {
+          "id": 38809960077,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:08Z",
+          "updatedAt": "2026-10-15T21:27:47Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809960077",
+          "title": "Remove Admin custom picker styling"
+        },
+        {
+          "id": 38809950155,
+          "status": "completed",
+          "conclusion": "cancelled",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:03Z",
+          "updatedAt": "2026-10-15T21:27:24Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809950155",
+          "title": "Undo custom select popup on Admin page"
+        },
         {
           "id": 38809771121,
           "status": "completed",
@@ -840,28 +862,6 @@
           "updatedAt": "2026-10-15T21:23:35Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809453011",
           "title": "Enable custom picker for video playback quality"
-        },
-        {
-          "id": 38809212814,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:21:14Z",
-          "updatedAt": "2026-10-15T21:21:46Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809212814",
-          "title": "Revert accidental site-wide dropdown integration on matches/details/i…"
-        },
-        {
-          "id": 38809204863,
-          "status": "completed",
-          "conclusion": "cancelled",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:21:10Z",
-          "updatedAt": "2026-10-15T21:21:15Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809204863",
-          "title": "Revert accidental site-wide dropdown integration on matches/complete/…"
         }
       ],
       "counts": {
@@ -1460,17 +1460,28 @@
         "push"
       ],
       "latest": {
-        "id": 38804690476,
+        "id": 38822949359,
         "status": "completed",
         "conclusion": "success",
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-15T20:46:46Z",
-        "updatedAt": "2026-10-15T20:47:01Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38804690476",
+        "createdAt": "2026-10-15T23:20:11Z",
+        "updatedAt": "2026-10-15T23:20:25Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38822949359",
         "title": "Refresh BCCI Live Matches"
       },
       "recentRuns": [
+        {
+          "id": 38822949359,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-15T23:20:11Z",
+          "updatedAt": "2026-10-15T23:20:25Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38822949359",
+          "title": "Refresh BCCI Live Matches"
+        },
         {
           "id": 38804690476,
           "status": "completed",
@@ -1572,8 +1583,8 @@
         }
       ],
       "counts": {
-        "recent": 9,
-        "successful": 5,
+        "recent": 10,
+        "successful": 6,
         "failed": 3,
         "running": 0
       }
@@ -3290,17 +3301,39 @@
         "push"
       ],
       "latest": {
-        "id": 38809212686,
+        "id": 38827009637,
         "status": "completed",
         "conclusion": "success",
-        "event": "push",
+        "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-15T21:21:14Z",
-        "updatedAt": "2026-10-15T21:21:47Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809212686",
-        "title": "Revert accidental site-wide dropdown integration on matches/details/i…"
+        "createdAt": "2026-10-16T00:01:04Z",
+        "updatedAt": "2026-10-16T00:01:32Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38827009637",
+        "title": "Repository health monitor (10 minutes)"
       },
       "recentRuns": [
+        {
+          "id": 38827009637,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-16T00:01:04Z",
+          "updatedAt": "2026-10-16T00:01:32Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38827009637",
+          "title": "Repository health monitor (10 minutes)"
+        },
+        {
+          "id": 38813323506,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:54:09Z",
+          "updatedAt": "2026-10-15T21:54:31Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38813323506",
+          "title": "Repository health monitor (10 minutes)"
+        },
         {
           "id": 38809212686,
           "status": "completed",
@@ -3388,34 +3421,12 @@
           "updatedAt": "2026-10-15T18:51:38Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38789059292",
           "title": "Repository health monitor (10 minutes)"
-        },
-        {
-          "id": 38777323329,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-15T17:26:17Z",
-          "updatedAt": "2026-10-15T17:26:39Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38777323329",
-          "title": "fix(workflows): validate repaired match pages on push"
-        },
-        {
-          "id": 38776714271,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-15T17:21:57Z",
-          "updatedAt": "2026-10-15T17:22:28Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38776714271",
-          "title": "fix(health): handle escaped CSS string characters correctly"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 9,
-        "failed": 1,
+        "successful": 10,
+        "failed": 0,
         "running": 0
       }
     },
@@ -3554,17 +3565,28 @@
         "push"
       ],
       "latest": {
-        "id": 38809771074,
+        "id": 38809950118,
         "status": "completed",
         "conclusion": "success",
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-15T21:25:39Z",
-        "updatedAt": "2026-10-15T21:26:16Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809771074",
-        "title": "Avoid blocking native mobile scroll gestures"
+        "createdAt": "2026-10-15T21:27:03Z",
+        "updatedAt": "2026-10-15T21:27:46Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809950118",
+        "title": "Undo custom select popup on Admin page"
       },
       "recentRuns": [
+        {
+          "id": 38809950118,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:03Z",
+          "updatedAt": "2026-10-15T21:27:46Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809950118",
+          "title": "Undo custom select popup on Admin page"
+        },
         {
           "id": 38809771074,
           "status": "completed",
@@ -3663,22 +3685,11 @@
           "updatedAt": "2026-10-15T21:21:15Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809204871",
           "title": "Revert accidental site-wide dropdown integration on matches/complete/…"
-        },
-        {
-          "id": 38809198895,
-          "status": "completed",
-          "conclusion": "cancelled",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:21:08Z",
-          "updatedAt": "2026-10-15T21:21:11Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809198895",
-          "title": "Revert accidental site-wide dropdown integration on index.html"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 3,
+        "successful": 4,
         "failed": 0,
         "running": 0
       }
@@ -3697,17 +3708,39 @@
         "workflow_dispatch"
       ],
       "latest": {
-        "id": 38809771209,
+        "id": 38809960069,
         "status": "completed",
         "conclusion": "success",
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-15T21:25:39Z",
-        "updatedAt": "2026-10-15T21:25:59Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809771209",
-        "title": "Avoid blocking native mobile scroll gestures"
+        "createdAt": "2026-10-15T21:27:08Z",
+        "updatedAt": "2026-10-15T21:27:28Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809960069",
+        "title": "Remove Admin custom picker styling"
       },
       "recentRuns": [
+        {
+          "id": 38809960069,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:08Z",
+          "updatedAt": "2026-10-15T21:27:28Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809960069",
+          "title": "Remove Admin custom picker styling"
+        },
+        {
+          "id": 38809950110,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:03Z",
+          "updatedAt": "2026-10-15T21:27:24Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809950110",
+          "title": "Undo custom select popup on Admin page"
+        },
         {
           "id": 38809771209,
           "status": "completed",
@@ -3795,28 +3828,6 @@
           "updatedAt": "2026-10-15T21:23:35Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809452798",
           "title": "Enable custom picker for video playback quality"
-        },
-        {
-          "id": 38809212710,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:21:14Z",
-          "updatedAt": "2026-10-15T21:21:35Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809212710",
-          "title": "Revert accidental site-wide dropdown integration on matches/details/i…"
-        },
-        {
-          "id": 38809204869,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-15T21:21:10Z",
-          "updatedAt": "2026-10-15T21:21:36Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809204869",
-          "title": "Revert accidental site-wide dropdown integration on matches/complete/…"
         }
       ],
       "counts": {
@@ -3839,17 +3850,39 @@
         "workflow_dispatch"
       ],
       "latest": {
-        "id": 38808212884,
+        "id": 38809960165,
         "status": "completed",
         "conclusion": "success",
         "event": "push",
         "branch": "main",
-        "createdAt": "2026-10-15T21:13:31Z",
-        "updatedAt": "2026-10-15T21:13:42Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38808212884",
-        "title": "Refresh Admin Studio picker stylesheet version"
+        "createdAt": "2026-10-15T21:27:08Z",
+        "updatedAt": "2026-10-15T21:27:21Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809960165",
+        "title": "Remove Admin custom picker styling"
       },
       "recentRuns": [
+        {
+          "id": 38809960165,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:08Z",
+          "updatedAt": "2026-10-15T21:27:21Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809960165",
+          "title": "Remove Admin custom picker styling"
+        },
+        {
+          "id": 38809950054,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "branch": "main",
+          "createdAt": "2026-10-15T21:27:03Z",
+          "updatedAt": "2026-10-15T21:27:15Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38809950054",
+          "title": "Undo custom select popup on Admin page"
+        },
         {
           "id": 38808212884,
           "status": "completed",
@@ -3937,28 +3970,6 @@
           "updatedAt": "2026-10-15T16:12:54Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38767055349",
           "title": "Refresh mobile navigation cache after syntax fix"
-        },
-        {
-          "id": 38766593356,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-15T16:09:28Z",
-          "updatedAt": "2026-10-15T16:09:44Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38766593356",
-          "title": "Refresh mobile navigation script cache"
-        },
-        {
-          "id": 38764794907,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-15T15:56:58Z",
-          "updatedAt": "2026-10-15T15:57:09Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/38764794907",
-          "title": "Add mobile-only fixed bottom navigation and refresh scorecard links"
         }
       ],
       "counts": {
@@ -3970,15 +3981,6 @@
     }
   ],
   "snapshots": [
-    {
-      "checkedAt": "2026-10-15T07:24:18.349Z",
-      "workflows": 24,
-      "enabled": 24,
-      "running": 1,
-      "failedLatest": 0,
-      "successfulLatest": 9,
-      "noRecentRun": 14
-    },
     {
       "checkedAt": "2026-10-15T13:24:03.432Z",
       "workflows": 27,
@@ -4013,6 +4015,15 @@
       "running": 3,
       "failedLatest": 0,
       "successfulLatest": 23,
+      "noRecentRun": 0
+    },
+    {
+      "checkedAt": "2026-10-16T00:22:41.576Z",
+      "workflows": 28,
+      "enabled": 28,
+      "running": 1,
+      "failedLatest": 0,
+      "successfulLatest": 25,
       "noRecentRun": 0
     }
   ]
