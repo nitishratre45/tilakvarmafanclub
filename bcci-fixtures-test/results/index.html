@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#071a42" />
-    <title>Tilak Varma Fan Club | Match Results</title>
+    <title>Tilak Varma Fan Club | Completed Matches</title>
     <link rel="stylesheet" href="./results.css" />
     <link rel="stylesheet" href="../ui/site-nav.css?v=20261016-main-menu-grid7" />
   </head>
@@ -22,9 +22,9 @@
       <div class="top">
         <div>
           <p class="eyebrow">TILAK VARMA FAN CLUB · BCCI</p>
-          <h1>Match Results</h1>
+          <h1>Tilak Varma · Completed Matches</h1>
           <p class="sub">
-            Completed matches fetched from the official BCCI Stats results endpoint.
+            Only completed matches featuring Tilak Varma, loaded from the Matches folder’s verified scorecard archive. Each card opens its own match scorecard.
           </p>
         </div>
         <a class="back" href="../index.html">← BCCI Centre</a>
@@ -37,11 +37,13 @@
           aria-label="Search results"
         /><select id="format" aria-label="Filter by format">
           <option value="all">All formats</option>
-          <option>Test</option>
-          <option>ODI</option>
-          <option>T20I</option>
-          <option>Women's</option>
-          <option>Other</option></select
+          <option value="T20I">T20 International</option>
+          <option value="ODI">ODI</option>
+          <option value="Test">Test</option>
+          <option value="T20">T20 / IPL</option>
+          <option value="List A">List A</option>
+          <option value="First-class">First-class</option>
+          <option value="Other">Other</option></select
         ><select id="sort" aria-label="Sort results">
           <option value="new">Newest first</option>
           <option value="old">Oldest first</option>
@@ -52,8 +54,7 @@
       </div>
       <div id="list" class="list" aria-live="polite"><div class="empty">Loading results…</div></div>
       <p class="foot">
-        Data is stored inside <code>bcci-fixtures-test/results/</code>. Results are deduplicated by
-        BCCI match ID.
+        Source: <code>/matches/scorecards/index.json</code> — the existing verified completed-match archive. Scorecards open by match ID; no single latest-scorecard JSON is reused.
       </p>
     </main>
     <script src="./results.js" defer></script>
