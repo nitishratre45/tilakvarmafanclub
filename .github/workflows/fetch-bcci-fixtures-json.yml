@@ -42,7 +42,7 @@ jobs:
         continue-on-error: true
         run: python matches/scorecards/fetch_bcci_scorecard.py
 
-      - name: Fetch dedicated score folder JSON
+      - name: Fetch BCCI folder scorecard JSON
         id: scorefolder
         continue-on-error: true
         run: python bcci-fixtures-test/fetch_bcci_scorecard.py
@@ -65,7 +65,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f bcci-fixtures-test/bcci-fixtures.json bcci-fixtures-test/bcci-live-scores.json matches/scorecards/bcci-scorecard.json score/score.json 2>/dev/null || true
+          git add -f bcci-fixtures-test/bcci-fixtures.json bcci-fixtures-test/bcci-live-scores.json matches/scorecards/bcci-scorecard.json bcci-fixtures-test/bcci-scorecard.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No JSON changes to commit."
             exit 0
