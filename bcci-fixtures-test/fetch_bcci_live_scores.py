@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fetch BCCI live scores into their own isolated JSON file."""
 from __future__ import annotations
-import json, os, sys
+import gzip, json, os, sys
 from datetime import datetime, timezone
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
@@ -20,8 +20,22 @@ def main() -> int:
     try:
         req = Request(url, headers={"User-Agent":"Mozilla/5.0 (compatible; CricZone-BCCI-LiveScores/1.0)","Accept":"application/json, text/plain, */*","Referer":"https://www.bcci.tv/"})
         with urlopen(req, timeout=TIMEOUT_SECONDS) as res:
-            raw = res.read(); report["httpStatus"] = res.status; report["contentType"] = res.headers.get("Content-Type", "")
-        report["data"] = json.loads(raw.decode("utf-8-sig")); report["status"] = "ok"
+            raw = res.read()
+            report["httpStatus"] = res.status
+            report["contentType"] = res.headers.get("Content-Type", "")
+            content_encoding = res.headers.get("Content-Encoding", "").lower()
+        # Handle compressed BCCI responses even if the server omits the header.
+        if content_encoding == "gzip" or raw.startswith(bytes([31, 139])):
+            raw = gzip.decompress(raw)
+        try:
+            decoded = raw.decode("utf-8-sig")
+        except UnicodeDecodeError:
+            try:
+                decoded = raw.decode("cp1252")
+            except UnicodeDecodeError:
+                decoded = raw.decode("latin-1")
+        report["data"] = json.loads(decoded)
+        report["status"] = "ok"
     except HTTPError as exc:
         report["httpStatus"] = exc.code; report["error"] = f"HTTPError: {exc.code} {exc.reason}"
     except (URLError, TimeoutError, OSError, ValueError) as exc:
