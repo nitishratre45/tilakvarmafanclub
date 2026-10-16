@@ -861,3 +861,156 @@ footer{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}
  .search-box{grid-column:auto}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+
+
+/* Premium upcoming fixture cards + team PNG identity — BCCI test folder only */
+#fixtureList.fixture-list { gap: 15px; }
+#fixtureList .fixture-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 19px 20px;
+  border: 1px solid #294560;
+  border-radius: 19px;
+  background:
+    radial-gradient(ellipse at 0% 0%, #15528a38, transparent 58%),
+    linear-gradient(145deg, #0e2034 0%, #091726 100%);
+  box-shadow: 0 12px 28px #0000001c, inset 0 1px 0 #ffffff08;
+  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+#fixtureList .fixture-card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 3px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(#82b9ff, #80e9b8);
+  opacity: .9;
+}
+#fixtureList .fixture-card:hover {
+  transform: translateY(-2px);
+  border-color: #4c789d;
+  box-shadow: 0 16px 34px #0000002b, inset 0 1px 0 #ffffff0c;
+}
+#fixtureList .fixture-topline { gap: 9px; margin-bottom: 17px; }
+#fixtureList .competition {
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: .45px;
+  overflow-wrap: anywhere;
+}
+#fixtureList .status-pill {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  font-size: 10px;
+  letter-spacing: .1px;
+}
+#fixtureList .teams {
+  grid-template-columns: minmax(0,1fr) 36px minmax(0,1fr);
+  gap: 10px;
+}
+#fixtureList .team { min-width: 0; font-size: 15px; }
+#fixtureList .team-identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+#fixtureList .team-away .team-identity { justify-content: flex-end; }
+#fixtureList .team-name { min-width: 0; overflow-wrap: anywhere; line-height: 1.3; }
+#fixtureList .team-logo {
+  position: relative;
+  display: inline-grid;
+  flex: 0 0 43px;
+  width: 43px;
+  height: 43px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #ffffff18;
+  border-radius: 50%;
+  background: linear-gradient(145deg,#18334d,#0b1a2b);
+  box-shadow: inset 0 1px 0 #ffffff0d;
+}
+#fixtureList .team-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  object-fit: contain;
+}
+#fixtureList .team-logo-fallback {
+  display: inline-grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
+  border: 1px solid #ffffff1c;
+  border-radius: 50%;
+  background: linear-gradient(145deg,#21496d,#11243a);
+  color: #b9d8ff;
+  font: 800 11px/1 "Space Grotesk",sans-serif;
+}
+#fixtureList .team-logo .team-logo-fallback {
+  display: none;
+  position: absolute;
+  inset: 0;
+}
+#fixtureList .team-logo.logo-unavailable .team-logo-fallback { display: inline-grid; }
+#fixtureList .team-away .team-identity { flex-direction: row; }
+#fixtureList .team-away .team-name { text-align: right; }
+#fixtureList .versus {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff0d;
+  border-radius: 50%;
+  background: #172b40;
+  font-size: 10px;
+  letter-spacing: .4px;
+}
+#fixtureList .match-meta {
+  margin-top: 16px;
+  gap: 8px 17px;
+  line-height: 1.55;
+  font-size: 11px;
+}
+#fixtureList .fixture-date {
+  min-width: 126px;
+  padding-left: 12px;
+  border-left: 1px solid #294057;
+}
+#fixtureList .fixture-date strong { font-size: 14px; line-height: 1.35; }
+#fixtureList .fixture-date span { margin-top: 7px; overflow-wrap: anywhere; }
+@media (max-width: 700px) {
+  #fixtureList .fixture-card { padding: 16px 14px; border-radius: 17px; gap: 13px; }
+  #fixtureList .fixture-topline { margin-bottom: 15px; }
+  #fixtureList .teams { grid-template-columns: minmax(0,1fr) 30px minmax(0,1fr); gap: 6px; }
+  #fixtureList .team { font-size: 13px; }
+  #fixtureList .team-identity { gap: 7px; }
+  #fixtureList .team-logo, #fixtureList .team-logo-fallback {
+    width: 36px; height: 36px; flex-basis: 36px;
+  }
+  #fixtureList .team-logo img { padding: 4px; }
+  #fixtureList .fixture-date {
+    display: flex; justify-content: space-between; align-items: center;
+    border-left: 0; border-top: 1px solid #263a50; padding: 11px 0 0;
+    flex-wrap: wrap; gap: 6px;
+  }
+  #fixtureList .fixture-date span { margin: 0; }
+}
+@media (max-width: 360px) {
+  #fixtureList .teams { grid-template-columns: minmax(0,1fr) 25px minmax(0,1fr); gap: 4px; }
+  #fixtureList .team { font-size: 11px; }
+  #fixtureList .team-identity { flex-direction: column; align-items: flex-start; gap: 5px; }
+  #fixtureList .team-away .team-identity { align-items: flex-end; }
+  #fixtureList .team-logo, #fixtureList .team-logo-fallback { width: 32px; height: 32px; flex-basis: 32px; }
+  #fixtureList .versus { width: 25px; height: 25px; font-size: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #fixtureList .fixture-card { transition: none; }
+  #fixtureList .fixture-card:hover { transform: none; }
+}
