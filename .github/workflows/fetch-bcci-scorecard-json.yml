@@ -1,0 +1,63 @@
+name: Refresh isolated BCCI scorecard JSON
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/5 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bcci-scorecard-json
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Fetch BCCI scorecard page into separate JSON
+        id: fetch
+        continue-on-error: true
+        run: python matches/scorecards/fetch_bcci_scorecard.py
+      - name: Upload isolated JSON for diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bcci-scorecard-json
+          path: matches/scorecards/bcci-scorecard.json
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Commit JSON snapshot if changed
+        if: always()
+        run: |
+          if [ ! -f matches/scorecards/bcci-scorecard.json ]; then
+            echo "No JSON snapshot was produced."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add matches/scorecards/bcci-scorecard.json
+          if git diff --cached --quiet; then
+            echo "Scorecard JSON unchanged."
+            exit 0
+          fi
+          git commit -m "Refresh isolated BCCI scorecard JSON"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then
+              echo "Scorecard JSON pushed."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "::error::Unable to push scorecard JSON after retries."
+          exit 1
