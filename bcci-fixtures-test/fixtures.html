@@ -3,122 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#07111f" />
-    <title>Tilak Varma Fan Club | BCCI Matches</title>
-    <link rel="stylesheet" href="./styles.css" />
-    <script src="./app.js" defer></script>
-    <link rel="stylesheet" href="./ui/site-nav.css?v=20261017-match-motion2" />
-    <!-- Reuse the main Matches page's exact shared visual and motion system; BCCI folder only. -->
-    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261017-bcci-parity1" />
-    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261017-bcci-parity1" />
-    <link rel="stylesheet" href="/assets/mobile-bottom-nav.css?v=20261017-bcci-parity1" />
-    <link rel="stylesheet" href="/assets/mobile-responsive-polish.css?v=20261017-bcci-parity1" />
-    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261017-bcci-parity1" />
-    <style>
-      @media (max-width: 800px) {
-        .tvfc-mobile-menu:not([hidden]) {
-          top: 86px !important;
-          left: 15px !important;
-          right: 15px !important;
-          max-height: calc(100dvh - 190px) !important;
-        }
-      }
-    </style>
-
-    <!-- Shared main-site visual system: header, glass menu, dock, responsive layout and motion. -->
-    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261017-native-matches2" />
-    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261017-native-matches2" />
-    <link rel="stylesheet" href="/assets/mobile-bottom-nav.css?v=20261017-native-matches2" />
-    <link rel="stylesheet" href="/assets/mobile-responsive-polish.css?v=20261017-native-matches2" />
-    <link rel="stylesheet" href="/assets/custom-selects.css?v=20261017-native-matches2" />
-    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261017-native-matches2" />
+    <meta name="theme-color" content="#0b5fc4" />
+    <meta http-equiv="refresh" content="0; url=/bcci-fixtures-test/" />
+    <link rel="canonical" href="https://tilakvarmafc.pages.dev/bcci-fixtures-test/" />
+    <title>Matches | Tilak Varma Fan Club</title>
+    <script>location.replace("/bcci-fixtures-test/");</script>
   </head>
   <body>
-    <header class="topbar">
-      <a class="brand" href="./"
-        ><span class="brand-mark">72</span
-        ><span>Tilak Varma Fan Club <small>MATCH CENTRE</small></span></a
-      >
-      <span class="test-label"><i></i> BCCI DATA</span>
-    </header>
-    <main class="container">
-      <section class="hero">
-        <p class="eyebrow">BCCI · CUSTOM FIXTURES</p>
-        <h1>Matches Centre</h1>
-        <p>
-          <a class="secondary-btn" href="./live-scores.html">Open separate BCCI Live Scores →</a>
-        </p>
-        <p class="subhead">
-          A separate preview of the saved BCCI fixture JSON. The page displays upcoming matches
-          only. Live and completed matches are excluded automatically; production match data remains
-          untouched.
-        </p>
-        <div class="hero-actions">
-          <button id="refreshBtn" class="primary-btn" type="button">↻ Reload JSON</button>
-          <a
-            class="secondary-btn"
-            href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/fetch-bcci-fixtures-json.yml"
-            target="_blank"
-            rel="noopener"
-            >⚙ Run BCCI Workflow ↗</a
-          >
-        </div>
-      </section>
-      <section class="stats-grid">
-        <article class="stat-card">
-          <span>Matches displayed</span><strong id="totalCount">—</strong
-          ><small>Maximum 12 matches</small>
-        </article>
-        <article class="stat-card">
-          <span>Total pages reported</span><strong id="pageCount">—</strong
-          ><small>From BCCI pagination metadata</small>
-        </article>
-        <article class="stat-card">
-          <span>Last snapshot</span><strong id="lastUpdated" class="stat-date">—</strong
-          ><small id="sourceStatus">Waiting for data</small>
-        </article>
-      </section>
-      <section class="filters panel">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">EXPLORE DATA</p>
-            <h2>Matches</h2>
-          </div>
-          <span id="resultCount" class="result-count">Loading…</span>
-        </div>
-        <div class="filter-row">
-          <label class="search-box"
-            ><span>⌕</span
-            ><input
-              id="searchInput"
-              type="search"
-              placeholder="Search team, venue, competition…"
-              autocomplete="off"
-          /></label>
-          <select id="statusFilter" aria-label="Filter by match status">
-            <option value="all">All statuses</option>
-          </select>
-          <select id="sortFilter" aria-label="Sort matches">
-            <option value="date-asc">Date: earliest first</option>
-            <option value="date-desc">Date: latest first</option>
-          </select>
-        </div>
-        <div id="fixtureList" class="fixture-list" aria-live="polite">
-          <div class="loading-state">Loading saved BCCI matches…</div>
-        </div>
-        <div id="emptyState" class="empty-state" hidden>
-          <span>⌕</span>
-          <h3>No matches found</h3>
-          <p>Try another search or status filter.</p>
-        </div>
-      </section>
-      <footer>
-        <span>TILAK VARMA FAN CLUB · MATCH CENTRE</span>
-      </footer>
-    </main>
-    <script src="./ui/site-nav.js?v=20261017-match-motion2" defer></script>
-
-    <script src="/assets/mobile-glass-menu.js?v=20261017-native-matches2" defer></script>
-    <script src="/assets/mobile-bottom-nav.js?v=20261017-native-matches2" defer></script>
+    <p>Opening <a href="/bcci-fixtures-test/">Matches</a>…</p>
   </body>
 </html>
