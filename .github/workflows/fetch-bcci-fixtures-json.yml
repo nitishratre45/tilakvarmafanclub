@@ -1,50 +1,50 @@
-name: Fetch BCCI Fixtures JSON
+name: Refresh BCCI Fixtures and Live Scores JSON
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "*/5 * * * *"
 
 permissions:
   contents: write
 
 concurrency:
-  group: bcci-fixtures-json-fetch
+  group: bcci-test-json-refresh
   cancel-in-progress: false
 
 jobs:
-  fetch-fixtures:
+  refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-
-      - name: Fetch BCCI fixtures and write JSON
+      - name: Fetch fixtures JSON (fixtures endpoint only)
         run: python bcci-fixtures-test/fetch_bcci_fixtures.py
-
-      - name: Upload JSON artifact
+      - name: Fetch live scores JSON (live_scores endpoint only)
+        run: python bcci-fixtures-test/fetch_bcci_live_scores.py
+      - name: Upload separate JSON files
         uses: actions/upload-artifact@v4
         with:
-          name: bcci-fixtures-json
-          path: bcci-fixtures-test/bcci-fixtures.json
+          name: bcci-fixtures-and-live-scores
+          path: |
+            bcci-fixtures-test/bcci-fixtures.json
+            bcci-fixtures-test/bcci-live-scores.json
           if-no-files-found: error
           retention-days: 7
-
-      - name: Save JSON in repository
+      - name: Commit updated test JSON files
         if: success()
         run: |
-          if [ -f bcci-fixtures-test/bcci-fixtures.json ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add bcci-fixtures-test/bcci-fixtures.json
-            if ! git diff --cached --quiet; then
-              git commit -m "Update isolated BCCI fixtures JSON"
-              git push
-            else
-              echo "BCCI fixtures JSON unchanged."
-            fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bcci-fixtures-test/bcci-fixtures.json bcci-fixtures-test/bcci-live-scores.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Refresh isolated BCCI fixtures and live scores JSON"
+            git push
+          else
+            echo "Both BCCI test JSON files are unchanged."
           fi
