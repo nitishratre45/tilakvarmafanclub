@@ -1,0 +1,41 @@
+name: Refresh BCCI Match Results Archive
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bcci-results-archive
+  cancel-in-progress: false
+
+jobs:
+  refresh-results:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Fetch BCCI match results
+        run: python bcci-fixtures-test/results/fetch_results.py
+      - name: Validate results JSON
+        run: python -c "import json; p='bcci-fixtures-test/results/results.json'; d=json.load(open(p, encoding='utf-8')); assert isinstance(d.get('matches'), list); print('Saved results:', len(d['matches']))"
+      - name: Commit results archive
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bcci-fixtures-test/results/results.json
+          if git diff --cached --quiet; then
+            echo "No results archive changes."
+            exit 0
+          fi
+          git commit -m "Refresh BCCI completed match results archive"
+          git pull --rebase origin main
+          git push origin HEAD:main
