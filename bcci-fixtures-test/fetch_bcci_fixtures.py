@@ -70,7 +70,7 @@ def main() -> int:
             content_encoding = response.headers.get("Content-Encoding", "").lower()
         # Some BCCI responses arrive gzip-compressed despite missing or unusual
         # Content-Encoding headers. The 0x1f 0x8b prefix is the gzip signature.
-        if content_encoding == "gzip" or raw.startswith(b"\\x1f\\x8b"):
+        if content_encoding == "gzip" or raw.startswith(b"\x1f\x8b"):
             raw = gzip.decompress(raw)
         # BCCI occasionally labels the response JSON while returning a legacy
         # single-byte encoding. Try UTF-8 first, then Windows-1252/Latin-1.
@@ -91,7 +91,7 @@ def main() -> int:
     os.makedirs(os.path.dirname(OUTPUT_PATH) or ".", exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as handle:
         json.dump(report, handle, ensure_ascii=False, indent=2)
-        handle.write("\\n")
+        handle.write("\n")
     print(json.dumps({"status": report["status"], "httpStatus": report["httpStatus"],
                       "contentType": report["contentType"], "output": OUTPUT_PATH,
                       "error": report["error"]}, ensure_ascii=False, indent=2))
