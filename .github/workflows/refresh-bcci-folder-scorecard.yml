@@ -1,0 +1,47 @@
+name: Refresh BCCI Folder Scorecard JSON
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "4-59/5 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bcci-folder-scorecard
+  cancel-in-progress: false
+
+jobs:
+  refresh-scorecard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Validate Python syntax
+        run: python -m py_compile bcci-fixtures-test/fetch_bcci_scorecard.py
+      - name: Fetch BCCI folder scorecard
+        run: python bcci-fixtures-test/fetch_bcci_scorecard.py
+      - name: Validate scorecard JSON
+        run: python -m json.tool bcci-fixtures-test/bcci-scorecard.json > /dev/null
+      - name: Commit BCCI folder scorecard only
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f bcci-fixtures-test/bcci-scorecard.json
+          if git diff --cached --quiet; then echo "Scorecard unchanged."; exit 0; fi
+          git commit -m "Refresh BCCI folder scorecard JSON"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          echo "::error::Could not publish BCCI folder scorecard JSON."
+          exit 1
