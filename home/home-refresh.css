@@ -1512,3 +1512,53 @@ body > footer {
     transition: none;
   }
 }
+
+
+/* Home career summary: align batting and bowling cards to the same outer width. */
+#home-snapshot .home-format-stats,
+#home-snapshot .home-career-table-section,
+#home-snapshot .home-bowling-card,
+#home-snapshot .home-bowling-stats {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+#home-snapshot .home-bowling-card {
+  padding: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(83, 208, 255, 0.2);
+  background: linear-gradient(150deg, #0c1f37, #091526 72%);
+}
+#home-snapshot .home-bowling-heading {
+  margin: 0;
+  padding: 16px 18px;
+  border-radius: 0;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(255, 123, 69, 0.2), transparent 42%),
+    linear-gradient(110deg, #0d3765 0%, #164d83 48%, #202e59 100%);
+  box-shadow: inset 4px 0 0 #ff824d;
+}
+#home-snapshot .home-bowling-stats {
+  padding: 14px;
+  margin: 0;
+  gap: 10px;
+}
+#home-snapshot .home-career-table-wrap {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#home-snapshot .home-career-table {
+  min-width: 760px;
+}
+@media (max-width: 680px) {
+  #home-snapshot .home-bowling-heading {
+    padding: 13px 14px 13px 17px;
+  }
+  #home-snapshot .home-bowling-stats {
+    padding: 10px;
+    gap: 7px;
+  }
+}
