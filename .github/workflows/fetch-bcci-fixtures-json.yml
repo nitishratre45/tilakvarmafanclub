@@ -1,4 +1,4 @@
-name: Refresh BCCI Fixtures and Live Scores JSON
+name: Refresh BCCI Fixtures, Live Scores and Scorecard JSON
 
 on:
   workflow_dispatch:
@@ -9,59 +9,82 @@ permissions:
   contents: write
 
 concurrency:
-  group: bcci-test-json-refresh
+  group: bcci-all-json-refresh
   cancel-in-progress: false
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Fetch fixtures JSON (fixtures endpoint only)
+
+      - name: Fetch fixtures JSON
+        id: fixtures
+        continue-on-error: true
         run: python bcci-fixtures-test/fetch_bcci_fixtures.py
-      - name: Fetch live scores JSON (live_scores endpoint only)
+
+      - name: Fetch live scores JSON
+        id: live
+        continue-on-error: true
         run: python bcci-fixtures-test/fetch_bcci_live_scores.py
-      - name: Upload separate JSON files
+
+      - name: Fetch scorecard JSON
+        id: scorecard
+        continue-on-error: true
+        run: python matches/scorecards/fetch_bcci_scorecard.py
+
+      - name: Upload all separate JSON snapshots
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: bcci-fixtures-and-live-scores
+          name: bcci-fixtures-live-scores-scorecard
           path: |
             bcci-fixtures-test/bcci-fixtures.json
             bcci-fixtures-test/bcci-live-scores.json
-          if-no-files-found: error
+            matches/scorecards/bcci-scorecard.json
+          if-no-files-found: warn
           retention-days: 7
-      - name: Commit updated test JSON files
-        if: success()
+
+      - name: Commit available JSON snapshots
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add bcci-fixtures-test/bcci-fixtures.json bcci-fixtures-test/bcci-live-scores.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Refresh isolated BCCI fixtures and live scores JSON"
-            # Other workflows may update main after checkout. Rebase our
-            # JSON-only commit onto the latest main before pushing.
-            for attempt in 1 2 3; do
-              git fetch origin main
-              if ! git rebase origin/main; then
-                echo "::error::Could not rebase refresh commit onto latest main."
-                git rebase --abort || true
-                exit 1
-              fi
-              if git push origin HEAD:main; then
-                echo "Refresh JSON commit pushed successfully."
-                exit 0
-              fi
-              echo "Push rejected (attempt $attempt); retrying with latest main."
-              sleep 2
-            done
-            echo "::error::Could not push refresh JSON commit after 3 attempts."
-            exit 1
-          else
-            echo "Both BCCI test JSON files are unchanged."
+          git add -f bcci-fixtures-test/bcci-fixtures.json bcci-fixtures-test/bcci-live-scores.json matches/scorecards/bcci-scorecard.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No JSON changes to commit."
+            exit 0
           fi
+          git commit -m "Refresh BCCI fixtures, live scores and scorecard JSON"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if ! git rebase origin/main; then
+              echo "::error::Could not rebase JSON snapshot commit onto latest main."
+              git rebase --abort || true
+              exit 1
+            fi
+            if git push origin HEAD:main; then
+              echo "All available JSON snapshots pushed."
+              exit 0
+            fi
+            echo "Push rejected (attempt $attempt); retrying."
+            sleep 2
+          done
+          echo "::error::Could not push JSON snapshots after 3 attempts."
+          exit 1
+
+      - name: Report fetch results
+        if: always()
+        run: |
+          echo "Fixtures step outcome: ${{ steps.fixtures.outcome }}"
+          echo "Live scores step outcome: ${{ steps.live.outcome }}"
+          echo "Scorecard step outcome: ${{ steps.scorecard.outcome }}"
