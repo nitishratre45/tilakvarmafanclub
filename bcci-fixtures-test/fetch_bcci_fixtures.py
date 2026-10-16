@@ -66,7 +66,16 @@ def main() -> int:
             raw = response.read()
             report["httpStatus"] = response.status
             report["contentType"] = response.headers.get("Content-Type", "")
-        report["data"] = json.loads(raw.decode("utf-8-sig"))
+        # BCCI occasionally labels the response JSON while returning a legacy
+        # single-byte encoding. Try UTF-8 first, then Windows-1252/Latin-1.
+        try:
+            decoded = raw.decode("utf-8-sig")
+        except UnicodeDecodeError:
+            try:
+                decoded = raw.decode("cp1252")
+            except UnicodeDecodeError:
+                decoded = raw.decode("latin-1")
+        report["data"] = json.loads(decoded)
         report["status"] = "ok"
     except HTTPError as exc:
         report["httpStatus"] = exc.code
