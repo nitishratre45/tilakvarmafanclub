@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "title": "Supplemental T20I scorecards awaiting verified over-by-over data",
-  "note": "These records are displayed separately and are deliberately excluded from death-over calculations until Tilak's striker-ball distribution by over is verified. Do not distribute innings runs across overs.",
+  "title": "Manual Tilak Varma T20I match records and linked full scorecards",
+  "note": "All four supplied match records are retained here. The 11 Jan 2024 India-Afghanistan record links to the full innings scorecard JSON. The other three records remain user-supplied and unverified. None are included in death-over totals unless verified ball-by-ball over data is added.",
   "matches": [
     {
       "date": "2024-01-11",
@@ -11,11 +11,20 @@
       "player": "Tilak Varma",
       "runs": 26,
       "balls": 22,
-      "fours": null,
-      "sixes": null,
-      "sourceStatus": "NEEDS SCORECARD VERIFICATION",
-      "overDataStatus": "PENDING BALL-BY-BALL OVER SPLIT",
-      "includeInDeathOvers": false
+      "fours": 2,
+      "sixes": 1,
+      "sourceStatus": "FULL MATCH SCORECARD SAVED FROM USER-UPLOADED JSON",
+      "overDataStatus": "NO BALL-BY-BALL OVER SPLIT IN SOURCE FILE",
+      "includeInDeathOvers": false,
+      "matchLabel": "1st T20I",
+      "venue": "Inderjit Singh Bindra Stadium, Mohali",
+      "result": "India won by 6 wickets",
+      "teamScores": {
+        "Afghanistan": "158/5 (20.0 overs)",
+        "India": "159/4 (17.3 overs)"
+      },
+      "dismissal": "c Gulbadin b Azmatullah",
+      "fullScorecardPath": "data/scorecards/india-afghanistan-1st-t20i-2024.json"
     },
     {
       "date": "2026-09-13",
@@ -28,9 +37,10 @@
       "balls": 4,
       "fours": 0,
       "sixes": 0,
-      "sourceStatus": "USER-UPLOADED MANUAL CSV — NOT VERIFIED",
+      "sourceStatus": "USER-SUPPLIED MANUAL RECORD — NOT INDEPENDENTLY VERIFIED",
       "overDataStatus": "INVALID OVER SPLIT — SAME SCORECARD TOTAL REPEATED FOR EACH OVER",
-      "includeInDeathOvers": false
+      "includeInDeathOvers": false,
+      "fullScorecardPath": null
     },
     {
       "date": "2026-09-15",
@@ -43,9 +53,10 @@
       "balls": 14,
       "fours": 1,
       "sixes": 0,
-      "sourceStatus": "USER-UPLOADED MANUAL CSV — NOT VERIFIED",
+      "sourceStatus": "USER-SUPPLIED MANUAL RECORD — NOT INDEPENDENTLY VERIFIED",
       "overDataStatus": "INVALID OVER SPLIT — SAME SCORECARD TOTAL REPEATED FOR EACH OVER",
-      "includeInDeathOvers": false
+      "includeInDeathOvers": false,
+      "fullScorecardPath": null
     },
     {
       "date": "2026-09-17",
@@ -58,11 +69,23 @@
       "balls": 5,
       "fours": 0,
       "sixes": 0,
-      "sourceStatus": "USER-UPLOADED MANUAL CSV — NOT VERIFIED",
+      "sourceStatus": "USER-SUPPLIED MANUAL RECORD — NOT INDEPENDENTLY VERIFIED",
       "overDataStatus": "INVALID OVER SPLIT — SAME SCORECARD TOTAL REPEATED FOR EACH OVER",
-      "includeInDeathOvers": false
+      "includeInDeathOvers": false,
+      "fullScorecardPath": null
     }
   ],
-  "updatedAt": "2026-10-16",
-  "verifiedDeathOverRunsAdded": 0
+  "updatedAt": "2026-10-15",
+  "verifiedDeathOverRunsAdded": 0,
+  "fullScorecardCoverage": {
+    "fullScorecardAvailableFor": [
+      "2024-01-11"
+    ],
+    "summaryOnlyManualRecords": [
+      "2026-09-13",
+      "2026-09-15",
+      "2026-09-17"
+    ],
+    "note": "Do not describe the three 2026 entries as full scorecards: only Tilak's supplied batting figures are present."
+  }
 }
