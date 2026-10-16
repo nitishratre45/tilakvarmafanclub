@@ -2916,21 +2916,29 @@
             matchCount = new Set(innings.map((i) => i.matchId || i.date + "|" + i.teams)).size,
             yearFilter = year?.value || "all",
             knownKeys = new Set(
-              innings.map((i) => String(i.date || "") + "|" + String(i.opposition || "").toLowerCase()),
+              innings.map(
+                (i) => String(i.date || "") + "|" + String(i.opposition || "").toLowerCase(),
+              ),
             ),
-            manualRows = active === "t20i"
-              ? (supplemental?.matches || []).filter((m) => {
-                  const inYear = yearFilter === "all" || String(m.date || "").slice(0, 4) === yearFilter;
-                  const key = String(m.date || "") + "|" + String(m.opposition || "").toLowerCase();
-                  return inYear && !knownKeys.has(key);
-                })
-              : [],
-            manual = manualRows.reduce((s, m) => ({
-              runs: s.runs + (+m.runs || 0),
-              balls: s.balls + (+m.balls || 0),
-              fours: s.fours + (m.fours == null ? 0 : +m.fours || 0),
-              sixes: s.sixes + (m.sixes == null ? 0 : +m.sixes || 0),
-            }), { runs: 0, balls: 0, fours: 0, sixes: 0 }),
+            manualRows =
+              active === "t20i"
+                ? (supplemental?.matches || []).filter((m) => {
+                    const inYear =
+                      yearFilter === "all" || String(m.date || "").slice(0, 4) === yearFilter;
+                    const key =
+                      String(m.date || "") + "|" + String(m.opposition || "").toLowerCase();
+                    return inYear && !knownKeys.has(key);
+                  })
+                : [],
+            manual = manualRows.reduce(
+              (s, m) => ({
+                runs: s.runs + (+m.runs || 0),
+                balls: s.balls + (+m.balls || 0),
+                fours: s.fours + (m.fours == null ? 0 : +m.fours || 0),
+                sixes: s.sixes + (m.sixes == null ? 0 : +m.sixes || 0),
+              }),
+              { runs: 0, balls: 0, fours: 0, sixes: 0 },
+            ),
             combined = {
               runs: t.runs + manual.runs,
               balls: t.balls + manual.balls,
