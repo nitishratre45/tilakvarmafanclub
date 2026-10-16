@@ -92,10 +92,8 @@
         const date = m.start_datetime_utc || m.start_date || m.date_string || "";
         return (
           '<article class="live-score-card">' +
-          '<div class="live-card-status"><span>' +
-          esc(statusText) +
-          "</span>" +
-          (need ? "<strong>" + esc(need) + "</strong>" : "") +
+          '<div class="live-card-status"><span class="live-status-label"><i></i>LIVE</span>' +
+          (need ? "<strong>" + esc(need) + "</strong>" : "<strong>" + esc(statusText) + "</strong>") +
           "</div>" +
           '<div class="live-card-main">' +
           '<div class="live-team">' +
@@ -116,16 +114,7 @@
           (scoreB ? '<div class="live-team-score"><strong>' + esc(scoreB) + '</strong><span>' + esc(oversB) + ' ov</span></div>' : "") +
           "</div>" +
           "</div>" +
-          '<div class="live-score-strip"><div class="live-batting-name">' +
-          esc(battingName || "Current innings") +
-          '</div><div class="live-score-value">' +
-          (isYetToBat
-            ? '<span class="live-yet">Yet to bat</span>'
-            : score
-              ? "<strong>" + esc(score) + "</strong>"
-              : '<span class="live-yet">Score unavailable</span>') +
-          (overs ? '<span class="live-overs">🏏 ' + esc(overs) + " ov</span>" : "") +
-          "</div></div>" +
+
           '<div class="live-card-footer"><div><strong>' +
           esc(m.primary_event_name || m.comp_name || "Cricket") +
           "</strong><span>" +
