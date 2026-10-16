@@ -402,19 +402,10 @@ check("One Over updates available overs when format changes", async () => {
   }
   await page.locator("#export-over-csv").waitFor({ state: "visible" });
   const exportButton = page.locator("#export-over-csv");
-  await page.evaluate(() => {
-    window.__oneOverCsvExport = null;
-    const originalCreateObjectURL = URL.createObjectURL.bind(URL);
-    URL.createObjectURL = (blob) => {
-      window.__oneOverCsvExport = { type: blob.type, size: blob.size };
-      return originalCreateObjectURL(blob);
-    };
-  });
+  const downloadPromise = page.waitForEvent("download", { timeout: 20000 });
   await exportButton.click({ force: true });
-  await page.waitForFunction(() => Boolean(window.__oneOverCsvExport), null, { timeout: 20000 });
-  const csvExport = await page.evaluate(() => window.__oneOverCsvExport);
-  assert.match(csvExport.type, /text\/csv/i, "CSV export should create a CSV Blob");
-  assert(csvExport.size > 10, "CSV export should contain a header or delivery data");
+  const download = await downloadPromise;
+  assert.match(download.suggestedFilename(), /^tilak-over-\d+-(?:odi|t20i|t20|ipl|overall_t20|hyderabad|test)-.+\.csv$/i, "Export should download a named CSV file");
   assert.deepEqual(pageErrors, [], "One Over should not throw uncaught browser errors: " + pageErrors.join(" | "));
   await page.close();
 });
