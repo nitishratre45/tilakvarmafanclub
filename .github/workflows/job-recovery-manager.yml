@@ -1,5 +1,15 @@
 name: Job recovery manager
 on:
+  workflow_run:
+    workflows:
+      - "Matches Folder Audit (12h)"
+      - "Matches Safe Auto-Repair"
+      - "Auto-rerun and diagnose failed GitHub Actions jobs"
+      - "Repository health monitor (10 minutes)"
+      - "Automation repository monitor (hourly)"
+      - "Format source code"
+      - "Browser smoke tests"
+    types: [completed]
   workflow_dispatch:
 permissions:
   actions: write
@@ -9,7 +19,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   inspect-and-recover:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.name != 'Job recovery manager'
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.name != 'Job recovery manager')
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
