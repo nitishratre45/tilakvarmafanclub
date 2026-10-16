@@ -47,7 +47,17 @@
     </nav>
 
     <main class="container">
-      <section class="upcoming-hero" aria-label="Upcoming matches">
+      <section id="liveMatchesSection" class="live-matches-section panel" aria-labelledby="liveMatchesHeading" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LIVE · BCCI FEED</p>
+            <h2 id="liveMatchesHeading">Live Matches</h2>
+          </div>
+          <span id="liveMatchCount" class="result-count">0 live</span>
+        </div>
+        <div id="liveMatchList" class="fixture-list live-match-list" aria-live="polite"></div>
+      </section>
+            <section class="upcoming-hero" aria-label="Upcoming matches">
         <p class="eyebrow">TILAK VARMA · VERIFIED MATCHES</p>
         <h1>UPCOMING <span>MATCHES</span></h1>
         <div class="upcoming-hero-rule" aria-hidden="true"></div>
