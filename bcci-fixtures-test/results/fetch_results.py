@@ -61,7 +61,7 @@ def request_page(page):
     # Avoid team/date filters here: they can silently return an empty response for
     # otherwise valid completed-result records.
     params = [("comp_gid", value) for value in COMP_GIDS]
-    params.extend([("page", str(page)), ("size", str(PAGE_SIZE))]
+    params.extend([("page", str(page)), ("size", str(PAGE_SIZE))])
     url = BASE_URL + "?" + urlencode(params)
     req = Request(url, headers={
         "User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClub-BCCI-Results/1.0)",
