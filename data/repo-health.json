@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-16T18:48:01+00:00",
+  "checkedAt": "2026-10-16T20:29:44+00:00",
   "intervalMinutes": 10,
   "status": "healthy",
   "summary": {
-    "filesScanned": 506,
-    "checksPassed": 431,
+    "filesScanned": 501,
+    "checksPassed": 428,
     "issues": 0,
     "warnings": 0
   },
@@ -172,11 +172,6 @@
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "bcci-fixtures-test/bcci-live-scores.json"
-    },
-    {
-      "level": "pass",
       "message": "CSS block/string/comment structure OK",
       "file": "bcci-fixtures-test/bcci-scorecard-page.css"
     },
@@ -212,13 +207,23 @@
     },
     {
       "level": "pass",
-      "message": "Python syntax OK",
-      "file": "bcci-fixtures-test/fetch_bcci_fixtures.py"
+      "message": "No duplicate HTML IDs",
+      "file": "bcci-fixtures-test/details/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "CSS block/string/comment structure OK",
+      "file": "bcci-fixtures-test/details/match-details.css"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "bcci-fixtures-test/details/match-details.js"
     },
     {
       "level": "pass",
       "message": "Python syntax OK",
-      "file": "bcci-fixtures-test/fetch_bcci_live_scores.py"
+      "file": "bcci-fixtures-test/fetch_bcci_fixtures.py"
     },
     {
       "level": "pass",
@@ -237,16 +242,6 @@
     },
     {
       "level": "pass",
-      "message": "No duplicate HTML IDs",
-      "file": "bcci-fixtures-test/live-scores.html"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "bcci-fixtures-test/live-scores.js"
-    },
-    {
-      "level": "pass",
       "message": "CSS block/string/comment structure OK",
       "file": "bcci-fixtures-test/match-centre-modal.css"
     },
@@ -254,31 +249,6 @@
       "level": "pass",
       "message": "JavaScript syntax OK",
       "file": "bcci-fixtures-test/match-centre-modal.js"
-    },
-    {
-      "level": "pass",
-      "message": "Python syntax OK",
-      "file": "bcci-fixtures-test/results/fetch_results.py"
-    },
-    {
-      "level": "pass",
-      "message": "No duplicate HTML IDs",
-      "file": "bcci-fixtures-test/results/index.html"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "bcci-fixtures-test/results/results.css"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "bcci-fixtures-test/results/results.js"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "bcci-fixtures-test/results/results.json"
     },
     {
       "level": "pass",
@@ -294,6 +264,21 @@
       "level": "pass",
       "message": "JavaScript syntax OK",
       "file": "bcci-fixtures-test/scorecard.js"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
+      "file": "bcci-fixtures-test/scorecards/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "CSS block/string/comment structure OK",
+      "file": "bcci-fixtures-test/scorecards/scorecard-page.css"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "bcci-fixtures-test/scorecards/scorecard-page.js"
     },
     {
       "level": "pass",
@@ -1259,6 +1244,21 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/scorecards/data/2025-05-21-t20-mumbai-indians-vs-delhi-capitals-85e8555eef50.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/data/2025-05-26-t20-mumbai-indians-vs-punjab-kings-b305ca583123.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/data/2025-05-30-t20-mumbai-indians-vs-gujarat-titans-d50a8f3db3b7.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/data/2025-06-01-t20-mumbai-indians-vs-punjab-kings-9b043db05d4f.json"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "8304451c"
+    "branch": "0a109280"
   }
 }
