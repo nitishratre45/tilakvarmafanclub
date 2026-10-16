@@ -30,6 +30,17 @@
     "united states": "us",
     japan: "jp",
     italy: "it",
+    "mumbai indians": "in",
+    "chennai super kings": "in",
+    "kolkata knight riders": "in",
+    "royal challengers bengaluru": "in",
+    "royal challengers bangalore": "in",
+    "rajasthan royals": "in",
+    "sunrisers hyderabad": "in",
+    "delhi capitals": "in",
+    "punjab kings": "in",
+    "gujarat titans": "in",
+    "lucknow super giants": "in",
   };
   const initials = (n) =>
     String(n || "?")
