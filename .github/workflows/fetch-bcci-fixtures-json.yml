@@ -37,10 +37,15 @@ jobs:
         continue-on-error: true
         run: python bcci-fixtures-test/fetch_bcci_live_scores.py
 
-      - name: Fetch scorecard JSON
+      - name: Fetch scorecard JSON (archive snapshot)
         id: scorecard
         continue-on-error: true
         run: python matches/scorecards/fetch_bcci_scorecard.py
+
+      - name: Fetch dedicated score folder JSON
+        id: scorefolder
+        continue-on-error: true
+        run: python score/fetch_score.py
 
       - name: Upload all separate JSON snapshots
         if: always()
@@ -51,6 +56,7 @@ jobs:
             bcci-fixtures-test/bcci-fixtures.json
             bcci-fixtures-test/bcci-live-scores.json
             matches/scorecards/bcci-scorecard.json
+            score/score.json
           if-no-files-found: warn
           retention-days: 7
 
@@ -59,7 +65,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f bcci-fixtures-test/bcci-fixtures.json bcci-fixtures-test/bcci-live-scores.json matches/scorecards/bcci-scorecard.json 2>/dev/null || true
+          git add -f bcci-fixtures-test/bcci-fixtures.json bcci-fixtures-test/bcci-live-scores.json matches/scorecards/bcci-scorecard.json score/score.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No JSON changes to commit."
             exit 0
@@ -88,3 +94,4 @@ jobs:
           echo "Fixtures step outcome: ${{ steps.fixtures.outcome }}"
           echo "Live scores step outcome: ${{ steps.live.outcome }}"
           echo "Scorecard step outcome: ${{ steps.scorecard.outcome }}"
+          echo "Dedicated score folder outcome: ${{ steps.scorefolder.outcome }}"
