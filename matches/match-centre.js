@@ -133,7 +133,7 @@
         String(value || "")
           .trim()
           .toLowerCase()
-          .replace(/\\s+/g, " ");
+          .replace(/\s+/g, " ");
       const liveIds = new Set(
         liveMatches.map((m) => norm(m.id || m.matchId || m.match_id || m.gid)).filter(Boolean),
       );
