@@ -1,0 +1,92 @@
+/* Shared mobile responsiveness guardrails. Keep wide data readable via swipe, never squeeze every letter. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  min-width: 0;
+  max-width: 100%;
+}
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+@media (max-width: 800px) {
+  main,
+  section,
+  article,
+  .container,
+  .page-shell,
+  .content-wrap,
+  .stats-section,
+  .stats-section > *,
+  .home-snapshot-section {
+    min-width: 0;
+  }
+  /* Data tables retain readable column widths; the wrapper becomes the swipe area. */
+  :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap, .home-career-table-wrap, .bowling-breakdown-wrap, .bowling-innings-wrap) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+  :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap, .home-career-table-wrap, .bowling-breakdown-wrap, .bowling-innings-wrap) > table {
+    width: max-content;
+    min-width: 100%;
+    max-width: none;
+    table-layout: auto;
+  }
+  :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap, .home-career-table-wrap, .bowling-breakdown-wrap, .bowling-innings-wrap) th,
+  :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap, .home-career-table-wrap, .bowling-breakdown-wrap, .bowling-innings-wrap) td {
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
+  }
+  /* Prevent long URLs/labels from pushing the entire viewport sideways. */
+  p,
+  .description,
+  .subtitle,
+  .data-note {
+    overflow-wrap: anywhere;
+  }
+  /* Comfortable tap targets without forcing all controls to full width. */
+  button,
+  [role="button"],
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+@media (max-width: 420px) {
+  :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap, .home-career-table-wrap, .bowling-breakdown-wrap, .bowling-innings-wrap) th,
+  :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap, .home-career-table-wrap, .bowling-breakdown-wrap, .bowling-innings-wrap) td {
+    padding-inline: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
