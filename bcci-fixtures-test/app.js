@@ -22,19 +22,21 @@
     const bcci = payload?.data ?? payload;
     const matches = Array.isArray(bcci?.match)
       ? bcci.match
-      : Array.isArray(bcci?.data?.match)
-        ? bcci.data.match
-        : Array.isArray(bcci?.fixtures)
-          ? bcci.fixtures
-          : Array.isArray(bcci?.matches)
-            ? bcci.matches
-            : [];
+      : Array.isArray(bcci?.live_scores)
+        ? bcci.live_scores
+        : Array.isArray(bcci?.data?.match)
+          ? bcci.data.match
+          : Array.isArray(bcci?.fixtures)
+            ? bcci.fixtures
+            : Array.isArray(bcci?.matches)
+              ? bcci.matches
+              : [];
     // Keep the requested display limit at 12 even if the JSON later contains more.
     return matches.slice(0, 12).map((m, i) => ({
       home: pick(m, ["team1_name", "team1_short_name", "home_team_name"], "Team A"),
       away: pick(m, ["team2_name", "team2_short_name", "away_team_name"], "Team B"),
-      date: pick(m, ["start_date", "date_string", "end_date"]),
-      time: pick(m, ["start_time_local"]),
+      date: pick(m, ["start_date", "date_string", "start_datetime_utc", "end_date"]),
+      time: pick(m, ["start_time_local", "start_datetime_utc"]),
       venue: pick(m, ["ground_name", "ground_city", "ground_short_name"]),
       competition: pick(m, ["comp_name", "primary_event_name", "alt_comp_name"], "BCCI Fixture"),
       status: pick(m, ["match_status", "live_status_name"], "Scheduled"),
