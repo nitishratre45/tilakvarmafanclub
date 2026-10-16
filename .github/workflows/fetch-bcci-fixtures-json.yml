@@ -44,7 +44,24 @@ jobs:
           git add bcci-fixtures-test/bcci-fixtures.json bcci-fixtures-test/bcci-live-scores.json
           if ! git diff --cached --quiet; then
             git commit -m "Refresh isolated BCCI fixtures and live scores JSON"
-            git push
+            # Other workflows may update main after checkout. Rebase our
+            # JSON-only commit onto the latest main before pushing.
+            for attempt in 1 2 3; do
+              git fetch origin main
+              if ! git rebase origin/main; then
+                echo "::error::Could not rebase refresh commit onto latest main."
+                git rebase --abort || true
+                exit 1
+              fi
+              if git push origin HEAD:main; then
+                echo "Refresh JSON commit pushed successfully."
+                exit 0
+              fi
+              echo "Push rejected (attempt $attempt); retrying with latest main."
+              sleep 2
+            done
+            echo "::error::Could not push refresh JSON commit after 3 attempts."
+            exit 1
           else
             echo "Both BCCI test JSON files are unchanged."
           fi
