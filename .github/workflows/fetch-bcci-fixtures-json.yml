@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: bcci-fixtures-json-fetch
@@ -33,3 +33,18 @@ jobs:
           path: bcci-fixtures-test/bcci-fixtures.json
           if-no-files-found: error
           retention-days: 7
+
+      - name: Save JSON in repository
+        if: success()
+        run: |
+          if [ -f bcci-fixtures-test/bcci-fixtures.json ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add bcci-fixtures-test/bcci-fixtures.json
+            if ! git diff --cached --quiet; then
+              git commit -m "Update isolated BCCI fixtures JSON"
+              git push
+            else
+              echo "BCCI fixtures JSON unchanged."
+            fi
+          fi
