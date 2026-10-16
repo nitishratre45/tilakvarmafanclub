@@ -71,3 +71,206 @@
     animation: none;
   }
 }
+
+
+/* Stats Centre responsive hardening — scoped to this page only. */
+.stats-page,
+.stats-page-main,
+.stats-page #stats,
+.stats-page .stats-subview,
+.stats-page .section-heading,
+.stats-page .statsguru-panel,
+.stats-page .bowling-breakdown-wrap,
+.stats-page .bowling-innings-wrap {
+  min-width: 0;
+  max-width: 100%;
+}
+.stats-page .section-heading > *,
+.stats-page .statsguru-sourcebar > *,
+.stats-page .bowling-sourcebar > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.stats-page .table-wrap,
+.stats-page .statsguru-table-wrap,
+.stats-page .statsguru-panel .table-wrap {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-inline: contain;
+  scrollbar-gutter: stable;
+}
+.stats-page .table-wrap table,
+.stats-page .statsguru-table-wrap table,
+.stats-page .statsguru-panel table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.stats-page .table-wrap th,
+.stats-page .table-wrap td,
+.stats-page .statsguru-panel th,
+.stats-page .statsguru-panel td {
+  white-space: nowrap;
+  vertical-align: middle;
+  line-height: 1.45;
+}
+.stats-page .table-wrap td:first-child,
+.stats-page .table-wrap th:first-child,
+.stats-page .statsguru-panel td:first-child,
+.stats-page .statsguru-panel th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--panel, #0d1a2c);
+}
+.stats-page .table-wrap th:first-child,
+.stats-page .statsguru-panel th:first-child {
+  z-index: 3;
+}
+.stats-page .statsguru-format-tabs,
+.stats-page .bowling-format-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 4px 2px 10px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-inline: contain;
+}
+.stats-page .statsguru-format-tabs button,
+.stats-page .bowling-format-tabs button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.stats-page .player-analysis-grid > *,
+.stats-page .player-analysis-actions > * {
+  min-width: 0;
+}
+.stats-page .player-analysis-grid select,
+.stats-page .player-analysis-grid input {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.stats-page .stats-grid,
+.stats-page .career-formats,
+.stats-page .bowling-summary {
+  min-width: 0;
+}
+.stats-page .stat-card,
+.stats-page .format-card,
+.stats-page .statsguru-metric {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.stats-page .format-meta-row,
+.stats-page .format-main-row,
+.stats-page .format-batting-facts {
+  min-width: 0;
+}
+.stats-page .empty {
+  white-space: normal !important;
+  min-width: 180px;
+  line-height: 1.5;
+}
+.stats-page button,
+.stats-page a,
+.stats-page summary,
+.stats-page input,
+.stats-page select {
+  touch-action: manipulation;
+}
+.stats-page :focus-visible {
+  outline: 2px solid #ff9a62;
+  outline-offset: 3px;
+}
+@media (max-width: 760px) {
+  .stats-page-main {
+    width: 100%;
+  }
+  .stats-page #stats.stats-section {
+    min-height: 0;
+  }
+  .stats-page .section {
+    padding: 30px 16px;
+  }
+  .stats-page .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .stats-page .section-heading > p {
+    max-width: none;
+    margin: 0;
+    line-height: 1.6;
+  }
+  .stats-page .stats-subnav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    padding: 0 12px;
+  }
+  .stats-page .stats-subnav button {
+    min-width: 0;
+    padding: 11px 6px;
+    font-size: 12px;
+  }
+  .stats-page .statsguru-format-tabs,
+  .stats-page .bowling-format-tabs {
+    margin-inline: -2px;
+  }
+  .stats-page .player-analysis-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .stats-page .player-analysis-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .stats-page .player-analysis-actions button {
+    flex: 1 1 135px;
+    min-width: 0;
+    justify-content: center;
+  }
+  .stats-page .statsguru-sourcebar,
+  .stats-page .bowling-sourcebar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+    overflow-wrap: anywhere;
+  }
+  .stats-page .table-wrap,
+  .stats-page .statsguru-table-wrap,
+  .stats-page .statsguru-panel .table-wrap {
+    border-radius: 10px;
+    scrollbar-width: thin;
+  }
+  .stats-page .table-wrap th,
+  .stats-page .table-wrap td,
+  .stats-page .statsguru-panel th,
+  .stats-page .statsguru-panel td {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  .stats-page-footer {
+    padding: 18px 16px calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (max-width: 380px) {
+  .stats-page .section {
+    padding-inline: 12px;
+  }
+  .stats-page .stats-subnav {
+    padding-inline: 8px;
+  }
+  .stats-page .stats-subnav button {
+    font-size: 11px;
+  }
+}
