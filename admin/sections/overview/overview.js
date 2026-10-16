@@ -1,5 +1,1 @@
-(() => {
-  const root = document.getElementById("dashboard");
-  if (!root) return;
-  root.dataset.adminSectionModule = "overview";
-})();
+(() => { const root=document.getElementById("dashboard"); if(!root)return; root.dataset.adminSectionModule="overview"; })();
