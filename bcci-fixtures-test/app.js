@@ -189,7 +189,7 @@
 
   async function load() {
     const button = $("refreshBtn");
-    button.disabled = true;
+    if (button) button.disabled = true;
     $("fixtureList").hidden = false;
     $("fixtureList").innerHTML = '<div class="loading-state">Loading Tilak Varma squad-confirmed BCCI fixtures…</div>';
     try {
@@ -273,10 +273,10 @@
       state.fixtures = [...byKey.values()].sort((a,b) => a.date.localeCompare(b.date));
       const rawData = bcciPayload.data ?? bcciPayload;
       const page = rawData.page ?? {};
-      $("totalCount").textContent = state.fixtures.length;
-      $("pageCount").textContent = page.last_page ?? statsPayload?.pagination?.last_page ?? 1;
-      $("lastUpdated").textContent = bcciPayload.fetchedAt ? fmt(bcciPayload.fetchedAt) : (statsPayload?.checkedAt ? fmt(statsPayload.checkedAt) : "Loaded");
-      $("sourceStatus").textContent = "Squad confirmed · exact BCCI match · live/old fixtures excluded";
+      if ($("totalCount")) $("totalCount").textContent = state.fixtures.length;
+      if ($("pageCount")) $("pageCount").textContent = page.last_page ?? statsPayload?.pagination?.last_page ?? 1;
+      if ($("lastUpdated")) $("lastUpdated").textContent = bcciPayload.fetchedAt ? fmt(bcciPayload.fetchedAt) : (statsPayload?.checkedAt ? fmt(statsPayload.checkedAt) : "Loaded");
+      if ($("sourceStatus")) $("sourceStatus").textContent = "Squad confirmed · exact BCCI match · live/old fixtures excluded";
       const statuses = [...new Set(state.fixtures.map(f => f.status).filter(Boolean))].sort();
       const filter = $("statusFilter");
       const old = filter.value;
@@ -289,21 +289,83 @@
         $("emptyState").hidden = true;
       }
     } catch (error) {
-      $("totalCount").textContent = "—";
-      $("pageCount").textContent = "—";
-      $("lastUpdated").textContent = "Unavailable";
-      $("sourceStatus").textContent = "Could not load snapshot";
+      if ($("totalCount")) $("totalCount").textContent = "—";
+      if ($("pageCount")) $("pageCount").textContent = "—";
+      if ($("lastUpdated")) $("lastUpdated").textContent = "Unavailable";
+      if ($("sourceStatus")) $("sourceStatus").textContent = "Could not load snapshot";
       $("fixtureList").hidden = false;
       $("fixtureList").innerHTML = '<div class="loading-state">' + esc(error.message) + '<br><br><a class="secondary-btn" href="./bcci-fixtures.json" target="_blank" rel="noopener">Open JSON file</a></div>';
       $("resultCount").textContent = "No data";
     } finally {
-      button.disabled = false;
+      if (button) button.disabled = false;
     }
   }
 
-  $("refreshBtn").addEventListener("click", load);
-  $("searchInput").addEventListener("input", render);
-  $("statusFilter").addEventListener("change", render);
-  $("sortFilter").addEventListener("change", render);
+  if ($("refreshBtn")) $("refreshBtn").addEventListener("click", load);
+  $("searchInput")?.addEventListener("input", render);
+  $("statusFilter")?.addEventListener("change", render);
+  $("sortFilter")?.addEventListener("change", render);
+
+  // Poll the dedicated BCCI live snapshot. No periodic page refresh while idle.
+  let liveMode = false;
+  let liveRefreshTimer = null;
+  async function checkLiveMode() {
+    try {
+      const response = await fetch("./bcci-live-scores.json?t=" + Date.now(), { cache: "no-store" });
+      if (!response.ok) throw new Error("Live snapshot unavailable");
+      const payload = await response.json();
+      const source = payload?.data ?? payload;
+      const matches = Array.isArray(source?.live_scores) ? source.live_scores : (Array.isArray(source?.matches) ? source.matches : []);
+      const live = matches.filter(match => {
+        const status = [match.match_status, match.match_status_str, match.match_status_name, match.live_status_name, match.status]
+          .filter(Boolean).join(" ").toLowerCase().replace(/[_-]+/g, " ");
+        return /\b(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed)\b/.test(status)
+          && !/complete|completed|finished|end of match|result/.test(status);
+      });
+      const title = $("liveRefreshTitle");
+      const message = $("liveRefreshMessage");
+      const stateBadge = $("liveRefreshState");
+      if (live.length) {
+        if (!liveMode) {
+          liveMode = true;
+          if (message) message.textContent = live.length + " live match(es) detected. Fixture data will refresh while live play continues.";
+          if (stateBadge) { stateBadge.textContent = "LIVE · AUTO"; stateBadge.classList.add("is-live"); }
+          await load();
+        } else if (message) {
+          message.textContent = live.length + " live match(es) detected. Last checked " + new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}) + ".";
+        }
+        if (liveRefreshTimer) clearInterval(liveRefreshTimer);
+        liveRefreshTimer = setInterval(async () => {
+          try {
+            const again = await fetch("./bcci-live-scores.json?t=" + Date.now(), {cache:"no-store"});
+            const data = await again.json();
+            const root = data?.data ?? data;
+            const items = Array.isArray(root?.live_scores) ? root.live_scores : [];
+            const stillLive = items.some(match => {
+              const status = [match.match_status, match.match_status_str, match.match_status_name, match.live_status_name, match.status].filter(Boolean).join(" ").toLowerCase().replace(/[_-]+/g," ");
+              return /\b(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed)\b/.test(status) && !/complete|completed|finished|end of match|result/.test(status);
+            });
+            if (stillLive) await load();
+            else {
+              liveMode = false;
+              clearInterval(liveRefreshTimer); liveRefreshTimer = null;
+              if (message) message.textContent = "No live match now. Automatic refresh has paused.";
+              if (stateBadge) { stateBadge.textContent = "Standby"; stateBadge.classList.remove("is-live"); }
+            }
+          } catch (_) { /* Keep the last rendered state if the live snapshot temporarily fails. */ }
+        }, 60000);
+      } else {
+        if (liveMode && liveRefreshTimer) clearInterval(liveRefreshTimer);
+        liveMode = false; liveRefreshTimer = null;
+        if (title) title.textContent = "Live-aware updates";
+        if (message) message.textContent = "No match is live. Automatic refresh is paused.";
+        if (stateBadge) { stateBadge.textContent = "Standby"; stateBadge.classList.remove("is-live"); }
+      }
+    } catch (_) {
+      if ($("liveRefreshMessage")) $("liveRefreshMessage").textContent = "Live status is unavailable; automatic refresh remains paused.";
+    }
+  }
   load();
+  checkLiveMode();
+  setInterval(checkLiveMode, 60000);
 })();
