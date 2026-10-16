@@ -162,38 +162,102 @@
     const button = $("refreshBtn");
     button.disabled = true;
     $("fixtureList").hidden = false;
-    $("fixtureList").innerHTML = '<div class="loading-state">Loading saved BCCI fixtures…</div>';
+    $("fixtureList").innerHTML = '<div class="loading-state">Loading Tilak Varma squad-confirmed BCCI fixtures…</div>';
     try {
-      const response = await fetch("./bcci-fixtures.json?t=" + Date.now(), { cache: "no-store" });
-      if (!response.ok)
-        throw new Error("Could not load bcci-fixtures.json (HTTP " + response.status + ").");
-      const payload = await response.json();
-      if (payload.status && payload.status !== "ok")
-        throw new Error(payload.error || "Python fetch status: " + payload.status);
+      // Read-only reuse of the Matches page's existing pipeline. Do not edit Matches files.
+      const [bcciResponse, confirmedResponse, statsResponse, liveResponse] = await Promise.all([
+        fetch("./bcci-fixtures.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
+        fetch("/matches/upcoming-fixtures-refresh.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
+        fetch("/matches/bcci-stats-fixtures.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
+        fetch("/matches/live/live-matches.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
+      ]);
+      const bcciPayload = bcciResponse?.ok ? await bcciResponse.json().catch(() => null) : null;
+      const confirmedPayload = confirmedResponse?.ok ? await confirmedResponse.json().catch(() => null) : null;
+      const statsPayload = statsResponse?.ok ? await statsResponse.json().catch(() => null) : null;
+      const livePayload = liveResponse?.ok ? await liveResponse.json().catch(() => null) : null;
+      if (!bcciPayload) throw new Error("Could not load bcci-fixtures.json");
+      if (bcciPayload.status && bcciPayload.status !== "ok") throw new Error(bcciPayload.error || "BCCI snapshot status: " + bcciPayload.status);
 
-      state.fixtures = normalise(payload);
-      const bcci = payload.data ?? payload;
-      const page = bcci.page ?? {};
+      const norm = (value) => String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+      const normalMatch = (value) => String(value || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+      const liveMatches = Array.isArray(livePayload?.matches) ? livePayload.matches : [];
+      const liveIds = new Set(liveMatches.map(m => norm(m.id || m.matchId || m.match_id || m.gid)).filter(Boolean));
+      const livePairKeys = new Set(liveMatches.map(m => {
+        const a = norm(m.team1 || m.team1_name || m.team1Name || m.homeTeam);
+        const b = norm(m.team2 || m.team2_name || m.team2Name || m.awayTeam);
+        return [a, b].filter(Boolean).sort().join("|");
+      }).filter(Boolean));
+      const statsFixtures = statsPayload?.status === "updated-from-bcci-stats" && Array.isArray(statsPayload.fixtures)
+        ? statsPayload.fixtures : [];
+      const newsFixtures = confirmedPayload?.status === "updated-from-news-and-bcci-json" && Array.isArray(confirmedPayload.fixtures)
+        ? confirmedPayload.fixtures.filter(f => f && f.tilakInSquad === true
+          && f.confirmationSource === "BCCI squad announcement naming Tilak Varma"
+          && String(f.newsUrl || "").startsWith("/News-details/index.html?id="))
+        : [];
+      const exactBcciFixture = (newsFixture) => {
+        const date = String(newsFixture.date || "");
+        const match = normalMatch(newsFixture.match);
+        const opponent = normalMatch(newsFixture.opponent);
+        if (!date || !match || !opponent) return null;
+        return statsFixtures.find(bcci => String(bcci.date || "") === date
+          && normalMatch(bcci.match) === match
+          && [normalMatch(bcci.team), normalMatch(bcci.opponent)].includes("india")
+          && [normalMatch(bcci.team), normalMatch(bcci.opponent)].includes(opponent)
+          && new Set([normalMatch(bcci.team), normalMatch(bcci.opponent)]).size === 2) || null;
+      };
+
+      // Only show fixtures confirmed by the existing Matches pipeline, then require an exact BCCI date/match/opponent join.
+      const byKey = new Map();
+      newsFixtures.forEach(newsFixture => {
+        const bcci = exactBcciFixture(newsFixture);
+        if (!bcci) return;
+        const ids = [bcci.matchId, bcci.match_id, bcci.gid, bcci.fixtureId, bcci.id, bcci.rawBcci?.match_id, bcci.rawBcci?.gid].map(norm).filter(Boolean);
+        const pair = [norm("India"), norm(bcci.opponent || newsFixture.opponent)].sort().join("|");
+        if (ids.some(id => liveIds.has(id)) || livePairKeys.has(pair)) return;
+        const date = String(bcci.date || "");
+        const time = String(bcci.time || "").trim();
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+        const today = new Intl.DateTimeFormat("en-CA", {timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+        if (date < today) return;
+        if (date === today && time) {
+          const startTime = Date.parse(date + "T" + time + ":00+05:30");
+          if (Number.isFinite(startTime) && startTime + 4 * 60 * 60 * 1000 <= Date.now()) return;
+        }
+        const key = [date, ...["India", bcci.opponent || newsFixture.opponent].map(normalMatch).sort()].join("|");
+        if (!byKey.has(key)) {
+          byKey.set(key, {
+            home: bcci.team || "India",
+            away: bcci.opponent || newsFixture.opponent,
+            date,
+            time: bcci.time || "",
+            venue: bcci.venue || "",
+            competition: bcci.source ? (bcci.comp_name || bcci.competition || "BCCI Fixtures") : (bcci.comp_name || "BCCI Fixtures"),
+            status: bcci.status || bcci.match_status || "forthcoming",
+            id: bcci.matchId || bcci.match_id || bcci.gid || "",
+            title: bcci.match || bcci.label || "",
+            result: "",
+            tilakConfirmed: true,
+            newsUrl: newsFixture.newsUrl || "",
+          });
+        }
+      });
+      state.fixtures = [...byKey.values()].sort((a,b) => a.date.localeCompare(b.date));
+      const rawData = bcciPayload.data ?? bcciPayload;
+      const page = rawData.page ?? {};
       $("totalCount").textContent = state.fixtures.length;
-      $("pageCount").textContent = page.last_page ?? 1;
-      $("lastUpdated").textContent = payload.fetchedAt ? fmt(payload.fetchedAt) : "Unknown";
-      $("sourceStatus").textContent = payload.httpStatus
-        ? "HTTP " + payload.httpStatus + " · " + payload.status
-        : "Snapshot loaded";
-
-      const statuses = [...new Set(state.fixtures.map((f) => f.status).filter(Boolean))].sort();
+      $("pageCount").textContent = page.last_page ?? statsPayload?.pagination?.last_page ?? 1;
+      $("lastUpdated").textContent = bcciPayload.fetchedAt ? fmt(bcciPayload.fetchedAt) : (statsPayload?.checkedAt ? fmt(statsPayload.checkedAt) : "Loaded");
+      $("sourceStatus").textContent = "Squad confirmed · exact BCCI match · live/old fixtures excluded";
+      const statuses = [...new Set(state.fixtures.map(f => f.status).filter(Boolean))].sort();
       const filter = $("statusFilter");
       const old = filter.value;
-      filter.innerHTML =
-        '<option value="all">All statuses</option>' +
-        statuses.map((s) => '<option value="' + esc(s) + '">' + esc(s) + "</option>").join("");
+      filter.innerHTML = '<option value="all">All statuses</option>' + statuses.map(s => '<option value="' + esc(s) + '">' + esc(s) + '</option>').join("");
       if (statuses.includes(old)) filter.value = old;
       render();
-
       if (!state.fixtures.length) {
         $("fixtureList").hidden = false;
-        $("fixtureList").innerHTML =
-          '<div class="loading-state">JSON loaded, but no records were found at data.match.</div>';
+        $("fixtureList").innerHTML = '<div class="loading-state">No upcoming BCCI fixture currently matches the Matches folder’s Tilak Varma squad-confirmation rules. No unconfirmed matches are shown.</div>';
+        $("emptyState").hidden = true;
       }
     } catch (error) {
       $("totalCount").textContent = "—";
@@ -201,10 +265,7 @@
       $("lastUpdated").textContent = "Unavailable";
       $("sourceStatus").textContent = "Could not load snapshot";
       $("fixtureList").hidden = false;
-      $("fixtureList").innerHTML =
-        '<div class="loading-state">' +
-        esc(error.message) +
-        '<br><br><a class="secondary-btn" href="./bcci-fixtures.json" target="_blank" rel="noopener">Open JSON file</a></div>';
+      $("fixtureList").innerHTML = '<div class="loading-state">' + esc(error.message) + '<br><br><a class="secondary-btn" href="./bcci-fixtures.json" target="_blank" rel="noopener">Open JSON file</a></div>';
       $("resultCount").textContent = "No data";
     } finally {
       button.disabled = false;
