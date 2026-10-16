@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "recordType": "full-match-scorecard",
-  "sourceFile": "user-uploaded match JSON",
+  "sourceFile": "User-uploaded match JSON",
   "match": {
     "matchId": "217026",
     "date": "2024-01-11",
@@ -10,7 +10,6 @@
     "venue": "Inderjit Singh Bindra Stadium, Mohali",
     "city": "Mohali, Chandigarh",
     "result": "India win by 6 wickets",
-    "winnerTeamId": "6",
     "format": "T20I"
   },
   "teams": [
@@ -39,10 +38,12 @@
       "wickets": 5,
       "overs": "20.0",
       "extras": 8,
-      "wides": 4,
-      "noBalls": 1,
-      "byes": 0,
-      "legByes": 3,
+      "extrasBreakdown": {
+        "wides": 4,
+        "noBalls": 1,
+        "byes": 0,
+        "legByes": 3
+      },
       "runBreakdown": {
         "dots": 43,
         "fours": 14,
@@ -54,7 +55,8 @@
       "batting": [
         {
           "playerId": "67497",
-          "battingPosition": 1,
+          "name": "67497",
+          "position": 1,
           "runs": 23,
           "balls": 28,
           "fours": 2,
@@ -64,7 +66,8 @@
         },
         {
           "playerId": "66565",
-          "battingPosition": 2,
+          "name": "66565",
+          "position": 2,
           "runs": 25,
           "balls": 22,
           "fours": 2,
@@ -74,7 +77,8 @@
         },
         {
           "playerId": "66512",
-          "battingPosition": 3,
+          "name": "66512",
+          "position": 3,
           "runs": 29,
           "balls": 22,
           "fours": 2,
@@ -84,7 +88,8 @@
         },
         {
           "playerId": "25241",
-          "battingPosition": 4,
+          "name": "25241",
+          "position": 4,
           "runs": 3,
           "balls": 6,
           "fours": 0,
@@ -94,7 +99,8 @@
         },
         {
           "playerId": "24611",
-          "battingPosition": 5,
+          "name": "24611",
+          "position": 5,
           "runs": 42,
           "balls": 27,
           "fours": 2,
@@ -104,7 +110,8 @@
         },
         {
           "playerId": "25239",
-          "battingPosition": 6,
+          "name": "25239",
+          "position": 6,
           "runs": 19,
           "balls": 11,
           "fours": 4,
@@ -114,7 +121,8 @@
         },
         {
           "playerId": "42547",
-          "battingPosition": 7,
+          "name": "42547",
+          "position": 7,
           "runs": 9,
           "balls": 5,
           "fours": 2,
@@ -124,7 +132,8 @@
         },
         {
           "playerId": "24614",
-          "battingPosition": 8,
+          "name": "24614",
+          "position": 8,
           "runs": 0,
           "balls": 0,
           "fours": 0,
@@ -134,7 +143,8 @@
         },
         {
           "playerId": "67208",
-          "battingPosition": 9,
+          "name": "67208",
+          "position": 9,
           "runs": 0,
           "balls": 0,
           "fours": 0,
@@ -144,7 +154,8 @@
         },
         {
           "playerId": "39409",
-          "battingPosition": 10,
+          "name": "39409",
+          "position": 10,
           "runs": 0,
           "balls": 0,
           "fours": 0,
@@ -154,7 +165,8 @@
         },
         {
           "playerId": "66734",
-          "battingPosition": 11,
+          "name": "66734",
+          "position": 11,
           "runs": 0,
           "balls": 0,
           "fours": 0,
@@ -166,6 +178,7 @@
       "bowling": [
         {
           "playerId": "67190",
+          "name": "67190",
           "overs": "4.0",
           "balls": 24,
           "maidens": 1,
@@ -177,6 +190,7 @@
         },
         {
           "playerId": "31742",
+          "name": "31742",
           "overs": "4.0",
           "balls": 24,
           "maidens": 0,
@@ -188,6 +202,7 @@
         },
         {
           "playerId": "17616",
+          "name": "17616",
           "overs": "4.0",
           "balls": 24,
           "maidens": 0,
@@ -199,6 +214,7 @@
         },
         {
           "playerId": "20226",
+          "name": "20226",
           "overs": "3.0",
           "balls": 18,
           "maidens": 0,
@@ -210,6 +226,7 @@
         },
         {
           "playerId": "63520",
+          "name": "63520",
           "overs": "2.0",
           "balls": 12,
           "maidens": 0,
@@ -221,6 +238,7 @@
         },
         {
           "playerId": "70430",
+          "name": "70430",
           "overs": "3.0",
           "balls": 18,
           "maidens": 0,
@@ -237,6 +255,7 @@
           "score": 50,
           "overs": "7.6",
           "batterId": "67497",
+          "batter": "67497",
           "partnershipRuns": 50,
           "partnershipBalls": 48
         },
@@ -245,6 +264,7 @@
           "score": 50,
           "overs": "8.2",
           "batterId": "66565",
+          "batter": "66565",
           "partnershipRuns": 0,
           "partnershipBalls": 2
         },
@@ -253,6 +273,7 @@
           "score": 57,
           "overs": "9.6",
           "batterId": "25241",
+          "batter": "25241",
           "partnershipRuns": 7,
           "partnershipBalls": 10
         },
@@ -261,6 +282,7 @@
           "score": 125,
           "overs": "17.1",
           "batterId": "66512",
+          "batter": "66512",
           "partnershipRuns": 68,
           "partnershipBalls": 43
         },
@@ -269,6 +291,7 @@
           "score": 130,
           "overs": "17.6",
           "batterId": "24611",
+          "batter": "24611",
           "partnershipRuns": 5,
           "partnershipBalls": 5
         },
@@ -277,6 +300,7 @@
           "score": 158,
           "overs": "20.0",
           "batterId": "0",
+          "batter": "0",
           "partnershipRuns": 28,
           "partnershipBalls": 12
         }
@@ -290,10 +314,12 @@
       "wickets": 4,
       "overs": "17.3",
       "extras": 3,
-      "wides": 3,
-      "noBalls": 0,
-      "byes": 0,
-      "legByes": 0,
+      "extrasBreakdown": {
+        "wides": 3,
+        "noBalls": 0,
+        "byes": 0,
+        "legByes": 0
+      },
       "runBreakdown": {
         "dots": 31,
         "fours": 19,
@@ -305,7 +331,8 @@
       "batting": [
         {
           "playerId": "11326",
-          "battingPosition": 1,
+          "name": "11326",
+          "position": 1,
           "runs": 0,
           "balls": 2,
           "fours": 0,
@@ -315,7 +342,8 @@
         },
         {
           "playerId": "65345",
-          "battingPosition": 2,
+          "name": "65345",
+          "position": 2,
           "runs": 23,
           "balls": 12,
           "fours": 5,
@@ -325,7 +353,8 @@
         },
         {
           "playerId": "69845",
-          "battingPosition": 3,
+          "name": "69845",
+          "position": 3,
           "runs": 26,
           "balls": 22,
           "fours": 2,
@@ -335,7 +364,8 @@
         },
         {
           "playerId": "63520",
-          "battingPosition": 4,
+          "name": "63520",
+          "position": 4,
           "runs": 60,
           "balls": 40,
           "fours": 5,
@@ -345,7 +375,8 @@
         },
         {
           "playerId": "20033",
-          "battingPosition": 5,
+          "name": "20033",
+          "position": 5,
           "runs": 31,
           "balls": 20,
           "fours": 5,
@@ -355,7 +386,8 @@
         },
         {
           "playerId": "33718",
-          "battingPosition": 6,
+          "name": "33718",
+          "position": 6,
           "runs": 16,
           "balls": 9,
           "fours": 2,
@@ -365,7 +397,8 @@
         },
         {
           "playerId": "17616",
-          "battingPosition": 7,
+          "name": "17616",
+          "position": 7,
           "runs": 0,
           "balls": 0,
           "fours": 0,
@@ -375,7 +408,8 @@
         },
         {
           "playerId": "20226",
-          "battingPosition": 8,
+          "name": "20226",
+          "position": 8,
           "runs": 0,
           "balls": 0,
           "fours": 0,
@@ -385,7 +419,8 @@
         },
         {
           "playerId": "70430",
-          "battingPosition": 9,
+          "name": "70430",
+          "position": 9,
           "runs": 0,
           "balls": 0,
           "fours": 0,
@@ -395,7 +430,8 @@
         },
         {
           "playerId": "67190",
-          "battingPosition": 10,
+          "name": "67190",
+          "position": 10,
           "runs": 0,
           "balls": 0,
           "fours": 0,
@@ -405,7 +441,8 @@
         },
         {
           "playerId": "31742",
-          "battingPosition": 11,
+          "name": "31742",
+          "position": 11,
           "runs": 0,
           "balls": 0,
           "fours": 0,
@@ -417,6 +454,7 @@
       "bowling": [
         {
           "playerId": "67208",
+          "name": "67208",
           "overs": "3.0",
           "balls": 18,
           "maidens": 0,
@@ -428,6 +466,7 @@
         },
         {
           "playerId": "66734",
+          "name": "66734",
           "overs": "4.0",
           "balls": 24,
           "maidens": 1,
@@ -439,6 +478,7 @@
         },
         {
           "playerId": "24611",
+          "name": "24611",
           "overs": "2.0",
           "balls": 12,
           "maidens": 0,
@@ -450,6 +490,7 @@
         },
         {
           "playerId": "39409",
+          "name": "39409",
           "overs": "3.3",
           "balls": 21,
           "maidens": 0,
@@ -461,6 +502,7 @@
         },
         {
           "playerId": "66512",
+          "name": "66512",
           "overs": "4.0",
           "balls": 24,
           "maidens": 0,
@@ -472,6 +514,7 @@
         },
         {
           "playerId": "24614",
+          "name": "24614",
           "overs": "1.0",
           "balls": 6,
           "maidens": 0,
@@ -488,6 +531,7 @@
           "score": 0,
           "overs": "0.2",
           "batterId": "11326",
+          "batter": "11326",
           "partnershipRuns": 0,
           "partnershipBalls": 2
         },
@@ -496,6 +540,7 @@
           "score": 28,
           "overs": "3.5",
           "batterId": "65345",
+          "batter": "65345",
           "partnershipRuns": 28,
           "partnershipBalls": 21
         },
@@ -504,6 +549,7 @@
           "score": 72,
           "overs": "8.4",
           "batterId": "69845",
+          "batter": "69845",
           "partnershipRuns": 44,
           "partnershipBalls": 29
         },
@@ -512,6 +558,7 @@
           "score": 117,
           "overs": "13.5",
           "batterId": "20033",
+          "batter": "20033",
           "partnershipRuns": 45,
           "partnershipBalls": 31
         },
@@ -520,6 +567,7 @@
           "score": 159,
           "overs": "17.3",
           "batterId": "0",
+          "batter": "0",
           "partnershipRuns": 42,
           "partnershipBalls": 22
         }
@@ -527,12 +575,22 @@
     }
   ],
   "tilakVarma": {
-    "playerId": "82175",
-    "innings": []
+    "playerId": "69845",
+    "name": "Tilak Varma",
+    "innings": [
+      {
+        "inningsNumber": 2,
+        "runs": 26,
+        "balls": 22,
+        "fours": 2,
+        "sixes": 1,
+        "dismissal": "c Gulbadin b Azmatullah"
+      }
+    ]
   },
   "overByOverData": {
     "included": false,
-    "reason": "Uploaded source is a full scorecard summary, not a delivery-by-delivery/over-by-over batting log. Do not infer Tilak's runs in individual overs from his innings total."
+    "reason": "The uploaded file contains a full innings scorecard summary, not a delivery-by-delivery or over-by-over batting log. Individual over runs cannot be inferred from innings totals."
   },
   "updatedAt": "2026-10-15"
 }
