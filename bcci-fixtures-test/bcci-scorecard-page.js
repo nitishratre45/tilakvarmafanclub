@@ -93,7 +93,7 @@
           table("Batting", batting, [
             {
               label: "Batter",
-              value: (r) => val(r, "known_as", "player_name", "name", "batsman_name"),
+              value: (r) => val(r, "known_as", "player_name", "name", "batsman_name") !== "—" ? val(r, "known_as", "player_name", "name", "batsman_name") : (players.get(String(r.player_id))?.known_as || players.get(String(r.player_id))?.name || "Player " + r.player_id),
             },
             { label: "Dismissal", value: (r) => val(r, "dismissal_str", "dismissal", "how_out") },
             { label: "R", value: (r) => val(r, "runs", "r") },
@@ -105,7 +105,7 @@
           table("Bowling", bowling, [
             {
               label: "Bowler",
-              value: (r) => val(r, "known_as", "player_name", "name", "bowler_name"),
+              value: (r) => val(r, "known_as", "player_name", "name", "bowler_name") !== "—" ? val(r, "known_as", "player_name", "name", "bowler_name") : (players.get(String(r.player_id))?.known_as || players.get(String(r.player_id))?.name || "Player " + r.player_id),
             },
             { label: "O", value: (r) => val(r, "overs", "overs_bowled") },
             { label: "M", value: (r) => val(r, "maidens", "maiden_overs") },
