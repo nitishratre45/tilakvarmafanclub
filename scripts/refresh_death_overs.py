@@ -406,6 +406,122 @@ def main():
             }
             for n in range(1, 21)
         ]
+    # Add manually verified recent T20I ball-by-ball records that are not yet
+    # present in the downloadable Cricsheet archive. Keep these in all-over views,
+    # never silently fold them into death-over-only figures.
+    manual_path = ROOT / "data" / "manual-t20i-match-overrides.json"
+    try:
+        manual_data = json.loads(manual_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        manual_data = {}
+
+    for match in manual_data.get("matches", []):
+        ball_rows = match.get("ballByBall") or []
+        if not match.get("includeInAllOvers") or not ball_rows:
+            continue
+        if str(match.get("format", "")).lower() != "t20i":
+            continue
+        grouped = defaultdict(lambda: {"runs": 0, "balls": 0, "fours": 0, "sixes": 0, "deliveries": []})
+        for ball in ball_rows:
+            over_no = int(ball["over"])
+            br = int(ball.get("batterRuns", ball.get("runs", 0)) or 0)
+            g = grouped[over_no]
+            g["runs"] += br
+            g["balls"] += 1
+            g["fours"] += int(br == 4)
+            g["sixes"] += int(br == 6)
+            g["deliveries"].append({
+                "ball": int(ball.get("ball", 0)),
+                "legalBall": int(ball.get("ball", 0)),
+                "displayOver": ball.get("displayOver", ""),
+                "batter": "Tilak Varma",
+                "tilak": True,
+                "batterRuns": br,
+                "totalRuns": int(ball.get("runs", br) or 0),
+                "extras": 0,
+                "four": br == 4,
+                "six": br == 6,
+                "wicket": bool(ball.get("dismissal")),
+                "wide": False,
+                "noBall": False,
+                "bowler": ball.get("bowler", ""),
+                "commentary": ball.get("commentary", ""),
+                "scoring": ball.get("scoring", str(br)),
+            })
+        overs = []
+        for over_no, values in sorted(grouped.items()):
+            overs.append({
+                "over": over_no,
+                **values,
+                "strikeRate": round(values["runs"] * 100 / values["balls"], 2) if values["balls"] else 0,
+            })
+        match_id = "manual-afin09172026273950"
+        row = {
+            "date": match.get("date", ""),
+            "matchId": match_id,
+            "format": "t20i",
+            "teams": match.get("teams", "India vs Afghanistan"),
+            "opposition": match.get("opposition", "Afghanistan"),
+            "venue": "Arun Jaitley Stadium, Delhi",
+            "innings": 1,
+            "battingTeam": "India",
+            "sourceStatus": match.get("sourceStatus", "Manual ball-by-ball record"),
+            "overs": overs,
+        }
+        for target_key in ("t20i", "overall_t20"):
+            target_format = formats.get(target_key)
+            if not target_format:
+                continue
+            existing = any(
+                str(existing_row.get("date", "")) == row["date"]
+                and str(existing_row.get("opposition", "")).lower() == row["opposition"].lower()
+                and any(str(o.get("matchId", "")).startswith("manual-") for o in [existing_row])
+                for existing_row in target_format.get("innings", [])
+            )
+            official_match_exists = any(
+                str(existing_row.get("date", "")) == row["date"]
+                and str(existing_row.get("opposition", "")).lower() == row["opposition"].lower()
+                for existing_row in target_format.get("innings", [])
+            )
+            if official_match_exists:
+                continue
+            if not existing:
+                target_row = dict(row)
+                target_row["format"] = target_key
+                if target_key == "overall_t20":
+                    target_row["matchId"] = "manual:afin09172026273950"
+                target_format.setdefault("innings", []).append(target_row)
+                target_format["matchesFound"] = int(target_format.get("matchesFound", 0)) + 1
+        
+    # Recompute over totals after the supplemental T20I rows are appended.
+    for target_key in ("t20i", "overall_t20"):
+        target_format = formats.get(target_key)
+        if not target_format:
+            continue
+        target_totals = defaultdict(lambda: {"runs": 0, "balls": 0, "fours": 0, "sixes": 0})
+        unique_ids = set()
+        for row in target_format.get("innings", []):
+            unique_ids.add(str(row.get("matchId", "")))
+            for over in row.get("overs", []):
+                n = int(over.get("over", 0) or 0)
+                for metric in ("runs", "balls", "fours", "sixes"):
+                    target_totals[n][metric] += int(over.get(metric, 0) or 0)
+        maximum = 20
+        target_format["overTotals"] = [
+            {
+                "over": n,
+                **target_totals[n],
+                "strikeRate": round(target_totals[n]["runs"] * 100 / target_totals[n]["balls"], 2) if target_totals[n]["balls"] else 0,
+            }
+            for n in range(1, maximum + 1)
+        ]
+        target_format["innings"].sort(
+            key=lambda row: (row.get("date", ""), row.get("matchId", ""), row.get("innings", 0)),
+            reverse=True,
+        )
+        target_format["inningsFound"] = len(target_format["innings"])
+        target_format["matchesFound"] = len(unique_ids)
+
     if not fresh_formats:
         raise RuntimeError(
             "No archive refresh succeeded; existing death-overs JSON was left unchanged."
