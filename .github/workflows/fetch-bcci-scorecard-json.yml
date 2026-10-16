@@ -50,9 +50,15 @@ jobs:
             exit 0
           fi
           git commit -m "Refresh isolated BCCI scorecard JSON"
+          # Do not let a generated local diagnostics report block rebase.
+          rm -f bcci-fixtures-test/results/results.json
           for attempt in 1 2 3; do
             git fetch origin main
-            git rebase origin/main
+            if ! git rebase origin/main; then
+              echo "Rebase failed; aborting safely."
+              git rebase --abort || true
+              exit 1
+            fi
             if git push origin HEAD:main; then
               echo "Scorecard JSON pushed."
               exit 0
