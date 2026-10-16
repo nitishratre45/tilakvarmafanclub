@@ -676,3 +676,25 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Match-card motion follows the main Matches page, while preserving reduced-motion accessibility. */
+.bcci-matches-page .fixture-card,
+.bcci-matches-page .upcoming-match-card,
+.bcci-matches-page .team-logo,
+.bcci-matches-page .upcoming-details {
+  transition: transform 200ms cubic-bezier(.2,.7,.2,1), border-color 200ms ease, box-shadow 220ms ease, background-color 180ms ease, opacity 180ms ease;
+}
+@media (hover:hover) and (prefers-reduced-motion:no-preference) {
+  .bcci-matches-page .fixture-card:hover,
+  .bcci-matches-page .upcoming-match-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(117,227,255,.48);
+    box-shadow: 0 14px 32px rgba(0,8,24,.24);
+  }
+  .bcci-matches-page .upcoming-details:hover { transform: translateY(-1px); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .bcci-matches-page *, .bcci-matches-page *::before, .bcci-matches-page *::after {
+    animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important;
+  }
+}
