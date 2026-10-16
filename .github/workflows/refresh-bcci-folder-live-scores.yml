@@ -1,0 +1,47 @@
+name: Refresh BCCI Live Scores JSON - BCCI Folder Only
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "2-59/5 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bcci-folder-live-scores
+  cancel-in-progress: false
+
+jobs:
+  refresh-live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Validate Python syntax
+        run: python -m py_compile bcci-fixtures-test/fetch_bcci_live_scores.py
+      - name: Fetch BCCI live scores
+        run: python bcci-fixtures-test/fetch_bcci_live_scores.py
+      - name: Validate live JSON
+        run: python -m json.tool bcci-fixtures-test/bcci-live-scores.json > /dev/null
+      - name: Commit live JSON only
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f bcci-fixtures-test/bcci-live-scores.json
+          if git diff --cached --quiet; then echo "Live JSON unchanged."; exit 0; fi
+          git commit -m "Refresh BCCI live scores JSON"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          echo "::error::Could not publish live scores JSON."
+          exit 1
