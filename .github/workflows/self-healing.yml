@@ -31,7 +31,7 @@ permissions:
 # Keep only one formatter/repair run active per branch. Newer commits supersede older scans.
 concurrency:
   group: self-healing-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   safe-repair:
