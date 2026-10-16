@@ -647,7 +647,6 @@ footer a {
   }
 }
 
-
 /* Compact live card matching the mobile reference */
 #liveScoresPanel .live-score-card {
   border-top: 5px solid #ef292f;
@@ -689,7 +688,7 @@ footer a {
 }
 #liveScoresPanel .live-card-main {
   background: #fff;
-  grid-template-columns: minmax(0,1fr) 36px minmax(0,1fr);
+  grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr);
   gap: 8px;
   padding: 16px 14px 12px;
 }
@@ -787,11 +786,12 @@ footer a {
   }
 }
 
-
 /* Entire live match card opens its dedicated scorecard in a new tab */
 #liveScoresPanel .live-score-card-clickable {
   cursor: pointer;
-  transition: transform .16s ease, box-shadow .16s ease;
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease;
 }
 #liveScoresPanel .live-score-card-clickable:hover,
 #liveScoresPanel .live-score-card-clickable:focus-visible {
@@ -800,5 +800,5 @@ footer a {
   box-shadow: 0 8px 24px #0002;
 }
 #liveScoresPanel .live-score-card-clickable:active {
-  transform: scale(.995);
+  transform: scale(0.995);
 }

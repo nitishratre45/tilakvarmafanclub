@@ -1,1 +1,187 @@
-.scorecard-container{padding-bottom:40px}.scorecard-back{display:inline-block;margin:24px 0 14px;color:var(--blue);font-weight:700;font-size:13px}.scorecard-hero{padding:28px;border-radius:18px;background:linear-gradient(120deg,#06164f,#09236c);border:1px solid #263b83}.scorecard-status{text-align:center;color:#fff;font-weight:800;margin:6px 0 24px}.scorecard-teams{display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);align-items:center;gap:16px;color:#fff}.scorecard-team{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}.scorecard-team-right{align-items:flex-end;text-align:right}.scorecard-flag{font-size:42px}.scorecard-team h1{font-size:clamp(16px,2vw,24px);margin:0;overflow-wrap:anywhere}.scorecard-team strong{font-size:clamp(24px,4vw,42px)}.scorecard-team small{color:#c8d7ff}.scorecard-vs{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#07142c;color:#fff;font-weight:800}.scorecard-match-name,.scorecard-venue{text-align:center;color:#c8d7ff;font-size:13px;margin:18px 0 0}.scorecard-venue{margin-top:6px}.scorecard-tabs{display:flex;gap:4px;overflow-x:auto;background:#06164f;margin-top:0;padding:8px;border-radius:0 0 14px 14px}.scorecard-tabs button{flex:1;min-width:max-content;border:0;border-radius:9px;padding:13px 16px;background:transparent;color:#cbd7f6;font-weight:800;cursor:pointer}.scorecard-tabs button.active{background:#fff;color:#0a205e}.scorecard-content{margin-top:24px;background:#fff;color:#111827;border-radius:14px;padding:24px;min-height:230px}.scorecard-content h2{margin:0 0 16px;font-size:22px}.scorecard-innings{border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;margin:14px 0}.scorecard-innings h3{margin:0;padding:15px;background:#eef2fa;font-size:15px}.scorecard-total{padding:15px;background:#6d10f5;color:#fff;font-weight:800;display:flex;justify-content:space-between;gap:10px}.scorecard-note{color:#667085;line-height:1.6}.scorecard-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.scorecard-detail{padding:14px;background:#f3f5fa;border-radius:9px}.scorecard-detail span{display:block;color:#667085;font-size:12px;margin-bottom:5px}.scorecard-detail strong{overflow-wrap:anywhere}@media(max-width:600px){.scorecard-hero{padding:18px 13px}.scorecard-teams{gap:7px;grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr)}.scorecard-flag{font-size:32px}.scorecard-team h1{font-size:14px}.scorecard-team strong{font-size:23px}.scorecard-vs{width:29px;height:29px;font-size:11px}.scorecard-content{padding:16px 12px}.scorecard-detail-grid{grid-template-columns:1fr}.scorecard-tabs button{padding:12px 13px;font-size:12px}}
+.scorecard-container {
+  padding-bottom: 40px;
+}
+.scorecard-back {
+  display: inline-block;
+  margin: 24px 0 14px;
+  color: var(--blue);
+  font-weight: 700;
+  font-size: 13px;
+}
+.scorecard-hero {
+  padding: 28px;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #06164f, #09236c);
+  border: 1px solid #263b83;
+}
+.scorecard-status {
+  text-align: center;
+  color: #fff;
+  font-weight: 800;
+  margin: 6px 0 24px;
+}
+.scorecard-teams {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  color: #fff;
+}
+.scorecard-team {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+.scorecard-team-right {
+  align-items: flex-end;
+  text-align: right;
+}
+.scorecard-flag {
+  font-size: 42px;
+}
+.scorecard-team h1 {
+  font-size: clamp(16px, 2vw, 24px);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.scorecard-team strong {
+  font-size: clamp(24px, 4vw, 42px);
+}
+.scorecard-team small {
+  color: #c8d7ff;
+}
+.scorecard-vs {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #07142c;
+  color: #fff;
+  font-weight: 800;
+}
+.scorecard-match-name,
+.scorecard-venue {
+  text-align: center;
+  color: #c8d7ff;
+  font-size: 13px;
+  margin: 18px 0 0;
+}
+.scorecard-venue {
+  margin-top: 6px;
+}
+.scorecard-tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  background: #06164f;
+  margin-top: 0;
+  padding: 8px;
+  border-radius: 0 0 14px 14px;
+}
+.scorecard-tabs button {
+  flex: 1;
+  min-width: max-content;
+  border: 0;
+  border-radius: 9px;
+  padding: 13px 16px;
+  background: transparent;
+  color: #cbd7f6;
+  font-weight: 800;
+  cursor: pointer;
+}
+.scorecard-tabs button.active {
+  background: #fff;
+  color: #0a205e;
+}
+.scorecard-content {
+  margin-top: 24px;
+  background: #fff;
+  color: #111827;
+  border-radius: 14px;
+  padding: 24px;
+  min-height: 230px;
+}
+.scorecard-content h2 {
+  margin: 0 0 16px;
+  font-size: 22px;
+}
+.scorecard-innings {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 14px 0;
+}
+.scorecard-innings h3 {
+  margin: 0;
+  padding: 15px;
+  background: #eef2fa;
+  font-size: 15px;
+}
+.scorecard-total {
+  padding: 15px;
+  background: #6d10f5;
+  color: #fff;
+  font-weight: 800;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.scorecard-note {
+  color: #667085;
+  line-height: 1.6;
+}
+.scorecard-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.scorecard-detail {
+  padding: 14px;
+  background: #f3f5fa;
+  border-radius: 9px;
+}
+.scorecard-detail span {
+  display: block;
+  color: #667085;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+.scorecard-detail strong {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .scorecard-hero {
+    padding: 18px 13px;
+  }
+  .scorecard-teams {
+    gap: 7px;
+    grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr);
+  }
+  .scorecard-flag {
+    font-size: 32px;
+  }
+  .scorecard-team h1 {
+    font-size: 14px;
+  }
+  .scorecard-team strong {
+    font-size: 23px;
+  }
+  .scorecard-vs {
+    width: 29px;
+    height: 29px;
+    font-size: 11px;
+  }
+  .scorecard-content {
+    padding: 16px 12px;
+  }
+  .scorecard-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .scorecard-tabs button {
+    padding: 12px 13px;
+    font-size: 12px;
+  }
+}

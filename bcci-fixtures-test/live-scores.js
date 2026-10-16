@@ -36,11 +36,15 @@
         // Prefer the innings with the most recently faced balls. This is the
         // active batting side; do not reverse blindly because the second innings
         // may have started and have fewer balls than the completed first innings.
-        const latest = innings
-          .filter((i) => Number(i.balls || 0) > 0 || Number(i.runs || 0) > 0 || Number(i.wickets || 0) > 0)
-          .sort((x, y) => Number(y.innings_number || 0) - Number(x.innings_number || 0))[0]
-          || innings[innings.length - 1]
-          || null;
+        const latest =
+          innings
+            .filter(
+              (i) =>
+                Number(i.balls || 0) > 0 || Number(i.runs || 0) > 0 || Number(i.wickets || 0) > 0,
+            )
+            .sort((x, y) => Number(y.innings_number || 0) - Number(x.innings_number || 0))[0] ||
+          innings[innings.length - 1] ||
+          null;
         const battingId = latest?.batting_team_id;
         const battingName =
           String(battingId) === String(m.team1_id)
@@ -50,9 +54,10 @@
               : "";
         const scoreOf = (inningsRow) =>
           inningsRow
-            ? String(inningsRow.runs ?? 0) + (inningsRow.wickets != null ? "/" + inningsRow.wickets : "")
+            ? String(inningsRow.runs ?? 0) +
+              (inningsRow.wickets != null ? "/" + inningsRow.wickets : "")
             : "";
-        const oversOf = (inningsRow) => inningsRow?.overs != null ? String(inningsRow.overs) : "";
+        const oversOf = (inningsRow) => (inningsRow?.overs != null ? String(inningsRow.overs) : "");
         const inningsForTeam = (teamId) =>
           innings.find((row) => String(row.batting_team_id) === String(teamId)) || null;
         const inningsA = inningsForTeam(m.team1_id);
@@ -94,9 +99,13 @@
         return (
           '<article class="live-score-card live-score-card-clickable" tabindex="0" role="link" aria-label="Open scorecard for ' +
           esc(a + " versus " + b) +
-          '" data-match-gid="' + esc(matchGid) + '">' +
+          '" data-match-gid="' +
+          esc(matchGid) +
+          '">' +
           '<div class="live-card-status"><span class="live-status-label"><i></i>LIVE</span>' +
-          (need ? "<strong>" + esc(need) + "</strong>" : "<strong>" + esc(statusText) + "</strong>") +
+          (need
+            ? "<strong>" + esc(need) + "</strong>"
+            : "<strong>" + esc(statusText) + "</strong>") +
           "</div>" +
           '<div class="live-card-main">' +
           '<div class="live-team">' +
@@ -105,7 +114,13 @@
           esc(a) +
           "</strong>" +
           (battingName === a && score ? "<small>Batting</small>" : "") +
-          (scoreA ? '<div class="live-team-score"><strong>' + esc(scoreA) + '</strong><span>' + esc(oversA) + ' ov</span></div>' : "") +
+          (scoreA
+            ? '<div class="live-team-score"><strong>' +
+              esc(scoreA) +
+              "</strong><span>" +
+              esc(oversA) +
+              " ov</span></div>"
+            : "") +
           "</div>" +
           '<div class="live-versus">VS</div>' +
           '<div class="live-team live-team-right">' +
@@ -114,10 +129,15 @@
           esc(b) +
           "</strong>" +
           (battingName === b && score ? "<small>Batting</small>" : "") +
-          (scoreB ? '<div class="live-team-score"><strong>' + esc(scoreB) + '</strong><span>' + esc(oversB) + ' ov</span></div>' : "") +
+          (scoreB
+            ? '<div class="live-team-score"><strong>' +
+              esc(scoreB) +
+              "</strong><span>" +
+              esc(oversB) +
+              " ov</span></div>"
+            : "") +
           "</div>" +
           "</div>" +
-
           '<div class="live-card-footer"><div><strong>' +
           esc(m.primary_event_name || m.comp_name || "Cricket") +
           "</strong><span>" +

@@ -1,35 +1,50 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#07111f">
-<title>Match Scorecard | CRICZONE</title>
-<link rel="stylesheet" href="./styles.css">
-<link rel="stylesheet" href="./scorecard.css">
-<script src="./scorecard.js" defer></script>
-</head>
-<body>
-<header class="topbar"><a class="brand" href="./live-scores.html"><span class="brand-mark">C</span><span>CRICZONE <small>MATCH CENTRE</small></span></a><span class="test-label"><i></i> LIVE DATA</span></header>
-<main class="container scorecard-container">
-<a class="scorecard-back" href="./live-scores.html">← Back to Live Scores</a>
-<section class="scorecard-hero">
-<p class="eyebrow">LIVE MATCH CENTRE</p>
-<div class="scorecard-status" id="matchStatus">Loading match…</div>
-<div class="scorecard-teams">
-<div class="scorecard-team"><span class="scorecard-flag" id="flagA">🇮🇳</span><h1 id="teamA">Team 1</h1><strong id="scoreA">—</strong><small id="oversA"></small></div>
-<span class="scorecard-vs">VS</span>
-<div class="scorecard-team scorecard-team-right"><span class="scorecard-flag" id="flagB">🏏</span><h1 id="teamB">Team 2</h1><strong id="scoreB">—</strong><small id="oversB"></small></div>
-</div>
-<p class="scorecard-match-name" id="matchName"></p>
-<p class="scorecard-venue" id="venue"></p>
-</section>
-<nav class="scorecard-tabs" aria-label="Match sections">
-<button class="active" data-tab="scorecard">▤ Scorecard</button><button data-tab="commentary">◉ Commentary</button><button data-tab="stats">▥ Stats</button><button data-tab="details">▣ Match Details</button>
-</nav>
-<section class="scorecard-content" id="tabContent">
-<h2>Scorecard</h2><p class="scorecard-note">Loading innings information…</p>
-</section>
-</main>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07111f" />
+    <title>Match Scorecard | CRICZONE</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./scorecard.css" />
+    <script src="./scorecard.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./live-scores.html"
+        ><span class="brand-mark">C</span><span>CRICZONE <small>MATCH CENTRE</small></span></a
+      ><span class="test-label"><i></i> LIVE DATA</span>
+    </header>
+    <main class="container scorecard-container">
+      <a class="scorecard-back" href="./live-scores.html">← Back to Live Scores</a>
+      <section class="scorecard-hero">
+        <p class="eyebrow">LIVE MATCH CENTRE</p>
+        <div class="scorecard-status" id="matchStatus">Loading match…</div>
+        <div class="scorecard-teams">
+          <div class="scorecard-team">
+            <span class="scorecard-flag" id="flagA">🇮🇳</span>
+            <h1 id="teamA">Team 1</h1>
+            <strong id="scoreA">—</strong><small id="oversA"></small>
+          </div>
+          <span class="scorecard-vs">VS</span>
+          <div class="scorecard-team scorecard-team-right">
+            <span class="scorecard-flag" id="flagB">🏏</span>
+            <h1 id="teamB">Team 2</h1>
+            <strong id="scoreB">—</strong><small id="oversB"></small>
+          </div>
+        </div>
+        <p class="scorecard-match-name" id="matchName"></p>
+        <p class="scorecard-venue" id="venue"></p>
+      </section>
+      <nav class="scorecard-tabs" aria-label="Match sections">
+        <button class="active" data-tab="scorecard">▤ Scorecard</button
+        ><button data-tab="commentary">◉ Commentary</button><button data-tab="stats">▥ Stats</button
+        ><button data-tab="details">▣ Match Details</button>
+      </nav>
+      <section class="scorecard-content" id="tabContent">
+        <h2>Scorecard</h2>
+        <p class="scorecard-note">Loading innings information…</p>
+      </section>
+    </main>
+  </body>
 </html>
