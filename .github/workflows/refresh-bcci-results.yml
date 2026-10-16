@@ -1,15 +1,15 @@
-name: Refresh BCCI Match Results Archive
+name: BCCI Fixtures Folder - Results Archive
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 */6 * * *"
+    - cron: "37 */6 * * *"
 
 permissions:
   contents: write
 
 concurrency:
-  group: bcci-results-archive
+  group: bcci-fixtures-folder-results
   cancel-in-progress: false
 
 jobs:
