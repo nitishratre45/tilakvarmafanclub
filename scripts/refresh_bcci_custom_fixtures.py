@@ -20,10 +20,23 @@ HEADERS = {
     "Referer": "https://www.bcci.tv/",
 }
 
+
 def with_page(url, page):
     parts = urlsplit(url)
-    pairs = [(k, str(page) if k == "page" else v) for k, v in parse_qsl(parts.query, keep_blank_values=True)]
-    return urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(pairs, doseq=True), parts.fragment))
+    pairs = [
+        (k, str(page) if k == "page" else v)
+        for k, v in parse_qsl(parts.query, keep_blank_values=True)
+    ]
+    return urlunsplit(
+        (
+            parts.scheme,
+            parts.netloc,
+            parts.path,
+            urlencode(pairs, doseq=True),
+            parts.fragment,
+        )
+    )
+
 
 def fetch(url):
     req = Request(url, headers=HEADERS)
@@ -32,6 +45,7 @@ def fetch(url):
             raise RuntimeError(f"BCCI returned HTTP {response.status}")
         raw = response.read()
         return json.loads(raw.decode("utf-8-sig")), len(raw), response.status
+
 
 def main():
     try:
@@ -58,33 +72,74 @@ def main():
             "responseBytes": total_bytes,
             "pagesFetched": len(pages),
             "pagination": page_info,
-            "recordCount": sum(len(p.get("data", [])) if isinstance(p, dict) and isinstance(p.get("data"), list) else 0 for p in pages),
+            "recordCount": sum(
+                (
+                    len(p.get("data", []))
+                    if isinstance(p, dict) and isinstance(p.get("data"), list)
+                    else 0
+                )
+                for p in pages
+            ),
             "pages": pages,
-            "note": "Separate raw snapshot from the supplied fixtures URL; production bcci-stats-fixtures.json is not modified."
+            "note": "Separate raw snapshot from the supplied fixtures URL; production bcci-stats-fixtures.json is not modified.",
         }
         OUTPUT.parent.mkdir(parents=True, exist_ok=True)
         temp = None
         try:
-            with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=OUTPUT.parent, prefix=".bcci-custom-fixtures.", suffix=".tmp", delete=False) as f:
+            with tempfile.NamedTemporaryFile(
+                "w",
+                encoding="utf-8",
+                dir=OUTPUT.parent,
+                prefix=".bcci-custom-fixtures.",
+                suffix=".tmp",
+                delete=False,
+            ) as f:
                 temp = Path(f.name)
                 json.dump(report, f, ensure_ascii=False, indent=2)
                 f.write("\n")
                 f.flush()
                 os.fsync(f.fileno())
             parsed = json.loads(temp.read_text(encoding="utf-8"))
-            if parsed.get("status") != "updated-from-bcci-custom-fixtures" or not parsed.get("pages"):
+            if parsed.get(
+                "status"
+            ) != "updated-from-bcci-custom-fixtures" or not parsed.get("pages"):
                 raise ValueError("snapshot validation failed")
             os.replace(temp, OUTPUT)
             temp = None
         finally:
             if temp:
                 temp.unlink(missing_ok=True)
-        print(json.dumps({k: report[k] for k in ("status", "httpStatus", "responseBytes", "pagesFetched", "recordCount", "pagination")}, ensure_ascii=False, indent=2))
+        print(
+            json.dumps(
+                {
+                    k: report[k]
+                    for k in (
+                        "status",
+                        "httpStatus",
+                        "responseBytes",
+                        "pagesFetched",
+                        "recordCount",
+                        "pagination",
+                    )
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
         print(f"Saved raw BCCI fixture response to {OUTPUT.relative_to(ROOT)}")
         return 0
-    except (HTTPError, URLError, TimeoutError, OSError, ValueError, RuntimeError, json.JSONDecodeError) as exc:
+    except (
+        HTTPError,
+        URLError,
+        TimeoutError,
+        OSError,
+        ValueError,
+        RuntimeError,
+        json.JSONDecodeError,
+    ) as exc:
         print(f"ERROR: {type(exc).__name__}: {exc}", file=sys.stderr)
         return 1
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
