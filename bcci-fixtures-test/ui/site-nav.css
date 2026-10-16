@@ -517,3 +517,60 @@ body {
     top: 80px;
   }
 }
+
+
+/* Final mobile parity overrides — BCCI test folder only. */
+@media (max-width: 800px) {
+  .tvfc-mobile-menu:not([hidden]) {
+    position: fixed !important;
+    top: 10px !important;
+    left: 15px !important;
+    right: 15px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+    max-height: min(68dvh, 540px) !important;
+    padding: 15px !important;
+    overflow: auto !important;
+    overscroll-behavior: contain;
+    border: 1px solid rgba(150, 210, 255, .62) !important;
+    border-radius: 26px !important;
+    background: linear-gradient(135deg, rgba(12, 66, 119, .94), rgba(4, 22, 48, .96)) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(160%) !important;
+    backdrop-filter: blur(28px) saturate(160%) !important;
+    box-shadow: 0 24px 60px rgba(0,10,28,.48), inset 0 1px 0 rgba(255,255,255,.16) !important;
+    animation: tvfc-menu-in .24s cubic-bezier(.2,.75,.25,1) both !important;
+  }
+  .tvfc-mobile-menu .tvfc-menu-heading {
+    grid-column: 1 / -1 !important;
+    min-height: 36px;
+  }
+  .tvfc-mobile-menu a {
+    min-height: 68px !important;
+    border-radius: 19px !important;
+    background: linear-gradient(145deg, rgba(255,255,255,.15), rgba(255,255,255,.055)) !important;
+    font-size: 13px !important;
+  }
+  .tvfc-mobile-menu a[aria-current="page"] {
+    border-color: rgba(255,145,91,.8) !important;
+    background: linear-gradient(135deg, rgba(255,124,69,.28), rgba(255,255,255,.09)) !important;
+    box-shadow: inset 0 -3px 0 #ff8b58, inset 0 1px 0 rgba(255,255,255,.12) !important;
+  }
+  body.mobile-menu-open::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    background: rgba(1,10,24,.38);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+  body.mobile-menu-open > .tvfc-mobile-dock {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+@media (max-width: 390px) {
+  .tvfc-mobile-menu:not([hidden]) { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .tvfc-mobile-menu a { min-height: 58px !important; padding: 8px 4px !important; font-size: 11px !important; }
+}
