@@ -1,1 +1,5 @@
-(() => { const root=document.getElementById("data-status"); if(!root)return; root.dataset.adminSectionModule="data-status"; })();
+(() => {
+  const root = document.getElementById("data-status");
+  if (!root) return;
+  root.dataset.adminSectionModule = "data-status";
+})();
