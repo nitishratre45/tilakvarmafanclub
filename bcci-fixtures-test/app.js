@@ -229,7 +229,7 @@
       return sort === "date-desc" ? bDate - aDate : aDate - bDate;
     });
 
-    $("resultCount").textContent = list.length + " of " + state.fixtures.length + " fixtures";
+    $("resultCount").textContent = list.length + " of " + state.fixtures.length + " matches";
     $("fixtureList").innerHTML = list
       .map((f) => {
         const isLive = /live|progress|in play/i.test(f.status);
@@ -248,13 +248,13 @@
           renderTeam(f.away) +
           "</div></div>" +
           '<div class="upcoming-match-info"><strong>' +
-          esc(f.title || f.competition || "Upcoming fixture") +
+          esc(f.title || f.competition || "Upcoming match") +
           "</strong>" +
           (f.venue ? '<span class="upcoming-venue">⌖ ' + esc(f.venue) + "</span>" : "") +
           (f.time ? '<span class="upcoming-time">' + esc(f.time) + " IST</span>" : "") +
           "</div>" +
           extra +
-          '<a class="upcoming-details" href="/matches/">Full Match Details <span aria-hidden="true">↗</span></a>' +
+          '<a class="upcoming-details" href="/matches/details/?matchId=' + encodeURIComponent(f.id) + '&match=' + encodeURIComponent(f.title || f.competition) + '&opponent=' + encodeURIComponent(f.away) + '&date=' + encodeURIComponent(f.date) + '">Full Match Details <span aria-hidden="true">↗</span></a>' +
           "</article>"
         );
       })
