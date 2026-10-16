@@ -1990,7 +1990,72 @@
         }
       }
     </style>
-    <link rel="stylesheet" href="/death-overs/site-refinement.css?v=20261014-one-over-split1" />
+    <style id="analyser-heading-layout-fix">
+      /* Keep the analyser title and helper copy together; align summary and shortcut in one row. */
+      main > .stats-section[style] .section-head {
+        grid-template-columns: minmax(0, 1fr) minmax(340px, 46%) !important;
+        align-items: center !important;
+        column-gap: clamp(20px, 3vw, 42px) !important;
+      }
+      main > .stats-section[style] .analyser-heading-copy {
+        min-width: 0;
+      }
+      main > .stats-section[style] .analyser-heading-copy .section-copy {
+        max-width: 42ch;
+        margin-top: 10px;
+        line-height: 1.6;
+      }
+      main > .stats-section[style] .analyser-actions {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center !important;
+        gap: 12px;
+        width: 100%;
+        max-width: none !important;
+      }
+      main > .stats-section[style] .analyser-actions .coverage-summary-line {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 64px;
+        margin: 0 !important;
+        padding: 13px 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      main > .stats-section[style] .analyser-actions .coverage-summary-line strong {
+        min-width: 0;
+        line-height: 1.55;
+        overflow-wrap: anywhere;
+        text-align: left;
+      }
+      main > .stats-section[style] .analyser-actions .one-over-link {
+        align-self: center;
+        min-height: 52px;
+        padding-inline: 18px;
+        white-space: nowrap;
+      }
+      @media (max-width: 980px) {
+        main > .stats-section[style] .section-head {
+          grid-template-columns: minmax(0, 1fr) !important;
+          align-items: start !important;
+          row-gap: 18px;
+        }
+        main > .stats-section[style] .analyser-actions {
+          grid-template-columns: minmax(0, 1fr) auto;
+        }
+      }
+      @media (max-width: 480px) {
+        main > .stats-section[style] .analyser-actions {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 10px;
+        }
+        main > .stats-section[style] .analyser-actions .one-over-link {
+          width: 100%;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="/death-overs/site-refinement.css?v=20261016-analyser-heading-layout1" />
     <link rel="stylesheet" href="/death-overs/death-over-ui.css?v=20261014-desktop-polish1" />
     <style id="death-over-compact-ui">
       /* Compact hero; hide the featured scorecard and refresh-status block as requested. */
