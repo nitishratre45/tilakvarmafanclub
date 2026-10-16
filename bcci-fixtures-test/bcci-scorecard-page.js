@@ -134,7 +134,7 @@
       render(payload);
       $("status").textContent =
         (payload.isLive ? "LIVE MATCH · " : "LATEST AVAILABLE MATCH · ") +
-        (payload.liveMatch?.name || match.name || "BCCI Scorecard") +
+        (payload.liveMatch?.name || payload.matchName || $("title").textContent || "BCCI Scorecard") +
         " · Snapshot HTTP " + (payload.httpStatus || response.status) +
         " · repository refresh every 5 minutes";
     } catch (error) {
