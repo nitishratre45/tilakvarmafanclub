@@ -9,7 +9,7 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent
 OUTPUT = ROOT / "bcci-scorecard.json"
-LIVE_FILE = ROOT / "bcci-live-scores.json"
+FIXTURES_FILE = ROOT / "bcci-fixtures.json"
 BASE = "https://stats.bcci.tv/match/{}/scorecard"
 
 def read_json(path):
@@ -17,16 +17,17 @@ def read_json(path):
         return json.load(handle)
 
 def choose_match():
-    if not LIVE_FILE.exists():
-        raise RuntimeError("bcci-live-scores.json is missing")
-    snapshot = read_json(LIVE_FILE)
-    matches = (snapshot.get("data") or {}).get("live_scores") or []
+    if not FIXTURES_FILE.exists():
+        raise RuntimeError("bcci-fixtures.json is missing")
+    snapshot = read_json(FIXTURES_FILE)
+    data = snapshot.get("data") or snapshot
+    matches = data.get("match") or data.get("matches") or []
     if not matches:
-        raise RuntimeError("BCCI live feed has no current live match")
-    live = [m for m in matches if str(m.get("match_status", "")).lower() == "live"
+        raise RuntimeError("BCCI fixtures feed has no current live match")
+    live = [m for m in matches if str(m.get("match_status", "")).lower() in {"live", "in progress"}
             or "in play" in str(m.get("live_status_name", "")).lower()
             or str(m.get("live_status_id", "")) == "1"]
-    candidates = live or matches
+    candidates = live
     candidates.sort(key=lambda m: (str(m.get("start_datetime_utc", "")), str(m.get("gid", ""))), reverse=True)
     for match in candidates:
         gid = match.get("gid") or match.get("match_id")
