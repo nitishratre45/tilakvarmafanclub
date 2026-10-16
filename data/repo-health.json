@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-16T00:01:24+00:00",
+  "checkedAt": "2026-10-16T04:23:26+00:00",
   "intervalMinutes": 10,
   "status": "healthy",
   "summary": {
-    "filesScanned": 437,
-    "checksPassed": 382,
+    "filesScanned": 439,
+    "checksPassed": 384,
     "issues": 0,
     "warnings": 0
   },
@@ -133,7 +133,17 @@
     {
       "level": "pass",
       "message": "Valid JSON",
+      "file": "data/manual-t20i-match-overrides.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
       "file": "data/repo-health.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "data/scorecards/india-afghanistan-1st-t20i-2024.json"
     },
     {
       "level": "pass",
@@ -1249,16 +1259,6 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/scorecards/data/2026-02-12-t20i-india-vs-namibia-899902b92ad5.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2026-02-15-t20-india-vs-pakistan-8db5502d3617.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2026-02-15-t20i-india-vs-pakistan-8db5502d3617.json"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "06c5f70f"
+    "branch": "88298331"
   }
 }
