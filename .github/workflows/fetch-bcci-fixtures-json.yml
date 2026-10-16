@@ -27,11 +27,21 @@ jobs:
           python-version: "3.x"
       - name: Fetch fixtures JSON
         id: fixtures
-        continue-on-error: true
         run: python bcci-fixtures-test/fetch_bcci_fixtures.py
 
-      - name: Validate fixtures JSON
-        run: python -m json.tool bcci-fixtures-test/bcci-fixtures.json > /dev/null
+      - name: Validate fixtures JSON and fetch status
+        run: |
+          python -m json.tool bcci-fixtures-test/bcci-fixtures.json > /dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('bcci-fixtures-test/bcci-fixtures.json').read_text(encoding='utf-8'))
+          if data.get('status') != 'ok':
+              raise SystemExit('BCCI fixtures fetch did not succeed: ' + str(data.get('error')))
+          if not isinstance(data.get('data'), dict):
+              raise SystemExit('BCCI fixtures response has no data object')
+          print('Validated BCCI fixtures snapshot.')
+          PY
       - name: Commit fixtures JSON only
         run: |
           set -euo pipefail
