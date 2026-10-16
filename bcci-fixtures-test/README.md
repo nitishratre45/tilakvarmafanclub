@@ -1,16 +1,11 @@
-# BCCI Fixtures Test Data
+# BCCI Matches
 
-This folder is kept separate from the production `matches/` data.
+This folder contains the separate BCCI-backed **Upcoming Match** and **Complete Match** views used by the Tilak Varma Fan Club website.
 
-The custom BCCI fixtures test workflow writes its fetched JSON snapshot to:
+- Upcoming fixtures: `bcci-fixtures.json`
+- Completed match archive: uses the existing production scorecard index at `/matches/scorecards/index.json`
+- Fixture refresh: `.github/workflows/refresh-custom-bcci-fixtures.yml`
 
-- `bcci-fixtures-test/bcci-fixtures.json`
+The old BCCI test-only Live Scores and Results pages, their JSON/Python fetchers, and their dedicated results workflow have been removed. The production `matches/` data and production live/results workflows are intentionally untouched.
 
-Run the **Refresh Custom BCCI Fixtures** workflow from GitHub Actions to populate or refresh the JSON file.
-
-## Results archive
-
-- `results/index.html` is the completed-match results page.
-- `results/results.json` stores completed matches, deduplicated by BCCI `gid`.
-- `fetch_bcci_fixtures.py` refreshes the fixtures snapshot and attempts to archive completed matches; `results/fetch_results.py` is the dedicated historical-results refresher.
-- Everything remains inside this folder; production `matches/` data and the main website are not changed.
+Upcoming fixtures are filtered to exclude matches already live or completed. The page's live-aware refresh indicator must remain paused when no live match is detected; it must not create a fake live state.
