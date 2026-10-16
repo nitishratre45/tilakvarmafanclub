@@ -20,7 +20,7 @@ SOURCE_URL = os.environ.get(
     "BCCI_WOMEN_LIVE_URL",
     "https://stats.bcci.tv/match/live_scores/",
 )
-OUTPUT_PATH = "matches/live/bcci-women-live-test.json"
+OUTPUT_PATH = "bcci-fixtures-test/bcci-women-live-test.json"
 TIMEOUT_SECONDS = 25
 
 
