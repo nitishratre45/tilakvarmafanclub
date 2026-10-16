@@ -5,6 +5,10 @@
   const status = root.querySelector("[data-live-status]");
   const list = root.querySelector("[data-live-list]");
   const refresh = root.querySelector("[data-live-refresh]");
+  if (!status || !list || !refresh) {
+    console.error("Live score panel is missing required elements.", { status, list, refresh });
+    return;
+  }
   const esc = v => String(v ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   function extract(p) {
     const d=p?.data??p;
