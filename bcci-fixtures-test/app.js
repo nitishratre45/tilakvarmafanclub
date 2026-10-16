@@ -238,32 +238,24 @@
             ? '<div class="match-meta"><span>' + esc(f.result) + "</span></div>"
             : "";
         return (
-          '<article class="fixture-card"><div><div class="fixture-topline">' +
-          '<span class="competition">' +
-          esc(f.competition) +
-          (f.title ? " · " + esc(f.title) : "") +
-          "</span>" +
-          '<span class="status-pill ' +
-          (isLive ? "upcoming" : "") +
-          '">' +
-          esc(f.status) +
-          "</span></div>" +
-          '<div class="teams"><div class="team team-home">' +
-          renderTeam(f.home) +
-          '</div><div class="versus">VS</div><div class="team team-away">' +
-          renderTeam(f.away) +
-          '</div></div><div class="match-meta">' +
-          [f.venue && "📍 " + f.venue, f.time && "◷ " + f.time]
-            .filter(Boolean)
-            .map((v) => "<span>" + esc(v) + "</span>")
-            .join("") +
-          "</div>" +
-          extra +
-          '</div><div class="fixture-date"><strong>' +
+          '<article class="fixture-card upcoming-match-card">' +
+          '<div class="upcoming-card-top"><span class="upcoming-date">◷ ' +
           esc(fmt(f.date)) +
-          "</strong><span>Fixture date · " +
-          esc(f.id) +
-          "</span></div></article>"
+          '</span><span class="squad-confirmed"><i aria-hidden="true"></i> TILAK IN SQUAD</span></div>' +
+          '<div class="upcoming-teams"><div class="upcoming-team">' +
+          renderTeam(f.home) +
+          '</div><span class="upcoming-versus">VS</span><div class="upcoming-team">' +
+          renderTeam(f.away) +
+          '</div></div>' +
+          '<div class="upcoming-match-info"><strong>' +
+          esc(f.title || f.competition || "Upcoming fixture") +
+          '</strong>' +
+          (f.venue ? '<span class="upcoming-venue">⌖ ' + esc(f.venue) + '</span>' : "") +
+          (f.time ? '<span class="upcoming-time">' + esc(f.time) + ' IST</span>' : "") +
+          '</div>' +
+          extra +
+          '<a class="upcoming-details" href="/matches/">Full Match Details <span aria-hidden="true">↗</span></a>' +
+          "</article>"
         );
       })
       .join("");
