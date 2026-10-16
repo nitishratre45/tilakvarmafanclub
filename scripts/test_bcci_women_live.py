@@ -29,7 +29,16 @@ def rows_from(payload):
         return [row for row in payload if isinstance(row, dict)]
     if not isinstance(payload, dict):
         return []
-    for key in ("matches", "match", "data", "results", "response", "live_scores", "liveScores", "items"):
+    for key in (
+        "matches",
+        "match",
+        "data",
+        "results",
+        "response",
+        "live_scores",
+        "liveScores",
+        "items",
+    ):
         value = payload.get(key)
         if isinstance(value, list):
             return [row for row in value if isinstance(row, dict)]
@@ -43,13 +52,26 @@ def rows_from(payload):
             nested = rows_from(value)
             if nested:
                 return nested
-        elif isinstance(value, list) and value and all(isinstance(item, dict) for item in value):
+        elif (
+            isinstance(value, list)
+            and value
+            and all(isinstance(item, dict) for item in value)
+        ):
             return value
     return []
 
 
 def status_of(row):
-    for key in ("match_status_str", "match_status", "status_str", "status", "state", "matchStatus", "match_state", "live_status_name"):
+    for key in (
+        "match_status_str",
+        "match_status",
+        "status_str",
+        "status",
+        "state",
+        "matchStatus",
+        "match_state",
+        "live_status_name",
+    ):
         value = row.get(key)
         if value is not None and str(value).strip():
             return str(value).strip()
@@ -60,12 +82,25 @@ def looks_womens(row):
     text = " ".join(
         str(row.get(key, ""))
         for key in (
-            "name", "title", "match_short_name", "comp_name", "competition",
-            "series_name", "team1_name", "team2_name", "team1_short_name",
-            "team2_short_name", "team_name", "gender", "match_type",
+            "name",
+            "title",
+            "match_short_name",
+            "comp_name",
+            "competition",
+            "series_name",
+            "team1_name",
+            "team2_name",
+            "team1_short_name",
+            "team2_short_name",
+            "team_name",
+            "gender",
+            "match_type",
         )
     ).lower()
-    return any(token in text for token in ("women", "woman", "womens", "women's", " w v ", " w vs "))
+    return any(
+        token in text
+        for token in ("women", "woman", "womens", "women's", " w v ", " w vs ")
+    )
 
 
 def main():
@@ -87,7 +122,13 @@ def main():
         "error": None,
         "note": "Diagnostic only; this file does not feed the production live-match page.",
     }
-    request = Request(SOURCE_URL, headers={"User-Agent": "Mozilla/5.0 (compatible; CricZone-BCCI-Live-Test/1.0)", "Accept": "application/json"})
+    request = Request(
+        SOURCE_URL,
+        headers={
+            "User-Agent": "Mozilla/5.0 (compatible; CricZone-BCCI-Live-Test/1.0)",
+            "Accept": "application/json",
+        },
+    )
     try:
         with urlopen(request, timeout=TIMEOUT_SECONDS) as response:
             raw = response.read()
@@ -100,7 +141,9 @@ def main():
             report["topLevelKeys"] = sorted(payload.keys())[:80]
         rows = rows_from(payload)
         report["totalRecords"] = len(rows)
-        report["statusCounts"] = dict(Counter(status_of(row) for row in rows).most_common(50))
+        report["statusCounts"] = dict(
+            Counter(status_of(row) for row in rows).most_common(50)
+        )
         report["sampleRecordKeys"] = [sorted(row.keys())[:80] for row in rows[:3]]
         candidates = [row for row in rows if looks_womens(row)]
         report["womenCandidateCount"] = len(candidates)
@@ -121,11 +164,27 @@ def main():
     with open(OUTPUT_PATH, "w", encoding="utf-8") as handle:
         json.dump(report, handle, ensure_ascii=False, indent=2)
         handle.write("\n")
-    print(json.dumps({key: report[key] for key in (
-        "status", "httpStatus", "contentType", "responseBytes", "topLevelType",
-        "topLevelKeys", "totalRecords", "statusCounts", "womenCandidateCount",
-        "error",
-    )}, ensure_ascii=False, indent=2))
+    print(
+        json.dumps(
+            {
+                key: report[key]
+                for key in (
+                    "status",
+                    "httpStatus",
+                    "contentType",
+                    "responseBytes",
+                    "topLevelType",
+                    "topLevelKeys",
+                    "totalRecords",
+                    "statusCounts",
+                    "womenCandidateCount",
+                    "error",
+                )
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
     return 0 if report["status"] == "ok" else 1
 
 
