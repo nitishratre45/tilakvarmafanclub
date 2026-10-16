@@ -389,15 +389,22 @@ check("One Over updates available overs when format changes", async () => {
   const format = page.locator("#format-filter");
   const over = page.locator("#over-filter");
   const available = await format.locator("option").evaluateAll(options => options.map(option => option.value));
-  if (available.includes("odi")) {
+  if (available.includes("odi") && available.includes("t20i")) {
     await format.selectOption("odi");
-    await page.waitForFunction(() => document.querySelector("#format-filter")?.value === "odi" && document.querySelector("#over-filter")?.options.length === 50);
+    await page.waitForFunction(() => {
+      const format = document.querySelector("#format-filter");
+      const over = document.querySelector("#over-filter");
+      return format?.value === "odi" && over?.options.length === 50;
+    });
     await over.selectOption("50");
-    assert.equal(await over.inputValue(), "50");
-  }
-  if (available.includes("t20i")) {
+    assert.equal(await over.inputValue(), "50", "ODI must allow selecting over 50");
+
     await format.selectOption("t20i");
-    await page.waitForFunction(() => document.querySelector("#format-filter")?.value === "t20i" && document.querySelector("#over-filter")?.options.length === 20);
+    await page.waitForFunction(() => {
+      const format = document.querySelector("#format-filter");
+      const over = document.querySelector("#over-filter");
+      return format?.value === "t20i" && over?.options.length === 20 && over.value !== "50";
+    });
     assert.notEqual(await over.inputValue(), "50", "Switching back to T20I must clamp the selected over");
   }
   await page.locator("#export-over-csv").waitFor({ state: "visible" });
