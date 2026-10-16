@@ -125,7 +125,7 @@ def main():
         temp = OUTPUT_PATH + ".tmp"
         with open(temp, "w", encoding="utf-8") as handle:
             json.dump(payload, handle, ensure_ascii=False, indent=2)
-            handle.write("\\n")
+            handle.write("\n")
         os.replace(temp, OUTPUT_PATH)
         print(json.dumps({"status":"ok","pagesFetched":pages,"newPageMatches":len(combined),"savedMatches":len(ordered),"output":OUTPUT_PATH},indent=2))
         return 0
