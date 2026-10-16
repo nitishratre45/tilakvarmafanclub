@@ -1010,3 +1010,18 @@ body.photos-page {
     transition: none !important;
   }
 }
+
+
+/* Responsive gallery layout for small and large phones. */
+html body.photos-page, html body.photos-page main { min-width: 0; max-width: 100%; }
+html body.photos-page main > *, html body.photos-page .gallery-shell, html body.photos-page .photo-archive { min-width: 0; max-width: 100%; }
+html body.photos-page img { max-width: 100%; }
+@media (max-width: 800px) {
+  html body.photos-page main { padding-left: clamp(10px, 2.8vw, 20px); padding-right: clamp(10px, 2.8vw, 20px); }
+  html body.photos-page .gallery-grid, html body.photos-page .photo-grid, html body.photos-page .tv-photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(8px, 2vw, 14px); }
+  html body.photos-page .gallery-grid > *, html body.photos-page .photo-grid > *, html body.photos-page .tv-photo-grid > * { min-width: 0; }
+  html body.photos-page .gallery-grid img, html body.photos-page .photo-grid img, html body.photos-page .tv-photo-grid img { display:block; width:100%; height:100%; object-fit:cover; }
+}
+@media (max-width: 360px) {
+  html body.photos-page .gallery-grid, html body.photos-page .photo-grid, html body.photos-page .tv-photo-grid { gap: 7px; }
+}
