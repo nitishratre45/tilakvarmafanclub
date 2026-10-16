@@ -2736,9 +2736,53 @@
           const d = rawData();
           if (!d) return null;
           const y = year?.value || "all";
-          const innings = (d.innings || []).filter(
+          const baseInnings = (d.innings || []).filter(
             (i) => y === "all" || String(i.date || "").slice(0, 4) === y,
           );
+          // Merge verified manual ball-by-ball records into the calculator dataset.
+          // Scorecard-only manual records (without ballByBall) stay summary-only and
+          // must never be assigned guessed over numbers.
+          const knownKeys = new Set(
+            baseInnings.map(
+              (i) => String(i.date || "") + "|" + String(i.opposition || "").toLowerCase(),
+            ),
+          );
+          const manualInnings =
+            active === "t20i"
+              ? (supplemental?.matches || [])
+                  .filter((m) => {
+                    const inYear = y === "all" || String(m.date || "").slice(0, 4) === y;
+                    const key =
+                      String(m.date || "") + "|" + String(m.opposition || "").toLowerCase();
+                    return inYear && !knownKeys.has(key) && Array.isArray(m.ballByBall) && m.ballByBall.length;
+                  })
+                  .map((m) => {
+                    const overMap = new Map();
+                    for (const ball of m.ballByBall) {
+                      const overNo = Number(ball.over);
+                      if (!Number.isFinite(overNo) || overNo < 1) continue;
+                      if (!overMap.has(overNo))
+                        overMap.set(overNo, { over: overNo, runs: 0, balls: 0, fours: 0, sixes: 0 });
+                      const total = overMap.get(overNo);
+                      const batterRuns = Number(ball.batterRuns ?? ball.runs ?? 0) || 0;
+                      total.runs += batterRuns;
+                      // These verified manual entries are batter-delivery entries; extras
+                      // should not count as balls faced if they are explicitly marked wide/no-ball.
+                      const scoring = String(ball.scoring || "");
+                      if (!/^(WD|WIDE)$/i.test(scoring) && !ball.wide) total.balls += 1;
+                      if (batterRuns === 4) total.fours += 1;
+                      if (batterRuns === 6) total.sixes += 1;
+                    }
+                    return {
+                      ...m,
+                      matchId: "manual-" + String(m.date || "") + "-" + String(m.opposition || "").toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+                      teams: m.teams || ("India vs " + (m.opposition || "Unknown")),
+                      overs: [...overMap.values()].sort((a, b) => a.over - b.over),
+                      manualBallByBall: true,
+                    };
+                  })
+              : [];
+          const innings = [...baseInnings, ...manualInnings];
           return {
             ...d,
             innings,
