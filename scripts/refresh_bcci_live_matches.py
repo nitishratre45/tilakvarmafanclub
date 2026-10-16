@@ -124,7 +124,9 @@ def main():
             raw = response.read()
             http_status = response.status
             content_type = response.headers.get("Content-Type", "")
-            print(f"BCCI_FETCH http_status={http_status} content_type={content_type!r} bytes={len(raw)}")
+            print(
+                f"BCCI_FETCH http_status={http_status} content_type={content_type!r} bytes={len(raw)}"
+            )
             if http_status != 200:
                 raise ValueError(f"BCCI returned HTTP {http_status}")
         payload = json.loads(raw.decode("utf-8-sig"))
@@ -141,9 +143,13 @@ def main():
                 "BCCI live-score rows are not objects; previous JSON preserved"
             )
         status_counts = Counter(status_of(row) or "<empty>" for row in rows)
-        print(f"BCCI_STATUS_COUNTS {json.dumps(dict(status_counts.most_common(30)), ensure_ascii=False, sort_keys=True)}")
+        print(
+            f"BCCI_STATUS_COUNTS {json.dumps(dict(status_counts.most_common(30)), ensure_ascii=False, sort_keys=True)}"
+        )
         if rows:
-            print(f"BCCI_SAMPLE_ROW_KEYS {json.dumps([sorted(row.keys())[:60] for row in rows[:3]], ensure_ascii=False)}")
+            print(
+                f"BCCI_SAMPLE_ROW_KEYS {json.dumps([sorted(row.keys())[:60] for row in rows[:3]], ensure_ascii=False)}"
+            )
         live = []
         for row in rows:
             if not is_live(row):
@@ -204,7 +210,9 @@ def main():
                     "raw": row,
                 }
             )
-        print(f"BCCI_FILTER_RESULT total={len(rows)} live={len(live)} rejected={len(rows) - len(live)}")
+        print(
+            f"BCCI_FILTER_RESULT total={len(rows)} live={len(live)} rejected={len(rows) - len(live)}"
+        )
         snapshot = {
             "source": SOURCE_URL,
             "checkedAt": datetime.now(timezone.utc).isoformat(),
