@@ -116,10 +116,20 @@ def looks_womens(row):
     text = " ".join(
         str(row.get(key, ""))
         for key in (
-            "name", "title", "match_short_name", "match_name",
-            "comp_name", "competition", "series_name", "team1_name",
-            "team2_name", "team1_short_name", "team2_short_name",
-            "team_name", "gender", "match_type",
+            "name",
+            "title",
+            "match_short_name",
+            "match_name",
+            "comp_name",
+            "competition",
+            "series_name",
+            "team1_name",
+            "team2_name",
+            "team1_short_name",
+            "team2_short_name",
+            "team_name",
+            "gender",
+            "match_type",
         )
     ).lower()
     return any(token in text for token in ("women", "woman", "womens", "women's"))
@@ -138,7 +148,9 @@ def fetch_rows(source_url, label):
         raw = response.read()
         http_status = response.status
         content_type = response.headers.get("Content-Type", "")
-    print(f"{label}_FETCH http_status={http_status} content_type={content_type!r} bytes={len(raw)}")
+    print(
+        f"{label}_FETCH http_status={http_status} content_type={content_type!r} bytes={len(raw)}"
+    )
     if http_status != 200:
         raise ValueError(f"{label} endpoint returned HTTP {http_status}")
     payload = json.loads(raw.decode("utf-8-sig"))
@@ -153,24 +165,48 @@ def normalize_live_row(row, gender="unknown"):
     return {
         "id": value(row, "gid", "match_id", "matchId", "id", "fixture_id"),
         "team1": value(
-            row, "team1_name", "team1Name", "team1", "home_team_name",
-            "team_a_name", "team1_short_name",
-        ) or "Team 1",
+            row,
+            "team1_name",
+            "team1Name",
+            "team1",
+            "home_team_name",
+            "team_a_name",
+            "team1_short_name",
+        )
+        or "Team 1",
         "team2": value(
-            row, "team2_name", "team2Name", "team2", "away_team_name",
-            "team_b_name", "team2_short_name",
-        ) or "Team 2",
+            row,
+            "team2_name",
+            "team2Name",
+            "team2",
+            "away_team_name",
+            "team_b_name",
+            "team2_short_name",
+        )
+        or "Team 2",
         "score1": value(
-            row, "team1_score", "team1Score", "team1_scores", "score1",
-            "team_a_score", "team1_innings",
+            row,
+            "team1_score",
+            "team1Score",
+            "team1_scores",
+            "score1",
+            "team_a_score",
+            "team1_innings",
         ),
         "score2": value(
-            row, "team2_score", "team2Score", "team2_scores", "score2",
-            "team_b_score", "team2_innings",
+            row,
+            "team2_score",
+            "team2Score",
+            "team2_scores",
+            "score2",
+            "team_b_score",
+            "team2_innings",
         ),
         "status": status_of(row),
         "match": value(row, "match_name", "matchName", "match", "title", "match_title"),
-        "series": value(row, "series_name", "seriesName", "competition_name", "comp_name"),
+        "series": value(
+            row, "series_name", "seriesName", "competition_name", "comp_name"
+        ),
         "venue": value(row, "venue", "venue_name", "ground_name"),
         "gender": gender,
         "raw": row,
@@ -200,19 +236,13 @@ def main():
             f"BCCI_BASE_STATUS_COUNTS {json.dumps(dict(Counter(status_of(row) or '<empty>' for row in base_rows).most_common(30)), ensure_ascii=False, sort_keys=True)}"
         )
         base_live = [
-            normalize_live_row(row, "unknown")
-            for row in base_rows
-            if is_live(row)
+            normalize_live_row(row, "unknown") for row in base_rows if is_live(row)
         ]
 
         women_candidates = [
-            row for row in women_rows
-            if looks_womens(row) and is_live(row)
+            row for row in women_rows if looks_womens(row) and is_live(row)
         ]
-        women_live = [
-            normalize_live_row(row, "women")
-            for row in women_candidates
-        ]
+        women_live = [normalize_live_row(row, "women") for row in women_candidates]
 
         # Merge by BCCI match ID when available; fall back to a stable team/match
         # key. A women's record replaces only a duplicate of that same fixture.
@@ -238,7 +268,9 @@ def main():
             "checkedAt": datetime.now(timezone.utc).isoformat(),
             "status": "updated-from-bcci-live-scores",
             "matchCount": len(live),
-            "womenMatchCount": sum(1 for match in live if match.get("gender") == "women"),
+            "womenMatchCount": sum(
+                1 for match in live if match.get("gender") == "women"
+            ),
             "matches": live,
         }
         OUTPUT.parent.mkdir(parents=True, exist_ok=True)
