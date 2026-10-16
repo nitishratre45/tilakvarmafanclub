@@ -2666,6 +2666,12 @@
           <div class="match-list" id="matches">
             <div class="empty-state">Connecting to the stats feed…</div>
           </div>
+          <section id="supplemental-scorecards" aria-labelledby="supplemental-scorecards-title" style="margin-top:24px;padding:18px;border:1px solid rgba(109,224,245,.22);border-radius:14px;background:linear-gradient(145deg,#0d1d30,#091321)">
+            <div class="section-kicker">SUPPLEMENTAL SCORECARDS</div>
+            <h3 id="supplemental-scorecards-title" style="margin:8px 0;color:#f4f8ff;font-size:clamp(20px,3vw,28px)">AFGHANISTAN <span style="color:#ff9e36">MATCH RECORDS</span></h3>
+            <p style="margin:0 0 14px;color:#a8b6c9;font-size:12px;line-height:1.7">Scorecard-only records are shown here separately. They will enter over-range totals only after valid over-by-over striker data is verified.</p>
+            <div id="supplemental-scorecards-list" class="match-list"><div class="empty-state">Loading supplemental records…</div></div>
+          </section>
         </div>
       </section>
     </main>
@@ -2690,6 +2696,7 @@
           last = document.querySelector("#last-over"),
           button = document.querySelector("#calculate");
         let root = null,
+          supplemental = null,
           active = "t20i",
           timer = null;
         const names = {
@@ -3034,6 +3041,29 @@
             })
             .join("");
         }
+        function renderSupplemental() {
+          const host = document.getElementById("supplemental-scorecards-list");
+          if (!host) return;
+          const records = (supplemental?.matches || [])
+            .filter((m) => !year?.value || year.value === "all" || String(m.date || "").slice(0, 4) === year.value)
+            .slice()
+            .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
+          if (!records.length) {
+            host.innerHTML = '<div class="empty-state">No supplemental scorecards for this year.</div>';
+            return;
+          }
+          host.innerHTML = records.map((m) =>
+            '<article class="match-card"><div class="match-card-head"><div><h3>' +
+            esc(m.opposition || "Afghanistan") + (m.matchLabel ? " · " + esc(m.matchLabel) : "") +
+            '</h3><div class="match-meta">' + esc(m.teams || "") + ' · T20I · SCORECARD ONLY</div></div><span class="match-date">' +
+            esc(m.date || "Date unavailable") + '</span></div><div class="over-chips" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr))">' +
+            '<div class="over-chip"><span>INNINGS SCORE</span><b>' + fmt(m.runs) + ' (' + fmt(m.balls) + ')</b><span>Runs (balls faced)</span></div>' +
+            '<div class="over-chip"><span>BOUNDARIES</span><b>' + (m.fours == null ? "—" : fmt(m.fours)) + ' / ' + (m.sixes == null ? "—" : fmt(m.sixes)) + '</b><span>Fours / sixes</span></div>' +
+            '</div><p style="margin:12px 0 0;color:#ffc0a4;font-size:11px;line-height:1.7"><strong>' +
+            esc(m.sourceStatus || "Verification pending") + '</strong><br>' + esc(m.overDataStatus || "Over split pending") +
+            '<br>Death-over totals updated: NO — over split not verified.</p></article>'
+          ).join("");
+        }
         function featured() {
           const p = document.getElementById("latest-match-panel"),
             m = root?.featuredMatch;
@@ -3064,6 +3094,7 @@
           options(active === "odi" ? 50 : active === "test" ? 90 : 20);
           snapshot();
           matches();
+          renderSupplemental();
           calculate();
           document.querySelector(".section-copy").textContent =
             "Selected: " +
@@ -3076,6 +3107,12 @@
             const r = await fetch(URL_DATA, { cache: "no-cache" });
             if (!r.ok) throw Error("HTTP " + r.status);
             root = await r.json();
+            try {
+              const extraResponse = await fetch("../data/manual-t20i-match-overrides.json", { cache: "no-cache" });
+              if (extraResponse.ok) supplemental = await extraResponse.json();
+            } catch (supplementalError) {
+              console.warn("Supplemental scorecards unavailable", supplementalError);
+            }
             fs.replaceChildren();
             Object.entries(root.formats || {}).forEach(([k, v]) => {
               if (v && Array.isArray(v.innings) && v.innings.length)
@@ -3101,6 +3138,7 @@
         year.addEventListener("change", () => {
           snapshot();
           matches();
+          renderSupplemental();
           calculate();
         });
         button.addEventListener("click", () => {
