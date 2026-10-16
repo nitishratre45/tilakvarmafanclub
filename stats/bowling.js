@@ -99,8 +99,7 @@
       .join("");
     if ($("home-bowling-updated"))
       $("home-bowling-updated").textContent =
-        "LAST UPDATE: " +
-        formatIndiaTimestamp(allData.bowlingStats?.updatedAt);
+        "LAST UPDATE: " + formatIndiaTimestamp(allData.bowlingStats?.updatedAt);
   }
   function renderBreakdown() {
     const host = $("bowling-breakdown");

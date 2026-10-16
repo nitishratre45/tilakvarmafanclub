@@ -1138,8 +1138,7 @@
             : "")
         : domesticSummaryOnly
           ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. Snapshot refresh checks every 12 hours."
-           : "LAST UPDATE: " +
-            formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable");
+          : "LAST UPDATE: " + formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable");
   }
   function resetFilters() {
     $("sg-filter-type").value = "all";
