@@ -26,7 +26,7 @@ jobs:
       - name: Test BCCI live-scores endpoint
         id: test
         continue-on-error: true
-        run: python scripts/test_bcci_women_live.py
+        run: python bcci-fixtures-test/test_bcci_women_live.py
 
       - name: Upload diagnostic JSON
         if: always()
