@@ -18,39 +18,10 @@
       <span class="test-label"><i></i> BCCI DATA</span>
     </header>
     <main class="container">
-      <section class="hero">
-        <p class="eyebrow">BCCI · CUSTOM FIXTURES</p>
-        <h1>Fixture Match Centre</h1>
-        <p class="subhead">
-          A separate preview of the saved BCCI fixture JSON. The page displays upcoming fixtures only. Live and completed matches are excluded automatically; production match data remains untouched.
-        </p>
-        <div class="hero-actions">
-          <button id="refreshBtn" class="primary-btn" type="button">↻ Reload JSON</button>
-          <a class="secondary-btn" href="#fixtureList">📅 Upcoming Fixtures</a>
-          <a class="secondary-btn" href="./results/">✓ Match Results</a>
-          <a class="secondary-btn" href="./complete/">🏏 Complete Matches</a>
-          <a
-            class="secondary-btn"
-            href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/fetch-bcci-fixtures-json.yml"
-            target="_blank"
-            rel="noopener"
-            >⚙ Run BCCI Workflow ↗</a
-          >
-        </div>
-      </section>
-      <section class="stats-grid">
-        <article class="stat-card">
-          <span>Fixtures displayed</span><strong id="totalCount">—</strong
-          ><small>Maximum 12 fixtures</small>
-        </article>
-        <article class="stat-card">
-          <span>Total pages reported</span><strong id="pageCount">—</strong
-          ><small>From BCCI pagination metadata</small>
-        </article>
-        <article class="stat-card">
-          <span>Last snapshot</span><strong id="lastUpdated" class="stat-date">—</strong
-          ><small id="sourceStatus">Waiting for data</small>
-        </article>
+      <section class="live-refresh-strip panel" aria-live="polite">
+        <span class="live-refresh-dot" aria-hidden="true"></span>
+        <div><strong id="liveRefreshTitle">Live-aware updates</strong><p id="liveRefreshMessage">Automatic refresh stays idle when no match is live.</p></div>
+        <span id="liveRefreshState" class="live-refresh-badge">Standby</span>
       </section>
       <section class="filters panel">
         <div class="section-heading">
