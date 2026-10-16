@@ -112,8 +112,10 @@
       const p = await r.json();
       const d = p.data ?? p;
       const rows = d.live_scores || d.match || d.matches || [];
-      match = rows.find((m) => String(m.gid || m.match_id || "") === String(gid)) || rows[0];
-      if (!match) throw Error("No match found in the latest live JSON");
+      match = rows.find((m) => String(m.gid || m.match_id || "") === String(gid));
+      if (!match) throw Error(gid
+        ? "That match is not present in the latest live-scores snapshot. Open Live Scores and select the match again."
+        : "No match ID was supplied. Open a match from the Live Scores list.");
       renderHeader();
       showTab("scorecard");
     } catch (e) {
