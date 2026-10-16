@@ -5,80 +5,54 @@
   const status = root.querySelector("[data-live-status]");
   const list = root.querySelector("[data-live-list]");
   const refresh = root.querySelector("[data-live-refresh]");
-  const esc = (v) =>
-    String(v ?? "").replace(
-      /[&<>"']/g,
-      (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
-    );
+  const esc = v => String(v ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   function extract(p) {
-    const d = p?.data ?? p;
-    if (Array.isArray(d?.match)) return d.match;
-    if (Array.isArray(d?.live_scores)) return d.live_scores;
-    if (Array.isArray(d?.data?.match)) return d.data.match;
-    if (Array.isArray(d?.matches)) return d.matches;
-    if (Array.isArray(d)) return d;
+    const d=p?.data??p;
+    if(Array.isArray(d?.match))return d.match;
+    if(Array.isArray(d?.live_scores))return d.live_scores;
+    if(Array.isArray(d?.data?.match))return d.data.match;
+    if(Array.isArray(d?.matches))return d.matches;
+    if(Array.isArray(d))return d;
     return [];
   }
   function render(matches) {
-    if (!matches.length) {
-      list.innerHTML = '<p class="loading-state">Live JSON mein abhi matches nahi hain.</p>';
-      return;
-    }
-    list.innerHTML = matches
-      .map((m) => {
-        const a = m.team1_name || m.home_team_name || "Team 1",
-          b = m.team2_name || m.away_team_name || "Team 2";
-        const score = m.result_string || (m.summary?.innings || []).map(i => [i.runs != null ? i.runs : "", i.wickets != null ? "/" + i.wickets : "", i.overs ? " (" + i.overs + " ov)" : ""].join("")).filter(Boolean).join(" · ");
-        return (
-          '<article class="fixture-card"><div><div class="fixture-topline"><span class="competition">' +
-          esc(m.comp_name || m.primary_event_name || "BCCI Live Score") +
-          '</span><span class="status-pill">' +
-          esc(m.live_status_name || m.match_status || "Status unavailable") +
-          '</span></div><div class="teams"><div class="team">' +
-          esc(a) +
-          '</div><div class="versus">VS</div><div class="team">' +
-          esc(b) +
-          '</div></div><div class="match-meta">' +
-          (m.ground_name || m.ground_city
-            ? "<span>📍 " + esc(m.ground_name || m.ground_city) + "</span>"
-            : "") +
-          (m.start_time_local ? "<span>◷ " + esc(m.start_time_local) + "</span>" : "") +
-          "</div>" +
-          (score ? '<div class="match-meta"><strong>' + esc(score) + "</strong></div>" : "") +
-          '</div><div class="fixture-date"><strong>' +
-          esc(m.date_string || m.start_date || m.start_datetime_utc || "Date TBA") +
-          "</strong><span>Match ID · " +
-          esc(m.match_id || m.gid || "—") +
-          "</span></div></article>"
-        );
-      })
-      .join("");
+    if(!matches.length){list.innerHTML='<p class="loading-state">Live JSON mein abhi matches nahi hain.</p>';return;}
+    list.innerHTML=matches.map(m=>{
+      const a=m.team1_name||m.home_team_name||"Team 1";
+      const b=m.team2_name||m.away_team_name||"Team 2";
+      const innings=Array.isArray(m.summary?.innings)?m.summary.innings:[];
+      const latest=[...innings].reverse().find(i=>Number(i.balls||0)>0||Number(i.runs||0)>0||Number(i.wickets||0)>0);
+      const battingId=latest?.batting_team_id;
+      const battingName=String(battingId)===String(m.team1_id)?a:String(battingId)===String(m.team2_id)?b:"";
+      const score=latest?String(latest.runs??0)+(latest.wickets!=null?"/"+latest.wickets:""):"";
+      const overs=latest?.overs!=null?String(latest.overs):"";
+      const statusText=m.live_status_name||m.match_status||"Live";
+      const need=m.result_string||"";
+      const isYetToBat=innings.length>1&&!Number(innings[1]?.balls||0)&&!Number(innings[1]?.runs||0);
+      const date=m.start_datetime_utc||m.start_date||m.date_string||"";
+      return '<article class="live-score-card">'+
+        '<div class="live-card-status"><span>'+esc(statusText)+'</span>'+(need?'<strong>'+esc(need)+'</strong>':"")+'</div>'+
+        '<div class="live-card-main">'+
+          '<div class="live-team"><span class="live-team-badge">'+esc((a.match(/\b\w/g)||["T"]).join("").slice(0,3))+'</span><strong>'+esc(a)+'</strong>'+(battingName===a&&score?'<small>Batting</small>':"")+'</div>'+
+          '<div class="live-versus">VS</div>'+
+          '<div class="live-team live-team-right"><span class="live-team-badge">'+esc((b.match(/\b\w/g)||["T"]).join("").slice(0,3))+'</span><strong>'+esc(b)+'</strong>'+(battingName===b&&score?'<small>Batting</small>':"")+'</div>'+
+        '</div>'+
+        '<div class="live-score-strip"><div class="live-batting-name">'+esc(battingName||"Current innings")+'</div><div class="live-score-value">'+(isYetToBat?'<span class="live-yet">Yet to bat</span>':score?'<strong>'+esc(score)+'</strong>': '<span class="live-yet">Score unavailable</span>')+(overs?'<span class="live-overs">🏏 '+esc(overs)+' ov</span>':"")+'</div></div>'+
+        '<div class="live-card-footer"><div><strong>'+esc(m.primary_event_name||m.comp_name||"Cricket")+'</strong><span>'+esc(m.match_round||m.name||"")+'</span><span>'+esc(m.ground_name||m.ground_city||"Venue TBA")+'</span></div><time>'+esc(date)+'</time></div>'+
+      '</article>';
+    }).join("");
   }
-  async function load() {
-    refresh.disabled = true;
-    status.textContent = "Loading separate live-scores JSON…";
-    try {
-      const res = await fetch("./bcci-live-scores.json?t=" + Date.now(), { cache: "no-store" });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      const p = await res.json();
-      if (p.status === "error") throw new Error(p.error || "Latest workflow fetch failed");
-      const matches = extract(p);
-      render(matches);
-      status.textContent =
-        "JSON snapshot: " +
-        (p.fetchedAt ? new Date(p.fetchedAt).toLocaleString() : "time unavailable") +
-        " · " +
-        matches.length +
-        " matches";
-    } catch (e) {
-      status.textContent = "Live JSON load failed: " + e.message;
-      list.innerHTML =
-        '<p class="loading-state">Run the BCCI Live Scores workflow to refresh bcci-live-scores.json.</p>';
-    } finally {
-      refresh.disabled = false;
-    }
+  async function load(){
+    refresh.disabled=true;status.textContent="Loading separate live-scores JSON…";
+    try{
+      const res=await fetch("./bcci-live-scores.json?t="+Date.now(),{cache:"no-store"});
+      if(!res.ok)throw new Error("HTTP "+res.status);
+      const p=await res.json();
+      if(p.status==="error")throw new Error(p.error||"Latest workflow fetch failed");
+      const matches=extract(p);render(matches);
+      status.textContent="JSON snapshot: "+(p.fetchedAt?new Date(p.fetchedAt).toLocaleString():"time unavailable")+" · "+matches.length+" matches";
+    }catch(e){status.textContent="Live JSON load failed: "+e.message;list.innerHTML='<p class="loading-state">Run the BCCI Live Scores workflow to refresh bcci-live-scores.json.</p>';}
+    finally{refresh.disabled=false;}
   }
-  refresh.addEventListener("click", load);
-  load();
-  window.setInterval(load, 60000);
+  refresh.addEventListener("click",load);load();window.setInterval(load,60000);
 })();
