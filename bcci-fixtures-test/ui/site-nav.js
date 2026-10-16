@@ -39,7 +39,6 @@
     header.className = "tvfc-header";
     header.innerHTML =
       '<a class="tvfc-brand" href="/" aria-label="Tilak Varma Fan Club home"><span class="tvfc-brand-photo"><img src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="Tilak Varma" loading="eager"></span><span>TILAK VARMA<small>FAN CLUB · THE 72 CLUB</small></span></a><nav class="tvfc-nav" aria-label="Main navigation"></nav>' +
-      (document.getElementById("match-centre-dialog") ? '<button class="match-centre-trigger tvfc-match-centre-trigger" type="button" aria-haspopup="dialog" aria-controls="match-centre-dialog">▣ Match Center</button>' : '') +
       '<button class="tvfc-menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>';
     const nav = header.querySelector(".tvfc-nav");
     routes.forEach(([label, href]) => {
