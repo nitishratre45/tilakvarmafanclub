@@ -43,15 +43,12 @@
   const complete = (m) => {
     const state = String(
       m.match_status_str || m.match_status || m.status || m.live_status_name || "",
-    ).toLowerCase();
-    return Boolean(
-      m.result_string ||
-        m.result ||
-        m.winner_team_id ||
-        /complete|completed|finished|result|abandoned|no result|won by|win by|drawn|tied/.test(
-          state,
-        ),
-    );
+    ).toLowerCase().replace(/[_-]+/g, " ");
+    const result = String(m.result_string || m.result || "").trim().toLowerCase();
+    const placeholder = !result || /^(teams will be announced(?: at the toss)?|match yet to begin|to be announced|toss yet to take place|scheduled|to be played)$/.test(result);
+    return /(^|\\b)(complete|completed|finished|abandoned|no result|cancelled|canceled|drawn|tied|end of match)(\\b|$)/.test(state)
+      || /(^|\\b)(won by|win by|drawn|tied|no result|abandoned|match forfeited)(\\b|$)/.test(result)
+      || (!placeholder && Boolean(m.winner_team_id));
   };
   const extract = (payload) => {
     if (Array.isArray(payload)) return payload;
