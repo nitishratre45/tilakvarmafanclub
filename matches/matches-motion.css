@@ -1,0 +1,82 @@
+/* Matches section: restrained, GPU-friendly motion. Scoped to match pages only. */
+.matches-page,
+body:has(.live-matches-main) {
+  scroll-behavior: smooth;
+}
+.matches-page .upcoming-match-card,
+.matches-page .complete-match-card,
+.matches-page .match-centre-tab,
+.matches-page .player-match-milestone,
+.matches-page .recent-match-table tbody tr,
+.matches-page .scorecard-innings,
+.matches-page .scorecard-summary-card,
+.matches-page .match-detail-card,
+.matches-page .match-detail-panel,
+.matches-page button,
+.matches-page .button,
+.matches-page a.scorecard-open,
+.live-matches-main .live-match-card,
+.live-matches-main .live-match-row {
+  transition:
+    transform 200ms cubic-bezier(.2,.7,.2,1),
+    border-color 200ms ease,
+    box-shadow 220ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    opacity 180ms ease;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .matches-page .upcoming-match-card:hover,
+  .matches-page .complete-match-card:hover,
+  .matches-page .player-match-milestone:hover,
+  .matches-page .match-detail-card:hover,
+  .matches-page .match-detail-panel:hover,
+  .live-matches-main .live-match-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(117, 227, 255, .48);
+    box-shadow: 0 14px 32px rgba(0, 8, 24, .24);
+  }
+  .matches-page .match-centre-tab:hover,
+  .matches-page a.scorecard-open:hover {
+    transform: translateY(-1px);
+  }
+  .matches-page button:hover,
+  .matches-page .button:hover {
+    filter: brightness(1.05);
+  }
+}
+.matches-page button:active,
+.matches-page .button:active,
+.matches-page .match-centre-tab:active,
+.matches-page a.scorecard-open:active {
+  transform: translateY(0) scale(.985);
+}
+.matches-page button:focus-visible,
+.matches-page a:focus-visible,
+.live-matches-main a:focus-visible,
+.live-matches-main button:focus-visible {
+  outline: 2px solid #75e3ff;
+  outline-offset: 3px;
+}
+.matches-page .recent-match-table tbody tr,
+.matches-page .complete-match-card,
+.matches-page .upcoming-match-card {
+  will-change: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .matches-page,
+  body:has(.live-matches-main) {
+    scroll-behavior: auto;
+  }
+  .matches-page *,
+  .matches-page *::before,
+  .matches-page *::after,
+  .live-matches-main *,
+  .live-matches-main *::before,
+  .live-matches-main *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
