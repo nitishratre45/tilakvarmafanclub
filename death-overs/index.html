@@ -1710,15 +1710,21 @@
       .over-chip.is-range-selected {
         position: relative;
         border-color: #ff8756 !important;
-        background: linear-gradient(145deg, rgba(255, 117, 72, .24), rgba(255, 117, 72, .09)) !important;
-        box-shadow: inset 0 0 0 1px rgba(255, 135, 86, .28), 0 4px 14px rgba(255, 106, 53, .10);
+        background: linear-gradient(
+          145deg,
+          rgba(255, 117, 72, 0.24),
+          rgba(255, 117, 72, 0.09)
+        ) !important;
+        box-shadow:
+          inset 0 0 0 1px rgba(255, 135, 86, 0.28),
+          0 4px 14px rgba(255, 106, 53, 0.1);
       }
       .over-chip .range-chip-tag {
         display: inline-block;
         margin: 0 0 5px;
         color: #ff9a72;
         font: 800 9px/1.2 var(--mono);
-        letter-spacing: .06em;
+        letter-spacing: 0.06em;
       }
       .empty-state {
         padding: 20px;
@@ -2735,9 +2741,13 @@
           document.getElementById("match-summary").textContent =
             recentEligible.length +
             " recent innings with Tilak batting in overs " +
-            rangeStart + "–" + rangeEnd +
-            " · " + (d?.label || names[active]) +
-            " · " + (year.value === "all" ? "All years" : year.value) +
+            rangeStart +
+            "–" +
+            rangeEnd +
+            " · " +
+            (d?.label || names[active]) +
+            " · " +
+            (year.value === "all" ? "All years" : year.value) +
             " · Selected overs highlighted";
           if (!rows.length) {
             box.innerHTML =
@@ -2747,13 +2757,18 @@
           if (!recentEligible.length) {
             box.innerHTML =
               '<div class="empty-state">No recent innings found where Tilak faced a delivery in overs ' +
-              rangeStart + "–" + rangeEnd + " for this format and year. Try another over range.</div>";
+              rangeStart +
+              "–" +
+              rangeEnd +
+              " for this format and year. Try another over range.</div>";
             return;
           }
           box.innerHTML = recentEligible
             .slice(0, 15)
             .map((m) => {
-              const availableOvers = (m.overs || []).slice().sort((a, b) => Number(a.over) - Number(b.over));
+              const availableOvers = (m.overs || [])
+                .slice()
+                .sort((a, b) => Number(a.over) - Number(b.over));
               return (
                 '<article class="match-card"><div class="match-card-head"><div><h3>' +
                 esc(m.opposition || "Match") +
@@ -2765,18 +2780,32 @@
                 '</div></div><span class="match-date">' +
                 esc(m.date || "Date unavailable") +
                 '</span></div><div class="recent-range-note">Showing innings where Tilak faced a ball in overs ' +
-                rangeStart + "–" + rangeEnd + '</div><div class="over-chips">' +
-                availableOvers.map((o) => {
-                  const isSelected = Number(o.over) >= rangeStart && Number(o.over) <= rangeEnd;
-                  return (
-                    '<div class="over-chip' + (isSelected ? " is-range-selected" : "") + '">' +
-                    (isSelected ? '<span class="range-chip-tag">SELECTED</span>' : "") +
-                    "OVER " + Number(o.over) +
-                    "<b>" + fmt(o.runs) + " RUNS</b><span>" +
-                    fmt(o.balls) + " balls · " + fmt(o.fours) + " fours · " +
-                    fmt(o.sixes) + " sixes</span></div>"
-                  );
-                }).join("") +
+                rangeStart +
+                "–" +
+                rangeEnd +
+                '</div><div class="over-chips">' +
+                availableOvers
+                  .map((o) => {
+                    const isSelected = Number(o.over) >= rangeStart && Number(o.over) <= rangeEnd;
+                    return (
+                      '<div class="over-chip' +
+                      (isSelected ? " is-range-selected" : "") +
+                      '">' +
+                      (isSelected ? '<span class="range-chip-tag">SELECTED</span>' : "") +
+                      "OVER " +
+                      Number(o.over) +
+                      "<b>" +
+                      fmt(o.runs) +
+                      " RUNS</b><span>" +
+                      fmt(o.balls) +
+                      " balls · " +
+                      fmt(o.fours) +
+                      " fours · " +
+                      fmt(o.sixes) +
+                      " sixes</span></div>"
+                    );
+                  })
+                  .join("") +
                 "</div></article>"
               );
             })
