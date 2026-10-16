@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261015-india-theme1" />
 
     <link rel="stylesheet" href="../ui/site-nav.css?v=20261016-glass-match1" />
-    \n
     <link rel="stylesheet" href="./complete.css?v=20261016-bcci-complete1" />
 
     <!-- Shared main-site visual system: header, glass menu, dock, responsive layout and motion. -->
@@ -30,6 +29,19 @@
     <link rel="stylesheet" href="/assets/custom-selects.css?v=20261017-native-matches2" />
     <link rel="stylesheet" href="/matches/matches-motion.css?v=20261017-native-matches2" />
       <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-native-matches2" />
+
+<style>
+  /* Keep the archive layout stable across desktop and narrow phones. */
+  .bcci-complete-page .complete-hero-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .bcci-complete-page .complete-hero-stats>span{min-width:0;overflow-wrap:anywhere}
+  .bcci-complete-page .complete-hero-stats strong{font-size:clamp(15px,2.6vw,22px);line-height:1.25;overflow-wrap:anywhere}
+  .bcci-complete-page .complete-hero-stats small{line-height:1.5}
+  .bcci-complete-page .complete-match-bottom .scorecard-open{display:flex;width:100%;min-height:54px}
+  .bcci-complete-page .complete-team-crest-fallback{display:none}
+  .bcci-complete-page .complete-team-crest.is-missing .complete-team-crest-fallback{display:grid}
+  .bcci-complete-page .complete-team-crest img{object-fit:contain}
+  @media(max-width:520px){.bcci-complete-page .complete-hero-stats{gap:8px}.bcci-complete-page .complete-hero-stats>span{padding:12px 10px}.bcci-complete-page .complete-hero-stats strong{font-size:15px}.bcci-complete-page .complete-match-teams{grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr);gap:6px}.bcci-complete-page .complete-team-crest{width:60px;height:60px;border-radius:18px}}
+</style>
   </head>
   <body class="matches-page complete-matches-page bcci-complete-page">
     <header class="topbar">
