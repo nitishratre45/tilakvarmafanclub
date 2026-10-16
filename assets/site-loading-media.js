@@ -7,7 +7,8 @@
   loader.id = "site-page-loader";
   loader.setAttribute("role", "status");
   loader.setAttribute("aria-live", "polite");
-  loader.innerHTML = '<div class="site-loader-panel"><span class="site-loader-spinner" aria-hidden="true"></span><span>LOADING TILAK VARMA FAN CLUB</span></div>';
+  loader.innerHTML =
+    '<div class="site-loader-panel"><span class="site-loader-spinner" aria-hidden="true"></span><span>LOADING TILAK VARMA FAN CLUB</span></div>';
   document.documentElement.appendChild(loader);
 
   const bar = document.createElement("div");
@@ -60,10 +61,14 @@
     if (img.complete && img.naturalWidth > 0) ready();
     else {
       img.addEventListener("load", ready, { once: true });
-      img.addEventListener("error", () => {
-        img.classList.remove("is-image-loading");
-        img.classList.add("is-image-error");
-      }, { once: true });
+      img.addEventListener(
+        "error",
+        () => {
+          img.classList.remove("is-image-loading");
+          img.classList.add("is-image-error");
+        },
+        { once: true },
+      );
     }
   };
   document.querySelectorAll("img").forEach(prepareImage);
