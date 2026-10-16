@@ -2,6 +2,11 @@ name: BCCI Fixtures Folder - Results Archive
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "bcci-fixtures-test/results/fetch_results.py"
+      - ".github/workflows/refresh-bcci-results.yml"
   schedule:
     - cron: "37 */6 * * *"
 
