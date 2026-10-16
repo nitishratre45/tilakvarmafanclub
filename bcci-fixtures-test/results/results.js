@@ -1,192 +1,123 @@
 (() => {
   "use strict";
   const $ = (id) => document.getElementById(id);
-  const list = $("list"),
-    search = $("search"),
-    format = $("format"),
-    sort = $("sort");
-  const count = $("count"),
-    updated = $("updated");
+  const list = $("list"), search = $("search"), format = $("format"), sort = $("sort");
+  const count = $("count"), updated = $("updated");
   if (!list || !search || !format || !sort || !count || !updated) return;
+
+  const ARCHIVE_URL = "/matches/scorecards/index.json";
   let matches = [];
-  const esc = (v) =>
-    String(v ?? "").replace(
-      /[&<>"']/g,
-      (c) =>
-        ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;",
-        })[c],
-    );
-  const date = (m) =>
-    m.start_date || m.end_date || m.match_date || m.date_string || m.start_datetime_utc || "";
-  const fmt = (m) => {
-    const text = [
-      m.title,
-      m.match_short_name,
-      m.name,
-      m.comp_name,
-      m.comp_type,
-      ...(Array.isArray(m.class) ? m.class.map((x) => x?.name) : []),
-    ]
-      .join(" ")
-      .toLowerCase();
-    if (/women/.test(text)) return "Women's";
-    if (/test|first.class/.test(text)) return "Test";
-    if (/odi|one.day|one day/.test(text)) return "ODI";
-    if (/t20|twenty20/.test(text)) return "T20I";
+  const esc = (value) => String(value ?? "—").replace(/[&<>"']/g, (c) => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+  const date = (m) => String(m.date || m.start_date || m.match_date || "");
+  const formatLabel = (value) => ({
+    T20I:"T20I", ODI:"ODI", Test:"Test", T20:"T20 / IPL",
+    "List A":"List A", "First-class":"First-class"
+  })[value] || value || "Cricket";
+  const resultText = (m) => String(m.result || m.result_string || "").trim();
+  const formatOf = (m) => {
+    const raw = String(m.format || m.match_type || "").toLowerCase();
+    if (/t20i/.test(raw)) return "T20I";
+    if (/\bodi\b/.test(raw)) return "ODI";
+    if (/test|first.class/.test(raw)) return /first.class/.test(raw) ? "First-class" : "Test";
+    if (/list.a/.test(raw)) return "List A";
+    if (/t20|ipl/.test(raw)) return "T20";
     return "Other";
   };
-  const complete = (m) => {
-    const state = String(
-      m.match_status_str || m.match_status || m.status || m.live_status_name || "",
-    ).toLowerCase().replace(/[_-]+/g, " ");
-    const result = String(m.result_string || m.result || "").trim().toLowerCase();
-    const placeholder = !result || /^(teams will be announced(?: at the toss)?|match yet to begin|to be announced|toss yet to take place|scheduled|to be played)$/.test(result);
-    return /(^|\\b)(complete|completed|finished|abandoned|no result|cancelled|canceled|drawn|tied|end of match)(\\b|$)/.test(state)
-      || /(^|\\b)(won by|win by|drawn|tied|no result|abandoned|match forfeited)(\\b|$)/.test(result)
-      || (!placeholder && Boolean(m.winner_team_id));
-  };
-  const extract = (payload) => {
-    if (Array.isArray(payload)) return payload;
-    for (const key of ["matches", "match", "results", "data", "items", "result"]) {
-      const v = payload?.[key];
-      if (Array.isArray(v)) return v;
-      if (v && typeof v === "object") {
-        for (const nested of ["matches", "match", "results", "items"])
-          if (Array.isArray(v[nested])) return v[nested];
-      }
-    }
-    return [];
-  };
-  const unique = (rows) => {
+  const uniqueMatches = (rows) => {
     const seen = new Set();
     return rows.filter((m) => {
-      const id = String(
-        m.gid ||
-          m.match_gid ||
-          m.match_id ||
-          m.id ||
-          [m.team1_name, m.team2_name, date(m), m.comp_name].join("|"),
-      );
-      if (seen.has(id)) return false;
+      const id = String(m.matchId || m.match_id || m.gid || "").trim();
+      if (!id || seen.has(id)) return false;
       seen.add(id);
       return true;
     });
   };
+  const isCompletedTilakMatch = (m) => {
+    // This index is produced by the Matches > Complete pipeline and contains
+    // verified Tilak Varma appearances only; require a dated result and saved scorecard.
+    return Boolean(
+      m.matchId && m.scorecard && date(m) && resultText(m) &&
+      m.team && m.opposition && /tilak varma/i.test(
+        [m.player, m.playerName, m.featuredPlayer, m.archiveNote || ""].join(" ")
+      ) || (
+        m.matchId && m.scorecard && date(m) && resultText(m) &&
+        m.team && m.opposition && m.source === "https://cricsheet.org/"
+      )
+    );
+  };
   async function getJson(url) {
-    const r = await fetch(url + (url.includes("?") ? "&" : "?") + "t=" + Date.now(), {
-      cache: "no-store",
-    });
-    if (!r.ok) throw new Error("HTTP " + r.status + " loading " + url);
-    return r.json();
+    const response = await fetch(url + "?t=" + Date.now(), { cache: "no-store" });
+    if (!response.ok) throw new Error("HTTP " + response.status + " loading " + url);
+    return response.json();
   }
   function render() {
-    const q = search.value.trim().toLowerCase(),
-      f = format.value;
-    const data = matches.filter((m) => {
-      const hay = [
-        m.name,
-        m.title,
-        m.match_short_name,
-        m.comp_name,
-        m.ground_name,
-        m.ground_city,
-        m.team1_name,
-        m.team2_name,
-        m.result_string,
-        m.result,
-      ]
-        .join(" ")
-        .toLowerCase();
-      return (!q || hay.includes(q)) && (f === "all" || fmt(m) === f);
+    const q = search.value.trim().toLowerCase();
+    const selectedFormat = format.value;
+    const rows = matches.filter((m) => {
+      const haystack = [
+        m.team, m.opposition, m.event, m.venue, m.result, m.date, m.format, m.matchId
+      ].join(" ").toLowerCase();
+      return (!q || haystack.includes(q)) &&
+        (selectedFormat === "all" || formatOf(m) === selectedFormat);
     });
-    data.sort((a, b) => {
-      const d = String(date(a)).localeCompare(String(date(b)));
-      return sort.value === "old" ? d : -d;
+    rows.sort((a, b) => {
+      const delta = date(a).localeCompare(date(b));
+      return sort.value === "old" ? delta : -delta;
     });
-    count.textContent = data.length + " completed match" + (data.length === 1 ? "" : "es");
-    if (!data.length) {
-      list.innerHTML =
-        '<div class="empty"><span class="empty-icon">🏏</span><h2>No matching results</h2><p>Try another team name, format or date. If the archive is empty, run the BCCI Results workflow and reload this page.</p><a class="btn" href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/refresh-bcci-results.yml" target="_blank" rel="noopener">Refresh results data ↗</a></div>';
+    count.textContent = rows.length.toLocaleString("en-IN") +
+      " completed Tilak Varma match" + (rows.length === 1 ? "" : "es");
+    if (!rows.length) {
+      list.innerHTML = '<div class="empty"><span class="empty-icon">🏏</span><h2>No matching completed matches</h2><p>Try another team, format or date.</p></div>';
       return;
     }
-    list.innerHTML = data
-      .map((m) => {
-        const gid = m.gid || m.match_gid || m.match_id || m.id || "";
-        const teams =
-          (m.team1_name || m.team1_short_name || "Team 1") +
-          " vs " +
-          (m.team2_name || m.team2_short_name || "Team 2");
-        const summary = m.summary?.team || [];
-        const scores = summary
-          .map((t) => t?.score)
-          .filter(Boolean)
-          .join(" · ");
-        const dateText = m.date_string || date(m) || "Date unavailable";
-        return (
-          '<article class="match"><div class="match-main"><div class="meta"><span class="format-pill">' +
-          esc(fmt(m)) +
-          "</span><span>" +
-          esc(m.comp_name || m.comp_type || "Cricket") +
-          "</span><span>" +
-          esc(dateText) +
-          '</span></div><h2 class="teams">' +
-          esc(teams) +
-          '</h2><div class="result">' +
-          esc(m.result_string || m.result || "Match completed") +
-          "</div>" +
-          (scores ? '<div class="score">' + esc(scores) + "</div>" : "") +
-          '<div class="venue">' +
-          esc(
-            [m.ground_name, m.ground_city]
-              .filter(Boolean)
-              .filter((v, i, a) => a.indexOf(v) === i)
-              .join(" · "),
-          ) +
-          '</div></div><div class="actions">' +
-          (gid
-            ? '<a class="btn" href="../bcci-scorecard-page.html?gid=' +
-              encodeURIComponent(gid) +
-              '">Full scorecard <span aria-hidden="true">↗</span></a>'
-            : "") +
-          "</div></article>"
-        );
-      })
-      .join("");
+    list.innerHTML = rows.map((m) => {
+      const score = m.playerRuns !== undefined && m.playerRuns !== null
+        ? "Tilak Varma: " + m.playerRuns + " runs"
+        : "Full scorecard available";
+      const innings = Number(m.inningsCount || 0);
+      const scorecardUrl = "/matches/scorecards/?match=" + encodeURIComponent(m.matchId);
+      return '<article class="match">' +
+        '<div class="match-main">' +
+          '<div class="meta"><span class="format-pill">' + esc(formatLabel(formatOf(m))) +
+          '</span><span>' + esc(m.event || "Completed match") + '</span><span>' +
+          esc(date(m)) + '</span></div>' +
+          '<h2 class="teams">' + esc(m.team || "Team") + ' <span>vs</span> ' +
+          esc(m.opposition || "Opponent") + '</h2>' +
+          '<p class="result">' + esc(resultText(m)) + '</p>' +
+          '<p class="scores">' + esc(score) + (innings ? " · " + innings + " innings" : "") + '</p>' +
+          '<p class="venue">' + esc(m.venue || "Venue unavailable") + '</p>' +
+          '<p class="source-note">Scorecard source: Cricsheet archive · Match ID: ' + esc(m.matchId) + '</p>' +
+        '</div><a class="btn scorecard-btn" href="' + esc(scorecardUrl) + '">Full scorecard ↗</a></article>';
+    }).join("");
   }
   async function load() {
-    count.textContent = "Loading completed matches…";
-    list.innerHTML = '<div class="empty loading">Loading BCCI results archive…</div>';
+    count.textContent = "Loading Tilak Varma completed-match archive…";
+    list.innerHTML = '<div class="empty">Loading saved match index and scorecards…</div>';
     try {
-      const payload = await getJson("./results.json");
-      matches = unique(extract(payload));
-      updated.textContent = payload.updatedAt
-        ? "Updated " + new Date(payload.updatedAt).toLocaleString()
-        : "";
-      if (!matches.length) throw new Error("Archive has no saved matches");
-    } catch (archiveError) {
-      try {
-        const fixturePayload = await getJson("../bcci-fixtures.json");
-        const fixtureRows = extract(fixturePayload.data || fixturePayload);
-        matches = unique(fixtureRows.filter(complete));
-        updated.textContent = matches.length
-          ? "Showing completed matches from the latest fixtures snapshot · " +
-            (fixturePayload.fetchedAt ? new Date(fixturePayload.fetchedAt).toLocaleString() : "")
-          : "Results archive not generated yet";
-      } catch (fallbackError) {
-        matches = [];
-        updated.textContent = "Results data unavailable";
-      }
+      const archive = await getJson(ARCHIVE_URL);
+      const sourceRows = Array.isArray(archive.matches) ? archive.matches : [];
+      matches = uniqueMatches(sourceRows.filter(isCompletedTilakMatch));
+      if (!matches.length) throw new Error("The completed archive returned no verified Tilak Varma matches.");
+      const updatedAt = archive.updatedAt ? new Date(archive.updatedAt) : null;
+      updated.textContent = "Source: Cricsheet · Matches folder completed archive" +
+        (updatedAt && !Number.isNaN(updatedAt.getTime())
+          ? " · Updated " + updatedAt.toLocaleString("en-IN", {
+              timeZone:"Asia/Kolkata", dateStyle:"medium", timeStyle:"short"
+            })
+          : "");
+      render();
+    } catch (error) {
+      count.textContent = "Completed archive unavailable";
+      updated.textContent = "Source: /matches/scorecards/index.json";
+      list.innerHTML = '<div class="empty"><span class="empty-icon">⚠️</span><h2>Could not load completed matches</h2><p>' +
+        esc(error.message) + '</p><a class="btn" href="' + esc(ARCHIVE_URL) +
+        '" target="_blank" rel="noopener">Open source archive ↗</a></div>';
     }
-    render();
   }
-  [search, format, sort].forEach((el) => el.addEventListener("input", render));
+  search.addEventListener("input", render);
+  format.addEventListener("change", render);
+  sort.addEventListener("change", render);
   load();
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) load();
-  });
 })();
