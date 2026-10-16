@@ -60,8 +60,8 @@ def request_page(page):
     # The BCCI results endpoint supports competition and pagination parameters.
     # Avoid team/date filters here: they can silently return an empty response for
     # otherwise valid completed-result records.
-    params = [*((("comp_gid", value) for value in COMP_GIDS),
-              ("page", str(page)), ("size", str(PAGE_SIZE))]
+    params = [("comp_gid", value) for value in COMP_GIDS]
+    params.extend([("page", str(page)), ("size", str(PAGE_SIZE))]
     url = BASE_URL + "?" + urlencode(params)
     req = Request(url, headers={
         "User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClub-BCCI-Results/1.0)",
