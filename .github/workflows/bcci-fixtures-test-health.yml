@@ -1,0 +1,95 @@
+name: BCCI Fixtures Test Health Monitor
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - "bcci-fixtures-test/**"
+      - ".github/workflows/bcci-fixtures-test-health.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bcci-fixtures-test-health
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          find bcci-fixtures-test -type f -name '*.js' -print0 | while IFS= read -r -d '' file; do
+            echo "Checking JS: $file"
+            node --check "$file"
+          done
+
+      - name: Compile Python scripts
+        run: python -m compileall -q bcci-fixtures-test
+
+      - name: Validate BCCI JSON files
+        shell: bash
+        run: |
+          set -euo pipefail
+          find bcci-fixtures-test -type f -name '*.json' -print0 | while IFS= read -r -d '' file; do
+            echo "Checking JSON: $file"
+            python -m json.tool "$file" >/dev/null
+          done
+
+      - name: Verify page asset references
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          from urllib.parse import urlsplit
+
+          root = Path(".").resolve()
+          pages = sorted(Path("bcci-fixtures-test").rglob("*.html"))
+          failures = []
+          for page in pages:
+              source = page.read_text(encoding="utf-8")
+              for ref in re.findall(r'''(?:src|href)=["']([^"']+)["']''', source):
+                  url = urlsplit(ref)
+                  if url.scheme or url.netloc or ref.startswith("#") or not url.path:
+                      continue
+                  target = (root / url.path.lstrip("/")) if url.path.startswith("/") else (page.parent / url.path)
+                  if not target.exists():
+                      failures.append(f"{page}: missing asset {ref}")
+              ids = re.findall(r'''\bid=["']([^"']+)["']''', source)
+              duplicates = sorted({value for value in ids if ids.count(value) > 1})
+              if duplicates:
+                  failures.append(f"{page}: duplicate IDs {duplicates}")
+          if failures:
+              print("\n".join(failures))
+              raise SystemExit(1)
+          print(f"Validated local asset references and duplicate IDs in {len(pages)} BCCI HTML pages.")
+          PY
+
+      - name: Verify fixtures refresh logic and navigation shell
+        run: |
+          grep -q 'tvfc-mobile-menu' bcci-fixtures-test/ui/site-nav.js
+          grep -q 'tvfc-mobile-dock' bcci-fixtures-test/ui/site-nav.css
+          grep -q 'liveRefreshState' bcci-fixtures-test/index.html
+          grep -q 'live-aware updates\|Live-aware updates' bcci-fixtures-test/index.html
+          echo "BCCI navigation and live-aware refresh indicators are present."
+
+      - name: Check deployed BCCI page
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="https://tilakvarmafc.pages.dev/bcci-fixtures-test/"
+          code="$(curl -L -sS --max-time 25 -o /tmp/bcci-page.html -w '%{http_code}' "$url")"
+          echo "Deployed page HTTP status: $code"
+          test "$code" = "200"
+          grep -qi 'BCCI' /tmp/bcci-page.html
+          echo "Deployed BCCI test page returned HTTP 200 and contains BCCI branding."
