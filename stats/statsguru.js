@@ -1137,7 +1137,7 @@
             ? " Overall-format strike rate is approximate because at least one source format did not provide balls faced; missing balls were estimated from its published strike rate."
             : "")
         : domesticSummaryOnly
-          ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. Snapshot refresh checks every 12 hours."
+          ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. "
           : "LAST UPDATE: " + formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable");
   }
   function resetFilters() {
