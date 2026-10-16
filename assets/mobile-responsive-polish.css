@@ -67,7 +67,9 @@ textarea {
     width: max-content;
     min-width: 100%;
     max-width: none;
-    table-layout: auto;
+    table-layout: auto !important;
+    width: max-content !important;
+    min-width: 100% !important;
   }
   :where(
       .table-wrap,
@@ -90,6 +92,7 @@ textarea {
     overflow-wrap: normal;
     word-break: normal;
     hyphens: none;
+    white-space: nowrap;
   }
   /* Prevent long URLs/labels from pushing the entire viewport sideways. */
   p,
