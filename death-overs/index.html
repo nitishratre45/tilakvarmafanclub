@@ -1701,6 +1701,25 @@
         transform: translateY(-1px);
         border-color: #6de0f5;
       }
+      .recent-range-note {
+        margin: 12px 0 10px;
+        color: #a9c0d9;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+      .over-chip.is-range-selected {
+        position: relative;
+        border-color: #ff8756 !important;
+        background: linear-gradient(145deg, rgba(255, 117, 72, .24), rgba(255, 117, 72, .09)) !important;
+        box-shadow: inset 0 0 0 1px rgba(255, 135, 86, .28), 0 4px 14px rgba(255, 106, 53, .10);
+      }
+      .over-chip .range-chip-tag {
+        display: inline-block;
+        margin: 0 0 5px;
+        color: #ff9a72;
+        font: 800 9px/1.2 var(--mono);
+        letter-spacing: .06em;
+      }
       .empty-state {
         padding: 20px;
         border: 1px dashed rgba(111, 160, 205, 0.28);
@@ -2700,34 +2719,42 @@
         function matches() {
           const d = data(),
             box = document.getElementById("matches"),
-            rows = d?.innings || [];
+            rows = d?.innings || [],
+            firstOver = Number(first.value || 1),
+            lastOver = Number(last.value || 20),
+            rangeStart = Math.min(firstOver, lastOver),
+            rangeEnd = Math.max(firstOver, lastOver);
+          const recentEligible = rows
+            .filter((innings) =>
+              (innings.overs || []).some(
+                (over) => Number(over.over) >= rangeStart && Number(over.over) <= rangeEnd,
+              ),
+            )
+            .slice()
+            .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
           document.getElementById("match-summary").textContent =
-            fmt(d?.inningsFound || rows.length) +
-            " innings · " +
-            (d?.label || names[active]) +
-            " · " +
-            (year.value === "all" ? "All years" : year.value) +
-            " · Updated " +
-            (root.updatedAt
-              ? new Date(root.updatedAt).toLocaleString("en-IN", {
-                  timeZone: "Asia/Kolkata",
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                }) + " IST"
-              : "time unavailable");
+            recentEligible.length +
+            " recent innings with Tilak batting in overs " +
+            rangeStart + "–" + rangeEnd +
+            " · " + (d?.label || names[active]) +
+            " · " + (year.value === "all" ? "All years" : year.value) +
+            " · Selected overs highlighted";
           if (!rows.length) {
             box.innerHTML =
               '<div class="empty-state">No delivery-level innings are available for this format/year.</div>';
             return;
           }
-          box.innerHTML = rows
+          if (!recentEligible.length) {
+            box.innerHTML =
+              '<div class="empty-state">No recent innings found where Tilak faced a delivery in overs ' +
+              rangeStart + "–" + rangeEnd + " for this format and year. Try another over range.</div>";
+            return;
+          }
+          box.innerHTML = recentEligible
             .slice(0, 15)
-            .map(
-              (m) =>
+            .map((m) => {
+              const availableOvers = (m.overs || []).slice().sort((a, b) => Number(a.over) - Number(b.over));
+              return (
                 '<article class="match-card"><div class="match-card-head"><div><h3>' +
                 esc(m.opposition || "Match") +
                 '</h3><div class="match-meta">' +
@@ -2737,25 +2764,22 @@
                 (+m.innings || 1) +
                 '</div></div><span class="match-date">' +
                 esc(m.date || "Date unavailable") +
-                '</span></div><div class="over-chips">' +
-                (m.overs || [])
-                  .map(
-                    (o) =>
-                      '<div class="over-chip">OVER ' +
-                      +o.over +
-                      "<b>" +
-                      fmt(o.runs) +
-                      " RUNS</b><span>" +
-                      fmt(o.balls) +
-                      " balls · " +
-                      fmt(o.fours) +
-                      " fours · " +
-                      fmt(o.sixes) +
-                      " sixes</span></div>",
-                  )
-                  .join("") +
-                "</div></article>",
-            )
+                '</span></div><div class="recent-range-note">Showing innings where Tilak faced a ball in overs ' +
+                rangeStart + "–" + rangeEnd + '</div><div class="over-chips">' +
+                availableOvers.map((o) => {
+                  const isSelected = Number(o.over) >= rangeStart && Number(o.over) <= rangeEnd;
+                  return (
+                    '<div class="over-chip' + (isSelected ? " is-range-selected" : "") + '">' +
+                    (isSelected ? '<span class="range-chip-tag">SELECTED</span>' : "") +
+                    "OVER " + Number(o.over) +
+                    "<b>" + fmt(o.runs) + " RUNS</b><span>" +
+                    fmt(o.balls) + " balls · " + fmt(o.fours) + " fours · " +
+                    fmt(o.sixes) + " sixes</span></div>"
+                  );
+                }).join("") +
+                "</div></article>"
+              );
+            })
             .join("");
         }
         function featured() {
@@ -2827,9 +2851,18 @@
           matches();
           calculate();
         });
-        button.addEventListener("click", calculate);
-        first.addEventListener("change", calculate);
-        last.addEventListener("change", calculate);
+        button.addEventListener("click", () => {
+          matches();
+          calculate();
+        });
+        first.addEventListener("change", () => {
+          matches();
+          calculate();
+        });
+        last.addEventListener("change", () => {
+          matches();
+          calculate();
+        });
         load();
         if (new URLSearchParams(location.search).get("embed") === "1") {
           let heightFrame = 0;
