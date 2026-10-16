@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+:root{color-scheme:dark;--bg:#07111f;--panel:#0d1c2e;--line:#243950;--muted:#9cb6d3;--mint:#78e2b6;--blue:#8ed9ff;--text:#f4f8ff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 85% -10%,#173b5b 0,transparent 44%),var(--bg);color:var(--text);font:15px/1.55 "DM Sans",system-ui,sans-serif}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px max(16px,calc((100vw - 1180px)/2));background:#07111fee;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+.top a{font-weight:700}.top span{font:700 14px "Space Grotesk";letter-spacing:.08em}.top small{color:var(--muted);font:600 10px "DM Sans"}
+button{border:1px solid #34516a;border-radius:12px;background:#10253a;color:#fff;padding:10px 14px;font:700 12px "DM Sans";cursor:pointer;transition:transform .15s,border-color .15s}
+button:hover{border-color:var(--mint);transform:translateY(-1px)}button:disabled{opacity:.6;cursor:wait}
+main{width:min(1180px,calc(100% - 32px));margin:34px auto 70px}
+.eyebrow{margin:0 0 8px;color:var(--mint);font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+h1{font:700 clamp(27px,4.5vw,46px)/1.12 "Space Grotesk";letter-spacing:-.04em;margin:8px 0 10px}
+h2{font:700 clamp(19px,2.5vw,25px) "Space Grotesk";margin:0}
+h3{font:700 15px "Space Grotesk"}
+.muted,.source{color:var(--muted)}#meta{font-size:13px;overflow-wrap:anywhere}
+.status{margin:20px 0;padding:12px 15px;border:1px solid var(--line);border-radius:12px;background:#0c1b2c;color:#c8e7ff;font-size:12px;overflow-wrap:anywhere}
+.innings{margin:18px 0;padding:clamp(13px,2.6vw,25px);border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#102239,#091523);box-shadow:0 12px 34px #00000012;overflow:hidden}
+.inn-head{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:14px}
+.inn-head h2{overflow-wrap:anywhere}.total{font:800 clamp(23px,4vw,35px) "Space Grotesk";white-space:nowrap;color:var(--mint)}
+.innings-meta{font-size:12px;margin:12px 0}
+.subhead{margin:23px 0 8px;color:var(--blue);font-size:12px;text-transform:uppercase;letter-spacing:.1em}
+.table-scroll{max-width:100%;overflow-x:auto;margin:10px 0 18px;border:1px solid var(--line);border-radius:11px;-webkit-overflow-scrolling:touch}
+.score-table{width:100%;min-width:600px;border-collapse:collapse;font-size:12px}
+.score-table th,.score-table td{padding:11px 12px;text-align:right;border-bottom:1px solid #26384b;white-space:nowrap}
+.score-table th{background:#152b42;color:#b6d8f5;font-size:10px;text-transform:uppercase;letter-spacing:.06em}
+.score-table th:first-child,.score-table td:first-child{text-align:left}
+.score-table tr:last-child td{border-bottom:0}.score-table tbody tr:hover{background:#132a40}
+.source{margin-top:28px;font-size:12px}
+@media(max-width:600px){.top{padding:11px 13px;flex-wrap:wrap}.top span{order:-1;width:100%;font-size:12px}main{width:calc(100% - 22px);margin:22px auto 45px}.innings{border-radius:14px;margin:13px 0;padding:13px}.inn-head{align-items:flex-start}.total{font-size:25px}.score-table th,.score-table td{padding:10px}.status{margin:14px 0}}
