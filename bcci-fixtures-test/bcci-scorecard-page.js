@@ -93,7 +93,7 @@
       "BCCI Match Scorecard";
     // Keep both teams' current totals visible above the full innings scorecard.
     const summaryInnings = asArray(match?.summary?.innings);
-    const scoreRows = innings.length ? innings : summaryInnings;
+    const scoreRows = [...innings, ...summaryInnings];
     const teamOneId = match.team1_id ?? payload?.liveMatch?.team1_id;
     const teamTwoId = match.team2_id ?? payload?.liveMatch?.team2_id;
     const teamOneName = match.team1_name || match.team1_short_name || payload?.liveMatch?.team1_name || "Team 1";
