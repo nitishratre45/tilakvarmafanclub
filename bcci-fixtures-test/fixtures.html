@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#07111f" />
-    <title>Tilak Varma Fan Club | BCCI Fixtures</title>
+    <title>Tilak Varma Fan Club | BCCI Matches</title>
     <link rel="stylesheet" href="./styles.css" />
     <script src="./app.js" defer></script>
     <link rel="stylesheet" href="./ui/site-nav.css?v=20261017-match-motion2" />
@@ -37,19 +37,19 @@
     <header class="topbar">
       <a class="brand" href="./"
         ><span class="brand-mark">72</span
-        ><span>Tilak Varma Fan Club <small>BCCI FIXTURES</small></span></a
+        ><span>Tilak Varma Fan Club <small>MATCH CENTRE</small></span></a
       >
       <span class="test-label"><i></i> BCCI DATA</span>
     </header>
     <main class="container">
       <section class="hero">
         <p class="eyebrow">BCCI · CUSTOM FIXTURES</p>
-        <h1>Fixture Match Centre</h1>
+        <h1>Matches Centre</h1>
         <p>
           <a class="secondary-btn" href="./live-scores.html">Open separate BCCI Live Scores →</a>
         </p>
         <p class="subhead">
-          A separate preview of the saved BCCI fixture JSON. The page displays upcoming fixtures
+          A separate preview of the saved BCCI fixture JSON. The page displays upcoming matches
           only. Live and completed matches are excluded automatically; production match data remains
           untouched.
         </p>
@@ -57,7 +57,7 @@
           <button id="refreshBtn" class="primary-btn" type="button">↻ Reload JSON</button>
           <a
             class="secondary-btn"
-            href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/fetch-bcci-fixtures-json.yml"
+            href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/fetch-bcci-matches-json.yml"
             target="_blank"
             rel="noopener"
             >⚙ Run BCCI Workflow ↗</a
@@ -98,17 +98,17 @@
           <select id="statusFilter" aria-label="Filter by match status">
             <option value="all">All statuses</option>
           </select>
-          <select id="sortFilter" aria-label="Sort fixtures">
+          <select id="sortFilter" aria-label="Sort matches">
             <option value="date-asc">Date: earliest first</option>
             <option value="date-desc">Date: latest first</option>
           </select>
         </div>
         <div id="fixtureList" class="fixture-list" aria-live="polite">
-          <div class="loading-state">Loading saved BCCI fixtures…</div>
+          <div class="loading-state">Loading saved BCCI matches…</div>
         </div>
         <div id="emptyState" class="empty-state" hidden>
           <span>⌕</span>
-          <h3>No fixtures found</h3>
+          <h3>No matches found</h3>
           <p>Try another search or status filter.</p>
         </div>
       </section>
