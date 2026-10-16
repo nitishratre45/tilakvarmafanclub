@@ -6,7 +6,7 @@
   const current =
     path === "/"
       ? "home"
-      : path.startsWith("/matches")
+      : (path.startsWith("/matches") || path.startsWith("/bcci-fixtures-test"))
         ? "matches"
         : path.startsWith("/photos")
           ? "photos"
@@ -35,7 +35,7 @@
   const makeIcon = (name) => '<svg viewBox="0 0 24 24" aria-hidden="true">' + icon[name] + "</svg>";
   const items = [
     ["home", "Home", "/"],
-    ["matches", "Matches", "/matches/"],
+    ["matches", "Matches", "/bcci-fixtures-test/"],
     ["photos", "Photos", "/photos/"],
     ["videos", "Videos", "/videos/"],
   ];
@@ -44,7 +44,7 @@
   nav.className = "tv-mobile-bottom-nav";
   nav.setAttribute("aria-label", "Mobile quick navigation");
   const hasStaticLinks =
-    nav.querySelector('a[href="/"]') && nav.querySelector('a[href="/matches/"]');
+    nav.querySelector('a[href="/"]') && nav.querySelector('a[href="/bcci-fixtures-test/"]');
   if (!hasStaticLinks) {
     nav.replaceChildren();
     items.forEach(([key, label, url]) => {
