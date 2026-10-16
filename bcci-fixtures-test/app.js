@@ -216,13 +216,23 @@
     return /\b(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed)\b/.test(status)
       && !/complete|completed|finished|end of match|result|abandoned|no result|cancelled|canceled/.test(status);
   };
+  const isRelevantIndiaLiveMatch = (match) => {
+    if (!isLiveMatch(match)) return false;
+    const teams = [
+      match?.team1_name, match?.team2_name, match?.team1_short_name,
+      match?.team2_short_name, match?.home_team_name, match?.away_team_name,
+      match?.comp_name, match?.alt_comp_name, match?.name, match?.match_short_name,
+    ].filter(Boolean).join(" ").toLowerCase();
+    return /(^|\\b)india(\\b|$)/.test(teams)
+      && !/women|\\b(india a|a team|emerging|under ?19|u19|youth|junior)\\b/.test(teams);
+  };
   function renderLiveMatches(matches) {
     const section = $("liveMatchesSection");
     const host = $("liveMatchList");
     const count = $("liveMatchCount");
     if (!section || !host) return;
     const unique = new Map();
-    (Array.isArray(matches) ? matches : []).filter(isLiveMatch).forEach((m) => {
+    (Array.isArray(matches) ? matches : []).filter(isRelevantIndiaLiveMatch).forEach((m) => {
       const id = String(m.gid || m.match_gid || m.match_id || m.id || "").trim();
       if (id) unique.set(id, m);
     });
@@ -366,7 +376,7 @@
       renderLiveMatches(bcciMatches);
       const liveMatches = [
         ...(Array.isArray(livePayload?.matches) ? livePayload.matches : []),
-        ...bcciMatches.filter(isLiveMatch),
+        ...bcciMatches.filter(isRelevantIndiaLiveMatch),
       ];
       const liveIds = new Set(
         liveMatches.map((m) => norm(m.id || m.matchId || m.match_id || m.gid)).filter(Boolean),
@@ -525,7 +535,7 @@
       const payload = await response.json();
       const source = payload?.data ?? payload;
       const matches = Array.isArray(source?.match) ? source.match : Array.isArray(source?.matches) ? source.matches : [];
-      const live = matches.filter(isLiveMatch);
+      const live = matches.filter(isRelevantIndiaLiveMatch);
       const title = $("liveRefreshTitle"), message = $("liveRefreshMessage"), stateBadge = $("liveRefreshState");
       renderLiveMatches(matches);
       if (live.length) {
@@ -542,7 +552,7 @@
             const root = nextPayload?.data ?? nextPayload;
             const nextMatches = Array.isArray(root?.match) ? root.match : Array.isArray(root?.matches) ? root.matches : [];
             renderLiveMatches(nextMatches);
-            if (nextMatches.some(isLiveMatch)) {
+            if (nextMatches.some(isRelevantIndiaLiveMatch)) {
               await load();
             } else {
               clearInterval(liveRefreshTimer); liveRefreshTimer = null; liveMode = false;
