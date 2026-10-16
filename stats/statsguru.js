@@ -1132,8 +1132,7 @@
       (selectedFormat === "List A" && !sg.formats?.["List A"]?.summary);
     note.textContent =
       selectedFormat === "All"
-        ? "LAST UPDATE: " +
-          formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable")
+        ? "LAST UPDATE: " + formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable")
         : domesticSummaryOnly
           ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. "
           : "LAST UPDATE: " + formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable");
