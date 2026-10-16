@@ -465,7 +465,9 @@ def main():
                     ),
                 }
             )
-        match_id = "manual-afg-ind-" + str(match.get("date", "unknown")).replace("-", "")
+        match_id = "manual-afg-ind-" + str(match.get("date", "unknown")).replace(
+            "-", ""
+        )
         row = {
             "date": match.get("date", ""),
             "matchId": match_id,
@@ -504,7 +506,9 @@ def main():
                 target_row = dict(row)
                 target_row["format"] = target_key
                 if target_key == "overall_t20":
-                    target_row["matchId"] = "manual:afg-ind-" + str(match.get("date", "unknown")).replace("-", "")
+                    target_row["matchId"] = "manual:afg-ind-" + str(
+                        match.get("date", "unknown")
+                    ).replace("-", "")
                 target_format.setdefault("innings", []).append(target_row)
                 target_format["matchesFound"] = (
                     int(target_format.get("matchesFound", 0)) + 1
