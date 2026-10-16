@@ -45,9 +45,9 @@
       return '<article class="live-score-card">'+
         '<div class="live-card-status"><span>'+esc(statusText)+'</span>'+(need?'<strong>'+esc(need)+'</strong>':"")+'</div>'+
         '<div class="live-card-main">'+
-          '<div class="live-team"><span class="live-team-badge">'+esc((a.match(/\b\w/g)||["T"]).join("").slice(0,3))+'</span><strong>'+esc(a)+'</strong>'+(battingName===a&&score?'<small>Batting</small>':"")+'</div>'+
+          '<div class="live-team">'+logoMarkup(logoA,a)+'<strong>'+esc(a)+'</strong>'+(battingName===a&&score?'<small>Batting</small>':"")+'</div>'+
           '<div class="live-versus">VS</div>'+
-          '<div class="live-team live-team-right"><span class="live-team-badge">'+esc((b.match(/\b\w/g)||["T"]).join("").slice(0,3))+'</span><strong>'+esc(b)+'</strong>'+(battingName===b&&score?'<small>Batting</small>':"")+'</div>'+
+          '<div class="live-team live-team-right">'+logoMarkup(logoB,b)+'<strong>'+esc(b)+'</strong>'+(battingName===b&&score?'<small>Batting</small>':"")+'</div>'+
         '</div>'+
         '<div class="live-score-strip"><div class="live-batting-name">'+esc(battingName||"Current innings")+'</div><div class="live-score-value">'+(isYetToBat?'<span class="live-yet">Yet to bat</span>':score?'<strong>'+esc(score)+'</strong>': '<span class="live-yet">Score unavailable</span>')+(overs?'<span class="live-overs">🏏 '+esc(overs)+' ov</span>':"")+'</div></div>'+
         '<div class="live-card-footer"><div><strong>'+esc(m.primary_event_name||m.comp_name||"Cricket")+'</strong><span>'+esc(m.match_round||m.name||"")+'</span><span>'+esc(m.ground_name||m.ground_city||"Venue TBA")+'</span></div><time>'+esc(date)+'</time></div>'+
