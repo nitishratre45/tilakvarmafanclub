@@ -1686,3 +1686,25 @@ footer {
 .bcci-view-tabs .match-centre-tab:active {
   text-decoration: none !important;
 }
+
+
+/* Dedicated live match cards: same match grid, clear live state, compact score line. */
+.live-matches-section{margin:0 0 22px;padding:18px}
+.live-matches-section[hidden]{display:none!important}
+.live-matches-section .section-heading{margin-bottom:14px}
+.live-match-list{margin:0}
+.live-match-card{border-color:#285d65;background:linear-gradient(145deg,#102d3a,#0b192b)}
+.live-match-card .upcoming-teams{padding-top:16px}
+.live-now-pill{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:7px 12px;border:1px solid #2c8e78;border-radius:999px;background:#123e3b;color:#9bf3d1;font-size:11px;font-weight:900;letter-spacing:.07em}
+.live-now-pill i{width:8px;height:8px;border-radius:50%;background:#68f0b6;box-shadow:0 0 0 4px #68f0b622;animation:bcci-live-pulse 1.8s ease-in-out infinite}
+.live-team-score{display:block;margin-top:8px;color:#e9f5ff;font-size:17px;font-weight:900;font-variant-numeric:tabular-nums}
+.live-score-line{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;margin:0 0 15px;padding:12px;border:1px solid #284b5a;border-radius:14px;background:#071b29;color:#dceeff;text-align:center;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums}
+.live-score-line span:last-child{text-align:right}
+.live-score-line span:first-child{text-align:left}
+.live-score-line b{color:#78e6bc;font-size:9px;letter-spacing:.08em}
+.live-score-pending{display:block;color:#9cb2c9;font-weight:600}
+.live-status-text{color:#83e6bd;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.live-match-centre-link{border-top-color:#27525b;background:linear-gradient(90deg,#102f3d,#10233a)}
+.live-match-centre-link:hover{background:#153b49}
+@keyframes bcci-live-pulse{0%,100%{opacity:1;box-shadow:0 0 0 4px #68f0b622}50%{opacity:.55;box-shadow:0 0 0 7px #68f0b610}}
+@media(prefers-reduced-motion:reduce){.live-now-pill i{animation:none}}
