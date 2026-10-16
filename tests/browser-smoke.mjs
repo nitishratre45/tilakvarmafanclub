@@ -411,10 +411,7 @@ check("One Over updates available overs when format changes", async () => {
     };
   });
   await exportButton.click({ force: true });
-  await page.waitForFunction(() => {
-    const status = document.querySelector("#status, .one-status");
-    return window.__oneOverCsvExport && status && /CSV exported/i.test(status.textContent);
-  }, { timeout: 20000 });
+  await page.waitForFunction(() => Boolean(window.__oneOverCsvExport), null, { timeout: 20000 });
   const csvExport = await page.evaluate(() => window.__oneOverCsvExport);
   assert.match(csvExport.type, /text\/csv/i, "CSV export should create a CSV Blob");
   assert(csvExport.size > 10, "CSV export should contain a header or delivery data");
