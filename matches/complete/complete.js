@@ -81,7 +81,8 @@
       "</span>"
     );
   }
-  const state = { matches: [], format: "All", query: "" };
+  const PAGE_SIZE = 20;
+  const state = { matches: [], format: "All", query: "", visibleCount: PAGE_SIZE };
   const returnStateKey = "completeMatchesReturnState";
   const pendingReturnKey = "completeMatchesPendingScorecardReturn";
   function saveReturnState() {
@@ -149,12 +150,13 @@
             .toLowerCase()
             .includes(query)),
     );
+    const visibleRows = rows.slice(0, state.visibleCount);
     if (!rows.length) {
       host.innerHTML =
         '<div class="match-empty"><strong>No matching scorecards</strong><span>Search ya format filter badal kar dekhein.</span></div>';
       return;
     }
-    host.innerHTML = rows
+    host.innerHTML = visibleRows
       .map(
         (m) =>
           '<article class="complete-match-card" data-match-id="' +
@@ -184,6 +186,13 @@
           "</div></article>",
       )
       .join("");
+    const loadMore = $("complete-matches-load-more");
+    const pageStatus = $("complete-matches-page-status");
+    if (loadMore) {
+      loadMore.hidden = state.visibleCount >= rows.length;
+      loadMore.textContent = "Load more matches";
+    }
+    if (pageStatus) pageStatus.textContent = "Showing " + Math.min(state.visibleCount, rows.length).toLocaleString("en-IN") + " of " + rows.length.toLocaleString("en-IN") + " matches";
   }
   async function loadMatches() {
     const host = $("complete-matches-list");
@@ -233,11 +242,17 @@
       console.error("Complete Match Cricsheet archive:", error);
     }
   }
+  $("complete-matches-load-more")?.addEventListener("click", () => {
+    state.visibleCount += PAGE_SIZE;
+    renderMatches();
+  });
   $("match-format-filter")?.addEventListener("change", (event) => {
+    state.visibleCount = PAGE_SIZE;
     state.format = event.target.value;
     renderMatches();
   });
   $("match-search")?.addEventListener("input", (event) => {
+    state.visibleCount = PAGE_SIZE;
     state.query = event.target.value;
     renderMatches();
   });
