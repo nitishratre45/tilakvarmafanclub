@@ -140,9 +140,10 @@
   function sourceData() {
     const formats = data?.statsguru?.formats || {};
     if (selectedFormat === "All") {
-      // T20 is an aggregate across competitions and overlaps T20I and IPL.
-      // Sum only disjoint format buckets to avoid double-counting runs/matches.
-      const parts = ["T20I", "ODI", "IPL", "FC", "List A"]
+      // Use disjoint career buckets only:
+      // T20 includes T20I + IPL + other T20 competitions; List A includes ODI;
+      // adding those sub-formats separately would double-count matches and runs.
+      const parts = ["T20", "FC", "List A"]
         .map((f) => {
           if (formats[f]) return { format: f, ...formats[f] };
           if (f === "FC" && data?.careerFormats?.["First-class"])
@@ -168,7 +169,7 @@
           format: row.format || f.format,
         })),
       );
-      const summaries = parts.map((f) => withInferredBalls(f.summary)).filter(Boolean);
+      const summaries = parts.map((f) => f.summary).filter(Boolean);
       const sum = (k) =>
         summaries.reduce((n, item) => n + (typeof item[k] === "number" ? item[k] : 0), 0);
       const best = summaries
@@ -190,7 +191,7 @@
             highestScore: best?.score || "—",
             average: inn > no ? Math.round((runs / (inn - no)) * 100) / 100 : null,
             balls,
-            ballsInferred: summaries.some((item) => item.ballsInferred === true),
+            // Overall strike rate is omitted if any included format lacks verified balls faced.
             strikeRate: balls ? Math.round(((runs * 100) / balls) * 100) / 100 : null,
             hundreds: sum("hundreds"),
             fifties: sum("fifties"),
@@ -1132,10 +1133,7 @@
     note.textContent =
       selectedFormat === "All"
         ? "LAST UPDATE: " +
-          formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable") +
-          (source.summary?.ballsInferred
-            ? " Overall-format strike rate is approximate because at least one source format did not provide balls faced; missing balls were estimated from its published strike rate."
-            : "")
+          formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable")
         : domesticSummaryOnly
           ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. "
           : "LAST UPDATE: " + formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable");
