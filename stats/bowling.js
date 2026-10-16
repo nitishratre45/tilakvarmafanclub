@@ -99,7 +99,7 @@
       .join("");
     if ($("home-bowling-updated"))
       $("home-bowling-updated").textContent =
-        "ESPNcricinfo Statsguru · Last update: " +
+        "LAST UPDATE: " +
         formatIndiaTimestamp(allData.bowlingStats?.updatedAt);
   }
   function renderBreakdown() {
@@ -194,7 +194,7 @@
       : '<p class="activity-empty">No verified bowling summary has been published yet. The daily ESPNcricinfo check will populate this section when the source is available.</p>';
     if ($("bowling-updated"))
       $("bowling-updated").textContent =
-        "Last update: " +
+        "LAST UPDATE: " +
         (allData.bowlingStats?.updatedAt
           ? formatIndiaTimestamp(allData.bowlingStats.updatedAt)
           : "Waiting for verified data");
