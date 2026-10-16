@@ -711,6 +711,50 @@
           }
         } catch (_) {}
       }
+      // BCCI test-folder fallback: resolve the exact live/upcoming fixture by provider ID first.
+      if (!resolvedFixture && (matchId || (date && opponent))) {
+        try {
+          const response = await fetch("/bcci-fixtures-test/bcci-fixtures.json?t=" + Date.now(), { cache: "no-store" });
+          if (response.ok) {
+            const payload = await response.json();
+            const root = payload?.data ?? payload;
+            const rows = Array.isArray(root?.match) ? root.match : Array.isArray(root?.matches) ? root.matches : Array.isArray(root?.fixtures) ? root.fixtures : [];
+            const normal = (value) => String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+            const requestedTeam = normal(q.get("team") || "India");
+            const requestedOpponent = normal(opponent);
+            const exact = rows.find((row) => {
+              const ids = [row.gid, row.match_gid, row.match_id, row.fixtureId, row.id].map((v) => String(v || "").trim());
+              if (matchId && ids.includes(String(matchId).trim())) return true;
+              const rowDate = String(row.date || row.start_date || row.date_string || row.start_datetime_utc || "").slice(0, 10);
+              const teams = [
+                row.team1_name || row.team1_short_name || row.home_team_name || row.team1,
+                row.team2_name || row.team2_short_name || row.away_team_name || row.team2,
+              ].map(normal);
+              return Boolean(date && opponent && rowDate === String(date).slice(0, 10) && teams.includes(requestedTeam) && teams.includes(requestedOpponent));
+            });
+            if (exact) {
+              const home = exact.team1_name || exact.team1_short_name || exact.home_team_name || exact.team1 || "Team 1";
+              const away = exact.team2_name || exact.team2_short_name || exact.away_team_name || exact.team2 || "Team 2";
+              const rawDate = exact.start_date || exact.date || exact.match_date || exact.start_datetime_utc || "";
+              resolvedFixture = {
+                date: String(rawDate).slice(0, 10),
+                match: exact.match_short_name || exact.name || exact.comp_name || exact.match_type || "Match",
+                team: home,
+                opponent: away,
+                venue: [exact.ground_name, exact.ground_city, exact.venue].filter(Boolean).join(", "),
+                time: exact.start_time || exact.start_time_ist || "",
+                matchId: String(exact.gid || exact.match_gid || exact.match_id || exact.id || matchId || ""),
+                rawBcci: exact,
+                result: exact.result_string || exact.result || "",
+                series: exact.comp_name || exact.series_name || exact.event_name || "",
+                format: exact.match_type || exact.format || "",
+                tilakInSquad: false,
+                status: exact.match_status || exact.match_status_str || exact.live_status_name || exact.status || "",
+              };
+            }
+          }
+        } catch (_) {}
+      }
       if (!resolvedFixture) {
         set("details-title", "Match details unavailable");
         set(
@@ -721,6 +765,12 @@
         return;
       }
       const f = resolvedFixture;
+      const liveRequested = q.get("live") === "1" || /\\b(live|in play|in progress|innings break)\\b/i.test(String(f.status || f.rawBcci?.match_status || f.rawBcci?.live_status_name || ""));
+      const statusBadge = document.querySelector(".details-status");
+      if (statusBadge) {
+        statusBadge.innerHTML = liveRequested ? "<i></i> LIVE MATCH" : "<i></i> MATCH CENTRE";
+        statusBadge.classList.toggle("is-live", liveRequested);
+      }
       const detail = (manual.matches || []).find((x) => key(x) === key(f)) || {};
       const scorecardRows = Array.isArray(scorecardIndex?.matches) ? scorecardIndex.matches : [];
       const fixtureMatchId = String(
