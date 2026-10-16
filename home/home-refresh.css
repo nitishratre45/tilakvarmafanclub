@@ -1561,3 +1561,39 @@ body > footer {
     gap: 7px;
   }
 }
+
+
+/* Home: remove redundant outer bowling frame; keep the table's own box. */
+#home-snapshot .home-bowling-card {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 24px 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+#home-snapshot .home-bowling-heading { display: none; }
+#home-snapshot #home-bowling-stats {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+#home-snapshot .home-bowling-table-section {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+#home-snapshot .home-bowling-table-section .home-career-table-wrap {
+  width: 100%;
+  max-width: 100%;
+}
