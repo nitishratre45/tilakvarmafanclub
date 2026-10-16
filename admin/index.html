@@ -1892,9 +1892,11 @@
           animation-duration: 3s;
         }
       }
-    
+
       /* Dedicated mobile bottom navigation; desktop sidebar stays desktop-only. */
-      .admin-mobile-bottom-nav { display: none; }
+      .admin-mobile-bottom-nav {
+        display: none;
+      }
       @media (max-width: 720px) {
         .sidebar {
           position: relative;
@@ -1906,14 +1908,21 @@
           border-right: 0;
           border-bottom: 1px solid var(--line);
           gap: 0;
-          background: rgba(8, 21, 37, .98);
+          background: rgba(8, 21, 37, 0.98);
         }
         .sidebar .nav-label,
         .sidebar .nav,
         .sidebar .sidebar-bottom,
-        .sidebar .mobile-brand { display: none !important; }
-        .main { margin-left: 0; padding: 0 14px 100px; }
-        .topbar { min-height: 66px; }
+        .sidebar .mobile-brand {
+          display: none !important;
+        }
+        .main {
+          margin-left: 0;
+          padding: 0 14px 100px;
+        }
+        .topbar {
+          min-height: 66px;
+        }
         .admin-mobile-bottom-nav {
           position: fixed;
           inset: auto 0 0;
@@ -1924,13 +1933,15 @@
           padding: 8px max(8px, env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom));
           overflow-x: auto;
           overscroll-behavior-x: contain;
-          background: rgba(5, 14, 27, .97);
+          background: rgba(5, 14, 27, 0.97);
           border-top: 1px solid #304761;
-          box-shadow: 0 -10px 30px rgba(0,0,0,.28);
+          box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.28);
           scrollbar-width: none;
           -webkit-overflow-scrolling: touch;
         }
-        .admin-mobile-bottom-nav::-webkit-scrollbar { display: none; }
+        .admin-mobile-bottom-nav::-webkit-scrollbar {
+          display: none;
+        }
         .admin-mobile-bottom-nav a {
           flex: 0 0 74px;
           min-width: 74px;
@@ -1959,15 +1970,28 @@
           color: #fff;
           box-shadow: inset 0 -3px var(--orange);
         }
-        .hero { align-items: flex-start; flex-direction: column; }
-        .hero-badge { align-self: flex-start; }
-        .stats { grid-template-columns: 1fr; }
-        .section-head, .section-body { padding-left: 15px; padding-right: 15px; }
+        .hero {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .hero-badge {
+          align-self: flex-start;
+        }
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        .section-head,
+        .section-body {
+          padding-left: 15px;
+          padding-right: 15px;
+        }
       }
       @media (min-width: 721px) {
-        .admin-mobile-bottom-nav { display: none !important; }
+        .admin-mobile-bottom-nav {
+          display: none !important;
+        }
       }
-</style>
+    </style>
     <link rel="stylesheet" href="admin-premium.css?v=20261016-admin-picker-undo1" />
     <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261015-india-theme1" />
     <link rel="stylesheet" href="/assets/site-loading-media.css?v=20261016-loading-media3" />
@@ -2088,7 +2112,11 @@
         </div>
         <a class="mobile-brand" href="../">← View website</a>
       </aside>
-      <nav id="admin-mobile-bottom-nav" class="admin-mobile-bottom-nav" aria-label="Mobile admin navigation"></nav>
+      <nav
+        id="admin-mobile-bottom-nav"
+        class="admin-mobile-bottom-nav"
+        aria-label="Mobile admin navigation"
+      ></nav>
       <main class="main">
         <header class="topbar">
           <div class="top-meta">
@@ -6144,12 +6172,14 @@
           const view = allowedViews.includes(requestedView) ? requestedView : "dashboard";
           const app = $("admin-app");
           app.dataset.currentView = view;
-          app.querySelectorAll("#admin-nav [data-view], #admin-mobile-bottom-nav [data-view]").forEach((link) => {
-            const active = link.dataset.view === view;
-            link.classList.toggle("active", active);
-            if (active) link.setAttribute("aria-current", "page");
-            else link.removeAttribute("aria-current");
-          });
+          app
+            .querySelectorAll("#admin-nav [data-view], #admin-mobile-bottom-nav [data-view]")
+            .forEach((link) => {
+              const active = link.dataset.view === view;
+              link.classList.toggle("active", active);
+              if (active) link.setAttribute("aria-current", "page");
+              else link.removeAttribute("aria-current");
+            });
           const isOverview = view === "dashboard";
           const dashboard = app.querySelector("#dashboard");
           const stats = app.querySelector(".stats");
