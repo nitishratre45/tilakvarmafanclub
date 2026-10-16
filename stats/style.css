@@ -9252,3 +9252,51 @@ body > .cs-overlay .cs-kicker {
     padding-right: 10px;
   }
 }
+
+/* Final mobile overlap guard: clip sticky Group/Filter cells and keep their paint fully opaque. */
+.stats-section .statsguru-panel .table-wrap table {
+  table-layout: auto !important;
+}
+.stats-section .statsguru-panel .table-wrap thead th:first-child,
+.stats-section .statsguru-panel .table-wrap tbody td:first-child {
+  position: sticky !important;
+  left: 0 !important;
+  width: 186px !important;
+  min-width: 186px !important;
+  max-width: 186px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  z-index: 8 !important;
+  background-color: #0d1929 !important;
+  background-image: none !important;
+  isolation: isolate;
+}
+.stats-section .statsguru-panel .table-wrap thead th:first-child {
+  z-index: 12 !important;
+  background-color: #173b5b !important;
+}
+.stats-section .statsguru-panel .table-wrap tbody tr:nth-child(even) td:first-child {
+  background-color: #101f32 !important;
+}
+.stats-section .statsguru-panel .table-wrap tbody tr:hover td:first-child {
+  background-color: #153047 !important;
+}
+.stats-section .statsguru-panel .table-wrap th:not(:first-child),
+.stats-section .statsguru-panel .table-wrap td:not(:first-child) {
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 600px) {
+  .stats-section .statsguru-panel .table-wrap thead th:first-child,
+  .stats-section .statsguru-panel .table-wrap tbody td:first-child {
+    width: 186px !important;
+    min-width: 186px !important;
+    max-width: 186px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+
