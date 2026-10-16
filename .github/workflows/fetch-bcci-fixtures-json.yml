@@ -1,0 +1,35 @@
+name: Fetch BCCI Fixtures JSON
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bcci-fixtures-json-fetch
+  cancel-in-progress: false
+
+jobs:
+  fetch-fixtures:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Fetch BCCI fixtures and write JSON
+        run: python bcci-fixtures-test/fetch_bcci_fixtures.py
+
+      - name: Upload JSON artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bcci-fixtures-json
+          path: bcci-fixtures-test/bcci-fixtures.json
+          if-no-files-found: error
+          retention-days: 7
