@@ -81,8 +81,10 @@
     download.href = photo.safe.includes("res.cloudinary.com/")
       ? photo.safe.replace("/upload/", "/upload/fl_attachment/")
       : photo.safe;
-    download.download = (displayTitle(photo) || "tilak-varma-photo").replace(/[^a-z0-9-_]+/gi, "-") + ".jpg";
-    lightbox.querySelector(".tv-lightbox-count").textContent = (activeIndex + 1) + " / " + filtered.length;
+    download.download =
+      (displayTitle(photo) || "tilak-varma-photo").replace(/[^a-z0-9-_]+/gi, "-") + ".jpg";
+    lightbox.querySelector(".tv-lightbox-count").textContent =
+      activeIndex + 1 + " / " + filtered.length;
     lightbox.classList.add("is-open");
     document.body.classList.add("lightbox-locked");
     lightbox.querySelector(".lightbox-close").focus();
