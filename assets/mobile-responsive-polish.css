@@ -37,7 +37,14 @@ textarea {
     min-width: 0;
   }
   /* Data tables retain readable column widths; the wrapper becomes the swipe area. */
-  :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap, .home-career-table-wrap, .bowling-breakdown-wrap, .bowling-innings-wrap) {
+  :where(
+    .table-wrap,
+    .statsguru-table-wrap,
+    .match-history-table-wrap,
+    .home-career-table-wrap,
+    .bowling-breakdown-wrap,
+    .bowling-innings-wrap
+  ) {
     display: block;
     width: 100%;
     max-width: 100%;
@@ -48,14 +55,38 @@ textarea {
     overscroll-behavior-x: contain;
     scrollbar-width: thin;
   }
-  :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap, .home-career-table-wrap, .bowling-breakdown-wrap, .bowling-innings-wrap) > table {
+  :where(
+      .table-wrap,
+      .statsguru-table-wrap,
+      .match-history-table-wrap,
+      .home-career-table-wrap,
+      .bowling-breakdown-wrap,
+      .bowling-innings-wrap
+    )
+    > table {
     width: max-content;
     min-width: 100%;
     max-width: none;
     table-layout: auto;
   }
-  :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap, .home-career-table-wrap, .bowling-breakdown-wrap, .bowling-innings-wrap) th,
-  :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap, .home-career-table-wrap, .bowling-breakdown-wrap, .bowling-innings-wrap) td {
+  :where(
+      .table-wrap,
+      .statsguru-table-wrap,
+      .match-history-table-wrap,
+      .home-career-table-wrap,
+      .bowling-breakdown-wrap,
+      .bowling-innings-wrap
+    )
+    th,
+  :where(
+      .table-wrap,
+      .statsguru-table-wrap,
+      .match-history-table-wrap,
+      .home-career-table-wrap,
+      .bowling-breakdown-wrap,
+      .bowling-innings-wrap
+    )
+    td {
     overflow-wrap: normal;
     word-break: normal;
     hyphens: none;
@@ -75,8 +106,24 @@ textarea {
   }
 }
 @media (max-width: 420px) {
-  :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap, .home-career-table-wrap, .bowling-breakdown-wrap, .bowling-innings-wrap) th,
-  :where(.table-wrap, .statsguru-table-wrap, .match-history-table-wrap, .home-career-table-wrap, .bowling-breakdown-wrap, .bowling-innings-wrap) td {
+  :where(
+      .table-wrap,
+      .statsguru-table-wrap,
+      .match-history-table-wrap,
+      .home-career-table-wrap,
+      .bowling-breakdown-wrap,
+      .bowling-innings-wrap
+    )
+    th,
+  :where(
+      .table-wrap,
+      .statsguru-table-wrap,
+      .match-history-table-wrap,
+      .home-career-table-wrap,
+      .bowling-breakdown-wrap,
+      .bowling-innings-wrap
+    )
+    td {
     padding-inline: 8px;
   }
 }
