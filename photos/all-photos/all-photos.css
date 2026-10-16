@@ -775,16 +775,46 @@ body.lightbox-locked {
   }
 }
 
-
 /* All Photos: prevent grid overflow and keep image cards consistent across phone widths. */
-.all-photos-page, .all-photos-page main, .all-photos-page .all-photos-shell { min-width: 0; max-width: 100%; }
-.all-photos-page img { max-width: 100%; }
+.all-photos-page,
+.all-photos-page main,
+.all-photos-page .all-photos-shell {
+  min-width: 0;
+  max-width: 100%;
+}
+.all-photos-page img {
+  max-width: 100%;
+}
 @media (max-width: 800px) {
-  .all-photos-page main { padding-left: clamp(10px, 2.8vw, 20px); padding-right: clamp(10px, 2.8vw, 20px); }
-  .all-photos-page .all-photos-grid, .all-photos-page .photo-grid, .all-photos-page .tv-photo-grid { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(8px, 2vw, 14px); }
-  .all-photos-page .all-photos-grid > *, .all-photos-page .photo-grid > *, .all-photos-page .tv-photo-grid > * { min-width:0; }
-  .all-photos-page .all-photos-grid img, .all-photos-page .photo-grid img, .all-photos-page .tv-photo-grid img { display:block; width:100%; height:100%; object-fit:cover; }
+  .all-photos-page main {
+    padding-left: clamp(10px, 2.8vw, 20px);
+    padding-right: clamp(10px, 2.8vw, 20px);
+  }
+  .all-photos-page .all-photos-grid,
+  .all-photos-page .photo-grid,
+  .all-photos-page .tv-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(8px, 2vw, 14px);
+  }
+  .all-photos-page .all-photos-grid > *,
+  .all-photos-page .photo-grid > *,
+  .all-photos-page .tv-photo-grid > * {
+    min-width: 0;
+  }
+  .all-photos-page .all-photos-grid img,
+  .all-photos-page .photo-grid img,
+  .all-photos-page .tv-photo-grid img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 @media (max-width: 360px) {
-  .all-photos-page .all-photos-grid, .all-photos-page .photo-grid, .all-photos-page .tv-photo-grid { gap:7px; }
+  .all-photos-page .all-photos-grid,
+  .all-photos-page .photo-grid,
+  .all-photos-page .tv-photo-grid {
+    gap: 7px;
+  }
 }
