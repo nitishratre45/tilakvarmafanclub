@@ -7,6 +7,7 @@
     <title>BCCI Fixtures Test Centre</title>
     <link rel="stylesheet" href="./styles.css" />
     <script src="./app.js" defer></script>
+    <script src="./live-scores.js" defer></script>
   </head>
   <body>
     <header class="topbar">
@@ -23,6 +24,11 @@
           <a class="secondary-btn" href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/fetch-bcci-fixtures-json.yml" target="_blank" rel="noopener">⚙ Run BCCI Workflow ↗</a>
           <a class="secondary-btn" href="./bcci-fixtures.json" target="_blank" rel="noopener">View raw JSON ↗</a>
         </div>
+      </section>
+      <section id="liveScoresPanel" class="filters panel">
+        <div class="section-heading"><div><p class="eyebrow">LIVE DATA</p><h2>BCCI Live Scores</h2></div><button class="primary-btn" type="button" data-live-refresh>↻ Refresh Live Scores</button></div>
+        <p class="subhead" data-live-status>Connecting to BCCI…</p>
+        <div class="fixture-list" data-live-list><div class="loading-state">Loading live scores…</div></div>
       </section>
       <section class="stats-grid">
         <article class="stat-card"><span>Fixtures displayed</span><strong id="totalCount">—</strong><small>Maximum 12 fixtures</small></article>
