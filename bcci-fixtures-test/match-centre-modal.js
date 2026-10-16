@@ -81,18 +81,19 @@
   }
   let opener = null,
     timer = 0;
-  document.querySelectorAll(".match-centre-trigger").forEach((b) =>
-    b.addEventListener("click", () => {
-      opener = b;
-      dialog.classList.add("is-open");
-      dialog.setAttribute("aria-hidden", "false");
-      document.body.classList.add("match-centre-lock");
-      load();
-      clearInterval(timer);
-      timer = setInterval(() => dialog.classList.contains("is-open") && load(), 60000);
-      dialog.querySelector(".match-centre-close").focus();
-    }),
-  );
+  // Delegation keeps the trigger working when shared navigation rebuilds the header.
+  document.addEventListener("click", (event) => {
+    const b = event.target.closest(".match-centre-trigger");
+    if (!b) return;
+    opener = b;
+    dialog.classList.add("is-open");
+    dialog.setAttribute("aria-hidden", "false");
+    document.body.classList.add("match-centre-lock");
+    load();
+    clearInterval(timer);
+    timer = setInterval(() => dialog.classList.contains("is-open") && load(), 60000);
+    dialog.querySelector(".match-centre-close").focus();
+  });
   function close() {
     dialog.classList.remove("is-open");
     dialog.setAttribute("aria-hidden", "true");
