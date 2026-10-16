@@ -169,7 +169,7 @@
           format: row.format || f.format,
         })),
       );
-      const summaries = parts.map((f) => f.summary).filter(Boolean);
+      const summaries = parts.map((f) => withInferredBalls(f.summary)).filter(Boolean);
       const sum = (k) =>
         summaries.reduce((n, item) => n + (typeof item[k] === "number" ? item[k] : 0), 0);
       const best = summaries
@@ -191,7 +191,7 @@
             highestScore: best?.score || "—",
             average: inn > no ? Math.round((runs / (inn - no)) * 100) / 100 : null,
             balls,
-            // Overall strike rate is omitted if any included format lacks verified balls faced.
+            ballsInferred: summaries.some((item) => item.ballsInferred === true),
             strikeRate: balls ? Math.round(((runs * 100) / balls) * 100) / 100 : null,
             hundreds: sum("hundreds"),
             fifties: sum("fifties"),
