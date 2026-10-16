@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bcci-women-live-test
-          path: matches/live/bcci-women-live-test.json
+          path: bcci-fixtures-test/bcci-women-live-test.json
           if-no-files-found: warn
           retention-days: 7
 
