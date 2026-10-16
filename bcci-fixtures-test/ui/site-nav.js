@@ -25,14 +25,14 @@
 
   const header = document.querySelector("body > header.topbar, body > header.top, body > header.tvfc-header");
   if (header) {
-    header.className = "topbar";
+    header.className = "topbar tvfc-header";
     header.innerHTML =
-      '<a class="brand" href="/" aria-label="Tilak Varma Fan Club home">' +
+      '<a class="brand tvfc-brand" href="/" aria-label="Tilak Varma Fan Club home">' +
         '<span class="brand-mark brand-photo"><img src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" aria-hidden="true"></span>' +
         '<span>TILAK VARMA <small>FAN CLUB · THE 72 CLUB</small></span></a>' +
-      '<button class="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">' +
+      '<button class="menu-toggle tvfc-menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">' +
         '<span></span><span></span><span></span></button>' +
-      '<nav id="main-nav" aria-label="Main navigation"></nav>';
+      '<nav id="main-nav" class="tvfc-nav" aria-label="Main navigation"></nav>';
     const nav = header.querySelector("#main-nav");
     routes.forEach(([label, href]) => {
       const a = document.createElement("a");
