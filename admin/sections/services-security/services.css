@@ -1,3 +1,14 @@
 /* Responsive service status rows. */
-#services .service-row{min-width:0}#services .service-row p,#services .hint{overflow-wrap:anywhere}
-@media(max-width:720px){#services .service-row{align-items:flex-start;gap:12px}}
+#services .service-row {
+  min-width: 0;
+}
+#services .service-row p,
+#services .hint {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 720px) {
+  #services .service-row {
+    align-items: flex-start;
+    gap: 12px;
+  }
+}

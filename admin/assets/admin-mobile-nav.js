@@ -15,16 +15,20 @@
     });
   };
 
-  mobileNav.replaceChildren(...Array.from(desktopNav.querySelectorAll("a[data-view]"), (source) => {
-    const link = source.cloneNode(true);
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-      const target = desktopNav.querySelector('a[data-view="' + CSS.escape(link.dataset.view) + '"]');
-      if (target) target.click();
-      syncActive();
-    });
-    return link;
-  }));
+  mobileNav.replaceChildren(
+    ...Array.from(desktopNav.querySelectorAll("a[data-view]"), (source) => {
+      const link = source.cloneNode(true);
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        const target = desktopNav.querySelector(
+          'a[data-view="' + CSS.escape(link.dataset.view) + '"]',
+        );
+        if (target) target.click();
+        syncActive();
+      });
+      return link;
+    }),
+  );
 
   desktopNav.addEventListener("click", () => window.requestAnimationFrame(syncActive));
   window.addEventListener("hashchange", syncActive);
