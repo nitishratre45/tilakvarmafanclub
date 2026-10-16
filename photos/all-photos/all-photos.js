@@ -40,7 +40,7 @@
     lightbox.setAttribute("aria-modal", "true");
     lightbox.setAttribute("aria-label", "Photo viewer");
     lightbox.innerHTML =
-      '<button class="lightbox-close" type="button" aria-label="Close photo">×</button><button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous photo">‹</button><figure><img alt=""><figcaption></figcaption></figure><button class="lightbox-nav lightbox-next" type="button" aria-label="Next photo">›</button>';
+      '<button class="lightbox-close" type="button" aria-label="Close photo">×</button><button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous photo">‹</button><figure><img alt=""><figcaption></figcaption></figure><button class="lightbox-nav lightbox-next" type="button" aria-label="Next photo">›</button><div class="tv-lightbox-tools"><span class="tv-lightbox-count"></span><a class="tv-lightbox-download" download>↓ Download photo</a></div>';
     document.body.appendChild(lightbox);
     lightbox.querySelector(".lightbox-close").addEventListener("click", closeLightbox);
     lightbox
@@ -77,6 +77,12 @@
     img.src = photo.safe;
     img.alt = photo.title || "Tilak Varma photo";
     caption.textContent = displayTitle(photo);
+    const download = lightbox.querySelector(".tv-lightbox-download");
+    download.href = photo.safe.includes("res.cloudinary.com/")
+      ? photo.safe.replace("/upload/", "/upload/fl_attachment/")
+      : photo.safe;
+    download.download = (displayTitle(photo) || "tilak-varma-photo").replace(/[^a-z0-9-_]+/gi, "-") + ".jpg";
+    lightbox.querySelector(".tv-lightbox-count").textContent = (activeIndex + 1) + " / " + filtered.length;
     lightbox.classList.add("is-open");
     document.body.classList.add("lightbox-locked");
     lightbox.querySelector(".lightbox-close").focus();
