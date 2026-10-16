@@ -23,6 +23,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
+      - name: Validate Python syntax
+        run: python -m py_compile bcci-fixtures-test/results/fetch_results.py
       - name: Fetch BCCI match results
         run: python bcci-fixtures-test/results/fetch_results.py
       - name: Validate results JSON
