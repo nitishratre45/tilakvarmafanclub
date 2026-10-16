@@ -351,3 +351,43 @@ body.bcci-player-open {
     transition: none;
   }
 }
+
+
+/* Video Hub title-only hero: consistent alignment on phones and desktop. */
+.tilak-videos-section .section-heading {
+  display: block;
+  width: 100%;
+  margin-bottom: clamp(20px, 3vw, 32px);
+  align-items: initial;
+}
+.tilak-videos-section .section-heading .video-hub-title {
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+}
+.tilak-videos-section .section-heading h2 {
+  margin: 0;
+  max-width: 100%;
+  font-size: clamp(2rem, 5.2vw, 4.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+.tilak-videos-section .section-heading h2 em {
+  font-style: normal;
+}
+@media (max-width: 600px) {
+  .tilak-videos-section .section-heading {
+    margin-bottom: 18px;
+  }
+  .tilak-videos-section .section-heading h2 {
+    font-size: clamp(2rem, 8.6vw, 3.1rem);
+    line-height: 1.06;
+  }
+}
+@media (max-width: 360px) {
+  .tilak-videos-section .section-heading h2 {
+    font-size: 1.85rem;
+    letter-spacing: -0.045em;
+  }
+}
