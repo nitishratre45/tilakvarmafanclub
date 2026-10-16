@@ -535,3 +535,12 @@ footer a {
   #liveScoresPanel .live-card-footer time { text-align: left; white-space: normal; }
   #liveScoresPanel .live-card-status { padding: 10px 12px; }
 }
+
+#liveScoresPanel .live-team-logo {
+  display:block; width:52px; height:52px; object-fit:contain;
+  border-radius:50%; background:#fff; padding:5px;
+  border:1px solid #d6e0eb;
+}
+@media (max-width:600px) {
+  #liveScoresPanel .live-team-logo { width:42px; height:42px; padding:4px; }
+}
