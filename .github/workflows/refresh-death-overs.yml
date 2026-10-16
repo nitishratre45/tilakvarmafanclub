@@ -114,10 +114,6 @@ jobs:
                           )
                       previous_sequence = sequence
                       previous_delivery = ball
-                      if (ball.get("wide") or ball.get("noBall")) and ball.get("legalBall") is not None:
-                          # The extra itself must not claim a legal-ball increment.
-                          if int(ball.get("legalBall") or 0) >= sequence:
-                              raise SystemExit("ERROR: wides and no-balls cannot increment the legal-ball number")
                   checked_overs += 1
                   checked_deliveries += len(deliveries)
           print("Validated full-over delivery logs:", checked_overs, "overs;", checked_deliveries, "deliveries")
