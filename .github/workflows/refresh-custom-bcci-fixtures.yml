@@ -1,0 +1,41 @@
+name: Refresh Custom BCCI Fixtures JSON
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-custom-bcci-fixtures
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Fetch and save supplied BCCI fixtures URL
+        run: python scripts/refresh_bcci_custom_fixtures.py
+
+      - name: Commit JSON snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add matches/bcci-custom-fixtures.json
+          if git diff --cached --quiet; then
+            echo "No changes in BCCI custom fixtures JSON."
+          else
+            git commit -m "data: refresh custom BCCI fixtures JSON"
+            git push
+          fi
