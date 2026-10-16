@@ -185,7 +185,7 @@
     });
     set(
       "career-updated",
-      "Last update: " +
+      "LAST UPDATE: " +
         latestTimestamp(data.careerStatsUpdated, data.statsguru?.updatedAt, data.lastUpdated),
     );
     const rows = data.recentInnings || [];
