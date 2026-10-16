@@ -1,6 +1,6 @@
 /* Matches section: restrained, GPU-friendly motion. Scoped to match pages only. */
 .matches-page,
-body:has(.live-matches-main) {
+body:has(.live-main) {
   scroll-behavior: smooth;
 }
 .matches-page .upcoming-match-card,
@@ -15,8 +15,8 @@ body:has(.live-matches-main) {
 .matches-page button,
 .matches-page .button,
 .matches-page a.scorecard-open,
-.live-matches-main .live-match-card,
-.live-matches-main .live-match-row {
+.live-main .live-match-card,
+.live-main .live-match-row {
   transition:
     transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1),
     border-color 200ms ease,
@@ -31,7 +31,7 @@ body:has(.live-matches-main) {
   .matches-page .player-match-milestone:hover,
   .matches-page .match-detail-card:hover,
   .matches-page .match-detail-panel:hover,
-  .live-matches-main .live-match-card:hover {
+  .live-main .live-match-card:hover {
     transform: translateY(-2px);
     border-color: rgba(117, 227, 255, 0.48);
     box-shadow: 0 14px 32px rgba(0, 8, 24, 0.24);
@@ -53,8 +53,8 @@ body:has(.live-matches-main) {
 }
 .matches-page button:focus-visible,
 .matches-page a:focus-visible,
-.live-matches-main a:focus-visible,
-.live-matches-main button:focus-visible {
+.live-main a:focus-visible,
+.live-main button:focus-visible {
   outline: 2px solid #75e3ff;
   outline-offset: 3px;
 }
@@ -65,15 +65,15 @@ body:has(.live-matches-main) {
 }
 @media (prefers-reduced-motion: reduce) {
   .matches-page,
-  body:has(.live-matches-main) {
+  body:has(.live-main) {
     scroll-behavior: auto;
   }
   .matches-page *,
   .matches-page *::before,
   .matches-page *::after,
-  .live-matches-main *,
-  .live-matches-main *::before,
-  .live-matches-main *::after {
+  .live-main *,
+  .live-main *::before,
+  .live-main *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
