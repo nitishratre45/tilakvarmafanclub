@@ -472,8 +472,8 @@
       if (!response.ok) throw new Error("Live snapshot unavailable");
       const payload = await response.json();
       const source = payload?.data ?? payload;
-      const matches = Array.isArray(source?.live_scores)
-        ? source.live_scores
+      const matches = Array.isArray(source?.match)
+        ? source.match
         : Array.isArray(source?.matches)
           ? source.matches
           : [];
@@ -520,12 +520,12 @@
         if (liveRefreshTimer) clearInterval(liveRefreshTimer);
         liveRefreshTimer = setInterval(async () => {
           try {
-            const again = await fetch("./bcci-live-scores.json?t=" + Date.now(), {
+            const again = await fetch("./bcci-fixtures.json?t=" + Date.now(), {
               cache: "no-store",
             });
             const data = await again.json();
             const root = data?.data ?? data;
-            const items = Array.isArray(root?.live_scores) ? root.live_scores : [];
+            const items = Array.isArray(root?.match) ? root.match : Array.isArray(root?.matches) ? root.matches : [];
             const stillLive = items.some((match) => {
               const status = [
                 match.match_status,
