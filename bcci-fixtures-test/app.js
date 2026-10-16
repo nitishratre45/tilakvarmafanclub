@@ -2,237 +2,139 @@
   "use strict";
   const $ = (id) => document.getElementById(id);
   const state = { fixtures: [] };
-  function pick(o, keys, fallback = "") {
-    if (!o || typeof o !== "object") return fallback;
-    for (const k of keys) {
-      const v = o[k];
-      if (v === undefined || v === null || String(v).trim() === "") continue;
-      if (typeof v === "object") {
-        const n = v.name || v.team_name || v.title || v.short_name;
-        if (n) return String(n);
-      } else return String(v);
+
+  const pick = (obj, keys, fallback = "") => {
+    for (const key of keys) {
+      const value = obj?.[key];
+      if (value === undefined || value === null || value === "") continue;
+      if (typeof value === "object") {
+        const name = value.name || value.team_name || value.title || value.short_name;
+        if (name) return String(name);
+      } else {
+        return String(value);
+      }
     }
     return fallback;
+  };
+
+  function normalise(payload) {
+    // The saved Python wrapper contains the original BCCI response under payload.data.
+    const bcci = payload?.data ?? payload;
+    const matches = Array.isArray(bcci?.match) ? bcci.match
+      : Array.isArray(bcci?.data?.match) ? bcci.data.match
+      : Array.isArray(bcci?.fixtures) ? bcci.fixtures
+      : Array.isArray(bcci?.matches) ? bcci.matches
+      : [];
+    // Keep the requested display limit at 12 even if the JSON later contains more.
+    return matches.slice(0, 12).map((m, i) => ({
+      home: pick(m, ["team1_name", "team1_short_name", "home_team_name"], "Team A"),
+      away: pick(m, ["team2_name", "team2_short_name", "away_team_name"], "Team B"),
+      date: pick(m, ["start_date", "date_string", "end_date"]),
+      time: pick(m, ["start_time_local"]),
+      venue: pick(m, ["ground_name", "ground_city", "ground_short_name"]),
+      competition: pick(m, ["comp_name", "primary_event_name", "alt_comp_name"], "BCCI Fixture"),
+      status: pick(m, ["match_status", "live_status_name"], "Scheduled"),
+      id: pick(m, ["match_id", "gid"], String(i)),
+      title: pick(m, ["title", "match_short_name", "name"]),
+      result: pick(m, ["result_string"])
+    }));
   }
-  function normalise(raw) {
-    const out = [];
-    const pages = Array.isArray(raw?.pages) ? raw.pages : [raw];
-    pages.forEach((p) => {
-      const d = Array.isArray(p?.match)
-        ? p.match
-        : Array.isArray(p?.data)
-          ? p.data
-          : Array.isArray(p?.fixtures)
-            ? p.fixtures
-            : Array.isArray(p?.results)
-              ? p.results
-              : Array.isArray(p?.data?.data)
-                ? p.data.data
-                : [];
-      d.forEach((x, i) =>
-        out.push({
-          home: pick(
-            x,
-            [
-              "team1_name",
-              "home_team_name",
-              "team_a_name",
-              "team1",
-              "home_team",
-              "teamA",
-              "team_a",
-            ],
-            "Team A",
-          ),
-          away: pick(
-            x,
-            [
-              "team2_name",
-              "away_team_name",
-              "team_b_name",
-              "team2",
-              "away_team",
-              "teamB",
-              "team_b",
-            ],
-            "Team B",
-          ),
-          date: pick(x, [
-            "start_date",
-            "date_string",
-            "match_date",
-            "date",
-            "matchDate",
-            "startDate",
-            "match_start_date",
-            "match_datetime",
-            "start_time",
-            "date_time",
-            "matchDateTime",
-          ]),
-          time: pick(x, ["start_time_local", "match_time", "start_time_text", "time", "matchTime"]),
-          venue: pick(x, [
-            "ground_name",
-            "ground_city",
-            "venue_name",
-            "venue",
-            "stadium",
-            "location",
-          ]),
-          competition: pick(
-            x,
-            [
-              "comp_name",
-              "primary_event_name",
-              "alt_comp_name",
-              "competition_name",
-              "series_name",
-              "tournament_name",
-              "competition",
-              "series",
-              "tournament",
-              "match_type",
-            ],
-            "BCCI Fixture",
-          ),
-          status: pick(
-            x,
-            ["match_status", "live_status_name", "status", "matchState", "state", "match_result"],
-            "Scheduled",
-          ),
-          id: pick(x, ["match_id", "gid", "match_gid", "id", "fixture_id"], String(i)),
-          title: pick(x, ["title", "match_short_name", "name"]),
-          result: pick(x, ["result_string"]),
-        }),
-      );
-    });
-    return out;
+
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  })[c]);
+
+  function fmt(value) {
+    if (!value) return "Date TBA";
+    // BCCI's date_string is already human-readable (e.g. "16 October 2026").
+    if (/\D/.test(value) && !/^\d{4}-\d{2}-\d{2}/.test(value)) return value;
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat("en-IN", {
+      day: "2-digit", month: "short", year: "numeric"
+    }).format(date);
   }
-  function esc(s) {
-    return String(s ?? "").replace(
-      /[&<>"']/g,
-      (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
-    );
-  }
-  function fmt(v) {
-    if (!v) return "Date TBA";
-    const d = new Date(v);
-    return Number.isNaN(d.getTime())
-      ? v
-      : new Intl.DateTimeFormat("en-IN", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        }).format(d);
-  }
+
   function render() {
-    const q = $("searchInput").value.trim().toLowerCase(),
-      s = $("statusFilter").value,
-      sort = $("sortFilter").value;
-    const list = state.fixtures.filter(
-      (f) =>
-        [f.home, f.away, f.venue, f.competition, f.status, f.date]
-          .join(" ")
-          .toLowerCase()
-          .includes(q) &&
-        (s === "all" || f.status.toLowerCase() === s.toLowerCase()),
+    const query = $("searchInput").value.trim().toLowerCase();
+    const statusFilter = $("statusFilter").value;
+    const sort = $("sortFilter").value;
+    const list = state.fixtures.filter((f) =>
+      [f.home, f.away, f.venue, f.competition, f.status, f.date, f.title, f.result]
+        .join(" ").toLowerCase().includes(query) &&
+      (statusFilter === "all" || f.status.toLowerCase() === statusFilter.toLowerCase())
     );
-    list.sort((a, b) =>
-      sort === "date-desc"
-        ? (Date.parse(b.date) || 0) - (Date.parse(a.date) || 0)
-        : (Date.parse(a.date) || 0) - (Date.parse(b.date) || 0),
-    );
+
+    list.sort((a, b) => {
+      const aDate = Date.parse(a.date) || 0;
+      const bDate = Date.parse(b.date) || 0;
+      return sort === "date-desc" ? bDate - aDate : aDate - bDate;
+    });
+
     $("resultCount").textContent = list.length + " of " + state.fixtures.length + " fixtures";
-    $("fixtureList").innerHTML = list
-      .map(
-        (f) =>
-          '<article class="fixture-card"><div><div class="fixture-topline"><span class="competition">' +
-          esc(f.competition) +
-          '</span><span class="status-pill ' +
-          (/live|progress|innings/i.test(f.status) ? "upcoming" : "") +
-          '">' +
-          esc(f.status) +
-          '</span></div><div class="teams"><div class="team">' +
-          esc(f.home) +
-          '</div><div class="versus">VS</div><div class="team">' +
-          esc(f.away) +
-          '</div></div><div class="match-meta">' +
-          [f.venue && "📍 " + f.venue, f.time && "◷ " + f.time]
-            .filter(Boolean)
-            .map((v) => "<span>" + esc(v) + "</span>")
-            .join("") +
-          '</div></div><div class="fixture-date"><strong>' +
-          esc(fmt(f.date)) +
-          "</strong><span>Fixture date</span></div></article>",
-      )
-      .join("");
+    $("fixtureList").innerHTML = list.map((f) => {
+      const isLive = /live|progress|in play/i.test(f.status);
+      const extra = f.result && !/teams will be announced/i.test(f.result)
+        ? '<div class="match-meta"><span>' + esc(f.result) + '</span></div>' : "";
+      return '<article class="fixture-card"><div><div class="fixture-topline">' +
+        '<span class="competition">' + esc(f.competition) + (f.title ? " · " + esc(f.title) : "") + '</span>' +
+        '<span class="status-pill ' + (isLive ? "upcoming" : "") + '">' + esc(f.status) + '</span></div>' +
+        '<div class="teams"><div class="team">' + esc(f.home) + '</div><div class="versus">VS</div><div class="team">' +
+        esc(f.away) + '</div></div><div class="match-meta">' +
+        [f.venue && "📍 " + f.venue, f.time && "◷ " + f.time]
+          .filter(Boolean).map((v) => "<span>" + esc(v) + "</span>").join("") +
+        '</div>' + extra + '</div><div class="fixture-date"><strong>' + esc(fmt(f.date)) +
+        '</strong><span>Fixture date · ' + esc(f.id) + '</span></div></article>';
+    }).join("");
+
     $("emptyState").hidden = list.length !== 0;
     $("fixtureList").hidden = list.length === 0;
   }
+
   async function load() {
-    const b = $("refreshBtn");
-    b.disabled = true;
+    const button = $("refreshBtn");
+    button.disabled = true;
     $("fixtureList").hidden = false;
     $("fixtureList").innerHTML = '<div class="loading-state">Loading saved BCCI fixtures…</div>';
     try {
-      const r = await fetch("./bcci-custom-fixtures.json?t=" + Date.now(), { cache: "no-store" });
-      if (!r.ok)
-        throw Error(
-          r.status === 404
-            ? "Snapshot JSON not found yet. Run the GitHub Actions workflow first."
-            : "HTTP " + r.status,
-        );
-      const type = r.headers.get("content-type") || "";
-      if (type.includes("text/html"))
-        throw Error(
-          "Server returned an HTML page instead of JSON. Check that bcci-custom-fixtures.json exists in the deployed Pages build.",
-        );
-      let raw;
-      try {
-        raw = await r.json();
-      } catch (parseError) {
-        throw Error(
-          "Fixture JSON is missing or invalid. Run the Refresh Custom BCCI Fixtures workflow and redeploy Pages.",
-        );
-      }
-      state.fixtures = normalise(raw);
-      $("totalCount").textContent = Number.isFinite(raw.recordCount)
-        ? raw.recordCount.toLocaleString("en-IN")
-        : (raw.page?.total_rows ?? state.fixtures.length).toLocaleString("en-IN");
-      $("pageCount").textContent =
-        raw.pagesFetched ?? raw.page?.last_page ?? raw.pages?.length ?? "—";
-      $("lastUpdated").textContent = raw.checkedAt ? fmt(raw.checkedAt) : "Unknown";
-      $("sourceStatus").textContent = raw.httpStatus
-        ? "HTTP " + raw.httpStatus + " · " + (raw.status || "Snapshot loaded")
-        : raw.status || "Snapshot loaded";
-      const statuses = [...new Set(state.fixtures.map((f) => f.status).filter(Boolean))].sort(),
-        filter = $("statusFilter"),
-        old = filter.value;
-      filter.innerHTML =
-        '<option value="all">All statuses</option>' +
-        statuses.map((x) => '<option value="' + esc(x) + '">' + esc(x) + "</option>").join("");
+      const response = await fetch("./bcci-fixtures.json?t=" + Date.now(), { cache: "no-store" });
+      if (!response.ok) throw new Error("Could not load bcci-fixtures.json (HTTP " + response.status + ").");
+      const payload = await response.json();
+      if (payload.status && payload.status !== "ok") throw new Error(payload.error || "Python fetch status: " + payload.status);
+
+      state.fixtures = normalise(payload);
+      const bcci = payload.data ?? payload;
+      const page = bcci.page ?? {};
+      $("totalCount").textContent = state.fixtures.length;
+      $("pageCount").textContent = page.last_page ?? 1;
+      $("lastUpdated").textContent = payload.fetchedAt ? fmt(payload.fetchedAt) : "Unknown";
+      $("sourceStatus").textContent = payload.httpStatus ? "HTTP " + payload.httpStatus + " · " + payload.status : "Snapshot loaded";
+
+      const statuses = [...new Set(state.fixtures.map((f) => f.status).filter(Boolean))].sort();
+      const filter = $("statusFilter");
+      const old = filter.value;
+      filter.innerHTML = '<option value="all">All statuses</option>' +
+        statuses.map((s) => '<option value="' + esc(s) + '">' + esc(s) + '</option>').join("");
       if (statuses.includes(old)) filter.value = old;
       render();
+
       if (!state.fixtures.length) {
         $("fixtureList").hidden = false;
-        $("fixtureList").innerHTML =
-          '<div class="loading-state">JSON loaded, but fixture fields were not recognised. Open the raw JSON to inspect the BCCI schema.</div>';
+        $("fixtureList").innerHTML = '<div class="loading-state">JSON loaded, but no records were found at data.match.</div>';
       }
-    } catch (e) {
+    } catch (error) {
       $("totalCount").textContent = "—";
       $("pageCount").textContent = "—";
       $("lastUpdated").textContent = "Unavailable";
       $("sourceStatus").textContent = "Could not load snapshot";
       $("fixtureList").hidden = false;
-      $("fixtureList").innerHTML =
-        '<div class="loading-state">' +
-        esc(e.message) +
-        '<br><br><a class="secondary-btn" href="./bcci-custom-fixtures.json" target="_blank" rel="noopener">Try opening JSON</a></div>';
+      $("fixtureList").innerHTML = '<div class="loading-state">' + esc(error.message) +
+        '<br><br><a class="secondary-btn" href="./bcci-fixtures.json" target="_blank" rel="noopener">Open JSON file</a></div>';
       $("resultCount").textContent = "No data";
     } finally {
-      b.disabled = false;
+      button.disabled = false;
     }
   }
+
   $("refreshBtn").addEventListener("click", load);
   $("searchInput").addEventListener("input", render);
   $("statusFilter").addEventListener("change", render);
