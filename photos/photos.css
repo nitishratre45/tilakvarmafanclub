@@ -451,18 +451,50 @@ body.photos-page {
 }
 @media (max-width: 600px) {
   .photos-page .photos-main > .tv-gallery-view-tabs {
-    gap: 6px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: stretch;
+    gap: 8px;
+    width: 100%;
     margin-bottom: 12px;
   }
   .photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab {
-    gap: 6px;
-    padding: 8px 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 48px;
+    gap: 5px;
+    padding: 8px 9px;
+    justify-content: center;
+  }
+  .photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab > span {
+    min-width: 0;
+    gap: 5px;
   }
   .photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab strong {
-    font-size: 11px;
+    font-size: clamp(10px, 2.8vw, 12px);
+    white-space: nowrap;
   }
   .photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab small {
-    font-size: 9px;
+    font-size: clamp(8px, 2.2vw, 10px);
+    white-space: normal;
+    line-height: 1.2;
+  }
+}
+@media (max-width: 360px) {
+  .photos-page .photos-main > .tv-gallery-view-tabs {
+    gap: 6px;
+  }
+  .photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab {
+    padding-inline: 6px;
+    gap: 4px;
+  }
+  .photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab > span {
+    gap: 4px;
+  }
+  .photos-page .photos-main > .tv-gallery-view-tabs .tv-gallery-view-tab small {
+    display: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {
