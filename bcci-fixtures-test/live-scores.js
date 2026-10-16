@@ -90,8 +90,11 @@
         const isYetToBat =
           innings.length > 1 && !Number(innings[1]?.balls || 0) && !Number(innings[1]?.runs || 0);
         const date = m.start_datetime_utc || m.start_date || m.date_string || "";
+        const matchGid = m.gid || m.match_id || "";
         return (
-          '<article class="live-score-card">' +
+          '<article class="live-score-card live-score-card-clickable" tabindex="0" role="link" aria-label="Open scorecard for ' +
+          esc(a + " versus " + b) +
+          '" data-match-gid="' + esc(matchGid) + '">' +
           '<div class="live-card-status"><span class="live-status-label"><i></i>LIVE</span>' +
           (need ? "<strong>" + esc(need) + "</strong>" : "<strong>" + esc(statusText) + "</strong>") +
           "</div>" +
@@ -153,6 +156,20 @@
       refresh.disabled = false;
     }
   }
+  list.addEventListener("click", (event) => {
+    const card = event.target.closest(".live-score-card-clickable");
+    if (!card) return;
+    const gid = card.dataset.matchGid || "";
+    window.open("./scorecard.html?gid=" + encodeURIComponent(gid), "_blank", "noopener");
+  });
+  list.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const card = event.target.closest(".live-score-card-clickable");
+    if (!card) return;
+    event.preventDefault();
+    const gid = card.dataset.matchGid || "";
+    window.open("./scorecard.html?gid=" + encodeURIComponent(gid), "_blank", "noopener");
+  });
   refresh.addEventListener("click", load);
   load();
   window.setInterval(load, 60000);
