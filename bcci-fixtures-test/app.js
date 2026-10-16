@@ -246,13 +246,13 @@
           renderTeam(f.home) +
           '</div><span class="upcoming-versus">VS</span><div class="upcoming-team">' +
           renderTeam(f.away) +
-          '</div></div>' +
+          "</div></div>" +
           '<div class="upcoming-match-info"><strong>' +
           esc(f.title || f.competition || "Upcoming fixture") +
-          '</strong>' +
-          (f.venue ? '<span class="upcoming-venue">⌖ ' + esc(f.venue) + '</span>' : "") +
-          (f.time ? '<span class="upcoming-time">' + esc(f.time) + ' IST</span>' : "") +
-          '</div>' +
+          "</strong>" +
+          (f.venue ? '<span class="upcoming-venue">⌖ ' + esc(f.venue) + "</span>" : "") +
+          (f.time ? '<span class="upcoming-time">' + esc(f.time) + " IST</span>" : "") +
+          "</div>" +
           extra +
           '<a class="upcoming-details" href="/matches/">Full Match Details <span aria-hidden="true">↗</span></a>' +
           "</article>"

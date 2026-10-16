@@ -6,7 +6,7 @@
   const current =
     path === "/"
       ? "home"
-      : (path.startsWith("/matches") || path.startsWith("/bcci-fixtures-test"))
+      : path.startsWith("/matches") || path.startsWith("/bcci-fixtures-test")
         ? "matches"
         : path.startsWith("/photos")
           ? "photos"
