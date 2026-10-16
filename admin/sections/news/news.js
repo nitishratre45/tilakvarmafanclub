@@ -1,0 +1,1 @@
+(() => { const root=document.getElementById("news"); if(!root)return; root.dataset.adminSectionModule="news"; })();
