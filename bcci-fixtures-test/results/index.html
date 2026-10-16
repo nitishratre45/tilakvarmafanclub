@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071a42">
+  <title>BCCI Match Results | Tilak Varma Fan Club</title>
+  <style>
+    :root{color-scheme:dark;--bg:#071225;--panel:#101f38;--line:#263b59;--text:#f4f7ff;--muted:#9db0ca;--accent:#78e2b1}
+    *{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#0b2450,var(--bg) 55%);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+    main{max-width:1120px;margin:auto;padding:clamp(16px,4vw,38px)}a{color:inherit}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:24px}.back{color:var(--accent);text-decoration:none;font-weight:700}.eyebrow{color:var(--accent);font-size:12px;letter-spacing:.14em;font-weight:800;margin:0 0 8px}h1{font-size:clamp(28px,5vw,44px);line-height:1.08;margin:0}p.sub{color:var(--muted);margin:10px 0 0}.tools{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}.tools input,.tools select{background:#0b1930;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;min-width:0}.tools input{flex:1;min-width:190px}.summary{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);margin-bottom:14px}.list{display:grid;gap:12px}.match{border:1px solid var(--line);background:linear-gradient(115deg,#122641,#0d1b31);border-radius:16px;padding:18px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center}.meta{font-size:12px;color:var(--muted);margin-bottom:8px}.teams{font-weight:800;font-size:18px}.result{color:var(--accent);font-weight:700;margin-top:6px}.score{color:#dce7f8;font-size:13px;margin-top:6px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{display:inline-block;text-decoration:none;background:var(--accent);color:#062039;font-weight:800;padding:10px 13px;border-radius:10px;white-space:nowrap}.empty,.error{padding:26px;border:1px dashed var(--line);border-radius:16px;color:var(--muted);text-align:center}.foot{margin-top:28px;color:var(--muted);font-size:12px}
+    @media(max-width:600px){.match{grid-template-columns:1fr}.teams{font-size:16px}.actions .btn{flex:1;text-align:center}.tools select{width:100%}}
+  </style>
+</head>
+<body><main>
+  <div class="top"><div><p class="eyebrow">BCCI FIXTURES TEST CENTRE</p><h1>Match Results</h1><p class="sub">Completed matches saved from the BCCI fixtures feed.</p></div><a class="back" href="../index.html">← Back to BCCI Centre</a></div>
+  <div class="tools"><input id="search" type="search" placeholder="Search team, competition or venue…" aria-label="Search results"><select id="format" aria-label="Filter by format"><option value="all">All formats</option><option>Test</option><option>ODI</option><option>T20I</option><option>Women's</option><option>Other</option></select><select id="sort" aria-label="Sort results"><option value="new">Newest first</option><option value="old">Oldest first</option></select></div>
+  <div class="summary"><span id="count">Loading saved results…</span><span id="updated"></span></div>
+  <div id="list" class="list" aria-live="polite"><div class="empty">Loading results…</div></div>
+  <p class="foot">Data is stored inside <code>bcci-fixtures-test/results/</code>. Results are deduplicated by BCCI match ID.</p>
+</main>
+<script>
+(() => {
+ const list=document.getElementById('list'), search=document.getElementById('search'), format=document.getElementById('format'), sort=document.getElementById('sort'), count=document.getElementById('count'), updated=document.getElementById('updated');
+ let matches=[];
+ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const fmt=m=>{const text=[m.title,m.match_short_name,m.name,m.class?.map(x=>x.name).join(' ')].join(' ').toLowerCase();if(/test|first-class/.test(text))return 'Test';if(/odi|one.day|one day/.test(text))return 'ODI';if(/t20|twenty20/.test(text))return 'T20I';if(/women/.test(text))return "Women's";return 'Other'};
+ const date=m=>m.start_date||m.end_date||m.date_string||'';
+ function render(){
+  const q=search.value.trim().toLowerCase(), f=format.value;
+  const data=matches.filter(m=>{const hay=[m.name,m.title,m.match_short_name,m.comp_name,m.ground_name,m.team1_name,m.team2_name,m.result_string].join(' ').toLowerCase();return (!q||hay.includes(q))&&(f==='all'||fmt(m)===f)});
+  data.sort((a,b)=>{const d=date(a).localeCompare(date(b));return sort.value==='new'?-d:d});
+  count.textContent=data.length+' result'+(data.length===1?'':'s');
+  if(!data.length){list.innerHTML='<div class="empty">No completed results saved yet. The archive fills when the BCCI feed marks matches complete.</div>';return}
+  list.innerHTML=data.map(m=>{const gid=m.gid||m.match_id||'',teams=(m.team1_name||m.team1_short_name||'Team 1')+' vs '+(m.team2_name||m.team2_short_name||'Team 2');const summary=m.summary?.team||[];const scores=summary.map(t=>t.score).filter(Boolean).join(' · ');return '<article class="match"><div><div class="meta">'+esc(m.comp_name||m.comp_type||'Cricket')+' · '+esc(m.title||m.match_short_name||fmt(m))+' · '+esc(m.date_string||date(m))+'</div><div class="teams">'+esc(teams)+'</div><div class="result">'+esc(m.result_string||'Match completed')+'</div>'+(scores?'<div class="score">'+esc(scores)+'</div>':'')+'<div class="score">'+esc(m.ground_name||m.ground_city||'')+'</div></div><div class="actions">'+(gid?'<a class="btn" href="../bcci-scorecard-page.html?gid='+encodeURIComponent(gid)+'">Scoreboard ↗</a>':'')+'</div></article>'}).join('');
+ }
+ fetch('./results.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Results data is not available yet');return r.json()}).then(data=>{matches=Array.isArray(data.matches)?data.matches:[];updated.textContent=data.updatedAt?'Updated '+new Date(data.updatedAt).toLocaleString():'';render()}).catch(()=>{count.textContent='Results archive';list.innerHTML='<div class="empty">Results data has not been generated yet. It will appear after the next successful BCCI fixtures refresh.</div>'});
+ [search,format,sort].forEach(el=>el.addEventListener('input',render));
+})();
+</script>
+</body></html>
