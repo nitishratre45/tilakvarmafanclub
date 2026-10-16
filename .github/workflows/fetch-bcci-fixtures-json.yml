@@ -71,6 +71,10 @@ jobs:
             exit 0
           fi
           git commit -m "Refresh BCCI fixtures, live scores and scorecard JSON"
+          # Fetch scripts/tests may create local diagnostic files that are not
+          # part of the snapshots. Remove the known generated report before
+          # rebasing, otherwise checkout can abort when main now tracks it.
+          rm -f bcci-fixtures-test/results/results.json
           for attempt in 1 2 3; do
             git fetch origin main
             if ! git rebase origin/main; then
