@@ -574,3 +574,62 @@ body {
   .tvfc-mobile-menu:not([hidden]) { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
   .tvfc-mobile-menu a { min-height: 58px !important; padding: 8px 4px !important; font-size: 11px !important; }
 }
+
+
+/* Match-page interaction motion parity — scoped to BCCI fixtures test only. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .fixture-card,
+  .upcoming-match-card,
+  .team-logo,
+  .tvfc-mobile-menu a,
+  .tvfc-mobile-dock a,
+  .tvfc-mobile-dock button {
+    transition:
+      transform 200ms cubic-bezier(.2,.7,.2,1),
+      border-color 200ms ease,
+      box-shadow 220ms ease,
+      background-color 180ms ease,
+      color 180ms ease,
+      opacity 180ms ease;
+  }
+  .fixture-card:hover,
+  .upcoming-match-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(117,227,255,.48);
+    box-shadow: 0 14px 32px rgba(0,8,24,.24);
+  }
+  .tvfc-mobile-menu a:hover {
+    transform: translateY(-1px);
+    border-color: rgba(150,210,255,.42);
+    background: linear-gradient(145deg,rgba(255,255,255,.2),rgba(255,255,255,.075));
+  }
+}
+.fixture-card,
+.upcoming-match-card {
+  animation: bcci-match-card-in 420ms cubic-bezier(.2,.7,.2,1) both;
+}
+.fixture-card:nth-child(2),
+.upcoming-match-card:nth-child(2) { animation-delay: 45ms; }
+.fixture-card:nth-child(3),
+.upcoming-match-card:nth-child(3) { animation-delay: 90ms; }
+.fixture-card:nth-child(4),
+.upcoming-match-card:nth-child(4) { animation-delay: 135ms; }
+.fixture-card:nth-child(5),
+.upcoming-match-card:nth-child(5) { animation-delay: 180ms; }
+@keyframes bcci-match-card-in {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fixture-card,
+  .upcoming-match-card,
+  .tvfc-mobile-menu,
+  .tvfc-mobile-menu a,
+  .tvfc-mobile-dock,
+  .tvfc-mobile-dock a,
+  .tvfc-mobile-dock button {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
