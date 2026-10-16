@@ -1598,3 +1598,40 @@ body > footer {
   width: 100%;
   max-width: 100%;
 }
+
+
+/* Keep the final bowling column (Wkts) fully visible on narrow phones. */
+#home-snapshot .home-bowling-table-section .home-career-table-wrap {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+#home-snapshot .home-bowling-table-section .home-career-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+}
+#home-snapshot .home-bowling-table-section .home-career-table th,
+#home-snapshot .home-bowling-table-section .home-career-table td {
+  box-sizing: border-box;
+  padding-left: clamp(5px, 1.7vw, 12px);
+  padding-right: clamp(5px, 1.7vw, 12px);
+  white-space: nowrap;
+}
+#home-snapshot .home-bowling-table-section .home-career-table th:first-child,
+#home-snapshot .home-bowling-table-section .home-career-table td:first-child {
+  width: 24%;
+}
+@media (max-width: 380px) {
+  #home-snapshot .home-bowling-table-section .home-career-table th,
+  #home-snapshot .home-bowling-table-section .home-career-table td {
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 12px;
+  }
+  #home-snapshot .home-bowling-table-section .home-career-table th:first-child,
+  #home-snapshot .home-bowling-table-section .home-career-table td:first-child {
+    width: 23%;
+  }
+}
