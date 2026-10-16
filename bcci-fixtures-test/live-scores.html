@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <title>BCCI Live Scores | CRICZONE Fixture Lab</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./live-scores.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html"><span class="brand-mark">C</span><span>CRICZONE <small>LIVE SCORES</small></span></a>
+    <span class="test-label"><i></i> TEST DATA</span>
+  </header>
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">BCCI · LIVE SCORES JSON</p>
+      <h1>BCCI Live Score Centre</h1>
+      <p class="subhead">This page reads only bcci-live-scores.json. The fixtures page and its JSON are separate.</p>
+      <div class="hero-actions">
+        <button class="primary-btn" type="button" data-live-refresh>↻ Refresh Live Scores JSON</button>
+        <a class="secondary-btn" href="./index.html">← Fixtures page</a>
+        <a class="secondary-btn" href="./bcci-live-scores.json" target="_blank" rel="noopener">View live JSON ↗</a>
+        <a class="secondary-btn" href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/fetch-bcci-fixtures-json.yml" target="_blank" rel="noopener">Run refresh workflow ↗</a>
+      </div>
+    </section>
+    <section id="liveScoresPanel" class="filters panel">
+      <div class="section-heading"><div><p class="eyebrow">LIVE DATA</p><h2>BCCI Live Scores</h2></div></div>
+      <p class="subhead" data-live-status>Loading separate live-scores JSON…</p>
+      <div class="fixture-list" data-live-list><div class="loading-state">Loading live scores…</div></div>
+    </section>
+  </main>
+</body>
+</html>
