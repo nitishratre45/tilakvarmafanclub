@@ -223,8 +223,9 @@
       match?.team2_short_name, match?.home_team_name, match?.away_team_name,
       match?.comp_name, match?.alt_comp_name, match?.name, match?.match_short_name,
     ].filter(Boolean).join(" ").toLowerCase();
-    return /(^|\\b)india(\\b|$)/.test(teams)
-      && !/women|\\b(india a|a team|emerging|under ?19|u19|youth|junior)\\b/.test(teams);
+    // Include India senior men's and women's internationals; exclude India A, youth and junior fixtures.
+    return /(^|\b)india(\b|$)/.test(teams)
+      && !/\b(india a|a team|emerging|under ?19|u19|youth|junior)\b/.test(teams);
   };
   function renderLiveMatches(matches) {
     const section = $("liveMatchesSection");
