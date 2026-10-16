@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "title": "Manual Tilak Varma T20I match records and linked full scorecards",
-  "note": "All four supplied match records are retained here. The 11 Jan 2024 India-Afghanistan record links to the full innings scorecard JSON. The other three records remain user-supplied and unverified. None are included in death-over totals unless verified ball-by-ball over data is added.",
+  "note": "Manual match summaries remain excluded from death-over totals. The 17 Sep 2026 Afghanistan vs India T20I now includes verified Tilak Varma ball-by-ball entries for all-overs T20I and overall-T20 views.",
   "matches": [
     {
       "date": "2024-01-11",
@@ -69,13 +69,72 @@
       "balls": 5,
       "fours": 0,
       "sixes": 0,
-      "sourceStatus": "USER-SUPPLIED MANUAL RECORD — NOT INDEPENDENTLY VERIFIED",
-      "overDataStatus": "INVALID OVER SPLIT — SAME SCORECARD TOTAL REPEATED FOR EACH OVER",
+      "sourceStatus": "VERIFIED SCORECARD + USER-UPLOADED BALL-BY-BALL COMMENTARY",
+      "overDataStatus": "BALL-BY-BALL VERIFIED FROM COMMENTARY; INCLUDED IN ALL-OVERS T20I AND OVERALL T20 DATA",
       "includeInDeathOvers": false,
-      "fullScorecardPath": null
+      "fullScorecardPath": null,
+      "includeInAllOvers": true,
+      "sourceUrl": "https://indianexpress.com/section/sports/cricket/live-score/afghanistan-vs-india-3rd-t20-live-score-full-scorecard-highlights-india-in-afghanistan-3-t20i-series-2026-afin09172026273950/",
+      "ballByBall": [
+        {
+          "displayOver": "9.6",
+          "over": 10,
+          "ball": 6,
+          "bowler": "Rashid Khan",
+          "runs": 0,
+          "batterRuns": 0,
+          "scoring": "0",
+          "dismissal": false,
+          "commentary": "The leg-spinner fires a length ball down leg, and Tilak Varma tries to flick but misses, struck on the pad for a dot ball."
+        },
+        {
+          "displayOver": "10.3",
+          "over": 11,
+          "ball": 3,
+          "bowler": "Mujeeb Ur Rahman",
+          "runs": 1,
+          "batterRuns": 1,
+          "scoring": "1",
+          "dismissal": false,
+          "commentary": "Mujeeb fires in a carrom ball back of a length outside off, and Tilak Varma works it away, though the shot is mis-timed. Mujeeb fields at mid-wicket as they take a single."
+        },
+        {
+          "displayOver": "10.5",
+          "over": 11,
+          "ball": 5,
+          "bowler": "Mujeeb Ur Rahman",
+          "runs": 0,
+          "batterRuns": 0,
+          "scoring": "0",
+          "dismissal": false,
+          "commentary": "Mujeeb sends down an off break outside off on a length, and Tilak Varma’s mistimed flick rolls straight back to the bowler for a dot ball."
+        },
+        {
+          "displayOver": "10.6",
+          "over": 11,
+          "ball": 6,
+          "bowler": "Mujeeb Ur Rahman",
+          "runs": 1,
+          "batterRuns": 1,
+          "scoring": "1",
+          "dismissal": false,
+          "commentary": "Back of a length, outside off; Tilak flicks along the ground to deep mid-wicket for one run."
+        },
+        {
+          "displayOver": "11.1",
+          "over": 12,
+          "ball": 1,
+          "bowler": "Rashid Khan",
+          "runs": 0,
+          "batterRuns": 0,
+          "scoring": "W",
+          "dismissal": true,
+          "commentary": "Rashid Khan fires in a back-of-a-length googly down leg. Tilak works it away but cannot score and is run out by a direct hit from Rashid Khan."
+        }
+      ]
     }
   ],
-  "updatedAt": "2026-10-15",
+  "updatedAt": "2026-10-16",
   "verifiedDeathOverRunsAdded": 0,
   "fullScorecardCoverage": {
     "fullScorecardAvailableFor": [
