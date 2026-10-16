@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-16T06:37:05+00:00",
+  "checkedAt": "2026-10-16T08:21:56+00:00",
   "intervalMinutes": 10,
   "status": "healthy",
   "summary": {
-    "filesScanned": 441,
-    "checksPassed": 386,
+    "filesScanned": 458,
+    "checksPassed": 392,
     "issues": 0,
     "warnings": 0
   },
@@ -57,18 +57,48 @@
     },
     {
       "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "admin/assets/admin-core.js"
+    },
+    {
+      "level": "pass",
+      "message": "CSS block/string/comment structure OK",
+      "file": "admin/assets/admin.css"
+    },
+    {
+      "level": "pass",
       "message": "No duplicate HTML IDs",
       "file": "admin/index.html"
     },
     {
       "level": "pass",
       "message": "JavaScript syntax OK",
-      "file": "admin/matches-manager.js"
+      "file": "admin/sections/matches/matches-manager.js"
+    },
+    {
+      "level": "pass",
+      "message": "CSS block/string/comment structure OK",
+      "file": "admin/sections/media/media.css"
     },
     {
       "level": "pass",
       "message": "JavaScript syntax OK",
-      "file": "admin/news-pipeline-manager.js"
+      "file": "admin/sections/media/media.js"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "admin/sections/news/news-pipeline-manager.js"
+    },
+    {
+      "level": "pass",
+      "message": "CSS block/string/comment structure OK",
+      "file": "admin/sections/overview/overview.css"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "admin/sections/overview/overview.js"
     },
     {
       "level": "pass",
@@ -1229,36 +1259,6 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/scorecards/data/2025-12-11-t20i-india-vs-south-africa-79c319e94c15.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-12-14-t20-india-vs-south-africa-303b54cc8bf9.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-12-14-t20i-india-vs-south-africa-303b54cc8bf9.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-12-19-t20-india-vs-south-africa-ef7e8a450f9d.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-12-19-t20i-india-vs-south-africa-ef7e8a450f9d.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2026-02-07-t20-india-vs-united-states-of-america-19d01258ccae.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2026-02-07-t20i-india-vs-united-states-of-america-19d01258ccae.json"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "ca9c5dcb"
+    "branch": "a6323b2c"
   }
 }
