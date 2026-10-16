@@ -269,8 +269,8 @@
         esc(pick(m, ["name", "match_short_name", "comp_name"], home + " vs " + away)) +
         '</strong>' + (venue ? '<span class="upcoming-venue">⌖ ' + esc(venue) + '</span>' : '') +
         '<span class="live-status-text">' + esc(status) + '</span></div>' +
-        '<a class="upcoming-details live-match-centre-link" href="./details/index.html?matchId=' +
-        encodeURIComponent(id) + '&date=' + encodeURIComponent(String(m.start_date || m.date || m.date_string || "").slice(0, 10)) + '&team=' + encodeURIComponent(home) + '&opponent=' + encodeURIComponent(away) + '&match=' + encodeURIComponent(String(m.match_type || m.name || "Match")) + '&live=1#scoreboard">Match Centre <span aria-hidden="true">↗</span></a></article>';
+        '<a class="upcoming-details live-match-centre-link" href="./bcci-scorecard-page.html?gid=' +
+        encodeURIComponent(id) + '">Match Centre <span aria-hidden="true">↗</span></a></article>';
     }).join("");
   }
 
