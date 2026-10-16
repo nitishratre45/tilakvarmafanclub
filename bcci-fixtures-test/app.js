@@ -254,7 +254,15 @@
           (f.time ? '<span class="upcoming-time">' + esc(f.time) + " IST</span>" : "") +
           "</div>" +
           extra +
-          '<a class="upcoming-details" href="/matches/details/?matchId=' + encodeURIComponent(f.id) + '&match=' + encodeURIComponent(f.title || f.competition) + '&opponent=' + encodeURIComponent(f.away) + '&date=' + encodeURIComponent(f.date) + '">Full Match Details <span aria-hidden="true">↗</span></a>' +
+          '<a class="upcoming-details" href="/matches/details/?matchId=' +
+          encodeURIComponent(f.id) +
+          "&match=" +
+          encodeURIComponent(f.title || f.competition) +
+          "&opponent=" +
+          encodeURIComponent(f.away) +
+          "&date=" +
+          encodeURIComponent(f.date) +
+          '">Full Match Details <span aria-hidden="true">↗</span></a>' +
           "</article>"
         );
       })
