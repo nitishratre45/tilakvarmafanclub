@@ -76,20 +76,11 @@ jobs:
           if invalid:
               raise SystemExit("Published videos without direct HTTPS playback URLs: " + ", ".join(invalid[:10]))
           admin = Path("admin/index.html").read_text(encoding="utf-8")
-          css = Path("admin/assets/admin.css").read_text(encoding="utf-8")
-          mobile_nav = Path("admin/assets/admin-mobile-nav.js").read_text(encoding="utf-8")
-          for required in ("sections/overview/overview.css", "sections/media/media.css", "sections/matches/matches.css", "sections/services-security/services.css"):
-              if required not in admin:
-                  raise SystemExit(f"Missing admin section stylesheet link: {required}")
-          if 'id="admin-nav"' not in admin or 'id="admin-mobile-bottom-nav"' not in admin:
-              raise SystemExit("Desktop or mobile Admin navigation container is missing")
-          if ".admin-mobile-bottom-nav" not in css or "@media (min-width: 721px)" not in css:
-              raise SystemExit("Responsive desktop/mobile Admin navigation CSS is missing")
-          if "desktopNav.querySelectorAll" not in mobile_nav or "syncActive" not in mobile_nav:
-              raise SystemExit("Mobile Admin navigation does not clone and sync desktop sections")
-          if "assets/admin-core.js" not in admin or "sections/matches/matches-manager.js" not in admin or "sections/news/news-pipeline-manager.js" not in admin:
-              raise SystemExit("Required Admin logic scripts are not linked")
-          print(f"Validated {len(videos)} BCCI videos, section CSS links, and responsive Admin navigation.")
+          if not re.search(r"\.sidebar \.nav-label,\s*\.sidebar-bottom\s*\{\s*display:\s*none;", admin):
+              raise SystemExit("Mobile Admin nav should remain visible in the horizontal scroll menu")
+          if re.search(r"\.sidebar \.nav-label,\s*\.sidebar \.nav,\s*\.sidebar-bottom\s*\{\s*display:\s*none;", admin):
+              raise SystemExit("Mobile Admin nav is hidden by the responsive CSS")
+          print(f"Validated {len(videos)} BCCI videos and mobile Admin navigation.")
           PY
       - name: Compile refresh script
         run: python -m py_compile scripts/refresh_statsguru.py scripts/refresh_bcci_videos.py

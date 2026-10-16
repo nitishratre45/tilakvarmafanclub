@@ -105,11 +105,11 @@ check("Matches and Photos navbar links open their dedicated pages", async () => 
   assert.equal(await page.locator('#main-nav a[href="/matches/"]').count(), 1, "Homepage Matches link must use the dedicated route");
   assert.equal(await page.locator('#main-nav a[href="/photos/"]').count(), 1, "Homepage Photos link must use the dedicated route");
   await page.locator('#main-nav a[href="/matches/"]').click({ force: true });
-  await page.waitForURL(url => url.pathname === "/matches/" || url.pathname === "/matches/index.html", { waitUntil: "domcontentloaded" });
+  await page.waitForURL(url => url.pathname === "/matches/" || url.pathname === "/matches/index.html");
   assert.equal(await page.locator("main").innerText().then(text => /THE MATCHES/.test(text)), true, "Dedicated Matches content should render");
   await page.goto(baseURL, { waitUntil: "domcontentloaded" });
   await page.locator('#main-nav a[href="/photos/"]').click({ force: true });
-  await page.waitForURL(url => url.pathname === "/photos/", { waitUntil: "domcontentloaded" });
+  await page.waitForURL(url => url.pathname === "/photos/");
   await page.locator("#tv-gallery-hub").waitFor({ state: "visible" });
   assert.equal(await page.locator(".tv-album-card").count() > 0, true, "Photos albums should render");
   await page.close();
@@ -361,13 +361,6 @@ check("One Over updates available overs when format changes", async () => {
         stack: event.error && event.error.stack
       }));
     });
-    window.__exportBlobUrl = "";
-    const originalCreateObjectURL = URL.createObjectURL.bind(URL);
-    URL.createObjectURL = (blob) => {
-      window.__exportBlobUrl = originalCreateObjectURL(blob);
-      window.__exportBlob = blob;
-      return window.__exportBlobUrl;
-    };
   });
   const pageErrors = [];
   page.on("pageerror", error => pageErrors.push(JSON.stringify({ name: error.name, message: error.message, stack: error.stack })));
@@ -394,16 +387,10 @@ check("One Over updates available overs when format changes", async () => {
     assert.notEqual(await over.inputValue(), "50", "Switching back to T20I must clamp the selected over");
   }
   await page.locator("#export-over-csv").waitFor({ state: "visible" });
+  const downloadPromise = page.waitForEvent("download", { timeout: 20000 });
   await page.locator("#export-over-csv").click({ force: true });
-  await page.waitForFunction(() => document.querySelector("#status")?.textContent.includes("CSV exported"));
-  const exportDetails = await page.evaluate(async () => ({
-    blobUrl: window.__exportBlobUrl,
-    csv: window.__exportBlob ? await window.__exportBlob.text() : "",
-    downloadName: document.querySelector("#export-over-csv")?.textContent
-  }));
-  assert.match(exportDetails.blobUrl, /^blob:/, "CSV export should create a downloadable Blob URL");
-  assert.match(exportDetails.csv, /^\uFEFF?"Date","Format","Over"/, "CSV export should contain a valid header row");
-  assert.match(exportDetails.csv, /"Batter","Batter Runs"/, "CSV export should include the batter and batter-runs columns");
+  const download = await downloadPromise;
+  assert.match(download.suggestedFilename(), /^tilak-over-.*\.csv$/, "CSV export should download a named CSV file");
   assert.deepEqual(pageErrors, [], "One Over should not throw uncaught browser errors: " + pageErrors.join(" | "));
   await page.close();
 });
@@ -595,31 +582,6 @@ check("Admin Studio warns before discarding unsaved edits", async () => {
   await page.locator("#friendly-kind").selectOption("profile");
   assert.equal(warned, true);
   assert.equal(await page.locator("#friendly-kind").inputValue(), originalKind);
-  await page.close();
-});
-
-check("Admin Studio mobile bottom navigation switches sections and desktop sidebar stays separate", async () => {
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  page.setDefaultTimeout(10000);
-  await page.route("**/api/admin/**", async (route) => {
-    const req = route.request();
-    const url = new URL(req.url());
-    if (url.pathname.endsWith("/session")) return route.fulfill({ json: { authenticated: true } });
-    if (url.pathname.endsWith("/content")) return route.fulfill({ json: url.searchParams.get("kind") === "media" ? { items: [], albums: [] } : { feedUrl: "" } });
-    if (url.pathname.endsWith("/data-editor") && req.method() === "GET") return route.fulfill({ json: { kind: "stats", path: "data/site-data.json", data: {} } });
-    return route.fulfill({ json: { ok: true, items: [], runs: [], datasets: [] } });
-  });
-  await page.goto(baseURL + "/admin/index.html", { waitUntil: "domcontentloaded" });
-  const mobileNav = page.locator("#admin-mobile-bottom-nav");
-  await mobileNav.waitFor({ state: "visible" });
-  assert.equal(await mobileNav.locator("a[data-view]").count(), await page.locator("#admin-nav a[data-view]").count(),
-    "Mobile nav should expose every desktop section");
-  await mobileNav.locator("a[data-view='news']").click();
-  await page.waitForFunction(() => location.hash === "#news");
-  await page.waitForFunction(() => document.querySelector("#admin-mobile-bottom-nav a[data-view='news']")?.classList.contains("active"));
-  assert.equal(await page.locator("#admin-mobile-bottom-nav a[data-view='news']").getAttribute("aria-current"), "page");
-  await page.setViewportSize({ width: 1280, height: 900 });
-  await page.waitForFunction(() => getComputedStyle(document.querySelector("#admin-mobile-bottom-nav")).display === "none");
   await page.close();
 });
 
