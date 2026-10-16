@@ -25,21 +25,39 @@
   }
   function isActuallyLive(m) {
     const state = String(
-      m.match_status_str ?? m.match_status ?? m.status_str ?? m.status ??
-      m.state ?? m.live_status_name ?? ""
-    ).trim().toLowerCase();
-    const result = String(m.result_string ?? m.result ?? "").trim().toLowerCase();
+      m.match_status_str ??
+        m.match_status ??
+        m.status_str ??
+        m.status ??
+        m.state ??
+        m.live_status_name ??
+        "",
+    )
+      .trim()
+      .toLowerCase();
+    const result = String(m.result_string ?? m.result ?? "")
+      .trim()
+      .toLowerCase();
     const statusId = String(m.match_status_id ?? m.status_id ?? "").trim();
     // BCCI uses "complete" / status ID 2 for finished games. A result string
     // such as "India Women win by 4 wickets" is also a definitive completion signal.
-    if (statusId === "2" || /complete|completed|finished|result|abandoned|cancelled|canceled|no result|won by|win by|drawn|tied/.test(state)) return false;
+    if (
+      statusId === "2" ||
+      /complete|completed|finished|result|abandoned|cancelled|canceled|no result|won by|win by|drawn|tied/.test(
+        state,
+      )
+    )
+      return false;
     if (result) return false;
-    return /(^|\b)(live|in progress|innings|stumps|lunch|tea|drinks|rain delay|match delayed|break)(\b|$)/.test(state);
+    return /(^|\b)(live|in progress|innings|stumps|lunch|tea|drinks|rain delay|match delayed|break)(\b|$)/.test(
+      state,
+    );
   }
   function render(matches) {
     const liveMatches = matches.filter(isActuallyLive);
     if (!liveMatches.length) {
-      list.innerHTML = '<p class="loading-state">Abhi koi live match nahi hai. Completed matches ke liye Match Results dekhein.</p>';
+      list.innerHTML =
+        '<p class="loading-state">Abhi koi live match nahi hai. Completed matches ke liye Match Results dekhein.</p>';
       return;
     }
     list.innerHTML = liveMatches
@@ -49,50 +67,103 @@
         const innings = Array.isArray(m.summary?.innings) ? m.summary.innings : [];
         const latest =
           innings
-            .filter((i) => Number(i.balls || 0) > 0 || Number(i.runs || 0) > 0 || Number(i.wickets || 0) > 0)
+            .filter(
+              (i) =>
+                Number(i.balls || 0) > 0 || Number(i.runs || 0) > 0 || Number(i.wickets || 0) > 0,
+            )
             .sort((x, y) => Number(y.innings_number || 0) - Number(x.innings_number || 0))[0] ||
-          innings[innings.length - 1] || null;
+          innings[innings.length - 1] ||
+          null;
         const battingId = latest?.batting_team_id;
         const battingName =
-          String(battingId) === String(m.team1_id) ? a :
-          String(battingId) === String(m.team2_id) ? b : "";
-        const scoreOf = (i) => i ? String(i.runs ?? 0) + (i.wickets != null ? "/" + i.wickets : "") : "";
-        const oversOf = (i) => i?.overs != null ? String(i.overs) : "";
-        const inningsForTeam = (id) => innings.find((row) => String(row.batting_team_id) === String(id)) || null;
+          String(battingId) === String(m.team1_id)
+            ? a
+            : String(battingId) === String(m.team2_id)
+              ? b
+              : "";
+        const scoreOf = (i) =>
+          i ? String(i.runs ?? 0) + (i.wickets != null ? "/" + i.wickets : "") : "";
+        const oversOf = (i) => (i?.overs != null ? String(i.overs) : "");
+        const inningsForTeam = (id) =>
+          innings.find((row) => String(row.batting_team_id) === String(id)) || null;
         const inningsA = inningsForTeam(m.team1_id);
         const inningsB = inningsForTeam(m.team2_id);
-        const scoreA = scoreOf(inningsA), scoreB = scoreOf(inningsB);
-        const oversA = oversOf(inningsA), oversB = oversOf(inningsB);
-        const statusText = m.live_status_name || m.match_status_str || m.match_status || m.status || "Live";
+        const scoreA = scoreOf(inningsA),
+          scoreB = scoreOf(inningsB);
+        const oversA = oversOf(inningsA),
+          oversB = oversOf(inningsB);
+        const statusText =
+          m.live_status_name || m.match_status_str || m.match_status || m.status || "Live";
         const logoFor = (name, abbr) => {
           const key = String(abbr || name || "").toLowerCase();
-          if (key.includes("ind") || /india/i.test(name || "")) return "https://flagcdn.com/w160/in.png";
-          if (key.includes("zim") || /zimbabwe/i.test(name || "")) return "https://flagcdn.com/w160/zw.png";
+          if (key.includes("ind") || /india/i.test(name || ""))
+            return "https://flagcdn.com/w160/in.png";
+          if (key.includes("zim") || /zimbabwe/i.test(name || ""))
+            return "https://flagcdn.com/w160/zw.png";
           return "";
         };
-        const logoA = logoFor(a, m.team1_abbreviation), logoB = logoFor(b, m.team2_abbreviation);
-        const logoMarkup = (src, team) => src
-          ? '<img class="live-team-logo" src="' + esc(src) + '" alt="' + esc(team) + ' flag" loading="lazy" decoding="async" onerror="this.hidden=true">'
-          : '<span class="live-team-badge">' + esc((team.match(/\b\w/g) || ["T"]).join("").slice(0, 3)) + "</span>";
+        const logoA = logoFor(a, m.team1_abbreviation),
+          logoB = logoFor(b, m.team2_abbreviation);
+        const logoMarkup = (src, team) =>
+          src
+            ? '<img class="live-team-logo" src="' +
+              esc(src) +
+              '" alt="' +
+              esc(team) +
+              ' flag" loading="lazy" decoding="async" onerror="this.hidden=true">'
+            : '<span class="live-team-badge">' +
+              esc((team.match(/\b\w/g) || ["T"]).join("").slice(0, 3)) +
+              "</span>";
         const date = m.start_datetime_utc || m.start_date || m.date_string || "";
         const matchGid = m.gid || m.match_id || m.id || "";
-        const scoreFallback = (m.team1_score || m.team1_scores || "") ;
+        const scoreFallback = m.team1_score || m.team1_scores || "";
         return (
           '<article class="live-score-card live-score-card-clickable" tabindex="0" role="link" aria-label="Open scorecard for ' +
-          esc(a + " versus " + b) + '" data-match-gid="' + esc(matchGid) + '">' +
+          esc(a + " versus " + b) +
+          '" data-match-gid="' +
+          esc(matchGid) +
+          '">' +
           '<div class="live-card-status"><span class="live-status-label"><i></i>LIVE</span><strong>' +
-          esc(statusText) + "</strong></div>" +
-          '<div class="live-card-main"><div class="live-team">' + logoMarkup(logoA, a) + "<strong>" + esc(a) + "</strong>" +
+          esc(statusText) +
+          "</strong></div>" +
+          '<div class="live-card-main"><div class="live-team">' +
+          logoMarkup(logoA, a) +
+          "<strong>" +
+          esc(a) +
+          "</strong>" +
           (battingName === a && latest ? "<small>Batting</small>" : "") +
-          (scoreA || scoreFallback ? '<div class="live-team-score"><strong>' + esc(scoreA || scoreFallback) + "</strong><span>" + esc(oversA) + " ov</span></div>" : "") +
-          '</div><div class="live-versus">VS</div><div class="live-team live-team-right">' + logoMarkup(logoB, b) + "<strong>" + esc(b) + "</strong>" +
+          (scoreA || scoreFallback
+            ? '<div class="live-team-score"><strong>' +
+              esc(scoreA || scoreFallback) +
+              "</strong><span>" +
+              esc(oversA) +
+              " ov</span></div>"
+            : "") +
+          '</div><div class="live-versus">VS</div><div class="live-team live-team-right">' +
+          logoMarkup(logoB, b) +
+          "<strong>" +
+          esc(b) +
+          "</strong>" +
           (battingName === b && latest ? "<small>Batting</small>" : "") +
-          (scoreB || m.team2_score ? '<div class="live-team-score"><strong>' + esc(scoreB || m.team2_score) + "</strong><span>" + esc(oversB) + " ov</span></div>" : "") +
-          '</div></div><div class="live-card-footer"><div><strong>' + esc(m.primary_event_name || m.comp_name || m.series_name || "Cricket") +
-          "</strong><span>" + esc(m.match_round || m.name || m.match_name || "") + "</span><span>" + esc(m.ground_name || m.ground_city || m.venue || "Venue TBA") +
-          "</span></div><time>" + esc(date) + "</time></div></article>"
+          (scoreB || m.team2_score
+            ? '<div class="live-team-score"><strong>' +
+              esc(scoreB || m.team2_score) +
+              "</strong><span>" +
+              esc(oversB) +
+              " ov</span></div>"
+            : "") +
+          '</div></div><div class="live-card-footer"><div><strong>' +
+          esc(m.primary_event_name || m.comp_name || m.series_name || "Cricket") +
+          "</strong><span>" +
+          esc(m.match_round || m.name || m.match_name || "") +
+          "</span><span>" +
+          esc(m.ground_name || m.ground_city || m.venue || "Venue TBA") +
+          "</span></div><time>" +
+          esc(date) +
+          "</time></div></article>"
         );
-      }).join("");
+      })
+      .join("");
   }
   async function load() {
     refresh.disabled = true;
@@ -105,11 +176,17 @@
       const matches = extract(p);
       render(matches);
       status.textContent =
-        "JSON snapshot: " + (p.fetchedAt ? new Date(p.fetchedAt).toLocaleString() : "time unavailable") +
-        " · " + matches.filter(isActuallyLive).length + " live matches (" + matches.length + " source records)";
+        "JSON snapshot: " +
+        (p.fetchedAt ? new Date(p.fetchedAt).toLocaleString() : "time unavailable") +
+        " · " +
+        matches.filter(isActuallyLive).length +
+        " live matches (" +
+        matches.length +
+        " source records)";
     } catch (e) {
       status.textContent = "Live JSON load failed: " + e.message;
-      list.innerHTML = '<p class="loading-state">Run the BCCI Live Scores workflow to refresh bcci-live-scores.json.</p>';
+      list.innerHTML =
+        '<p class="loading-state">Run the BCCI Live Scores workflow to refresh bcci-live-scores.json.</p>';
     } finally {
       refresh.disabled = false;
     }
