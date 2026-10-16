@@ -192,7 +192,13 @@
       loadMore.hidden = state.visibleCount >= rows.length;
       loadMore.textContent = "Load more matches";
     }
-    if (pageStatus) pageStatus.textContent = "Showing " + Math.min(state.visibleCount, rows.length).toLocaleString("en-IN") + " of " + rows.length.toLocaleString("en-IN") + " matches";
+    if (pageStatus)
+      pageStatus.textContent =
+        "Showing " +
+        Math.min(state.visibleCount, rows.length).toLocaleString("en-IN") +
+        " of " +
+        rows.length.toLocaleString("en-IN") +
+        " matches";
   }
   async function loadMatches() {
     const host = $("complete-matches-list");
