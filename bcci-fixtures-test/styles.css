@@ -1014,3 +1014,38 @@ footer{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}
   #fixtureList .fixture-card { transition: none; }
   #fixtureList .fixture-card:hover { transform: none; }
 }
+
+
+/* Compact live-aware refresh strip — BCCI test folder only */
+.live-refresh-strip{
+  display:flex;align-items:center;gap:13px;
+  margin:22px 0 18px;padding:16px 18px;
+  border:1px solid #294560;border-radius:18px;
+  background:linear-gradient(135deg,#10253aee,#0a1726ee);
+  box-shadow:0 12px 30px #0002,inset 0 1px 0 #ffffff08;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.live-refresh-strip .live-refresh-dot{
+  width:11px;height:11px;flex:0 0 11px;border-radius:50%;
+  background:#8292a6;box-shadow:0 0 0 5px #8292a61a;
+}
+.live-refresh-strip>div{min-width:0;flex:1}
+.live-refresh-strip strong{display:block;color:#edf5ff;font-size:14px;font-weight:800}
+.live-refresh-strip p{margin:4px 0 0;color:#93a7bd;font-size:12px;line-height:1.5}
+.live-refresh-badge{
+  flex:0 0 auto;border:1px solid #31465d;border-radius:999px;
+  padding:7px 10px;background:#17283b;color:#c4d0df;
+  font-size:10px;font-weight:800;letter-spacing:.4px;white-space:nowrap;
+}
+.live-refresh-badge.is-live{color:#a3f5cf;background:#12392f;border-color:#23634e}
+.live-refresh-strip:has(.is-live) .live-refresh-dot{
+  background:#35e49b;box-shadow:0 0 0 5px #35e49b20;animation:bcci-live-pulse 1.5s infinite;
+}
+@keyframes bcci-live-pulse{50%{box-shadow:0 0 0 9px #35e49b08}}
+@media(max-width:520px){
+  .live-refresh-strip{gap:10px;margin:16px 0;padding:13px 12px;border-radius:15px}
+  .live-refresh-strip strong{font-size:12px}
+  .live-refresh-strip p{font-size:11px}
+  .live-refresh-badge{padding:6px 7px;font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){.live-refresh-strip:has(.is-live) .live-refresh-dot{animation:none}}
