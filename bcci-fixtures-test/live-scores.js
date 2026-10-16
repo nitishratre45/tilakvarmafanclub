@@ -33,12 +33,14 @@
         const a = m.team1_name || m.home_team_name || "Team 1";
         const b = m.team2_name || m.away_team_name || "Team 2";
         const innings = Array.isArray(m.summary?.innings) ? m.summary.innings : [];
-        const latest = [...innings]
-          .reverse()
-          .find(
-            (i) =>
-              Number(i.balls || 0) > 0 || Number(i.runs || 0) > 0 || Number(i.wickets || 0) > 0,
-          );
+        // Prefer the innings with the most recently faced balls. This is the
+        // active batting side; do not reverse blindly because the second innings
+        // may have started and have fewer balls than the completed first innings.
+        const latest = innings
+          .filter((i) => Number(i.balls || 0) > 0 || Number(i.runs || 0) > 0 || Number(i.wickets || 0) > 0)
+          .sort((x, y) => Number(y.innings_number || 0) - Number(x.innings_number || 0))[0]
+          || innings[innings.length - 1]
+          || null;
         const battingId = latest?.batting_team_id;
         const battingName =
           String(battingId) === String(m.team1_id)
