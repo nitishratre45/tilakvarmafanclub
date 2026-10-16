@@ -57,9 +57,10 @@ def get_pages(payload):
     return 1
 
 def request_page(page):
-    params = [*(("comp_gid", value) for value in COMP_GIDS),
-              ("min_start_date", MIN_START_DATE),
-              *(("team_gid", value) for value in TEAM_GIDS),
+    # The BCCI results endpoint supports competition and pagination parameters.
+    # Avoid team/date filters here: they can silently return an empty response for
+    # otherwise valid completed-result records.
+    params = [*((("comp_gid", value) for value in COMP_GIDS),
               ("page", str(page)), ("size", str(PAGE_SIZE))]
     url = BASE_URL + "?" + urlencode(params)
     req = Request(url, headers={
