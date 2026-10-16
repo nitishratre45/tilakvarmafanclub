@@ -2754,7 +2754,12 @@
                     const inYear = y === "all" || String(m.date || "").slice(0, 4) === y;
                     const key =
                       String(m.date || "") + "|" + String(m.opposition || "").toLowerCase();
-                    return inYear && !knownKeys.has(key) && Array.isArray(m.ballByBall) && m.ballByBall.length;
+                    return (
+                      inYear &&
+                      !knownKeys.has(key) &&
+                      Array.isArray(m.ballByBall) &&
+                      m.ballByBall.length
+                    );
                   })
                   .map((m) => {
                     const overMap = new Map();
@@ -2762,7 +2767,13 @@
                       const overNo = Number(ball.over);
                       if (!Number.isFinite(overNo) || overNo < 1) continue;
                       if (!overMap.has(overNo))
-                        overMap.set(overNo, { over: overNo, runs: 0, balls: 0, fours: 0, sixes: 0 });
+                        overMap.set(overNo, {
+                          over: overNo,
+                          runs: 0,
+                          balls: 0,
+                          fours: 0,
+                          sixes: 0,
+                        });
                       const total = overMap.get(overNo);
                       const batterRuns = Number(ball.batterRuns ?? ball.runs ?? 0) || 0;
                       total.runs += batterRuns;
@@ -2775,8 +2786,14 @@
                     }
                     return {
                       ...m,
-                      matchId: "manual-" + String(m.date || "") + "-" + String(m.opposition || "").toLowerCase().replace(/[^a-z0-9]+/g, "-"),
-                      teams: m.teams || ("India vs " + (m.opposition || "Unknown")),
+                      matchId:
+                        "manual-" +
+                        String(m.date || "") +
+                        "-" +
+                        String(m.opposition || "")
+                          .toLowerCase()
+                          .replace(/[^a-z0-9]+/g, "-"),
+                      teams: m.teams || "India vs " + (m.opposition || "Unknown"),
                       overs: [...overMap.values()].sort((a, b) => a.over - b.over),
                       manualBallByBall: true,
                     };
