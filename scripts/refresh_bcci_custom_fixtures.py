@@ -74,9 +74,13 @@ def main():
             "pagination": page_info,
             "recordCount": sum(
                 (
-                    len(p.get("data", []))
-                    if isinstance(p, dict) and isinstance(p.get("data"), list)
-                    else 0
+                    len(p.get("match", []))
+                    if isinstance(p, dict) and isinstance(p.get("match"), list)
+                    else (
+                        len(p.get("data", []))
+                        if isinstance(p, dict) and isinstance(p.get("data"), list)
+                        else 0
+                    )
                 )
                 for p in pages
             ),
