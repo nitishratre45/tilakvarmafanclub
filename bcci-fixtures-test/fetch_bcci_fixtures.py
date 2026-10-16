@@ -91,7 +91,7 @@ def save_completed_results(matches: list[dict]) -> int:
     temp = results_path + ".tmp"
     with open(temp, "w", encoding="utf-8") as handle:
         json.dump(payload, handle, ensure_ascii=False, indent=2)
-        handle.write("\\n")
+        handle.write("\n")
     os.replace(temp, results_path)
     return len(ordered)
 
