@@ -27,6 +27,18 @@
       const score=latest?String(latest.runs??0)+(latest.wickets!=null?"/"+latest.wickets:""):"";
       const overs=latest?.overs!=null?String(latest.overs):"";
       const statusText=m.live_status_name||m.match_status||"Live";
+      // BCCI live_scores payload does not include team-logo URLs, so use PNG country-flag
+      // images as a reliable visual fallback for these national teams.
+      const logoFor = (name, abbr) => {
+        const key = String(abbr || name || "").toLowerCase();
+        if (key.includes("ind") || /india/i.test(name || "")) return "https://flagcdn.com/w160/in.png";
+        if (key.includes("zim") || /zimbabwe/i.test(name || "")) return "https://flagcdn.com/w160/zw.png";
+        return "";
+      };
+      const logoA=logoFor(a,m.team1_abbreviation), logoB=logoFor(b,m.team2_abbreviation);
+      const logoMarkup=(src,team)=>src
+        ? '<img class="live-team-logo" src="'+esc(src)+'" alt="'+esc(team)+' flag" loading="lazy" decoding="async" onerror="this.hidden=true">'
+        : '<span class="live-team-badge">'+esc((team.match(/\\b\\w/g)||["T"]).join("").slice(0,3))+'</span>';
       const need=m.result_string||"";
       const isYetToBat=innings.length>1&&!Number(innings[1]?.balls||0)&&!Number(innings[1]?.runs||0);
       const date=m.start_datetime_utc||m.start_date||m.date_string||"";
