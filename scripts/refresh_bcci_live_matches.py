@@ -24,6 +24,7 @@ LIVE_WORDS = (
     "drinks",
     "rain delay",
     "match delayed",
+    "delayed",
     "break",
 )
 NOT_LIVE_WORDS = (
@@ -202,7 +203,7 @@ def main():
                     ),
                     "status": status_of(row),
                     "match": value(
-                        row, "match_name", "matchName", "match", "title", "match_title"
+                        row, "name", "match_name", "matchName", "match", "title", "match_title"
                     ),
                     "series": value(
                         row,
