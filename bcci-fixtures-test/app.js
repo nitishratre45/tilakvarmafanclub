@@ -347,6 +347,12 @@
     if (!next) return;
     const host = $("fixtureList");
     if (!host) return;
+    if (!document.getElementById("bcci-next-countdown-style")) {
+      const style = document.createElement("style");
+      style.id = "bcci-next-countdown-style";
+      style.textContent = `.bcci-next-countdown{margin:22px 0 26px;padding:28px 20px;text-align:center;color:#f4f7ff;background:radial-gradient(circle at 18% 20%,#123e82 0,transparent 40%),linear-gradient(135deg,#071d57,#06143d 70%,#0b255b);border:1px solid #234b91;border-radius:18px;box-shadow:0 14px 34px #020b2240}.bcci-countdown-teams{display:flex;align-items:center;justify-content:center;gap:clamp(12px,3vw,38px)}.bcci-countdown-side{display:flex;align-items:center;justify-content:center;gap:12px;min-width:0;font-weight:800}.bcci-countdown-side>span:first-child{max-width:150px}.bcci-countdown-side img,.bcci-countdown-side .team-logo,.bcci-countdown-side .team-crest{width:clamp(44px,7vw,78px);height:clamp(44px,7vw,78px);object-fit:contain}.bcci-countdown-clock{display:flex;gap:8px}.bcci-countdown-clock>div{min-width:clamp(48px,6vw,66px);padding:10px 6px;background:#e8edff;color:#061746;border-radius:6px}.bcci-countdown-clock strong{display:block;font-size:clamp(22px,3vw,34px);line-height:1.1}.bcci-countdown-clock small{display:block;margin-top:4px;font-size:10px;font-weight:800}.bcci-countdown-title{margin:18px 0 5px;font-weight:800;color:#8ee8ff}.bcci-countdown-meta{margin:0;color:#c4d5f7;font-size:14px}@media(max-width:520px){.bcci-next-countdown{padding:20px 10px}.bcci-countdown-teams{gap:8px}.bcci-countdown-side{flex-direction:column;gap:5px;font-size:12px;max-width:92px}.bcci-countdown-side>span:first-child{max-width:92px}.bcci-countdown-clock{gap:4px}.bcci-countdown-clock>div{min-width:42px;padding:8px 3px}.bcci-countdown-clock strong{font-size:22px}.bcci-countdown-clock small{font-size:8px}.bcci-countdown-meta{font-size:12px}}`;
+      document.head.appendChild(style);
+    }
     const banner = document.createElement("section");
     banner.id = "bcciNextMatchCountdown";
     banner.className = "bcci-next-countdown";
