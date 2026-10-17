@@ -1801,7 +1801,6 @@ footer {
   }
 }
 
-
 /* 2026-10-17 desktop/laptop match layout refinement — scoped to BCCI Fixtures Test */
 .bcci-view-tabs {
   width: min(100% - 32px, 1120px);
@@ -1841,7 +1840,9 @@ footer {
   border-color: #3d83d3;
   background: linear-gradient(110deg, #1263c5, #174f91);
   color: #fff;
-  box-shadow: 0 7px 18px #06152a55, inset 0 1px #ffffff18;
+  box-shadow:
+    0 7px 18px #06152a55,
+    inset 0 1px #ffffff18;
 }
 .bcci-view-tabs .match-centre-tab:not(.is-active) {
   background: #0b1727;
