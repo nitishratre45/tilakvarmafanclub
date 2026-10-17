@@ -46,6 +46,64 @@ jobs:
             python -m json.tool "$file" >/dev/null
           done
 
+      - name: Validate fixture data and source isolation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("bcci-fixtures-test/bcci-fixtures.json")
+          payload = json.loads(path.read_text(encoding="utf-8"))
+          assert isinstance(payload, dict), "fixture JSON root must be an object"
+          assert payload.get("status") == "ok", f"fixture snapshot status is {payload.get('status')!r}"
+          data = payload.get("data") or {}
+          matches = data.get("match") or data.get("matches") or data.get("fixtures")
+          assert isinstance(matches, list), "fixture JSON must contain a match list"
+          assert matches, "fixture JSON match list is empty"
+          keys = []
+          missing_identity = []
+          for i, match in enumerate(matches):
+              if not isinstance(match, dict):
+                  raise AssertionError(f"match[{i}] is not an object")
+              key = str(match.get("gid") or match.get("match_gid") or match.get("match_id") or match.get("id") or "")
+              if not key:
+                  missing_identity.append(i)
+              else:
+                  keys.append(key)
+              if not (match.get("name") or match.get("title") or match.get("match_short_name")):
+                  raise AssertionError(f"match[{i}] has no display name")
+          if missing_identity:
+              raise AssertionError(f"matches missing IDs at indexes: {missing_identity}")
+          if len(keys) != len(set(keys)):
+              duplicates = sorted({key for key in keys if keys.count(key) > 1})
+              raise AssertionError(f"duplicate fixture IDs: {duplicates}")
+          print(f"Validated {len(matches)} fixtures: status=ok, IDs unique, display names present.")
+          PY
+
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          js = Path("bcci-fixtures-test/app.js").read_text(encoding="utf-8")
+          start = js.find("  async function load() {")
+          end = js.find('\n  if ($("refreshBtn"))', start)
+          assert start >= 0 and end > start, "fixture loader boundaries not found"
+          fixture_loader = js[start:end]
+          assert re.search(r'fetch\(["\']\./bcci-fixtures\.json\?t=', fixture_loader), \
+              "fixture loader must fetch ./bcci-fixtures.json"
+          for unwanted in ("upcoming-fixtures-refresh.json", "bcci-stats-fixtures.json", "live-matches.json"):
+              assert unwanted not in fixture_loader, f"fixture loader unexpectedly references {unwanted}"
+          live_start = js.find("  async function checkLiveMode()")
+          assert live_start >= 0, "dedicated live-grid checkLiveMode() missing"
+          live_code = js[live_start:]
+          assert "live-matches.json" in live_code, "dedicated live JSON source missing"
+          assert "setInterval(checkLiveMode,60000)" in live_code.replace(" ", ""), \
+              "60-second live polling missing"
+          print("Verified fixture grid uses only bcci-fixtures.json; dedicated live JSON polling remains present.")
+          PY
+
       - name: Verify page asset references
         run: |
           python - <<'PY'
