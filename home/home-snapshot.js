@@ -346,42 +346,54 @@
   // Capture gestures that start inside the Bowling table and scroll the table itself,
   // not the page. Lock to the dominant axis after a small movement threshold.
   let bowlingTouchStart = null;
-  document.addEventListener("touchstart", (event) => {
-    const wrap = event.target.closest("#home-snapshot .home-bowling-table-section .home-career-table-wrap");
-    if (!wrap || !event.touches || event.touches.length !== 1) {
-      bowlingTouchStart = null;
-      return;
-    }
-    const touch = event.touches[0];
-    bowlingTouchStart = {
-      wrap,
-      x: touch.clientX,
-      y: touch.clientY,
-      scrollLeft: wrap.scrollLeft,
-      scrollTop: wrap.scrollTop,
-      axis: null,
-    };
-  }, { passive: true });
+  document.addEventListener(
+    "touchstart",
+    (event) => {
+      const wrap = event.target.closest(
+        "#home-snapshot .home-bowling-table-section .home-career-table-wrap",
+      );
+      if (!wrap || !event.touches || event.touches.length !== 1) {
+        bowlingTouchStart = null;
+        return;
+      }
+      const touch = event.touches[0];
+      bowlingTouchStart = {
+        wrap,
+        x: touch.clientX,
+        y: touch.clientY,
+        scrollLeft: wrap.scrollLeft,
+        scrollTop: wrap.scrollTop,
+        axis: null,
+      };
+    },
+    { passive: true },
+  );
 
-  document.addEventListener("touchmove", (event) => {
-    const gesture = bowlingTouchStart;
-    if (!gesture || !event.touches || event.touches.length !== 1) return;
-    const touch = event.touches[0];
-    const dx = touch.clientX - gesture.x;
-    const dy = touch.clientY - gesture.y;
-    if (!gesture.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 5) {
-      gesture.axis = Math.abs(dx) >= Math.abs(dy) ? "x" : "y";
-    }
-    if (!gesture.axis) return;
-    if (event.cancelable) event.preventDefault();
-    if (gesture.axis === "x") {
-      gesture.wrap.scrollLeft = gesture.scrollLeft - dx;
-    } else {
-      gesture.wrap.scrollTop = gesture.scrollTop - dy;
-    }
-  }, { passive: false });
+  document.addEventListener(
+    "touchmove",
+    (event) => {
+      const gesture = bowlingTouchStart;
+      if (!gesture || !event.touches || event.touches.length !== 1) return;
+      const touch = event.touches[0];
+      const dx = touch.clientX - gesture.x;
+      const dy = touch.clientY - gesture.y;
+      if (!gesture.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 5) {
+        gesture.axis = Math.abs(dx) >= Math.abs(dy) ? "x" : "y";
+      }
+      if (!gesture.axis) return;
+      if (event.cancelable) event.preventDefault();
+      if (gesture.axis === "x") {
+        gesture.wrap.scrollLeft = gesture.scrollLeft - dx;
+      } else {
+        gesture.wrap.scrollTop = gesture.scrollTop - dy;
+      }
+    },
+    { passive: false },
+  );
 
-  const clearBowlingTouch = () => { bowlingTouchStart = null; };
+  const clearBowlingTouch = () => {
+    bowlingTouchStart = null;
+  };
   document.addEventListener("touchend", clearBowlingTouch, { passive: true });
   document.addEventListener("touchcancel", clearBowlingTouch, { passive: true });
 
