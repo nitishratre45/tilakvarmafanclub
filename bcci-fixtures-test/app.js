@@ -136,7 +136,9 @@
   // country flag PNGs, and a Commons-hosted West Indies cricket crest.
   const teamAssets = {
     india: { flag: "in" },
-    "west indies": { flag: "gb" },
+    "west indies": {
+      logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Cricket_West_Indies_Logo_2017.svg",
+    },
     pakistan: { flag: "pk" },
     "sri lanka": { flag: "lk" },
     bangladesh: { flag: "bd" },
