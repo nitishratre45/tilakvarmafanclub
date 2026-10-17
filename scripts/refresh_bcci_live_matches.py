@@ -164,7 +164,11 @@ def main():
             team1_id = value(row, "team1_id", "team1Id", "team_a_id")
             team2_id = value(row, "team2_id", "team2Id", "team_b_id")
             summary = row.get("summary") if isinstance(row.get("summary"), dict) else {}
-            innings = summary.get("innings") if isinstance(summary.get("innings"), list) else []
+            innings = (
+                summary.get("innings")
+                if isinstance(summary.get("innings"), list)
+                else []
+            )
             innings_by_team = {
                 str(item.get("batting_team_id", "")): item
                 for item in innings
@@ -218,7 +222,8 @@ def main():
                         "score1",
                         "team_a_score",
                         "team1_innings",
-                    ) or innings_score(team1_id),
+                    )
+                    or innings_score(team1_id),
                     "score2": value(
                         row,
                         "team2_score",
@@ -227,7 +232,8 @@ def main():
                         "score2",
                         "team_b_score",
                         "team2_innings",
-                    ) or innings_score(team2_id),
+                    )
+                    or innings_score(team2_id),
                     "status": status_of(row),
                     "match": value(
                         row,
