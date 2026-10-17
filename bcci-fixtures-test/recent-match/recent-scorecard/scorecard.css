@@ -210,3 +210,18 @@ body {
     font-size: 15px;
   }
 }
+
+
+/* Shared site shell parity for Recent Scorecard. */
+body.matches-page { min-height: 100vh; }
+body.matches-page > header.topbar { position: sticky; top: 0; z-index: 10000; }
+body.matches-page .sc-top { display: none; }
+body.matches-page .sc-main { margin-top: 18px; }
+body.matches-page .sc-foot { padding-bottom: 28px; }
+@media (max-width: 800px) {
+  body.matches-page .sc-main { width: calc(100% - 16px); margin: 12px auto 30px; }
+  body.matches-page .sc-hero h1 { font-size: clamp(25px, 7vw, 34px); overflow-wrap: anywhere; }
+  body.matches-page .sc-meta { grid-template-columns: 1fr; }
+  body.matches-page .sc-innings { min-width: 0; }
+  body.matches-page .sc-table-wrap { max-width: 100%; -webkit-overflow-scrolling: touch; }
+}
