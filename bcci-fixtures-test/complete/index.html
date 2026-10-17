@@ -10,23 +10,23 @@
       href="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
     />
     <title>Complete Matches | Tilak Varma Fan Club · Matches</title>
-    <link rel="stylesheet" href="/matches/matches.css?v=20261017-complete-upcoming-parity5" />
+    <link rel="stylesheet" href="/matches/matches.css?v=20261017-complete-nav-consistency6" />
     <link rel="stylesheet" href="/matches/premium-ui.css?v=20261014-complete-folder1" />
-    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-upcoming-parity5" />
-    <link rel="stylesheet" href="./complete.css?v=20261017-complete-upcoming-parity5" />
-    <link rel="stylesheet" href="../ui/site-nav.css?v=20261017-complete-upcoming-parity5" />
+    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-nav-consistency6" />
+    <link rel="stylesheet" href="./complete.css?v=20261017-complete-nav-consistency6" />
+    <link rel="stylesheet" href="../ui/site-nav.css?v=20261017-complete-nav-consistency6" />
 
     <!-- Shared main-site visual system: header, glass menu, dock, responsive layout and motion. -->
-    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261017-complete-upcoming-parity5" />
-    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261017-complete-upcoming-parity5" />
-    <link rel="stylesheet" href="/assets/mobile-bottom-nav.css?v=20261017-complete-upcoming-parity5" />
+    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261017-complete-nav-consistency6" />
+    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261017-complete-nav-consistency6" />
+    <link rel="stylesheet" href="/assets/mobile-bottom-nav.css?v=20261017-complete-nav-consistency6" />
     <link
       rel="stylesheet"
-      href="/assets/mobile-responsive-polish.css?v=20261017-complete-upcoming-parity5"
+      href="/assets/mobile-responsive-polish.css?v=20261017-complete-nav-consistency6"
     />
-    <link rel="stylesheet" href="/assets/custom-selects.css?v=20261017-complete-upcoming-parity5" />
-    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261017-complete-upcoming-parity5" />
-    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-upcoming-parity5" />
+    <link rel="stylesheet" href="/assets/custom-selects.css?v=20261017-complete-nav-consistency6" />
+    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261017-complete-nav-consistency6" />
+    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-nav-consistency6" />
 
     <style>
       /* Match the Upcoming page header: no extra divider line under the shared masthead. */
@@ -38,7 +38,7 @@
         display: none !important;
         content: none !important;
       }
-      /* Keep the Complete Matches shell identical to the Upcoming Matches header. */
+      /* Complete Matches: reuse the same shared header and menu styling as Upcoming Matches. */
       @media (max-width: 800px) {
         html,
         html body.complete-matches-page {
@@ -46,26 +46,16 @@
           min-height: 100% !important;
           margin: 0 !important;
           padding: 0 !important;
-          background:
-            radial-gradient(ellipse at 80% -10%, #173556 0, transparent 42%),
-            #0b1726 !important;
-        }
-        html body.complete-matches-page {
           overflow-x: hidden !important;
+          background: #0b1726 !important;
         }
         html body.complete-matches-page::before {
-          content: none !important;
           display: none !important;
+          content: none !important;
         }
         html body.complete-matches-page > header.topbar {
-          position: sticky !important;
-          top: 0 !important;
-          z-index: 10000 !important;
-        }
-        html body.complete-matches-page > header.topbar {
-          position: sticky !important;
-          top: 0 !important;
-          z-index: 10000 !important;
+          position: relative !important;
+          top: auto !important;
           display: flex !important;
           width: 100% !important;
           max-width: none !important;
@@ -85,72 +75,40 @@
           flex: 0 0 52px !important;
           width: 52px !important;
           height: 52px !important;
+          margin-left: auto !important;
+          padding: 0 !important;
           gap: 5px !important;
           flex-direction: column !important;
-          margin-left: auto !important;
           align-items: center !important;
           justify-content: center !important;
           border: 1px solid rgba(124, 229, 242, .72) !important;
-          border-radius: 18px !important;
-          background: linear-gradient(145deg, rgba(18, 104, 190, .9), rgba(5, 43, 91, .9)) !important;
+          border-radius: 17px !important;
+          background: linear-gradient(145deg, rgba(255,255,255,.19), rgba(5,43,91,.62)) !important;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 5px 14px rgba(0,15,50,.22) !important;
           z-index: 10003 !important;
         }
         html body.complete-matches-page > header.topbar .menu-toggle span {
           display: block !important;
-          width: 22px !important;
-          height: 2px !important;
-          margin: 3px 0 !important;
+          flex: 0 0 3px !important;
+          width: 24px !important;
+          height: 3px !important;
+          min-height: 3px !important;
+          margin: 0 !important;
+          border: 0 !important;
+          border-radius: 4px !important;
           background: #fff !important;
+          box-shadow: none !important;
+          transform: none;
+          transition: transform .2s ease, opacity .2s ease !important;
         }
-      }
-      /* Keep the archive layout stable across desktop and narrow phones. */
-      .bcci-complete-page .complete-hero-stats {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-      .bcci-complete-page .complete-hero-stats > span {
-        min-width: 0;
-        overflow-wrap: anywhere;
-      }
-      .bcci-complete-page .complete-hero-stats strong {
-        font-size: clamp(15px, 2.6vw, 22px);
-        line-height: 1.25;
-        overflow-wrap: anywhere;
-      }
-      .bcci-complete-page .complete-hero-stats small {
-        line-height: 1.5;
-      }
-      .bcci-complete-page .complete-match-bottom .scorecard-open {
-        display: flex;
-        width: 100%;
-        min-height: 54px;
-      }
-      .bcci-complete-page .complete-team-crest-fallback {
-        display: none;
-      }
-      .bcci-complete-page .complete-team-crest.is-missing .complete-team-crest-fallback {
-        display: grid;
-      }
-      .bcci-complete-page .complete-team-crest img {
-        object-fit: contain;
-      }
-      @media (max-width: 520px) {
-        .bcci-complete-page .complete-hero-stats {
-          gap: 8px;
+        html body.complete-matches-page > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(1) {
+          transform: translateY(8px) rotate(45deg) !important;
         }
-        .bcci-complete-page .complete-hero-stats > span {
-          padding: 12px 10px;
+        html body.complete-matches-page > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(2) {
+          opacity: 0 !important;
         }
-        .bcci-complete-page .complete-hero-stats strong {
-          font-size: 15px;
-        }
-        .bcci-complete-page .complete-match-teams {
-          grid-template-columns: minmax(0, 1fr) 34px minmax(0, 1fr);
-          gap: 6px;
-        }
-        .bcci-complete-page .complete-team-crest {
-          width: 60px;
-          height: 60px;
-          border-radius: 18px;
+        html body.complete-matches-page > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(3) {
+          transform: translateY(-8px) rotate(-45deg) !important;
         }
       }
     </style>
@@ -250,7 +208,7 @@
     <script src="../ui/site-nav.js?v=20261016-glass-match1"></script>
     <script src="./complete.js?v=20261016-bcci-complete1"></script>
 
-    <script src="/assets/mobile-glass-menu.js?v=20261017-complete-upcoming-parity5" defer></script>
-    <script src="/assets/mobile-bottom-nav.js?v=20261017-complete-upcoming-parity5" defer></script>
+    <script src="/assets/mobile-glass-menu.js?v=20261017-complete-nav-consistency6" defer></script>
+    <script src="/assets/mobile-bottom-nav.js?v=20261017-complete-nav-consistency6" defer></script>
   </body>
 </html>
