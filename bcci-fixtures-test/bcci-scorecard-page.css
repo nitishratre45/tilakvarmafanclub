@@ -455,3 +455,87 @@ h1{max-width:1000px;line-height:1.08;text-wrap:balance}
   .match-centre-back-row { margin-bottom: 14px; }
   .match-centre-back { min-height: 40px; padding: 10px 13px; font-size: 12px; }
 }
+
+
+/* Horizontal match-section navigation */
+.match-section-tabs {
+  position: sticky;
+  top: 60px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 0 0 22px;
+  padding: 8px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  border: 1px solid rgba(142, 217, 255, .2);
+  border-radius: 16px;
+  background: rgba(7, 22, 39, .94);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .2);
+  backdrop-filter: blur(16px);
+  -webkit-overflow-scrolling: touch;
+}
+.match-section-tabs a {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  color: #bfd9f2;
+  background: transparent;
+  font: 700 12px/1.2 "DM Sans", system-ui, sans-serif;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.match-section-tabs a span {
+  color: #78dfff;
+  font-size: 15px;
+}
+.match-section-tabs a:hover,
+.match-section-tabs a:focus-visible {
+  color: #fff;
+  background: rgba(31, 103, 158, .34);
+  border-color: rgba(120, 223, 255, .32);
+  text-decoration: none;
+  outline: none;
+}
+.match-section-tabs a:focus-visible {
+  outline: 2px solid #8ed9ff;
+  outline-offset: 2px;
+}
+#top-scoreboard,
+#scorecard,
+#match-squads,
+#match-details {
+  scroll-margin-top: 132px;
+}
+#match-squads:empty,
+#match-details:empty { display: none; }
+@media (max-width: 700px) {
+  .match-section-tabs {
+    top: 56px;
+    gap: 6px;
+    margin-bottom: 16px;
+    padding: 6px;
+    border-radius: 13px;
+  }
+  .match-section-tabs a {
+    min-height: 39px;
+    padding: 9px 12px;
+    font-size: 11px;
+  }
+  #top-scoreboard,
+  #scorecard,
+  #match-squads,
+  #match-details {
+    scroll-margin-top: 112px;
+  }
+}
