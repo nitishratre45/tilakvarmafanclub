@@ -115,6 +115,12 @@
       const runs = val(row, "total_runs", "runs", "score");
       const wickets = val(row, "wickets", "wicket");
       const overs = val(row, "overs", "overs_bowled");
+      const balls = Number(row.balls ?? row.balls_faced ?? 0);
+      // A delayed-start match can include placeholder 0/0 innings rows from BCCI.
+      // Treat them as not-yet-started instead of displaying a misleading score.
+      if (balls === 0 && Number(runs) === 0 && Number(wickets === "—" ? 0 : wickets) === 0) {
+        return { score: isLive ? "Awaiting first ball" : "Yet to bat", overs: "" };
+      }
       return {
         score: String(runs) + (wickets !== "—" ? "/" + wickets : ""),
         overs: overs !== "—" ? String(overs) + " overs" : "",
