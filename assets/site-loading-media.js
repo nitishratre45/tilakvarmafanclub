@@ -104,7 +104,7 @@
       background: "rgba(5, 18, 38, .78)",
       pointerEvents: "none",
       opacity: "0",
-      transition: "opacity .12s ease"
+      transition: "opacity .12s ease",
     });
     const style = document.createElement("style");
     style.textContent = `
@@ -131,16 +131,44 @@
     document.body.appendChild(overlay);
     return overlay;
   };
-  document.addEventListener("click", (event) => {
-    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    const link = event.target instanceof Element ? event.target.closest("a[href]") : null;
-    if (!link || link.hasAttribute("download") || link.target === "_blank" || link.getAttribute("aria-disabled") === "true") return;
-    let destination;
-    try { destination = new URL(link.href, window.location.href); } catch (_) { return; }
-    if (destination.origin !== window.location.origin) return;
-    if (destination.pathname === window.location.pathname && destination.search === window.location.search) return;
-    const layer = ensureOverlay();
-    layer.style.display = "flex";
-    requestAnimationFrame(() => { layer.style.opacity = "1"; });
-  }, true);
+  document.addEventListener(
+    "click",
+    (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      )
+        return;
+      const link = event.target instanceof Element ? event.target.closest("a[href]") : null;
+      if (
+        !link ||
+        link.hasAttribute("download") ||
+        link.target === "_blank" ||
+        link.getAttribute("aria-disabled") === "true"
+      )
+        return;
+      let destination;
+      try {
+        destination = new URL(link.href, window.location.href);
+      } catch (_) {
+        return;
+      }
+      if (destination.origin !== window.location.origin) return;
+      if (
+        destination.pathname === window.location.pathname &&
+        destination.search === window.location.search
+      )
+        return;
+      const layer = ensureOverlay();
+      layer.style.display = "flex";
+      requestAnimationFrame(() => {
+        layer.style.opacity = "1";
+      });
+    },
+    true,
+  );
 })();
