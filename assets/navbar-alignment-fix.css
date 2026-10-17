@@ -60,3 +60,46 @@
     display: none !important;
   }
 }
+
+
+/* Cross-folder hardening: the same header box and nav alignment on Home,
+   Matches, BCCI Fixtures Test and Complete Matches. */
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+html body {
+  margin: 0 !important;
+  padding-top: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  overflow-x: clip;
+}
+html body > header.topbar {
+  inset-inline: 0 !important;
+  box-sizing: border-box !important;
+  flex-shrink: 0 !important;
+  align-self: stretch !important;
+}
+html body > header.topbar > nav#main-nav {
+  flex-shrink: 0 !important;
+  align-self: center !important;
+}
+html body > header.topbar > nav#main-nav > a {
+  position: relative !important;
+  top: 0 !important;
+  left: auto !important;
+  right: auto !important;
+}
+@media (min-width: 801px) {
+  html body > header.topbar {
+    border-radius: 0 !important;
+    margin-inline: 0 !important;
+    transform: none !important;
+  }
+  html body > header.topbar > nav#main-nav {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+  }
+}
