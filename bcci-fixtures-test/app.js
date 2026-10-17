@@ -249,7 +249,7 @@
     // Only senior India men's matches belong in this live section; exclude women's, A and youth teams.
     return (
       /(^|\b)india(\b|$)/.test(teams) &&
-      !/women|\\b(india a|a team|emerging|under ?19|u19|youth|junior)\\b/.test(teams)
+      !/women|\b(india a|a team|emerging|under ?19|u19|youth|junior)\b/.test(teams)
     );
   };
   function renderLiveMatches(matches) {
