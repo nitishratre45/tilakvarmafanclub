@@ -101,6 +101,25 @@
       "</div></section>"
     );
   }
+  function findCompatibleMatch(matches, requestedId) {
+    const parts = String(requestedId || "").match(/^(\\d{4})(?:-(\\d{2})-(\\d{2}))?-(t20i|odi|test)-(.+)$/i);
+    if (!parts) return null;
+    const year = parts[1];
+    const date = parts[2] && parts[3] ? year + "-" + parts[2] + "-" + parts[3] : "";
+    const format = ({ t20i: "T20I", odi: "ODI", test: "Test" })[parts[4].toLowerCase()];
+    const tail = parts[5].toLowerCase();
+    const slug = (value) => String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    return (matches || []).find((m) => {
+      if (String(m.format || "").toLowerCase() !== format.toLowerCase()) return false;
+      if (String(m.date || "").slice(0, 4) !== year) return false;
+      if (date && String(m.date || "").slice(0, 10) !== date) return false;
+      const teams = m.teams || [];
+      if (teams.length !== 2) return false;
+      const teamPair = slug(teams[0]) + "-vs-" + slug(teams[1]);
+      const reversePair = slug(teams[1]) + "-vs-" + slug(teams[0]);
+      return tail.startsWith(teamPair) || tail.startsWith(reversePair);
+    }) || null;
+  }
   async function fetchWithTimeout(url, timeoutMs = 12000) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -135,7 +154,7 @@
           );
           if (!response.ok) throw Error("Year bundle returned HTTP " + response.status);
           const bundle = await response.json();
-          match = (bundle.matches || []).find((m) => m.matchId === id) || null;
+          match = (bundle.matches || []).find((m) => m.matchId === id) || findCompatibleMatch(bundle.matches, id);
           if (!match) lastError = Error("Selected match ID was not found in the year bundle.");
         } catch (error) {
           lastError = error;
