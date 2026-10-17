@@ -66,6 +66,7 @@ export async function onRequest({ request, env }) {
           "bcci-squads-refresh.yml",
           "refresh-upcoming-matches.yml",
           "bcci-fixtures-test-health.yml",
+          "refresh-bcci-test-recent-match.yml",
           "fetch-bcci-fixtures-json.yml",
           "fetch-bcci-scorecard-json.yml",
           "matches-folder-audit.yml",
@@ -260,6 +261,7 @@ export async function onRequest({ request, env }) {
           { file: "refresh-bcci-videos.yml", label: "BCCI videos" },
           { file: "refresh-upcoming-matches.yml", label: "Upcoming match details" },
           { file: "bcci-fixtures-test-health.yml", label: "BCCI fixture health checks" },
+          { file: "refresh-bcci-test-recent-match.yml", label: "Cricsheet recent match archive (T20I / ODI / Test)" },
           { file: "matches-folder-audit.yml", label: "Matches folder audit" },
         ];
         const results = [];
