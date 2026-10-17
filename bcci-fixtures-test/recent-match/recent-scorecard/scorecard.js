@@ -286,6 +286,42 @@
           '</div><p class="sc-test-note">All innings are shown in match order, including both innings for each team.</p>';
         const heroSection = document.querySelector("#sc-content .sc-hero");
         if (heroSection) heroSection.insertAdjacentElement("afterend", summary);
+
+        // Sticky innings navigation: show one innings at a time, preserving match order.
+        const fullScorecard = document.querySelector("#sc-content .sc-panel h2");
+        const fullPanel = fullScorecard && fullScorecard.closest(".sc-panel");
+        if (fullPanel && inningsSections.length) {
+          const tabs = document.createElement("nav");
+          tabs.className = "sc-test-innings-nav";
+          tabs.setAttribute("aria-label", "Choose Test match innings");
+          const teamCounts = {};
+          const buttons = inningsSections.map((section, index) => {
+            const team = (match.innings[index] && match.innings[index].team) || "Team";
+            teamCounts[team] = (teamCounts[team] || 0) + 1;
+            const teamInning = teamCounts[team];
+            const ordinalTeamInning = ({1:"1st",2:"2nd",3:"3rd",4:"4th"})[teamInning] || (teamInning + "th");
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "sc-test-innings-tab";
+            button.textContent = ordinalTeamInning + " · " + team;
+            button.setAttribute("aria-controls", "sc-test-innings-" + (index + 1));
+            button.addEventListener("click", () => {
+              inningsSections.forEach((item, itemIndex) => { item.hidden = itemIndex !== index; });
+              buttons.forEach((tab, tabIndex) => {
+                tab.classList.toggle("is-active", tabIndex === index);
+                tab.setAttribute("aria-pressed", tabIndex === index ? "true" : "false");
+              });
+            });
+            section.id = "sc-test-innings-" + (index + 1);
+            section.hidden = index !== 0;
+            tabs.appendChild(button);
+            return button;
+          });
+          buttons[0].classList.add("is-active");
+          buttons[0].setAttribute("aria-pressed", "true");
+          buttons.slice(1).forEach((button) => button.setAttribute("aria-pressed", "false"));
+          fullPanel.insertBefore(tabs, fullPanel.querySelector(".sc-innings"));
+        }
       }
       // Add compact metadata styling and a sticky two-team innings switcher.
       const hero = document.querySelector("#sc-content .sc-hero");
