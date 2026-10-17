@@ -29,6 +29,26 @@ jobs:
         run: python bcci-fixtures-test/fetch_bcci_scorecard.py
       - name: Validate scorecard JSON
         run: python -m json.tool bcci-fixtures-test/bcci-scorecard.json > /dev/null
+      - name: Validate scorecard identity and payload before publishing
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("bcci-fixtures-test/bcci-scorecard.json")
+          payload = json.loads(path.read_text(encoding="utf-8"))
+          assert payload.get("status") == "ok", f"Scorecard status is not ok: {payload.get('status')!r}"
+          match_id = str(payload.get("matchId") or "").strip()
+          assert match_id.isdigit(), f"Invalid BCCI numeric matchId: {match_id!r}"
+          assert str(payload.get("source", "")).startswith("https://stats.bcci.tv/match/"), "Scorecard source is not official BCCI"
+          assert isinstance(payload.get("liveMatch"), dict), "Scorecard has no liveMatch object"
+          assert isinstance(payload.get("data"), dict), "Scorecard has no data object"
+          assert payload.get("httpStatus") == 200, f"Unexpected upstream HTTP status: {payload.get('httpStatus')!r}"
+          print(f"Validated BCCI scorecard for match {match_id} before commit.")
+          PY
+
       - name: Commit BCCI folder scorecard only
         run: |
           set -euo pipefail
