@@ -574,9 +574,25 @@
         }
         const preferred = x.tilakInSquad === true ? x : current;
         const fallback = preferred === x ? current : x;
+        // Preserve the official BCCI match identity when fixture metadata is merged.
+        // News/stat sources can carry their own external IDs; using those IDs prevents
+        // the browser from opening the matching bcci-fixtures-test/squads/<match_id>.json.
+        const officialBcciMatchId = String(
+          fallback.rawBcci?.match_id ||
+            fallback.rawBcci?.matchId ||
+            fallback.rawBcci?.gid ||
+            (x.rawBcci?.match_id || x.rawBcci?.matchId || x.rawBcci?.gid) ||
+            (current.rawBcci?.match_id || current.rawBcci?.matchId || current.rawBcci?.gid) ||
+            "",
+        ).trim();
+        const officialBcciRow = fallback.rawBcci || x.rawBcci || current.rawBcci || null;
         byKey.set(k, {
           ...fallback,
           ...preferred,
+          ...(officialBcciMatchId
+            ? { matchId: officialBcciMatchId, match_id: officialBcciMatchId, gid: officialBcciMatchId, fixtureId: officialBcciMatchId }
+            : {}),
+          ...(officialBcciRow ? { rawBcci: officialBcciRow } : {}),
           time: String(preferred.time || "").trim() || String(fallback.time || "").trim(),
           match:
             preferred.tilakInSquad === true && preferred.match !== "Match"
