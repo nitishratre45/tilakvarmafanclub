@@ -1,15 +1,135 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-17T13:12:19+00:00",
+  "checkedAt": "2026-10-17T14:01:04+00:00",
   "intervalMinutes": 10,
-  "status": "healthy",
+  "status": "error",
   "summary": {
-    "filesScanned": 523,
-    "checksPassed": 448,
-    "issues": 0,
+    "filesScanned": 260,
+    "checksPassed": 186,
+    "issues": 24,
     "warnings": 0
   },
   "items": [
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/matches-motion.css",
+      "file": "bcci-fixtures-test/bcci-scorecard-page.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/",
+      "file": "bcci-fixtures-test/bcci-scorecard-page.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/",
+      "file": "bcci-fixtures-test/bcci-scorecard-page.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/matches.css",
+      "file": "bcci-fixtures-test/complete/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/premium-ui.css",
+      "file": "bcci-fixtures-test/complete/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/match-centre.css",
+      "file": "bcci-fixtures-test/complete/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/matches-motion.css",
+      "file": "bcci-fixtures-test/complete/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/match-centre.css",
+      "file": "bcci-fixtures-test/complete/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/theme.js",
+      "file": "bcci-fixtures-test/complete/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/style.css",
+      "file": "bcci-fixtures-test/details/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/premium-ui.css",
+      "file": "bcci-fixtures-test/details/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/matches.css",
+      "file": "bcci-fixtures-test/details/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/match-centre.css",
+      "file": "bcci-fixtures-test/details/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/matches-motion.css",
+      "file": "bcci-fixtures-test/details/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/theme.js",
+      "file": "bcci-fixtures-test/details/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/matches-motion.css",
+      "file": "bcci-fixtures-test/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/match-centre.css",
+      "file": "bcci-fixtures-test/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/matches-motion.css",
+      "file": "bcci-fixtures-test/scorecard.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/style.css",
+      "file": "bcci-fixtures-test/scorecards/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/premium-ui.css",
+      "file": "bcci-fixtures-test/scorecards/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/matches.css",
+      "file": "bcci-fixtures-test/scorecards/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/match-centre.css",
+      "file": "bcci-fixtures-test/scorecards/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/matches-motion.css",
+      "file": "bcci-fixtures-test/scorecards/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /matches/theme.js",
+      "file": "bcci-fixtures-test/scorecards/index.html"
+    },
     {
       "level": "pass",
       "message": "Valid JSON",
@@ -617,648 +737,328 @@
     },
     {
       "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "matches/admin-inspired-ui.css"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/bcci-match-results.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/bcci-squads.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/bcci-stats-fixtures.json"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "matches/complete/complete.css"
-    },
-    {
-      "level": "pass",
       "message": "JavaScript syntax OK",
-      "file": "matches/complete/complete.js"
+      "file": "news/app.js"
     },
     {
       "level": "pass",
       "message": "No duplicate HTML IDs",
-      "file": "matches/complete/index.html"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/details/data/match-details.json"
-    },
-    {
-      "level": "pass",
-      "message": "No duplicate HTML IDs",
-      "file": "matches/details/index.html"
+      "file": "news/index.html"
     },
     {
       "level": "pass",
       "message": "CSS block/string/comment structure OK",
-      "file": "matches/details/match-details.css"
+      "file": "news/news.css"
     },
     {
       "level": "pass",
       "message": "JavaScript syntax OK",
-      "file": "matches/details/match-details.js"
-    },
-    {
-      "level": "pass",
-      "message": "No duplicate HTML IDs",
-      "file": "matches/index.html"
-    },
-    {
-      "level": "pass",
-      "message": "No duplicate HTML IDs",
-      "file": "matches/live/index.html"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/live/live-matches.json"
+      "file": "news/news.js"
     },
     {
       "level": "pass",
       "message": "CSS block/string/comment structure OK",
-      "file": "matches/live/live.css"
+      "file": "news/premium-ui.css"
+    },
+    {
+      "level": "pass",
+      "message": "CSS block/string/comment structure OK",
+      "file": "news/style.css"
+    },
+    {
+      "level": "pass",
+      "message": "CSS block/string/comment structure OK",
+      "file": "photos/all-photos/all-photos.css"
     },
     {
       "level": "pass",
       "message": "JavaScript syntax OK",
-      "file": "matches/live/live.js"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/manual-upcoming-fixtures.json"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "matches/match-centre.css"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "matches/match-centre.js"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "matches/matches-motion.css"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "matches/matches.css"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "matches/player-matches.js"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "matches/premium-ui.css"
+      "file": "photos/all-photos/all-photos.js"
     },
     {
       "level": "pass",
       "message": "No duplicate HTML IDs",
-      "file": "matches/recent-scorecard/index.html"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "matches/recent-scorecard/recent-scorecard.css"
+      "file": "photos/all-photos/index.html"
     },
     {
       "level": "pass",
       "message": "Valid JSON",
-      "file": "matches/scorecards/all-matches-index.json"
+      "file": "photos/all-photos/photos.json"
     },
     {
       "level": "pass",
       "message": "CSS block/string/comment structure OK",
-      "file": "matches/scorecards/bcci-scorecard.css"
-    },
-    {
-      "level": "pass",
-      "message": "No duplicate HTML IDs",
-      "file": "matches/scorecards/bcci-scorecard.html"
+      "file": "photos/gallery.css"
     },
     {
       "level": "pass",
       "message": "JavaScript syntax OK",
-      "file": "matches/scorecards/bcci-scorecard.js"
+      "file": "photos/gallery.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/bcci-scorecard.json"
+      "message": "No duplicate HTML IDs",
+      "file": "photos/index.html"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2019-02-28-t20-hyderabad-india-vs-services-6ca63a8d4aba.json"
+      "message": "CSS block/string/comment structure OK",
+      "file": "photos/photos.css"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2019-03-02-t20-hyderabad-india-vs-uttarakhand-d462b95848c2.json"
+      "message": "JavaScript syntax OK",
+      "file": "records/app.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2019-11-08-t20-hyderabad-india-vs-punjab-e48ca57367b3.json"
+      "message": "JavaScript syntax OK",
+      "file": "records/features.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2021-01-10-t20-hyderabad-india-vs-assam-1b130b0e9ded.json"
+      "message": "No duplicate HTML IDs",
+      "file": "records/index.html"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2021-01-14-t20-hyderabad-india-vs-bengal-9cbf969514ec.json"
+      "message": "CSS block/string/comment structure OK",
+      "file": "records/premium-ui.css"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2021-01-16-t20-hyderabad-india-vs-tamil-nadu-6941b256b928.json"
+      "message": "JavaScript syntax OK",
+      "file": "records/records-matches.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2021-01-18-t20-hyderabad-india-vs-jharkhand-de74ba90250b.json"
+      "message": "CSS block/string/comment structure OK",
+      "file": "records/records.css"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2021-11-04-t20-hyderabad-india-vs-saurashtra-c2dab90c9c3b.json"
+      "message": "CSS block/string/comment structure OK",
+      "file": "records/style.css"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2021-11-05-t20-hyderabad-india-vs-uttarakhand-c4f4db2739f7.json"
+      "message": "Python syntax OK",
+      "file": "scripts/admin_diagnostics.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2021-11-06-t20-hyderabad-india-vs-chandigarh-51d88ea10608.json"
+      "message": "Python syntax OK",
+      "file": "scripts/cleanup_raw_news.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2021-11-09-t20-hyderabad-india-vs-uttar-pradesh-7294b4f32237.json"
+      "message": "Python syntax OK",
+      "file": "scripts/filter_tilak_news.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2021-11-18-t20-hyderabad-india-vs-gujarat-6fa7678325c7.json"
+      "message": "Python syntax OK",
+      "file": "scripts/news.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2021-11-20-t20-hyderabad-india-vs-tamil-nadu-ca7cf48ed2a6.json"
+      "message": "Python syntax OK",
+      "file": "scripts/news_content_formatter.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-03-27-t20-mumbai-indians-vs-delhi-capitals-12e05fc510da.json"
+      "message": "Python syntax OK",
+      "file": "scripts/news_pipeline_fixer.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-04-02-t20-mumbai-indians-vs-rajasthan-royals-b8eb34d49da6.json"
+      "message": "Python syntax OK",
+      "file": "scripts/news_pipeline_manager.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-04-06-t20-mumbai-indians-vs-kolkata-knight-riders-05e1065ddc18.json"
+      "message": "Python syntax OK",
+      "file": "scripts/newsreader.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-04-09-t20-mumbai-indians-vs-royal-challengers-bangalore-a5a39492a9b1.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_bcci_custom_fixtures.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-04-13-t20-mumbai-indians-vs-punjab-kings-777137b72c6a.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_bcci_live_matches.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-04-16-t20-mumbai-indians-vs-lucknow-super-giants-3cbdd59af2ae.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_bcci_match_results.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-04-21-t20-mumbai-indians-vs-chennai-super-kings-5123464b4040.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_bcci_squads.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-04-24-t20-mumbai-indians-vs-lucknow-super-giants-85d76aab7ca0.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_bcci_stats_fixtures.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-04-30-t20-mumbai-indians-vs-rajasthan-royals-3b2fe5898408.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_bcci_videos.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-05-06-t20-mumbai-indians-vs-gujarat-titans-45b8b9e8e14e.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_bowling.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-05-09-t20-mumbai-indians-vs-kolkata-knight-riders-e3c784adf2ca.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_career_stats.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-05-12-t20-mumbai-indians-vs-chennai-super-kings-f40e53b9b984.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_data.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-05-17-t20-mumbai-indians-vs-sunrisers-hyderabad-23a5415238bf.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_death_overs.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-05-21-t20-mumbai-indians-vs-delhi-capitals-560a8cda788e.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_icc_records.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-10-11-t20-hyderabad-india-vs-punjab-a383661d5db5.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_ipl_explorer.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-10-12-t20-hyderabad-india-vs-puducherry-20e676ee791c.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_match_scorecards.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2022-10-14-t20-hyderabad-india-vs-goa-45944e443a66.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_statsguru.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-04-02-t20-mumbai-indians-vs-royal-challengers-bangalore-d55c4e8c0b1b.json"
+      "message": "Python syntax OK",
+      "file": "scripts/refresh_upcoming_matches.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-04-08-t20-mumbai-indians-vs-chennai-super-kings-6dd58f7fde8a.json"
+      "message": "Python syntax OK",
+      "file": "scripts/repo_health_monitor.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-04-11-t20-mumbai-indians-vs-delhi-capitals-714c136b1507.json"
+      "message": "Python syntax OK",
+      "file": "scripts/test_news_content_formatter.py"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-04-16-t20-mumbai-indians-vs-kolkata-knight-riders-456b7259658a.json"
+      "message": "JavaScript syntax OK",
+      "file": "stats/app.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-04-18-t20-mumbai-indians-vs-sunrisers-hyderabad-851c193f3216.json"
+      "message": "JavaScript syntax OK",
+      "file": "stats/bowling.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-04-22-t20-mumbai-indians-vs-punjab-kings-78cbaad0d1a4.json"
+      "message": "JavaScript syntax OK",
+      "file": "stats/career-formats.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-04-25-t20-mumbai-indians-vs-gujarat-titans-74f825cbad18.json"
+      "message": "No duplicate HTML IDs",
+      "file": "stats/index.html"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-04-30-t20-mumbai-indians-vs-rajasthan-royals-da503fb2f4d4.json"
+      "message": "CSS block/string/comment structure OK",
+      "file": "stats/premium-ui.css"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-05-03-t20-mumbai-indians-vs-punjab-kings-e70afab6ecae.json"
+      "message": "JavaScript syntax OK",
+      "file": "stats/pwa-install.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-05-24-t20-mumbai-indians-vs-lucknow-super-giants-54f9cab3a15f.json"
+      "message": "JavaScript syntax OK",
+      "file": "stats/service-worker-register.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-05-26-t20-mumbai-indians-vs-gujarat-titans-46b645121366.json"
+      "message": "CSS block/string/comment structure OK",
+      "file": "stats/site-refinement.css"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-03-t20-india-vs-west-indies-3ad95a6c006d.json"
+      "message": "CSS block/string/comment structure OK",
+      "file": "stats/stats.css"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-03-t20i-india-vs-west-indies-3ad95a6c006d.json"
+      "message": "JavaScript syntax OK",
+      "file": "stats/stats.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-06-t20-india-vs-west-indies-5d18d81d9019.json"
+      "message": "JavaScript syntax OK",
+      "file": "stats/statsguru.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-06-t20i-india-vs-west-indies-5d18d81d9019.json"
+      "message": "CSS block/string/comment structure OK",
+      "file": "stats/style.css"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-08-t20-india-vs-west-indies-c82da297d81d.json"
+      "message": "JavaScript syntax OK",
+      "file": "sw.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-08-t20i-india-vs-west-indies-c82da297d81d.json"
+      "message": "JavaScript syntax OK",
+      "file": "videos/app.js"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-12-t20-india-vs-west-indies-7289d0fcd28c.json"
+      "message": "No duplicate HTML IDs",
+      "file": "videos/index.html"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-12-t20i-india-vs-west-indies-7289d0fcd28c.json"
+      "message": "CSS block/string/comment structure OK",
+      "file": "videos/premium-ui.css"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-13-t20-india-vs-west-indies-9e3eb3b7a863.json"
+      "message": "CSS block/string/comment structure OK",
+      "file": "videos/style.css"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-13-t20i-india-vs-west-indies-9e3eb3b7a863.json"
+      "message": "CSS block/string/comment structure OK",
+      "file": "videos/videos.css"
     },
     {
       "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-18-t20-india-vs-ireland-6e58b58f80f7.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-18-t20i-india-vs-ireland-6e58b58f80f7.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-20-t20-india-vs-ireland-6b8541f9e69b.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-08-20-t20i-india-vs-ireland-6b8541f9e69b.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-09-15-odi-india-vs-bangladesh-05b9efb46128.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-10-03-t20-india-vs-nepal-2df401629da6.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-10-03-t20i-india-vs-nepal-2df401629da6.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-10-06-t20-india-vs-bangladesh-2b67529b4465.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-10-06-t20i-india-vs-bangladesh-2b67529b4465.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-10-19-t20-hyderabad-india-vs-chhattisgarh-fc034b7bc07f.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-10-21-t20-hyderabad-india-vs-mizoram-84c807a69a56.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-11-23-t20-india-vs-australia-5df0ff7e0e12.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-11-23-t20i-india-vs-australia-5df0ff7e0e12.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-11-26-t20-india-vs-australia-d76c99c8289a.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-11-26-t20i-india-vs-australia-d76c99c8289a.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-11-28-t20-india-vs-australia-93ba84986cd9.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-11-28-t20i-india-vs-australia-93ba84986cd9.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-12-12-t20-india-vs-south-africa-58dfafa05a21.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-12-12-t20i-india-vs-south-africa-58dfafa05a21.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-12-14-t20-india-vs-south-africa-72f3b3573312.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-12-14-t20i-india-vs-south-africa-72f3b3573312.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-12-17-odi-india-vs-south-africa-99a06fc5bf24.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-12-19-odi-india-vs-south-africa-48c72ca5db55.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2023-12-21-odi-india-vs-south-africa-2ecf93c77e55.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-03-24-t20-mumbai-indians-vs-gujarat-titans-168399d8259a.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-03-27-t20-mumbai-indians-vs-sunrisers-hyderabad-7d321a8f4941.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-04-01-t20-mumbai-indians-vs-rajasthan-royals-24bacea59644.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-04-07-t20-mumbai-indians-vs-delhi-capitals-9b4dd31ee89f.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-04-11-t20-mumbai-indians-vs-royal-challengers-bengaluru-b91593e171ed.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-04-14-t20-mumbai-indians-vs-chennai-super-kings-2570212355ed.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-04-18-t20-mumbai-indians-vs-punjab-kings-b7813d15368f.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-04-22-t20-mumbai-indians-vs-rajasthan-royals-4608dd6808ef.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-04-27-t20-mumbai-indians-vs-delhi-capitals-1eeecd2ff87a.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-04-30-t20-mumbai-indians-vs-lucknow-super-giants-a53224422014.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-05-03-t20-mumbai-indians-vs-kolkata-knight-riders-d9ec5399e90d.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-05-06-t20-mumbai-indians-vs-sunrisers-hyderabad-8983d606c2e0.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-05-11-t20-mumbai-indians-vs-kolkata-knight-riders-8059b3299c61.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-11-08-t20-india-vs-south-africa-5c2af0d27868.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-11-08-t20i-india-vs-south-africa-5c2af0d27868.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-11-10-t20-india-vs-south-africa-f67f3ceff182.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-11-10-t20i-india-vs-south-africa-f67f3ceff182.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-11-13-t20-india-vs-south-africa-c3cac42cded6.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-11-13-t20i-india-vs-south-africa-c3cac42cded6.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-11-15-t20-india-vs-south-africa-d0ae5af2c91f.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2024-11-15-t20i-india-vs-south-africa-d0ae5af2c91f.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-01-22-t20-india-vs-england-2e3c6098e789.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-01-22-t20i-india-vs-england-2e3c6098e789.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-01-25-t20-india-vs-england-3bfaaf73c6f3.json"
+      "message": "JavaScript syntax OK",
+      "file": "videos/videos.js"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1066,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "0677cea6"
+    "branch": "bea099e9"
   }
 }
