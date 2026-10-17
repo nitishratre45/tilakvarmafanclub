@@ -1224,3 +1224,86 @@ body:has(.match-section-tabs) {
     font-size: 12px;
   }
 }
+
+
+/* Premium mobile polish for the actual BCCI Scorecard page.
+   Shared site navbar and hamburger menu intentionally remain untouched. */
+.match-centre-back-row { margin: 0 0 18px; }
+.match-centre-back {
+  border-radius: 15px;
+  box-shadow: inset 0 1px rgba(255,255,255,.06), 0 8px 20px rgba(0,0,0,.12);
+}
+.match-section-tabs {
+  border: 1px solid rgba(110,190,222,.22);
+  box-shadow: 0 12px 28px rgba(0,0,0,.2), inset 0 1px rgba(255,255,255,.035);
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.match-section-tab {
+  transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.match-section-tab:focus-visible {
+  outline: 2px solid #7be4c3;
+  outline-offset: 2px;
+}
+.match-section-tab.is-active,
+.match-section-tab[aria-selected="true"] {
+  background: linear-gradient(115deg,#79e6bb,#7bd9ee);
+  color: #061b2b;
+  box-shadow: 0 5px 17px rgba(65,213,203,.16);
+}
+.match-section-panel {
+  box-shadow: 0 16px 36px rgba(0,0,0,.14), inset 0 1px rgba(255,255,255,.025);
+}
+.match-section-panel .top-scoreboard {
+  border-color: rgba(115,215,226,.27);
+}
+.match-section-panel .innings {
+  box-shadow: inset 0 1px rgba(255,255,255,.025);
+}
+.match-section-panel .innings h3 {
+  background: linear-gradient(110deg,rgba(18,54,82,.8),rgba(10,26,43,.88));
+}
+.match-section-panel th {
+  position: sticky;
+  top: 0;
+}
+.match-section-panel table {
+  font-variant-numeric: tabular-nums;
+}
+.match-section-panel .source {
+  line-height: 1.65;
+}
+@media (max-width: 640px) {
+  main { padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px)); }
+  .match-section-tabs {
+    gap: 6px;
+    padding: 8px;
+    scroll-snap-type: x proximity;
+  }
+  .match-section-tab {
+    scroll-snap-align: start;
+    min-height: 46px;
+    padding: 11px 13px;
+    font-size: 12px;
+  }
+  .match-section-panel {
+    margin-top: 15px;
+    padding: 15px 12px;
+  }
+  .match-section-panel .top-scoreboard {
+    padding: 12px;
+  }
+  .match-section-panel table {
+    min-width: 520px;
+  }
+  .match-section-panel .table-wrap,
+  .match-section-panel .scorecard-table-wrap,
+  .match-section-panel .innings {
+    max-width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .match-section-tab { transition: none; }
+}
