@@ -467,24 +467,29 @@
       // Read saved JSON snapshots only; do not call BCCI's API from the browser.
       // Keep the multi-megabyte historical BCCI results archive off the normal page load.
       // It is fetched only as a fallback for a fixture with a verified provider match ID.
-      const [newsResponse, statsResponse, squadsResponse, scorecardIndexResponse, bcciFixturesResponse] =
-        await Promise.all([
-          fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-details3", {
-            cache: "no-store",
-          }).catch(() => null),
-          fetch("/matches/bcci-stats-fixtures.json?v=20261015-details3", {
-            cache: "no-store",
-          }).catch(() => null),
-          fetch("/matches/bcci-squads.json?v=20261015-nz-t20i1", { cache: "no-store" }).catch(
-            () => null,
-          ),
-          fetch("/matches/scorecards/index.json?v=20261015-full-scoreboard1", {
-            cache: "no-store",
-          }).catch(() => null),
-          fetch("/bcci-fixtures-test/bcci-fixtures.json?v=20261017-bcci-fixtures1", {
-            cache: "no-store",
-          }).catch(() => null),
-        ]);
+      const [
+        newsResponse,
+        statsResponse,
+        squadsResponse,
+        scorecardIndexResponse,
+        bcciFixturesResponse,
+      ] = await Promise.all([
+        fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-details3", {
+          cache: "no-store",
+        }).catch(() => null),
+        fetch("/matches/bcci-stats-fixtures.json?v=20261015-details3", {
+          cache: "no-store",
+        }).catch(() => null),
+        fetch("/matches/bcci-squads.json?v=20261015-nz-t20i1", { cache: "no-store" }).catch(
+          () => null,
+        ),
+        fetch("/matches/scorecards/index.json?v=20261015-full-scoreboard1", {
+          cache: "no-store",
+        }).catch(() => null),
+        fetch("/bcci-fixtures-test/bcci-fixtures.json?v=20261017-bcci-fixtures1", {
+          cache: "no-store",
+        }).catch(() => null),
+      ]);
       const snapshot =
         newsResponse && newsResponse.ok ? await newsResponse.json().catch(() => null) : null;
       const statsSnapshot =
