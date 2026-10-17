@@ -105,9 +105,9 @@ def build_match(article: dict) -> dict | None:
         {
             "fullText": page_text,
             "articleText": paragraphs[:MAX_PARAGRAPHS],
-            "matchedLines": [p[:MAX_LINE_CHARS] for p in paragraphs if NAME_RE.search(p)][
-                :MAX_MATCHED_LINES
-            ],
+            "matchedLines": [
+                p[:MAX_LINE_CHARS] for p in paragraphs if NAME_RE.search(p)
+            ][:MAX_MATCHED_LINES],
             "matchFoundIn": found_in,
             "sourceName": "BCCI",
         }
