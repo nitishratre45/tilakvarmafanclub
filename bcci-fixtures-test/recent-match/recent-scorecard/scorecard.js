@@ -184,6 +184,63 @@
         "</p><p>" +
         esc((match.officials?.match_referees || []).join(", ") || "Match referee not recorded") +
         '</p><small>Source: <a href="https://cricsheet.org/" target="_blank" rel="noopener">Cricsheet</a> · ODC-BY attribution</small></section>';
+      // Add compact metadata styling and a sticky two-team innings switcher.
+      const hero = document.querySelector("#sc-content .sc-hero");
+      if (hero) {
+        hero.classList.add("sc-hero-compact");
+        const meta = hero.querySelector(".sc-meta");
+        if (meta) {
+          meta.classList.add("sc-meta-compact");
+          const items = Array.from(meta.children);
+          items.forEach((item, i) => { if (i > 1) item.hidden = true; });
+        }
+        const result = hero.querySelector(".sc-result");
+        if (result) result.classList.add("sc-result-compact");
+      }
+      const innings = Array.from(document.querySelectorAll("#sc-content .sc-innings"));
+      const teams = (match.teams || []).slice(0, 2);
+      if (innings.length && teams.length === 2) {
+        const nav = document.createElement("nav");
+        nav.className = "sc-team-switch";
+        nav.setAttribute("aria-label", "Choose team scorecard");
+        nav.setAttribute("role", "tablist");
+        const list = document.createElement("div");
+        list.className = "sc-team-innings-list";
+        innings.forEach((section) => {
+          const wrapper = document.createElement("div");
+          wrapper.className = "sc-team-innings";
+          wrapper.dataset.teamIndex = String(Math.max(0, teams.indexOf(section.querySelector("h3")?.childNodes[0]?.textContent?.trim() || "")));
+          section.parentNode.insertBefore(wrapper, section);
+          wrapper.appendChild(section);
+          list.appendChild(wrapper);
+        });
+        teams.forEach((team, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "sc-team-tab" + (index === 0 ? " is-active" : "");
+          button.setAttribute("role", "tab");
+          button.setAttribute("aria-selected", index === 0 ? "true" : "false");
+          button.textContent = team;
+          button.addEventListener("click", () => {
+            nav.querySelectorAll(".sc-team-tab").forEach((tab, i) => {
+              tab.classList.toggle("is-active", i === index);
+              tab.setAttribute("aria-selected", i === index ? "true" : "false");
+            });
+            list.querySelectorAll(".sc-team-innings").forEach((panel) => {
+              const heading = panel.querySelector("h3")?.childNodes[0]?.textContent?.trim() || "";
+              panel.hidden = !heading.startsWith(team);
+            });
+          });
+          nav.appendChild(button);
+        });
+        const scorePanel = document.querySelector("#sc-content .sc-panel");
+        if (scorePanel) {
+          scorePanel.classList.add("sc-score-panel");
+          scorePanel.insertBefore(nav, scorePanel.querySelector("h2")?.nextSibling || null);
+          const firstButton = nav.querySelector(".sc-team-tab");
+          if (firstButton) firstButton.click();
+        }
+      }
     } catch (e) {
       $("sc-loading").hidden = true;
       $("sc-error").hidden = false;
