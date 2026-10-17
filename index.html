@@ -2,6 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script>
+      // Keep Home refreshes at the top instead of restoring a stale mobile scroll offset.
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      window.addEventListener("pageshow", (event) => {
+        const navigation = performance.getEntriesByType("navigation")[0];
+        const isRefresh = navigation?.type === "reload";
+        if (!window.location.hash && (event.persisted || isRefresh)) {
+          requestAnimationFrame(() => window.scrollTo(0, 0));
+        }
+      });
+    </script>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#0b5fc4" />
     <meta name="application-name" content="Tilak Varma Fan Club" />
