@@ -531,3 +531,48 @@ body.matches-page .sc-meta-compact strong {
 .sc-test-innings { scroll-margin-top: 145px; }
 .sc-innings-label { display: block; margin-bottom: 3px; color: var(--cyan); font-size: 10px; font-weight: 900; letter-spacing: .12em; }
 @media (max-width: 520px) { .sc-test-summary-grid { grid-template-columns: 1fr; } }
+
+
+/* Sticky, touch-friendly Test innings selector */
+body.matches-page .sc-test-innings-nav {
+  position: sticky;
+  top: 76px;
+  z-index: 30;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px;
+  margin: 0 0 14px;
+  border: 1px solid rgba(125, 190, 255, .3);
+  border-radius: 16px;
+  background: rgba(5, 18, 36, .96);
+  box-shadow: 0 10px 28px rgba(0,0,0,.22);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  scrollbar-width: thin;
+}
+body.matches-page .sc-test-innings-tab {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid rgba(143, 188, 228, .25);
+  border-radius: 12px;
+  color: #c7d8ed;
+  background: #0b1d34;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+body.matches-page .sc-test-innings-tab.is-active {
+  color: #071426;
+  border-color: #73dfff;
+  background: linear-gradient(135deg, #9be9ff, #65cfff);
+  box-shadow: 0 4px 16px rgba(101,207,255,.2);
+}
+body.matches-page .sc-innings[hidden] { display: none !important; }
+@media (max-width: 600px) {
+  body.matches-page .sc-test-innings-nav { top: 72px; margin-left: -2px; margin-right: -2px; }
+  body.matches-page .sc-test-innings-tab { padding: 10px 12px; }
+}
