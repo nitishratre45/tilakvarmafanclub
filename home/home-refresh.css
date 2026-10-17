@@ -1898,3 +1898,58 @@ body > footer {
     min-width: 900px !important;
   }
 }
+
+
+/* Bowling table mirrors Batting: show four format rows, then scroll inside the table. */
+#home-snapshot .home-bowling-table-section {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+#home-snapshot .home-bowling-table-section .home-career-table-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  max-height: 244px !important;
+  overflow: auto !important;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+#home-snapshot .home-bowling-table-section table.home-career-table {
+  width: max-content !important;
+  min-width: 900px !important;
+  max-width: none !important;
+  table-layout: auto !important;
+  margin: 0 !important;
+}
+#home-snapshot .home-bowling-table-section table.home-career-table thead {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 2 !important;
+}
+#home-snapshot .home-bowling-table-section table.home-career-table th,
+#home-snapshot .home-bowling-table-section table.home-career-table td {
+  white-space: nowrap !important;
+}
+@media (min-width: 1024px) {
+  #home-snapshot .home-bowling-table-section .home-career-table-wrap {
+    max-height: 244px !important;
+    overflow: auto !important;
+  }
+  #home-snapshot .home-bowling-table-section table.home-career-table {
+    min-width: 100% !important;
+    width: 100% !important;
+  }
+}
+@media (max-width: 680px) {
+  #home-snapshot .home-bowling-table-section .home-career-table-wrap {
+    max-height: 244px !important;
+    overflow: auto !important;
+  }
+  #home-snapshot .home-bowling-table-section table.home-career-table {
+    min-width: 900px !important;
+    width: max-content !important;
+  }
+}
