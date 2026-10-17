@@ -2745,6 +2745,7 @@
     news: "News manager",
     "repo-health": "Repository health",
     "data-status": "Data freshness",
+    "bcci-live-monitor": "BCCI Live Monitor",
     "matches-manager": "Match section",
     "data-editor": "Stats & Death Overs data",
     services: "Services & security",
