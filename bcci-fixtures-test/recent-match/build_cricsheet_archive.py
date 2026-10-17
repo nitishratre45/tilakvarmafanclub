@@ -14,11 +14,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 INDEX = ROOT / "archive-index.json"
-RETENTION_DAYS = 365
+MINIMUM_YEAR = 2025
 
 def retention_cutoff():
-    """Return the rolling retention boundary in UTC date terms."""
-    return (datetime.now(timezone.utc).date() - timedelta(days=RETENTION_DAYS)).isoformat()
+    """Keep matches dated 1 January 2025 onward."""
+    return f"{MINIMUM_YEAR}-01-01"
 ARCHIVES = {
     "T20I": "https://cricsheet.org/downloads/t20s_male_json.zip",
     "ODI": "https://cricsheet.org/downloads/odis_male_json.zip",
@@ -142,7 +142,7 @@ def main():
         grouped = {}
         index_rows = []
         cutoff = retention_cutoff()
-        print(f"Keeping only matches dated {cutoff} or newer (rolling {RETENTION_DAYS}-day window).")
+        print(f"Keeping only matches dated {cutoff} or newer (from {cutoff} onward).")
         for fmt, url in ARCHIVES.items():
             archive = temp / (fmt.lower() + ".zip")
             req = urllib.request.Request(url, headers={"User-Agent": "TilakVarmaFanClub-DataUpdater/1.0"})
@@ -189,7 +189,7 @@ def main():
         INDEX.write_text(json.dumps(index, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     # TemporaryDirectory removes extracted source JSON and any residual ZIPs after data saves.
     print(f"Saved {len(index_rows)} international matches from {cutoff} onward across {len(grouped)} format/year bundles.")
-    print(f"Retention policy: rolling {RETENTION_DAYS} days; older matches are excluded and stale JSON bundles are deleted.")
+    print(f"Retention policy: matches before {cutoff} are excluded; stale JSON bundles are deleted.")
     print("Downloaded ZIP archives and extracted source files removed after JSON generation.")
 
 if __name__ == "__main__":
