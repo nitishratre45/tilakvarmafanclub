@@ -104,7 +104,7 @@
       const row = scoreRows.find(
         (inn) => String(inn.batting_team_id ?? inn.team_id) === String(teamId),
       );
-      if (!row) return { score: "Yet to bat", overs: "" };
+      if (!row) return { score: isLive ? "Score updating" : "Yet to bat", overs: "" };
       const runs = val(row, "total_runs", "runs", "score");
       const wickets = val(row, "wickets", "wicket");
       const overs = val(row, "overs", "overs_bowled");
