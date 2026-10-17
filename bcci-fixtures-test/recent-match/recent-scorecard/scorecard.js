@@ -34,7 +34,7 @@
           "<tr><td>" +
           esc(p.batter) +
           '<span class="sc-dismissal">' +
-          esc(p.dismissal || (p.notOut ? "not out" : "")) +
+          esc(p.dismissalDetails || p.dismissal || (p.notOut ? "not out" : "")) +
           "</span></td><td>" +
           esc(p.runs ?? "—") +
           "</td><td>" +
