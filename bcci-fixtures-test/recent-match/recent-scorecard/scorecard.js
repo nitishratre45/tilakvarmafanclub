@@ -102,7 +102,7 @@
     );
   }
   function findCompatibleMatch(matches, requestedId) {
-    const parts = String(requestedId || "").match(/^(\\d{4})(?:-(\\d{2})-(\\d{2}))?-(t20i|odi|test)-(.+)$/i);
+    const parts = String(requestedId || "").match(/^(\d{4})(?:-(\d{2})-(\d{2}))?-(t20i|odi|test)-(.+)$/i);
     if (!parts) return null;
     const year = parts[1];
     const date = parts[2] && parts[3] ? year + "-" + parts[2] + "-" + parts[3] : "";
