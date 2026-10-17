@@ -1,31 +1,37 @@
 {
   "manager": "Tilak News Pipeline Manager",
-  "generatedAt": "2026-10-17T07:17:03.077179+00:00",
-  "status": "healthy",
+  "generatedAt": "2026-10-17T07:18:22.301092+00:00",
+  "status": "warning",
   "jsonFilesScanned": 251,
   "validJsonFiles": 251,
   "invalidJsonFiles": [],
-  "totalJsonBytes": 46235898,
+  "totalJsonBytes": 46010143,
   "raw": {
-    "candidateRecords": 36,
-    "articleUrls": 190,
-    "articlePagesFetched": 190,
+    "candidateRecords": 1,
+    "articleUrls": 1,
+    "articlePagesFetched": 0,
     "articleFetchErrors": 0,
-    "records": 36
+    "records": 1
   },
   "news": {
     "records": 38,
     "declaredCount": 38,
     "countConsistent": true,
-    "findings": [],
+    "findings": [
+      {
+        "severity": "warning",
+        "record": 24,
+        "issue": "full article text missing"
+      }
+    ],
     "errors": 0,
-    "warnings": 0
+    "warnings": 1
   },
   "contentVerification": {
-    "checkedAt": "2026-10-17T07:17:02.470444+00:00",
-    "liveUrlsMatched": 36,
+    "checkedAt": "2026-10-17T07:18:21.792837+00:00",
+    "liveUrlsMatched": 1,
     "unverifiedRecordsExcluded": 0,
-    "nonMatchingArticlesSkipped": 154,
+    "nonMatchingArticlesSkipped": 0,
     "findings": [],
     "format": "paragraphs, headings, and detected HTML tables"
   },
@@ -129,17 +135,17 @@
     },
     {
       "path": "News/newsjson.json",
-      "bytes": 341307,
+      "bytes": 362442,
       "valid": true
     },
     {
       "path": "News/raw-news-pages.json",
-      "bytes": 353140,
+      "bytes": 106253,
       "valid": true
     },
     {
       "path": "News/news-pipeline-report.json",
-      "bytes": 38599,
+      "bytes": 38596,
       "valid": true
     },
     {
