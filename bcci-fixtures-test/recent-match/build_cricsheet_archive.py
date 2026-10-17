@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 INDEX = ROOT / "archive-index.json"
 ARCHIVES = {
-    "T20I": "https://cricsheet.org/downloads/t20is_json.zip",
+    "T20I": "https://cricsheet.org/downloads/t20i_json.zip",
     "ODI": "https://cricsheet.org/downloads/odis_json.zip",
     "Test": "https://cricsheet.org/downloads/tests_json.zip",
 }
