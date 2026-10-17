@@ -562,11 +562,35 @@
         comp_name: m.series || m.comp_name,
         ground_name: m.venue || m.ground_name,
       }));
-      const live = matches.filter(isRelevantIndiaLiveMatch);
+      // If the live-score endpoint briefly returns an empty snapshot, recover
+      // currently-live fixtures from the separately refreshed BCCI fixtures feed.
+      // This keeps the match visible without inventing a score.
+      let fixtureFallback = [];
+      try {
+        const fixtureResponse = await fetch("./bcci-fixtures.json?t=" + Date.now(), {
+          cache: "no-store",
+        });
+        if (fixtureResponse.ok) {
+          const fixturePayload = await fixtureResponse.json();
+          const fixtureRoot = fixturePayload?.data ?? fixturePayload;
+          const fixtureRows = Array.isArray(fixtureRoot?.match)
+            ? fixtureRoot.match
+            : Array.isArray(fixtureRoot?.fixtures)
+              ? fixtureRoot.fixtures
+              : Array.isArray(fixtureRoot?.matches)
+                ? fixtureRoot.matches
+                : [];
+          fixtureFallback = fixtureRows.filter(isRelevantIndiaLiveMatch);
+        }
+      } catch (_) {
+        // Keep the valid live-score snapshot usable if the fixture fallback fails.
+      }
+      const combinedMatches = [...matches, ...fixtureFallback];
+      const live = combinedMatches.filter(isRelevantIndiaLiveMatch);
       const title = $("liveRefreshTitle"),
         message = $("liveRefreshMessage"),
         stateBadge = $("liveRefreshState");
-      renderLiveMatches(matches);
+      renderLiveMatches(combinedMatches);
       if (live.length) {
         liveMode = true;
         if (title) title.textContent = "Live match updates";
