@@ -82,13 +82,13 @@
           .map(([label, key]) => {
             const s = data.careerFormats?.[key];
             if (!s) return "";
-            // Prefer verified fielding totals from the Statsguru format summary
-            // when the batting career snapshot does not carry them yet.
+            // Fielding totals live in the dedicated fieldingStats dataset,
+            // not in the batting Statsguru format object.
+            const fieldingKey =
+              key === "First-class" ? "FC" :
+              key === "Overall T20 (all competitions)" ? "T20" : key;
             const fielding =
-              data.statsguru?.formats?.[key]?.fieldingSummary ||
-              data.statsguru?.formats?.[key]?.fielding?.summary ||
-              data.statsguru?.formats?.[key]?.fieldingSummary ||
-              {};
+              data.fieldingStats?.formats?.[fieldingKey]?.summary || {};
             const rows = [
               label,
               s.matches,
