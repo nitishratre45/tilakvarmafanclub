@@ -198,25 +198,12 @@
         throw Error((lastError && lastError.message ? lastError.message + " " : "") +
           "Scorecard data could not be found. Check that the daily Cricsheet archive workflow has completed."); 
       }
-      // Return to the exact page that opened this scorecard whenever possible.
+      // Stable fallback navigation; keep scorecard loading independent from browser history.
       const recentResultsUrl = "/bcci-fixtures-test/recent-match/?team=" + encodeURIComponent(q.get("team") || (match.teams || [])[0] || "India") + "&format=" + encodeURIComponent(match.format || q.get("format") || "Test") + "#rm-list";
       const backLink = $("sc-back");
       backLink.href = recentResultsUrl;
       backLink.textContent = "← Back to Recent Results";
-      backLink.setAttribute("aria-label", "Return to the page that opened this scorecard");
-      backLink.addEventListener("click", function (event) {
-        const referrer = document.referrer;
-        let cameFromRecentMatches = false;
-        try {
-          const previous = new URL(referrer);
-          cameFromRecentMatches = previous.origin === location.origin &&
-            previous.pathname.replace(/\\/+$/, "/").startsWith("/bcci-fixtures-test/recent-match/");
-        } catch (_) {}
-        if (cameFromRecentMatches && history.length > 1) {
-          event.preventDefault();
-          history.back();
-        }
-      });
+      backLink.setAttribute("aria-label", "Back to Recent Match Results");
       $("sc-loading").hidden = true;
       const teams = (match.teams || []).join(" vs ");
       $("sc-content").hidden = false;
