@@ -213,21 +213,7 @@
         );
       }
       // Stable fallback navigation; keep scorecard loading independent from browser history.
-      const returnTo = q.get("returnTo");
-      const safeReturnTo =
-        returnTo && returnTo.startsWith("/matches/details/") && !returnTo.startsWith("//")
-          ? returnTo
-          : "";
-      const recentResultsUrl =
-        "/bcci-fixtures-test/recent-match/?team=" +
-        encodeURIComponent(q.get("team") || (match.teams || [])[0] || "India") +
-        "&format=" +
-        encodeURIComponent(match.format || q.get("format") || "Test") +
-        "#rm-list";
-      const backLink = $("sc-back");
-      backLink.href = safeReturnTo || recentResultsUrl;
-      backLink.textContent = safeReturnTo ? "← Back to Full Details · Recent Results" : "← Back to Recent Results";
-      backLink.setAttribute("aria-label", safeReturnTo ? "Back to this match Full Details Recent Results" : "Back to Recent Match Results");
+      // Back button was intentionally removed from the scorecard page.
       $("sc-loading").hidden = true;
       const teams = (match.teams || []).join(" vs ");
       $("sc-content").hidden = false;
