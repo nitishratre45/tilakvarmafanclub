@@ -663,3 +663,13 @@ body > main *::after {
     font-size: clamp(2.55rem, 13.5vw, 3.6rem);
   }
 }
+
+
+/* Remove the dark gap immediately below the sticky navbar on mobile.
+   Scoped to the homepage profile section only; header and menu are untouched. */
+@media (max-width: 760px) {
+  body > main > #profile.profile-section {
+    margin-top: 0 !important;
+    padding-top: 18px !important;
+  }
+}
