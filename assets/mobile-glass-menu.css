@@ -583,3 +583,31 @@ html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(3) {
     display: none !important;
   }
 }
+
+
+/* Final desktop navbar cleanup: active and recently-clicked links use underline only.
+   Override page-specific :focus/:active styling across the whole site. */
+@media (min-width: 801px) {
+  html body > header.topbar nav a,
+  html body > header.topbar nav a:hover,
+  html body > header.topbar nav a:focus,
+  html body > header.topbar nav a:focus-visible,
+  html body > header.topbar nav a:active,
+  html body > header.topbar nav a.active,
+  html body > header.topbar nav a[aria-current="page"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+  html body > header.topbar nav a.active,
+  html body > header.topbar nav a[aria-current="page"] {
+    box-shadow: inset 0 -2px 0 #ff7c45 !important;
+  }
+  html body > header.topbar nav a::before,
+  html body > header.topbar nav a::after {
+    border-radius: 0 !important;
+  }
+}
