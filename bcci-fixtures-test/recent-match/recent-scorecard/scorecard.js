@@ -123,9 +123,7 @@
       let lastError = null;
       // Preferred route: resolve the selected match through the compact archive index.
       try {
-        const indexResponse = await fetch("/bcci-fixtures-test/recent-match/archive-index.json", {
-          cache: "no-store",
-        });
+        const indexResponse = await fetchWithTimeout("/bcci-fixtures-test/recent-match/archive-index.json");
         if (!indexResponse.ok) throw Error("Archive index returned HTTP " + indexResponse.status);
         const index = await indexResponse.json();
         const row = (index.matches || []).find((m) => m.matchId === id);
