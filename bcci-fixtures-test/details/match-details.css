@@ -1330,3 +1330,30 @@
     scroll-margin-top: 80px;
   }
 }
+
+
+/* Squad portrait fallback: show initials whenever the remote portrait is missing or blocked. */
+#squads .details-player-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+#squads .details-player-avatar .details-player-initials {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #d9f2ff;
+  font-weight: 800;
+  line-height: 1;
+  background: linear-gradient(145deg, #17395d, #0a1a2b);
+}
+#squads .details-player-avatar img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  background: transparent;
+}
+#squads .details-player-avatar.has-no-player-image .details-player-initials {
+  z-index: 2;
+}
