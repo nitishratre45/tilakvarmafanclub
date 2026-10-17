@@ -616,7 +616,10 @@
       activateMatchSection(sectionTabs[nextIndex].dataset.matchSection, true);
     });
   });
-  activateMatchSection("live-score");
+  // When opened from the Live Matches grid with a match ID, land on Scorecard
+  // instead of leaving the user on the summary-only Live Score panel.
+  const hasSelectedMatch = Boolean(new URLSearchParams(location.search).get("gid"));
+  activateMatchSection(hasSelectedMatch ? "scorecard" : "live-score");
   $("reload").addEventListener("click", load);
   load();
   window.setInterval(load, 60000);
