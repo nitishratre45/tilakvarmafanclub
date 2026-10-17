@@ -110,18 +110,44 @@
       return;
     }
     try {
-      const indexResponse = await fetch("/bcci-fixtures-test/recent-match/archive-index.json", {
-        cache: "no-store",
-      });
-      if (!indexResponse.ok) throw Error("Archive index is not available yet.");
-      const index = await indexResponse.json();
-      const row = (index.matches || []).find((m) => m.matchId === id);
-      if (!row) throw Error("This match is not present in the saved Cricsheet archive.");
-      const bundleResponse = await fetch(row.scorecard, { cache: "no-store" });
-      if (!bundleResponse.ok) throw Error("The scorecard bundle is not available.");
-      const bundle = await bundleResponse.json();
-      const match = (bundle.matches || []).find((m) => m.matchId === id);
-      if (!match) throw Error("Full scorecard was not found inside the archive bundle.");
+      let match = null;
+      let lastError = null;
+      // Preferred route: resolve the selected match through the compact archive index.
+      try {
+        const indexResponse = await fetch("/bcci-fixtures-test/recent-match/archive-index.json", {
+          cache: "no-store",
+        });
+        if (!indexResponse.ok) throw Error("Archive index returned HTTP " + indexResponse.status);
+        const index = await indexResponse.json();
+        const row = (index.matches || []).find((m) => m.matchId === id);
+        if (!row) throw Error("Selected match ID is not in the archive index.");
+        const bundleResponse = await fetch(row.scorecard, { cache: "no-store" });
+        if (!bundleResponse.ok) throw Error("Scorecard bundle returned HTTP " + bundleResponse.status);
+        const bundle = await bundleResponse.json();
+        match = (bundle.matches || []).find((m) => m.matchId === id) || null;
+        if (!match) throw Error("Selected match ID was not found in the scorecard bundle.");
+      } catch (error) {
+        lastError = error;
+      }
+      // Fallback: match IDs contain date + format, so fetch just that year's bundle.
+      // This avoids making a large index a hard dependency for opening scorecards.
+      if (!match) {
+        const idParts = id.match(/^(\\d{4})-(t20i|odi|test)-/i);
+        if (idParts) {
+          const year = idParts[1];
+          const formatSlug = idParts[2].toLowerCase();
+          const bundleUrl = "/bcci-fixtures-test/recent-match/data/" + formatSlug + "-" + year + ".json";
+          const response = await fetch(bundleUrl, { cache: "no-store" });
+          if (response.ok) {
+            const bundle = await response.json();
+            match = (bundle.matches || []).find((m) => m.matchId === id) || null;
+          }
+        }
+      }
+      if (!match) {
+        throw Error((lastError && lastError.message ? lastError.message + " " : "") +
+          "Scorecard data could not be found. Check that the daily Cricsheet archive workflow has completed."); 
+      }
       $("sc-back").href =
         "/bcci-fixtures-test/recent-match/?team=" +
         encodeURIComponent(q.get("team") || match.teams[0]) +
