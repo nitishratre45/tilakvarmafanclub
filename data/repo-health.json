@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-17T07:06:27+00:00",
+  "checkedAt": "2026-10-17T09:40:02+00:00",
   "intervalMinutes": 10,
   "status": "healthy",
   "summary": {
-    "filesScanned": 502,
-    "checksPassed": 429,
+    "filesScanned": 503,
+    "checksPassed": 430,
     "issues": 0,
     "warnings": 0
   },
@@ -239,6 +239,11 @@
       "level": "pass",
       "message": "No duplicate HTML IDs",
       "file": "bcci-fixtures-test/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "bcci-fixtures-test/live-matches.json"
     },
     {
       "level": "pass",
@@ -1254,11 +1259,6 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/scorecards/data/2025-05-26-t20-mumbai-indians-vs-punjab-kings-b305ca583123.json"
-    },
-    {
-      "level": "pass",
-      "message": "Valid JSON",
-      "file": "matches/scorecards/data/2025-05-30-t20-mumbai-indians-vs-gujarat-titans-d50a8f3db3b7.json"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "3a7b3937"
+    "branch": "680d07dd"
   }
 }
