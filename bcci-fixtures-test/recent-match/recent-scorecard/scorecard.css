@@ -215,7 +215,7 @@ body {
 /* Shared site shell parity for Recent Scorecard. */
 body.matches-page { min-height: 100vh; }
 body.matches-page > header.topbar { position: sticky; top: 0; z-index: 10000; }
-body.matches-page .sc-top { display: none; }
+body.matches-page .sc-top { display: flex !important; min-height: 48px; height: auto; position: relative; z-index: 20; }
 body.matches-page .sc-main { margin-top: 18px; }
 body.matches-page .sc-foot { padding-bottom: 28px; }
 @media (max-width: 800px) {
