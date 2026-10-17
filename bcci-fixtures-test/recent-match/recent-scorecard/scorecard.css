@@ -979,3 +979,19 @@ body.matches-page .sc-main {
     margin-top: 0 !important;
   }
 }
+
+/* Keep Test innings selector directly under the fixed club navbar while scrolling. */
+body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 104px !important;
+  z-index: 10001 !important;
+  width: 100% !important;
+  margin: 0 0 14px !important;
+  border-radius: 0 0 16px 16px !important;
+}
+@media (max-width: 600px) {
+  body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
+    top: 104px !important;
+  }
+}
