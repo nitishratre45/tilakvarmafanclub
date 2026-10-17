@@ -1,0 +1,273 @@
+/* THE 72 CLUB — 2026 Home visual system
+   Presentation-only layer. Keeps existing IDs, links, data hooks and interactions intact. */
+:root {
+  --fc-ink: #071326;
+  --fc-surface: #0d1b31;
+  --fc-surface-raised: #122541;
+  --fc-line: rgba(145, 184, 232, .2);
+  --fc-text: #f3f7ff;
+  --fc-muted: #a8bad2;
+  --fc-blue: #58a6ff;
+  --fc-saffron: #ff9b55;
+  --fc-teal: #67e8d0;
+  --fc-radius: 22px;
+  --fc-shadow: 0 20px 48px rgba(0, 0, 0, .24);
+}
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+body {
+  color: var(--fc-text);
+  background:
+    radial-gradient(ellipse at 8% 5%, rgba(23, 105, 210, .18), transparent 34rem),
+    radial-gradient(ellipse at 94% 26%, rgba(255, 142, 69, .075), transparent 28rem),
+    #07101f;
+  font-family: "Manrope", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: rgba(88,166,255,.35); color: #fff; }
+a { text-underline-offset: 4px; }
+a, button, input, select { -webkit-tap-highlight-color: transparent; }
+button, .button { transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--fc-teal); outline-offset: 3px;
+}
+.topbar {
+  min-height: 70px;
+  padding-inline: clamp(14px, 3.4vw, 46px);
+  background: rgba(6, 20, 41, .88) !important;
+  border-bottom: 1px solid rgba(113, 173, 245, .24) !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,.18) !important;
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+}
+.topbar .brand { gap: 10px; color: #f7faff; font-weight: 900; letter-spacing: .055em; }
+.topbar .brand > span:last-child { font-family: "Barlow Condensed", Impact, sans-serif; font-size: 1.25rem; letter-spacing: .09em; }
+.topbar .brand small { color: var(--fc-saffron); font-size: .66em; letter-spacing: .14em; }
+.brand-mark-photo { border: 1px solid rgba(255,255,255,.32); box-shadow: 0 0 0 3px rgba(88,166,255,.11); }
+.topbar nav { gap: 4px; }
+.topbar nav a {
+  border-radius: 11px; padding: 10px 12px; color: #d6e4f7;
+  font-size: .83rem; font-weight: 750; transition: background .2s ease, color .2s ease;
+}
+.topbar nav a:hover, .topbar nav a[aria-current="page"] {
+  color: #fff; background: rgba(88,166,255,.15);
+}
+body > main > .section {
+  width: min(1240px, calc(100% - clamp(28px, 6vw, 84px)));
+  padding-block: clamp(34px, 5vw, 66px);
+}
+#profile.profile-section {
+  position: relative; isolation: isolate; overflow: hidden;
+  margin-top: clamp(14px, 3vw, 32px);
+  padding: clamp(22px, 4vw, 48px);
+  grid-template-columns: minmax(180px, .62fr) minmax(0, 1.38fr);
+  gap: clamp(20px, 3vw, 38px);
+  border: 1px solid rgba(112, 171, 242, .26);
+  border-radius: 30px;
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(44,125,230,.2), transparent 45%),
+    linear-gradient(135deg, rgba(17,39,68,.97), rgba(7,19,36,.98) 68%);
+  box-shadow: var(--fc-shadow);
+}
+#profile.profile-section::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  width: 300px; height: 300px; right: -100px; top: -130px;
+  border-radius: 50%; border: 1px solid rgba(255,155,85,.14);
+  box-shadow: 0 0 0 28px rgba(255,155,85,.025), 0 0 0 58px rgba(88,166,255,.025);
+}
+.profile-photo-wrap {
+  align-self: center; width: min(100%, 330px); margin-inline: auto;
+  border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,.16);
+  box-shadow: 0 24px 48px rgba(0,0,0,.3), 0 0 0 5px rgba(88,166,255,.06);
+}
+.profile-photo-wrap img { display: block; width: 100%; height: auto; object-fit: cover; }
+.profile-jersey-mark {
+  border: 1px solid rgba(255,255,255,.28); background: linear-gradient(135deg,#ffad65,#f06c3f);
+  color: #1a1a22; font-weight: 950; box-shadow: 0 8px 22px rgba(255,125,62,.25);
+}
+.profile-copy { align-self: center; min-width: 0; }
+.profile-status-pill, .profile-team-label {
+  border-radius: 999px; font-size: .68rem; font-weight: 850; letter-spacing: .09em;
+}
+.profile-status-pill { color: #a9f8e9; background: rgba(36,190,163,.1); border: 1px solid rgba(103,232,208,.25); }
+.profile-team-label { color: #c5d8f1; }
+#profile-name {
+  margin: 10px 0 8px; max-width: 100%;
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(3.4rem, 8vw, 7.5rem); line-height: .83;
+  font-weight: 900; letter-spacing: -.025em; text-transform: uppercase;
+  color: #f7faff; text-wrap: balance;
+  text-shadow: 0 8px 32px rgba(0,0,0,.22);
+}
+#profile-name em {
+  display: inline-block; font-style: normal;
+  background: linear-gradient(100deg, #ffb36e 0%, #ff8754 42%, #ffd39a 85%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 5px 18px rgba(255,132,75,.12));
+}
+.profile-intro { max-width: 600px; color: #d0def0; font-size: clamp(.95rem, 1.5vw, 1.1rem); line-height: 1.75; }
+.profile-location-line { color: var(--fc-muted); }
+.profile-highlights { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 18px 22px; }
+.profile-highlights span {
+  display: inline-flex; align-items: center; gap: 7px; padding: 9px 12px;
+  border: 1px solid rgba(133,176,231,.19); border-radius: 12px;
+  color: #dce8f8; background: rgba(7,17,32,.45); font-size: .68rem;
+  font-weight: 850; letter-spacing: .035em;
+}
+.profile-highlights i { color: var(--fc-saffron); font-style: normal; }
+.button, a.button {
+  min-height: 44px; border-radius: 13px; padding: 12px 17px;
+  font-weight: 850; letter-spacing: .005em; text-decoration: none;
+}
+.button.primary, a.button.primary {
+  color: #071426; border: 1px solid rgba(255,255,255,.2);
+  background: linear-gradient(115deg, #ffb46f, #ff8755);
+  box-shadow: 0 9px 24px rgba(255,135,85,.17);
+}
+.button.outline, a.button.outline {
+  color: #d9eaff; border: 1px solid rgba(114,172,240,.3);
+  background: rgba(72,133,209,.09);
+}
+.button:hover, a.button:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(0,0,0,.2); }
+.profile-data-grid { gap: 14px; }
+.profile-facts, .icc-ranking-card, .profile-teams-panel {
+  border: 1px solid var(--fc-line) !important; border-radius: 19px !important;
+  background: linear-gradient(145deg, rgba(17,36,61,.92), rgba(9,23,41,.94)) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.13);
+}
+.profile-facts { gap: 1px; overflow: hidden; }
+.profile-facts > div { padding: 14px 15px; background: rgba(255,255,255,.018); }
+.profile-facts small, .profile-ranking-values small { color: #91a9c8; letter-spacing: .09em; font-weight: 850; }
+.profile-facts strong, .profile-ranking-values strong { color: #f0f6ff; }
+.profile-ranking-heading h3, .profile-teams-heading h3 {
+  font-family: "Barlow Condensed", Impact, sans-serif; font-weight: 850;
+  letter-spacing: .025em; font-size: clamp(1.5rem, 3vw, 2.15rem);
+}
+.eyebrow { color: #8ebfff; letter-spacing: .16em; font-weight: 900; }
+.profile-team-chip { border-radius: 10px; border: 1px solid rgba(131,177,233,.2); background: rgba(88,166,255,.07); color: #dce9fa; }
+.home-snapshot-heading { align-items: end; gap: 18px; margin-bottom: 20px; }
+.home-snapshot-heading h2 {
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(2.25rem, 5vw, 3.7rem); line-height: .98;
+  font-weight: 900; letter-spacing: -.015em; color: #f6f9ff;
+}
+.home-snapshot-heading h2 em, .home-snapshot-blockhead h3 em {
+  color: var(--fc-saffron); font-style: normal;
+}
+.home-quick-stats { gap: 12px; }
+.home-mini-stat, .home-format-card, .home-snapshot-block, .home-bowling-table-section, .home-snapshot-foot {
+  border: 1px solid var(--fc-line) !important; border-radius: 18px !important;
+  background: linear-gradient(145deg, rgba(17,36,61,.94), rgba(8,22,40,.96)) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.12);
+}
+.home-mini-stat { padding: 18px; min-width: 0; transition: transform .2s ease, border-color .2s ease; }
+.home-mini-stat:hover { transform: translateY(-3px); border-color: rgba(88,166,255,.48) !important; }
+.home-mini-stat span { color: #9db4d3; font-weight: 850; letter-spacing: .09em; }
+.home-mini-stat strong { color: #ffb477; font-family: "Barlow Condensed", Impact, sans-serif; font-size: clamp(1.9rem, 3.5vw, 2.7rem); font-weight: 850; }
+.home-format-heading { margin: 30px 0 13px; }
+.home-format-stats { gap: 12px; }
+.home-format-stats > * { min-width: 0; }
+.home-bowling-card { margin-top: 22px !important; }
+.home-bowling-table-section { overflow: hidden !important; }
+.home-bowling-table-section .home-career-table-title { color: #f2f7ff; }
+.home-bowling-table-section .home-career-table-wrap {
+  max-height: none !important; height: auto !important;
+  overflow-x: auto !important; overflow-y: hidden !important;
+  overscroll-behavior-x: contain; overscroll-behavior-y: auto;
+  scrollbar-width: thin; scrollbar-color: rgba(88,166,255,.55) rgba(255,255,255,.04);
+}
+.home-bowling-table-section .home-career-table th {
+  color: #b8d8ff; background: #132b49; font-weight: 850;
+}
+.home-bowling-table-section .home-career-table td { color: #e4edf9; border-color: rgba(145,184,232,.1); }
+.home-bowling-table-section .home-career-table tbody tr:nth-child(even) { background: rgba(88,166,255,.035); }
+.home-bowling-table-section .home-career-table tbody tr:hover { background: rgba(88,166,255,.1); }
+.home-snapshot-columns { margin-top: 22px; }
+.home-snapshot-block { padding: clamp(16px, 2.6vw, 26px); }
+.home-snapshot-blockhead h3 { color: #f3f7ff; font-family: "Barlow Condensed", Impact, sans-serif; font-size: clamp(1.55rem,3vw,2.15rem); }
+.home-innings-row { border-bottom-color: rgba(145,184,232,.13) !important; }
+.home-innings-score strong { color: #ffb477; }
+.home-innings-detail strong { color: #eaf2ff; }
+.home-innings-detail span, .home-innings-detail small { color: #a6bad5; }
+.home-snapshot-foot { margin-top: 22px; padding: 15px 18px; color: #a9bdd7; }
+footer {
+  border-top: 1px solid rgba(145,184,232,.15); color: #91a9c8;
+  background: rgba(5,14,28,.62); padding: 28px clamp(18px,4vw,52px);
+}
+footer .brand { color: #f4f7ff; }
+footer .brand small { color: var(--fc-saffron); }
+img { max-width: 100%; }
+@media (min-width: 1000px) {
+  #profile.profile-section { grid-template-columns: minmax(210px,.58fr) minmax(0,1.42fr); }
+  .profile-data-grid { grid-column: 1 / -1; display: grid; grid-template-columns: 1.05fr .85fr 1.1fr; align-items: stretch; }
+  .profile-facts { grid-column: span 1; }
+  .icc-ranking-card, .profile-teams-panel { min-width: 0; }
+}
+@media (max-width: 760px) {
+  .topbar { min-height: 60px; padding-inline: 14px; }
+  body > main > .section { width: calc(100% - 24px); padding-block: 28px; }
+  #profile.profile-section { grid-template-columns: minmax(0,1fr); gap: 18px; padding: 18px; border-radius: 23px; }
+  .profile-photo-wrap { width: min(74%, 270px); }
+  #profile-name { font-size: clamp(3.4rem, 17vw, 5.7rem); line-height: .82; }
+  .profile-highlights { gap: 7px; margin-block: 14px 18px; }
+  .profile-highlights span { padding: 8px 10px; font-size: .62rem; }
+  .profile-quick-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+  .profile-quick-actions .button { flex: 1 1 145px; justify-content: center; }
+  .profile-data-grid { display: grid; grid-template-columns: minmax(0,1fr); gap: 11px; }
+  .home-snapshot-heading { align-items: flex-start; flex-direction: column; }
+  .home-heading-actions { width: 100%; }
+  .home-heading-actions .button { width: 100%; justify-content: center; }
+  .home-quick-stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .home-mini-stat { padding: 14px; border-radius: 15px !important; }
+  .home-mini-stat span { font-size: .62rem; }
+  .home-mini-stat strong { font-size: 2rem; }
+  .home-format-stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .home-bowling-heading { gap: 10px; align-items: flex-start; flex-wrap: wrap; }
+  .home-bowling-heading .button { font-size: .76rem; }
+  .home-bowling-table-section .home-career-table-wrap { touch-action: pan-x; }
+  .home-snapshot-foot { align-items: flex-start; flex-direction: column; gap: 10px; }
+}
+@media (max-width: 390px) {
+  body > main > .section { width: calc(100% - 18px); }
+  #profile.profile-section { padding: 14px; }
+  .profile-photo-wrap { width: min(82%, 235px); }
+  #profile-name { font-size: clamp(3.05rem, 16vw, 4.5rem); }
+  .home-quick-stats { gap: 8px; }
+  .home-mini-stat { padding: 12px; }
+  .home-format-stats { grid-template-columns: minmax(0,1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+/* Respect the site's existing Light theme toggle. */
+:root[data-theme-resolved="light"] body {
+  color: #17253b;
+  background: radial-gradient(ellipse at 10% 0%, rgba(88,166,255,.1), transparent 32rem), #f2f6fc;
+}
+:root[data-theme-resolved="light"] #profile.profile-section {
+  background: linear-gradient(135deg,#fff,#edf4ff 75%,#fff5ec);
+  border-color: #c8d9ef;
+}
+:root[data-theme-resolved="light"] #profile-name { color: #10213b; text-shadow: none; }
+:root[data-theme-resolved="light"] .profile-intro { color: #425773; }
+:root[data-theme-resolved="light"] .profile-highlights span { color: #243a57; background: rgba(255,255,255,.8); }
+:root[data-theme-resolved="light"] .profile-facts,
+:root[data-theme-resolved="light"] .icc-ranking-card,
+:root[data-theme-resolved="light"] .profile-teams-panel,
+:root[data-theme-resolved="light"] .home-mini-stat,
+:root[data-theme-resolved="light"] .home-format-card,
+:root[data-theme-resolved="light"] .home-snapshot-block,
+:root[data-theme-resolved="light"] .home-bowling-table-section,
+:root[data-theme-resolved="light"] .home-snapshot-foot {
+  background: linear-gradient(145deg,#fff,#f0f5fc) !important;
+  border-color: #d3e0f1 !important;
+  box-shadow: 0 12px 28px rgba(28,61,105,.08);
+}
+:root[data-theme-resolved="light"] .profile-facts strong,
+:root[data-theme-resolved="light"] .profile-ranking-values strong,
+:root[data-theme-resolved="light"] .home-snapshot-heading h2,
+:root[data-theme-resolved="light"] .home-snapshot-blockhead h3,
+:root[data-theme-resolved="light"] .home-innings-detail strong { color: #172b49; }
+:root[data-theme-resolved="light"] .home-mini-stat span,
+:root[data-theme-resolved="light"] .home-innings-detail span,
+:root[data-theme-resolved="light"] .home-innings-detail small { color: #536985; }
+:root[data-theme-resolved="light"] footer { background: #eaf1fa; color: #4e6380; }
