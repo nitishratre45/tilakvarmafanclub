@@ -346,34 +346,52 @@
   // Bowling table is horizontal-scroll only. Vertical gestures are left native
   // so the page can move normally; the table itself never scrolls vertically.
   let bowlingTouchStart = null;
-  document.addEventListener("touchstart", (event) => {
-    const wrap = event.target.closest("#home-snapshot .home-bowling-table-section .home-career-table-wrap");
-    if (!wrap || !event.touches || event.touches.length !== 1) {
-      bowlingTouchStart = null;
-      return;
-    }
-    const touch = event.touches[0];
-    bowlingTouchStart = { wrap, x: touch.clientX, y: touch.clientY, scrollLeft: wrap.scrollLeft, axis: null };
-  }, { passive: true });
+  document.addEventListener(
+    "touchstart",
+    (event) => {
+      const wrap = event.target.closest(
+        "#home-snapshot .home-bowling-table-section .home-career-table-wrap",
+      );
+      if (!wrap || !event.touches || event.touches.length !== 1) {
+        bowlingTouchStart = null;
+        return;
+      }
+      const touch = event.touches[0];
+      bowlingTouchStart = {
+        wrap,
+        x: touch.clientX,
+        y: touch.clientY,
+        scrollLeft: wrap.scrollLeft,
+        axis: null,
+      };
+    },
+    { passive: true },
+  );
 
-  document.addEventListener("touchmove", (event) => {
-    const gesture = bowlingTouchStart;
-    if (!gesture || !event.touches || event.touches.length !== 1) return;
-    const touch = event.touches[0];
-    const dx = touch.clientX - gesture.x;
-    const dy = touch.clientY - gesture.y;
-    if (!gesture.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 5) {
-      gesture.axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
-    }
-    if (gesture.axis === "x") {
-      if (event.cancelable) event.preventDefault();
-      gesture.wrap.scrollLeft = gesture.scrollLeft - dx;
-    }
-    // For vertical movement, do not preventDefault and do not change scrollTop.
-    // The page remains vertically scrollable, but the Bowling table does not.
-  }, { passive: false });
+  document.addEventListener(
+    "touchmove",
+    (event) => {
+      const gesture = bowlingTouchStart;
+      if (!gesture || !event.touches || event.touches.length !== 1) return;
+      const touch = event.touches[0];
+      const dx = touch.clientX - gesture.x;
+      const dy = touch.clientY - gesture.y;
+      if (!gesture.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 5) {
+        gesture.axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+      }
+      if (gesture.axis === "x") {
+        if (event.cancelable) event.preventDefault();
+        gesture.wrap.scrollLeft = gesture.scrollLeft - dx;
+      }
+      // For vertical movement, do not preventDefault and do not change scrollTop.
+      // The page remains vertically scrollable, but the Bowling table does not.
+    },
+    { passive: false },
+  );
 
-  const clearBowlingTouch = () => { bowlingTouchStart = null; };
+  const clearBowlingTouch = () => {
+    bowlingTouchStart = null;
+  };
   document.addEventListener("touchend", clearBowlingTouch, { passive: true });
   document.addEventListener("touchcancel", clearBowlingTouch, { passive: true });
 
