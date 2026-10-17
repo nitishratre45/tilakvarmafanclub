@@ -109,6 +109,45 @@ jobs:
           print("Verified fixture grid uses only bcci-fixtures.json; dedicated live JSON polling remains present.")
           PY
 
+      - name: Validate Cricsheet Recent Match archive setup
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import ast
+          import re
+          from pathlib import Path
+
+          root = Path("bcci-fixtures-test/recent-match")
+          required = [
+              root / "index.html",
+              root / "recent-match.css",
+              root / "recent-match.js",
+              root / "build_cricsheet_archive.py",
+              root / "recent-scorecard" / "index.html",
+              root / "recent-scorecard" / "scorecard.css",
+              root / "recent-scorecard" / "scorecard.js",
+          ]
+          missing = [str(path) for path in required if not path.is_file()]
+          assert not missing, f"Recent Match files missing: {missing}"
+          builder = root / "build_cricsheet_archive.py"
+          ast.parse(builder.read_text(encoding="utf-8"), filename=str(builder))
+          source = builder.read_text(encoding="utf-8")
+          for archive in ("t20is_json.zip", "odis_json.zip", "tests_json.zip"):
+              assert archive in source, f"Cricsheet archive source missing: {archive}"
+          assert "archive-index.json" in source and "TemporaryDirectory" in source
+          js = (root / "recent-match.js").read_text(encoding="utf-8")
+          scorecard = (root / "recent-scorecard" / "scorecard.js").read_text(encoding="utf-8")
+          assert ".slice(0,5)" in js.replace(" ", ""), "Recent Match must cap results at five"
+          assert "recent-scorecard" in js, "Recent Match scorecard link missing"
+          for field in ("batting", "bowling", "fallOfWickets", "extrasBreakdown"):
+              assert field in scorecard, f"Scorecard renderer missing {field}"
+          workflow = Path(".github/workflows/refresh-bcci-test-recent-match.yml").read_text(encoding="utf-8")
+          assert 'cron: "37 2 * * *"' in workflow, "Daily refresh schedule changed unexpectedly"
+          assert "archive-index.json" in workflow and "git push origin HEAD:main" in workflow
+          print("PASS: Recent Match assets, T20I/ODI/Test sources, last-five filter, scorecard renderer and daily archive workflow.")
+          PY
+
       - name: Verify page asset references
         run: |
           python - <<'PY'
