@@ -7,6 +7,7 @@
   loader.id = "site-page-loader";
   loader.setAttribute("role", "status");
   loader.setAttribute("aria-live", "polite");
+  loader.classList.add("is-visible");
   loader.innerHTML =
     '<div class="site-loader-panel"><span class="site-loader-spinner" role="img" aria-label="Loading"></span></div>';
   document.documentElement.appendChild(loader);
