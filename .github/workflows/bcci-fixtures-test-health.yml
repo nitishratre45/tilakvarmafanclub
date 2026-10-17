@@ -199,7 +199,7 @@ jobs:
           deployed=0
           for attempt in 1 2 3 4 5 6; do
             score_code="$(curl -L -sS --max-time 25 -o /tmp/bcci-scorecard-page.html -w '%{http_code}' "$score_url" || true)"
-            if [ "$score_code" = "200" ] && grep -Fq 'data-match-section="live-score"' /tmp/bcci-scorecard-page.html && grep -Fq 'data-match-panel="panel-live-score"' /tmp/bcci-scorecard-page.html; then
+            if [ "$score_code" = "200" ] && grep -Fq 'data-match-section="live-score"' /tmp/bcci-scorecard-page.html && grep -Fq 'data-match-panel="live-score"' /tmp/bcci-scorecard-page.html; then
               deployed=1
               break
             fi
