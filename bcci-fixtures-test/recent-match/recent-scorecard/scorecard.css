@@ -225,3 +225,39 @@ body.matches-page .sc-foot { padding-bottom: 28px; }
   body.matches-page .sc-innings { min-width: 0; }
   body.matches-page .sc-table-wrap { max-width: 100%; -webkit-overflow-scrolling: touch; }
 }
+
+
+/* Compact match summary and sticky team switcher */
+.sc-hero-compact { padding: 15px 18px !important; margin-bottom: 10px; }
+.sc-hero-compact .sc-kicker { margin: 0 0 5px; }
+.sc-hero-compact h1 { font-size: clamp(23px, 4vw, 34px); margin: 4px 0 6px; }
+.sc-result-compact { margin: 4px 0 8px; }
+.sc-meta-compact { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.sc-meta-compact div { flex: 1 1 180px; padding: 8px 10px; }
+.sc-meta-compact strong { font-size: 12px; line-height: 1.4; }
+.sc-team-switch {
+  position: sticky; top: 76px; z-index: 900;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px;
+  padding: 7px; margin: 0 0 12px; border: 1px solid var(--line);
+  border-radius: 16px; background: rgba(7, 23, 44, .96);
+  backdrop-filter: blur(14px); box-shadow: 0 8px 24px rgba(0,0,0,.22);
+}
+.sc-team-tab {
+  min-width: 0; border: 1px solid var(--line); border-radius: 11px;
+  padding: 11px 8px; color: var(--muted); background: #0b1d34;
+  font: inherit; font-weight: 800; overflow-wrap: anywhere;
+}
+.sc-team-tab.is-active { color: #fff; background: #174579; border-color: var(--cyan); box-shadow: inset 0 -3px var(--orange); }
+.sc-team-innings[hidden] { display: none !important; }
+.sc-score-panel { padding-top: 16px; }
+.sc-table { min-width: 0; table-layout: auto; }
+.sc-table th, .sc-table td { white-space: normal; overflow-wrap: anywhere; }
+.sc-table th:not(:first-child), .sc-table td:not(:first-child) { width: 1%; }
+.sc-dismissal { min-width: 0; }
+@media (max-width: 650px) {
+  .sc-team-switch { top: 76px; }
+  .sc-meta-compact { display: grid; grid-template-columns: 1fr; }
+  .sc-hero-compact { padding: 13px !important; }
+  .sc-table { font-size: 12px; }
+  .sc-table th, .sc-table td { padding: 8px 6px; }
+}
