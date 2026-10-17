@@ -91,6 +91,8 @@ def value(row, *keys):
 def status_of(row):
     return value(
         row,
+        "live_status_name",
+        "match_status_name",
         "match_status_str",
         "match_status",
         "status_str",
@@ -104,7 +106,8 @@ def status_of(row):
 def is_live(row):
     status = status_of(row).lower()
     if not status:
-        # Do not label a match live solely because a score field exists.
+        # Some BCCI live-score payloads expose only numeric status IDs. Keep
+        # unknown states out of the live grid rather than guessing.
         return False
     if any(word in status for word in NOT_LIVE_WORDS):
         return False
