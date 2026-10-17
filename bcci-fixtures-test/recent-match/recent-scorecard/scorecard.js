@@ -124,7 +124,7 @@
 
       // Fast path: match IDs identify the year and format, so load only that compact year bundle first.
       // Supports IDs shaped like YYYY-MM-DD-format-... and older YYYY-format-... IDs.
-      const idParts = id.match(/^(\\d{4})-(?:(\\d{2})-(\\d{2})-)?(t20i|odi|test)-/i);
+      const idParts = id.match(/^(\d{4})-(?:(\d{2})-(\d{2})-)?(t20i|odi|test)-/i);
       if (idParts) {
         const year = idParts[1];
         const formatSlug = (idParts[4] || idParts[2] || "").toLowerCase();
