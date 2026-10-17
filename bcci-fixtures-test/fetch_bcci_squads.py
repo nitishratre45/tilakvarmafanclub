@@ -48,40 +48,56 @@ def valid_response(payload: object) -> bool:
 
 def fetch_team_squad(comp_id: str, team_id: str, edak: str) -> object:
     url = BASE_URL.format(comp_id=comp_id) + "?" + urlencode({"team_id": team_id})
-    # Match the supplied browser request headers, but keep the API key in
-    # the GitHub Actions secret instead of hardcoding it in the repository.
-    headers = {
-        "accept": "*/*",
-        "accept-language": (
-            "en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7,hi;q=0.6,zh-CN;q=0.5,zh;q=0.4"
-        ),
-        "cache-control": "no-cache",
-        "content-type": "application/json",
-        "origin": "https://www.bcci.tv",
-        "pragma": "no-cache",
-        "referer": "https://www.bcci.tv/",
-        "user-agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/155.0.0.0 Safari/537.36"
-        ),
-        "edak": edak,
-    }
+    # Try the documented BCCI browser-style request first, then a minimal
+    # public endpoint request. Some competition routes return {} when the
+    # optional edak header is not accepted; never treat that as a valid squad.
+    header_sets = [
+        {
+            "accept": "*/*",
+            "accept-language": "en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7,hi;q=0.6",
+            "cache-control": "no-cache",
+            "content-type": "application/json",
+            "origin": "https://www.bcci.tv",
+            "pragma": "no-cache",
+            "referer": "https://www.bcci.tv/",
+            "user-agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/155.0.0.0 Safari/537.36"
+            ),
+            "edak": edak,
+        },
+        {
+            "User-Agent": "Mozilla/5.0 (compatible; TilakVarmaFanClubSquads/1.0)",
+            "Accept": "application/json, text/plain, */*",
+            "Referer": "https://www.bcci.tv/",
+        },
+    ]
     last_error = None
     for attempt in range(1, RETRIES + 1):
         try:
-            request = Request(url, headers=headers, method="GET")
-            with urlopen(request, timeout=TIMEOUT_SECONDS) as response:
-                status = response.status
-                raw = response.read()
-            if status < 200 or status >= 300:
-                raise ValueError(f"Unexpected HTTP status {status}")
-            if not raw.strip():
-                raise ValueError("API returned an empty response body")
-            payload = json.loads(raw.decode("utf-8"))
-            if not valid_response(payload):
-                raise ValueError("API returned an empty JSON payload")
-            return payload
+            payload = None
+            diagnostics = []
+            for header_index, headers in enumerate(header_sets, start=1):
+                try:
+                    request = Request(url, headers=headers, method="GET")
+                    with urlopen(request, timeout=TIMEOUT_SECONDS) as response:
+                        status = response.status
+                        raw = response.read()
+                    if status < 200 or status >= 300:
+                        raise ValueError(f"Unexpected HTTP status {status}")
+                    if not raw.strip():
+                        raise ValueError("API returned an empty response body")
+                    candidate = json.loads(raw.decode("utf-8-sig"))
+                    if not valid_response(candidate):
+                        raise ValueError("API returned an empty JSON payload")
+                    payload = candidate
+                    break
+                except (HTTPError, URLError, TimeoutError, OSError, ValueError, json.JSONDecodeError) as exc:
+                    diagnostics.append(f"request-profile-{header_index}: {exc}")
+            if payload is not None:
+                return payload
+            raise ValueError("; ".join(diagnostics))
         except (HTTPError, URLError, TimeoutError, OSError, ValueError, json.JSONDecodeError) as exc:
             last_error = exc
             if attempt < RETRIES:
