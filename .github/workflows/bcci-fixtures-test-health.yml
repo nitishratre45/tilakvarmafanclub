@@ -100,7 +100,7 @@ jobs:
           live_code = js[live_start:]
           assert r"\\b(india a|a team|emerging|under ?19|u19|youth|junior)\\b" not in live_code, \
               "live-team exclusion regex is over-escaped; A/youth teams could leak into the India live grid"
-assert r"\b(india a|a team|emerging|under ?19|u19|youth|junior)\b" in live_code, \\
+          assert r"\b(india a|a team|emerging|under ?19|u19|youth|junior)\b" in live_code, \
               "live-team exclusion regex must use word boundaries"
           assert "live-matches.json" in live_code, "dedicated live JSON source missing"
           assert "setInterval(checkLiveMode,60000)" in live_code.replace(" ", ""), \
