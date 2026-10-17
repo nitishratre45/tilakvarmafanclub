@@ -1970,36 +1970,76 @@ main > *,
   }
 }
 
-
 /* BCCI live workflow monitor */
-.bcci-live-summary { margin: 18px 0 24px; }
-.bcci-live-subhead { margin-top: 26px; margin-bottom: 12px; align-items: center; }
-.bcci-live-subhead h3 { margin: 4px 0 0; }
-.bcci-run-item, .bcci-snapshot-item {
+.bcci-live-summary {
+  margin: 18px 0 24px;
+}
+.bcci-live-subhead {
+  margin-top: 26px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+.bcci-live-subhead h3 {
+  margin: 4px 0 0;
+}
+.bcci-run-item,
+.bcci-snapshot-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
 }
-.bcci-run-item .run-main, .bcci-snapshot-item .run-main {
+.bcci-run-item .run-main,
+.bcci-snapshot-item .run-main {
   display: grid;
   gap: 5px;
   min-width: 0;
 }
-.bcci-run-item .run-main > span, .bcci-snapshot-item .run-main > span,
-.bcci-run-item .run-main > small, .bcci-snapshot-item .run-main > small {
+.bcci-run-item .run-main > span,
+.bcci-snapshot-item .run-main > span,
+.bcci-run-item .run-main > small,
+.bcci-snapshot-item .run-main > small {
   overflow-wrap: anywhere;
   color: var(--muted, #9eacc0);
   font-size: 12px;
 }
-.bcci-run-item .run-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.bcci-run-error { color: #ff9a9a !important; }
-#bcci-live-monitor .pill.success { color: #a8f4ce; border-color: rgba(69, 211, 148, .35); }
-#bcci-live-monitor .pill.error { color: #ffaaaa; border-color: rgba(255, 95, 95, .4); }
-#bcci-live-monitor .pill.warning { color: #ffd78b; border-color: rgba(255, 189, 74, .4); }
+.bcci-run-item .run-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.bcci-run-error {
+  color: #ff9a9a !important;
+}
+#bcci-live-monitor .pill.success {
+  color: #a8f4ce;
+  border-color: rgba(69, 211, 148, 0.35);
+}
+#bcci-live-monitor .pill.error {
+  color: #ffaaaa;
+  border-color: rgba(255, 95, 95, 0.4);
+}
+#bcci-live-monitor .pill.warning {
+  color: #ffd78b;
+  border-color: rgba(255, 189, 74, 0.4);
+}
 @media (max-width: 680px) {
-  .bcci-run-item, .bcci-snapshot-item { align-items: flex-start; flex-direction: column; }
-  .bcci-run-item .run-actions { width: 100%; justify-content: space-between; }
-  .bcci-live-subhead { align-items: flex-start; flex-direction: column; gap: 10px; }
-  #bcci-live-refresh-all { width: 100%; }
+  .bcci-run-item,
+  .bcci-snapshot-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .bcci-run-item .run-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .bcci-live-subhead {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+  #bcci-live-refresh-all {
+    width: 100%;
+  }
 }
