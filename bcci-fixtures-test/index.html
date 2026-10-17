@@ -61,16 +61,17 @@
         aria-labelledby="liveMatchesHeading"
         hidden
       >
-        <div class="section-heading">
+        <div class="section-heading live-section-heading">
           <div>
             <p class="eyebrow">LIVE · BCCI FEED</p>
             <h2 id="liveMatchesHeading">Live Matches</h2>
           </div>
-          <span id="liveMatchCount" class="result-count">0 live</span>
+          <div class="section-actions"><span id="liveMatchCount" class="result-count">0 live</span><a class="bcci-back-button" href="/matches/" aria-label="Back to main Matches page">← Back</a></div>
         </div>
         <div id="liveMatchList" class="fixture-list live-match-list" aria-live="polite"></div>
       </section>
       <section class="upcoming-hero" aria-label="Upcoming matches">
+        <a class="bcci-back-button upcoming-back-button" href="/matches/" aria-label="Back to main Matches page">← Back to Matches</a>
         <p class="eyebrow">TILAK VARMA · VERIFIED MATCHES</p>
         <h1>UPCOMING <span>MATCHES</span></h1>
         <div class="upcoming-hero-rule" aria-hidden="true"></div>
