@@ -119,6 +119,11 @@ def main() -> int:
             list_key = "matches"
         elif "match" not in merged and "fixtures" in merged:
             list_key = "fixtures"
+        if not unique_matches:
+            raise ValueError(
+                "BCCI fixtures response contained no matches across the requested pages; "
+                "refusing to publish an empty snapshot."
+            )
         merged[list_key] = unique_matches
         report["data"] = merged
         report["status"] = "ok"
