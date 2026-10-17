@@ -2,6 +2,10 @@ name: Refresh BCCI Fixtures JSON - BCCI Folder Only
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'bcci-fixtures-test/fetch_bcci_fixtures.py'
+      - '.github/workflows/fetch-bcci-fixtures-json.yml'
   schedule:
     - cron: "*/5 * * * *"
 
