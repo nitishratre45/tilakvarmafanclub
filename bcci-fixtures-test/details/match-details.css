@@ -23,8 +23,7 @@
   color: #b8e5ff;
   font-weight: 800;
 }
-.details-eyebrow,
-.details-section-heading > div > span {
+.details-eyebrow {
   font-size: 10px;
   font-weight: 900;
   letter-spacing: 0.14em;
@@ -1722,4 +1721,13 @@
 }
 @media (max-width: 760px) {
   .match-details-page .details-tabs { top: 72px; }
+}
+
+
+/* Section eyebrow labels removed; keep clean spacing for the real section titles. */
+.match-details-page .details-section-heading > div {
+  min-width: 0;
+}
+.match-details-page .details-section-heading h2 {
+  margin-top: 0;
 }
