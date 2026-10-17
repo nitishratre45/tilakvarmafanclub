@@ -139,9 +139,11 @@
           if (item.type === "scorecard") count = data.match ? 1 : data.gid ? 1 : null;
           if (item.type === "archive") {
             count = Number.isFinite(data.matchCount) ? data.matchCount : null;
-            if (!Array.isArray(data.matches) || !Array.isArray(data.formats)) throw new Error("Archive index schema invalid");
+            if (!Array.isArray(data.matches) || !Array.isArray(data.formats))
+              throw new Error("Archive index schema invalid");
             const formats = new Set(data.matches.map((match) => match.format));
-            if (![...data.formats].every((format) => formats.has(format))) throw new Error("One or more archive formats have no saved matches");
+            if (![...data.formats].every((format) => formats.has(format)))
+              throw new Error("One or more archive formats have no saved matches");
             if (!data.updatedAt) throw new Error("Archive timestamp missing");
           }
           return {
