@@ -10,23 +10,23 @@
       href="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
     />
     <title>Complete Matches | Tilak Varma Fan Club · Matches</title>
-    <link rel="stylesheet" href="/matches/matches.css?v=20261017-complete-header-parity2" />
+    <link rel="stylesheet" href="/matches/matches.css?v=20261017-complete-bg-menu3" />
     <link rel="stylesheet" href="/matches/premium-ui.css?v=20261014-complete-folder1" />
-    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-header-parity2" />
-    <link rel="stylesheet" href="./complete.css?v=20261017-complete-header-parity2" />
-    <link rel="stylesheet" href="../ui/site-nav.css?v=20261017-complete-header-parity2" />
+    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-bg-menu3" />
+    <link rel="stylesheet" href="./complete.css?v=20261017-complete-bg-menu3" />
+    <link rel="stylesheet" href="../ui/site-nav.css?v=20261017-complete-bg-menu3" />
 
     <!-- Shared main-site visual system: header, glass menu, dock, responsive layout and motion. -->
-    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261017-complete-header-parity2" />
-    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261017-complete-header-parity2" />
-    <link rel="stylesheet" href="/assets/mobile-bottom-nav.css?v=20261017-complete-header-parity2" />
+    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261017-complete-bg-menu3" />
+    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261017-complete-bg-menu3" />
+    <link rel="stylesheet" href="/assets/mobile-bottom-nav.css?v=20261017-complete-bg-menu3" />
     <link
       rel="stylesheet"
-      href="/assets/mobile-responsive-polish.css?v=20261017-complete-header-parity2"
+      href="/assets/mobile-responsive-polish.css?v=20261017-complete-bg-menu3"
     />
-    <link rel="stylesheet" href="/assets/custom-selects.css?v=20261017-complete-header-parity2" />
-    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261017-complete-header-parity2" />
-    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-header-parity2" />
+    <link rel="stylesheet" href="/assets/custom-selects.css?v=20261017-complete-bg-menu3" />
+    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261017-complete-bg-menu3" />
+    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-bg-menu3" />
 
     <style>
       /* Match the Upcoming page header: no extra divider line under the shared masthead. */
@@ -42,8 +42,17 @@
       @media (max-width: 800px) {
         html body.complete-matches-page {
           background:
-            radial-gradient(ellipse at 10% 0%, rgba(12, 74, 128, .24), transparent 44%),
+            radial-gradient(ellipse at 12% 0%, rgba(11, 95, 196, .22), transparent 48%),
             linear-gradient(145deg, #0b1d30 0%, #101827 58%, #0b1829 100%) !important;
+        }
+        html body.complete-matches-page::before {
+          content: none !important;
+          display: none !important;
+        }
+        html body.complete-matches-page > header.topbar.tvfc-header {
+          position: sticky !important;
+          top: 0 !important;
+          z-index: 10000 !important;
         }
         html body.complete-matches-page > header.topbar.tvfc-header {
           position: relative !important;
@@ -64,6 +73,8 @@
           flex: 0 0 52px !important;
           width: 52px !important;
           height: 52px !important;
+          gap: 5px !important;
+          flex-direction: column !important;
           margin-left: auto !important;
           align-items: center !important;
           justify-content: center !important;
@@ -227,7 +238,7 @@
     <script src="../ui/site-nav.js?v=20261016-glass-match1"></script>
     <script src="./complete.js?v=20261016-bcci-complete1"></script>
 
-    <script src="/assets/mobile-glass-menu.js?v=20261017-complete-header-parity2" defer></script>
-    <script src="/assets/mobile-bottom-nav.js?v=20261017-complete-header-parity2" defer></script>
+    <script src="/assets/mobile-glass-menu.js?v=20261017-complete-bg-menu3" defer></script>
+    <script src="/assets/mobile-bottom-nav.js?v=20261017-complete-bg-menu3" defer></script>
   </body>
 </html>
