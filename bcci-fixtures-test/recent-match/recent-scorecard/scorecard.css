@@ -719,12 +719,3 @@ body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
 }
 
 
-/* Final adjustment: keep the Test innings selector in its original position, then pin it immediately below the site navbar while scrolling. */
-body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
-  top: 106px !important;
-}
-@media (max-width: 600px) {
-  body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
-    top: 106px !important;
-  }
-}
