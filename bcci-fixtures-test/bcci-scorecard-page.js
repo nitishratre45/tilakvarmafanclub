@@ -276,10 +276,11 @@
     $("status").textContent = "Loading the selected BCCI match…";
     try {
       const requestedGid = new URLSearchParams(location.search).get("gid");
-      const [scoreResponse, fixturesResponse, resultsResponse] = await Promise.all([
+      const [scoreResponse, fixturesResponse, resultsResponse, liveResponse] = await Promise.all([
         fetch("./bcci-scorecard.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
         fetch("./bcci-fixtures.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
         fetch("./results/results.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
+        fetch("./live-matches.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
       ]);
       const scorePayload = scoreResponse?.ok ? await scoreResponse.json().catch(() => null) : null;
       let selected = null;
@@ -301,6 +302,18 @@
             (m) =>
               String(m.gid || m.match_gid || m.match_id || m.id || "") === String(requestedGid),
           ) || null;
+      }
+      // Live fixtures are intentionally excluded from the upcoming-fixtures snapshot.
+      // Resolve the selected match from the dedicated BCCI live snapshot, preserving its raw
+      // official record so today's match can open even before innings/scorecard rows exist.
+      if (requestedGid && !selected && liveResponse?.ok) {
+        const liveSnapshot = await liveResponse.json().catch(() => null);
+        const liveRows = Array.isArray(liveSnapshot?.matches) ? liveSnapshot.matches : [];
+        const liveEntry = liveRows.find((entry) => {
+          const raw = entry?.raw || {};
+          return String(entry?.id || raw.gid || raw.match_id || raw.matchId || "") === String(requestedGid);
+        });
+        if (liveEntry) selected = { ...(liveEntry.raw || {}), ...liveEntry.raw, liveSnapshotEntry: liveEntry };
       }
       if (requestedGid) {
         if (!selected)
