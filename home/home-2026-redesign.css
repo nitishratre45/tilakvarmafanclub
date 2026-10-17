@@ -580,3 +580,87 @@ img {
   background: #eaf1fa;
   color: #4e6380;
 }
+
+
+/* Mobile profile overflow + spacing correction (content only; navbar/menu untouched). */
+body > main {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+body > main *,
+body > main *::before,
+body > main *::after {
+  box-sizing: border-box;
+}
+#profile.profile-section {
+  min-width: 0;
+  max-width: 100%;
+}
+.profile-copy,
+.profile-eyebrow-row,
+.profile-team-label,
+#profile-name,
+.profile-intro,
+.profile-location-line {
+  min-width: 0;
+  max-width: 100%;
+}
+.profile-eyebrow-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.profile-team-label {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+#profile-name {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+.profile-intro,
+.profile-location-line {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 760px) {
+  #profile.profile-section {
+    width: 100%;
+    margin-inline: auto;
+    padding: clamp(16px, 4.5vw, 22px);
+    gap: 16px;
+  }
+  .profile-copy {
+    width: 100%;
+  }
+  .profile-eyebrow-row {
+    align-items: flex-start;
+  }
+  .profile-status-pill,
+  .profile-team-label {
+    max-width: 100%;
+    line-height: 1.5;
+  }
+  #profile-name {
+    font-size: clamp(2.8rem, 14.2vw, 5rem);
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+    margin-block: 14px 12px;
+  }
+  .profile-intro {
+    font-size: clamp(0.95rem, 4vw, 1.08rem);
+    line-height: 1.55;
+  }
+  .profile-location-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    line-height: 1.5;
+  }
+}
+@media (max-width: 390px) {
+  #profile-name {
+    font-size: clamp(2.55rem, 13.5vw, 3.6rem);
+  }
+}
