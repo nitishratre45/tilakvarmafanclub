@@ -581,8 +581,12 @@
           fallback.rawBcci?.match_id ||
             fallback.rawBcci?.matchId ||
             fallback.rawBcci?.gid ||
-            (x.rawBcci?.match_id || x.rawBcci?.matchId || x.rawBcci?.gid) ||
-            (current.rawBcci?.match_id || current.rawBcci?.matchId || current.rawBcci?.gid) ||
+            x.rawBcci?.match_id ||
+            x.rawBcci?.matchId ||
+            x.rawBcci?.gid ||
+            current.rawBcci?.match_id ||
+            current.rawBcci?.matchId ||
+            current.rawBcci?.gid ||
             "",
         ).trim();
         const officialBcciRow = fallback.rawBcci || x.rawBcci || current.rawBcci || null;
@@ -590,7 +594,12 @@
           ...fallback,
           ...preferred,
           ...(officialBcciMatchId
-            ? { matchId: officialBcciMatchId, match_id: officialBcciMatchId, gid: officialBcciMatchId, fixtureId: officialBcciMatchId }
+            ? {
+                matchId: officialBcciMatchId,
+                match_id: officialBcciMatchId,
+                gid: officialBcciMatchId,
+                fixtureId: officialBcciMatchId,
+              }
             : {}),
           ...(officialBcciRow ? { rawBcci: officialBcciRow } : {}),
           time: String(preferred.time || "").trim() || String(fallback.time || "").trim(),
@@ -919,7 +928,11 @@
         return Number.isNaN(parsed.getTime()) ? "" : parsed.toISOString().slice(0, 10);
       };
       const normaliseFixtureTeam = (value) =>
-        String(value || "").trim().toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]/g, "");
+        String(value || "")
+          .trim()
+          .toLowerCase()
+          .replace(/&/g, "and")
+          .replace(/[^a-z0-9]/g, "");
       const resolvedSides = [f.team, f.opponent].map(normaliseFixtureTeam).filter(Boolean).sort();
       const exactOfficialFixture = bcciFixtureRows.find((row) => {
         const rowDate = normaliseFixtureDate(row.start_date || row.date_string || row.date);
@@ -927,7 +940,10 @@
         const rowSides = [
           row.team1_name || row.team1_short_name || row.home_team_name,
           row.team2_name || row.team2_short_name || row.away_team_name,
-        ].map(normaliseFixtureTeam).filter(Boolean).sort();
+        ]
+          .map(normaliseFixtureTeam)
+          .filter(Boolean)
+          .sort();
         return (
           candidateDate &&
           rowDate === candidateDate &&
@@ -939,7 +955,10 @@
       });
       if (exactOfficialFixture) {
         const canonicalId = String(
-          exactOfficialFixture.match_id || exactOfficialFixture.matchId || exactOfficialFixture.gid || "",
+          exactOfficialFixture.match_id ||
+            exactOfficialFixture.matchId ||
+            exactOfficialFixture.gid ||
+            "",
         ).trim();
         if (canonicalId) {
           f.matchId = canonicalId;
@@ -1069,14 +1088,16 @@
             players: Array.isArray(entry.players) ? entry.players : extractPlayerRows(entry),
           }));
         }
-        return [{
-          teamId: String(savedTeam.team_id || squadsSnapshot?.match?.[slot + "_id"] || ""),
-          teamName: String(squadsSnapshot?.match?.[slot + "_name"] || ""),
-          classId: String(response.class_id || ""),
-          teamLogo: "",
-          teamFlag: "",
-          players: extractPlayerRows(response),
-        }];
+        return [
+          {
+            teamId: String(savedTeam.team_id || squadsSnapshot?.match?.[slot + "_id"] || ""),
+            teamName: String(squadsSnapshot?.match?.[slot + "_name"] || ""),
+            classId: String(response.class_id || ""),
+            teamLogo: "",
+            teamFlag: "",
+            players: extractPlayerRows(response),
+          },
+        ];
       });
       const squadCheckedAt = squadsSnapshot?.fetched_at_utc || "";
       // Live scoreboard waits for the official ID; never substitute by date/team.
