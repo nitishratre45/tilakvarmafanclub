@@ -1248,7 +1248,7 @@
                         : "Date unavailable";
                       const scorecardUrl =
                         typeof row.matchId === "string" && row.matchId
-                          ? "/matches/recent-scorecard/?matchId=" + encodeURIComponent(row.matchId)
+                          ? "/matches/recent-scorecard/?matchId=" + encodeURIComponent(row.matchId) + "&returnTo=" + encodeURIComponent(location.pathname + location.search + "#recent-match-results")
                           : "";
                       return (
                         '<article class="recent-result-row"><span class="recent-result-badge recent-result-' +
