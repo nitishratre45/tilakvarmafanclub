@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-17T14:04:31+00:00",
+  "checkedAt": "2026-10-17T16:28:38+00:00",
   "intervalMinutes": 10,
   "status": "healthy",
   "summary": {
-    "filesScanned": 523,
-    "checksPassed": 448,
+    "filesScanned": 522,
+    "checksPassed": 447,
     "issues": 0,
     "warnings": 0
   },
@@ -69,6 +69,11 @@
       "level": "pass",
       "message": "No duplicate HTML IDs",
       "file": "admin/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "admin/sections/bcci-live-monitor.js"
     },
     {
       "level": "pass",
@@ -254,16 +259,6 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "bcci-fixtures-test/live-matches.json"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "bcci-fixtures-test/match-centre-modal.css"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "bcci-fixtures-test/match-centre-modal.js"
     },
     {
       "level": "pass",
@@ -1259,6 +1254,11 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "matches/scorecards/data/2025-01-25-t20-india-vs-england-3bfaaf73c6f3.json"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "matches/scorecards/data/2025-01-25-t20i-india-vs-england-3bfaaf73c6f3.json"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "155e38b8"
+    "branch": "70969a84"
   }
 }
