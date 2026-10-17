@@ -356,10 +356,9 @@
     $("status").textContent = "Loading the selected BCCI match…";
     try {
       const requestedGid = new URLSearchParams(location.search).get("gid");
-      const [scoreResponse, fixturesResponse, resultsResponse, liveResponse] = await Promise.all([
+      const [scoreResponse, fixturesResponse, liveResponse] = await Promise.all([
         fetch("./bcci-scorecard.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
         fetch("./bcci-fixtures.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
-        fetch("./results/results.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
         fetch("./live-matches.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
       ]);
       const scorePayload = scoreResponse?.ok ? await scoreResponse.json().catch(() => null) : null;
@@ -370,15 +369,6 @@
         const matches = Array.isArray(data?.match) ? data.match : [];
         selected =
           matches.find(
-            (m) =>
-              String(m.gid || m.match_gid || m.match_id || m.id || "") === String(requestedGid),
-          ) || null;
-      }
-      if (requestedGid && !selected && resultsResponse?.ok) {
-        const archive = await resultsResponse.json().catch(() => null);
-        const rows = Array.isArray(archive?.matches) ? archive.matches : [];
-        selected =
-          rows.find(
             (m) =>
               String(m.gid || m.match_gid || m.match_id || m.id || "") === String(requestedGid),
           ) || null;
@@ -475,6 +465,39 @@
       $("reload").disabled = false;
     }
   }
+  const sectionTabs = Array.from(document.querySelectorAll("[data-match-section]"));
+  const sectionPanels = Array.from(document.querySelectorAll("[data-match-panel]"));
+  function activateMatchSection(name, moveFocus = false) {
+    const tab = sectionTabs.find((item) => item.dataset.matchSection === name);
+    const panel = sectionPanels.find((item) => item.dataset.matchPanel === name);
+    if (!tab || !panel) return;
+    sectionTabs.forEach((item) => {
+      const active = item === tab;
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-selected", String(active));
+      item.tabIndex = active ? 0 : -1;
+      if (active && moveFocus) item.focus();
+    });
+    sectionPanels.forEach((item) => {
+      const active = item === panel;
+      item.hidden = !active;
+      item.classList.toggle("is-active", active);
+    });
+  }
+  sectionTabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activateMatchSection(tab.dataset.matchSection));
+    tab.addEventListener("keydown", (event) => {
+      let nextIndex = index;
+      if (event.key === "ArrowRight") nextIndex = (index + 1) % sectionTabs.length;
+      else if (event.key === "ArrowLeft") nextIndex = (index - 1 + sectionTabs.length) % sectionTabs.length;
+      else if (event.key === "Home") nextIndex = 0;
+      else if (event.key === "End") nextIndex = sectionTabs.length - 1;
+      else return;
+      event.preventDefault();
+      activateMatchSection(sectionTabs[nextIndex].dataset.matchSection, true);
+    });
+  });
+  activateMatchSection("live-score");
   $("reload").addEventListener("click", load);
   load();
   window.setInterval(load, 60000);
