@@ -166,7 +166,7 @@
 }
 .details-tabs {
   position: sticky;
-  top: 154px;
+  top: 80px;
   z-index: 5;
   display: flex;
   gap: 7px;
@@ -462,7 +462,7 @@
     grid-template-columns: 1fr;
   }
   .details-tabs {
-    top: 68px;
+    top: 72px;
   }
   .details-weather-card {
     grid-template-columns: auto minmax(0, 1fr);
@@ -1313,5 +1313,20 @@
   }
   #squads .details-player-copy small {
     font-size: 9px;
+  }
+}
+
+
+/* Sticky section navigation: sit directly below the fixed site header while scrolling. */
+.match-details-page .details-tabs {
+  position: sticky !important;
+  top: 80px !important;
+  z-index: 100 !important;
+  scroll-margin-top: 88px;
+}
+@media (max-width: 760px) {
+  .match-details-page .details-tabs {
+    top: 72px !important;
+    scroll-margin-top: 80px;
   }
 }
