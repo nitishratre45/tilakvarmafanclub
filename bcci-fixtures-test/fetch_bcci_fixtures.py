@@ -133,7 +133,7 @@ def main() -> int:
                 report["httpStatus"] = response.status
                 report["contentType"] = response.headers.get("Content-Type", "")
                 content_encoding = response.headers.get("Content-Encoding", "").lower()
-        if content_encoding == "gzip" or raw.startswith(b"\x1f\x8b"):
+            if content_encoding == "gzip" or raw.startswith(b"\x1f\x8b"):
                 raw = gzip.decompress(raw)
             try:
                 decoded = raw.decode("utf-8-sig")
@@ -151,11 +151,9 @@ def main() -> int:
                 raise ValueError(f"Unexpected BCCI fixture list on page {page}")
             all_matches.extend(match for match in page_matches if isinstance(match, dict))
             report["pagesFetched"] = page
-            # Stop early only when BCCI explicitly returns an empty page.
             if not page_matches:
                 break
 
-        # De-duplicate overlapping pages by BCCI fixture identifier, preserving order.
         unique_matches = []
         seen = set()
         for match in all_matches:
