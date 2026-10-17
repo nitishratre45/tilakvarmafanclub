@@ -473,3 +473,31 @@ body.complete-matches-page > main.complete-page-main {
     z-index: 2147483003 !important;
   }
 }
+
+
+/* Final override: make the Complete Matches masthead match Home exactly.
+   Remove the extra full-width rule beneath the navbar without touching the
+   orange active-link indicator used by the shared site navigation. */
+html body.complete-matches-page > header.topbar,
+html body.complete-matches-page > header.topbar::before,
+html body.complete-matches-page > header.topbar::after {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+html body.complete-matches-page > header.topbar::after {
+  display: none !important;
+  content: none !important;
+}
+@media (min-width: 801px) {
+  html body.complete-matches-page > header.topbar > nav#main-nav > a[href="/bcci-fixtures-test/"] {
+    min-height: 0 !important;
+    height: auto !important;
+    box-shadow: none !important;
+    border-bottom: 0 !important;
+    background: transparent !important;
+  }
+  html body.complete-matches-page > header.topbar > nav#main-nav > a[href="/bcci-fixtures-test/"]::after {
+    display: none !important;
+    content: none !important;
+  }
+}
