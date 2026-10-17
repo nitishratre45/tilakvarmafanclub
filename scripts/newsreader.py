@@ -10,7 +10,7 @@ from urllib.parse import urljoin, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "News" / "raw-news-pages.json"
-NAME_RE = re.compile(r"\\btilak\\s+varma\\b", re.I)
+NAME_RE = re.compile(r"\btilak\s+varma\b", re.I)
 URL_KEYS = ("webUrl", "web_url", "webviewUrl", "webview_url", "url", "link")
 TITLE_KEYS = ("title", "headline", "name")
 TEXT_KEYS = ("description", "summary", "excerpt", "shortDescription", "content")
@@ -46,7 +46,7 @@ def first_text(item, keys):
     for key in keys:
         value = item.get(key)
         if isinstance(value, str) and value.strip():
-            return re.sub(r"\\s+", " ", value).strip()
+            return re.sub(r"\s+", " ", value).strip()
     return ""
 
 
@@ -137,7 +137,7 @@ def main():
         }
     )
     RAW.write_text(
-        json.dumps(doc, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8"
+        json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(
         f"BCCI API-only cache: kept {len(kept)} Tilak-related records; removed {removed_unrelated} unrelated records; article HTML requests: 0",
