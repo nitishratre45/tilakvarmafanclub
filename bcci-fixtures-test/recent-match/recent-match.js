@@ -29,12 +29,15 @@
       .filter((m) => m.format === format && (m.teams || []).some((t) => norm(t) === norm(team)))
       .sort((a, b) => String(b.date).localeCompare(String(a.date)))
       .slice(0, 5);
-    $("rm-meta").textContent =
-      (index.matchCount || 0).toLocaleString() +
-      " saved international matches · " +
-      format +
-      " · Source snapshot " +
-      String(index.updatedAt || "").slice(0, 10);
+    const meta = $("rm-meta");
+    if (meta) {
+      meta.textContent =
+        (index.matchCount || 0).toLocaleString() +
+        " saved international matches · " +
+        format +
+        " · Source snapshot " +
+        String(index.updatedAt || "").slice(0, 10);
+    }
     $("rm-list").innerHTML = rows.length
       ? rows
           .map((m) => {
@@ -109,7 +112,8 @@
       if (!teams.some((t) => norm(t) === norm(requested))) teamSel.value = teams[0] || "";
       render();
     } catch (e) {
-      $("rm-meta").textContent =
+      const meta = $("rm-meta");
+      if (meta) meta.textContent =
         "Archive data is not available until the daily Cricsheet workflow completes.";
       $("rm-list").innerHTML =
         '<div class="rm-empty">Could not load the saved international archive. Please try again after the first workflow run.</div>';
