@@ -672,3 +672,72 @@ body > main *::after {
     padding-top: 18px !important;
   }
 }
+
+
+/* Desktop parity: Bowling table must use the same full-width presentation as Batting. */
+@media (min-width: 801px) {
+  #home-snapshot .home-bowling-table-section .home-career-table-wrap {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  #home-snapshot .home-bowling-table-section table.home-career-table {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    table-layout: auto !important;
+  }
+  #home-snapshot .home-bowling-table-section table.home-career-table th,
+  #home-snapshot .home-bowling-table-section table.home-career-table td {
+    padding: 10px 8px !important;
+    font-size: clamp(10px, 0.75vw, 13px) !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* Restore a usable full navigation row on desktop; keep the mobile hamburger at mobile widths. */
+@media (min-width: 801px) {
+  html body > header.topbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: clamp(12px, 2vw, 28px) !important;
+  }
+  html body > header.topbar > a.brand {
+    flex: 0 0 auto !important;
+  }
+  html body > header.topbar > nav#main-nav {
+    display: flex !important;
+    position: static !important;
+    inset: auto !important;
+    flex: 1 1 auto !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: clamp(8px, 1.1vw, 18px) !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    overflow: visible !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  html body > header.topbar > nav#main-nav a {
+    display: inline-flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+    font-size: clamp(10px, 0.78vw, 13px) !important;
+  }
+  html body > header.topbar > .menu-toggle {
+    display: none !important;
+  }
+}
+@media (max-width: 800px) {
+  html body > header.topbar > .menu-toggle {
+    display: flex !important;
+  }
+}
