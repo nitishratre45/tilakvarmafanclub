@@ -100,6 +100,13 @@
       match.team1_name || match.team1_short_name || payload?.liveMatch?.team1_name || "Team 1";
     const teamTwoName =
       match.team2_name || match.team2_short_name || payload?.liveMatch?.team2_name || "Team 2";
+    const isLive =
+      payload?.isLive === true ||
+      /live|in play|in progress|innings break/i.test(
+        String(
+          match.match_status || match.live_status_name || payload?.liveMatch?.match_status || "",
+        ),
+      );
     const teamScore = (teamId) => {
       const row = scoreRows.find(
         (inn) => String(inn.batting_team_id ?? inn.team_id) === String(teamId),
@@ -115,13 +122,6 @@
     };
     const scoreA = teamScore(teamOneId);
     const scoreB = teamScore(teamTwoId);
-    const isLive =
-      payload?.isLive === true ||
-      /live|in play|in progress|innings break/i.test(
-        String(
-          match.match_status || match.live_status_name || payload?.liveMatch?.match_status || "",
-        ),
-      );
     const board = $("top-scoreboard");
     if (board) {
       board.innerHTML =
