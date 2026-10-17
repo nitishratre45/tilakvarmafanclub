@@ -1,0 +1,60 @@
+/* Shared desktop navbar geometry: keep Home, Matches and Records links in identical positions. */
+@media (min-width: 801px) {
+  html body > header.topbar {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 78px !important;
+    height: 78px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: clamp(16px, 2vw, 32px) !important;
+    padding: 0 clamp(32px, 4.5vw, 76px) !important;
+    margin: 0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10000 !important;
+  }
+  html body > header.topbar > a.brand {
+    flex: 0 0 auto !important;
+    margin: 0 auto 0 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+  }
+  html body > header.topbar > nav#main-nav {
+    display: flex !important;
+    flex: 0 1 auto !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: clamp(12px, 1.35vw, 22px) !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin: 0 0 0 auto !important;
+    padding: 0 !important;
+    position: static !important;
+    transform: none !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  html body > header.topbar > nav#main-nav > a {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 12px 0 !important;
+    line-height: 1.2 !important;
+    font-size: clamp(11px, .82vw, 13px) !important;
+    white-space: nowrap !important;
+    transform: none !important;
+  }
+  html body > header.topbar > .menu-toggle { display: none !important; }
+}
