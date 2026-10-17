@@ -57,11 +57,19 @@ jobs:
           git add -f bcci-fixtures-test/bcci-scorecard.json
           if git diff --cached --quiet; then echo "Scorecard unchanged."; exit 0; fi
           git commit -m "Refresh BCCI folder scorecard JSON"
-          for attempt in 1 2 3; do
+          for attempt in 1 2 3 4; do
             git fetch origin main
-            git rebase origin/main
-            if git push origin HEAD:main; then exit 0; fi
+            if ! git rebase origin/main; then
+              echo "::error::BCCI scorecard rebase conflicted; refusing to publish."
+              git rebase --abort || true
+              exit 1
+            fi
+            if git push origin HEAD:main; then
+              echo "Published validated BCCI folder scorecard."
+              exit 0
+            fi
+            echo "Concurrent main update detected; retrying safely (attempt $attempt/4)."
             sleep $((attempt * 2))
           done
-          echo "::error::Could not publish BCCI folder scorecard JSON."
+          echo "::error::Could not publish BCCI folder scorecard after four retries."
           exit 1
