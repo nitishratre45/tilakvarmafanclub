@@ -58,6 +58,16 @@ class NewsTableFormattingTests(unittest.TestCase):
         self.assertEqual(len(tables), 2)
         self.assertEqual([len(table["rows"]) for table in tables], [3, 3])
 
+    def test_rows_with_pipe_in_venue_keep_table_shape(self) -> None:
+        blocks = blocks_for(
+            "Fixtures: | No. | Day | Date | Match | Venue | "
+            "1 | Sun | 27-Sep-26 | 1st T20I | Ground A | " 
+            "2 | Wed | 30-Sep-26 | 2nd T20I | Ground B"
+        )
+        tables = [block for block in blocks if block["type"] == "table"]
+        self.assertEqual(len(tables), 1)
+        self.assertTrue(all(len(row) == len(tables[0]["rows"][0]) for row in tables[0]["rows"]))
+
     def test_prose_is_not_misclassified_as_a_table(self) -> None:
         blocks = blocks_for(
             "The selection committee announced the squad. "
