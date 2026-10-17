@@ -717,3 +717,14 @@ body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
 @media (max-width: 600px) {
   body.matches-page.match-details-page #sc-content > .sc-test-innings-nav { top: 96px !important; }
 }
+
+
+/* Final adjustment: pin the Test innings selector directly beneath the site navbar. */
+body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
+  top: 76px !important;
+}
+@media (max-width: 600px) {
+  body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
+    top: 76px !important;
+  }
+}
