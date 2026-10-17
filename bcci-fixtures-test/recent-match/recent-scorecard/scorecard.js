@@ -198,8 +198,8 @@
         if (result) result.classList.add("sc-result-compact");
       }
       const innings = Array.from(document.querySelectorAll("#sc-content .sc-innings"));
-      const teams = (match.teams || []).slice(0, 2);
-      if (innings.length && teams.length === 2) {
+      const teamNames = (match.teams || []).slice(0, 2);
+      if (innings.length && teamNames.length === 2) {
         const nav = document.createElement("nav");
         nav.className = "sc-team-switch";
         nav.setAttribute("aria-label", "Choose team scorecard");
@@ -209,12 +209,12 @@
         innings.forEach((section) => {
           const wrapper = document.createElement("div");
           wrapper.className = "sc-team-innings";
-          wrapper.dataset.teamIndex = String(Math.max(0, teams.indexOf(section.querySelector("h3")?.childNodes[0]?.textContent?.trim() || "")));
+          wrapper.dataset.teamIndex = String(Math.max(0, teamNames.indexOf(section.querySelector("h3")?.childNodes[0]?.textContent?.trim() || "")));
           section.parentNode.insertBefore(wrapper, section);
           wrapper.appendChild(section);
           list.appendChild(wrapper);
         });
-        teams.forEach((team, index) => {
+        teamNames.forEach((team, index) => {
           const button = document.createElement("button");
           button.type = "button";
           button.className = "sc-team-tab" + (index === 0 ? " is-active" : "");
