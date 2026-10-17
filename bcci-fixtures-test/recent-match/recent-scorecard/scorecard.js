@@ -121,23 +121,47 @@
     try {
       let match = null;
       let lastError = null;
-      // Preferred route: resolve the selected match through the compact archive index.
-      try {
-        const indexResponse = await fetchWithTimeout("/bcci-fixtures-test/recent-match/archive-index.json");
-        if (!indexResponse.ok) throw Error("Archive index returned HTTP " + indexResponse.status);
-        const index = await indexResponse.json();
-        const row = (index.matches || []).find((m) => m.matchId === id);
-        if (!row) throw Error("Selected match ID is not in the archive index.");
-        const bundleResponse = await fetchWithTimeout(row.scorecard);
-        if (!bundleResponse.ok) throw Error("Scorecard bundle returned HTTP " + bundleResponse.status);
-        const bundle = await bundleResponse.json();
-        match = (bundle.matches || []).find((m) => m.matchId === id) || null;
-        if (!match) throw Error("Selected match ID was not found in the scorecard bundle.");
-      } catch (error) {
-        lastError = error;
+
+      // Fast path: match IDs identify the year and format, so load only that compact year bundle first.
+      // Supports IDs shaped like YYYY-MM-DD-format-... and older YYYY-format-... IDs.
+      const idParts = id.match(/^(\\d{4})-(?:(\\d{2})-(\\d{2})-)?(t20i|odi|test)-/i);
+      if (idParts) {
+        const year = idParts[1];
+        const formatSlug = (idParts[4] || idParts[2] || "").toLowerCase();
+        try {
+          const response = await fetchWithTimeout(
+            "/bcci-fixtures-test/recent-match/data/" + formatSlug + "-" + year + ".json",
+            45000,
+          );
+          if (!response.ok) throw Error("Year bundle returned HTTP " + response.status);
+          const bundle = await response.json();
+          match = (bundle.matches || []).find((m) => m.matchId === id) || null;
+          if (!match) lastError = Error("Selected match ID was not found in the year bundle.");
+        } catch (error) {
+          lastError = error;
+        }
       }
-      // Fallback: match IDs contain date + format, so fetch just that year's bundle.
-      // This avoids making a large index a hard dependency for opening scorecards.
+
+      // Fallback to the archive index only if the year bundle did not contain this match.
+      if (!match) {
+        try {
+          const indexResponse = await fetchWithTimeout(
+            "/bcci-fixtures-test/recent-match/archive-index.json",
+            45000,
+          );
+          if (!indexResponse.ok) throw Error("Archive index returned HTTP " + indexResponse.status);
+          const index = await indexResponse.json();
+          const row = (index.matches || []).find((m) => m.matchId === id);
+          if (!row) throw Error("Selected match ID is not in the archive index.");
+          const bundleResponse = await fetchWithTimeout(row.scorecard, 45000);
+          if (!bundleResponse.ok) throw Error("Scorecard bundle returned HTTP " + bundleResponse.status);
+          const bundle = await bundleResponse.json();
+          match = (bundle.matches || []).find((m) => m.matchId === id) || null;
+          if (!match) throw Error("Selected match ID was not found in the scorecard bundle.");
+        } catch (error) {
+          lastError = error;
+        }
+      }
       if (!match) {
         const idParts = id.match(/^(\d{4})-(?:(\d{2})-(\d{2})-)?(t20i|odi|test)-/i);
         if (idParts) {
