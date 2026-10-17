@@ -470,7 +470,6 @@
       const [
         newsResponse,
         statsResponse,
-        squadsResponse,
         scorecardIndexResponse,
         bcciFixturesResponse,
       ] = await Promise.all([
@@ -480,9 +479,6 @@
         fetch("/bcci-fixtures-test/bcci-fixtures.json?v=isolated-details1", {
           cache: "no-store",
         }).catch(() => null),
-        fetch("/bcci-fixtures-test/bcci-squads.json?v=isolated-details1", { cache: "no-store" }).catch(
-          () => null,
-        ),
         fetch("/bcci-fixtures-test/scorecards/index.json?v=isolated-details1", {
           cache: "no-store",
         }).catch(() => null),
@@ -494,8 +490,6 @@
         newsResponse && newsResponse.ok ? await newsResponse.json().catch(() => null) : null;
       const statsSnapshot =
         statsResponse && statsResponse.ok ? await statsResponse.json().catch(() => null) : null;
-      const squadsSnapshot =
-        squadsResponse && squadsResponse.ok ? await squadsResponse.json().catch(() => null) : null;
       const scorecardIndex =
         scorecardIndexResponse && scorecardIndexResponse.ok
           ? await scorecardIndexResponse.json().catch(() => null)
@@ -912,6 +906,54 @@
       ]
         .map((v) => String(v || "").trim())
         .filter(Boolean);
+      // Load squads from the match-ID-specific snapshot written by fetch_bcci_squads.py.
+      // The browser never calls the protected upstream squads API directly.
+      let squadsSnapshot = null;
+      if (fixtureMatchId && /^\\d+$/.test(fixtureMatchId)) {
+        try {
+          const squadResponse = await fetch(
+            "/bcci-fixtures-test/squads/" + encodeURIComponent(fixtureMatchId) + ".json?v=" + Date.now(),
+            { cache: "no-store" },
+          );
+          if (squadResponse.ok) squadsSnapshot = await squadResponse.json().catch(() => null);
+        } catch (_) {}
+      }
+      const extractPlayerRows = (value, depth = 0) => {
+        if (depth > 6 || value == null) return [];
+        if (Array.isArray(value)) {
+          if (value.length && value.every((item) => item && typeof item === "object" &&
+            (item.player_name || item.player_known_as || item.name || item.full_name || item.player_id))) {
+            return value;
+          }
+          for (const item of value) {
+            const found = extractPlayerRows(item, depth + 1);
+            if (found.length) return found;
+          }
+          return [];
+        }
+        if (typeof value !== "object") return [];
+        for (const key of ["players", "player", "squad", "squads", "team_squad", "teamSquad", "data", "results", "items", "response"]) {
+          if (Object.prototype.hasOwnProperty.call(value, key)) {
+            const found = extractPlayerRows(value[key], depth + 1);
+            if (found.length) return found;
+          }
+        }
+        return [];
+      };
+      const responseTeams = squadsSnapshot?.teams || {};
+      const savedSquads = [
+        {
+          teamId: String(responseTeams.team1?.team_id || squadsSnapshot?.match?.team1_id || ""),
+          teamName: String(squadsSnapshot?.match?.team1_name || ""),
+          players: extractPlayerRows(responseTeams.team1?.response),
+        },
+        {
+          teamId: String(responseTeams.team2?.team_id || squadsSnapshot?.match?.team2_id || ""),
+          teamName: String(squadsSnapshot?.match?.team2_name || ""),
+          players: extractPlayerRows(responseTeams.team2?.response),
+        },
+      ];
+      const squadCheckedAt = squadsSnapshot?.fetched_at_utc || "";
       // Live scoreboard waits for the official ID; never substitute by date/team.
       const exactScorecardById = fixtureMatchId
         ? scorecardRows.find((row) => {
@@ -1167,7 +1209,6 @@
         : /odi|one.?day/i.test(matchLabel)
           ? "2"
           : "";
-      const savedSquads = Array.isArray(squadsSnapshot?.squads) ? squadsSnapshot.squads : [];
       const rawFixture = f.rawBcci || {};
       const idForTeam = (teamName) => {
         const wanted = String(teamName || "")
@@ -1295,11 +1336,11 @@
             ". Official squad snapshot is missing or does not include this team/format yet. Existing match details are unchanged.",
         );
       }
-      if (squadsSnapshot?.checkedAt) {
+      if (squadCheckedAt) {
         set(
           "workflow-squad",
-          "Saved official squad snapshot checked " +
-            squadsSnapshot.checkedAt +
+          "Saved official match-ID squad snapshot checked " +
+            squadCheckedAt +
             ". Displayed list: " +
             (teamSquad?.players?.length || 0) +
             " " +
