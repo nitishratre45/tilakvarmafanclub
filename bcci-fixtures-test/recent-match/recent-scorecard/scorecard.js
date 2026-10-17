@@ -256,6 +256,36 @@
         "</p><p>" +
         esc((match.officials?.match_referees || []).join(", ") || "Match referee not recorded") +
         '</p></section>';
+      // Test matches use a full innings-by-innings layout; limited-overs formats keep the team switcher.
+      if (String(match.format || "").toLowerCase() === "test") {
+        const inningsSections = Array.from(document.querySelectorAll("#sc-content .sc-innings"));
+        const ordinal = (n) => ({1:"1st",2:"2nd",3:"3rd",4:"4th"})[n] || (n + "th");
+        inningsSections.forEach((section, index) => {
+          section.classList.add("sc-test-innings");
+          const heading = section.querySelector("h3");
+          if (heading) {
+            const label = document.createElement("span");
+            label.className = "sc-innings-label";
+            label.textContent = ordinal(index + 1) + " INNINGS";
+            heading.insertBefore(label, heading.firstChild);
+          }
+        });
+        const innings = (match.innings || []).map((inn, index) => ({
+          label: ordinal(index + 1) + " innings",
+          team: inn.team || "Team",
+          score: (inn.runs ?? 0) + "/" + (inn.wickets ?? 0),
+          overs: inn.overs || "—"
+        }));
+        const summary = document.createElement("section");
+        summary.className = "sc-panel sc-test-summary";
+        summary.innerHTML = '<h2>Test Match · Innings Summary</h2><div class="sc-test-summary-grid">' +
+          innings.map((inn) => '<article class="sc-test-summary-card"><small>' + esc(inn.label) +
+            '</small><strong>' + esc(inn.team) + '</strong><span>' + esc(inn.score) +
+            '</span><em>' + esc(inn.overs) + ' overs</em></article>').join("") +
+          '</div><p class="sc-test-note">All innings are shown in match order, including both innings for each team.</p>';
+        const heroSection = document.querySelector("#sc-content .sc-hero");
+        if (heroSection) heroSection.insertAdjacentElement("afterend", summary);
+      }
       // Add compact metadata styling and a sticky two-team innings switcher.
       const hero = document.querySelector("#sc-content .sc-hero");
       if (hero) {
@@ -329,7 +359,7 @@
       }
       const innings = Array.from(document.querySelectorAll("#sc-content .sc-innings"));
       const teamNames = (match.teams || []).slice(0, 2);
-      if (innings.length && teamNames.length === 2) {
+      if (String(match.format || "").toLowerCase() !== "test" && innings.length && teamNames.length === 2) {
         const scorePanel = document.querySelector("#sc-content .sc-panel");
         const nav = document.createElement("nav");
         nav.className = "sc-team-switch";
