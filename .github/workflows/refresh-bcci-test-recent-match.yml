@@ -1,0 +1,59 @@
+name: Refresh BCCI Test Recent Match Archive
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "37 2 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "bcci-fixtures-test/recent-match/build_cricsheet_archive.py"
+      - ".github/workflows/refresh-bcci-test-recent-match.yml"
+permissions:
+  contents: write
+concurrency:
+  group: bcci-test-recent-match-archive
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate builder
+        run: python -m py_compile bcci-fixtures-test/recent-match/build_cricsheet_archive.py
+      - name: Download Cricsheet archives and save JSON scorecards
+        run: python -u bcci-fixtures-test/recent-match/build_cricsheet_archive.py
+      - name: Validate archive index and format bundles
+        run: |
+          python -m json.tool bcci-fixtures-test/recent-match/archive-index.json >/dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("bcci-fixtures-test/recent-match")
+          index = json.loads((root / "archive-index.json").read_text())
+          assert index["matchCount"] > 0
+          assert set(index["formats"]) == {"T20I", "ODI", "Test"}
+          for p in (root / "data").glob("*.json"):
+              d = json.loads(p.read_text())
+              assert d["matches"] and all(m.get("innings") is not None for m in d["matches"])
+          print(f"Validated {index['matchCount']} international matches.")
+          PY
+      - name: Commit archive snapshots
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bcci-fixtures-test/recent-match/archive-index.json bcci-fixtures-test/recent-match/data
+          if git diff --cached --quiet; then echo "Archive unchanged."; exit 0; fi
+          git commit -m "data: refresh Cricsheet international recent scorecards"
+          for attempt in 1 2 3 4; do
+            if git push origin HEAD:main; then exit 0; fi
+            git fetch origin main
+            git rebase origin/main
+            sleep $((attempt * 2))
+          done
+          echo "::error::Could not publish Cricsheet recent match archive after retries."
+          exit 1
