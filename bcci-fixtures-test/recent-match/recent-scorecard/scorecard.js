@@ -237,6 +237,7 @@
         if (scorePanel) {
           scorePanel.classList.add("sc-score-panel");
           scorePanel.insertBefore(nav, scorePanel.querySelector("h2")?.nextSibling || null);
+          scorePanel.insertBefore(list, nav.nextSibling);
           const firstButton = nav.querySelector(".sc-team-tab");
           if (firstButton) firstButton.click();
         }
