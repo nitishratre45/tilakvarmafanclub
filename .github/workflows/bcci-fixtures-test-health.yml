@@ -133,7 +133,7 @@ jobs:
           builder = root / "build_cricsheet_archive.py"
           ast.parse(builder.read_text(encoding="utf-8"), filename=str(builder))
           source = builder.read_text(encoding="utf-8")
-          for archive in ("t20i_json.zip", "odis_json.zip", "tests_json.zip"):
+          for archive in ("t20s_male_json.zip", "odis_male_json.zip", "tests_male_json.zip"):
               assert archive in source, f"Cricsheet archive source missing: {archive}"
           assert "archive-index.json" in source and "TemporaryDirectory" in source
           js = (root / "recent-match.js").read_text(encoding="utf-8")
