@@ -1170,3 +1170,19 @@
     font-size: 14px;
   }
 }
+
+/* Keep the match-centre section navigation pinned just below the site header
+   while the page scrolls vertically. Keep horizontal tab scrolling independent. */
+.match-details-page .details-tabs {
+  position: sticky !important;
+  top: 84px !important;
+  z-index: 100 !important;
+  flex-shrink: 0;
+  isolation: isolate;
+}
+
+@media (max-width: 700px) {
+  .match-details-page .details-tabs {
+    top: 72px !important;
+  }
+}
