@@ -53,7 +53,8 @@
               "&team=" +
               encodeURIComponent(team) +
               (params.get("returnTo") && params.get("returnTo").startsWith("/matches/details/")
-                ? "&returnTo=" + encodeURIComponent(params.get("returnTo") + "#recent-match-results")
+                ? "&returnTo=" +
+                  encodeURIComponent(params.get("returnTo") + "#recent-match-results")
                 : "");
             return (
               '<article class="rm-card"><div class="rm-badge ' +

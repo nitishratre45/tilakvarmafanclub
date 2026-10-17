@@ -1617,8 +1617,11 @@
                     const link =
                       "/bcci-fixtures-test/recent-match/recent-scorecard/?matchId=" +
                       encodeURIComponent(row.matchId) +
-                      "&returnTo=" + encodeURIComponent(location.pathname + location.search + "#recent-match-results")
-                      "&format=" +
+                      "&returnTo=" +
+                      encodeURIComponent(
+                        location.pathname + location.search + "#recent-match-results",
+                      );
+                    "&format=" +
                       encodeURIComponent(row.format) +
                       "&team=" +
                       encodeURIComponent(teamName);
