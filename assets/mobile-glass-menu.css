@@ -128,7 +128,7 @@ html body > header.topbar .menu-toggle span {
     background:
       linear-gradient(135deg, rgba(16, 91, 169, 0.78), rgba(5, 20, 42, 0.76)), rgba(8, 28, 54, 0.72);
     -webkit-backdrop-filter: blur(10px) saturate(125%);
-    backdrop-filter: blur(24px) saturate(155%);
+    backdrop-filter: blur(10px) saturate(125%);
     box-shadow:
       0 22px 55px rgba(0, 10, 28, 0.42),
       inset 0 1px 0 rgba(255, 255, 255, 0.18);
@@ -204,7 +204,7 @@ html body > header.topbar .menu-toggle span {
     z-index: 9998;
     background: rgba(1, 10, 24, 0.3);
     -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(2px);
     animation: tv-menu-scrim-in 0.18s ease both;
   }
   html body.mobile-menu-open {
@@ -301,7 +301,7 @@ html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(3) {
     border: 1px solid rgba(124, 229, 242, 0.48) !important;
     border-radius: 24px !important;
     -webkit-backdrop-filter: blur(10px) saturate(125%) !important;
-    backdrop-filter: blur(28px) saturate(170%) !important;
+    backdrop-filter: blur(10px) saturate(125%) !important;
     box-shadow:
       0 24px 60px rgba(0, 10, 32, 0.48),
       inset 0 1px 0 rgba(255, 255, 255, 0.2),
@@ -345,8 +345,8 @@ html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(3) {
   }
   html body.mobile-menu-open::before {
     background: rgba(1, 12, 32, 0.43) !important;
-    -webkit-backdrop-filter: blur(3px) saturate(110%) !important;
-    backdrop-filter: blur(5px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(2px) saturate(110%) !important;
+    backdrop-filter: blur(3px) saturate(110%) !important;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -449,8 +449,8 @@ html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(3) {
     border-radius: 22px;
     background:
       linear-gradient(135deg, rgba(16, 91, 169, 0.78), rgba(5, 20, 42, 0.76)), rgba(8, 28, 54, 0.72);
-    -webkit-backdrop-filter: blur(24px) saturate(155%);
-    backdrop-filter: blur(24px) saturate(155%);
+    -webkit-backdrop-filter: blur(10px) saturate(125%);
+    backdrop-filter: blur(10px) saturate(125%);
     box-shadow:
       0 22px 55px rgba(0, 10, 28, 0.42),
       inset 0 1px 0 rgba(255, 255, 255, 0.18);
