@@ -334,27 +334,61 @@
     const existing = $("bcciNextMatchCountdown");
     if (existing) existing.remove();
     if (countdownTimer) clearInterval(countdownTimer);
+
+    // BCCI can return a date-only field, a local clock time, or a complete
+    // ISO datetime in either field. Parse those shapes consistently as IST.
+    const matchTimestamp = (fixture) => {
+      const dateValue = String(fixture?.date || "").trim();
+      const timeValue = String(fixture?.time || "").trim();
+      if (!dateValue) return NaN;
+
+      const isoDateTime = (value) => {
+        if (!value) return NaN;
+        const normalised = value.includes("T") ? value : value.replace(" ", "T");
+        if (!/^\\d{4}-\\d{2}-\\d{2}T/.test(normalised)) return NaN;
+        const withZone = /(?:Z|[+-]\\d{2}:?\\d{2})$/i.test(normalised)
+          ? normalised
+          : normalised + "+05:30";
+        const parsed = Date.parse(withZone);
+        return Number.isFinite(parsed) ? parsed : NaN;
+      };
+
+      const fullFromTime = isoDateTime(timeValue);
+      if (Number.isFinite(fullFromTime)) return fullFromTime;
+      const fullFromDate = isoDateTime(dateValue);
+      if (Number.isFinite(fullFromDate)) return fullFromDate;
+
+      const date = dateValue.slice(0, 10);
+      if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date)) return NaN;
+      const clock = timeValue.match(/^(\\d{1,2}):(\\d{2})(?::(\\d{2}))?\\s*(AM|PM)?$/i);
+      if (!clock) return Date.parse(date + "T00:00:00+05:30");
+
+      let hours = Number(clock[1]);
+      const minutes = Number(clock[2]);
+      const seconds = Number(clock[3] || "0");
+      const meridiem = String(clock[4] || "").toUpperCase();
+      if (hours > 23 || minutes > 59 || seconds > 59) return NaN;
+      if (meridiem) {
+        if (hours < 1 || hours > 12) return NaN;
+        hours = (hours % 12) + (meridiem === "PM" ? 12 : 0);
+      }
+      return Date.parse(
+        date + "T" + String(hours).padStart(2, "0") + ":" +
+        String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0") +
+        "+05:30"
+      );
+    };
+
     const now = Date.now();
     const next = fixtures
-      .filter((f) => {
-        const rawDate = String(f.date || "").slice(0, 10);
-        const time = String(f.time || "00:00").match(/^(\d{1,2}):(\d{2})/);
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(rawDate)) return false;
-        const target = Date.parse(
-          rawDate + "T" + (time ? time[1].padStart(2, "0") + ":" + time[2] : "00:00") + ":00+05:30",
-        );
-        return (
-          Number.isFinite(target) &&
-          target > now &&
-          !/live|completed|result|abandoned/i.test(String(f.status || ""))
-        );
-      })
-      .sort(
-        (a, b) =>
-          Date.parse(a.date + "T" + (a.time || "00:00") + ":00+05:30") -
-          Date.parse(b.date + "T" + (b.time || "00:00") + ":00+05:30"),
-      )[0];
+      .filter((fixture) =>
+        Number.isFinite(matchTimestamp(fixture)) &&
+        matchTimestamp(fixture) > now &&
+        !/live|completed|result|abandoned|cancelled|canceled/i.test(String(fixture.status || ""))
+      )
+      .sort((a, b) => matchTimestamp(a) - matchTimestamp(b))[0];
     if (!next) return;
+
     const host = $("fixtureList");
     if (!host) return;
     if (!document.getElementById("bcci-next-countdown-style")) {
@@ -363,49 +397,28 @@
       style.textContent = `.bcci-next-countdown{margin:22px 0 26px;padding:28px 20px;text-align:center;color:#f4f7ff;background:radial-gradient(circle at 18% 20%,#123e82 0,transparent 40%),linear-gradient(135deg,#071d57,#06143d 70%,#0b255b);border:1px solid #234b91;border-radius:18px;box-shadow:0 14px 34px #020b2240}.bcci-countdown-teams{display:flex;align-items:center;justify-content:center;gap:clamp(12px,3vw,38px)}.bcci-countdown-side{display:flex;align-items:center;justify-content:center;gap:12px;min-width:0;font-weight:800}.bcci-countdown-side>span:first-child{max-width:150px}.bcci-countdown-side img,.bcci-countdown-side .team-logo,.bcci-countdown-side .team-crest{width:clamp(44px,7vw,78px);height:clamp(44px,7vw,78px);object-fit:contain}.bcci-countdown-clock{display:flex;gap:8px}.bcci-countdown-clock>div{min-width:clamp(48px,6vw,66px);padding:10px 6px;background:#e8edff;color:#061746;border-radius:6px}.bcci-countdown-clock strong{display:block;font-size:clamp(22px,3vw,34px);line-height:1.1}.bcci-countdown-clock small{display:block;margin-top:4px;font-size:10px;font-weight:800}.bcci-countdown-title{margin:18px 0 5px;font-weight:800;color:#8ee8ff}.bcci-countdown-meta{margin:0;color:#c4d5f7;font-size:14px}@media(max-width:520px){.bcci-next-countdown{padding:20px 10px}.bcci-countdown-teams{gap:8px}.bcci-countdown-side{flex-direction:column;gap:5px;font-size:12px;max-width:92px}.bcci-countdown-side>span:first-child{max-width:92px}.bcci-countdown-clock{gap:4px}.bcci-countdown-clock>div{min-width:42px;padding:8px 3px}.bcci-countdown-clock strong{font-size:22px}.bcci-countdown-clock small{font-size:8px}.bcci-countdown-meta{font-size:12px}}`;
       document.head.appendChild(style);
     }
+
     const banner = document.createElement("section");
     banner.id = "bcciNextMatchCountdown";
     banner.className = "bcci-next-countdown";
     banner.innerHTML =
       '<div class="bcci-countdown-teams"><div class="bcci-countdown-side"><span>' +
-      esc(next.home || "India") +
-      "</span>" +
-      renderTeam(next.home || "India") +
+      esc(next.home || "India") + "</span>" + renderTeam(next.home || "India") +
       '</div><div class="bcci-countdown-clock" role="timer" aria-label="Countdown to next match"><div><strong data-h>00</strong><small>HRS</small></div><div><strong data-m>00</strong><small>MINS</small></div><div><strong data-s>00</strong><small>SECS</small></div></div><div class="bcci-countdown-side"><span>' +
-      esc(next.away || "Opponent") +
-      "</span>" +
-      renderTeam(next.away || "Opponent") +
+      esc(next.away || "Opponent") + "</span>" + renderTeam(next.away || "Opponent") +
       '</div></div><p class="bcci-countdown-title">' +
       esc(next.title || next.competition || "Upcoming match") +
-      '</p><p class="bcci-countdown-meta">' +
-      esc(fmt(next.date)) +
+      '</p><p class="bcci-countdown-meta">' + esc(fmt(next.date)) +
       (next.time ? " · " + esc(next.time) + " IST" : "") +
-      (next.venue ? " · " + esc(next.venue) : "") +
-      "</p>";
+      (next.venue ? " · " + esc(next.venue) : "") + "</p>";
     host.parentNode.insertBefore(banner, host);
-    const targetTime = Date.parse(
-      String(next.date).slice(0, 10) +
-        "T" +
-        (String(next.time || "00:00").match(/^(\d{1,2}):(\d{2})/) || [, "00", "00"])[1].padStart(
-          2,
-          "0",
-        ) +
-        ":" +
-        (String(next.time || "00:00").match(/^(\d{1,2}):(\d{2})/) || [, "00", "00"])[2] +
-        ":00+05:30",
-    );
+
+    const targetTime = matchTimestamp(next);
     const tick = () => {
       const left = Math.max(0, targetTime - Date.now());
-      banner.querySelector("[data-h]").textContent = String(Math.floor(left / 3600000)).padStart(
-        2,
-        "0",
-      );
-      banner.querySelector("[data-m]").textContent = String(
-        Math.floor((left % 3600000) / 60000),
-      ).padStart(2, "0");
-      banner.querySelector("[data-s]").textContent = String(
-        Math.floor((left % 60000) / 1000),
-      ).padStart(2, "0");
+      banner.querySelector("[data-h]").textContent = String(Math.floor(left / 3600000)).padStart(2, "0");
+      banner.querySelector("[data-m]").textContent = String(Math.floor((left % 3600000) / 60000)).padStart(2, "0");
+      banner.querySelector("[data-s]").textContent = String(Math.floor((left % 60000) / 1000)).padStart(2, "0");
     };
     tick();
     countdownTimer = setInterval(tick, 1000);
