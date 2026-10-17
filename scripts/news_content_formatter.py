@@ -57,8 +57,7 @@ HEADER_SET = {h for h in TABLE_HEADERS}
 
 # Some pages flatten the next paragraph/squad into the last (Venue) cell.
 VENUE_SPLIT_RE = re.compile(
-    r"\s+(?=(?:India(?:[’']s)?\s+(?:T20I|ODI|Test)\s+squad:|India A squad:|Note:|DEVAJIT SAIKIA|The squad for the ODIs))",
-    re.I,
+    r"\s+(?=(?:India A squad:|Note:|DEVAJIT SAIKIA|The squad for the ODIs))", re.I
 )
 ROW_NO_RE = re.compile(r"\d{1,2}")
 ROW_DATE_RE = re.compile(r"\d{1,2}[- /][A-Za-z0-9]{2,}|\d{4}")
@@ -177,16 +176,8 @@ def is_row(candidate: list[str], header: list[str]) -> bool:
         return False
     # Most BCCI fixtures include a serial number; some don't.
     return bool(ROW_NO_RE.fullmatch(candidate[0])) or (
-        bool(candidate)
-        and candidate[0].strip().lower()
-        in {
-            "monday",
-            "tuesday",
-            "wednesday",
-            "thursday",
-            "friday",
-            "saturday",
-            "sunday",
+        bool(candidate) and candidate[0].strip().lower() in {
+            "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"
         }
     )
 
