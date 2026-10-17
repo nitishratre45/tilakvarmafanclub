@@ -127,9 +127,9 @@
       const teamLogo = (teamId, teamName) => {
         const label = String(teamName || "").toLowerCase();
         const logo = String(teamId) === "6" || /india/.test(label)
-          ? "https://scores.bcci.tv/images/team/india.png"
+          ? "https://h4jcotsb7wdf7blj.public.blob.vercel-storage.com/logos/6.png"
           : String(teamId) === "4" || /west indies|windies/.test(label)
-            ? "https://scores.bcci.tv/images/team/west-indies.png" : "";
+            ? "https://h4jcotsb7wdf7blj.public.blob.vercel-storage.com/logos/4.png" : "";
         return logo
           ? '<img class="team-logo" src="' + esc(logo) + '" alt="' + esc(teamName) + ' logo" loading="lazy" onerror="this.hidden=true">'
           : '<span class="team-logo-fallback" aria-hidden="true">' + esc(String(teamName || "?").slice(0, 3).toUpperCase()) + '</span>';
