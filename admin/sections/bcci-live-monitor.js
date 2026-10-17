@@ -14,7 +14,7 @@
       path: "/bcci-fixtures-test/bcci-scorecard.json",
       type: "scorecard",
     },
-    { label: "BCCI match results", path: "/matches/results/match-results.json", type: "generic" },
+    { label: "BCCI match results", path: "/matches/bcci-match-results.json", type: "generic" },
     { label: "Matches live JSON", path: "/matches/live/live-matches.json", type: "matches" },
   ];
   const esc = (value) =>
@@ -181,7 +181,7 @@
   async function refreshStatus() {
     message("Checking GitHub Actions and saved JSON…");
     try {
-      const data = await api("/api/admin/monitor");
+      const data = await api("/api/admin/monitor?scope=bcci");
       renderRuns(data);
       await checkSnapshots();
       message(
