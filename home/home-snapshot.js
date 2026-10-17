@@ -346,41 +346,55 @@
   // Lock horizontal swipes to the Bowling table so diagonal finger movement
   // does not accidentally scroll the whole page. Vertical gestures remain native.
   let bowlingTouchStart = null;
-  document.addEventListener("touchstart", (event) => {
-    const wrap = event.target.closest(
-      ".home-bowling-table-section .home-career-table-wrap",
-    );
-    if (!wrap || !event.touches || event.touches.length !== 1) {
+  document.addEventListener(
+    "touchstart",
+    (event) => {
+      const wrap = event.target.closest(".home-bowling-table-section .home-career-table-wrap");
+      if (!wrap || !event.touches || event.touches.length !== 1) {
+        bowlingTouchStart = null;
+        return;
+      }
+      bowlingTouchStart = {
+        wrap,
+        x: event.touches[0].clientX,
+        y: event.touches[0].clientY,
+        scrollLeft: wrap.scrollLeft,
+        axis: null,
+      };
+    },
+    { passive: true },
+  );
+  document.addEventListener(
+    "touchmove",
+    (event) => {
+      if (!bowlingTouchStart || !event.touches || event.touches.length !== 1) return;
+      const touch = event.touches[0];
+      const dx = touch.clientX - bowlingTouchStart.x;
+      const dy = touch.clientY - bowlingTouchStart.y;
+      if (!bowlingTouchStart.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 7) {
+        bowlingTouchStart.axis = Math.abs(dx) > Math.abs(dy) * 1.15 ? "x" : "y";
+      }
+      if (bowlingTouchStart.axis === "x") {
+        if (event.cancelable) event.preventDefault();
+        bowlingTouchStart.wrap.scrollLeft = bowlingTouchStart.scrollLeft - dx;
+      }
+    },
+    { passive: false },
+  );
+  document.addEventListener(
+    "touchend",
+    () => {
       bowlingTouchStart = null;
-      return;
-    }
-    bowlingTouchStart = {
-      wrap,
-      x: event.touches[0].clientX,
-      y: event.touches[0].clientY,
-      scrollLeft: wrap.scrollLeft,
-      axis: null,
-    };
-  }, { passive: true });
-  document.addEventListener("touchmove", (event) => {
-    if (!bowlingTouchStart || !event.touches || event.touches.length !== 1) return;
-    const touch = event.touches[0];
-    const dx = touch.clientX - bowlingTouchStart.x;
-    const dy = touch.clientY - bowlingTouchStart.y;
-    if (!bowlingTouchStart.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 7) {
-      bowlingTouchStart.axis = Math.abs(dx) > Math.abs(dy) * 1.15 ? "x" : "y";
-    }
-    if (bowlingTouchStart.axis === "x") {
-      if (event.cancelable) event.preventDefault();
-      bowlingTouchStart.wrap.scrollLeft = bowlingTouchStart.scrollLeft - dx;
-    }
-  }, { passive: false });
-  document.addEventListener("touchend", () => {
-    bowlingTouchStart = null;
-  }, { passive: true });
-  document.addEventListener("touchcancel", () => {
-    bowlingTouchStart = null;
-  }, { passive: true });
+    },
+    { passive: true },
+  );
+  document.addEventListener(
+    "touchcancel",
+    () => {
+      bowlingTouchStart = null;
+    },
+    { passive: true },
+  );
 
   init();
 })();
