@@ -62,6 +62,13 @@ def main():
         data = json.loads(raw)
         if not isinstance(data, dict):
             raise ValueError("BCCI scorecard response was not a JSON object")
+        if not data or data.get("error") or str(data.get("status", "")).strip().lower() in {
+            "error", "failed", "unauthorized", "forbidden"
+        }:
+            raise ValueError("BCCI scorecard API returned an empty or error payload")
+        score_data = data.get("data", data)
+        if not isinstance(score_data, dict) or not score_data:
+            raise ValueError("BCCI scorecard API returned no scorecard data")
         payload = {
             "fetchedAt": datetime.now(timezone.utc).isoformat(),
             "source": url,
@@ -71,7 +78,7 @@ def main():
             "status": "ok",
             "httpStatus": status,
             "contentType": content_type,
-            "data": data.get("data", data),
+            "data": score_data,
             "error": None,
         }
         temp = OUTPUT.with_suffix(".json.tmp")
@@ -81,8 +88,9 @@ def main():
         return 0
     except (HTTPError, URLError, TimeoutError, ValueError, OSError, RuntimeError, json.JSONDecodeError) as exc:
         print(f"BCCI scorecard refresh failed: {exc}", file=sys.stderr)
-        # Never replace a good scorecard with an empty/error payload.
-        return 0 if OUTPUT.exists() else 1
+        # Never replace a good scorecard with an empty/error payload, but do
+        # return failure so Actions alerts on stale snapshots instead of hiding it.
+        return 1
 
 if __name__ == "__main__":
     raise SystemExit(main())
