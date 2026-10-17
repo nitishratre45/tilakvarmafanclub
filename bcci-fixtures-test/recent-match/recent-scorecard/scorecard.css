@@ -687,3 +687,24 @@ body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
   border-radius: 16px !important;
   z-index: 10001 !important;
 }
+
+
+/* Final sticky behavior: keep the selector in document flow until it reaches the club header. */
+body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 104px !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100% !important;
+  margin: 12px 0 14px !important;
+  border-radius: 16px !important;
+  z-index: 10001 !important;
+}
+@media (max-width: 600px) {
+  body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
+    top: 104px !important;
+    left: auto !important;
+    right: auto !important;
+  }
+}
