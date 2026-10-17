@@ -2390,13 +2390,14 @@ footer {
   }
 }
 
-
 /* Premium compact mobile live-match card — scoped to BCCI Fixtures Test.
    Do not alter the shared site navbar or hamburger menu. */
 .live-matches-section {
-  border-color: rgba(119, 202, 232, .22);
-  background: linear-gradient(145deg, rgba(15, 31, 50, .96), rgba(7, 18, 31, .98));
-  box-shadow: 0 18px 44px rgba(0,0,0,.18), inset 0 1px rgba(255,255,255,.025);
+  border-color: rgba(119, 202, 232, 0.22);
+  background: linear-gradient(145deg, rgba(15, 31, 50, 0.96), rgba(7, 18, 31, 0.98));
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.18),
+    inset 0 1px rgba(255, 255, 255, 0.025);
 }
 .live-section-heading {
   align-items: flex-start;
@@ -2404,7 +2405,7 @@ footer {
   row-gap: 12px;
 }
 .live-section-heading h2 {
-  letter-spacing: -.045em;
+  letter-spacing: -0.045em;
 }
 .live-section-heading .section-actions {
   display: flex;
@@ -2418,11 +2419,15 @@ footer {
   display: block;
   overflow: hidden;
   padding: 0;
-  border: 1px solid rgba(119, 202, 232, .25);
+  border: 1px solid rgba(119, 202, 232, 0.25);
   border-radius: 23px;
-  background: linear-gradient(155deg, rgba(19, 48, 73, .98), rgba(7, 19, 33, .99) 75%);
-  box-shadow: 0 16px 36px rgba(0,0,0,.2), inset 0 1px rgba(255,255,255,.04);
-  transition: border-color .18s ease, transform .18s ease;
+  background: linear-gradient(155deg, rgba(19, 48, 73, 0.98), rgba(7, 19, 33, 0.99) 75%);
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.2),
+    inset 0 1px rgba(255, 255, 255, 0.04);
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease;
 }
 .live-match-card.fixture-card::before {
   content: "";
@@ -2432,7 +2437,7 @@ footer {
   background: linear-gradient(180deg, #76e6d6, #78aef7 52%, #f3a27c);
 }
 .live-match-card.fixture-card:hover {
-  border-color: rgba(117, 225, 220, .48);
+  border-color: rgba(117, 225, 220, 0.48);
   transform: translateY(-1px);
 }
 .live-match-card .upcoming-card-top {
@@ -2444,8 +2449,8 @@ footer {
   padding: 18px 20px 8px 24px;
 }
 .live-match-card .live-now-pill {
-  border: 1px solid rgba(87, 223, 188, .3);
-  background: rgba(25, 123, 105, .18);
+  border: 1px solid rgba(87, 223, 188, 0.3);
+  background: rgba(25, 123, 105, 0.18);
   color: #9beed3;
 }
 .live-match-card .upcoming-date {
@@ -2453,9 +2458,9 @@ footer {
   align-items: center;
   min-height: 38px;
   padding: 7px 12px;
-  border: 1px solid rgba(140, 185, 220, .24);
+  border: 1px solid rgba(140, 185, 220, 0.24);
   border-radius: 13px;
-  background: rgba(7, 20, 35, .38);
+  background: rgba(7, 20, 35, 0.38);
   color: #d6e4f5;
   font-size: 12px;
   font-weight: 700;
@@ -2476,9 +2481,9 @@ footer {
   align-items: center;
   justify-content: center;
   gap: 7px;
-  border: 1px solid rgba(125, 178, 218, .18);
+  border: 1px solid rgba(125, 178, 218, 0.18);
   border-radius: 21px;
-  background: linear-gradient(145deg, rgba(30, 57, 82, .54), rgba(7, 22, 38, .65));
+  background: linear-gradient(145deg, rgba(30, 57, 82, 0.54), rgba(7, 22, 38, 0.65));
   text-align: center;
 }
 .live-match-card .upcoming-team img,
@@ -2489,8 +2494,8 @@ footer {
   object-fit: contain;
   border-radius: 17px;
   padding: 7px;
-  border: 1px solid rgba(148, 191, 225, .24);
-  background: rgba(6, 19, 34, .48);
+  border: 1px solid rgba(148, 191, 225, 0.24);
+  background: rgba(6, 19, 34, 0.48);
 }
 .live-match-card .upcoming-team strong,
 .live-match-card .upcoming-team .team-name {
@@ -2502,8 +2507,10 @@ footer {
 .live-match-card .upcoming-team .live-team-score {
   display: block;
   max-width: 100%;
-  font: 700 clamp(19px, 5.4vw, 27px)/1.25 "Space Grotesk", sans-serif;
-  letter-spacing: -.04em;
+  font:
+    700 clamp(19px, 5.4vw, 27px) / 1.25 "Space Grotesk",
+    sans-serif;
+  letter-spacing: -0.04em;
   color: #f5f9ff;
   overflow-wrap: anywhere;
   font-variant-numeric: tabular-nums;
@@ -2514,8 +2521,8 @@ footer {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 1px solid rgba(234, 149, 132, .2);
-  background: rgba(118, 56, 57, .22);
+  border: 1px solid rgba(234, 149, 132, 0.2);
+  background: rgba(118, 56, 57, 0.22);
   color: #f0a38f;
   font-size: 10px;
   font-weight: 800;
@@ -2527,9 +2534,9 @@ footer {
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 8px;
-  border: 1px solid rgba(113, 213, 212, .22);
+  border: 1px solid rgba(113, 213, 212, 0.22);
   border-radius: 15px;
-  background: rgba(12, 57, 66, .35);
+  background: rgba(12, 57, 66, 0.35);
   color: #e4f1fb;
   font-size: 12px;
   font-weight: 700;
@@ -2541,7 +2548,7 @@ footer {
 .live-match-card .live-score-line b {
   color: #83e0c5;
   font-size: 10px;
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
   white-space: nowrap;
 }
 .live-match-card .live-score-pending {
@@ -2553,12 +2560,12 @@ footer {
   padding: 17px 3px 18px;
   display: grid;
   gap: 9px;
-  border-top: 1px solid rgba(123, 177, 213, .17);
+  border-top: 1px solid rgba(123, 177, 213, 0.17);
 }
 .live-match-card .upcoming-match-info strong {
   font-size: 16px;
   line-height: 1.45;
-  letter-spacing: -.02em;
+  letter-spacing: -0.02em;
   overflow-wrap: anywhere;
 }
 .live-match-card .upcoming-venue {
@@ -2570,7 +2577,7 @@ footer {
   color: #80e1bd;
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: .06em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 .live-match-card .live-match-centre-link {
@@ -2585,15 +2592,21 @@ footer {
   color: #06202c;
   font-size: 15px;
   font-weight: 800;
-  transition: filter .18s ease;
+  transition: filter 0.18s ease;
 }
 .live-match-card .live-match-centre-link:hover {
   filter: brightness(1.06);
 }
 @media (max-width: 600px) {
-  .live-matches-section.panel { padding: 16px 12px; }
-  .live-section-heading { margin-bottom: 17px; }
-  .live-section-heading h2 { font-size: 23px; }
+  .live-matches-section.panel {
+    padding: 16px 12px;
+  }
+  .live-section-heading {
+    margin-bottom: 17px;
+  }
+  .live-section-heading h2 {
+    font-size: 23px;
+  }
   .live-section-heading .section-actions {
     width: 100%;
     justify-content: space-between;
@@ -2606,7 +2619,9 @@ footer {
   .live-match-card .upcoming-card-top {
     padding: 14px 12px 6px 16px;
   }
-  .live-match-card .live-now-pill { font-size: 10px; }
+  .live-match-card .live-now-pill {
+    font-size: 10px;
+  }
   .live-match-card .upcoming-date {
     min-height: 35px;
     padding: 6px 9px;
@@ -2647,14 +2662,20 @@ footer {
     gap: 5px;
     font-size: 11px;
   }
-  .live-match-card .live-score-line b { font-size: 9px; }
+  .live-match-card .live-score-line b {
+    font-size: 9px;
+  }
   .live-match-card .upcoming-match-info {
     margin: 0 12px 0 16px;
     padding: 14px 2px 15px;
     gap: 8px;
   }
-  .live-match-card .upcoming-match-info strong { font-size: 14px; }
-  .live-match-card .upcoming-venue { font-size: 11px; }
+  .live-match-card .upcoming-match-info strong {
+    font-size: 14px;
+  }
+  .live-match-card .upcoming-venue {
+    font-size: 11px;
+  }
   .live-match-card .live-match-centre-link {
     min-height: 54px;
     padding: 14px 16px;
@@ -2662,17 +2683,25 @@ footer {
   }
 }
 @media (max-width: 380px) {
-  .live-match-card .upcoming-team { min-height: 148px; }
+  .live-match-card .upcoming-team {
+    min-height: 148px;
+  }
   .live-match-card .upcoming-team img,
   .live-match-card .upcoming-team .team-logo,
-  .live-match-card .upcoming-team .team-crest { width: 42px; height: 42px; }
-  .live-match-card .live-score-line { grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); }
+  .live-match-card .upcoming-team .team-crest {
+    width: 42px;
+    height: 42px;
+  }
+  .live-match-card .live-score-line {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .live-match-card.fixture-card,
-  .live-match-card .live-match-centre-link { transition: none; }
+  .live-match-card .live-match-centre-link {
+    transition: none;
+  }
 }
-
 
 /* Hotfix: prevent duplicate team labels/logos and remove redundant back links
    while the live-match view is active. Shared navbar/menu intentionally untouched. */
@@ -2697,9 +2726,9 @@ footer {
   min-height: 48px;
   padding: 5px;
   overflow: hidden;
-  border: 1px solid rgba(148,191,225,.24);
+  border: 1px solid rgba(148, 191, 225, 0.24);
   border-radius: 14px;
-  background: rgba(6,19,34,.48);
+  background: rgba(6, 19, 34, 0.48);
 }
 .live-match-card .upcoming-team .team-logo img {
   display: block;
@@ -2779,7 +2808,6 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
   }
 }
 
-
 /* Premium BCCI Fixtures polish — visual styling only; header/menu untouched. */
 #liveMatchesSection,
 .upcoming-hero,
@@ -2792,11 +2820,11 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
 #upcomingMatchesSection,
 #completeMatchesSection,
 .live-match-card {
-  box-shadow: 0 16px 42px rgba(0, 7, 18, .20);
+  box-shadow: 0 16px 42px rgba(0, 7, 18, 0.2);
 }
 #liveMatchesSection {
-  border-color: rgba(115, 207, 231, .19);
-  background: linear-gradient(145deg, rgba(13, 31, 49, .96), rgba(6, 20, 34, .96));
+  border-color: rgba(115, 207, 231, 0.19);
+  background: linear-gradient(145deg, rgba(13, 31, 49, 0.96), rgba(6, 20, 34, 0.96));
 }
 #liveMatchesSection .live-section-heading {
   display: flex;
@@ -2807,18 +2835,18 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
 }
 #liveMatchesSection .live-section-heading h2 {
   margin: 0;
-  letter-spacing: -.035em;
+  letter-spacing: -0.035em;
   line-height: 1.15;
 }
 #liveMatchesSection .live-section-heading .eyebrow {
-  letter-spacing: .18em;
+  letter-spacing: 0.18em;
 }
 .live-match-card {
   overflow: hidden;
-  border: 1px solid rgba(119, 190, 221, .25);
+  border: 1px solid rgba(119, 190, 221, 0.25);
   border-radius: 28px;
   background:
-    radial-gradient(ellipse at 12% 0%, rgba(38, 128, 176, .16), transparent 45%),
+    radial-gradient(ellipse at 12% 0%, rgba(38, 128, 176, 0.16), transparent 45%),
     linear-gradient(155deg, #102b42 0%, #0a1c2e 72%, #0a1928 100%);
 }
 .live-match-card .upcoming-teams {
@@ -2828,9 +2856,9 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
 .live-match-card .upcoming-team {
   box-sizing: border-box;
   padding: 18px 10px;
-  border: 1px solid rgba(145, 190, 220, .17);
+  border: 1px solid rgba(145, 190, 220, 0.17);
   border-radius: 22px;
-  background: linear-gradient(155deg, rgba(24, 48, 70, .82), rgba(10, 27, 43, .92));
+  background: linear-gradient(155deg, rgba(24, 48, 70, 0.82), rgba(10, 27, 43, 0.92));
 }
 .live-match-card .upcoming-team .team-logo {
   width: 52px;
@@ -2839,14 +2867,14 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
   min-height: 52px;
   flex-basis: 52px;
   border-radius: 17px;
-  border-color: rgba(135, 206, 231, .28);
-  background: rgba(4, 17, 29, .78);
-  box-shadow: 0 5px 16px rgba(0, 0, 0, .18);
+  border-color: rgba(135, 206, 231, 0.28);
+  background: rgba(4, 17, 29, 0.78);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.18);
 }
 .live-match-card .upcoming-team .team-name {
   color: #f0f7ff;
   font-size: 14px;
-  letter-spacing: -.01em;
+  letter-spacing: -0.01em;
 }
 .live-match-card .upcoming-team .live-team-score {
   margin-top: 8px;
@@ -2858,11 +2886,11 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
 .live-match-card .live-status,
 .live-match-card .match-date,
 .live-match-card .live-score-strip {
-  border-color: rgba(120, 199, 221, .22);
+  border-color: rgba(120, 199, 221, 0.22);
 }
 .live-match-card .live-score-strip {
   border-radius: 16px;
-  background: linear-gradient(90deg, rgba(20, 85, 94, .35), rgba(8, 40, 55, .7));
+  background: linear-gradient(90deg, rgba(20, 85, 94, 0.35), rgba(8, 40, 55, 0.7));
 }
 .live-match-card .match-summary,
 .live-match-card .match-venue {
@@ -2870,26 +2898,28 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
 }
 .live-match-card .match-summary {
   font-weight: 700;
-  letter-spacing: -.015em;
+  letter-spacing: -0.015em;
 }
 .live-match-card .match-centre-link {
   min-height: 62px;
   font-weight: 800;
-  letter-spacing: -.015em;
+  letter-spacing: -0.015em;
   background: linear-gradient(105deg, #72e6bf, #76dce8);
-  transition: filter .2s ease, opacity .2s ease;
+  transition:
+    filter 0.2s ease,
+    opacity 0.2s ease;
 }
 .live-match-card .match-centre-link:active {
-  filter: brightness(.94);
+  filter: brightness(0.94);
 }
 .upcoming-hero {
-  border-color: rgba(114, 188, 221, .2);
-  background: linear-gradient(145deg, rgba(13, 31, 49, .94), rgba(7, 20, 34, .94));
+  border-color: rgba(114, 188, 221, 0.2);
+  background: linear-gradient(145deg, rgba(13, 31, 49, 0.94), rgba(7, 20, 34, 0.94));
 }
 .upcoming-hero h1 {
   max-width: 100%;
-  line-height: .98;
-  letter-spacing: -.045em;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
   text-wrap: balance;
 }
 .upcoming-hero .upcoming-hero-copy {
@@ -2898,20 +2928,22 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
 }
 #upcomingMatchesSection,
 #completeMatchesSection {
-  border-color: rgba(118, 192, 221, .18);
+  border-color: rgba(118, 192, 221, 0.18);
 }
 #upcomingMatchesSection .fixture-card,
 #completeMatchesSection .fixture-card {
-  border-color: rgba(132, 185, 218, .18);
-  background: linear-gradient(145deg, rgba(17, 39, 59, .96), rgba(9, 25, 41, .96));
-  transition: border-color .2s ease, transform .2s ease;
+  border-color: rgba(132, 185, 218, 0.18);
+  background: linear-gradient(145deg, rgba(17, 39, 59, 0.96), rgba(9, 25, 41, 0.96));
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 #upcomingMatchesSection .fixture-card:active,
 #completeMatchesSection .fixture-card:active {
-  transform: scale(.995);
+  transform: scale(0.995);
 }
 .bcci-back-button {
-  box-shadow: 0 5px 18px rgba(0, 0, 0, .12);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
 }
 @media (max-width: 600px) {
   #liveMatchesSection {

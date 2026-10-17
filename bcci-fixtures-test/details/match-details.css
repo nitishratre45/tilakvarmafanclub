@@ -1356,15 +1356,14 @@
   z-index: 2;
 }
 
-
 /* 2026-10-17 premium Match Centre refinement.
    Deliberately scoped to match content: shared site navbar and menu are unchanged. */
 .match-details-page .details-back {
   min-height: 44px;
   padding: 11px 16px;
   border-radius: 14px;
-  background: linear-gradient(135deg, rgba(20, 91, 159, .42), rgba(9, 28, 49, .92));
-  box-shadow: inset 0 1px rgba(255,255,255,.06);
+  background: linear-gradient(135deg, rgba(20, 91, 159, 0.42), rgba(9, 28, 49, 0.92));
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.06);
 }
 .match-details-page .details-hero {
   isolation: isolate;
@@ -1373,16 +1372,21 @@
   line-height: 1.7;
 }
 .match-details-page .details-quick {
-  transition: border-color .18s ease, transform .18s ease, background .18s ease;
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    background 0.18s ease;
 }
 .match-details-page .details-quick:hover {
   transform: translateY(-2px);
-  border-color: rgba(85,214,255,.34);
-  background: rgba(16, 43, 68, .62);
+  border-color: rgba(85, 214, 255, 0.34);
+  background: rgba(16, 43, 68, 0.62);
 }
 .match-details-page .details-tabs {
-  border-color: rgba(85,214,255,.25);
-  box-shadow: 0 12px 30px rgba(0,0,0,.24), inset 0 1px rgba(255,255,255,.035);
+  border-color: rgba(85, 214, 255, 0.25);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.24),
+    inset 0 1px rgba(255, 255, 255, 0.035);
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
 }
@@ -1390,49 +1394,55 @@
 .match-details-page .details-tabs a[aria-current="location"] {
   background: linear-gradient(115deg, #77e7bc, #79d9ee);
   color: #061b2b;
-  box-shadow: 0 5px 16px rgba(65, 213, 203, .15);
+  box-shadow: 0 5px 16px rgba(65, 213, 203, 0.15);
 }
 .match-details-page .details-section {
   position: relative;
   overflow: clip;
   border-radius: 23px;
-  box-shadow: 0 15px 38px rgba(0,0,0,.13), inset 0 1px rgba(255,255,255,.025);
+  box-shadow:
+    0 15px 38px rgba(0, 0, 0, 0.13),
+    inset 0 1px rgba(255, 255, 255, 0.025);
 }
 .match-details-page .details-section-heading {
   align-items: center;
 }
 .match-details-page .details-section-heading h2 {
-  letter-spacing: -.04em;
+  letter-spacing: -0.04em;
 }
 .match-details-page .details-info-card,
 .match-details-page .details-squad-card,
 .match-details-page .details-insight-card,
 .match-details-page .details-workflow-card {
-  box-shadow: inset 0 1px rgba(255,255,255,.025);
-  transition: border-color .18s ease, transform .18s ease;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.025);
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease;
 }
 .match-details-page .details-info-card:hover,
 .match-details-page .details-squad-card:hover,
 .match-details-page .details-insight-card:hover,
 .match-details-page .details-workflow-card:hover {
-  border-color: rgba(85,214,255,.32);
+  border-color: rgba(85, 214, 255, 0.32);
 }
 .match-details-page .details-player-row {
   border-radius: 12px;
-  transition: background .16s ease, border-color .16s ease;
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease;
 }
 .match-details-page .details-player-row:hover {
-  border-color: rgba(85,214,255,.28);
-  background: rgba(85,214,255,.055);
+  border-color: rgba(85, 214, 255, 0.28);
+  background: rgba(85, 214, 255, 0.055);
 }
 .match-details-page .scoreboard-innings {
-  border-color: rgba(85,214,255,.24);
+  border-color: rgba(85, 214, 255, 0.24);
   border-radius: 18px;
-  background: rgba(5,15,27,.45);
-  box-shadow: 0 12px 28px rgba(0,0,0,.12);
+  background: rgba(5, 15, 27, 0.45);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
 }
 .match-details-page .scoreboard-innings-head {
-  background: linear-gradient(110deg, rgba(18,54,82,.9), rgba(10,26,43,.95));
+  background: linear-gradient(110deg, rgba(18, 54, 82, 0.9), rgba(10, 26, 43, 0.95));
 }
 .match-details-page .scoreboard-innings-head strong {
   color: #79e4bd;
@@ -1444,11 +1454,11 @@
   -webkit-overflow-scrolling: touch;
 }
 .match-details-page .scoreboard-table thead th {
-  background: rgba(85,214,255,.07);
+  background: rgba(85, 214, 255, 0.07);
   color: #a9d7ee;
 }
 .match-details-page .scoreboard-table tbody tr:nth-child(even) {
-  background: rgba(255,255,255,.018);
+  background: rgba(255, 255, 255, 0.018);
 }
 .match-details-page .scoreboard-table tbody tr:last-child td {
   border-bottom: 0;
@@ -1458,15 +1468,15 @@
   line-height: 1.5;
 }
 .match-details-page .scoreboard-live-card {
-  border-color: rgba(85,214,255,.28);
+  border-color: rgba(85, 214, 255, 0.28);
   border-radius: 18px;
-  box-shadow: inset 0 1px rgba(255,255,255,.04);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
 }
 .match-details-page .bcci-live-score-link {
   background: linear-gradient(115deg, #77e7bc, #79d9ee);
   border-color: transparent;
   color: #061b2b;
-  box-shadow: 0 8px 20px rgba(65,213,203,.1);
+  box-shadow: 0 8px 20px rgba(65, 213, 203, 0.1);
 }
 .match-details-page .bcci-live-score-link:hover {
   filter: brightness(1.04);
