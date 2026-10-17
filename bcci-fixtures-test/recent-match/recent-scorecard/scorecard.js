@@ -23,7 +23,7 @@
       '<div class="sc-table-wrap"><table class="sc-table"><thead><tr>' +
       heads.map((h) => "<th>" + esc(h) + "</th>").join("") +
       "</tr></thead><tbody>" +
-      rows.join("") +
+      (Array.isArray(rows) ? rows.join("") : String(rows ?? "")) +
       "</tbody></table></div>"
     );
   }
