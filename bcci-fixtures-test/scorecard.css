@@ -195,8 +195,12 @@
   background: #fff;
   font-size: clamp(32px, 4vw, 54px);
 }
-.scorecard-team h1 { align-self: end; }
-.scorecard-team strong { align-self: start; }
+.scorecard-team h1 {
+  align-self: end;
+}
+.scorecard-team strong {
+  align-self: start;
+}
 .scorecard-team-right {
   grid-template-columns: minmax(0, 1fr) auto;
   text-align: right;
@@ -206,7 +210,9 @@
   grid-row: 1 / span 2;
 }
 .scorecard-match-name,
-.scorecard-venue { margin-top: 10px; }
+.scorecard-venue {
+  margin-top: 10px;
+}
 .scorecard-tabs {
   position: sticky;
   top: 72px;
@@ -217,8 +223,8 @@
   margin: 0;
   padding: 8px max(12px, calc((100vw - 1440px) / 2));
   border-radius: 0;
-  border-top: 1px solid rgba(255,255,255,.14);
-  box-shadow: 0 8px 24px rgba(0,0,0,.16);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
   overflow: visible;
 }
 .scorecard-tabs button {
@@ -231,14 +237,16 @@
 .scorecard-tabs button.active {
   background: #79dff0;
   color: #06164f;
-  box-shadow: 0 3px 12px rgba(121,223,240,.22);
+  box-shadow: 0 3px 12px rgba(121, 223, 240, 0.22);
 }
 .scorecard-content {
   margin-top: 14px;
   scroll-margin-top: 140px;
 }
 @media (max-width: 800px) {
-  .scorecard-container { width: 100%; }
+  .scorecard-container {
+    width: 100%;
+  }
   .scorecard-hero {
     margin-inline: 0;
     padding: 18px 14px;
