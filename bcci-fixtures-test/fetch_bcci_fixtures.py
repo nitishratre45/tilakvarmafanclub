@@ -101,7 +101,7 @@ def main() -> int:
         ("min_start_date", "2026-01-01"),
         *(("team_gid", value) for value in TEAM_GIDS),
         ("page", "1"),
-        ("size", "12"),
+        ("size", "100"),
     ]
     url = BASE_URL + "?" + urlencode(params)
     request = Request(url, headers={
