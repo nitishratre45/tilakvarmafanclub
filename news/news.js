@@ -326,7 +326,7 @@
     render();
   });
 
-  fetch("/News/newsjson.json?v=20261015-news-polish1", { cache: "no-store" })
+  fetch("/News/newsjson.json?v=20261017-news-reliability1", { cache: "no-store" })
     .then((response) => {
       if (!response.ok) throw new Error("News snapshot request failed (" + response.status + ").");
       return response.json();
