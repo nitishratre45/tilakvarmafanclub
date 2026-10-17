@@ -2389,3 +2389,286 @@ footer {
     padding: 14px;
   }
 }
+
+
+/* Premium compact mobile live-match card — scoped to BCCI Fixtures Test.
+   Do not alter the shared site navbar or hamburger menu. */
+.live-matches-section {
+  border-color: rgba(119, 202, 232, .22);
+  background: linear-gradient(145deg, rgba(15, 31, 50, .96), rgba(7, 18, 31, .98));
+  box-shadow: 0 18px 44px rgba(0,0,0,.18), inset 0 1px rgba(255,255,255,.025);
+}
+.live-section-heading {
+  align-items: flex-start;
+  flex-wrap: wrap;
+  row-gap: 12px;
+}
+.live-section-heading h2 {
+  letter-spacing: -.045em;
+}
+.live-section-heading .section-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.live-match-card.fixture-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(119, 202, 232, .25);
+  border-radius: 23px;
+  background: linear-gradient(155deg, rgba(19, 48, 73, .98), rgba(7, 19, 33, .99) 75%);
+  box-shadow: 0 16px 36px rgba(0,0,0,.2), inset 0 1px rgba(255,255,255,.04);
+  transition: border-color .18s ease, transform .18s ease;
+}
+.live-match-card.fixture-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, #76e6d6, #78aef7 52%, #f3a27c);
+}
+.live-match-card.fixture-card:hover {
+  border-color: rgba(117, 225, 220, .48);
+  transform: translateY(-1px);
+}
+.live-match-card .upcoming-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 18px 20px 8px 24px;
+}
+.live-match-card .live-now-pill {
+  border: 1px solid rgba(87, 223, 188, .3);
+  background: rgba(25, 123, 105, .18);
+  color: #9beed3;
+}
+.live-match-card .upcoming-date {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 7px 12px;
+  border: 1px solid rgba(140, 185, 220, .24);
+  border-radius: 13px;
+  background: rgba(7, 20, 35, .38);
+  color: #d6e4f5;
+  font-size: 12px;
+  font-weight: 700;
+}
+.live-match-card .upcoming-teams {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  padding: 8px 20px 18px 24px;
+}
+.live-match-card .upcoming-team {
+  min-width: 0;
+  min-height: 190px;
+  padding: 16px 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid rgba(125, 178, 218, .18);
+  border-radius: 21px;
+  background: linear-gradient(145deg, rgba(30, 57, 82, .54), rgba(7, 22, 38, .65));
+  text-align: center;
+}
+.live-match-card .upcoming-team img,
+.live-match-card .upcoming-team .team-logo,
+.live-match-card .upcoming-team .team-crest {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  border-radius: 17px;
+  padding: 7px;
+  border: 1px solid rgba(148, 191, 225, .24);
+  background: rgba(6, 19, 34, .48);
+}
+.live-match-card .upcoming-team strong,
+.live-match-card .upcoming-team .team-name {
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.live-match-card .upcoming-team .live-team-score {
+  display: block;
+  max-width: 100%;
+  font: 700 clamp(19px, 5.4vw, 27px)/1.25 "Space Grotesk", sans-serif;
+  letter-spacing: -.04em;
+  color: #f5f9ff;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+.live-match-card .upcoming-versus {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(234, 149, 132, .2);
+  background: rgba(118, 56, 57, .22);
+  color: #f0a38f;
+  font-size: 10px;
+  font-weight: 800;
+}
+.live-match-card .live-score-line {
+  margin: 0 20px 16px 24px;
+  padding: 12px 13px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(113, 213, 212, .22);
+  border-radius: 15px;
+  background: rgba(12, 57, 66, .35);
+  color: #e4f1fb;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.live-match-card .live-score-line span:last-child {
+  text-align: right;
+}
+.live-match-card .live-score-line b {
+  color: #83e0c5;
+  font-size: 10px;
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+.live-match-card .live-score-pending {
+  display: block;
+  line-height: 1.5;
+}
+.live-match-card .upcoming-match-info {
+  margin: 0 20px 0 24px;
+  padding: 17px 3px 18px;
+  display: grid;
+  gap: 9px;
+  border-top: 1px solid rgba(123, 177, 213, .17);
+}
+.live-match-card .upcoming-match-info strong {
+  font-size: 16px;
+  line-height: 1.45;
+  letter-spacing: -.02em;
+  overflow-wrap: anywhere;
+}
+.live-match-card .upcoming-venue {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+.live-match-card .live-status-text {
+  color: #80e1bd;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.live-match-card .live-match-centre-link {
+  min-height: 58px;
+  margin: 0 0 0 4px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(105deg, #78e6b9, #7bd9ef);
+  color: #06202c;
+  font-size: 15px;
+  font-weight: 800;
+  transition: filter .18s ease;
+}
+.live-match-card .live-match-centre-link:hover {
+  filter: brightness(1.06);
+}
+@media (max-width: 600px) {
+  .live-matches-section.panel { padding: 16px 12px; }
+  .live-section-heading { margin-bottom: 17px; }
+  .live-section-heading h2 { font-size: 23px; }
+  .live-section-heading .section-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .live-section-heading .bcci-back-button {
+    min-height: 42px;
+    padding: 10px 13px;
+    font-size: 12px;
+  }
+  .live-match-card .upcoming-card-top {
+    padding: 14px 12px 6px 16px;
+  }
+  .live-match-card .live-now-pill { font-size: 10px; }
+  .live-match-card .upcoming-date {
+    min-height: 35px;
+    padding: 6px 9px;
+    font-size: 10px;
+  }
+  .live-match-card .upcoming-teams {
+    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+    gap: 6px;
+    padding: 7px 12px 14px 16px;
+  }
+  .live-match-card .upcoming-team {
+    min-height: 164px;
+    padding: 12px 6px;
+    border-radius: 18px;
+  }
+  .live-match-card .upcoming-team img,
+  .live-match-card .upcoming-team .team-logo,
+  .live-match-card .upcoming-team .team-crest {
+    width: 48px;
+    height: 48px;
+    padding: 6px;
+  }
+  .live-match-card .upcoming-team strong,
+  .live-match-card .upcoming-team .team-name {
+    font-size: 12px;
+  }
+  .live-match-card .upcoming-team .live-team-score {
+    font-size: clamp(18px, 5.1vw, 24px);
+    line-height: 1.2;
+    overflow-wrap: normal;
+    word-break: normal;
+    text-align: center;
+  }
+  .live-match-card .live-score-line {
+    margin: 0 12px 12px 16px;
+    padding: 11px 10px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 5px;
+    font-size: 11px;
+  }
+  .live-match-card .live-score-line b { font-size: 9px; }
+  .live-match-card .upcoming-match-info {
+    margin: 0 12px 0 16px;
+    padding: 14px 2px 15px;
+    gap: 8px;
+  }
+  .live-match-card .upcoming-match-info strong { font-size: 14px; }
+  .live-match-card .upcoming-venue { font-size: 11px; }
+  .live-match-card .live-match-centre-link {
+    min-height: 54px;
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 380px) {
+  .live-match-card .upcoming-team { min-height: 148px; }
+  .live-match-card .upcoming-team img,
+  .live-match-card .upcoming-team .team-logo,
+  .live-match-card .upcoming-team .team-crest { width: 42px; height: 42px; }
+  .live-match-card .live-score-line { grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-match-card.fixture-card,
+  .live-match-card .live-match-centre-link { transition: none; }
+}
