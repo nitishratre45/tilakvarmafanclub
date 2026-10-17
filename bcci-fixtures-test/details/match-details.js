@@ -908,6 +908,47 @@
         return;
       }
       const f = resolvedFixture;
+      // Backfill the canonical BCCI ID from an exact date + opponent pair when a
+      // merged News/Stats fixture was opened via its external provider ID. This is
+      // essential because squads are stored only as squads/<BCCI match_id>.json.
+      const normaliseFixtureDate = (value) => {
+        const raw = String(value || "").trim();
+        if (!raw) return "";
+        if (/^\d{4}-\d{2}-\d{2}/.test(raw)) return raw.slice(0, 10);
+        const parsed = new Date(raw);
+        return Number.isNaN(parsed.getTime()) ? "" : parsed.toISOString().slice(0, 10);
+      };
+      const normaliseFixtureTeam = (value) =>
+        String(value || "").trim().toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]/g, "");
+      const resolvedSides = [f.team, f.opponent].map(normaliseFixtureTeam).filter(Boolean).sort();
+      const exactOfficialFixture = bcciFixtureRows.find((row) => {
+        const rowDate = normaliseFixtureDate(row.start_date || row.date_string || row.date);
+        const candidateDate = normaliseFixtureDate(f.date);
+        const rowSides = [
+          row.team1_name || row.team1_short_name || row.home_team_name,
+          row.team2_name || row.team2_short_name || row.away_team_name,
+        ].map(normaliseFixtureTeam).filter(Boolean).sort();
+        return (
+          candidateDate &&
+          rowDate === candidateDate &&
+          resolvedSides.length === 2 &&
+          rowSides.length === 2 &&
+          rowSides[0] === resolvedSides[0] &&
+          rowSides[1] === resolvedSides[1]
+        );
+      });
+      if (exactOfficialFixture) {
+        const canonicalId = String(
+          exactOfficialFixture.match_id || exactOfficialFixture.matchId || exactOfficialFixture.gid || "",
+        ).trim();
+        if (canonicalId) {
+          f.matchId = canonicalId;
+          f.match_id = canonicalId;
+          f.gid = canonicalId;
+          f.fixtureId = canonicalId;
+          f.rawBcci = exactOfficialFixture;
+        }
+      }
       const liveRequested =
         q.get("live") === "1" ||
         /\\b(live|in play|in progress|innings break)\\b/i.test(
