@@ -363,9 +363,12 @@
     const matchId = String(match?.match_id || match?.id || fallbackMatchId || "").trim();
     if (!/^\d+$/.test(matchId)) return;
     try {
-      const response = await fetch("./squads/" + encodeURIComponent(matchId) + ".json?t=" + Date.now(), {
-        cache: "no-store",
-      });
+      const response = await fetch(
+        "./squads/" + encodeURIComponent(matchId) + ".json?t=" + Date.now(),
+        {
+          cache: "no-store",
+        },
+      );
       if (!response.ok) return;
       const payload = await response.json();
       if (payload?.status !== "ok" || String(payload.match_id) !== matchId) return;
@@ -373,7 +376,10 @@
         const sideData = payload.teams?.[side] || {};
         const responseData = sideData.response || {};
         const teamRows = asArray(responseData.teams);
-        const team = teamRows.find((row) => String(row.team_id) === String(sideData.team_id)) || teamRows[0] || {};
+        const team =
+          teamRows.find((row) => String(row.team_id) === String(sideData.team_id)) ||
+          teamRows[0] ||
+          {};
         const players = asArray(team.players);
         return { name: team.team_name || payload.match?.[side + "_name"] || side, players };
       });
@@ -381,21 +387,49 @@
         '<section class="innings"><h2>Official Squads &amp; Playing XI</h2><p class="muted">BCCI squad snapshot · ' +
         esc(payload.fetched_at_utc || "saved snapshot") +
         '</p><div class="squad-grid">' +
-        sideRows.map((side) =>
-          '<section class="squad-card"><h3>' + esc(side.name) + '</h3>' +
-          (side.players.length
-            ? '<p class="muted">' + side.players.length + ' squad player records · Playing XI is confirmed only when BCCI identifies the selected XI.</p><ol>' +
-              side.players.map((player) =>
-                '<li>' +
-                (player.player_image ? '<img src="' + esc(player.player_image) + '" alt="" loading="lazy" onerror="this.hidden=true">' : '') +
-                '<span>' + esc(player.player_known_as || player.player_name || player.full_name || "Player") + '</span><small>' +
-                esc(player.is_captain ? "Captain" : player.is_keeper ? "Wicketkeeper" : player.player_role || "Squad") +
-                '</small></li>'
-              ).join("") + '</ol>'
-            : '<p class="muted">BCCI has not published this team’s squad in the saved snapshot.</p>') +
-          '</section>'
-        ).join("") +
-        '</div></section>';
+        sideRows
+          .map(
+            (side) =>
+              '<section class="squad-card"><h3>' +
+              esc(side.name) +
+              "</h3>" +
+              (side.players.length
+                ? '<p class="muted">' +
+                  side.players.length +
+                  " squad player records · Playing XI is confirmed only when BCCI identifies the selected XI.</p><ol>" +
+                  side.players
+                    .map(
+                      (player) =>
+                        "<li>" +
+                        (player.player_image
+                          ? '<img src="' +
+                            esc(player.player_image) +
+                            '" alt="" loading="lazy" onerror="this.hidden=true">'
+                          : "") +
+                        "<span>" +
+                        esc(
+                          player.player_known_as ||
+                            player.player_name ||
+                            player.full_name ||
+                            "Player",
+                        ) +
+                        "</span><small>" +
+                        esc(
+                          player.is_captain
+                            ? "Captain"
+                            : player.is_keeper
+                              ? "Wicketkeeper"
+                              : player.player_role || "Squad",
+                        ) +
+                        "</small></li>",
+                    )
+                    .join("") +
+                  "</ol>"
+                : '<p class="muted">BCCI has not published this team’s squad in the saved snapshot.</p>') +
+              "</section>",
+          )
+          .join("") +
+        "</div></section>";
     } catch (_) {
       // Preserve the match page if the optional squad snapshot is unavailable.
     }
@@ -492,7 +526,10 @@
       if (scorePayload.status && scorePayload.status !== "ok")
         throw new Error(scorePayload.error || "BCCI snapshot status: " + scorePayload.status);
       render(scorePayload);
-      await loadSquadSnapshot(scorePayload.liveMatch || scorePayload.data?.match || {}, scorePayload.matchId);
+      await loadSquadSnapshot(
+        scorePayload.liveMatch || scorePayload.data?.match || {},
+        scorePayload.matchId,
+      );
       const liveMeta = scorePayload.liveMatch || scorePayload.data?.match || {};
       const liveName =
         liveMeta.name ||

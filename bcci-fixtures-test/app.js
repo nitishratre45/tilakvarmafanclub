@@ -379,18 +379,24 @@
         hours = (hours % 12) + (meridiem === "PM" ? 12 : 0);
       }
       return Date.parse(
-        date + "T" + String(hours).padStart(2, "0") + ":" +
-        String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0") +
-        "+05:30"
+        date +
+          "T" +
+          String(hours).padStart(2, "0") +
+          ":" +
+          String(minutes).padStart(2, "0") +
+          ":" +
+          String(seconds).padStart(2, "0") +
+          "+05:30",
       );
     };
 
     const now = Date.now();
     const next = fixtures
-      .filter((fixture) =>
-        Number.isFinite(matchTimestamp(fixture)) &&
-        matchTimestamp(fixture) > now &&
-        !/live|completed|result|abandoned|cancelled|canceled/i.test(String(fixture.status || ""))
+      .filter(
+        (fixture) =>
+          Number.isFinite(matchTimestamp(fixture)) &&
+          matchTimestamp(fixture) > now &&
+          !/live|completed|result|abandoned|cancelled|canceled/i.test(String(fixture.status || "")),
       )
       .sort((a, b) => matchTimestamp(a) - matchTimestamp(b))[0];
     if (!next) return;
@@ -409,22 +415,35 @@
     banner.className = "bcci-next-countdown";
     banner.innerHTML =
       '<div class="bcci-countdown-teams"><div class="bcci-countdown-side"><span>' +
-      esc(next.home || "India") + "</span>" + renderTeam(next.home || "India") +
+      esc(next.home || "India") +
+      "</span>" +
+      renderTeam(next.home || "India") +
       '</div><div class="bcci-countdown-clock" role="timer" aria-label="Countdown to next match"><div><strong data-h>00</strong><small>HRS</small></div><div><strong data-m>00</strong><small>MINS</small></div><div><strong data-s>00</strong><small>SECS</small></div></div><div class="bcci-countdown-side"><span>' +
-      esc(next.away || "Opponent") + "</span>" + renderTeam(next.away || "Opponent") +
+      esc(next.away || "Opponent") +
+      "</span>" +
+      renderTeam(next.away || "Opponent") +
       '</div></div><p class="bcci-countdown-title">' +
       esc(next.title || next.competition || "Upcoming match") +
-      '</p><p class="bcci-countdown-meta">' + esc(fmt(next.date)) +
+      '</p><p class="bcci-countdown-meta">' +
+      esc(fmt(next.date)) +
       (next.time ? " · " + esc(next.time) + " IST" : "") +
-      (next.venue ? " · " + esc(next.venue) : "") + "</p>";
+      (next.venue ? " · " + esc(next.venue) : "") +
+      "</p>";
     host.parentNode.insertBefore(banner, host);
 
     const targetTime = matchTimestamp(next);
     const tick = () => {
       const left = Math.max(0, targetTime - Date.now());
-      banner.querySelector("[data-h]").textContent = String(Math.floor(left / 3600000)).padStart(2, "0");
-      banner.querySelector("[data-m]").textContent = String(Math.floor((left % 3600000) / 60000)).padStart(2, "0");
-      banner.querySelector("[data-s]").textContent = String(Math.floor((left % 60000) / 1000)).padStart(2, "0");
+      banner.querySelector("[data-h]").textContent = String(Math.floor(left / 3600000)).padStart(
+        2,
+        "0",
+      );
+      banner.querySelector("[data-m]").textContent = String(
+        Math.floor((left % 3600000) / 60000),
+      ).padStart(2, "0");
+      banner.querySelector("[data-s]").textContent = String(
+        Math.floor((left % 60000) / 1000),
+      ).padStart(2, "0");
     };
     tick();
     countdownTimer = setInterval(tick, 1000);

@@ -117,7 +117,9 @@
       const sourceMatch = d.match ?? p.liveMatch ?? {};
       const matchKey = sourceMatch.gid ?? sourceMatch.match_id ?? p.matchId ?? "";
       if (String(matchKey) !== String(gid) && String(p.matchId ?? "") !== String(gid)) {
-        throw Error("This match is not in the latest scorecard snapshot. Open the currently available match again.");
+        throw Error(
+          "This match is not in the latest scorecard snapshot. Open the currently available match again.",
+        );
       }
       const innings = Array.isArray(d.innings)
         ? d.innings
