@@ -101,7 +101,7 @@
       "</div></section>"
     );
   }
-  async function init() {
+  async function fetchWithTimeout(url, timeoutMs = 12000) {\n    const controller = new AbortController();\n    const timer = setTimeout(() => controller.abort(), timeoutMs);\n    try { return await fetch(url, { cache: "no-store", signal: controller.signal }); }\n    finally { clearTimeout(timer); }\n  }\n  async function init() {
     if (!id) {
       $("sc-loading").hidden = true;
       $("sc-error").hidden = false;
@@ -121,7 +121,7 @@
         const index = await indexResponse.json();
         const row = (index.matches || []).find((m) => m.matchId === id);
         if (!row) throw Error("Selected match ID is not in the archive index.");
-        const bundleResponse = await fetch(row.scorecard, { cache: "no-store" });
+        const bundleResponse = await fetchWithTimeout(row.scorecard);
         if (!bundleResponse.ok) throw Error("Scorecard bundle returned HTTP " + bundleResponse.status);
         const bundle = await bundleResponse.json();
         match = (bundle.matches || []).find((m) => m.matchId === id) || null;
@@ -137,7 +137,7 @@
           const year = idParts[1];
           const formatSlug = idParts[2].toLowerCase();
           const bundleUrl = "/bcci-fixtures-test/recent-match/data/" + formatSlug + "-" + year + ".json";
-          const response = await fetch(bundleUrl, { cache: "no-store" });
+          const response = await fetchWithTimeout(bundleUrl);
           if (response.ok) {
             const bundle = await response.json();
             match = (bundle.matches || []).find((m) => m.matchId === id) || null;
