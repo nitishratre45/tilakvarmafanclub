@@ -152,6 +152,112 @@
 .scorecard-detail strong {
   overflow-wrap: anywhere;
 }
+
+/* Match-centre layout: keep the team header and every section tab visible before innings content. */
+.scorecard-container {
+  width: min(1440px, calc(100% - 48px));
+  padding-bottom: 48px;
+}
+.scorecard-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  padding: clamp(18px, 2.4vw, 30px);
+  border-radius: 0;
+  border-inline: 0;
+  margin-inline: calc((min(1440px, 100vw - 48px) - 100vw) / 2);
+  padding-inline: max(24px, calc((100vw - min(1440px, 100vw - 48px)) / 2));
+}
+.scorecard-status {
+  margin: 0 0 18px;
+  line-height: 1.4;
+}
+.scorecard-teams {
+  grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(12px, 3vw, 40px);
+}
+.scorecard-team {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 16px;
+  row-gap: 3px;
+}
+.scorecard-team .scorecard-flag {
+  grid-row: 1 / span 2;
+  width: clamp(58px, 8vw, 96px);
+  height: clamp(58px, 8vw, 96px);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+  font-size: clamp(32px, 4vw, 54px);
+}
+.scorecard-team h1 { align-self: end; }
+.scorecard-team strong { align-self: start; }
+.scorecard-team-right {
+  grid-template-columns: minmax(0, 1fr) auto;
+  text-align: right;
+}
+.scorecard-team-right .scorecard-flag {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+.scorecard-match-name,
+.scorecard-venue { margin-top: 10px; }
+.scorecard-tabs {
+  position: sticky;
+  top: 72px;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  margin: 0;
+  padding: 8px max(12px, calc((100vw - 1440px) / 2));
+  border-radius: 0;
+  border-top: 1px solid rgba(255,255,255,.14);
+  box-shadow: 0 8px 24px rgba(0,0,0,.16);
+  overflow: visible;
+}
+.scorecard-tabs button {
+  min-width: 0;
+  min-height: 48px;
+  padding: 10px 8px;
+  white-space: nowrap;
+  border-radius: 10px;
+}
+.scorecard-tabs button.active {
+  background: #79dff0;
+  color: #06164f;
+  box-shadow: 0 3px 12px rgba(121,223,240,.22);
+}
+.scorecard-content {
+  margin-top: 14px;
+  scroll-margin-top: 140px;
+}
+@media (max-width: 800px) {
+  .scorecard-container { width: 100%; }
+  .scorecard-hero {
+    margin-inline: 0;
+    padding: 18px 14px;
+  }
+  .scorecard-tabs {
+    top: 66px;
+    grid-template-columns: repeat(7, max-content);
+    justify-content: start;
+    overflow-x: auto;
+    padding: 7px 10px;
+    scrollbar-width: thin;
+  }
+  .scorecard-tabs button {
+    min-width: 100px;
+    min-height: 44px;
+    font-size: 12px;
+  }
+}
+
 @media (max-width: 600px) {
   .scorecard-hero {
     padding: 18px 13px;
