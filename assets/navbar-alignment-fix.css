@@ -52,9 +52,11 @@
     margin: 0 !important;
     padding: 12px 0 !important;
     line-height: 1.2 !important;
-    font-size: clamp(11px, .82vw, 13px) !important;
+    font-size: clamp(11px, 0.82vw, 13px) !important;
     white-space: nowrap !important;
     transform: none !important;
   }
-  html body > header.topbar > .menu-toggle { display: none !important; }
+  html body > header.topbar > .menu-toggle {
+    display: none !important;
+  }
 }

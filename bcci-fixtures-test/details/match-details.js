@@ -210,7 +210,9 @@
               '</span><img src="' +
               esc(safeImage) +
               '" alt="" loading="lazy" decoding="async">'
-            : '<span class="details-player-initials" aria-hidden="true">' + esc(initials) + '</span>') +
+            : '<span class="details-player-initials" aria-hidden="true">' +
+              esc(initials) +
+              "</span>") +
           '</span><span class="details-player-copy"><strong>' +
           esc(n) +
           "</strong><small>" +
