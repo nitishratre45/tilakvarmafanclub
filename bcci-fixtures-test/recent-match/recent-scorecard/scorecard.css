@@ -516,3 +516,18 @@ body.matches-page .sc-meta-compact strong {
   body.matches-page .sc-result-compact { line-height: 1.4; }
   body.matches-page .sc-meta-compact strong { font-size: 14px; }
 }
+
+
+/* Test match scorecard: ordered four-innings overview */
+.sc-test-summary { border-color: rgba(108, 221, 255, .35); }
+.sc-test-summary h2 { margin-bottom: 12px; }
+.sc-test-summary-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.sc-test-summary-card { display: grid; gap: 4px; min-width: 0; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(145deg, #102c50, #09182c); }
+.sc-test-summary-card small { color: var(--cyan); font-size: 10px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.sc-test-summary-card strong { overflow-wrap: anywhere; }
+.sc-test-summary-card span { color: #fff; font-size: clamp(22px, 4vw, 30px); font-weight: 900; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.sc-test-summary-card em { color: var(--muted); font-size: 12px; font-style: normal; }
+.sc-test-note { margin: 12px 0 0; color: var(--muted); font-size: 12px; }
+.sc-test-innings { scroll-margin-top: 145px; }
+.sc-innings-label { display: block; margin-bottom: 3px; color: var(--cyan); font-size: 10px; font-weight: 900; letter-spacing: .12em; }
+@media (max-width: 520px) { .sc-test-summary-grid { grid-template-columns: 1fr; } }
