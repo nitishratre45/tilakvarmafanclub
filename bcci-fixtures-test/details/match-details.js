@@ -474,16 +474,16 @@
         scorecardIndexResponse,
         bcciFixturesResponse,
       ] = await Promise.all([
-        fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-details3", {
+        fetch("/bcci-fixtures-test/bcci-fixtures.json?v=isolated-details1", {
           cache: "no-store",
         }).catch(() => null),
-        fetch("/matches/bcci-stats-fixtures.json?v=20261015-details3", {
+        fetch("/bcci-fixtures-test/bcci-fixtures.json?v=isolated-details1", {
           cache: "no-store",
         }).catch(() => null),
-        fetch("/matches/bcci-squads.json?v=20261015-nz-t20i1", { cache: "no-store" }).catch(
+        fetch("/bcci-fixtures-test/bcci-squads.json?v=isolated-details1", { cache: "no-store" }).catch(
           () => null,
         ),
-        fetch("/matches/scorecards/index.json?v=20261015-full-scoreboard1", {
+        fetch("/bcci-fixtures-test/scorecards/index.json?v=isolated-details1", {
           cache: "no-store",
         }).catch(() => null),
         fetch("/bcci-fixtures-test/bcci-fixtures.json?v=20261017-bcci-fixtures1", {
@@ -670,7 +670,7 @@
       if (!resolvedFixture && (matchId || (date && opponent))) {
         try {
           const response = await fetch(
-            "/matches/bcci-match-results.json?v=20261015-recent-match-details2",
+            "/bcci-fixtures-test/bcci-match-results.json?v=isolated-details1",
             { cache: "no-store" },
           );
           if (response.ok) {
@@ -970,7 +970,7 @@
       if (!scorecardLoaded && fixtureMatchId) {
         try {
           const resultsResponse = await fetch(
-            "/matches/bcci-match-results.json?v=20261015-results-lazy1",
+            "/bcci-fixtures-test/bcci-match-results.json?v=isolated-details1",
             {
               cache: "no-store",
             },
@@ -1026,7 +1026,7 @@
           const selectedTeams = [f.team, f.opponent].map(canonicalTeam).filter(Boolean);
           const renderLiveSnapshot = async () => {
             try {
-              const response = await fetch("/matches/live/live-matches.json?v=live-scoreboard3", {
+              const response = await fetch("/bcci-fixtures-test/live-matches.json?v=isolated-details1", {
                 cache: "no-store",
               });
               if (!response.ok) throw new Error("Live snapshot unavailable");
@@ -1349,7 +1349,7 @@
         if (!Array.isArray(recentArchiveIndex?.matches)) {
           try {
             const recentIndexResponse = await fetch(
-              "/matches/scorecards/index.json?v=20261015-recent-results-fallback2",
+              "/bcci-fixtures-test/scorecards/index.json?v=isolated-details1",
               { cache: "no-store" },
             );
             if (recentIndexResponse.ok) recentArchiveIndex = await recentIndexResponse.json();
@@ -1573,7 +1573,7 @@
         sourceLink("Official match source", f.newsUrl || f.source),
         sourceLink(
           "BCCI match squads",
-          "https://www.bcci.tv/matches/b567f7d4-7455-48b3-8ec2-f76ce4788e70/india-vs-west-indies/squads",
+          "https://www.bcci.tv/",
         ),
         sourceLink(
           "EllipseData squad source · India",
