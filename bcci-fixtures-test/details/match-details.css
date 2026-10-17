@@ -1355,3 +1355,202 @@
 #squads .details-player-avatar.has-no-player-image .details-player-initials {
   z-index: 2;
 }
+
+
+/* 2026-10-17 premium Match Centre refinement.
+   Deliberately scoped to match content: shared site navbar and menu are unchanged. */
+.match-details-page .details-back {
+  min-height: 44px;
+  padding: 11px 16px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(20, 91, 159, .42), rgba(9, 28, 49, .92));
+  box-shadow: inset 0 1px rgba(255,255,255,.06);
+}
+.match-details-page .details-hero {
+  isolation: isolate;
+}
+.match-details-page .details-series {
+  line-height: 1.7;
+}
+.match-details-page .details-quick {
+  transition: border-color .18s ease, transform .18s ease, background .18s ease;
+}
+.match-details-page .details-quick:hover {
+  transform: translateY(-2px);
+  border-color: rgba(85,214,255,.34);
+  background: rgba(16, 43, 68, .62);
+}
+.match-details-page .details-tabs {
+  border-color: rgba(85,214,255,.25);
+  box-shadow: 0 12px 30px rgba(0,0,0,.24), inset 0 1px rgba(255,255,255,.035);
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.match-details-page .details-tabs a.is-active,
+.match-details-page .details-tabs a[aria-current="location"] {
+  background: linear-gradient(115deg, #77e7bc, #79d9ee);
+  color: #061b2b;
+  box-shadow: 0 5px 16px rgba(65, 213, 203, .15);
+}
+.match-details-page .details-section {
+  position: relative;
+  overflow: clip;
+  border-radius: 23px;
+  box-shadow: 0 15px 38px rgba(0,0,0,.13), inset 0 1px rgba(255,255,255,.025);
+}
+.match-details-page .details-section-heading {
+  align-items: center;
+}
+.match-details-page .details-section-heading h2 {
+  letter-spacing: -.04em;
+}
+.match-details-page .details-info-card,
+.match-details-page .details-squad-card,
+.match-details-page .details-insight-card,
+.match-details-page .details-workflow-card {
+  box-shadow: inset 0 1px rgba(255,255,255,.025);
+  transition: border-color .18s ease, transform .18s ease;
+}
+.match-details-page .details-info-card:hover,
+.match-details-page .details-squad-card:hover,
+.match-details-page .details-insight-card:hover,
+.match-details-page .details-workflow-card:hover {
+  border-color: rgba(85,214,255,.32);
+}
+.match-details-page .details-player-row {
+  border-radius: 12px;
+  transition: background .16s ease, border-color .16s ease;
+}
+.match-details-page .details-player-row:hover {
+  border-color: rgba(85,214,255,.28);
+  background: rgba(85,214,255,.055);
+}
+.match-details-page .scoreboard-innings {
+  border-color: rgba(85,214,255,.24);
+  border-radius: 18px;
+  background: rgba(5,15,27,.45);
+  box-shadow: 0 12px 28px rgba(0,0,0,.12);
+}
+.match-details-page .scoreboard-innings-head {
+  background: linear-gradient(110deg, rgba(18,54,82,.9), rgba(10,26,43,.95));
+}
+.match-details-page .scoreboard-innings-head strong {
+  color: #79e4bd;
+  font-variant-numeric: tabular-nums;
+}
+.match-details-page .scoreboard-table-wrap {
+  max-width: 100%;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.match-details-page .scoreboard-table thead th {
+  background: rgba(85,214,255,.07);
+  color: #a9d7ee;
+}
+.match-details-page .scoreboard-table tbody tr:nth-child(even) {
+  background: rgba(255,255,255,.018);
+}
+.match-details-page .scoreboard-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.match-details-page .scoreboard-table td,
+.match-details-page .scoreboard-table th {
+  line-height: 1.5;
+}
+.match-details-page .scoreboard-live-card {
+  border-color: rgba(85,214,255,.28);
+  border-radius: 18px;
+  box-shadow: inset 0 1px rgba(255,255,255,.04);
+}
+.match-details-page .bcci-live-score-link {
+  background: linear-gradient(115deg, #77e7bc, #79d9ee);
+  border-color: transparent;
+  color: #061b2b;
+  box-shadow: 0 8px 20px rgba(65,213,203,.1);
+}
+.match-details-page .bcci-live-score-link:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+}
+.match-details-page .details-note {
+  border-radius: 0 13px 13px 0;
+  line-height: 1.75;
+}
+.match-details-page .details-last-updated {
+  padding-bottom: 14px;
+}
+@media (max-width: 760px) {
+  .match-details-main {
+    padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
+  }
+  .match-details-page .details-tabs {
+    top: 72px !important;
+    margin: 13px 0 16px;
+  }
+  .match-details-page .details-section {
+    margin-top: 18px;
+    padding: 16px 13px;
+    border-radius: 19px;
+    scroll-margin-top: 154px;
+  }
+  .match-details-page .details-section-heading {
+    margin-bottom: 15px;
+  }
+  .match-details-page .details-hero h1 {
+    font-size: clamp(29px, 7.5vw, 42px);
+    line-height: 1.12;
+  }
+  .match-details-page .details-series {
+    margin-top: 18px;
+    font-size: 11px;
+  }
+  .match-details-page .details-quick-grid {
+    gap: 8px;
+  }
+  .match-details-page .details-quick {
+    padding: 12px;
+    border-radius: 13px;
+  }
+  .match-details-page .details-quick strong {
+    font-size: 13px;
+  }
+  .match-details-page .scoreboard-innings {
+    border-radius: 14px;
+  }
+  .match-details-page .scoreboard-table {
+    min-width: 470px;
+  }
+  .match-details-page .scoreboard-table th,
+  .match-details-page .scoreboard-table td {
+    padding: 10px 11px;
+  }
+  .match-details-page #squads .details-squad-grid {
+    gap: 9px;
+  }
+  .match-details-page #squads .details-squad-card {
+    padding: 11px 9px;
+  }
+}
+@media (max-width: 390px) {
+  .match-details-page .details-team strong {
+    font-size: 11px;
+  }
+  .match-details-page .details-section {
+    padding: 13px 10px;
+  }
+  .match-details-page .details-tabs > a {
+    padding: 10px 9px;
+    font-size: 10px;
+  }
+  .match-details-page #squads .details-player-avatar {
+    width: 30px;
+    flex-basis: 30px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .match-details-page .details-quick,
+  .match-details-page .details-player-row,
+  .match-details-page .bcci-live-score-link {
+    transition: none;
+  }
+}
