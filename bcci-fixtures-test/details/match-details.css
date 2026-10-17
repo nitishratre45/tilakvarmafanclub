@@ -1223,3 +1223,96 @@
     animation: none;
   }
 }
+
+
+/* Full squad presentation: both teams stay side by side on desktop, with official PNG portraits. */
+#squads .details-squad-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 16px;
+}
+#squads .details-squad-card {
+  min-width: 0;
+  padding: 18px;
+  border-color: rgba(83, 171, 255, 0.25);
+  background: linear-gradient(160deg, rgba(14, 36, 61, 0.92), rgba(5, 17, 31, 0.92));
+}
+#squads .details-squad-card h3 {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  margin-bottom: 12px;
+  font-size: clamp(15px, 1.5vw, 19px);
+}
+#squads .details-player-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+#squads .details-player-row {
+  min-width: 0;
+  min-height: 66px;
+  padding: 9px 11px;
+  gap: 12px;
+  border-color: rgba(117, 190, 255, 0.17);
+  background: rgba(255, 255, 255, 0.035);
+}
+#squads .details-player-avatar {
+  width: 48px;
+  height: 48px;
+  flex-basis: 48px;
+  overflow: hidden;
+  border: 1px solid rgba(145, 199, 255, 0.28);
+  border-radius: 12px;
+  background: linear-gradient(145deg, #17395d, #0a1a2b);
+  font-size: 12px;
+}
+#squads .details-player-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+#squads .details-player-copy strong {
+  font-size: 13px;
+  line-height: 1.35;
+}
+#squads .details-player-copy small {
+  font-size: 10px;
+  line-height: 1.4;
+}
+@media (max-width: 640px) {
+  #squads .details-squad-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  #squads .details-squad-card {
+    padding: 10px 8px;
+    border-radius: 12px;
+  }
+  #squads .details-squad-card h3 {
+    min-height: 38px;
+    padding-bottom: 8px;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+  }
+  #squads .details-player-row {
+    align-items: flex-start;
+    gap: 7px;
+    padding: 8px 6px;
+    min-height: 57px;
+  }
+  #squads .details-player-avatar {
+    width: 34px;
+    height: 38px;
+    flex-basis: 34px;
+    border-radius: 8px;
+  }
+  #squads .details-player-copy strong {
+    font-size: 10px;
+  }
+  #squads .details-player-copy small {
+    font-size: 9px;
+  }
+}
