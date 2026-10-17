@@ -7,7 +7,6 @@
   loader.id = "site-page-loader";
   loader.setAttribute("role", "status");
   loader.setAttribute("aria-live", "polite");
-  loader.classList.add("is-visible");
   loader.innerHTML =
     '<div class="site-loader-panel"><span class="site-loader-spinner" role="img" aria-label="Loading"></span></div>';
   document.documentElement.appendChild(loader);
@@ -20,14 +19,29 @@
   bar.setAttribute("aria-valuemax", "100");
   bar.setAttribute("aria-valuenow", "15");
   document.documentElement.appendChild(bar);
-  bar.classList.add("is-loading");
 
+  // Avoid a full-screen flash on fast navigations: reveal the loader only
+  // if the document is still loading after a short grace period.
   const startedAt = Date.now();
   let finished = false;
+  let revealed = false;
+  let showTimer = null;
+  const show = () => {
+    if (finished || revealed) return;
+    revealed = true;
+    loader.classList.add("is-visible");
+    bar.classList.add("is-loading");
+  };
   const finish = () => {
     if (finished) return;
     finished = true;
-    const delay = Math.max(0, 650 - (Date.now() - startedAt));
+    if (showTimer !== null) window.clearTimeout(showTimer);
+    if (!revealed) {
+      loader.remove();
+      bar.remove();
+      return;
+    }
+    const delay = Math.max(0, 320 - (Date.now() - startedAt));
     window.setTimeout(() => {
       loader.classList.add("is-hidden");
       bar.classList.remove("is-loading");
@@ -36,13 +50,16 @@
       window.setTimeout(() => {
         loader.remove();
         bar.remove();
-      }, 300);
+      }, 180);
     }, delay);
   };
   if (document.readyState === "complete") finish();
-  else window.addEventListener("load", finish, { once: true });
+  else {
+    showTimer = window.setTimeout(show, 220);
+    window.addEventListener("load", finish, { once: true });
+  }
   window.addEventListener("pageshow", finish, { once: true });
-  window.setTimeout(finish, 4000);
+  window.setTimeout(finish, 10000);
 
   const prepareImage = (img) => {
     if (!(img instanceof HTMLImageElement) || img.dataset.siteMediaReady) return;
@@ -132,43 +149,44 @@
     document.body.appendChild(overlay);
     return overlay;
   };
+  let pendingNavigationTimer = null;
+  const hideOverlay = () => {
+    if (pendingNavigationTimer !== null) {
+      window.clearTimeout(pendingNavigationTimer);
+      pendingNavigationTimer = null;
+    }
+    if (overlay) {
+      overlay.style.opacity = "0";
+      window.setTimeout(() => {
+        if (overlay && overlay.style.opacity === "0") overlay.style.display = "none";
+      }, 150);
+    }
+  };
+  window.addEventListener("pageshow", hideOverlay);
+  window.addEventListener("pagehide", () => {
+    if (pendingNavigationTimer !== null) window.clearTimeout(pendingNavigationTimer);
+  });
   document.addEventListener(
     "click",
     (event) => {
       if (
-        event.defaultPrevented ||
-        event.button !== 0 ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.shiftKey ||
-        event.altKey
-      )
-        return;
+        event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey ||
+        event.shiftKey || event.altKey
+      ) return;
       const link = event.target instanceof Element ? event.target.closest("a[href]") : null;
-      if (
-        !link ||
-        link.hasAttribute("download") ||
-        link.target === "_blank" ||
-        link.getAttribute("aria-disabled") === "true"
-      )
-        return;
+      if (!link || link.hasAttribute("download") || link.target === "_blank" ||
+          link.getAttribute("aria-disabled") === "true") return;
       let destination;
-      try {
-        destination = new URL(link.href, window.location.href);
-      } catch (_) {
-        return;
-      }
+      try { destination = new URL(link.href, window.location.href); } catch (_) { return; }
       if (destination.origin !== window.location.origin) return;
-      if (
-        destination.pathname === window.location.pathname &&
-        destination.search === window.location.search
-      )
-        return;
-      const layer = ensureOverlay();
-      layer.style.display = "flex";
-      requestAnimationFrame(() => {
-        layer.style.opacity = "1";
-      });
+      if (destination.pathname === window.location.pathname && destination.search === window.location.search) return;
+      if (pendingNavigationTimer !== null) window.clearTimeout(pendingNavigationTimer);
+      pendingNavigationTimer = window.setTimeout(() => {
+        const layer = ensureOverlay();
+        layer.style.display = "flex";
+        requestAnimationFrame(() => { layer.style.opacity = "1"; });
+        pendingNavigationTimer = null;
+      }, 180);
     },
     true,
   );
