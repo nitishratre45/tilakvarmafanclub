@@ -15,6 +15,8 @@ SOURCE_URL = "https://stats.bcci.tv/match/live_scores/?comp_gid=65d2b784-4a75-41
 
 LIVE_WORDS = (
     "live",
+    "in play",
+    "playing",
     "in progress",
     "innings",
     "stumps",
