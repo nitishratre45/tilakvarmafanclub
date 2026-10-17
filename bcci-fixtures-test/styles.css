@@ -3185,22 +3185,38 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
   }
 }
 
-/* Upcoming fixtures — restrained broadcast layout. Scoped to the BCCI test page list. */
-#fixtureList.fixture-list {
-  gap: 16px;
-}
+/* Upcoming fixtures — broadcast-style atmospheric background. */
+#fixtureList.fixture-list { gap: 16px; }
 #fixtureList > .upcoming-match-card {
-  padding: 0;
+  position: relative;
+  isolation: isolate;
   overflow: hidden;
-  border: 1px solid #263f5b;
-  border-radius: 18px;
-  background: linear-gradient(145deg, #10243b 0%, #0b1c30 62%, #091827 100%);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
+  padding: 0;
+  border: 1px solid #2b4d83;
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at 14% 8%, rgba(38, 102, 205, .38), transparent 48%),
+    radial-gradient(ellipse at 92% 92%, rgba(21, 119, 151, .18), transparent 42%),
+    linear-gradient(135deg, #102b61 0%, #0b1c43 52%, #09172f 100%);
+  box-shadow: 0 14px 32px rgba(1, 8, 25, .28), inset 0 1px rgba(224, 239, 255, .06);
   transition: border-color .18s ease, box-shadow .18s ease;
 }
+#fixtureList > .upcoming-match-card::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 210px;
+  height: 210px;
+  top: -110px;
+  right: -60px;
+  border-radius: 50%;
+  background: rgba(89, 155, 255, .10);
+  filter: blur(8px);
+  pointer-events: none;
+}
 #fixtureList > .upcoming-match-card:hover {
-  border-color: #45698a;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, .23);
+  border-color: #4a76b8;
+  box-shadow: 0 17px 36px rgba(1, 8, 25, .34), inset 0 1px rgba(224, 239, 255, .08);
 }
 #fixtureList > .upcoming-match-card::before {
   width: 3px;
@@ -3214,17 +3230,17 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
   padding: 17px 20px 4px;
 }
 #fixtureList .upcoming-date {
-  border: 1px solid #304c68;
-  border-radius: 9px;
-  background: #102a42;
-  color: #e0ebf8;
+  border: 1px solid rgba(156, 190, 247, .28);
+  border-radius: 10px;
+  background: rgba(5, 19, 49, .52);
+  color: #e4edff;
   font-variant-numeric: tabular-nums;
 }
 #fixtureList .squad-confirmed {
-  border: 1px solid #2c5b60;
+  border: 1px solid rgba(105, 208, 189, .26);
   border-radius: 999px;
-  background: #12343a;
-  color: #a6e6dc;
+  background: rgba(13, 71, 76, .42);
+  color: #a8f0dd;
 }
 #fixtureList .upcoming-teams {
   grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr);
@@ -3236,21 +3252,21 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
   min-width: 0;
   min-height: 122px;
   padding: 15px 10px;
-  border: 1px solid #263f5a;
-  border-radius: 14px;
-  background: rgba(20, 45, 70, .56);
+  border: 1px solid rgba(150, 184, 244, .18);
+  border-radius: 15px;
+  background: linear-gradient(145deg, rgba(44, 79, 143, .48), rgba(9, 27, 66, .60));
 }
 #fixtureList .upcoming-team .team-logo {
   width: 54px;
   height: 54px;
   padding: 5px;
-  border: 1px solid #35516d;
+  border: 1px solid rgba(160, 195, 255, .24);
   border-radius: 50%;
-  background: #152e47;
+  background: rgba(220, 234, 255, .08);
   box-shadow: none;
 }
 #fixtureList .upcoming-team .team-name {
-  color: #f1f5fb;
+  color: #f3f7ff;
   font-size: clamp(13px, 1.45vw, 16px);
   font-weight: 700;
   line-height: 1.35;
@@ -3261,9 +3277,9 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
   place-items: center;
   width: 30px;
   height: 30px;
-  border: 0;
+  border: 1px solid rgba(157, 190, 255, .18);
   border-radius: 50%;
-  background: #182d43;
+  background: rgba(3, 16, 44, .72);
   color: #ffad8b;
   font-size: 11px;
   font-weight: 800;
@@ -3272,16 +3288,16 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
   display: grid;
   gap: 7px;
   padding: 0 20px 18px;
-  color: #b7c8da;
+  color: #c1d0ec;
 }
 #fixtureList .upcoming-match-info > strong {
-  color: #f0f5fb;
+  color: #f2f6ff;
   font-size: 15px;
   line-height: 1.45;
 }
 #fixtureList .upcoming-venue,
 #fixtureList .upcoming-time {
-  color: #b6c6d7;
+  color: #c0cfe8;
   font-size: 13px;
   line-height: 1.5;
 }
@@ -3291,54 +3307,31 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
   justify-content: center;
   min-height: 52px;
   margin: 0;
-  border-top: 1px solid #263d55;
+  border-top: 1px solid rgba(153, 185, 242, .18);
   border-radius: 0;
-  background: #102941;
-  color: #a9d9ff;
+  background: rgba(4, 18, 45, .55);
+  color: #a9dcff;
   font-weight: 750;
   text-decoration: none;
 }
 #fixtureList .upcoming-details:hover {
-  background: #163651;
-  color: #f3f8ff;
+  background: rgba(30, 66, 119, .7);
+  color: #fff;
 }
 @media (max-width: 560px) {
-  #fixtureList.fixture-list {
-    gap: 13px;
-  }
-  #fixtureList > .upcoming-match-card {
-    border-radius: 16px;
-  }
-  #fixtureList .upcoming-card-top {
-    padding: 14px 14px 3px;
-  }
+  #fixtureList.fixture-list { gap: 13px; }
+  #fixtureList > .upcoming-match-card { border-radius: 17px; }
+  #fixtureList .upcoming-card-top { padding: 14px 14px 3px; }
   #fixtureList .upcoming-teams {
     grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
     gap: 6px;
     padding: 14px 14px 16px;
   }
-  #fixtureList .upcoming-team {
-    min-height: 112px;
-    padding: 12px 5px;
-    border-radius: 12px;
-  }
-  #fixtureList .upcoming-team .team-logo {
-    width: 46px;
-    height: 46px;
-  }
-  #fixtureList .upcoming-team .team-name {
-    font-size: 12px;
-  }
-  #fixtureList .upcoming-versus {
-    width: 24px;
-    height: 24px;
-    font-size: 9px;
-  }
-  #fixtureList .upcoming-match-info {
-    padding: 0 14px 15px;
-  }
-  #fixtureList .upcoming-match-info > strong {
-    font-size: 14px;
-  }
+  #fixtureList .upcoming-team { min-height: 112px; padding: 12px 5px; border-radius: 12px; }
+  #fixtureList .upcoming-team .team-logo { width: 46px; height: 46px; }
+  #fixtureList .upcoming-team .team-name { font-size: 12px; }
+  #fixtureList .upcoming-versus { width: 24px; height: 24px; font-size: 9px; }
+  #fixtureList .upcoming-match-info { padding: 0 14px 15px; }
+  #fixtureList .upcoming-match-info > strong { font-size: 14px; }
 }
 
