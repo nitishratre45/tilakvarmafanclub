@@ -210,22 +210,47 @@
 
   const isLiveMatch = (match) => {
     const status = [
-      match?.match_status, match?.match_status_str, match?.match_status_name,
-      match?.live_status_name, match?.status,
-    ].filter(Boolean).join(" ").toLowerCase().replace(/[_-]+/g, " ");
-    return /\b(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed)\b/.test(status)
-      && !/complete|completed|finished|end of match|result|abandoned|no result|cancelled|canceled/.test(status);
+      match?.match_status,
+      match?.match_status_str,
+      match?.match_status_name,
+      match?.live_status_name,
+      match?.status,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase()
+      .replace(/[_-]+/g, " ");
+    return (
+      /\b(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed)\b/.test(
+        status,
+      ) &&
+      !/complete|completed|finished|end of match|result|abandoned|no result|cancelled|canceled/.test(
+        status,
+      )
+    );
   };
   const isRelevantIndiaLiveMatch = (match) => {
     if (!isLiveMatch(match)) return false;
     const teams = [
-      match?.team1_name, match?.team2_name, match?.team1_short_name,
-      match?.team2_short_name, match?.home_team_name, match?.away_team_name,
-      match?.comp_name, match?.alt_comp_name, match?.name, match?.match_short_name,
-    ].filter(Boolean).join(" ").toLowerCase();
+      match?.team1_name,
+      match?.team2_name,
+      match?.team1_short_name,
+      match?.team2_short_name,
+      match?.home_team_name,
+      match?.away_team_name,
+      match?.comp_name,
+      match?.alt_comp_name,
+      match?.name,
+      match?.match_short_name,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
     // Only senior India men's matches belong in this live section; exclude women's, A and youth teams.
-    return /(^|\b)india(\b|$)/.test(teams)
-      && !/women|\\b(india a|a team|emerging|under ?19|u19|youth|junior)\\b/.test(teams);
+    return (
+      /(^|\b)india(\b|$)/.test(teams) &&
+      !/women|\\b(india a|a team|emerging|under ?19|u19|youth|junior)\\b/.test(teams)
+    );
   };
   function renderLiveMatches(matches) {
     const section = $("liveMatchesSection");
@@ -239,40 +264,69 @@
     });
     const rows = [...unique.values()];
     section.hidden = rows.length === 0;
-    if (count) count.textContent = rows.length + (rows.length === 1 ? " live match" : " live matches");
-    host.innerHTML = rows.map((m) => {
-      const home = pick(m, ["team1_name", "team1_short_name", "home_team_name"], "Team 1");
-      const away = pick(m, ["team2_name", "team2_short_name", "away_team_name"], "Team 2");
-      const id = String(m.gid || m.match_gid || m.match_id || m.id || "");
-      const innings = Array.isArray(m.summary?.innings) ? m.summary.innings : [];
-      const scoreFor = (teamId) => {
-        const row = innings.find((inn) => String(inn.batting_team_id ?? inn.team_id) === String(teamId));
-        if (!row) return "";
-        const runs = row.runs ?? row.total_runs ?? row.score;
-        if (runs == null) return "";
-        return String(runs) + (row.wickets != null ? "/" + row.wickets : "") + (row.overs != null ? " (" + row.overs + " ov)" : "");
-      };
-      const scoreA = scoreFor(m.team1_id), scoreB = scoreFor(m.team2_id);
-      const scoreMarkup = scoreA || scoreB
-        ? '<div class="live-score-line"><span>' + esc(scoreA || "Yet to bat") + '</span><b>LIVE SCORE</b><span>' + esc(scoreB || "Yet to bat") + '</span></div>'
-        : '<div class="live-score-line live-score-pending">Live score is updating from BCCI…</div>';
-      const status = pick(m, ["live_status_name", "match_status_name", "match_status_str", "match_status"], "LIVE");
-      const venue = [m.ground_name, m.ground_city].filter(Boolean).join(", ");
-      return '<article class="fixture-card upcoming-match-card live-match-card">' +
-        '<div class="upcoming-card-top"><span class="live-now-pill"><i></i> LIVE NOW</span><span class="upcoming-date">' +
-        esc(fmt(pick(m, ["date_string", "start_date", "date"]))) + '</span></div>' +
-        '<div class="upcoming-teams"><div class="upcoming-team">' + renderTeam(home) +
-        (scoreA ? '<span class="live-team-score">' + esc(scoreA) + '</span>' : '') +
-        '</div><span class="upcoming-versus">VS</span><div class="upcoming-team">' + renderTeam(away) +
-        (scoreB ? '<span class="live-team-score">' + esc(scoreB) + '</span>' : '') +
-        '</div></div>' + scoreMarkup +
-        '<div class="upcoming-match-info"><strong>' +
-        esc(pick(m, ["name", "match_short_name", "comp_name"], home + " vs " + away)) +
-        '</strong>' + (venue ? '<span class="upcoming-venue">⌖ ' + esc(venue) + '</span>' : '') +
-        '<span class="live-status-text">' + esc(status) + '</span></div>' +
-        '<a class="upcoming-details live-match-centre-link" href="./bcci-scorecard-page.html?gid=' +
-        encodeURIComponent(id) + '">Match Centre <span aria-hidden="true">↗</span></a></article>';
-    }).join("");
+    if (count)
+      count.textContent = rows.length + (rows.length === 1 ? " live match" : " live matches");
+    host.innerHTML = rows
+      .map((m) => {
+        const home = pick(m, ["team1_name", "team1_short_name", "home_team_name"], "Team 1");
+        const away = pick(m, ["team2_name", "team2_short_name", "away_team_name"], "Team 2");
+        const id = String(m.gid || m.match_gid || m.match_id || m.id || "");
+        const innings = Array.isArray(m.summary?.innings) ? m.summary.innings : [];
+        const scoreFor = (teamId) => {
+          const row = innings.find(
+            (inn) => String(inn.batting_team_id ?? inn.team_id) === String(teamId),
+          );
+          if (!row) return "";
+          const runs = row.runs ?? row.total_runs ?? row.score;
+          if (runs == null) return "";
+          return (
+            String(runs) +
+            (row.wickets != null ? "/" + row.wickets : "") +
+            (row.overs != null ? " (" + row.overs + " ov)" : "")
+          );
+        };
+        const scoreA = scoreFor(m.team1_id),
+          scoreB = scoreFor(m.team2_id);
+        const scoreMarkup =
+          scoreA || scoreB
+            ? '<div class="live-score-line"><span>' +
+              esc(scoreA || "Yet to bat") +
+              "</span><b>LIVE SCORE</b><span>" +
+              esc(scoreB || "Yet to bat") +
+              "</span></div>"
+            : '<div class="live-score-line live-score-pending">Live score is updating from BCCI…</div>';
+        const status = pick(
+          m,
+          ["live_status_name", "match_status_name", "match_status_str", "match_status"],
+          "LIVE",
+        );
+        const venue = [m.ground_name, m.ground_city].filter(Boolean).join(", ");
+        return (
+          '<article class="fixture-card upcoming-match-card live-match-card">' +
+          '<div class="upcoming-card-top"><span class="live-now-pill"><i></i> LIVE NOW</span><span class="upcoming-date">' +
+          esc(fmt(pick(m, ["date_string", "start_date", "date"]))) +
+          "</span></div>" +
+          '<div class="upcoming-teams"><div class="upcoming-team">' +
+          renderTeam(home) +
+          (scoreA ? '<span class="live-team-score">' + esc(scoreA) + "</span>" : "") +
+          '</div><span class="upcoming-versus">VS</span><div class="upcoming-team">' +
+          renderTeam(away) +
+          (scoreB ? '<span class="live-team-score">' + esc(scoreB) + "</span>" : "") +
+          "</div></div>" +
+          scoreMarkup +
+          '<div class="upcoming-match-info"><strong>' +
+          esc(pick(m, ["name", "match_short_name", "comp_name"], home + " vs " + away)) +
+          "</strong>" +
+          (venue ? '<span class="upcoming-venue">⌖ ' + esc(venue) + "</span>" : "") +
+          '<span class="live-status-text">' +
+          esc(status) +
+          "</span></div>" +
+          '<a class="upcoming-details live-match-centre-link" href="./bcci-scorecard-page.html?gid=' +
+          encodeURIComponent(id) +
+          '">Match Centre <span aria-hidden="true">↗</span></a></article>'
+        );
+      })
+      .join("");
   }
 
   function render() {
@@ -320,7 +374,16 @@
           "</div>" +
           extra +
           '<a class="upcoming-details" href="./details/index.html?matchId=' +
-          encodeURIComponent(f.id) + '&date=' + encodeURIComponent(f.date) + '&team=' + encodeURIComponent(f.home) + '&opponent=' + encodeURIComponent(f.away) + '&match=' + encodeURIComponent(f.title || f.competition || "Match") + '">Full Match Details <span aria-hidden="true">↗</span></a>' +
+          encodeURIComponent(f.id) +
+          "&date=" +
+          encodeURIComponent(f.date) +
+          "&team=" +
+          encodeURIComponent(f.home) +
+          "&opponent=" +
+          encodeURIComponent(f.away) +
+          "&match=" +
+          encodeURIComponent(f.title || f.competition || "Match") +
+          '">Full Match Details <span aria-hidden="true">↗</span></a>' +
           "</article>"
         );
       })
@@ -372,7 +435,11 @@
           .replace(/[^a-z0-9]+/g, " ")
           .trim();
       const bcciRoot = bcciPayload.data ?? bcciPayload;
-      const bcciMatches = Array.isArray(bcciRoot?.match) ? bcciRoot.match : Array.isArray(bcciRoot?.matches) ? bcciRoot.matches : [];
+      const bcciMatches = Array.isArray(bcciRoot?.match)
+        ? bcciRoot.match
+        : Array.isArray(bcciRoot?.matches)
+          ? bcciRoot.matches
+          : [];
       renderLiveMatches(bcciMatches);
       const liveMatches = [
         ...(Array.isArray(livePayload?.matches) ? livePayload.matches : []),
@@ -382,11 +449,17 @@
         liveMatches.map((m) => norm(m.id || m.matchId || m.match_id || m.gid)).filter(Boolean),
       );
       const livePairKeys = new Set(
-        liveMatches.map((m) => {
-          const a = norm(m.team1 || m.team1_name || m.team1Name || m.homeTeam || m.team1_short_name);
-          const b = norm(m.team2 || m.team2_name || m.team2Name || m.awayTeam || m.team2_short_name);
-          return [a, b].filter(Boolean).sort().join("|");
-        }).filter((key) => key.includes("|")),
+        liveMatches
+          .map((m) => {
+            const a = norm(
+              m.team1 || m.team1_name || m.team1Name || m.homeTeam || m.team1_short_name,
+            );
+            const b = norm(
+              m.team2 || m.team2_name || m.team2Name || m.awayTeam || m.team2_short_name,
+            );
+            return [a, b].filter(Boolean).sort().join("|");
+          })
+          .filter((key) => key.includes("|")),
       );
       const statsFixtures =
         statsPayload?.status === "updated-from-bcci-stats" && Array.isArray(statsPayload.fixtures)
@@ -534,42 +607,73 @@
       if (!response.ok) throw new Error("BCCI fixtures snapshot unavailable");
       const payload = await response.json();
       const source = payload?.data ?? payload;
-      const matches = Array.isArray(source?.match) ? source.match : Array.isArray(source?.matches) ? source.matches : [];
+      const matches = Array.isArray(source?.match)
+        ? source.match
+        : Array.isArray(source?.matches)
+          ? source.matches
+          : [];
       const live = matches.filter(isRelevantIndiaLiveMatch);
-      const title = $("liveRefreshTitle"), message = $("liveRefreshMessage"), stateBadge = $("liveRefreshState");
+      const title = $("liveRefreshTitle"),
+        message = $("liveRefreshMessage"),
+        stateBadge = $("liveRefreshState");
       renderLiveMatches(matches);
       if (live.length) {
         liveMode = true;
         if (title) title.textContent = "Live match updates";
-        if (message) message.textContent = live.length + " live match(es) detected. BCCI fixture/score data is rechecked every 60 seconds.";
-        if (stateBadge) { stateBadge.textContent = "LIVE · AUTO"; stateBadge.classList.add("is-live"); }
+        if (message)
+          message.textContent =
+            live.length +
+            " live match(es) detected. BCCI fixture/score data is rechecked every 60 seconds.";
+        if (stateBadge) {
+          stateBadge.textContent = "LIVE · AUTO";
+          stateBadge.classList.add("is-live");
+        }
         if (liveRefreshTimer) clearInterval(liveRefreshTimer);
         liveRefreshTimer = setInterval(async () => {
           try {
-            const check = await fetch("./bcci-fixtures.json?t=" + Date.now(), { cache: "no-store" });
+            const check = await fetch("./bcci-fixtures.json?t=" + Date.now(), {
+              cache: "no-store",
+            });
             if (!check.ok) throw new Error("Snapshot unavailable");
             const nextPayload = await check.json();
             const root = nextPayload?.data ?? nextPayload;
-            const nextMatches = Array.isArray(root?.match) ? root.match : Array.isArray(root?.matches) ? root.matches : [];
+            const nextMatches = Array.isArray(root?.match)
+              ? root.match
+              : Array.isArray(root?.matches)
+                ? root.matches
+                : [];
             renderLiveMatches(nextMatches);
             if (nextMatches.some(isRelevantIndiaLiveMatch)) {
               await load();
             } else {
-              clearInterval(liveRefreshTimer); liveRefreshTimer = null; liveMode = false;
+              clearInterval(liveRefreshTimer);
+              liveRefreshTimer = null;
+              liveMode = false;
               if (message) message.textContent = "No live match now. Automatic refresh has paused.";
-              if (stateBadge) { stateBadge.textContent = "Standby"; stateBadge.classList.remove("is-live"); }
+              if (stateBadge) {
+                stateBadge.textContent = "Standby";
+                stateBadge.classList.remove("is-live");
+              }
             }
-          } catch (_) { /* Preserve last good UI on temporary feed failures. */ }
+          } catch (_) {
+            /* Preserve last good UI on temporary feed failures. */
+          }
         }, 60000);
       } else {
         if (liveRefreshTimer) clearInterval(liveRefreshTimer);
-        liveRefreshTimer = null; liveMode = false;
+        liveRefreshTimer = null;
+        liveMode = false;
         if (title) title.textContent = "Live-aware updates";
         if (message) message.textContent = "No match is live. Automatic refresh is paused.";
-        if (stateBadge) { stateBadge.textContent = "Standby"; stateBadge.classList.remove("is-live"); }
+        if (stateBadge) {
+          stateBadge.textContent = "Standby";
+          stateBadge.classList.remove("is-live");
+        }
       }
     } catch (_) {
-      if ($("liveRefreshMessage")) $("liveRefreshMessage").textContent = "BCCI live status is unavailable; waiting for the next valid fixtures snapshot.";
+      if ($("liveRefreshMessage"))
+        $("liveRefreshMessage").textContent =
+          "BCCI live status is unavailable; waiting for the next valid fixtures snapshot.";
     }
   }
   load();

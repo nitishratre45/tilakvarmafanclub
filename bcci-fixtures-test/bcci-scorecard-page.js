@@ -96,33 +96,52 @@
     const scoreRows = [...innings, ...summaryInnings];
     const teamOneId = match.team1_id ?? payload?.liveMatch?.team1_id;
     const teamTwoId = match.team2_id ?? payload?.liveMatch?.team2_id;
-    const teamOneName = match.team1_name || match.team1_short_name || payload?.liveMatch?.team1_name || "Team 1";
-    const teamTwoName = match.team2_name || match.team2_short_name || payload?.liveMatch?.team2_name || "Team 2";
+    const teamOneName =
+      match.team1_name || match.team1_short_name || payload?.liveMatch?.team1_name || "Team 1";
+    const teamTwoName =
+      match.team2_name || match.team2_short_name || payload?.liveMatch?.team2_name || "Team 2";
     const teamScore = (teamId) => {
-      const row = scoreRows.find((inn) => String(inn.batting_team_id ?? inn.team_id) === String(teamId));
+      const row = scoreRows.find(
+        (inn) => String(inn.batting_team_id ?? inn.team_id) === String(teamId),
+      );
       if (!row) return { score: "Yet to bat", overs: "" };
       const runs = val(row, "total_runs", "runs", "score");
       const wickets = val(row, "wickets", "wicket");
       const overs = val(row, "overs", "overs_bowled");
       return {
         score: String(runs) + (wickets !== "—" ? "/" + wickets : ""),
-        overs: overs !== "—" ? String(overs) + " overs" : ""
+        overs: overs !== "—" ? String(overs) + " overs" : "",
       };
     };
     const scoreA = teamScore(teamOneId);
     const scoreB = teamScore(teamTwoId);
-    const isLive = payload?.isLive === true || /live|in play|in progress|innings break/i.test(
-      String(match.match_status || match.live_status_name || payload?.liveMatch?.match_status || "")
-    );
+    const isLive =
+      payload?.isLive === true ||
+      /live|in play|in progress|innings break/i.test(
+        String(
+          match.match_status || match.live_status_name || payload?.liveMatch?.match_status || "",
+        ),
+      );
     const board = $("top-scoreboard");
     if (board) {
       board.innerHTML =
-        '<div class="top-scoreboard-heading"><span>' + (isLive ? '<i></i> LIVE SCORE' : 'MATCH SCORE') +
+        '<div class="top-scoreboard-heading"><span>' +
+        (isLive ? "<i></i> LIVE SCORE" : "MATCH SCORE") +
         '</span><small>Both teams</small></div><div class="top-scoreboard-teams">' +
-        '<article class="top-score-team"><span>' + esc(teamOneName) + '</span><strong>' + esc(scoreA.score) +
-        '</strong><small>' + esc(scoreA.overs) + '</small></article><b class="top-score-vs">VS</b>' +
-        '<article class="top-score-team"><span>' + esc(teamTwoName) + '</span><strong>' + esc(scoreB.score) +
-        '</strong><small>' + esc(scoreB.overs) + '</small></article></div>';
+        '<article class="top-score-team"><span>' +
+        esc(teamOneName) +
+        "</span><strong>" +
+        esc(scoreA.score) +
+        "</strong><small>" +
+        esc(scoreA.overs) +
+        '</small></article><b class="top-score-vs">VS</b>' +
+        '<article class="top-score-team"><span>' +
+        esc(teamTwoName) +
+        "</span><strong>" +
+        esc(scoreB.score) +
+        "</strong><small>" +
+        esc(scoreB.overs) +
+        "</small></article></div>";
     }
     $("title").textContent = name;
     $("meta").textContent = [
