@@ -966,9 +966,21 @@
         if (typeof value !== "object") return [];
         // APIs sometimes wrap a squad in an object keyed by team/player IDs.
         for (const key of [
-          "players", "player", "squad", "squads", "team_squad", "teamSquad",
-          "teamSquads", "player_list", "playerList", "data", "results", "items",
-          "response", "result", "payload",
+          "players",
+          "player",
+          "squad",
+          "squads",
+          "team_squad",
+          "teamSquad",
+          "teamSquads",
+          "player_list",
+          "playerList",
+          "data",
+          "results",
+          "items",
+          "response",
+          "result",
+          "payload",
         ]) {
           if (Object.prototype.hasOwnProperty.call(value, key)) {
             const found = extractPlayerRows(value[key], depth + 1);
