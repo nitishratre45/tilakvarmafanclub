@@ -69,8 +69,9 @@ def parse_match(path, fmt):
                 ex = delivery.get("extras") or {}
                 for name, val in ex.items(): extras[name] = extras.get(name, 0) + int(val or 0)
                 legal = not any(k in ex for k in ("wides", "noballs"))
-                if legal:
+                if "wides" not in ex:
                     bat[batter]["balls"] += 1
+                if legal:
                     legal_balls += 1
                 if bowler not in bowl:
                     bowl[bowler] = {"bowler": bowler, "legalBalls": 0, "maidens": 0, "runs": 0, "wickets": 0}
@@ -132,8 +133,8 @@ def main():
             extracted.mkdir()
             with zipfile.ZipFile(archive) as zf:
                 zf.extractall(extracted)
-            # ZIP is deleted immediately after extraction; the temporary folder is also
-            # removed automatically after every match is parsed and output JSON is saved.
+            # Keep the downloaded ZIP only in this temporary workspace until all derived
+            # JSON bundles and the archive index have been written successfully.
             for file in extracted.rglob("*.json"):
                 try: match = parse_match(file, fmt)
                 except (ValueError, KeyError, TypeError) as exc:
