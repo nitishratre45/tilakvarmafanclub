@@ -172,11 +172,29 @@
     }
     host.innerHTML = players
       .map((p) => {
-        const n = typeof p === "string" ? p : p.name || p.fullName || "Player";
+        const n =
+          typeof p === "string"
+            ? p
+            : p.player_known_as ||
+              p.playerKnownAs ||
+              p.player_name ||
+              p.playerName ||
+              p.display_name ||
+              p.displayName ||
+              p.full_name ||
+              p.fullName ||
+              p.name ||
+              "Player";
         const role =
           typeof p === "string"
             ? ""
-            : [p.role, p.battingStyle, p.bowlingStyle].filter(Boolean).join(" · ");
+            : [
+                p.role || p.player_role || p.playerRole,
+                p.battingStyle || p.batting_style,
+                p.bowlingStyle || p.bowling_style,
+              ]
+                .filter(Boolean)
+                .join(" · ");
         const initials = n
           .split(/\s+/)
           .map((x) => x[0])
@@ -918,23 +936,27 @@
         } catch (_) {}
       }
       const extractPlayerRows = (value, depth = 0) => {
-        if (depth > 6 || value == null) return [];
+        if (depth > 8 || value == null) return [];
+        const isPlayerRow = (item) =>
+          item &&
+          typeof item === "object" &&
+          !Array.isArray(item) &&
+          [
+            "player_name",
+            "playerName",
+            "player_known_as",
+            "playerKnownAs",
+            "full_name",
+            "fullName",
+            "display_name",
+            "displayName",
+            "name",
+            "player_id",
+            "playerId",
+            "id",
+          ].some((key) => item[key] !== undefined && item[key] !== null && item[key] !== "");
         if (Array.isArray(value)) {
-          if (
-            value.length &&
-            value.every(
-              (item) =>
-                item &&
-                typeof item === "object" &&
-                (item.player_name ||
-                  item.player_known_as ||
-                  item.name ||
-                  item.full_name ||
-                  item.player_id),
-            )
-          ) {
-            return value;
-          }
+          if (value.length && value.every(isPlayerRow)) return value;
           for (const item of value) {
             const found = extractPlayerRows(item, depth + 1);
             if (found.length) return found;
@@ -942,22 +964,21 @@
           return [];
         }
         if (typeof value !== "object") return [];
+        // APIs sometimes wrap a squad in an object keyed by team/player IDs.
         for (const key of [
-          "players",
-          "player",
-          "squad",
-          "squads",
-          "team_squad",
-          "teamSquad",
-          "data",
-          "results",
-          "items",
-          "response",
+          "players", "player", "squad", "squads", "team_squad", "teamSquad",
+          "teamSquads", "player_list", "playerList", "data", "results", "items",
+          "response", "result", "payload",
         ]) {
           if (Object.prototype.hasOwnProperty.call(value, key)) {
             const found = extractPlayerRows(value[key], depth + 1);
             if (found.length) return found;
           }
+        }
+        const values = Object.values(value);
+        for (const child of values) {
+          const found = extractPlayerRows(child, depth + 1);
+          if (found.length) return found;
         }
         return [];
       };
