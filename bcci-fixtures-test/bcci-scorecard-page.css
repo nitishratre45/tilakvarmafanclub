@@ -342,3 +342,12 @@ h3 {
 
 /* Complete match details and official squads */
 .detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}.detail-item{min-width:0;display:flex;flex-direction:column;gap:5px;padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:#08172699}.detail-item span,.squad-card small{color:var(--muted);font-size:11px}.detail-item strong{overflow-wrap:anywhere;font-size:13px}.squad-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:15px}.squad-card{min-width:0;padding:16px;border:1px solid var(--line);border-radius:14px;background:#08172699}.squad-card h3{margin:0 0 8px;color:var(--blue)}.squad-card ol{list-style:none;margin:12px 0 0;padding:0}.squad-card li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #26384b}.squad-card li:last-child{border-bottom:0}.squad-card li span{font-weight:600;overflow-wrap:anywhere}.squad-card li small{text-align:right}@media(max-width:600px){.detail-grid,.squad-grid{grid-template-columns:minmax(0,1fr)}.detail-item{padding:11px 12px}}
+
+/* Team-logo layout aligned with the official match centre */
+.top-score-team .team-identity{display:flex;align-items:center;gap:14px;min-width:0}
+.top-score-team .team-identity>span{color:var(--muted);font-size:clamp(14px,1.3vw,18px)}
+.team-logo{width:64px;height:64px;flex:0 0 64px;object-fit:contain;border-radius:50%;background:#fff;padding:4px;border:1px solid #ffffff35}
+.team-logo-fallback{width:64px;height:64px;flex:0 0 64px;display:grid;place-items:center;border-radius:50%;background:#17395a;border:1px solid #34516a;color:#fff;font-weight:800;font-size:12px}
+.top-score-team strong{display:block;margin-top:10px}
+.top-scoreboard-teams{align-items:center}
+@media(max-width:600px){.top-score-team .team-identity{gap:7px;flex-wrap:wrap}.team-logo,.team-logo-fallback{width:40px;height:40px;flex-basis:40px}.top-score-team .team-identity>span{font-size:12px}}
