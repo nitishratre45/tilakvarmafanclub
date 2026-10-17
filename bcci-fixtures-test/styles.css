@@ -2050,3 +2050,102 @@ footer {
 @media(prefers-reduced-motion:reduce) {
   #liveScoresPanel .live-score-card { transition:none; }
 }
+
+
+/* Correct selectors for the actual BCCI Fixtures Test live-grid markup.
+   Keep site navigation/menu styles untouched. */
+#liveScoresPanel .live-match-card,
+.live-match-card.fixture-card {
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(106,190,219,.30);
+  border-radius:24px;
+  background:
+    radial-gradient(ellipse at 0 0,rgba(33,117,171,.22),transparent 52%),
+    linear-gradient(150deg,#10263c 0%,#081827 68%,#10273b 100%);
+  box-shadow:0 16px 38px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.045);
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+.live-match-card.fixture-card:hover {
+  transform:translateY(-2px);
+  border-color:rgba(109,224,203,.65);
+  box-shadow:0 20px 44px rgba(0,0,0,.3),0 0 0 3px rgba(109,224,203,.06);
+}
+.live-match-card .upcoming-card-top {
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:18px 20px 12px;
+}
+.live-match-card .live-now-pill {
+  display:inline-flex;align-items:center;gap:9px;
+  padding:8px 12px;border-radius:999px;
+  color:#9af0d2;background:rgba(18,115,91,.24);
+  border:1px solid rgba(89,225,183,.35);
+  font-size:11px;font-weight:900;letter-spacing:.1em;
+}
+.live-match-card .live-now-pill i {
+  width:7px;height:7px;border-radius:50%;background:#65e7b7;
+  box-shadow:0 0 0 4px rgba(101,231,183,.12),0 0 13px rgba(101,231,183,.45);
+}
+.live-match-card .upcoming-teams {
+  display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr);
+  align-items:center;gap:10px;padding:16px 18px 18px;
+}
+.live-match-card .upcoming-team {
+  min-width:0;min-height:150px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;padding:14px 8px;
+  border:1px solid rgba(133,177,213,.2);border-radius:19px;
+  background:linear-gradient(160deg,rgba(22,48,73,.82),rgba(7,22,38,.88));
+  text-align:center;
+}
+.live-match-card .upcoming-team img {
+  width:58px;height:58px;object-fit:contain;padding:7px;
+  border:1px solid rgba(154,197,229,.22);border-radius:16px;
+  background:linear-gradient(145deg,#18334f,#0b1b2d);
+}
+.live-match-card .upcoming-team .live-team-score {
+  color:#f4fbff;font-size:clamp(19px,4vw,26px);font-weight:900;
+  line-height:1.15;font-variant-numeric:tabular-nums;letter-spacing:-.04em;
+}
+.live-match-card .upcoming-versus {
+  display:grid;place-items:center;width:32px;height:32px;border-radius:50%;
+  color:#ffad91;background:rgba(255,139,111,.09);
+  border:1px solid rgba(255,139,111,.18);font-size:10px;font-weight:900;
+}
+.live-match-card .live-score-line {
+  margin:0 18px 16px;padding:13px 14px;border-radius:14px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  border:1px solid rgba(112,204,207,.23);
+  background:linear-gradient(90deg,rgba(13,55,69,.72),rgba(8,29,44,.82));
+  color:#e9f6ff;font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;
+}
+.live-match-card .live-score-line b {
+  color:#82e2c2;font-size:10px;letter-spacing:.1em;white-space:nowrap;
+}
+.live-match-card .live-score-pending {justify-content:center;color:#a9bfd3;font-weight:600;}
+.live-match-card .upcoming-match-info {
+  display:flex;flex-direction:column;gap:7px;padding:17px 20px;
+  border-top:1px solid rgba(127,177,212,.16);
+  background:linear-gradient(100deg,rgba(15,48,69,.58),rgba(12,30,49,.78));
+}
+.live-match-card .upcoming-match-info strong {font-size:15px;line-height:1.45;letter-spacing:-.02em;color:#f0f7ff;}
+.live-match-card .upcoming-venue,.live-match-card .live-status-text {font-size:12px;line-height:1.5;color:#a9bfd3;}
+.live-match-card .live-status-text {color:#82e2c2;font-weight:800;}
+.live-match-card .live-match-centre-link {
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin:0;padding:15px 20px;color:#071a29;font-weight:900;
+  text-decoration:none;background:linear-gradient(110deg,#79e8bd,#80d9f0);
+}
+.live-match-card .live-match-centre-link:hover {filter:brightness(1.05);}
+@media(max-width:600px) {
+  .live-match-card.fixture-card {border-radius:21px;}
+  .live-match-card .upcoming-card-top {padding:15px 14px 8px;}
+  .live-match-card .upcoming-teams {grid-template-columns:minmax(0,1fr) 25px minmax(0,1fr);gap:6px;padding:12px 11px 14px;}
+  .live-match-card .upcoming-team {min-height:136px;padding:12px 5px;gap:8px;border-radius:16px;}
+  .live-match-card .upcoming-team img {width:49px;height:49px;border-radius:14px;}
+  .live-match-card .upcoming-team .live-team-score {font-size:clamp(17px,5vw,23px);}
+  .live-match-card .upcoming-versus {width:25px;height:25px;font-size:9px;}
+  .live-match-card .live-score-line {margin:0 11px 12px;padding:11px 9px;font-size:11px;}
+  .live-match-card .live-score-line b {font-size:9px;}
+  .live-match-card .upcoming-match-info {padding:14px;}
+  .live-match-card .live-match-centre-link {padding:14px;}
+}
