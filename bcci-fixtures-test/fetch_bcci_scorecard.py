@@ -30,10 +30,21 @@ def choose_match():
     candidates = live
     candidates.sort(key=lambda m: (str(m.get("start_datetime_utc", "")), str(m.get("gid", ""))), reverse=True)
     for match in candidates:
-        gid = match.get("gid") or match.get("match_id")
+        # BCCI /match/{id}/scorecard expects the numeric match_id (e.g. 237261),
+        # not the UUID gid used by fixtures/live_scores (e.g. b567f7d4-...).
+        match_id = match.get("match_id") or match.get("id")
+        gid = match.get("gid") or match.get("match_gid")
+        if match_id:
+            return str(match_id), match, bool(live)
         if gid:
-            return str(gid), match, bool(live)
-    raise RuntimeError("No match ID found in BCCI live feed")
+            # The live_scores feed may omit match_id; resolve it from fixtures,
+            # whose records normally contain both gid and numeric match_id.
+            fixtures = read_json(FIXTURES_FILE)
+            all_matches = (fixtures.get("data") or fixtures).get("match") or []
+            resolved = next((m for m in all_matches if str(m.get("gid", "")) == str(gid) and m.get("match_id")), None)
+            if resolved:
+                return str(resolved["match_id"]), {**resolved, **match}, bool(live)
+    raise RuntimeError("No numeric BCCI match_id found in live feed / fixtures")
 
 def main():
     try:
