@@ -668,8 +668,8 @@
 
         if (original) {
           originalLink.href = original;
-          originalLink.target = "_blank";
-          originalLink.rel = "noopener noreferrer";
+          originalLink.removeAttribute("target");
+          originalLink.removeAttribute("rel");
         } else {
           originalLink.removeAttribute("href");
         }
