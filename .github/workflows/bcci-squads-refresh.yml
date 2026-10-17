@@ -32,6 +32,11 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Validate fetcher and fixture JSON
+        run: |
+          python -m py_compile bcci-fixtures-test/fetch_bcci_squads.py
+          python -c "import json; p=json.load(open('bcci-fixtures-test/bcci-fixtures.json', encoding='utf-8')); assert p.get('status') == 'ok'; m=(p.get('data') or {}).get('match') or []; assert isinstance(m, list) and m; print(f'Validated {len(m)} fixtures')"
+
       - name: Fetch official squads for each fixture
         env:
           ELIPSE_EDAK: ${{ secrets.ELIPSE_EDAK }}
