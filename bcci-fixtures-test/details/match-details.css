@@ -1788,3 +1788,66 @@
 .match-details-page .details-section-heading h2 {
   margin-top: 0;
 }
+
+
+/* Recent international results: readable mobile cards and stable empty states. */
+#recent-match-results .recent-results-meta {
+  margin: 0 0 14px;
+  color: #8fcbe9;
+  font-size: 12px;
+  font-weight: 750;
+}
+#recent-match-results .recent-result-row {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+}
+#recent-match-results .recent-result-copy {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+#recent-match-results .recent-result-copy h4 small {
+  display: inline-block;
+  margin-left: 6px;
+  color: #8bdcf3;
+  font-size: 10px;
+  letter-spacing: .08em;
+}
+#recent-match-results .recent-result-score {
+  color: #eaf5ff;
+  font-weight: 800;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+#recent-match-results .recent-result-empty {
+  min-width: 0;
+  width: 100%;
+  padding: 18px;
+  border: 1px solid rgba(112, 190, 226, .2);
+  border-radius: 16px;
+  background: rgba(5, 19, 34, .72);
+  color: #a9bfd5;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+#recent-match-results .recent-team-group[hidden] {
+  display: none !important;
+}
+@media (max-width: 600px) {
+  #recent-match-results .recent-result-row {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 10px;
+  }
+  #recent-match-results .recent-result-row time {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: start;
+    margin: 0 0 4px;
+  }
+  #recent-match-results .recent-result-copy {
+    grid-column: 2;
+  }
+  #recent-match-results .recent-result-empty {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+}
