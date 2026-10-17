@@ -1,7 +1,7 @@
 (() => {
   "use strict";
   const $ = (id) => document.getElementById(id);
-  // The API already scopes this endpoint to the nine configured BCCI workflows.
+  // The API scopes this endpoint to the configured BCCI workflows plus the Cricsheet archive refresh.
   // Do not keyword-filter by display title: GitHub titles are user-editable and
   // would silently hide otherwise valid workflow runs.
   const SNAPSHOTS = [
@@ -137,6 +137,13 @@
             count = Array.isArray(list) ? list.length : null;
           }
           if (item.type === "scorecard") count = data.match ? 1 : data.gid ? 1 : null;
+          if (item.type === "archive") {
+            count = Number.isFinite(data.matchCount) ? data.matchCount : null;
+            if (!Array.isArray(data.matches) || !Array.isArray(data.formats)) throw new Error("Archive index schema invalid");
+            const formats = new Set(data.matches.map((match) => match.format));
+            if (![...data.formats].every((format) => formats.has(format))) throw new Error("One or more archive formats have no saved matches");
+            if (!data.updatedAt) throw new Error("Archive timestamp missing");
+          }
           return {
             ...item,
             ok: true,
@@ -183,7 +190,7 @@
       renderRuns(data);
       await checkSnapshots();
       message(
-        "Status refreshed. Workflow result and saved JSON availability are shown separately.",
+        "Status refreshed. Workflow result, saved JSON availability and Cricsheet archive freshness are shown separately.",
       );
     } catch (error) {
       message(error.message, true);
