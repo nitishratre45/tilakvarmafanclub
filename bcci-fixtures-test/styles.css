@@ -1800,3 +1800,102 @@ footer {
     animation: none;
   }
 }
+
+
+/* 2026-10-17 desktop/laptop match layout refinement — scoped to BCCI Fixtures Test */
+.bcci-view-tabs {
+  width: min(100% - 32px, 1120px);
+  margin: 22px auto 26px !important;
+  padding: 0;
+  box-sizing: border-box;
+}
+.bcci-view-tabs .match-centre-tabs {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  padding: 8px;
+  border: 1px solid #29445f;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #0c1b2d, #101a2a);
+  box-sizing: border-box;
+}
+.bcci-view-tabs .match-centre-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  margin: 0 !important;
+  padding: 14px 20px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  text-align: center;
+  font-size: clamp(14px, 1vw, 17px);
+  font-weight: 800;
+  line-height: 1.25;
+  box-sizing: border-box;
+}
+.bcci-view-tabs .match-centre-tab.is-active {
+  border-color: #3d83d3;
+  background: linear-gradient(110deg, #1263c5, #174f91);
+  color: #fff;
+  box-shadow: 0 7px 18px #06152a55, inset 0 1px #ffffff18;
+}
+.bcci-view-tabs .match-centre-tab:not(.is-active) {
+  background: #0b1727;
+  color: #aebed2;
+}
+.bcci-view-tabs .match-centre-tab:not(.is-active):hover {
+  border-color: #34516e;
+  background: #13263c;
+  color: #f4f8ff;
+}
+@media (min-width: 1200px) {
+  body:has(.bcci-view-tabs) main.container {
+    width: min(100% - 64px, 1240px);
+    max-width: 1240px;
+    margin-inline: auto;
+  }
+  body:has(.bcci-view-tabs) .upcoming-hero {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  body:has(.bcci-view-tabs) .fixture-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .bcci-view-tabs {
+    width: calc(100% - 40px);
+  }
+  body:has(.bcci-view-tabs) main.container {
+    width: calc(100% - 40px);
+    max-width: 1100px;
+    margin-inline: auto;
+  }
+}
+@media (max-width: 767px) {
+  .bcci-view-tabs {
+    width: calc(100% - 20px);
+    margin: 14px auto 20px !important;
+  }
+  .bcci-view-tabs .match-centre-tabs {
+    gap: 8px;
+    padding: 6px;
+    border-radius: 15px;
+  }
+  .bcci-view-tabs .match-centre-tab {
+    min-height: 48px;
+    padding: 11px 8px;
+    font-size: 13px;
+  }
+}
+@media (max-width: 380px) {
+  .bcci-view-tabs .match-centre-tab {
+    font-size: 12px;
+    padding-inline: 5px;
+  }
+}
