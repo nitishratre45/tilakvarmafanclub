@@ -264,6 +264,7 @@
     });
     const rows = [...unique.values()];
     section.hidden = rows.length === 0;
+    document.body.classList.toggle("has-live-matches", rows.length > 0);
     if (count)
       count.textContent = rows.length + (rows.length === 1 ? " live match" : " live matches");
     host.innerHTML = rows
