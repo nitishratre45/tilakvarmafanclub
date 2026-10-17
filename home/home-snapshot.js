@@ -85,10 +85,8 @@
             // Fielding totals live in the dedicated fieldingStats dataset,
             // not in the batting Statsguru format object.
             const fieldingKey =
-              key === "First-class" ? "FC" :
-              key === "Overall T20 (all competitions)" ? "T20" : key;
-            const fielding =
-              data.fieldingStats?.formats?.[fieldingKey]?.summary || {};
+              key === "First-class" ? "FC" : key === "Overall T20 (all competitions)" ? "T20" : key;
+            const fielding = data.fieldingStats?.formats?.[fieldingKey]?.summary || {};
             const rows = [
               label,
               s.matches,
