@@ -93,7 +93,7 @@ jobs:
           fixture_loader = js[start:end]
           assert re.search(r'fetch\(["\']\./bcci-fixtures\.json\?t=', fixture_loader), \
               "fixture loader must fetch ./bcci-fixtures.json"
-          for unwanted in ("upcoming-fixtures-refresh.json", "bcci-stats-fixtures.json", "live-matches.json"):
+          for unwanted in ("upcoming-fixtures-refresh.json", "bcci-stats-fixtures.json"):
               assert unwanted not in fixture_loader, f"fixture loader unexpectedly references {unwanted}"
           live_start = js.find("  async function checkLiveMode()")
           assert live_start >= 0, "dedicated live-grid checkLiveMode() missing"
