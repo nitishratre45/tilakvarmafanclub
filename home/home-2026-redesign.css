@@ -13,15 +13,13 @@
   --fc-radius: 22px;
   --fc-shadow: 0 20px 48px rgba(0, 0, 0, 0.24);
 }
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 88px;
-}
 body {
-  color: var(--fc-text);
   background:
     radial-gradient(ellipse at 8% 5%, rgba(23, 105, 210, 0.18), transparent 34rem),
     radial-gradient(ellipse at 94% 26%, rgba(255, 142, 69, 0.075), transparent 28rem), #07101f;
+}
+body > main {
+  color: var(--fc-text);
   font-family: "Manrope", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -29,76 +27,29 @@ body {
   background: rgba(88, 166, 255, 0.35);
   color: #fff;
 }
-a {
+body > main a {
   text-underline-offset: 4px;
 }
-a,
-button,
-input,
-select {
+body > main a,
+body > main button,
+body > main input,
+body > main select {
   -webkit-tap-highlight-color: transparent;
 }
-button,
-.button {
+body > main button,
+body > main .button {
   transition:
     transform 0.2s ease,
     border-color 0.2s ease,
     background 0.2s ease,
     box-shadow 0.2s ease;
 }
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible {
+body > main button:focus-visible,
+body > main a:focus-visible,
+body > main input:focus-visible,
+body > main select:focus-visible {
   outline: 2px solid var(--fc-teal);
   outline-offset: 3px;
-}
-.topbar {
-  min-height: 70px;
-  padding-inline: clamp(14px, 3.4vw, 46px);
-  background: rgba(6, 20, 41, 0.88) !important;
-  border-bottom: 1px solid rgba(113, 173, 245, 0.24) !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18) !important;
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-}
-.topbar .brand {
-  gap: 10px;
-  color: #f7faff;
-  font-weight: 900;
-  letter-spacing: 0.055em;
-}
-.topbar .brand > span:last-child {
-  font-family: "Barlow Condensed", Impact, sans-serif;
-  font-size: 1.25rem;
-  letter-spacing: 0.09em;
-}
-.topbar .brand small {
-  color: var(--fc-saffron);
-  font-size: 0.66em;
-  letter-spacing: 0.14em;
-}
-.brand-mark-photo {
-  border: 1px solid rgba(255, 255, 255, 0.32);
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.11);
-}
-.topbar nav {
-  gap: 4px;
-}
-.topbar nav a {
-  border-radius: 11px;
-  padding: 10px 12px;
-  color: #d6e4f7;
-  font-size: 0.83rem;
-  font-weight: 750;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
-}
-.topbar nav a:hover,
-.topbar nav a[aria-current="page"] {
-  color: #fff;
-  background: rgba(88, 166, 255, 0.15);
 }
 body > main > .section {
   width: min(1240px, calc(100% - clamp(28px, 6vw, 84px)));
@@ -464,10 +415,6 @@ img {
   }
 }
 @media (max-width: 760px) {
-  .topbar {
-    min-height: 60px;
-    padding-inline: 14px;
-  }
   body > main > .section {
     width: calc(100% - 24px);
     padding-block: 28px;
