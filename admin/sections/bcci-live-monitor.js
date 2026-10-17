@@ -1,7 +1,9 @@
 (() => {
   "use strict";
   const $ = (id) => document.getElementById(id);
-  const WORKFLOW_HINTS = ["BCCI", "bcci", "match", "Matches folder audit", "fixture"];
+  // The API already scopes this endpoint to the nine configured BCCI workflows.
+  // Do not keyword-filter by display title: GitHub titles are user-editable and
+  // would silently hide otherwise valid workflow runs.
   const SNAPSHOTS = [
     { label: "Live matches JSON", path: "/bcci-fixtures-test/live-matches.json", type: "matches" },
     {
@@ -53,12 +55,8 @@
     el.textContent = text;
     el.classList.toggle("error", error);
   }
-  function relevant(run) {
-    const name = String(run.name || "") + " " + String(run.title || "");
-    return WORKFLOW_HINTS.some((term) => name.toLowerCase().includes(term.toLowerCase()));
-  }
   function renderRuns(data) {
-    const runs = (data.runs || []).filter(relevant);
+    const runs = Array.isArray(data.runs) ? data.runs : [];
     const success = runs.filter((r) => r.conclusion === "success").length;
     const failed = runs.filter(
       (r) =>
@@ -74,7 +72,7 @@
     const host = $("bcci-live-runs");
     if (!runs.length) {
       host.innerHTML =
-        '<div class="empty">No matching BCCI / match workflow runs in the latest 20 repository runs.</div>';
+        '<div class="empty">No BCCI workflow runs were returned for the configured monitor scope.</div>';
       return;
     }
     host.innerHTML = runs
