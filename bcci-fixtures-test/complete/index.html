@@ -41,20 +41,16 @@
         display: none !important;
         content: none !important;
       }
-      /* Remove the unwanted orange active underline on Complete Matches desktop navbar. */
+      /* Keep the active-page orange underline consistent with Upcoming Matches. */
       @media (min-width: 801px) {
-        html body.complete-matches-page > header.topbar > nav#main-nav > a,
-        html body.complete-matches-page > header.topbar > nav#main-nav > a:hover,
-        html body.complete-matches-page > header.topbar > nav#main-nav > a:focus,
-        html body.complete-matches-page > header.topbar > nav#main-nav > a:active,
-        html body.complete-matches-page > header.topbar > nav#main-nav > a.active,
-        html body.complete-matches-page > header.topbar > nav#main-nav > a[aria-current="page"] {
+        html body.complete-matches-page > header.topbar > nav#main-nav > a[aria-current="page"],
+        html body.complete-matches-page > header.topbar > nav#main-nav > a.active {
+          box-shadow: inset 0 -3px 0 #ff8b58 !important;
           border-bottom: 0 !important;
-          box-shadow: none !important;
-          background-image: none !important;
+          background: transparent !important;
         }
-        html body.complete-matches-page > header.topbar > nav#main-nav > a::before,
-        html body.complete-matches-page > header.topbar > nav#main-nav > a::after {
+        html body.complete-matches-page > header.topbar > nav#main-nav > a[aria-current="page"]::after,
+        html body.complete-matches-page > header.topbar > nav#main-nav > a.active::after {
           display: none !important;
           content: none !important;
         }
