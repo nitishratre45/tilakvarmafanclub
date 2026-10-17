@@ -161,6 +161,30 @@ def main():
         for row in rows:
             if not is_live(row):
                 continue
+            team1_id = value(row, "team1_id", "team1Id", "team_a_id")
+            team2_id = value(row, "team2_id", "team2Id", "team_b_id")
+            summary = row.get("summary") if isinstance(row.get("summary"), dict) else {}
+            innings = summary.get("innings") if isinstance(summary.get("innings"), list) else []
+            innings_by_team = {
+                str(item.get("batting_team_id", "")): item
+                for item in innings
+                if isinstance(item, dict) and item.get("batting_team_id") is not None
+            }
+
+            def innings_score(team_id):
+                item = innings_by_team.get(str(team_id))
+                if not item:
+                    return ""
+                runs = value(item, "runs")
+                wickets = value(item, "wickets")
+                overs = value(item, "overs")
+                if not runs:
+                    return ""
+                score = runs + ("/" + wickets if wickets else "")
+                if overs:
+                    score += " (" + overs + " ov)"
+                return score
+
             live.append(
                 {
                     "id": value(row, "gid", "match_id", "matchId", "id", "fixture_id"),
@@ -184,6 +208,8 @@ def main():
                         "team2_short_name",
                     )
                     or "Team 2",
+                    "team1_id": team1_id,
+                    "team2_id": team2_id,
                     "score1": value(
                         row,
                         "team1_score",
@@ -192,7 +218,7 @@ def main():
                         "score1",
                         "team_a_score",
                         "team1_innings",
-                    ),
+                    ) or innings_score(team1_id),
                     "score2": value(
                         row,
                         "team2_score",
@@ -201,7 +227,7 @@ def main():
                         "score2",
                         "team_b_score",
                         "team2_innings",
-                    ),
+                    ) or innings_score(team2_id),
                     "status": status_of(row),
                     "match": value(
                         row,
