@@ -42,6 +42,31 @@ jobs:
           ELIPSE_EDAK: ${{ secrets.ELIPSE_EDAK }}
         run: python bcci-fixtures-test/fetch_bcci_squads.py
 
+      - name: Validate every squad snapshot before publishing
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          files = sorted(Path("bcci-fixtures-test/squads").glob("*.json"))
+          assert files, "No squad JSON snapshots were generated"
+          for path in files:
+              payload = json.loads(path.read_text(encoding="utf-8"))
+              assert payload.get("status") == "ok", f"{path.name}: status is not ok"
+              assert str(payload.get("match_id", "")) == path.stem, f"{path.name}: match ID does not match filename"
+              assert isinstance(payload.get("match"), dict), f"{path.name}: match metadata missing"
+              teams = payload.get("teams")
+              assert isinstance(teams, dict), f"{path.name}: teams object missing"
+              for side in ("team1", "team2"):
+                  team = teams.get(side)
+                  assert isinstance(team, dict) and team.get("team_id"), f"{path.name}: {side} identity missing"
+                  assert isinstance(team.get("response"), (dict, list)) and team.get("response"), f"{path.name}: {side} response is empty"
+              assert str(payload.get("source", "")).startswith("https://epr.ellipsedata.com/"), f"{path.name}: unexpected source"
+          print(f"Validated {len(files)} BCCI match squad snapshots.")
+          PY
+
       - name: Commit updated match squad snapshots
         shell: bash
         run: |
