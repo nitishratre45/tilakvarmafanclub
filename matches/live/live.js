@@ -42,10 +42,11 @@
       "series_name",
     ]);
     const venue = first(match, ["venue", "venue_name", "ground_name"]);
+    const delayed = /delay/i.test(status);
     return (
       '<article class="live-card"><div class="live-card-head"><span>' +
       esc(venue || "BCCI live match") +
-      '</span><span class="live-badge">LIVE</span></div>' +
+      '</span><span class="live-badge">' + (delayed ? "DELAYED" : "LIVE") + '</span></div>' +
       (title ? '<div class="live-title">' + esc(title) + "</div>" : "") +
       '<div class="live-teams"><span class="team-name">' +
       esc(a) +
