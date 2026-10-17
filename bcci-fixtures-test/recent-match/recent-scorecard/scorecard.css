@@ -966,3 +966,16 @@ body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
     top: 96px !important;
   }
 }
+
+/* Mobile scorecard: remove the extra blue strip and close the gap below the club navbar. */
+body.matches-page > header.sc-top {
+  display: none !important;
+}
+body.matches-page .sc-main {
+  margin-top: 0 !important;
+}
+@media (max-width: 800px) {
+  body.matches-page .sc-main {
+    margin-top: 0 !important;
+  }
+}
