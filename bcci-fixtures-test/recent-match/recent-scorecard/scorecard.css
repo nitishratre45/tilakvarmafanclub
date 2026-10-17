@@ -211,57 +211,151 @@ body {
   }
 }
 
-
 /* Shared site shell parity for Recent Scorecard. */
-body.matches-page { min-height: 100vh; }
-body.matches-page > header.topbar { position: sticky; top: 0; z-index: 10000; }
-body.matches-page .sc-top { display: flex !important; min-height: 48px; height: auto; position: relative; z-index: 20; }
-body.matches-page .sc-main { margin-top: 18px; }
-body.matches-page .sc-foot { padding-bottom: 28px; }
-@media (max-width: 800px) {
-  body.matches-page .sc-main { width: calc(100% - 16px); margin: 12px auto 30px; }
-  body.matches-page .sc-hero h1 { font-size: clamp(25px, 7vw, 34px); overflow-wrap: anywhere; }
-  body.matches-page .sc-meta { grid-template-columns: 1fr; }
-  body.matches-page .sc-innings { min-width: 0; }
-  body.matches-page .sc-table-wrap { max-width: 100%; -webkit-overflow-scrolling: touch; }
+body.matches-page {
+  min-height: 100vh;
 }
-
+body.matches-page > header.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+}
+body.matches-page .sc-top {
+  display: flex !important;
+  min-height: 48px;
+  height: auto;
+  position: relative;
+  z-index: 20;
+}
+body.matches-page .sc-main {
+  margin-top: 18px;
+}
+body.matches-page .sc-foot {
+  padding-bottom: 28px;
+}
+@media (max-width: 800px) {
+  body.matches-page .sc-main {
+    width: calc(100% - 16px);
+    margin: 12px auto 30px;
+  }
+  body.matches-page .sc-hero h1 {
+    font-size: clamp(25px, 7vw, 34px);
+    overflow-wrap: anywhere;
+  }
+  body.matches-page .sc-meta {
+    grid-template-columns: 1fr;
+  }
+  body.matches-page .sc-innings {
+    min-width: 0;
+  }
+  body.matches-page .sc-table-wrap {
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+}
 
 /* Compact match summary and sticky team switcher */
-.sc-hero-compact { padding: 15px 18px !important; margin-bottom: 10px; }
-.sc-hero-compact .sc-kicker { margin: 0 0 5px; }
-.sc-hero-compact h1 { font-size: clamp(23px, 4vw, 34px); margin: 4px 0 6px; }
-.sc-result-compact { margin: 4px 0 8px; }
-.sc-meta-compact { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
-.sc-meta-compact div { flex: 1 1 180px; padding: 8px 10px; }
-.sc-meta-compact strong { font-size: 12px; line-height: 1.4; }
+.sc-hero-compact {
+  padding: 15px 18px !important;
+  margin-bottom: 10px;
+}
+.sc-hero-compact .sc-kicker {
+  margin: 0 0 5px;
+}
+.sc-hero-compact h1 {
+  font-size: clamp(23px, 4vw, 34px);
+  margin: 4px 0 6px;
+}
+.sc-result-compact {
+  margin: 4px 0 8px;
+}
+.sc-meta-compact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 8px;
+}
+.sc-meta-compact div {
+  flex: 1 1 180px;
+  padding: 8px 10px;
+}
+.sc-meta-compact strong {
+  font-size: 12px;
+  line-height: 1.4;
+}
 .sc-team-switch {
-  position: sticky; top: 76px; z-index: 900;
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px;
-  padding: 7px; margin: 0 0 12px; border: 1px solid var(--line);
-  border-radius: 16px; background: rgba(7, 23, 44, .96);
-  backdrop-filter: blur(14px); box-shadow: 0 8px 24px rgba(0,0,0,.22);
+  position: sticky;
+  top: 76px;
+  z-index: 900;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  padding: 7px;
+  margin: 0 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(7, 23, 44, 0.96);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
 }
 .sc-team-tab {
-  min-width: 0; border: 1px solid var(--line); border-radius: 11px;
-  padding: 11px 8px; color: var(--muted); background: #0b1d34;
-  font: inherit; font-weight: 800; overflow-wrap: anywhere;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 11px 8px;
+  color: var(--muted);
+  background: #0b1d34;
+  font: inherit;
+  font-weight: 800;
+  overflow-wrap: anywhere;
 }
-.sc-team-tab.is-active { color: #fff; background: #174579; border-color: var(--cyan); box-shadow: inset 0 -3px var(--orange); }
-.sc-team-innings[hidden] { display: none !important; }
-.sc-score-panel { padding-top: 16px; }
-.sc-table { min-width: 0; table-layout: auto; }
-.sc-table th, .sc-table td { white-space: normal; overflow-wrap: anywhere; }
-.sc-table th:not(:first-child), .sc-table td:not(:first-child) { width: 1%; }
-.sc-dismissal { min-width: 0; }
+.sc-team-tab.is-active {
+  color: #fff;
+  background: #174579;
+  border-color: var(--cyan);
+  box-shadow: inset 0 -3px var(--orange);
+}
+.sc-team-innings[hidden] {
+  display: none !important;
+}
+.sc-score-panel {
+  padding-top: 16px;
+}
+.sc-table {
+  min-width: 0;
+  table-layout: auto;
+}
+.sc-table th,
+.sc-table td {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.sc-table th:not(:first-child),
+.sc-table td:not(:first-child) {
+  width: 1%;
+}
+.sc-dismissal {
+  min-width: 0;
+}
 @media (max-width: 650px) {
-  .sc-team-switch { top: 76px; }
-  .sc-meta-compact { display: grid; grid-template-columns: 1fr; }
-  .sc-hero-compact { padding: 13px !important; }
-  .sc-table { font-size: 12px; }
-  .sc-table th, .sc-table td { padding: 8px 6px; }
+  .sc-team-switch {
+    top: 76px;
+  }
+  .sc-meta-compact {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .sc-hero-compact {
+    padding: 13px !important;
+  }
+  .sc-table {
+    font-size: 12px;
+  }
+  .sc-table th,
+  .sc-table td {
+    padding: 8px 6px;
+  }
 }
-
 
 /* Desktop-first scorecard layout: wider canvas, compact metadata, readable innings tables */
 @media (min-width: 900px) {
@@ -273,7 +367,7 @@ body.matches-page .sc-foot { padding-bottom: 28px; }
     padding: 22px 28px !important;
     border-radius: 24px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, .72fr);
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
     column-gap: 28px;
     align-items: center;
   }
@@ -307,7 +401,10 @@ body.matches-page .sc-foot { padding-bottom: 28px; }
     padding: 13px 18px;
     font-size: 15px;
     cursor: pointer;
-    transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    transition:
+      background 0.18s ease,
+      border-color 0.18s ease,
+      transform 0.18s ease;
   }
   body.matches-page .sc-team-tab:hover {
     border-color: var(--cyan);
@@ -367,39 +464,85 @@ body.matches-page .sc-foot { padding-bottom: 28px; }
   }
 }
 
-
 /* Scorecard responsive table repair: keep numeric columns readable on phones and desktop */
-body.matches-page .sc-table-wrap { overflow-x: auto; max-width: 100%; }
-body.matches-page .sc-table { width: 100%; min-width: 0; table-layout: fixed; }
+body.matches-page .sc-table-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+body.matches-page .sc-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+}
 body.matches-page .sc-table th:first-child,
-body.matches-page .sc-table td:first-child { width: 46%; text-align: left; white-space: normal; overflow-wrap: anywhere; }
+body.matches-page .sc-table td:first-child {
+  width: 46%;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
 body.matches-page .sc-table th:not(:first-child),
-body.matches-page .sc-table td:not(:first-child) { width: auto; text-align: center; white-space: nowrap; overflow-wrap: normal; }
+body.matches-page .sc-table td:not(:first-child) {
+  width: auto;
+  text-align: center;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
 body.matches-page .sc-table th,
-body.matches-page .sc-table td { padding: 10px 6px; }
-body.matches-page .sc-dismissal { white-space: normal; overflow-wrap: anywhere; }
-body.matches-page .sc-team-switch { position: sticky; }
-body.matches-page .sc-team-innings-list { min-width: 0; }
+body.matches-page .sc-table td {
+  padding: 10px 6px;
+}
+body.matches-page .sc-dismissal {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+body.matches-page .sc-team-switch {
+  position: sticky;
+}
+body.matches-page .sc-team-innings-list {
+  min-width: 0;
+}
 body.matches-page .sc-team-innings[hidden],
-body.matches-page .sc-innings[hidden] { display: none !important; }
+body.matches-page .sc-innings[hidden] {
+  display: none !important;
+}
 @media (max-width: 650px) {
-  body.matches-page .sc-main { width: calc(100% - 16px); }
-  body.matches-page .sc-table { font-size: 12px; }
+  body.matches-page .sc-main {
+    width: calc(100% - 16px);
+  }
+  body.matches-page .sc-table {
+    font-size: 12px;
+  }
   body.matches-page .sc-table th:first-child,
-  body.matches-page .sc-table td:first-child { width: 43%; }
+  body.matches-page .sc-table td:first-child {
+    width: 43%;
+  }
   body.matches-page .sc-table th,
-  body.matches-page .sc-table td { padding: 9px 4px; }
-  body.matches-page .sc-table-wrap { overflow-x: hidden; }
-  body.matches-page .sc-dismissal { font-size: 10px; line-height: 1.35; }
+  body.matches-page .sc-table td {
+    padding: 9px 4px;
+  }
+  body.matches-page .sc-table-wrap {
+    overflow-x: hidden;
+  }
+  body.matches-page .sc-dismissal {
+    font-size: 10px;
+    line-height: 1.35;
+  }
 }
 @media (min-width: 900px) {
-  body.matches-page .sc-table { table-layout: auto; font-size: 14px; }
+  body.matches-page .sc-table {
+    table-layout: auto;
+    font-size: 14px;
+  }
   body.matches-page .sc-table th:first-child,
-  body.matches-page .sc-table td:first-child { width: 46%; }
+  body.matches-page .sc-table td:first-child {
+    width: 46%;
+  }
   body.matches-page .sc-table th,
-  body.matches-page .sc-table td { padding: 12px 14px; }
+  body.matches-page .sc-table td {
+    padding: 12px 14px;
+  }
 }
-
 
 /* Premium scorecard hero, team PNGs and refined contrast */
 body.matches-page {
@@ -412,32 +555,41 @@ body.matches-page .sc-hero-compact {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  border: 1px solid rgba(125, 190, 255, .34);
+  border: 1px solid rgba(125, 190, 255, 0.34);
   background:
-    radial-gradient(ellipse at 92% 5%, rgba(56, 189, 248, .20), transparent 36%),
-    radial-gradient(ellipse at 5% 100%, rgba(255, 190, 92, .11), transparent 42%),
+    radial-gradient(ellipse at 92% 5%, rgba(56, 189, 248, 0.2), transparent 36%),
+    radial-gradient(ellipse at 5% 100%, rgba(255, 190, 92, 0.11), transparent 42%),
     linear-gradient(135deg, #112b4d 0%, #0a1d35 54%, #071426 100%);
-  box-shadow: 0 22px 60px rgba(0, 0, 0, .28), inset 0 1px rgba(255,255,255,.045);
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.28),
+    inset 0 1px rgba(255, 255, 255, 0.045);
 }
 body.matches-page .sc-hero-compact::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  opacity: .23;
-  background-image: linear-gradient(120deg, transparent 0 58%, rgba(255,255,255,.035) 58% 59%, transparent 59%);
+  opacity: 0.23;
+  background-image: linear-gradient(
+    120deg,
+    transparent 0 58%,
+    rgba(255, 255, 255, 0.035) 58% 59%,
+    transparent 59%
+  );
   pointer-events: none;
 }
 body.matches-page .sc-hero-compact .sc-kicker {
   color: var(--sc-sky);
   font-size: 11px;
-  letter-spacing: .16em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-body.matches-page .sc-hero-compact h1 { display: none; }
+body.matches-page .sc-hero-compact h1 {
+  display: none;
+}
 body.matches-page .sc-matchup {
   display: grid;
-  grid-template-columns: minmax(0,1fr) auto minmax(0,1fr);
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: clamp(10px, 2.2vw, 24px);
   margin: 10px 0 12px;
@@ -450,50 +602,53 @@ body.matches-page .sc-team-identity {
   color: #f6f9ff;
   font-size: clamp(20px, 3.6vw, 36px);
   font-weight: 900;
-  letter-spacing: -.035em;
+  letter-spacing: -0.035em;
   line-height: 1.12;
   overflow-wrap: anywhere;
 }
-body.matches-page .sc-team-identity:last-child { justify-content: flex-end; text-align: right; }
+body.matches-page .sc-team-identity:last-child {
+  justify-content: flex-end;
+  text-align: right;
+}
 body.matches-page .sc-team-logo {
   flex: 0 0 auto;
   width: clamp(42px, 6vw, 66px);
   height: clamp(42px, 6vw, 66px);
   object-fit: contain;
   padding: 5px;
-  border: 1px solid rgba(168, 211, 255, .26);
+  border: 1px solid rgba(168, 211, 255, 0.26);
   border-radius: 17px;
-  background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.035));
-  box-shadow: 0 8px 24px rgba(0,0,0,.22);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.035));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
 }
 body.matches-page .sc-vs {
   display: grid;
   place-items: center;
   width: 42px;
   height: 42px;
-  border: 1px solid rgba(255, 210, 122, .48);
+  border: 1px solid rgba(255, 210, 122, 0.48);
   border-radius: 50%;
   color: var(--sc-gold);
-  background: rgba(255, 210, 122, .08);
+  background: rgba(255, 210, 122, 0.08);
   font-size: 11px;
   font-weight: 950;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
 }
 body.matches-page .sc-result-compact {
   color: #d6e6fa;
   font-size: clamp(15px, 2vw, 21px);
   font-weight: 800;
-  letter-spacing: -.015em;
+  letter-spacing: -0.015em;
 }
 body.matches-page .sc-meta-compact div {
-  border-color: rgba(135, 188, 240, .24);
+  border-color: rgba(135, 188, 240, 0.24);
   border-radius: 17px;
-  background: linear-gradient(145deg, rgba(5, 20, 39, .82), rgba(10, 30, 53, .78));
-  box-shadow: inset 0 1px rgba(255,255,255,.035);
+  background: linear-gradient(145deg, rgba(5, 20, 39, 0.82), rgba(10, 30, 53, 0.78));
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.035);
 }
 body.matches-page .sc-meta-compact small {
   color: #8fbce4;
-  letter-spacing: .13em;
+  letter-spacing: 0.13em;
 }
 body.matches-page .sc-meta-compact strong {
   color: #f0f6ff;
@@ -501,37 +656,116 @@ body.matches-page .sc-meta-compact strong {
   line-height: 1.5;
 }
 @media (min-width: 900px) {
-  body.matches-page .sc-hero-compact { grid-template-columns: minmax(0,1fr) minmax(300px,.72fr); }
+  body.matches-page .sc-hero-compact {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+  }
   body.matches-page .sc-hero-compact .sc-kicker,
   body.matches-page .sc-hero-compact .sc-matchup,
-  body.matches-page .sc-hero-compact .sc-result { grid-column: 1; }
-  body.matches-page .sc-hero-compact .sc-meta-compact { grid-column: 2; grid-row: 1 / span 3; }
+  body.matches-page .sc-hero-compact .sc-result {
+    grid-column: 1;
+  }
+  body.matches-page .sc-hero-compact .sc-meta-compact {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+  }
 }
 @media (max-width: 600px) {
-  body.matches-page .sc-matchup { gap: 7px; margin: 12px 0; }
-  body.matches-page .sc-team-identity { flex-direction: column; gap: 7px; text-align: center; font-size: clamp(14px, 4vw, 18px); overflow-wrap: anywhere; }
-  body.matches-page .sc-team-identity:last-child { text-align: center; }
-  body.matches-page .sc-team-logo { width: 48px; height: 48px; border-radius: 14px; }
-  body.matches-page .sc-vs { width: 34px; height: 34px; font-size: 9px; }
-  body.matches-page .sc-result-compact { line-height: 1.4; }
-  body.matches-page .sc-meta-compact strong { font-size: 14px; }
+  body.matches-page .sc-matchup {
+    gap: 7px;
+    margin: 12px 0;
+  }
+  body.matches-page .sc-team-identity {
+    flex-direction: column;
+    gap: 7px;
+    text-align: center;
+    font-size: clamp(14px, 4vw, 18px);
+    overflow-wrap: anywhere;
+  }
+  body.matches-page .sc-team-identity:last-child {
+    text-align: center;
+  }
+  body.matches-page .sc-team-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+  }
+  body.matches-page .sc-vs {
+    width: 34px;
+    height: 34px;
+    font-size: 9px;
+  }
+  body.matches-page .sc-result-compact {
+    line-height: 1.4;
+  }
+  body.matches-page .sc-meta-compact strong {
+    font-size: 14px;
+  }
 }
 
-
 /* Test match scorecard: ordered four-innings overview */
-.sc-test-summary { border-color: rgba(108, 221, 255, .35); }
-.sc-test-summary h2 { margin-bottom: 12px; }
-.sc-test-summary-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.sc-test-summary-card { display: grid; gap: 4px; min-width: 0; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(145deg, #102c50, #09182c); }
-.sc-test-summary-card small { color: var(--cyan); font-size: 10px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
-.sc-test-summary-card strong { overflow-wrap: anywhere; }
-.sc-test-summary-card span { color: #fff; font-size: clamp(22px, 4vw, 30px); font-weight: 900; line-height: 1.2; font-variant-numeric: tabular-nums; }
-.sc-test-summary-card em { color: var(--muted); font-size: 12px; font-style: normal; }
-.sc-test-note { margin: 12px 0 0; color: var(--muted); font-size: 12px; }
-.sc-test-innings { scroll-margin-top: 145px; }
-.sc-innings-label { display: block; margin-bottom: 3px; color: var(--cyan); font-size: 10px; font-weight: 900; letter-spacing: .12em; }
-@media (max-width: 520px) { .sc-test-summary-grid { grid-template-columns: 1fr; } }
-
+.sc-test-summary {
+  border-color: rgba(108, 221, 255, 0.35);
+}
+.sc-test-summary h2 {
+  margin-bottom: 12px;
+}
+.sc-test-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.sc-test-summary-card {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #102c50, #09182c);
+}
+.sc-test-summary-card small {
+  color: var(--cyan);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.sc-test-summary-card strong {
+  overflow-wrap: anywhere;
+}
+.sc-test-summary-card span {
+  color: #fff;
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 900;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.sc-test-summary-card em {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+}
+.sc-test-note {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+.sc-test-innings {
+  scroll-margin-top: 145px;
+}
+.sc-innings-label {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--cyan);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+@media (max-width: 520px) {
+  .sc-test-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* Sticky, touch-friendly Test innings selector */
 body.matches-page .sc-test-innings-nav {
@@ -543,10 +777,10 @@ body.matches-page .sc-test-innings-nav {
   overflow-x: auto;
   padding: 10px;
   margin: 0 0 14px;
-  border: 1px solid rgba(125, 190, 255, .3);
+  border: 1px solid rgba(125, 190, 255, 0.3);
   border-radius: 16px;
-  background: rgba(5, 18, 36, .96);
-  box-shadow: 0 10px 28px rgba(0,0,0,.22);
+  background: rgba(5, 18, 36, 0.96);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   scrollbar-width: thin;
@@ -555,7 +789,7 @@ body.matches-page .sc-test-innings-tab {
   flex: 0 0 auto;
   min-height: 44px;
   padding: 10px 14px;
-  border: 1px solid rgba(143, 188, 228, .25);
+  border: 1px solid rgba(143, 188, 228, 0.25);
   border-radius: 12px;
   color: #c7d8ed;
   background: #0b1d34;
@@ -569,14 +803,21 @@ body.matches-page .sc-test-innings-tab.is-active {
   color: #071426;
   border-color: #73dfff;
   background: linear-gradient(135deg, #9be9ff, #65cfff);
-  box-shadow: 0 4px 16px rgba(101,207,255,.2);
+  box-shadow: 0 4px 16px rgba(101, 207, 255, 0.2);
 }
-body.matches-page .sc-innings[hidden] { display: none !important; }
+body.matches-page .sc-innings[hidden] {
+  display: none !important;
+}
 @media (max-width: 600px) {
-  body.matches-page .sc-test-innings-nav { top: 72px; margin-left: -2px; margin-right: -2px; }
-  body.matches-page .sc-test-innings-tab { padding: 10px 12px; }
+  body.matches-page .sc-test-innings-nav {
+    top: 72px;
+    margin-left: -2px;
+    margin-right: -2px;
+  }
+  body.matches-page .sc-test-innings-tab {
+    padding: 10px 12px;
+  }
 }
-
 
 /* Test innings bar: horizontal, sticky directly below the fixed site header */
 body.matches-page.match-details-page #sc-content .sc-test-innings-nav {
@@ -596,15 +837,17 @@ body.matches-page.match-details-page #sc-content .sc-test-innings-nav {
   overflow-y: hidden !important;
   padding: 10px !important;
   margin: 0 0 14px !important;
-  border: 1px solid rgba(125,190,255,.35) !important;
+  border: 1px solid rgba(125, 190, 255, 0.35) !important;
   border-radius: 16px !important;
-  background: rgba(5,18,36,.97) !important;
-  box-shadow: 0 10px 28px rgba(0,0,0,.25) !important;
+  background: rgba(5, 18, 36, 0.97) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25) !important;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   scrollbar-width: none;
 }
-body.matches-page.match-details-page #sc-content .sc-test-innings-nav::-webkit-scrollbar { display: none; }
+body.matches-page.match-details-page #sc-content .sc-test-innings-nav::-webkit-scrollbar {
+  display: none;
+}
 body.matches-page.match-details-page #sc-content .sc-test-innings-nav .sc-test-innings-tab {
   display: inline-flex !important;
   flex: 0 0 auto !important;
@@ -615,7 +858,7 @@ body.matches-page.match-details-page #sc-content .sc-test-innings-nav .sc-test-i
   width: auto !important;
   margin: 0 !important;
   padding: 10px 14px !important;
-  border: 1px solid rgba(143,188,228,.28) !important;
+  border: 1px solid rgba(143, 188, 228, 0.28) !important;
   border-radius: 12px !important;
   color: #c7d8ed !important;
   background: #0b1d34 !important;
@@ -625,17 +868,23 @@ body.matches-page.match-details-page #sc-content .sc-test-innings-nav .sc-test-i
   cursor: pointer;
   touch-action: manipulation;
 }
-body.matches-page.match-details-page #sc-content .sc-test-innings-nav .sc-test-innings-tab.is-active {
+body.matches-page.match-details-page
+  #sc-content
+  .sc-test-innings-nav
+  .sc-test-innings-tab.is-active {
   color: #071426 !important;
   border-color: #73dfff !important;
-  background: linear-gradient(135deg,#9be9ff,#65cfff) !important;
-  box-shadow: 0 4px 16px rgba(101,207,255,.2) !important;
+  background: linear-gradient(135deg, #9be9ff, #65cfff) !important;
+  box-shadow: 0 4px 16px rgba(101, 207, 255, 0.2) !important;
 }
 @media (max-width: 600px) {
-  body.matches-page.match-details-page #sc-content .sc-test-innings-nav { top: 154px !important; }
-  body.matches-page.match-details-page #sc-content .sc-test-innings-nav .sc-test-innings-tab { padding: 10px 12px !important; }
+  body.matches-page.match-details-page #sc-content .sc-test-innings-nav {
+    top: 154px !important;
+  }
+  body.matches-page.match-details-page #sc-content .sc-test-innings-nav .sc-test-innings-tab {
+    padding: 10px 12px !important;
+  }
 }
-
 
 /* Sticky Test innings navigation: keep it below the persistent site header */
 body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
@@ -648,9 +897,10 @@ body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
   margin-bottom: 14px !important;
 }
 @media (max-width: 600px) {
-  body.matches-page.match-details-page #sc-content > .sc-test-innings-nav { top: 154px !important; }
+  body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
+    top: 154px !important;
+  }
 }
-
 
 /* Final mobile sticky placement: keep innings tabs exactly below the fixed club header */
 body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
@@ -675,7 +925,6 @@ body.matches-page.match-details-page #sc-content > .sc-test-innings-nav + .sc-pa
   }
 }
 
-
 /* Keep innings navigation in its original document position; pin only after scrolling past it */
 body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
   position: sticky !important;
@@ -687,7 +936,6 @@ body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
   border-radius: 16px !important;
   z-index: 10001 !important;
 }
-
 
 /* Final sticky behavior: keep the selector in document flow until it reaches the club header. */
 body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
@@ -709,13 +957,12 @@ body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
   }
 }
 
-
 /* Fine-tune: selector sticks a little closer under the fixed club header. */
 body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
   top: 96px !important;
 }
 @media (max-width: 600px) {
-  body.matches-page.match-details-page #sc-content > .sc-test-innings-nav { top: 96px !important; }
+  body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
+    top: 96px !important;
+  }
 }
-
-

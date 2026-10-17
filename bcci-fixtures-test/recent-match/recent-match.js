@@ -113,8 +113,9 @@
       render();
     } catch (e) {
       const meta = $("rm-meta");
-      if (meta) meta.textContent =
-        "Archive data is not available until the daily Cricsheet workflow completes.";
+      if (meta)
+        meta.textContent =
+          "Archive data is not available until the daily Cricsheet workflow completes.";
       $("rm-list").innerHTML =
         '<div class="rm-empty">Could not load the saved international archive. Please try again after the first workflow run.</div>';
     }

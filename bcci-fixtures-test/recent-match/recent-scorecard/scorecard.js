@@ -102,23 +102,31 @@
     );
   }
   function findCompatibleMatch(matches, requestedId) {
-    const parts = String(requestedId || "").match(/^(\d{4})(?:-(\d{2})-(\d{2}))?-(t20i|odi|test)-(.+)$/i);
+    const parts = String(requestedId || "").match(
+      /^(\d{4})(?:-(\d{2})-(\d{2}))?-(t20i|odi|test)-(.+)$/i,
+    );
     if (!parts) return null;
     const year = parts[1];
     const date = parts[2] && parts[3] ? year + "-" + parts[2] + "-" + parts[3] : "";
-    const format = ({ t20i: "T20I", odi: "ODI", test: "Test" })[parts[4].toLowerCase()];
+    const format = { t20i: "T20I", odi: "ODI", test: "Test" }[parts[4].toLowerCase()];
     const tail = parts[5].toLowerCase();
-    const slug = (value) => String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-    return (matches || []).find((m) => {
-      if (String(m.format || "").toLowerCase() !== format.toLowerCase()) return false;
-      if (String(m.date || "").slice(0, 4) !== year) return false;
-      if (date && String(m.date || "").slice(0, 10) !== date) return false;
-      const teams = m.teams || [];
-      if (teams.length !== 2) return false;
-      const teamPair = slug(teams[0]) + "-vs-" + slug(teams[1]);
-      const reversePair = slug(teams[1]) + "-vs-" + slug(teams[0]);
-      return tail.startsWith(teamPair) || tail.startsWith(reversePair);
-    }) || null;
+    const slug = (value) =>
+      String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+    return (
+      (matches || []).find((m) => {
+        if (String(m.format || "").toLowerCase() !== format.toLowerCase()) return false;
+        if (String(m.date || "").slice(0, 4) !== year) return false;
+        if (date && String(m.date || "").slice(0, 10) !== date) return false;
+        const teams = m.teams || [];
+        if (teams.length !== 2) return false;
+        const teamPair = slug(teams[0]) + "-vs-" + slug(teams[1]);
+        const reversePair = slug(teams[1]) + "-vs-" + slug(teams[0]);
+        return tail.startsWith(teamPair) || tail.startsWith(reversePair);
+      }) || null
+    );
   }
   async function fetchWithTimeout(url, timeoutMs = 12000) {
     const controller = new AbortController();
@@ -154,7 +162,9 @@
           );
           if (!response.ok) throw Error("Year bundle returned HTTP " + response.status);
           const bundle = await response.json();
-          match = (bundle.matches || []).find((m) => m.matchId === id) || findCompatibleMatch(bundle.matches, id);
+          match =
+            (bundle.matches || []).find((m) => m.matchId === id) ||
+            findCompatibleMatch(bundle.matches, id);
           if (!match) lastError = Error("Selected match ID was not found in the year bundle.");
         } catch (error) {
           lastError = error;
@@ -173,7 +183,8 @@
           const row = (index.matches || []).find((m) => m.matchId === id);
           if (!row) throw Error("Selected match ID is not in the archive index.");
           const bundleResponse = await fetchWithTimeout(row.scorecard, 45000);
-          if (!bundleResponse.ok) throw Error("Scorecard bundle returned HTTP " + bundleResponse.status);
+          if (!bundleResponse.ok)
+            throw Error("Scorecard bundle returned HTTP " + bundleResponse.status);
           const bundle = await bundleResponse.json();
           match = (bundle.matches || []).find((m) => m.matchId === id) || null;
           if (!match) throw Error("Selected match ID was not found in the scorecard bundle.");
@@ -186,7 +197,8 @@
         if (idParts) {
           const year = idParts[1];
           const formatSlug = (idParts[4] || idParts[2] || "").toLowerCase();
-          const bundleUrl = "/bcci-fixtures-test/recent-match/data/" + formatSlug + "-" + year + ".json";
+          const bundleUrl =
+            "/bcci-fixtures-test/recent-match/data/" + formatSlug + "-" + year + ".json";
           const response = await fetchWithTimeout(bundleUrl);
           if (response.ok) {
             const bundle = await response.json();
@@ -195,11 +207,18 @@
         }
       }
       if (!match) {
-        throw Error((lastError && lastError.message ? lastError.message + " " : "") +
-          "Scorecard data could not be found. Check that the daily Cricsheet archive workflow has completed."); 
+        throw Error(
+          (lastError && lastError.message ? lastError.message + " " : "") +
+            "Scorecard data could not be found. Check that the daily Cricsheet archive workflow has completed.",
+        );
       }
       // Stable fallback navigation; keep scorecard loading independent from browser history.
-      const recentResultsUrl = "/bcci-fixtures-test/recent-match/?team=" + encodeURIComponent(q.get("team") || (match.teams || [])[0] || "India") + "&format=" + encodeURIComponent(match.format || q.get("format") || "Test") + "#rm-list";
+      const recentResultsUrl =
+        "/bcci-fixtures-test/recent-match/?team=" +
+        encodeURIComponent(q.get("team") || (match.teams || [])[0] || "India") +
+        "&format=" +
+        encodeURIComponent(match.format || q.get("format") || "Test") +
+        "#rm-list";
       const backLink = $("sc-back");
       backLink.href = recentResultsUrl;
       backLink.textContent = "← Back to Recent Results";
@@ -234,11 +253,11 @@
         esc((match.officials?.umpires || []).join(", ") || "Umpires not recorded") +
         "</p><p>" +
         esc((match.officials?.match_referees || []).join(", ") || "Match referee not recorded") +
-        '</p></section>';
+        "</p></section>";
       // Test matches use a full innings-by-innings layout; limited-overs formats keep the team switcher.
       if (String(match.format || "").toLowerCase() === "test") {
         const inningsSections = Array.from(document.querySelectorAll("#sc-content .sc-innings"));
-        const ordinal = (n) => ({1:"1st",2:"2nd",3:"3rd",4:"4th"})[n] || (n + "th");
+        const ordinal = (n) => ({ 1: "1st", 2: "2nd", 3: "3rd", 4: "4th" })[n] || n + "th";
         inningsSections.forEach((section, index) => {
           section.classList.add("sc-test-innings");
           const heading = section.querySelector("h3");
@@ -253,14 +272,26 @@
           label: ordinal(index + 1) + " innings",
           team: inn.team || "Team",
           score: (inn.runs ?? 0) + "/" + (inn.wickets ?? 0),
-          overs: inn.overs || "—"
+          overs: inn.overs || "—",
         }));
         const summary = document.createElement("section");
         summary.className = "sc-panel sc-test-summary";
-        summary.innerHTML = '<h2>Test Match · Innings Summary</h2><div class="sc-test-summary-grid">' +
-          innings.map((inn) => '<article class="sc-test-summary-card"><small>' + esc(inn.label) +
-            '</small><strong>' + esc(inn.team) + '</strong><span>' + esc(inn.score) +
-            '</span><em>' + esc(inn.overs) + ' overs</em></article>').join("") +
+        summary.innerHTML =
+          '<h2>Test Match · Innings Summary</h2><div class="sc-test-summary-grid">' +
+          innings
+            .map(
+              (inn) =>
+                '<article class="sc-test-summary-card"><small>' +
+                esc(inn.label) +
+                "</small><strong>" +
+                esc(inn.team) +
+                "</strong><span>" +
+                esc(inn.score) +
+                "</span><em>" +
+                esc(inn.overs) +
+                " overs</em></article>",
+            )
+            .join("") +
           '</div><p class="sc-test-note">All innings are shown in match order, including both innings for each team.</p>';
         const heroSection = document.querySelector("#sc-content .sc-hero");
         if (heroSection) heroSection.insertAdjacentElement("afterend", summary);
@@ -277,14 +308,17 @@
             const team = (match.innings[index] && match.innings[index].team) || "Team";
             teamCounts[team] = (teamCounts[team] || 0) + 1;
             const teamInning = teamCounts[team];
-            const ordinalTeamInning = ({1:"1st",2:"2nd",3:"3rd",4:"4th"})[teamInning] || (teamInning + "th");
+            const ordinalTeamInning =
+              { 1: "1st", 2: "2nd", 3: "3rd", 4: "4th" }[teamInning] || teamInning + "th";
             const button = document.createElement("button");
             button.type = "button";
             button.className = "sc-test-innings-tab";
             button.textContent = ordinalTeamInning + " · " + team;
             button.setAttribute("aria-controls", "sc-test-innings-" + (index + 1));
             button.addEventListener("click", () => {
-              inningsSections.forEach((item, itemIndex) => { item.hidden = itemIndex !== index; });
+              inningsSections.forEach((item, itemIndex) => {
+                item.hidden = itemIndex !== index;
+              });
               buttons.forEach((tab, tabIndex) => {
                 tab.classList.toggle("is-active", tabIndex === index);
                 tab.setAttribute("aria-pressed", tabIndex === index ? "true" : "false");
@@ -309,7 +343,8 @@
         const logoForTeam = (name) => {
           const n = String(name || "").toLowerCase();
           if (/india/.test(n)) return "https://flagcdn.com/w160/in.png";
-          if (/west indies|windies/.test(n)) return "https://commons.wikimedia.org/wiki/Special:FilePath/WestIndiesCricketlogo.png";
+          if (/west indies|windies/.test(n))
+            return "https://commons.wikimedia.org/wiki/Special:FilePath/WestIndiesCricketlogo.png";
           if (/australia/.test(n)) return "https://flagcdn.com/w160/au.png";
           if (/england/.test(n)) return "https://flagcdn.com/w160/gb-eng.png";
           if (/pakistan/.test(n)) return "https://flagcdn.com/w160/pk.png";
@@ -340,7 +375,13 @@
               const fallback = document.createElement("span");
               fallback.className = "sc-team-logo-fallback";
               fallback.setAttribute("aria-hidden", "true");
-              fallback.textContent = String(team).split(/\\s+/).filter(Boolean).slice(0, 2).map(word => word[0]).join("").toUpperCase();
+              fallback.textContent = String(team)
+                .split(/\\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map((word) => word[0])
+                .join("")
+                .toUpperCase();
               side.insertBefore(fallback, side.firstChild);
             };
             side.appendChild(img);
@@ -368,14 +409,20 @@
         if (meta) {
           meta.classList.add("sc-meta-compact");
           const items = Array.from(meta.children);
-          items.forEach((item, i) => { if (i > 1) item.hidden = true; });
+          items.forEach((item, i) => {
+            if (i > 1) item.hidden = true;
+          });
         }
         const result = hero.querySelector(".sc-result");
         if (result) result.classList.add("sc-result-compact");
       }
       const innings = Array.from(document.querySelectorAll("#sc-content .sc-innings"));
       const teamNames = (match.teams || []).slice(0, 2);
-      if (String(match.format || "").toLowerCase() !== "test" && innings.length && teamNames.length === 2) {
+      if (
+        String(match.format || "").toLowerCase() !== "test" &&
+        innings.length &&
+        teamNames.length === 2
+      ) {
         const scorePanel = document.querySelector("#sc-content .sc-panel");
         const nav = document.createElement("nav");
         nav.className = "sc-team-switch";
@@ -386,8 +433,13 @@
         const groups = teamNames.map(() => []);
         innings.forEach((section) => {
           const heading = section.querySelector("h3");
-          const team = heading ? heading.textContent.trim().replace(/\s+\d+\s*\/.*/, "").trim() : "";
-          let index = teamNames.findIndex(name => team === name || team.startsWith(name + " "));
+          const team = heading
+            ? heading.textContent
+                .trim()
+                .replace(/\s+\d+\s*\/.*/, "")
+                .trim()
+            : "";
+          let index = teamNames.findIndex((name) => team === name || team.startsWith(name + " "));
           if (index < 0) index = 0;
           groups[index].push(section);
         });
@@ -403,12 +455,16 @@
               tab.classList.toggle("is-active", i === index);
               tab.setAttribute("aria-selected", i === index ? "true" : "false");
             });
-            groups.forEach((sections, i) => sections.forEach(section => { section.hidden = i !== index; }));
+            groups.forEach((sections, i) =>
+              sections.forEach((section) => {
+                section.hidden = i !== index;
+              }),
+            );
           });
           nav.appendChild(button);
         });
         if (scorePanel) {
-          innings.forEach(section => list.appendChild(section));
+          innings.forEach((section) => list.appendChild(section));
           scorePanel.classList.add("sc-score-panel");
           scorePanel.insertBefore(nav, scorePanel.querySelector("h2")?.nextSibling || null);
           scorePanel.insertBefore(list, nav.nextSibling);
