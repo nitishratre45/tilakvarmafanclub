@@ -194,6 +194,57 @@
       // Add compact metadata styling and a sticky two-team innings switcher.
       const hero = document.querySelector("#sc-content .sc-hero");
       if (hero) {
+        const teamNamesForHero = (match.teams || []).slice(0, 2);
+        const logoForTeam = (name) => {
+          const n = String(name || "").toLowerCase();
+          if (/india/.test(n)) return "https://flagcdn.com/w160/in.png";
+          if (/west indies|windies/.test(n)) return "https://commons.wikimedia.org/wiki/Special:FilePath/WestIndiesCricketlogo.png";
+          if (/australia/.test(n)) return "https://flagcdn.com/w160/au.png";
+          if (/england/.test(n)) return "https://flagcdn.com/w160/gb-eng.png";
+          if (/pakistan/.test(n)) return "https://flagcdn.com/w160/pk.png";
+          if (/new zealand/.test(n)) return "https://flagcdn.com/w160/nz.png";
+          if (/south africa/.test(n)) return "https://flagcdn.com/w160/za.png";
+          if (/sri lanka/.test(n)) return "https://flagcdn.com/w160/lk.png";
+          if (/bangladesh/.test(n)) return "https://flagcdn.com/w160/bd.png";
+          if (/afghanistan/.test(n)) return "https://flagcdn.com/w160/af.png";
+          if (/ireland/.test(n)) return "https://flagcdn.com/w160/ie.png";
+          if (/zimbabwe/.test(n)) return "https://flagcdn.com/w160/zw.png";
+          return "";
+        };
+        const matchup = document.createElement("div");
+        matchup.className = "sc-matchup";
+        matchup.setAttribute("aria-label", "Teams playing");
+        teamNamesForHero.forEach((team, i) => {
+          const side = document.createElement("div");
+          side.className = "sc-team-identity";
+          const src = logoForTeam(team);
+          if (src) {
+            const img = document.createElement("img");
+            img.className = "sc-team-logo";
+            img.src = src;
+            img.alt = team + " team logo";
+            img.loading = "lazy";
+            img.onerror = () => { img.hidden = true; };
+            side.appendChild(img);
+          }
+          const label = document.createElement("span");
+          label.textContent = team;
+          side.appendChild(label);
+          matchup.appendChild(side);
+          if (i === 0) {
+            const vs = document.createElement("span");
+            vs.className = "sc-vs";
+            vs.textContent = "VS";
+            matchup.appendChild(vs);
+          }
+        });
+        const title = hero.querySelector("h1");
+        if (title) {
+          title.hidden = true;
+          title.insertAdjacentElement("afterend", matchup);
+        } else hero.appendChild(matchup);
+      }
+      if (hero) {
         hero.classList.add("sc-hero-compact");
         const meta = hero.querySelector(".sc-meta");
         if (meta) {
