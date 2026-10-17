@@ -332,20 +332,29 @@
       return copy;
     });
 
+    const columnCount = Math.max(...rows.map((row) => row.length));
+    rows = rows.map((row) => [...row, ...Array(Math.max(0, columnCount - row.length)).fill("")]);
+
     const wrapper = document.createElement("div");
     wrapper.className = "article-table-wrap";
+    wrapper.setAttribute("role", "region");
+    wrapper.setAttribute("aria-label", "Scrollable article table");
+    wrapper.tabIndex = 0;
 
     const table = document.createElement("table");
     table.className = "article-data-table";
 
     rows.forEach((cells, rowIndex) => {
       const row = document.createElement("tr");
+      if (rowIndex === 0) row.setAttribute("role", "row");
 
-      cells.forEach((cell) => {
+      cells.forEach((cell, cellIndex) => {
         const cellNode = document.createElement(rowIndex === 0 ? "th" : "td");
 
         if (rowIndex === 0) {
           cellNode.scope = "col";
+        } else {
+          cellNode.setAttribute("data-label", rows[0][cellIndex] || `Column ${cellIndex + 1}`);
         }
 
         appendRichText(cellNode, cell);
