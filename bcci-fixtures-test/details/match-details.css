@@ -1851,3 +1851,18 @@
     line-height: 1.65;
   }
 }
+
+
+/* The results host must span the full section; otherwise the empty-state sentence
+   is squeezed into a single grid column on narrow screens. */
+#recent-match-results {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+#recent-match-results > .recent-results-team-picker,
+#recent-match-results > .recent-results-meta,
+#recent-match-results > .recent-team-group {
+  width: 100%;
+  min-width: 0;
+}
