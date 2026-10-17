@@ -30,33 +30,31 @@ jobs:
         run: |
           set -euo pipefail
           python -m py_compile scripts/refresh_bcci_live_matches.py
-          if [ -f matches/live/live-matches.json ]; then
-            python -m json.tool matches/live/live-matches.json > /dev/null
+          if [ -f bcci-fixtures-test/live-matches.json ]; then
+            python -m json.tool bcci-fixtures-test/live-matches.json > /dev/null
           else
-            echo "Live JSON does not exist yet; the refresh script must create it."
+            echo "BCCI Fixtures live JSON does not exist yet; the refresh script must create it."
           fi
       - name: Fetch official BCCI live scores and save JSON
         run: python scripts/refresh_bcci_live_matches.py
-      - name: Validate live-only JSON in both destinations
+      - name: Validate BCCI Fixtures live JSON
         run: |
           set -euo pipefail
-          test -f matches/live/live-matches.json
           test -f bcci-fixtures-test/live-matches.json
-          python -m json.tool matches/live/live-matches.json > /dev/null
           python -m json.tool bcci-fixtures-test/live-matches.json > /dev/null
           python - <<'PY'
           import json
           from pathlib import Path
-          data = json.loads(Path("matches/live/live-matches.json").read_text(encoding="utf-8"))
+          data = json.loads(Path("bcci-fixtures-test/live-matches.json").read_text(encoding="utf-8"))
           assert data.get("status") == "updated-from-bcci-live-scores", "Unexpected live feed status"
           assert isinstance(data.get("matches"), list), "matches must be a JSON array"
           assert data.get("matchCount") == len(data["matches"]), "matchCount does not match matches length"
-          print(f"Validated {len(data['matches'])} live match cards.")
+          print(f"Validated {len(data['matches'])} BCCI Fixtures live cards.")
           PY
       - name: Commit changed live JSON only
         run: |
           set -euo pipefail
-          git add matches/live/live-matches.json bcci-fixtures-test/live-matches.json
+          git add bcci-fixtures-test/live-matches.json
           if git diff --cached --quiet; then
             echo "Live JSON unchanged."
             exit 0
