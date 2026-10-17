@@ -366,3 +366,36 @@ body.matches-page .sc-foot { padding-bottom: 28px; }
     font-size: 40px;
   }
 }
+
+
+/* Scorecard responsive table repair: keep numeric columns readable on phones and desktop */
+body.matches-page .sc-table-wrap { overflow-x: auto; max-width: 100%; }
+body.matches-page .sc-table { width: 100%; min-width: 0; table-layout: fixed; }
+body.matches-page .sc-table th:first-child,
+body.matches-page .sc-table td:first-child { width: 46%; text-align: left; white-space: normal; overflow-wrap: anywhere; }
+body.matches-page .sc-table th:not(:first-child),
+body.matches-page .sc-table td:not(:first-child) { width: auto; text-align: center; white-space: nowrap; overflow-wrap: normal; }
+body.matches-page .sc-table th,
+body.matches-page .sc-table td { padding: 10px 6px; }
+body.matches-page .sc-dismissal { white-space: normal; overflow-wrap: anywhere; }
+body.matches-page .sc-team-switch { position: sticky; }
+body.matches-page .sc-team-innings-list { min-width: 0; }
+body.matches-page .sc-team-innings[hidden],
+body.matches-page .sc-innings[hidden] { display: none !important; }
+@media (max-width: 650px) {
+  body.matches-page .sc-main { width: calc(100% - 16px); }
+  body.matches-page .sc-table { font-size: 12px; }
+  body.matches-page .sc-table th:first-child,
+  body.matches-page .sc-table td:first-child { width: 43%; }
+  body.matches-page .sc-table th,
+  body.matches-page .sc-table td { padding: 9px 4px; }
+  body.matches-page .sc-table-wrap { overflow-x: hidden; }
+  body.matches-page .sc-dismissal { font-size: 10px; line-height: 1.35; }
+}
+@media (min-width: 900px) {
+  body.matches-page .sc-table { table-layout: auto; font-size: 14px; }
+  body.matches-page .sc-table th:first-child,
+  body.matches-page .sc-table td:first-child { width: 46%; }
+  body.matches-page .sc-table th,
+  body.matches-page .sc-table td { padding: 12px 14px; }
+}
