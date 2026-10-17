@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0b5fc4" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="any"
+      href="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+    />
+    <meta
+      name="description"
+      content="Browse Tilak Varma's verified completed cricket matches and open full scorecards."
+    />
+    <title>Complete Matches | Tilak Varma Fan Club</title>
+    <link rel="stylesheet" href="/matches/style.css?v=20261014-complete-folder1" />
+    <link rel="stylesheet" href="/matches/premium-ui.css?v=20261014-complete-folder1" />
+    <link rel="stylesheet" href="/matches/matches.css?v=20261014-complete-folder1" />
+    <link rel="stylesheet" href="/matches/match-centre.css?v=20261014-complete-folder1" />
+    <link rel="stylesheet" href="/matches/complete/complete.css?v=20261014-premium-finish2" />
+    <link
+      rel="stylesheet"
+      href="/assets/mobile-glass-menu.css?v=20261017-active-pill-specificity4"
+    />
+    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261015-india-theme1" />
+    <link
+      rel="stylesheet"
+      href="/assets/mobile-bottom-nav.css?v=20261016-matches-news-stable-dock1"
+    />
+    <link rel="stylesheet" href="/assets/site-loading-media.css?v=20261017-spinner-nav1" />
+    <link
+      rel="stylesheet"
+      href="/assets/mobile-responsive-polish.css?v=20261016-mobile-responsive1"
+    />
+    <link rel="stylesheet" href="/assets/custom-selects.css?v=20261016-global-picker1" />
+    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261016-smooth-motion1" />
+  </head>
+  <body class="matches-page complete-matches-page">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Home"
+        ><span class="brand-mark brand-mark-photo"
+          ><img
+            data-tilak-logo
+            src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+            alt=""
+            aria-hidden="true" /></span
+        ><span>TILAK VARMA <small>FAN CLUB</small></span></a
+      >
+      <button
+        class="menu-toggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="main-nav">
+        <a href="/">Home</a><a href="/stats/">Stats</a><a href="/death-overs/">Death-overs</a
+        ><a href="/bcci-fixtures-test/" class="active" aria-current="page">Matches</a
+        ><a href="/records/">Records</a><a href="/news/">News</a><a href="/photos/">Photos</a
+        ><a href="/videos/">Videos</a>
+      </nav>
+    </header>
+    <main class="complete-page-main">
+      <div class="complete-page-backbar">
+        <a class="complete-back-link" href="/matches/">← Upcoming &amp; Recent Matches</a
+        ><span class="complete-page-kicker">TILAK VARMA · VERIFIED MATCH ARCHIVE</span>
+      </div>
+      <section class="complete-hero">
+        <div class="eyebrow">MATCH CENTRE / COMPLETE MATCHES</div>
+        <h1>COMPLETE <em>MATCHES</em></h1>
+        <p>
+          Browse completed matches, filter by format, and open a dedicated full scorecard with
+          batting, bowling and available ball-by-ball details.
+        </p>
+        <div class="complete-hero-stats">
+          <span><strong id="scorecard-count">—</strong><small>ARCHIVED MATCHES</small></span
+          ><span><strong>ALL FORMATS</strong><small>T20I · ODI · T20 · FC</small></span
+          ><span><strong>VERIFIED</strong><small>SAVED MATCH DATA</small></span>
+        </div>
+      </section>
+      <section class="complete-archive" aria-label="Completed match archive">
+        <div class="complete-match-tools">
+          <label class="match-search-wrap"
+            ><span class="sr-only">Search completed matches</span
+            ><input
+              id="match-search"
+              type="search"
+              placeholder="Search team, venue, season…"
+              autocomplete="off"
+          /></label>
+          <label class="complete-format-select"
+            ><span class="sr-only">Filter by format</span
+            ><select id="match-format-filter">
+              <option value="All">All formats</option>
+              <option value="T20I">T20 International</option>
+              <option value="ODI">ODI</option>
+              <option value="Test">Test</option>
+              <option value="T20">T20 / IPL</option>
+              <option value="List A">List A / domestic ODI</option>
+              <option value="First-class">First-class / multi-day</option>
+            </select></label
+          >
+          <span class="scorecard-count" id="scorecard-updated"
+            >Loading verified match archive…</span
+          >
+        </div>
+        <div id="complete-matches-list" class="complete-match-grid" aria-live="polite">
+          <div class="match-empty">
+            <strong>Loading complete matches…</strong
+            ><span>Verified match data is being loaded.</span>
+          </div>
+        </div>
+        <div class="complete-load-more-wrap">
+          <button id="complete-matches-load-more" type="button" hidden>Load more matches</button>
+          <p id="complete-matches-page-status" aria-live="polite"></p>
+        </div>
+        <div class="complete-source-panel">
+          <span class="complete-source-mark">✓</span>
+          <div>
+            <strong>Verified data, no fabricated scorecards</strong>
+            <p id="scorecard-source-note">
+              Only matches present in the saved verified archive will be shown.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <a class="brand" href="/"
+        ><span class="brand-mark brand-mark-photo"
+          ><img
+            data-tilak-logo
+            src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+            alt=""
+            aria-hidden="true" /></span
+        ><span>TILAK VARMA <small>FAN CLUB</small></span></a
+      ><span> · <span id="year"></span></span><span>RESPECT THE GAME. BACK THE PLAYER.</span>
+    </footer>
+    <script src="/matches/theme.js?v=20261014-complete-folder1"></script>
+    <script src="/matches/complete/complete.js?v=20261015-remove-details-link2"></script>
+    <script>
+      const year = document.getElementById("year");
+      if (year) year.textContent = new Date().getFullYear();
+    </script>
+    <script src="/assets/mobile-glass-menu.js?v=20261014-smooth-close6"></script>
+    <script src="/assets/mobile-bottom-nav.js?v=20261017-spinner-nav1"></script>
+    <script src="/assets/site-loading-media.js?v=20261017-spinner-nav1" defer></script>
+    <script src="/death-overs/custom-selects.js?v=20261016-global-picker1" defer></script>
+  </body>
+</html>

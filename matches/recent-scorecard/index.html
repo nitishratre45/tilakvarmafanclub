@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#061222" />
+    <title>Recent Scorecard · Tilak Varma Fan Club</title>
+    <meta
+      name="description"
+      content="Full verified cricket scorecard with batting, bowling, fall of wickets and ball-by-ball data."
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="any"
+      href="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+    />
+    <link rel="stylesheet" href="/matches/style.css?v=20261015-recent-scorecard-shared1" />
+    <link rel="stylesheet" href="/matches/premium-ui.css?v=20261015-recent-scorecard-shared1" />
+    <link rel="stylesheet" href="/matches/matches.css?v=20261015-recent-scorecard-shared1" />
+    <link rel="stylesheet" href="/matches/match-centre.css?v=20261015-recent-scorecard-shared1" />
+    <link
+      rel="stylesheet"
+      href="/matches/scorecards/scorecard-page.css?v=20261014-premium-finish2"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/mobile-glass-menu.css?v=20261017-active-pill-specificity4"
+    />
+    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261015-india-theme1" />
+    <link
+      rel="stylesheet"
+      href="/assets/mobile-bottom-nav.css?v=20261016-matches-news-stable-dock1"
+    />
+    <link
+      rel="stylesheet"
+      href="/matches/recent-scorecard/recent-scorecard.css?v=20261015-scorecard5"
+    />
+    <link rel="stylesheet" href="/assets/site-loading-media.css?v=20261017-spinner-nav1" />
+    <link
+      rel="stylesheet"
+      href="/assets/mobile-responsive-polish.css?v=20261016-mobile-responsive1"
+    />
+    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261016-smooth-motion1" />
+  </head>
+  <body class="matches-page scorecard-page">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Home"
+        ><span class="brand-mark brand-mark-photo"
+          ><img
+            data-tilak-logo
+            src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+            alt=""
+            aria-hidden="true" /></span
+        ><span>TILAK VARMA <small>FAN CLUB</small></span></a
+      >
+      <button
+        class="menu-toggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="main-nav">
+        <a href="/">Home</a><a href="/stats/">Stats</a><a href="/death-overs/">Death-overs</a
+        ><a href="/bcci-fixtures-test/" class="active" aria-current="page">Matches</a
+        ><a href="/records/">Records</a><a href="/news/">News</a><a href="/photos/">Photos</a
+        ><a href="/videos/">Videos</a>
+      </nav>
+    </header>
+    <main class="recent-scorecard-main">
+      <a class="scorecard-back" href="/matches/details/">← Back to Full Details</a>
+      <p class="scorecard-eyebrow">THE 72 CLUB · MATCH ARCHIVE</p>
+      <section id="scorecard-loading" class="scorecard-state" aria-live="polite">
+        Loading verified scorecard…
+      </section>
+      <section id="scorecard-error" class="scorecard-state" hidden></section>
+      <div id="scorecard-content" hidden></div>
+    </main>
+    <footer class="scorecard-footer">
+      TILAK VARMA FAN CLUB · Scorecard data credited to Cricsheet
+    </footer>
+    <script src="/matches/theme.js?v=20261014-scorecard-page1"></script>
+    <script src="/assets/mobile-glass-menu.js?v=20261014-smooth-close6"></script>
+    <script src="/assets/mobile-bottom-nav.js?v=20261017-spinner-nav1"></script>
+    <script>
+      (() => {
+        const $ = (id) => document.getElementById(id);
+        const esc = (v) =>
+          String(v ?? "").replace(
+            /[&<>"']/g,
+            (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+          );
+        const date = (v) =>
+          v
+            ? new Date(v + "T12:00:00Z").toLocaleDateString("en-IN", {
+                weekday: "short",
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+                timeZone: "UTC",
+              })
+            : "Date unavailable";
+        const logos = {
+          india: "https://flagcdn.com/w160/in.png",
+          "west indies":
+            "https://img1.hscicdn.com/image/upload/f_auto,t_ds_w_80/lsci/db/PICTURES/CMS/313100/313114.logo.png",
+          pakistan: "https://flagcdn.com/w160/pk.png",
+          "sri lanka": "https://flagcdn.com/w160/lk.png",
+          japan: "https://flagcdn.com/w160/jp.png",
+          zimbabwe: "https://flagcdn.com/w160/zw.png",
+          england: "https://flagcdn.com/w160/gb-eng.png",
+          ireland: "https://flagcdn.com/w160/ie.png",
+          australia: "https://flagcdn.com/w160/au.png",
+          "south africa": "https://flagcdn.com/w160/za.png",
+          "new zealand": "https://flagcdn.com/w160/nz.png",
+          bangladesh: "https://flagcdn.com/w160/bd.png",
+          afghanistan: "https://flagcdn.com/w160/af.png",
+          "mumbai indians": "https://scores.iplt20.com/ipl/teamlogos/MI.png",
+          "chennai super kings": "https://scores.iplt20.com/ipl/teamlogos/CSK.png",
+          "kolkata knight riders": "https://scores.iplt20.com/ipl/teamlogos/KKR.png",
+          "royal challengers bengaluru": "https://scores.iplt20.com/ipl/teamlogos/RCB.png",
+          "rajasthan royals": "https://scores.iplt20.com/ipl/teamlogos/RR.png",
+          "sunrisers hyderabad": "https://scores.iplt20.com/ipl/teamlogos/SRH.png",
+          "delhi capitals": "https://scores.iplt20.com/ipl/teamlogos/DC.png",
+          "punjab kings": "https://scores.iplt20.com/ipl/teamlogos/PBKS.png",
+          "gujarat titans": "https://scores.iplt20.com/ipl/teamlogos/GT.png",
+          "lucknow super giants": "https://scores.iplt20.com/ipl/teamlogos/LSG.png",
+        };
+        const table = (heads, rows, foot = "") =>
+          '<div class="scorecard-table-wrap"><table class="scorecard-table"><thead><tr>' +
+          heads.map((h) => "<th>" + esc(h) + "</th>").join("") +
+          "</tr></thead><tbody>" +
+          rows.join("") +
+          "</tbody>" +
+          (foot ? "<tfoot>" + foot + "</tfoot>" : "") +
+          "</table></div>";
+        function inningsView(inn, i) {
+          const batting = (inn.batting || []).map(
+            (p) =>
+              '<tr><td><span class="scorecard-player">' +
+              esc(p.batter || "—") +
+              '</span><span class="scorecard-dismissal">' +
+              esc(p.dismissal || (p.notOut ? "not out" : "")) +
+              "</span></td><td><b>" +
+              esc(p.runs ?? "—") +
+              "</b></td><td>" +
+              esc(p.balls ?? "—") +
+              "</td><td>" +
+              esc(p.fours ?? "—") +
+              "</td><td>" +
+              esc(p.sixes ?? "—") +
+              "</td><td>" +
+              esc(p.strikeRate ?? "—") +
+              "</td></tr>",
+          );
+          const bowling = (inn.bowling || []).map(
+            (p) =>
+              "<tr><td>" +
+              esc(p.bowler || "—") +
+              "</td><td>" +
+              esc(p.overs ?? "—") +
+              "</td><td>" +
+              esc(p.maidens ?? "—") +
+              "</td><td>" +
+              esc(p.runs ?? "—") +
+              "</td><td><b>" +
+              esc(p.wickets ?? "—") +
+              "</b></td><td>" +
+              esc(p.economy ?? "—") +
+              "</td></tr>",
+          );
+          const extras = inn.extrasBreakdown || {};
+          const fow = (inn.fallOfWickets || [])
+            .map(
+              (w) =>
+                "<span>" +
+                esc(w.score) +
+                "/" +
+                esc(w.wicket) +
+                " · " +
+                esc(w.batter) +
+                " (" +
+                esc(w.over) +
+                ")</span>",
+            )
+            .join("");
+          const overs = new Map();
+          (inn.deliveries || []).forEach((d) => {
+            if (!overs.has(d.over)) overs.set(d.over, []);
+            overs.get(d.over).push(d);
+          });
+          const balls = [...overs.entries()]
+            .map(
+              ([over, ds]) =>
+                '<details class="scorecard-over"><summary>Over ' +
+                esc(over) +
+                " · " +
+                ds.reduce((n, d) => n + (Number(d.totalRuns) || 0), 0) +
+                " runs</summary><ul>" +
+                ds
+                  .map(
+                    (d) =>
+                      "<li><b>" +
+                      esc(d.over + "." + d.ball) +
+                      "</b> · " +
+                      esc(d.bowler) +
+                      " to " +
+                      esc(d.batter) +
+                      " · " +
+                      esc(d.totalRuns === 0 ? "Dot ball" : d.totalRuns + " run(s)") +
+                      (d.wickets?.length ? " · WICKET" : "") +
+                      (d.extras && Object.keys(d.extras).length
+                        ? " · Extras " + esc(JSON.stringify(d.extras))
+                        : "") +
+                      "</li>",
+                  )
+                  .join("") +
+                "</ul></details>",
+            )
+            .join("");
+          return (
+            '<section class="scorecard-panel" id="innings-' +
+            i +
+            '"><h2>' +
+            esc(inn.team) +
+            ' innings · <span class="scorecard-result">' +
+            esc(inn.runs) +
+            "/" +
+            esc(inn.wickets) +
+            '</span></h2><div class="scorecard-summary-grid"><div class="scorecard-stat"><span>Overs</span><strong>' +
+            esc(inn.overs || "—") +
+            '</strong></div><div class="scorecard-stat"><span>Extras</span><strong>' +
+            esc(inn.extras ?? "—") +
+            '</strong></div><div class="scorecard-stat"><span>Run rate</span><strong>' +
+            esc(inn.legalBalls ? ((inn.runs || 0) / (inn.legalBalls / 6)).toFixed(2) : "—") +
+            '</strong></div><div class="scorecard-stat"><span>Wickets</span><strong>' +
+            esc(inn.wickets ?? "—") +
+            "</strong></div></div><h3>Batting</h3>" +
+            table(
+              ["Batter", "R", "B", "4s", "6s", "SR"],
+              batting,
+              "<tr><td><b>Total</b></td><td>" +
+                esc(inn.runs ?? "—") +
+                "</td><td>" +
+                esc(inn.legalBalls ?? "—") +
+                '</td><td colspan="3">Extras ' +
+                esc(inn.extras ?? "—") +
+                " · b " +
+                esc(extras.byes || 0) +
+                " · lb " +
+                esc(extras.legbyes || 0) +
+                " · w " +
+                esc(extras.wides || 0) +
+                "</td></tr>",
+            ) +
+            "<h3>Bowling</h3>" +
+            table(["Bowler", "O", "M", "R", "W", "Econ"], bowling) +
+            '<h3>Fall of wickets</h3><div class="scorecard-fow">' +
+            (fow || "<span>Not available in saved data</span>") +
+            '</div><details class="scorecard-ball-by-ball"><summary>Ball-by-ball · ' +
+            esc(overs.size) +
+            ' overs</summary><div class="scorecard-ball-by-ball-content">' +
+            (balls ||
+              '<p class="scorecard-note">Ball-by-ball data is not included in this innings.</p>') +
+            "</div></details></section>"
+          );
+        }
+        async function init() {
+          const id = new URLSearchParams(location.search).get("matchId");
+          if (!id)
+            throw Error(
+              "Match ID missing. Open this page using a scorecard link from Recent Results.",
+            );
+          const ir = await fetch("/matches/scorecards/index.json", { cache: "no-store" });
+          if (!ir.ok) throw Error("Saved scorecard index could not be loaded.");
+          const index = await ir.json();
+          const row = (index.matches || []).find((m) => m.matchId === id);
+          if (!row || !row.scorecard || !row.scorecard.startsWith("/"))
+            throw Error("This match is not in the verified scorecard index.");
+          const mr = await fetch(row.scorecard, { cache: "no-store" });
+          if (!mr.ok) throw Error("Full scorecard JSON could not be loaded.");
+          const d = await mr.json();
+          const teams = d.teams || [d.team, d.opposition];
+          const inns = d.innings || [];
+          const team = (name, last = false) =>
+            '<div class="scorecard-team">' +
+            (logos[String(name || "").toLowerCase()]
+              ? '<img src="' + esc(logos[String(name).toLowerCase()]) + '" alt="">'
+              : "") +
+            "<span>" +
+            esc(name) +
+            "</span></div>";
+          $("scorecard-content").innerHTML =
+            '<section class="scorecard-hero"><div class="scorecard-hero-top"><span>' +
+            esc(d.format || "MATCH") +
+            " · " +
+            esc(date(d.date)) +
+            "</span><span>VERIFIED SCORECARD</span></div><h1>" +
+            esc(teams.join(" vs ")) +
+            '</h1><p class="scorecard-result">' +
+            esc(d.result || "Result not recorded") +
+            '</p><div class="scorecard-teams">' +
+            team(teams[0]) +
+            '<span class="scorecard-vs">VS</span>' +
+            team(teams[1], true) +
+            '</div><div class="scorecard-meta"><span>Venue: ' +
+            esc(d.venue || "—") +
+            "</span><span>Event: " +
+            esc(d.event || "—") +
+            "</span><span>Toss: " +
+            esc(d.toss?.winner || "—") +
+            " chose to " +
+            esc(d.toss?.decision || "—") +
+            "</span></div>" +
+            (d.playerOfMatch?.length
+              ? "<p>Player of the Match: <b>" + esc(d.playerOfMatch.join(", ")) + "</b></p>"
+              : "") +
+            "</section>" +
+            (inns.length > 1
+              ? '<div class="scorecard-innings-nav" role="tablist">' +
+                inns
+                  .map(
+                    (inn, i) =>
+                      '<button type="button" data-jump="' +
+                      i +
+                      '" aria-selected="' +
+                      (i === 0) +
+                      '">' +
+                      esc(inn.team) +
+                      " · " +
+                      esc(inn.runs) +
+                      "/" +
+                      esc(inn.wickets) +
+                      "</button>",
+                  )
+                  .join("") +
+                "</div>"
+              : "") +
+            inns.map(inningsView).join("") +
+            '<section class="scorecard-panel"><h2>Match information</h2><div class="scorecard-meta"><span>Match ID: ' +
+            esc(d.matchId) +
+            "</span><span>Season: " +
+            esc(d.season || "—") +
+            "</span><span>City: " +
+            esc(d.city || "—") +
+            '</span></div><p class="scorecard-note">Source: Cricsheet · ODC-BY. Only fields available in the saved match JSON are shown.</p></section>';
+          $("scorecard-loading").hidden = true;
+          $("scorecard-content").hidden = false;
+          document.querySelectorAll("[data-jump]").forEach((b) =>
+            b.addEventListener("click", () => {
+              document
+                .getElementById("innings-" + b.dataset.jump)
+                ?.scrollIntoView({ behavior: "smooth" });
+              document
+                .querySelectorAll("[data-jump]")
+                .forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+            }),
+          );
+        }
+        init().catch((e) => {
+          $("scorecard-loading").hidden = true;
+          $("scorecard-error").hidden = false;
+          $("scorecard-error").innerHTML =
+            "<h2>Scorecard unavailable</h2><p>" +
+            esc(e.message || "Unable to load this scorecard.") +
+            "</p>";
+        });
+      })();
+    </script>
+    <script src="/assets/site-loading-media.js?v=20261017-spinner-nav1" defer></script>
+  </body>
+</html>

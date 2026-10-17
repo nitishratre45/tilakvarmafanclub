@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0b5fc4" />
+    <meta name="application-name" content="Tilak Varma Fan Club" />
+    <link rel="manifest" href="/manifest.json" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="any"
+      href="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Tilak Varma FC" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta
+      name="description"
+      content="Tilak Varma match centre: upcoming fixtures, debut milestones and verified match history across formats."
+    />
+    <title>Matches | Tilak Varma Fan Club</title>
+    <link rel="stylesheet" href="/matches/style.css?v=20261014-match-refresh1" />
+    <link rel="stylesheet" href="/matches/premium-ui.css?v=20261014-match-refresh1" />
+    <link rel="stylesheet" href="/matches/site-refinement.css?v=20261013-match-header-sticky1" />
+    <link rel="stylesheet" href="/matches/admin-inspired-ui.css?v=20261014-match-refresh1" />
+    <link rel="stylesheet" href="/matches/matches.css?v=20261016-compact-recent-match-mobile1" />
+    <link rel="stylesheet" href="/matches/match-centre.css?v=20261014-match-details1" />
+
+    <style id="site-navbar-theme">
+      /* Unified blue navbar; orange underline marks the current page and keyboard focus. */
+      html body header.topbar {
+        background: #0b5fc4 !important;
+        background-color: #0b5fc4 !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.22) !important;
+        box-shadow: 0 5px 18px rgba(0, 30, 90, 0.18) !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+      }
+      html body header.topbar nav,
+      html body header.topbar nav a {
+        color: #fff !important;
+      }
+      html body header.topbar nav a,
+      html body header.topbar nav a:hover,
+      html body header.topbar nav a:focus,
+      html body header.topbar nav a:focus-visible,
+      html body header.topbar nav a:active {
+        background: transparent !important;
+        border-color: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      html body header.topbar nav a:hover,
+      html body header.topbar nav a:focus-visible,
+      html body header.topbar nav a.active,
+      html body header.topbar nav a[aria-current="page"] {
+        color: #fff !important;
+      }
+      html body header.topbar nav#main-nav > a.active,
+      html body header.topbar nav#main-nav > a[aria-current="page"] {
+        color: #fff !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        border: 0 !important;
+        border-color: transparent !important;
+        border-radius: 0 !important;
+        outline: 0 !important;
+        box-shadow: inset 0 -3px 0 #ff7c45 !important;
+      }
+      html body header.topbar nav#main-nav > a.active:hover,
+      html body header.topbar nav#main-nav > a.active:focus,
+      html body header.topbar nav#main-nav > a.active:focus-visible {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+      }
+
+      /* Match page: keep desktop active navigation consistent with Records/Home.
+         No rounded active box on the desktop navbar. */
+      @media (min-width: 801px) {
+        html body.matches-page > header.topbar > nav#main-nav > a.active,
+        html body.matches-page > header.topbar > nav#main-nav > a[aria-current="page"] {
+          background: transparent !important;
+          border: 0 !important;
+          border-radius: 0 !important;
+          box-shadow: inset 0 -3px 0 #ff7c45 !important;
+          outline: 0 !important;
+        }
+      }
+      html body header.topbar nav a:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.9) !important;
+        outline-offset: 3px !important;
+      }
+      html body header.topbar .menu-toggle {
+        color: #fff !important;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="/assets/mobile-glass-menu.css?v=20261017-active-pill-specificity4"
+    />
+    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261015-india-theme1" />
+    <link
+      rel="stylesheet"
+      href="/assets/mobile-bottom-nav.css?v=20261016-matches-news-stable-dock1"
+    />
+    <link rel="stylesheet" href="/assets/site-loading-media.css?v=20261017-spinner-nav1" />
+    <link
+      rel="stylesheet"
+      href="/assets/mobile-responsive-polish.css?v=20261016-mobile-responsive1"
+    />
+    <link rel="stylesheet" href="/assets/custom-selects.css?v=20261016-global-picker1" />
+    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261016-smooth-motion1" />
+    <link rel="stylesheet" href="/assets/navbar-alignment-fix.css?v=20261017-shared-nav1" />
+  </head>
+  <body class="matches-page">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Home"
+        ><span class="brand-mark brand-mark-photo"
+          ><img
+            data-tilak-logo
+            src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+            alt=""
+            aria-hidden="true" /></span
+        ><span>TILAK VARMA <small>FAN CLUB</small></span></a
+      >
+      <button
+        class="menu-toggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="main-nav">
+        <a href="/">Home</a><a href="/stats/">Stats</a><a href="/death-overs/">Death-overs</a
+        ><a href="/bcci-fixtures-test/" class="active" aria-current="page">Matches</a
+        ><a href="/records/">Records</a><a href="/news/">News</a><a href="/photos/">Photos</a
+        ><a href="/videos/">Videos</a>
+      </nav>
+    </header>
+    <main class="matches-main">
+      <section id="innings" class="section innings-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">MATCH CENTRE · TILAK VARMA</div>
+            <h2>THE <em>MATCHES</em></h2>
+          </div>
+          <p>Upcoming fixtures and recent verified match history for Tilak Varma.</p>
+        </div>
+        <div class="match-centre-controls" role="tablist" aria-label="Match type">
+          <div class="match-centre-tabs">
+            <button
+              class="match-centre-tab is-active"
+              id="match-tab-upcoming"
+              type="button"
+              role="tab"
+              data-match-tab="upcoming"
+              aria-selected="true"
+              aria-controls="match-upcoming-panel"
+            >
+              <span class="tab-mark" aria-hidden="true">◷</span> Upcoming Match
+            </button>
+            <a
+              class="match-centre-tab complete-match-route"
+              id="match-tab-complete"
+              href="/matches/complete/"
+            >
+              <span class="tab-mark" aria-hidden="true">▤</span> Complete Match
+              <span aria-hidden="true">↗</span>
+            </a>
+            <a
+              class="match-centre-tab complete-match-route"
+              id="match-tab-live"
+              href="/matches/live/"
+            >
+              <span class="tab-mark" aria-hidden="true">●</span> Live Matches
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+        <div
+          id="match-upcoming-panel"
+          class="match-centre-panel"
+          role="tabpanel"
+          aria-labelledby="match-tab-upcoming"
+        >
+          <div class="upcoming-matches-panel" aria-labelledby="upcoming-matches-title">
+            <div class="upcoming-matches-heading">
+              <div>
+                <h3 id="upcoming-matches-title">UPCOMING <em>MATCHES</em></h3>
+              </div>
+              <a class="button outline" id="upcoming-team-announcement-link" href="/news/"
+                >Latest News ↗</a
+              >
+            </div>
+            <div id="upcoming-matches-list" class="upcoming-matches-grid" aria-live="polite">
+              <p class="activity-empty">Loading upcoming fixtures from News JSON…</p>
+            </div>
+            <p class="upcoming-matches-foot" id="upcoming-matches-updated">
+              Using the latest saved News JSON fixture snapshot.
+            </p>
+          </div>
+          <section class="recent-match-history" aria-labelledby="recent-match-history-title">
+            <div class="recent-match-history-heading">
+              <div>
+                <h3 id="recent-match-history-title">RECENT <em>MATCHES</em></h3>
+                <p>Tilak Varma’s match-by-match batting record, newest first.</p>
+              </div>
+              <label class="recent-match-filter">
+                <span class="sr-only">Filter recent matches by format</span>
+                <select id="player-match-format">
+                  <option value="All">All formats</option>
+                  <option value="T20I">T20I</option>
+                  <option value="ODI">ODI</option>
+                  <option value="T20">T20 / domestic</option>
+                  <option value="IPL">IPL</option>
+                  <option value="FC">First-class</option>
+                  <option value="List A">List A</option>
+                </select>
+              </label>
+            </div>
+            <div class="recent-match-table-scroll">
+              <table class="recent-match-table">
+                <thead>
+                  <tr>
+                    <th>Match / Opposition</th>
+                    <th>Runs</th>
+                    <th>Balls</th>
+                    <th>Out / Dismissal</th>
+                    <th>Bowl</th>
+                    <th>Date</th>
+                    <th>4s</th>
+                    <th>6s</th>
+                    <th>Ground</th>
+                    <th>Format</th>
+                    <th>Scorecard</th>
+                  </tr>
+                </thead>
+                <tbody id="player-matches-table">
+                  <tr>
+                    <td colspan="11">Loading verified match history and scorecards…</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="upcoming-matches-foot" id="player-match-source">
+              Loading ESPNcricinfo Statsguru match history…
+            </p>
+          </section>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <a class="brand" href="/"
+        ><span class="brand-mark brand-mark-photo"
+          ><img
+            data-tilak-logo
+            src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
+            alt=""
+            aria-hidden="true" /></span
+        ><span>TILAK VARMA <small>FAN CLUB</small></span></a
+      ><span> · <span id="year"></span></span><span>RESPECT THE GAME. BACK THE PLAYER.</span>
+    </footer>
+    <script src="/assets/site-data-store.js?v=20261013-root-data-loader-fix1"></script>
+    <script src="/matches/match-centre.js?v=20261017-countdown-fix1"></script>
+    <script src="/matches/player-matches.js?v=20261015-scorecard-bottom-nav2"></script>
+    <script src="/matches/theme.js?v=20261014"></script>
+    <script>
+      (() => {
+        const menu = document.querySelector(".menu-toggle");
+        const nav = document.getElementById("main-nav");
+        if (menu && nav)
+          menu.addEventListener("click", () => {
+            const open = menu.getAttribute("aria-expanded") !== "true";
+            menu.setAttribute("aria-expanded", String(open));
+            nav.classList.toggle("open", open);
+          });
+        nav?.addEventListener("click", (event) => {
+          if (event.target.closest("a")) {
+            nav.classList.remove("open");
+            menu?.setAttribute("aria-expanded", "false");
+          }
+        });
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && nav?.classList.contains("open")) {
+            nav.classList.remove("open");
+            menu?.setAttribute("aria-expanded", "false");
+            menu?.focus();
+          }
+        });
+        document.addEventListener("click", (event) => {
+          if (nav && menu && !nav.contains(event.target) && !menu.contains(event.target)) {
+            nav.classList.remove("open");
+            menu.setAttribute("aria-expanded", "false");
+          }
+        });
+        const year = document.getElementById("year");
+        if (year) year.textContent = new Date().getFullYear();
+        const logo = document.querySelector("[data-tilak-logo]");
+        if (logo && window.TilakSiteData)
+          window.TilakSiteData.load()
+            .then((data) => {
+              if (
+                typeof data?.profile?.photo === "string" &&
+                /^https:\/\//i.test(data.profile.photo)
+              )
+                logo.src = data.profile.photo;
+            })
+            .catch(() => {});
+        if ("serviceWorker" in navigator)
+          window.addEventListener("load", () =>
+            navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(() => {}),
+          );
+      })();
+    </script>
+    <script src="/assets/mobile-glass-menu.js?v=20261014-smooth-close5"></script>
+    <script src="/assets/mobile-bottom-nav.js?v=20261017-spinner-nav1"></script>
+    <script src="/assets/site-loading-media.js?v=20261017-spinner-nav1" defer></script>
+    <script src="/death-overs/custom-selects.js?v=20261016-global-picker1" defer></script>
+  </body>
+</html>
