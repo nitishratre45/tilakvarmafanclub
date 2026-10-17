@@ -1,9 +1,9 @@
 {
   "source": "News/newsjson.json squad confirmation + matches/bcci-stats-fixtures.json exact fixture match",
   "newsUpdatedAt": "2026-10-17T07:34:11.490058+00:00",
-  "bcciFixturesCheckedAt": "2026-10-17T14:41:56.799356+00:00",
+  "bcciFixturesCheckedAt": "2026-10-17T15:39:18.296748+00:00",
   "unmatchedNewsFixtures": [],
-  "checkedAt": "2026-10-17T14:41:59.655075+00:00",
+  "checkedAt": "2026-10-17T15:39:21.414911+00:00",
   "status": "updated-from-news-and-bcci-json",
   "fixtureCount": 11,
   "fixtures": [
@@ -22,7 +22,7 @@
         "alt_comp_id": "20878",
         "alt_comp_name": "India v West Indies T20I Series 2026",
         "away_team_id": "4",
-        "batting_first_team_id": "0",
+        "batting_first_team_id": "6",
         "bpo": "6",
         "class": [
           {
@@ -30,14 +30,14 @@
             "name": "Twenty20 internationals",
             "number": "4188",
             "type": "international",
-            "valid": "0"
+            "valid": "1"
           },
           {
             "id": "6",
             "name": "List A Twenty20",
             "number": "17521",
             "type": "general",
-            "valid": "0"
+            "valid": "1"
           }
         ],
         "comp_gid": "9a12946b-9277-4b5f-ba94-34d02355bf03",
@@ -68,7 +68,7 @@
         "is_adjusted_target": "0",
         "is_followon": "0",
         "is_reduced_innings": "0",
-        "is_reduced_overs": "0",
+        "is_reduced_overs": "1",
         "live_status_id": "12",
         "live_status_name": "match start delayed",
         "loser_team_id": null,
@@ -88,9 +88,9 @@
         "parent_comp_season": null,
         "primary_event_id": "1065",
         "primary_event_name": "West Indies tour",
-        "rain_rule": null,
+        "rain_rule": "",
         "result_id": "0",
-        "result_string": "Teams will be announced at the toss",
+        "result_string": "West Indies won the toss and will field",
         "scheduled_days": "1",
         "scheduled_innings": "1",
         "scheduled_overs": "20",
@@ -100,9 +100,47 @@
         "start_time_local": "19:00:00",
         "start_time_offset": "330",
         "summary": {
-          "innings": [],
-          "player": [],
-          "team": []
+          "innings": [
+            {
+              "ball_limit": "54",
+              "batting_team_id": "6",
+              "closure_id": "0",
+              "innings_number": "1",
+              "overs": "0.0"
+            },
+            {
+              "ball_limit": "54",
+              "batting_team_id": "4",
+              "closure_id": "0",
+              "innings_number": "2",
+              "overs": "0.0",
+              "target": "1"
+            }
+          ],
+          "player": [
+            {
+              "batting": "",
+              "batting_team_id": "6",
+              "bowling": "",
+              "innings_number": "1"
+            },
+            {
+              "batting": "",
+              "batting_team_id": "4",
+              "bowling": "",
+              "innings_number": "2"
+            }
+          ],
+          "team": [
+            {
+              "score": null,
+              "team_id": "6"
+            },
+            {
+              "score": null,
+              "team_id": "4"
+            }
+          ]
         },
         "team1_abbreviation": "IND",
         "team1_colour_primary": "28C2F5",
@@ -121,8 +159,8 @@
         "tiebreaker_id": "0",
         "title": "5th T20I",
         "toss_choice_team_id": "0",
-        "toss_decision": "",
-        "toss_winner_team_id": "0",
+        "toss_decision": "field",
+        "toss_winner_team_id": "4",
         "tournament_match_number": "0",
         "weather": [
           {
