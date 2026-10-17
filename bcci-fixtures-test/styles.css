@@ -3257,13 +3257,19 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
   background: linear-gradient(145deg, rgba(44, 79, 143, .48), rgba(9, 27, 66, .60));
 }
 #fixtureList .upcoming-team .team-logo {
-  width: 54px;
-  height: 54px;
+  width: 68px;
+  height: 68px;
+  min-width: 68px;
+  min-height: 68px;
+  flex: 0 0 68px;
   padding: 5px;
   border: 1px solid rgba(160, 195, 255, .24);
   border-radius: 50%;
   background: rgba(220, 234, 255, .08);
   box-shadow: none;
+}
+#fixtureList .upcoming-team {
+  gap: 11px;
 }
 #fixtureList .upcoming-team .team-name {
   color: #f3f7ff;
@@ -3327,8 +3333,14 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
     gap: 6px;
     padding: 14px 14px 16px;
   }
-  #fixtureList .upcoming-team { min-height: 112px; padding: 12px 5px; border-radius: 12px; }
-  #fixtureList .upcoming-team .team-logo { width: 46px; height: 46px; }
+  #fixtureList .upcoming-team { min-height: 118px; padding: 12px 5px; border-radius: 12px; gap: 9px; }
+  #fixtureList .upcoming-team .team-logo {
+    width: 54px;
+    height: 54px;
+    min-width: 54px;
+    min-height: 54px;
+    flex-basis: 54px;
+  }
   #fixtureList .upcoming-team .team-name { font-size: 12px; }
   #fixtureList .upcoming-versus { width: 24px; height: 24px; font-size: 9px; }
   #fixtureList .upcoming-match-info { padding: 0 14px 15px; }
