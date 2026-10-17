@@ -522,3 +522,65 @@ html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(3) {
     pointer-events: none !important;
   }
 }
+
+
+/* Global desktop navigation repair: every section (Home, Stats, Matches, etc.)
+   must keep the same visible links; do not depend on Home-only stylesheets. */
+@media (min-width: 801px) {
+  html body > header.topbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: clamp(10px, 1.6vw, 24px) !important;
+    flex-wrap: nowrap !important;
+  }
+  html body > header.topbar > .brand {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+  }
+  html body > header.topbar > nav#main-nav,
+  html body > header.topbar > nav#death-nav,
+  html body > header.topbar > nav#site-navigation,
+  html body > header.topbar > nav#one-nav {
+    display: flex !important;
+    position: static !important;
+    inset: auto !important;
+    flex: 1 1 auto !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: clamp(7px, 1vw, 16px) !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+  html body > header.topbar > nav#main-nav a,
+  html body > header.topbar > nav#death-nav a,
+  html body > header.topbar > nav#site-navigation a,
+  html body > header.topbar > nav#one-nav a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    padding: 8px 2px !important;
+    white-space: nowrap !important;
+    font-size: clamp(10px, 0.78vw, 13px) !important;
+  }
+  html body > header.topbar > .menu-toggle {
+    display: none !important;
+  }
+}
