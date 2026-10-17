@@ -47,57 +47,6 @@ TEAM_GIDS = [
     "eb81d735-6436-4dac-9a7a-15a7a347d5e6",
     "08dc4ba8-22a1-4e5a-9862-20f8a8643f99",
 ]
-def save_completed_results(matches: list[dict]) -> int:
-    """Archive completed matches under bcci-fixtures-test/results, deduplicated by BCCI gid."""
-    results_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
-    os.makedirs(results_dir, exist_ok=True)
-    results_path = os.path.join(results_dir, "results.json")
-    existing = {"updatedAt": None, "count": 0, "matches": []}
-    try:
-        with open(results_path, encoding="utf-8") as handle:
-            loaded = json.load(handle)
-        if isinstance(loaded, dict):
-            existing = loaded
-    except (OSError, ValueError):
-        pass
-
-    by_id = {}
-    for match in existing.get("matches", []):
-        if isinstance(match, dict):
-            key = str(match.get("gid") or match.get("match_id") or "")
-            if key:
-                by_id[key] = match
-
-    for match in matches:
-        if not isinstance(match, dict):
-            continue
-        status = str(match.get("match_status") or match.get("match_status_name") or "").strip().lower()
-        result_text = str(match.get("result_string") or "").strip()
-        result_id = str(match.get("result_id") or "").strip()
-        live_status = str(match.get("live_status_name") or "").strip().lower()
-        completed = (
-            status in {"completed", "complete", "finished", "result", "abandoned", "no result", "cancelled"}
-            or status.startswith("completed")
-            or (bool(result_text) and result_text.lower() not in {
-                "teams will be announced at the toss", "match yet to begin", "to be announced", "toss yet to take place"
-            } and result_id not in {"", "0", "None"} and live_status not in {"in play", "live"})
-        )
-        # Status must be explicitly terminal or carry a real result ID/text.
-        if not completed:
-            continue
-        key = str(match.get("gid") or match.get("match_id") or "")
-        if key:
-            by_id[key] = match
-
-    ordered = sorted(by_id.values(), key=lambda item: str(item.get("start_datetime_utc") or item.get("start_date") or ""), reverse=True)
-    payload = {"updatedAt": datetime.now(timezone.utc).isoformat(), "count": len(ordered), "matches": ordered}
-    temp = results_path + ".tmp"
-    with open(temp, "w", encoding="utf-8") as handle:
-        json.dump(payload, handle, ensure_ascii=False, indent=2)
-        handle.write("\n")
-    os.replace(temp, results_path)
-    return len(ordered)
-
 def main() -> int:
     base_params = [
         *(("comp_gid", value) for value in COMP_GIDS),
@@ -176,7 +125,6 @@ def main() -> int:
         report["matchesFetched"] = len(all_matches)
         report["matchesUnique"] = len(unique_matches)
         report["error"] = None
-        report["completedResultsCount"] = save_completed_results(unique_matches)
         report["source"] = BASE_URL + " (pages 1-10, size=12)"
     except HTTPError as exc:
         report["httpStatus"] = exc.code
