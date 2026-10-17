@@ -139,10 +139,10 @@
       // Fallback: match IDs contain date + format, so fetch just that year's bundle.
       // This avoids making a large index a hard dependency for opening scorecards.
       if (!match) {
-        const idParts = id.match(/^(\d{4})-(t20i|odi|test)-/i);
+        const idParts = id.match(/^(\d{4})-(?:(\d{2})-(\d{2})-)?(t20i|odi|test)-/i);
         if (idParts) {
           const year = idParts[1];
-          const formatSlug = idParts[2].toLowerCase();
+          const formatSlug = (idParts[4] || idParts[2] || "").toLowerCase();
           const bundleUrl = "/bcci-fixtures-test/recent-match/data/" + formatSlug + "-" + year + ".json";
           const response = await fetchWithTimeout(bundleUrl);
           if (response.ok) {
