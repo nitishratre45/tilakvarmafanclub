@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-17T14:32:03.010327+00:00",
+  "fetchedAt": "2026-10-17T15:54:28.771957+00:00",
   "source": "https://stats.bcci.tv/match/fixtures/ (pages 1-10, size=12)",
   "pagesRequested": 10,
   "pagesFetched": 3,
@@ -12,7 +12,7 @@
         "alt_comp_id": "20878",
         "alt_comp_name": "India v West Indies T20I Series 2026",
         "away_team_id": "4",
-        "batting_first_team_id": "0",
+        "batting_first_team_id": "6",
         "bpo": "6",
         "class": [
           {
@@ -20,14 +20,14 @@
             "name": "Twenty20 internationals",
             "number": "4188",
             "type": "international",
-            "valid": "0"
+            "valid": "1"
           },
           {
             "id": "6",
             "name": "List A Twenty20",
             "number": "17521",
             "type": "general",
-            "valid": "0"
+            "valid": "1"
           }
         ],
         "comp_gid": "9a12946b-9277-4b5f-ba94-34d02355bf03",
@@ -58,9 +58,9 @@
         "is_adjusted_target": "0",
         "is_followon": "0",
         "is_reduced_innings": "0",
-        "is_reduced_overs": "0",
-        "live_status_id": "12",
-        "live_status_name": "match start delayed",
+        "is_reduced_overs": "1",
+        "live_status_id": "1",
+        "live_status_name": "in play",
         "loser_team_id": null,
         "match_group": null,
         "match_group_id": null,
@@ -78,9 +78,9 @@
         "parent_comp_season": null,
         "primary_event_id": "1065",
         "primary_event_name": "West Indies tour",
-        "rain_rule": null,
+        "rain_rule": "",
         "result_id": "0",
-        "result_string": "Teams will be announced at the toss",
+        "result_string": "India are 13 for 0 with 8.2 overs remaining",
         "scheduled_days": "1",
         "scheduled_innings": "1",
         "scheduled_overs": "20",
@@ -90,9 +90,49 @@
         "start_time_local": "19:00:00",
         "start_time_offset": "330",
         "summary": {
-          "innings": [],
-          "player": [],
-          "team": []
+          "innings": [
+            {
+              "ball_limit": "54",
+              "balls": "4",
+              "batting_team_id": "6",
+              "closure_id": "0",
+              "innings_number": "1",
+              "overs": "0.4",
+              "runs": "13"
+            },
+            {
+              "ball_limit": "54",
+              "batting_team_id": "4",
+              "closure_id": "0",
+              "innings_number": "2",
+              "overs": "0.0",
+              "target": "1"
+            }
+          ],
+          "player": [
+            {
+              "batting": "A Sharma 6* (3)\nSV Samson 1* (2)",
+              "batting_team_id": "6",
+              "bowling": "KMA Paul 0.4-0-13-0*",
+              "innings_number": "1"
+            },
+            {
+              "batting": "",
+              "batting_team_id": "4",
+              "bowling": "",
+              "innings_number": "2"
+            }
+          ],
+          "team": [
+            {
+              "score": "13/0 (0.4/9 ov)",
+              "team_id": "6"
+            },
+            {
+              "score": "",
+              "team_id": "4"
+            }
+          ]
         },
         "team1_abbreviation": "IND",
         "team1_colour_primary": "28C2F5",
@@ -111,8 +151,8 @@
         "tiebreaker_id": "0",
         "title": "5th T20I",
         "toss_choice_team_id": "0",
-        "toss_decision": "",
-        "toss_winner_team_id": "0",
+        "toss_decision": "field",
+        "toss_winner_team_id": "4",
         "tournament_match_number": "0",
         "weather": [
           {
