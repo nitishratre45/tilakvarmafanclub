@@ -1699,3 +1699,27 @@
   .match-details-page .details-insight-card,
   .match-details-page .details-tabs a { transition: none !important; }
 }
+
+
+/* Match details: static, focused broadcast panels; no decorative/loader animation. */
+.match-details-page,
+.match-details-page *,
+.match-details-page *::before,
+.match-details-page *::after {
+  animation: none !important;
+}
+.match-details-page {
+  scroll-behavior: auto !important;
+}
+.match-details-page .details-tabs {
+  top: 80px;
+}
+.match-details-page .details-tabs a.is-active {
+  box-shadow: inset 0 -3px 0 #ff9876;
+}
+.match-details-page .details-section[hidden] {
+  display: none !important;
+}
+@media (max-width: 760px) {
+  .match-details-page .details-tabs { top: 72px; }
+}
