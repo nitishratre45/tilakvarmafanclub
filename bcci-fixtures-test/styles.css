@@ -2754,12 +2754,8 @@ footer {
   justify-content: center;
   min-height: 158px;
 }
-body.has-live-matches .upcoming-hero,
-body.has-live-matches .live-refresh-strip,
-body.has-live-matches .filters,
-body.has-live-matches footer {
-  display: none !important;
-}
+/* Keep Upcoming Matches and the page footer visible below Live Matches.
+   Only the redundant back button inside the live section is hidden. */
 body.has-live-matches #liveMatchesSection .section-actions .bcci-back-button {
   display: none !important;
 }
