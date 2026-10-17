@@ -10,23 +10,23 @@
       href="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
     />
     <title>Complete Matches | Tilak Varma Fan Club · Matches</title>
-    <link rel="stylesheet" href="/matches/matches.css?v=20261017-complete-polish1" />
+    <link rel="stylesheet" href="/matches/matches.css?v=20261017-complete-header-parity2" />
     <link rel="stylesheet" href="/matches/premium-ui.css?v=20261014-complete-folder1" />
-    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-polish1" />
-    <link rel="stylesheet" href="./complete.css?v=20261017-complete-polish1" />
-    <link rel="stylesheet" href="../ui/site-nav.css?v=20261017-complete-polish1" />
+    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-header-parity2" />
+    <link rel="stylesheet" href="./complete.css?v=20261017-complete-header-parity2" />
+    <link rel="stylesheet" href="../ui/site-nav.css?v=20261017-complete-header-parity2" />
 
     <!-- Shared main-site visual system: header, glass menu, dock, responsive layout and motion. -->
-    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261017-complete-polish1" />
-    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261017-complete-polish1" />
-    <link rel="stylesheet" href="/assets/mobile-bottom-nav.css?v=20261017-complete-polish1" />
+    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261017-complete-header-parity2" />
+    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261017-complete-header-parity2" />
+    <link rel="stylesheet" href="/assets/mobile-bottom-nav.css?v=20261017-complete-header-parity2" />
     <link
       rel="stylesheet"
-      href="/assets/mobile-responsive-polish.css?v=20261017-complete-polish1"
+      href="/assets/mobile-responsive-polish.css?v=20261017-complete-header-parity2"
     />
-    <link rel="stylesheet" href="/assets/custom-selects.css?v=20261017-complete-polish1" />
-    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261017-complete-polish1" />
-    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-polish1" />
+    <link rel="stylesheet" href="/assets/custom-selects.css?v=20261017-complete-header-parity2" />
+    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261017-complete-header-parity2" />
+    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-header-parity2" />
 
     <style>
       /* Match the Upcoming page header: no extra divider line under the shared masthead. */
@@ -37,6 +37,48 @@
       .complete-matches-page > .topbar::after {
         display: none !important;
         content: none !important;
+      }
+      /* Keep the Complete Matches shell identical to the Upcoming Matches header. */
+      @media (max-width: 800px) {
+        html body.complete-matches-page {
+          background:
+            radial-gradient(ellipse at 10% 0%, rgba(12, 74, 128, .24), transparent 44%),
+            linear-gradient(145deg, #0b1d30 0%, #101827 58%, #0b1829 100%) !important;
+        }
+        html body.complete-matches-page > header.topbar.tvfc-header {
+          position: relative !important;
+          display: flex !important;
+          width: 100% !important;
+          min-height: 74px !important;
+          box-sizing: border-box !important;
+          margin: 0 !important;
+          padding: 9px 18px !important;
+          background: linear-gradient(105deg, #052552 0%, #0b5fc4 54%, #083a7b 100%) !important;
+          border-bottom: 1px solid rgba(124, 229, 242, .5) !important;
+          box-shadow: 0 8px 24px rgba(0, 22, 65, .22), 0 1px 0 rgba(255, 124, 69, .35) !important;
+        }
+        html body.complete-matches-page > header.topbar.tvfc-header .menu-toggle {
+          display: flex !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          flex: 0 0 52px !important;
+          width: 52px !important;
+          height: 52px !important;
+          margin-left: auto !important;
+          align-items: center !important;
+          justify-content: center !important;
+          border: 1px solid rgba(124, 229, 242, .72) !important;
+          border-radius: 18px !important;
+          background: linear-gradient(145deg, rgba(18, 104, 190, .9), rgba(5, 43, 91, .9)) !important;
+          z-index: 10003 !important;
+        }
+        html body.complete-matches-page > header.topbar.tvfc-header .menu-toggle span {
+          display: block !important;
+          width: 22px !important;
+          height: 2px !important;
+          margin: 3px 0 !important;
+          background: #fff !important;
+        }
       }
       /* Keep the archive layout stable across desktop and narrow phones. */
       .bcci-complete-page .complete-hero-stats {
@@ -185,7 +227,7 @@
     <script src="../ui/site-nav.js?v=20261016-glass-match1"></script>
     <script src="./complete.js?v=20261016-bcci-complete1"></script>
 
-    <script src="/assets/mobile-glass-menu.js?v=20261017-complete-polish1" defer></script>
-    <script src="/assets/mobile-bottom-nav.js?v=20261017-complete-polish1" defer></script>
+    <script src="/assets/mobile-glass-menu.js?v=20261017-complete-header-parity2" defer></script>
+    <script src="/assets/mobile-bottom-nav.js?v=20261017-complete-header-parity2" defer></script>
   </body>
 </html>
