@@ -13,6 +13,7 @@ on:
       - "admin/sections/news/news-pipeline-manager.js"
       - "scripts/news.py"
       - "scripts/cleanup_raw_news.py"
+      - "scripts/validate_news_snapshot.py"
       - ".github/workflows/refresh-tilak-news.yml"
   schedule:
     - cron: "23 2 * * *"
@@ -75,38 +76,8 @@ jobs:
             python -m json.tool News/raw-news-pages.json > /dev/null
             python -m json.tool News/newsjson.json > /dev/null
 
-            # Verify the published snapshot has required fields and no duplicate IDs/URLs.
-            python - <<'PY'
-            import json
-            from pathlib import Path
-
-            path = Path("News/newsjson.json")
-            data = json.loads(path.read_text(encoding="utf-8"))
-            records = data.get("news", []) if isinstance(data, dict) else data
-            if not isinstance(records, list):
-                raise SystemExit("News snapshot must contain a list of stories")
-            ids, urls = set(), set()
-            for index, item in enumerate(records):
-                if not isinstance(item, dict):
-                    raise SystemExit(f"News record {index} is not an object")
-                if not str(item.get("title", "")).strip():
-                    raise SystemExit(f"News record {index} has no title")
-                url = str(item.get("webviewUrl") or item.get("finalUrl") or "").strip()
-                if item.get("manual") is not True and not url.startswith("https://www.bcci.tv/"):
-                    raise SystemExit(f"News record {index} has an invalid BCCI URL")
-                item_id = str(item.get("id") or "").strip()
-                if item_id and item_id in ids:
-                    raise SystemExit(f"Duplicate news ID: {item_id}")
-                if url and url in urls:
-                    raise SystemExit(f"Duplicate news URL: {url}")
-                if item_id:
-                    ids.add(item_id)
-                if url:
-                    urls.add(url)
-            if isinstance(data, dict) and data.get("matchedCount") != len(records):
-                raise SystemExit("matchedCount does not match the actual news record count")
-            print(f"News integrity check passed: {len(records)} records, {len(ids)} IDs, {len(urls)} URLs")
-            PY
+            # Verify the published snapshot using a dedicated script (no shell heredoc).
+            python scripts/validate_news_snapshot.py
 
             NEWS_BYTES=$(wc -c < News/newsjson.json)
             echo "Filtered news archive size: $NEWS_BYTES bytes"
