@@ -635,3 +635,18 @@ body.matches-page.match-details-page #sc-content .sc-test-innings-nav .sc-test-i
   body.matches-page.match-details-page #sc-content .sc-test-innings-nav { top: 154px !important; }
   body.matches-page.match-details-page #sc-content .sc-test-innings-nav .sc-test-innings-tab { padding: 10px 12px !important; }
 }
+
+
+/* Sticky Test innings navigation: keep it below the persistent site header */
+body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 154px !important;
+  z-index: 999 !important;
+  align-self: stretch;
+  margin-top: 12px !important;
+  margin-bottom: 14px !important;
+}
+@media (max-width: 600px) {
+  body.matches-page.match-details-page #sc-content > .sc-test-innings-nav { top: 154px !important; }
+}
