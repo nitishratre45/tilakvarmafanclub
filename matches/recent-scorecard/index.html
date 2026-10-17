@@ -268,7 +268,13 @@
           );
         }
         async function init() {
-          const id = new URLSearchParams(location.search).get("matchId");
+          const params = new URLSearchParams(location.search);
+          const id = params.get("matchId");
+          const returnTo = params.get("returnTo");
+          if (returnTo && returnTo.startsWith("/matches/details/") && !returnTo.startsWith("//")) {
+            const back = document.querySelector(".scorecard-back");
+            if (back) back.href = returnTo;
+          }
           if (!id)
             throw Error(
               "Match ID missing. Open this page using a scorecard link from Recent Results.",
