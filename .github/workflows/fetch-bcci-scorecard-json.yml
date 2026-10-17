@@ -1,69 +1,80 @@
-name: Refresh isolated BCCI scorecard JSON
+name: Refresh BCCI Fixtures Scorecard JSON
 
 on:
   workflow_dispatch:
   schedule:
     - cron: "*/5 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - "bcci-fixtures-test/fetch_bcci_scorecard.py"
+      - ".github/workflows/fetch-bcci-scorecard-json.yml"
 
 permissions:
   contents: write
 
 concurrency:
-  group: bcci-scorecard-json
+  group: bcci-fixtures-test-scorecard
   cancel-in-progress: false
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: main
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
-      - name: Fetch BCCI scorecard page into separate JSON
-        id: fetch
-        continue-on-error: true
-        run: python matches/scorecards/fetch_bcci_scorecard.py
-      - name: Upload isolated JSON for diagnostics
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: bcci-scorecard-json
-          path: matches/scorecards/bcci-scorecard.json
-          if-no-files-found: warn
-          retention-days: 7
-      - name: Commit JSON snapshot if changed
-        if: always()
+          python-version: "3.12"
+      - name: Validate scorecard fetcher and source JSON
         run: |
-          if [ ! -f matches/scorecards/bcci-scorecard.json ]; then
-            echo "No JSON snapshot was produced."
-            exit 0
-          fi
+          set -euo pipefail
+          python -m py_compile bcci-fixtures-test/fetch_bcci_scorecard.py
+          python -m json.tool bcci-fixtures-test/bcci-fixtures.json >/dev/null
+      - name: Fetch current BCCI scorecard into the BCCI Fixtures folder
+        run: python bcci-fixtures-test/fetch_bcci_scorecard.py
+      - name: Validate BCCI scorecard snapshot
+        run: |
+          set -euo pipefail
+          python -m json.tool bcci-fixtures-test/bcci-scorecard.json >/dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = json.loads(Path("bcci-fixtures-test/bcci-scorecard.json").read_text(encoding="utf-8"))
+          assert p.get("status") == "ok", f"scorecard status={p.get('status')!r}"
+          assert p.get("matchId"), "numeric matchId missing"
+          assert isinstance(p.get("data"), dict) and p["data"], "scorecard data missing"
+          print(f"Validated BCCI scorecard for match {p['matchId']} (HTTP {p.get('httpStatus')}).")
+          print(f"Innings: {len(p['data'].get('innings') or [])}; teams: {len(p['data'].get('team') or [])}")
+          PY
+      - name: Commit updated BCCI scorecard JSON only
+        shell: bash
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add matches/scorecards/bcci-scorecard.json
+          git add bcci-fixtures-test/bcci-scorecard.json
           if git diff --cached --quiet; then
-            echo "Scorecard JSON unchanged."
+            echo "BCCI scorecard JSON unchanged."
             exit 0
           fi
-          git commit -m "Refresh isolated BCCI scorecard JSON"
-          # Do not let a generated local diagnostics report block rebase.
-          rm -f bcci-fixtures-test/results/results.json
-          for attempt in 1 2 3; do
+          git commit -m "chore: refresh BCCI Fixtures scorecard JSON"
+          for attempt in 1 2 3 4; do
             git fetch origin main
             if ! git rebase origin/main; then
-              echo "Rebase failed; aborting safely."
+              echo "::error::Scorecard rebase conflict; refusing to publish an unverified merge."
               git rebase --abort || true
               exit 1
             fi
             if git push origin HEAD:main; then
-              echo "Scorecard JSON pushed."
+              echo "Published BCCI Fixtures scorecard JSON."
               exit 0
             fi
-            sleep 2
+            sleep $((attempt * 2))
           done
-          echo "::error::Unable to push scorecard JSON after retries."
+          echo "::error::Could not publish BCCI scorecard JSON after retries."
           exit 1
