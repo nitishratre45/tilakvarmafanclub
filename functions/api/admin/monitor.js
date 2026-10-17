@@ -63,6 +63,8 @@ export async function onRequest({ request, env }) {
           "bcci-squads-refresh.yml",
           "refresh-upcoming-matches.yml",
           "bcci-fixtures-test-health.yml",
+          "fetch-bcci-fixtures-json.yml",
+          "fetch-bcci-scorecard-json.yml",
           "matches-folder-audit.yml",
         ];
         const batches = await Promise.all(
