@@ -320,7 +320,8 @@
           buttons[0].classList.add("is-active");
           buttons[0].setAttribute("aria-pressed", "true");
           buttons.slice(1).forEach((button) => button.setAttribute("aria-pressed", "false"));
-          fullPanel.insertBefore(tabs, fullPanel.querySelector(".sc-innings"));
+          // Keep the sticky bar outside the scorecard panel so ancestor overflow cannot break sticky positioning.
+          summary.insertAdjacentElement("afterend", tabs);
         }
       }
       // Add compact metadata styling and a sticky two-team innings switcher.
