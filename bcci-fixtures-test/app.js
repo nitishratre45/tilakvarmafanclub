@@ -625,8 +625,29 @@
               comp_name: m.series || m.comp_name,
               ground_name: m.venue || m.ground_name,
             }));
-            renderLiveMatches(nextMatches);
-            if (nextMatches.some(isRelevantIndiaLiveMatch)) {
+            let nextFixtureFallback = [];
+            try {
+              const fixtureCheck = await fetch("./bcci-fixtures.json?t=" + Date.now(), {
+                cache: "no-store",
+              });
+              if (fixtureCheck.ok) {
+                const fixturePayload = await fixtureCheck.json();
+                const fixtureRoot = fixturePayload?.data ?? fixturePayload;
+                const fixtureRows = Array.isArray(fixtureRoot?.match)
+                  ? fixtureRoot.match
+                  : Array.isArray(fixtureRoot?.fixtures)
+                    ? fixtureRoot.fixtures
+                    : Array.isArray(fixtureRoot?.matches)
+                      ? fixtureRoot.matches
+                      : [];
+                nextFixtureFallback = fixtureRows.filter(isRelevantIndiaLiveMatch);
+              }
+            } catch (_) {
+              // Preserve the live feed even if the fallback fixture fetch fails.
+            }
+            const combinedNextMatches = [...nextMatches, ...nextFixtureFallback];
+            renderLiveMatches(combinedNextMatches);
+            if (combinedNextMatches.some(isRelevantIndiaLiveMatch)) {
               await load();
             } else {
               clearInterval(liveRefreshTimer);
