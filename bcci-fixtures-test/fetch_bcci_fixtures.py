@@ -133,7 +133,7 @@ def main() -> int:
                 report["httpStatus"] = response.status
                 report["contentType"] = response.headers.get("Content-Type", "")
                 content_encoding = response.headers.get("Content-Encoding", "").lower()
-            if content_encoding == "gzip" or raw.startswith(b"\\x1f\\x8b"):
+        if content_encoding == "gzip" or raw.startswith(b"\x1f\x8b"):
                 raw = gzip.decompress(raw)
             try:
                 decoded = raw.decode("utf-8-sig")
@@ -188,7 +188,7 @@ def main() -> int:
     os.makedirs(os.path.dirname(OUTPUT_PATH) or ".", exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as handle:
         json.dump(report, handle, ensure_ascii=False, indent=2)
-        handle.write("\\n")
+        handle.write("\n")
     print(json.dumps({
         "status": report["status"],
         "httpStatus": report["httpStatus"],
