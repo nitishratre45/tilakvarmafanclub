@@ -198,16 +198,25 @@
         throw Error((lastError && lastError.message ? lastError.message + " " : "") +
           "Scorecard data could not be found. Check that the daily Cricsheet archive workflow has completed."); 
       }
-      // Back should return to the main Matches page's full Recent Match Details section.
+      // Return to the exact page that opened this scorecard whenever possible.
       const recentResultsUrl = "/bcci-fixtures-test/recent-match/?team=" + encodeURIComponent(q.get("team") || (match.teams || [])[0] || "India") + "&format=" + encodeURIComponent(match.format || q.get("format") || "Test") + "#rm-list";
       const backLink = $("sc-back");
       backLink.href = recentResultsUrl;
       backLink.textContent = "← Back to Recent Results";
-      backLink.setAttribute("aria-label", "Back to Recent Match Results");
-      // Always use the explicit Recent Match Details destination instead of browser history.
-      backLink.href = recentResultsUrl;
-      backLink.textContent = "← Back to Full Details · Recent Matches";
-      backLink.setAttribute("aria-label", "Back to BCCI Fixtures full details recent matches");
+      backLink.setAttribute("aria-label", "Return to the page that opened this scorecard");
+      backLink.addEventListener("click", function (event) {
+        const referrer = document.referrer;
+        let cameFromRecentMatches = false;
+        try {
+          const previous = new URL(referrer);
+          cameFromRecentMatches = previous.origin === location.origin &&
+            previous.pathname.replace(/\\/+$/, "/").startsWith("/bcci-fixtures-test/recent-match/");
+        } catch (_) {}
+        if (cameFromRecentMatches && history.length > 1) {
+          event.preventDefault();
+          history.back();
+        }
+      });
       $("sc-loading").hidden = true;
       const teams = (match.teams || []).join(" vs ");
       $("sc-content").hidden = false;
