@@ -41,6 +41,24 @@
         display: none !important;
         content: none !important;
       }
+      /* Remove the unwanted orange active underline on Complete Matches desktop navbar. */
+      @media (min-width: 801px) {
+        html body.complete-matches-page > header.topbar > nav#main-nav > a,
+        html body.complete-matches-page > header.topbar > nav#main-nav > a:hover,
+        html body.complete-matches-page > header.topbar > nav#main-nav > a:focus,
+        html body.complete-matches-page > header.topbar > nav#main-nav > a:active,
+        html body.complete-matches-page > header.topbar > nav#main-nav > a.active,
+        html body.complete-matches-page > header.topbar > nav#main-nav > a[aria-current="page"] {
+          border-bottom: 0 !important;
+          box-shadow: none !important;
+          background-image: none !important;
+        }
+        html body.complete-matches-page > header.topbar > nav#main-nav > a::before,
+        html body.complete-matches-page > header.topbar > nav#main-nav > a::after {
+          display: none !important;
+          content: none !important;
+        }
+      }
       /* Complete Matches: reuse the same shared header and menu styling as Upcoming Matches. */
       @media (max-width: 800px) {
         html,
