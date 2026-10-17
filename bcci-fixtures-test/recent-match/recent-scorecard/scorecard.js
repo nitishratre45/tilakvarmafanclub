@@ -219,7 +219,7 @@
         const groups = teamNames.map(() => []);
         innings.forEach((section) => {
           const heading = section.querySelector("h3");
-          const team = heading ? heading.textContent.trim().replace(/\\s+\\d+\\s*\\/.*/, "").trim() : "";
+          const team = heading ? heading.textContent.trim().replace(/\s+\d+\s*\/.*/, "").trim() : "";
           let index = teamNames.findIndex(name => team === name || team.startsWith(name + " "));
           if (index < 0) index = 0;
           groups[index].push(section);
