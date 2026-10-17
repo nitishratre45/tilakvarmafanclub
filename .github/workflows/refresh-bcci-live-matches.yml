@@ -37,11 +37,13 @@ jobs:
           fi
       - name: Fetch official BCCI live scores and save JSON
         run: python scripts/refresh_bcci_live_matches.py
-      - name: Validate live-only JSON
+      - name: Validate live-only JSON in both destinations
         run: |
           set -euo pipefail
           test -f matches/live/live-matches.json
+          test -f bcci-fixtures-test/live-matches.json
           python -m json.tool matches/live/live-matches.json > /dev/null
+          python -m json.tool bcci-fixtures-test/live-matches.json > /dev/null
           python - <<'PY'
           import json
           from pathlib import Path
@@ -54,7 +56,7 @@ jobs:
       - name: Commit changed live JSON only
         run: |
           set -euo pipefail
-          git add matches/live/live-matches.json
+          git add matches/live/live-matches.json bcci-fixtures-test/live-matches.json
           if git diff --cached --quiet; then
             echo "Live JSON unchanged."
             exit 0
