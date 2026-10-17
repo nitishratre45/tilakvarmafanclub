@@ -33,8 +33,17 @@ def load_fixtures() -> list[dict]:
 
 
 def valid_response(payload: object) -> bool:
-    # Empty objects/lists/null are not usable squad snapshots.
-    return payload is not None and payload != {} and payload != []
+    # Reject empty payloads and API-level error objects: HTTP 200 can still
+    # contain an authorization/service error and must never be saved as a squad.
+    if payload is None or payload == {} or payload == []:
+        return False
+    if isinstance(payload, dict):
+        if payload.get("error"):
+            return False
+        status = str(payload.get("status", "")).strip().lower()
+        if status in {"error", "failed", "unauthorized", "forbidden"}:
+            return False
+    return True
 
 
 def fetch_team_squad(comp_id: str, team_id: str, edak: str) -> object:
