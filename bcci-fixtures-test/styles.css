@@ -2672,3 +2672,113 @@ footer {
   .live-match-card.fixture-card,
   .live-match-card .live-match-centre-link { transition: none; }
 }
+
+
+/* Hotfix: prevent duplicate team labels/logos and remove redundant back links
+   while the live-match view is active. Shared navbar/menu intentionally untouched. */
+.live-match-card .upcoming-team .team-identity {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  text-align: center;
+}
+.live-match-card .upcoming-team .team-logo {
+  position: relative;
+  display: grid;
+  flex: 0 0 48px;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 5px;
+  overflow: hidden;
+  border: 1px solid rgba(148,191,225,.24);
+  border-radius: 14px;
+  background: rgba(6,19,34,.48);
+}
+.live-match-card .upcoming-team .team-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.live-match-card .upcoming-team .team-logo .team-logo-fallback {
+  display: none;
+}
+.live-match-card .upcoming-team .team-logo.logo-unavailable img {
+  display: none;
+}
+.live-match-card .upcoming-team .team-logo.logo-unavailable .team-logo-fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 12px;
+  font-weight: 800;
+  color: #c7e5f8;
+}
+.live-match-card .upcoming-team .team-name {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.25;
+  font-weight: 700;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.live-match-card .upcoming-team .live-team-score {
+  margin-top: 3px;
+  font-size: clamp(18px, 4.8vw, 24px);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.live-match-card .upcoming-teams {
+  align-items: stretch;
+}
+.live-match-card .upcoming-team {
+  justify-content: center;
+  min-height: 158px;
+}
+body.has-live-matches .upcoming-hero,
+body.has-live-matches .live-refresh-strip,
+body.has-live-matches .filters,
+body.has-live-matches footer {
+  display: none !important;
+}
+body.has-live-matches #liveMatchesSection .section-actions .bcci-back-button {
+  display: none !important;
+}
+body.has-live-matches #liveMatchesSection .live-section-heading .section-actions {
+  width: auto;
+  margin-left: auto;
+}
+@media (max-width: 600px) {
+  .live-match-card .upcoming-team .team-logo {
+    flex-basis: 44px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .live-match-card .upcoming-team .team-name {
+    font-size: 12px;
+  }
+  .live-match-card .upcoming-team .live-team-score {
+    font-size: clamp(17px, 4.7vw, 22px);
+  }
+}
