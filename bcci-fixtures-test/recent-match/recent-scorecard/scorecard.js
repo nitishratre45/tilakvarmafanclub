@@ -132,7 +132,7 @@
       // Fallback: match IDs contain date + format, so fetch just that year's bundle.
       // This avoids making a large index a hard dependency for opening scorecards.
       if (!match) {
-        const idParts = id.match(/^(\\d{4})-(t20i|odi|test)-/i);
+        const idParts = id.match(/^(\d{4})-(t20i|odi|test)-/i);
         if (idParts) {
           const year = idParts[1];
           const formatSlug = idParts[2].toLowerCase();
