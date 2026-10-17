@@ -216,7 +216,7 @@
             const previous = new URL(referrer);
             if (
               previous.origin === location.origin &&
-              previous.pathname.replace(/\\/+$/, "/") === "/bcci-fixtures-test/recent-match/" &&
+              previous.pathname.replace(/\/+$/, "/") === "/bcci-fixtures-test/recent-match/" &&
               previous.pathname !== location.pathname
             ) {
               event.preventDefault();
