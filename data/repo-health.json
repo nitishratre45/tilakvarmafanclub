@@ -1,20 +1,15 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-17T18:44:44+00:00",
+  "checkedAt": "2026-10-17T20:01:23+00:00",
   "intervalMinutes": 10,
-  "status": "error",
+  "status": "healthy",
   "summary": {
     "filesScanned": 606,
-    "checksPassed": 528,
-    "issues": 1,
+    "checksPassed": 529,
+    "issues": 0,
     "warnings": 0
   },
   "items": [
-    {
-      "level": "error",
-      "message": "3\n          const team = heading ? heading.textContent.trim().replace(/\\\\s+\\\\d+\\\\s*\\\\/.*/, \"\").trim() : \"\";\n                                                                                     ^\n\nSyntaxError: Unexpected token '*'\n    at checkSyntax (node:internal/main/check_syntax:74:5)\n    at node:internal/main/check_syntax:45:5\n    at Socket.<anonymous> (node:internal/process/execution:201:5)\n    at Socket.emit (node:events:531:35)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)\n\nNode.js v22.23.3",
-      "file": "bcci-fixtures-test/recent-match/recent-scorecard/scorecard.js"
-    },
     {
       "level": "pass",
       "message": "Valid JSON",
@@ -672,6 +667,11 @@
     },
     {
       "level": "pass",
+      "message": "JavaScript syntax OK",
+      "file": "bcci-fixtures-test/recent-match/recent-scorecard/scorecard.js"
+    },
+    {
+      "level": "pass",
       "message": "CSS block/string/comment structure OK",
       "file": "bcci-fixtures-test/scorecard.css"
     },
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "2a80853c"
+    "branch": "858f2aaa"
   }
 }
