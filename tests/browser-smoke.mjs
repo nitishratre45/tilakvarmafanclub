@@ -289,10 +289,10 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
   const page = await browser.newPage();
   page.setDefaultTimeout(10000);
   const fixture = {
-    checkedAt: "2026-10-15T12:00:00Z",
+    checkedAt: "2099-10-15T12:00:00Z",
     status: "updated-from-news-and-bcci-json",
     fixtures: [{
-      date: "2026-10-17", label: "Sat, 17 Oct 2026", match: "Tour match",
+      date: "2099-10-17", label: "Sat, 17 Oct 2099", match: "Tour match",
       team: "India", opponent: "Australia", venue: "Test Ground", time: "19:00",
       newsUrl: "/News-details/index.html?id=test-squad-announcement",
       tilakInSquad: true,
@@ -302,7 +302,7 @@ check("Matches folder defaults to Upcoming and opens complete match scorecards",
   const bcciFixtures = {
     status: "updated-from-bcci-stats",
     fixtures: [{
-      date: "2026-10-17", match: "Tour match", team: "India", opponent: "Australia",
+      date: "2099-10-17", match: "Tour match", team: "India", opponent: "Australia",
       venue: "Test Ground", time: "19:00", source: "https://stats.bcci.tv/match/fixtures/test"
     }]
   };
