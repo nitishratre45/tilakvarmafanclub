@@ -128,7 +128,10 @@ def merge_archive(previous: list[Any], fresh: list[dict]) -> tuple[list[dict], i
         if not isinstance(item, dict):
             continue
         # Purge legacy archive entries that do not mention Tilak Varma.
-        old_text = " ".join(str(item.get(k) or "") for k in ("title", "fullText", "pageText", "description", "pageTitle"))
+        old_text = " ".join(
+            str(item.get(k) or "")
+            for k in ("title", "fullText", "pageText", "description", "pageTitle")
+        )
         if not NAME_RE.search(old_text):
             continue
         key = record_key(item)

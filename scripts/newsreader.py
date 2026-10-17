@@ -35,7 +35,9 @@ def clean_url(value):
     host = (parsed.hostname or "").lower()
     if parsed.scheme != "https" or not (host == "bcci.tv" or host.endswith(".bcci.tv")):
         return ""
-    if not any(path in parsed.path for path in ("/news/article/", "/webview/news/article/")):
+    if not any(
+        path in parsed.path for path in ("/news/article/", "/webview/news/article/")
+    ):
         return ""
     return url.split("#", 1)[0]
 
@@ -77,20 +79,33 @@ def main():
                 continue
             title = first_text(item, TITLE_KEYS)
             description = first_text(item, TEXT_KEYS)
-            image = first_text(item, ("featuredImageUrl", "imageUrl", "image", "thumbnailUrl"))
+            image = first_text(
+                item, ("featuredImageUrl", "imageUrl", "image", "thumbnailUrl")
+            )
             if image.startswith("/"):
                 image = urljoin("https://www.bcci.tv", image)
-            published = first_text(item, ("publishedDate", "publishedAt", "datePublished", "createdAt"))
-            searchable = " ".join(str(item.get(k) or "") for k in (*TITLE_KEYS, *TEXT_KEYS))
+            published = first_text(
+                item, ("publishedDate", "publishedAt", "datePublished", "createdAt")
+            )
+            searchable = " ".join(
+                str(item.get(k) or "") for k in (*TITLE_KEYS, *TEXT_KEYS)
+            )
             old = old_by_url.get(url, {})
-            old_text = " ".join(str(old.get(k) or "") for k in ("title", "description", "pageTitle", "pageText", "fullText"))
+            old_text = " ".join(
+                str(old.get(k) or "")
+                for k in ("title", "description", "pageTitle", "pageText", "fullText")
+            )
             if not NAME_RE.search(searchable) and not NAME_RE.search(old_text):
                 removed_unrelated += 1
                 continue
             seen.add(url)
             body = description or str(old.get("pageText") or old.get("fullText") or "")
             record = {
-                "id": str(item.get("slug") or item.get("id") or urlparse(url).path.rstrip("/").split("/")[-1]),
+                "id": str(
+                    item.get("slug")
+                    or item.get("id")
+                    or urlparse(url).path.rstrip("/").split("/")[-1]
+                ),
                 "webviewUrl": url,
                 "title": title or str(old.get("title") or "Tilak Varma news"),
                 "imageUrl": image or str(old.get("imageUrl") or ""),
@@ -105,22 +120,29 @@ def main():
             kept.append(record)
 
     kept.sort(key=lambda item: str(item.get("publishedAt") or ""), reverse=True)
-    doc.update({
-        "source": "BCCI News API only",
-        "articlesFetchedAt": datetime.now(timezone.utc).isoformat(),
-        "articleUrlCount": len(seen),
-        "articlePagesFetched": 0,
-        "articleFetchErrors": [],
-        "articles": kept,
-        "apiOnlyFilter": {
-            "policy": "BCCI API metadata only; keep Tilak Varma mentions; no article HTML requests",
-            "recordsKept": len(kept),
-            "unrelatedRecordsRemoved": removed_unrelated,
-            "ranAt": datetime.now(timezone.utc).isoformat(),
-        },
-    })
-    RAW.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
-    print(f"BCCI API-only cache: kept {len(kept)} Tilak-related records; removed {removed_unrelated} unrelated records; article HTML requests: 0", flush=True)
+    doc.update(
+        {
+            "source": "BCCI News API only",
+            "articlesFetchedAt": datetime.now(timezone.utc).isoformat(),
+            "articleUrlCount": len(seen),
+            "articlePagesFetched": 0,
+            "articleFetchErrors": [],
+            "articles": kept,
+            "apiOnlyFilter": {
+                "policy": "BCCI API metadata only; keep Tilak Varma mentions; no article HTML requests",
+                "recordsKept": len(kept),
+                "unrelatedRecordsRemoved": removed_unrelated,
+                "ranAt": datetime.now(timezone.utc).isoformat(),
+            },
+        }
+    )
+    RAW.write_text(
+        json.dumps(doc, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8"
+    )
+    print(
+        f"BCCI API-only cache: kept {len(kept)} Tilak-related records; removed {removed_unrelated} unrelated records; article HTML requests: 0",
+        flush=True,
+    )
 
 
 if __name__ == "__main__":
