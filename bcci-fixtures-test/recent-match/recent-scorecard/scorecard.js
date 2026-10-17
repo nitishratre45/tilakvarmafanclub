@@ -190,7 +190,7 @@
         esc((match.officials?.umpires || []).join(", ") || "Umpires not recorded") +
         "</p><p>" +
         esc((match.officials?.match_referees || []).join(", ") || "Match referee not recorded") +
-        '</p><small>Source: <a href="https://cricsheet.org/" target="_blank" rel="noopener">Cricsheet</a> · ODC-BY attribution</small></section>';
+        '</p></section>';
       // Add compact metadata styling and a sticky two-team innings switcher.
       const hero = document.querySelector("#sc-content .sc-hero");
       if (hero) {
