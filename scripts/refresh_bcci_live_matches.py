@@ -203,7 +203,13 @@ def main():
                     ),
                     "status": status_of(row),
                     "match": value(
-                        row, "name", "match_name", "matchName", "match", "title", "match_title"
+                        row,
+                        "name",
+                        "match_name",
+                        "matchName",
+                        "match",
+                        "title",
+                        "match_title",
                     ),
                     "series": value(
                         row,
