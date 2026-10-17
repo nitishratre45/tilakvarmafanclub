@@ -338,8 +338,8 @@
     const next = fixtures
       .filter((f) => {
         const rawDate = String(f.date || "").slice(0, 10);
-        const time = String(f.time || "00:00").match(/^(\\d{1,2}):(\\d{2})/);
-        if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(rawDate)) return false;
+        const time = String(f.time || "00:00").match(/^(\d{1,2}):(\d{2})/);
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(rawDate)) return false;
         const target = Date.parse(
           rawDate + "T" + (time ? time[1].padStart(2, "0") + ":" + time[2] : "00:00") + ":00+05:30",
         );
@@ -386,12 +386,12 @@
     const targetTime = Date.parse(
       String(next.date).slice(0, 10) +
         "T" +
-        (String(next.time || "00:00").match(/^(\\d{1,2}):(\\d{2})/) || [, "00", "00"])[1].padStart(
+        (String(next.time || "00:00").match(/^(\d{1,2}):(\d{2})/) || [, "00", "00"])[1].padStart(
           2,
           "0",
         ) +
         ":" +
-        (String(next.time || "00:00").match(/^(\\d{1,2}):(\\d{2})/) || [, "00", "00"])[2] +
+        (String(next.time || "00:00").match(/^(\d{1,2}):(\d{2})/) || [, "00", "00"])[2] +
         ":00+05:30",
     );
     const tick = () => {
