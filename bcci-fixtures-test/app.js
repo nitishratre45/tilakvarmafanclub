@@ -409,7 +409,7 @@
         fetch("/matches/bcci-stats-fixtures.json?t=" + Date.now(), { cache: "no-store" }).catch(
           () => null,
         ),
-        fetch("/matches/live/live-matches.json?t=" + Date.now(), { cache: "no-store" }).catch(
+        fetch("./live-matches.json?t=" + Date.now(), { cache: "no-store" }).catch(
           () => null,
         ),
       ]);
@@ -440,9 +440,22 @@
         : Array.isArray(bcciRoot?.matches)
           ? bcciRoot.matches
           : [];
-      renderLiveMatches(bcciMatches);
+      const savedLiveMatches = Array.isArray(livePayload?.matches) ? livePayload.matches.map((m) => ({
+        ...((m && typeof m.raw === "object" && m.raw) || {}),
+        id: m.id || m.gid || m.match_id,
+        team1_name: m.team1 || m.team1_name || m.team1Name,
+        team2_name: m.team2 || m.team2_name || m.team2Name,
+        team1_score: m.score1 || m.team1_score,
+        team2_score: m.score2 || m.team2_score,
+        match_status: m.status || m.match_status,
+        live_status_name: m.status || m.live_status_name,
+        name: m.match || m.name,
+        comp_name: m.series || m.comp_name,
+        ground_name: m.venue || m.ground_name,
+      })) : [];
+      renderLiveMatches(savedLiveMatches);
       const liveMatches = [
-        ...(Array.isArray(livePayload?.matches) ? livePayload.matches : []),
+        ...savedLiveMatches,
         ...bcciMatches.filter(isRelevantIndiaLiveMatch),
       ];
       const liveIds = new Set(
@@ -598,20 +611,27 @@
   $("statusFilter")?.addEventListener("change", render);
   $("sortFilter")?.addEventListener("change", render);
 
-  // The BCCI fixtures snapshot is the live-status source; no separate live JSON file is required.
+  // The dedicated bcci-fixtures-test/live-matches.json snapshot is the live-status source.
   let liveMode = false;
   let liveRefreshTimer = null;
   async function checkLiveMode() {
     try {
-      const response = await fetch("./bcci-fixtures.json?t=" + Date.now(), { cache: "no-store" });
-      if (!response.ok) throw new Error("BCCI fixtures snapshot unavailable");
+      const response = await fetch("./live-matches.json?t=" + Date.now(), { cache: "no-store" });
+      if (!response.ok) throw new Error("BCCI live-matches snapshot unavailable");
       const payload = await response.json();
-      const source = payload?.data ?? payload;
-      const matches = Array.isArray(source?.match)
-        ? source.match
-        : Array.isArray(source?.matches)
-          ? source.matches
-          : [];
+      const matches = (Array.isArray(payload?.matches) ? payload.matches : []).map((m) => ({
+        ...((m && typeof m.raw === "object" && m.raw) || {}),
+        id: m.id || m.gid || m.match_id,
+        team1_name: m.team1 || m.team1_name || m.team1Name,
+        team2_name: m.team2 || m.team2_name || m.team2Name,
+        team1_score: m.score1 || m.team1_score,
+        team2_score: m.score2 || m.team2_score,
+        match_status: m.status || m.match_status,
+        live_status_name: m.status || m.live_status_name,
+        name: m.match || m.name,
+        comp_name: m.series || m.comp_name,
+        ground_name: m.venue || m.ground_name,
+      }));
       const live = matches.filter(isRelevantIndiaLiveMatch);
       const title = $("liveRefreshTitle"),
         message = $("liveRefreshMessage"),
@@ -631,17 +651,24 @@
         if (liveRefreshTimer) clearInterval(liveRefreshTimer);
         liveRefreshTimer = setInterval(async () => {
           try {
-            const check = await fetch("./bcci-fixtures.json?t=" + Date.now(), {
+            const check = await fetch("./live-matches.json?t=" + Date.now(), {
               cache: "no-store",
             });
-            if (!check.ok) throw new Error("Snapshot unavailable");
+            if (!check.ok) throw new Error("Live snapshot unavailable");
             const nextPayload = await check.json();
-            const root = nextPayload?.data ?? nextPayload;
-            const nextMatches = Array.isArray(root?.match)
-              ? root.match
-              : Array.isArray(root?.matches)
-                ? root.matches
-                : [];
+            const nextMatches = (Array.isArray(nextPayload?.matches) ? nextPayload.matches : []).map((m) => ({
+              ...((m && typeof m.raw === "object" && m.raw) || {}),
+              id: m.id || m.gid || m.match_id,
+              team1_name: m.team1 || m.team1_name || m.team1Name,
+              team2_name: m.team2 || m.team2_name || m.team2Name,
+              team1_score: m.score1 || m.team1_score,
+              team2_score: m.score2 || m.team2_score,
+              match_status: m.status || m.match_status,
+              live_status_name: m.status || m.live_status_name,
+              name: m.match || m.name,
+              comp_name: m.series || m.comp_name,
+              ground_name: m.venue || m.ground_name,
+            }));
             renderLiveMatches(nextMatches);
             if (nextMatches.some(isRelevantIndiaLiveMatch)) {
               await load();
