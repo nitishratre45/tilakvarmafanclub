@@ -107,18 +107,32 @@
   }
   async function init() {
     try {
-      const r = await fetch("./bcci-live-scores.json?t=" + Date.now(), { cache: "no-store" });
+      if (!gid) throw Error("No match ID was supplied. Open a match from the Live Scores list.");
+      // The BCCI folder publishes this snapshot; bcci-live-scores.json does not exist here.
+      const r = await fetch("./bcci-scorecard.json?t=" + Date.now(), { cache: "no-store" });
       if (!r.ok) throw Error("HTTP " + r.status);
       const p = await r.json();
-      const d = p.data ?? p;
-      const rows = d.live_scores || d.match || d.matches || [];
-      match = rows.find((m) => String(m.gid || m.match_id || "") === String(gid));
-      if (!match)
-        throw Error(
-          gid
-            ? "That match is not present in the latest live-scores snapshot. Open Live Scores and select the match again."
-            : "No match ID was supplied. Open a match from the Live Scores list.",
-        );
+      if (p.status && p.status !== "ok") throw Error("Scorecard snapshot status: " + p.status);
+      const d = p.data ?? {};
+      const sourceMatch = d.match ?? p.liveMatch ?? {};
+      const matchKey = sourceMatch.gid ?? sourceMatch.match_id ?? p.matchId ?? "";
+      if (String(matchKey) !== String(gid) && String(p.matchId ?? "") !== String(gid)) {
+        throw Error("This match is not in the latest scorecard snapshot. Open the currently available match again.");
+      }
+      const innings = Array.isArray(d.innings)
+        ? d.innings
+        : Array.isArray(sourceMatch.summary?.innings)
+          ? sourceMatch.summary.innings
+          : [];
+      match = {
+        ...(p.liveMatch ?? {}),
+        ...sourceMatch,
+        summary: {
+          ...(p.liveMatch?.summary ?? {}),
+          ...(sourceMatch.summary ?? {}),
+          innings,
+        },
+      };
       renderHeader();
       showTab("scorecard");
     } catch (e) {
