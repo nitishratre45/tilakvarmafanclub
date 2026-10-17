@@ -8,17 +8,12 @@ and removes every ZIP/temp extraction immediately after successful conversion.
 from __future__ import annotations
 import json, os, re, shutil, tempfile, urllib.request, zipfile
 from collections import OrderedDict
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 INDEX = ROOT / "archive-index.json"
-MINIMUM_YEAR = 2025
-
-def retention_cutoff():
-    """Keep matches dated 1 January 2025 onward."""
-    return f"{MINIMUM_YEAR}-01-01"
 ARCHIVES = {
     "T20I": "https://cricsheet.org/downloads/t20s_male_json.zip",
     "ODI": "https://cricsheet.org/downloads/odis_male_json.zip",
@@ -141,8 +136,6 @@ def main():
         temp = Path(temp)
         grouped = {}
         index_rows = []
-        cutoff = retention_cutoff()
-        print(f"Keeping only matches dated {cutoff} or newer (from {cutoff} onward).")
         for fmt, url in ARCHIVES.items():
             archive = temp / (fmt.lower() + ".zip")
             req = urllib.request.Request(url, headers={"User-Agent": "TilakVarmaFanClub-DataUpdater/1.0"})
@@ -160,20 +153,10 @@ def main():
                     print(f"Skipping malformed {file.name}: {exc}")
                     continue
                 if not match: continue
-                # Full archives are downloaded each run, but only the rolling last year
-                # is published. Rebuilding from source prevents duplicate match entries.
-                if match["date"] < cutoff:
-                    continue
                 year = match["date"][:4]
                 bucket_key = (fmt, year)
                 grouped.setdefault(bucket_key, []).append(match)
-        # Remove stale bundles first so years outside the retention window cannot linger.
-        expected_files = {f"{fmt.lower()}-{year}.json" for fmt, year in grouped}
-        for existing in DATA.glob("*.json"):
-            if existing.name not in expected_files:
-                existing.unlink()
-                print(f"Removed expired/obsolete bundle: {existing.name}")
-        # Publish year/format buckets; each contains only retained matches, with no duplicates.
+        # Publish year/format buckets first; each file contains complete innings scorecards.
         for (fmt, year), matches in sorted(grouped.items()):
             matches.sort(key=lambda m: (m["date"], m["matchId"]), reverse=True)
             filename = f"{fmt.lower()}-{year}.json"
@@ -188,8 +171,7 @@ def main():
         index = {"schemaVersion": 1, "updatedAt": datetime.now(timezone.utc).isoformat(), "source": "https://cricsheet.org/", "attribution": ATTRIBUTION, "formats": list(ARCHIVES), "matchCount": len(index_rows), "matches": index_rows}
         INDEX.write_text(json.dumps(index, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     # TemporaryDirectory removes extracted source JSON and any residual ZIPs after data saves.
-    print(f"Saved {len(index_rows)} international matches from {cutoff} onward across {len(grouped)} format/year bundles.")
-    print(f"Retention policy: matches before {cutoff} are excluded; stale JSON bundles are deleted.")
+    print(f"Saved {len(index_rows)} international matches across {len(grouped)} format/year bundles.")
     print("Downloaded ZIP archives and extracted source files removed after JSON generation.")
 
 if __name__ == "__main__":
