@@ -474,7 +474,7 @@
           render(scorePayload);
           await loadSquadSnapshot(detailed, scorePayload?.matchId, scorePayload?.data);
           $("status").textContent =
-            "FULL SCORECARD · "
+            "FULL SCORECARD · " +
             (selected.name || selected.match_short_name || "Selected match") +
             " · Detailed BCCI batting and bowling data";
           return;
