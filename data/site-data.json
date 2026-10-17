@@ -185,7 +185,7 @@
       "source": "ESPNcricinfo Statsguru",
       "notOuts": 1,
       "balls": 119,
-      "updatedAt": "2026-10-16 08:53 UTC"
+      "updatedAt": "2026-10-17 04:44 UTC"
     },
     "T20I": {
       "matches": 69,
@@ -201,7 +201,7 @@
       "sixes": 93,
       "source": "ESPNcricinfo Statsguru",
       "balls": 1244,
-      "updatedAt": "2026-10-16 08:53 UTC"
+      "updatedAt": "2026-10-17 04:44 UTC"
     },
     "First-class": {
       "matches": 25,
@@ -262,12 +262,12 @@
       "sixes": 248,
       "balls": 3502,
       "source": "ESPNcricinfo Statsguru",
-      "updatedAt": "2026-10-16 08:53 UTC"
+      "updatedAt": "2026-10-17 04:44 UTC"
     }
   },
   "recentSource": "https://cricsheet.org/",
   "profileUpdated": "2026-10-16 17:01 UTC",
-  "careerStatsUpdated": "2026-10-16 08:53 UTC",
+  "careerStatsUpdated": "2026-10-17 04:44 UTC",
   "featuredMatch": {
     "date": "2026-10-09",
     "format": "T20I · 2nd match",
@@ -374,7 +374,7 @@
   "statsguru": {
     "source": "ESPNcricinfo Statsguru + Cricsheet IPL archive",
     "sourceUrl": "https://stats.espncricinfo.com/ci/engine/player/1170265.html",
-    "updatedAt": "2026-10-16 08:53 UTC",
+    "updatedAt": "2026-10-17 04:44 UTC",
     "formats": {
       "T20I": {
         "summary": {
@@ -12752,7 +12752,7 @@
         "matchListUrl": "https://cricsheet.org/downloads/ipl_json.zip",
         "debut": "2022-03-27",
         "lastMatch": "2026-05-24",
-        "updatedAt": "2026-10-16 08:54 UTC",
+        "updatedAt": "2026-10-17 04:46 UTC",
         "coverageNote": "IPL innings derived from available Cricsheet ball-by-ball match files. Batting position is inferred from batter appearance order; matches without a published archive file are not inferred."
       },
       "FC": {
@@ -12801,14 +12801,16 @@
         "checkedAt": "2026-10-11 10:28 UTC"
       }
     },
-    "lastAttemptAt": "2026-10-16 08:53 UTC",
+    "lastAttemptAt": "2026-10-17 04:44 UTC",
     "lastAttemptStatus": "partial",
-    "lastAttemptErrors": [],
+    "lastAttemptErrors": [
+      "T20: HTTP Error 503: Service Unavailable"
+    ],
     "lastAttemptWarnings": [
       "FC: HTTP Error 400: Bad Request",
       "List A: HTTP Error 400: Bad Request"
     ],
-    "iplUpdatedAt": "2026-10-16 08:54 UTC",
+    "iplUpdatedAt": "2026-10-17 04:46 UTC",
     "iplLastAttemptStatus": "success",
     "iplLastAttemptError": null
   },
@@ -16686,10 +16688,13 @@
   "fieldingStats": {
     "source": "ESPNcricinfo Statsguru",
     "sourceUrl": "https://stats.espncricinfo.com/ci/engine/player/1170265.html",
-    "updatedAt": "2026-10-16 08:54 UTC",
-    "lastAttemptAt": "2026-10-16 08:54 UTC",
+    "updatedAt": "2026-10-17 04:46 UTC",
+    "lastAttemptAt": "2026-10-17 04:46 UTC",
     "lastAttemptStatus": "partial",
-    "lastAttemptErrors": [],
+    "lastAttemptErrors": [
+      "T20I: HTTP Error 503: Service Unavailable",
+      "T20: HTTP Error 503: Service Unavailable"
+    ],
     "formats": {
       "T20I": {
         "summary": {
@@ -18883,7 +18888,7 @@
         "source": "ESPNcricinfo Statsguru",
         "careerUrl": "https://stats.espncricinfo.com/ci/engine/player/1170265.html?class=2;template=results;type=fielding",
         "inningsUrl": "https://stats.espncricinfo.com/ci/engine/player/1170265.html?class=2;template=results;type=fielding;view=innings",
-        "checkedAt": "2026-10-16 08:54 UTC"
+        "checkedAt": "2026-10-17 04:45 UTC"
       },
       "T20": {
         "summary": {
@@ -22519,7 +22524,7 @@
     },
     "lastAttemptWarnings": [
       "FC: HTTP Error 400: Bad Request",
-      "List A: HTTP Error 400: Bad Request"
+      "List A: HTTP Error 503: Service Unavailable"
     ]
   },
   "playerMatchMilestones": {
@@ -27347,7 +27352,7 @@
       "position": 5
     }
   ],
-  "playerMatchesUpdatedAt": "2026-10-16 08:53 UTC",
+  "playerMatchesUpdatedAt": "2026-10-17 04:44 UTC",
   "playerMatchesSource": "ESPNcricinfo Statsguru + saved verified recent scorecards",
   "recentCheckedAt": "2026-10-16 17:01 UTC",
   "recentAttemptStatus": "checked-no-newer-data",
