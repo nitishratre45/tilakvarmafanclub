@@ -153,6 +153,34 @@
     ]
       .filter(Boolean)
       .join(" · ");
+    const details = $("match-details");
+    if (details) {
+      const detailItems = [
+        ["Competition", match.comp_name || match.competition_name || match.primary_event_name],
+        ["Format", asArray(match.class).map((x) => x.name).filter(Boolean).join(" · ") || match.title],
+        ["Date", match.date_string || match.start_date],
+        ["Start time", match.start_time_local ? String(match.start_time_local).slice(0, 5) : ""],
+        ["Venue", match.ground_name], ["City", match.ground_city],
+        ["Match status", match.live_status_name || match.match_status_name || match.match_status],
+        ["Toss", match.toss_winner_team_id && String(match.toss_winner_team_id) !== "0" ? teamName(match.toss_winner_team_id) + (match.toss_decision ? " chose to " + match.toss_decision : " won the toss") : ""],
+        ["Result", match.result_string],
+        ["Weather", asArray(match.weather).map((w) => w.description || w.main).filter(Boolean).join(" · ")],
+      ].filter(([, v]) => v != null && String(v).trim() && String(v) !== "0");
+      details.innerHTML = '<section class="innings match-info"><h2>Match details</h2><div class="detail-grid">' + detailItems.map(([label, value]) => '<div class="detail-item"><span>' + esc(label) + '</span><strong>' + esc(value) + '</strong></div>').join("") + '</div></section>';
+    }
+    const squadHost = $("match-squads");
+    if (squadHost) {
+      const rosterRows = asArray(match.summary?.player).length ? asArray(match.summary.player) : asArray(data?.match?.summary?.player);
+      const squadTeams = teams.length ? teams : asArray(match.team);
+      const squadMarkup = [teamOneId, teamTwoId].map((id, index) => {
+        const team = squadTeams.find((t) => String(t.team_id ?? t.id) === String(id)) || {};
+        const roster = asArray(team.player).length ? asArray(team.player) : rosterRows.filter((p) => String(p.team_id ?? p.batting_team_id ?? p.team?.team_id) === String(id));
+        const label = index === 0 ? teamOneName : teamTwoName;
+        if (!roster.length) return '<section class="squad-card"><h3>' + esc(label) + '</h3><p class="muted">Official squad / playing XI has not been published in this BCCI snapshot yet.</p></section>';
+        return '<section class="squad-card"><h3>' + esc(label) + '</h3><p class="muted">' + roster.length + ' player records</p><ol>' + roster.map((p) => '<li><span>' + esc(val(p, "player_known_as", "known_as", "player_name", "full_name", "name")) + '</span><small>' + esc(val(p, "role", "player_role", "playing_role", "position")) + '</small></li>').join("") + '</ol></section>';
+      }).join("");
+      squadHost.innerHTML = '<section class="innings"><h2>Squads &amp; Playing XI</h2><p class="muted">Players appear here when included in the official BCCI match snapshot.</p><div class="squad-grid">' + squadMarkup + '</div></section>';
+    }
     if (!innings.length) {
       $("scorecard").innerHTML =
         '<section class="innings"><h2>Scorecard data unavailable</h2><p class="muted">Saved JSON mein innings rows nahi hain. Reload JSON karein ya workflow refresh check karein.</p></section>';
