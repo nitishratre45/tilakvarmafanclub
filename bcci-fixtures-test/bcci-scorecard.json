@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-17T15:48:21.133495+00:00",
+  "fetchedAt": "2026-10-17T15:56:36.092483+00:00",
   "source": "https://stats.bcci.tv/match/237261/scorecard",
   "matchId": "237261",
   "isLive": true,
@@ -7,7 +7,7 @@
     "alt_comp_id": "20878",
     "alt_comp_name": "India v West Indies T20I Series 2026",
     "away_team_id": "4",
-    "batting_first_team_id": "0",
+    "batting_first_team_id": "6",
     "bpo": "6",
     "class": [
       {
@@ -15,14 +15,14 @@
         "name": "Twenty20 internationals",
         "number": "4188",
         "type": "international",
-        "valid": "0"
+        "valid": "1"
       },
       {
         "id": "6",
         "name": "List A Twenty20",
         "number": "17521",
         "type": "general",
-        "valid": "0"
+        "valid": "1"
       }
     ],
     "comp_gid": "9a12946b-9277-4b5f-ba94-34d02355bf03",
@@ -53,9 +53,9 @@
     "is_adjusted_target": "0",
     "is_followon": "0",
     "is_reduced_innings": "0",
-    "is_reduced_overs": "0",
-    "live_status_id": "12",
-    "live_status_name": "match start delayed",
+    "is_reduced_overs": "1",
+    "live_status_id": "1",
+    "live_status_name": "in play",
     "loser_team_id": null,
     "match_group": null,
     "match_group_id": null,
@@ -73,9 +73,9 @@
     "parent_comp_season": null,
     "primary_event_id": "1065",
     "primary_event_name": "West Indies tour",
-    "rain_rule": null,
+    "rain_rule": "",
     "result_id": "0",
-    "result_string": "Teams will be announced at the toss",
+    "result_string": "India are 13 for 0 with 8.2 overs remaining",
     "scheduled_days": "1",
     "scheduled_innings": "1",
     "scheduled_overs": "20",
@@ -85,9 +85,49 @@
     "start_time_local": "19:00:00",
     "start_time_offset": "330",
     "summary": {
-      "innings": [],
-      "player": [],
-      "team": []
+      "innings": [
+        {
+          "ball_limit": "54",
+          "balls": "4",
+          "batting_team_id": "6",
+          "closure_id": "0",
+          "innings_number": "1",
+          "overs": "0.4",
+          "runs": "13"
+        },
+        {
+          "ball_limit": "54",
+          "batting_team_id": "4",
+          "closure_id": "0",
+          "innings_number": "2",
+          "overs": "0.0",
+          "target": "1"
+        }
+      ],
+      "player": [
+        {
+          "batting": "A Sharma 6* (3)\nSV Samson 1* (2)",
+          "batting_team_id": "6",
+          "bowling": "KMA Paul 0.4-0-13-0*",
+          "innings_number": "1"
+        },
+        {
+          "batting": "",
+          "batting_team_id": "4",
+          "bowling": "",
+          "innings_number": "2"
+        }
+      ],
+      "team": [
+        {
+          "score": "13/0 (0.4/9 ov)",
+          "team_id": "6"
+        },
+        {
+          "score": "",
+          "team_id": "4"
+        }
+      ]
     },
     "team1_abbreviation": "IND",
     "team1_colour_primary": "28C2F5",
@@ -106,8 +146,8 @@
     "tiebreaker_id": "0",
     "title": "5th T20I",
     "toss_choice_team_id": "0",
-    "toss_decision": "",
-    "toss_winner_team_id": "0",
+    "toss_decision": "field",
+    "toss_winner_team_id": "4",
     "tournament_match_number": "0",
     "weather": [
       {
@@ -130,72 +170,80 @@
     "innings": [
       {
         "ball_limit": "54",
-        "balls_bowled": "1",
-        "balls_remaining": "53",
+        "balls_bowled": "9",
+        "balls_remaining": "45",
         "batted": "yes",
         "batting": [
           {
-            "balls_faced": "1",
+            "balls_faced": "2",
             "batted": "yes",
             "batting_position": "1",
             "bowling_player_id": "0",
             "dismissal_id": "12",
             "dismissal_name": "not out",
             "dismissal_str": "not out",
-            "display_live_status": "striker",
+            "display_live_status": "nonstriker",
             "dots_faced": "1",
             "fielding": [],
             "fours": "0",
             "is_out": "0",
-            "live_status": "striker",
-            "minutes": "1",
+            "live_status": "nonstriker",
+            "minutes": "9",
             "player_id": "17613",
-            "runs": "0",
+            "runs": "1",
             "sixes": "0",
             "start_day": "1",
-            "strike_rate": "0.00"
+            "strike_rate": "50.00"
           },
           {
-            "balls_faced": "0",
+            "balls_faced": "4",
             "batted": "yes",
             "batting_position": "2",
+            "bowling_player_id": "50464",
+            "dismissal_id": "1",
+            "dismissal_name": "caught",
+            "dismissal_str": "c Joseph b Paul",
+            "display_live_status": null,
+            "dots_faced": "3",
+            "fielding": [
+              {
+                "is_keeper": "0",
+                "is_sub": "0",
+                "player_id": "80387",
+                "player_known_as": "Shamar Joseph",
+                "player_name_short": "Joseph"
+              }
+            ],
+            "fours": "0",
+            "is_out": "1",
+            "live_status": "",
+            "minutes": "5",
+            "player_id": "65346",
+            "runs": "6",
+            "sixes": "1",
+            "start_day": "1",
+            "strike_rate": "150.00"
+          },
+          {
+            "balls_faced": "4",
+            "batted": "yes",
+            "batting_position": "3",
             "bowling_player_id": "0",
             "dismissal_id": "12",
             "dismissal_name": "not out",
             "dismissal_str": "not out",
-            "display_live_status": "nonstriker",
+            "display_live_status": "striker",
             "dots_faced": "0",
             "fielding": [],
-            "fours": "0",
+            "fours": "1",
             "is_out": "0",
-            "live_status": "nonstriker",
-            "minutes": "1",
-            "player_id": "65346",
-            "runs": "0",
-            "sixes": "0",
-            "start_day": "1",
-            "strike_rate": null
-          },
-          {
-            "balls_faced": "0",
-            "batted": "DNB",
-            "batting_position": "3",
-            "bowling_player_id": "0",
-            "dismissal_id": "0",
-            "dismissal_name": null,
-            "dismissal_str": null,
-            "display_live_status": null,
-            "dots_faced": "0",
-            "fielding": [],
-            "fours": "0",
-            "is_out": "0",
-            "live_status": "",
-            "minutes": "0",
+            "live_status": "striker",
+            "minutes": "3",
             "player_id": "20227",
-            "runs": "0",
-            "sixes": "0",
-            "start_day": null,
-            "strike_rate": null
+            "runs": "13",
+            "sixes": "1",
+            "start_day": "1",
+            "strike_rate": "325.00"
           },
           {
             "balls_faced": "0",
@@ -367,22 +415,39 @@
           }
         ],
         "batting_team_id": "6",
-        "boundaries": "0",
+        "boundaries": "3",
         "bowling": [
           {
-            "balls": "1",
-            "bowling_economy_rate": "0.00",
+            "balls": "6",
+            "bowling_economy_rate": "14.00",
             "bowling_position": "1",
-            "conceded": "0",
-            "display_live_status": "current",
-            "dots": "1",
+            "conceded": "14",
+            "display_live_status": "previous",
+            "dots": "3",
             "fours_conceded": "0",
+            "live_status": "previous",
+            "maidens": "0",
+            "noballs": "1",
+            "overs": "1.0",
+            "player_id": "50464",
+            "sixes_conceded": "1",
+            "wickets": "1",
+            "wides": "1"
+          },
+          {
+            "balls": "3",
+            "bowling_economy_rate": "24.00",
+            "bowling_position": "2",
+            "conceded": "12",
+            "display_live_status": "current",
+            "dots": "0",
+            "fours_conceded": "1",
             "live_status": "current",
             "maidens": "0",
             "noballs": "0",
-            "overs": "0.1",
-            "player_id": "50464",
-            "sixes_conceded": "0",
+            "overs": "0.3",
+            "player_id": "58377",
+            "sixes_conceded": "1",
             "wickets": "0",
             "wides": "0"
           }
@@ -390,54 +455,80 @@
         "bowling_team_id": "4",
         "bowling_type": [
           {
-            "balls": "1",
+            "balls": "9",
             "bowling_type": "pace",
-            "conceded": "0",
-            "wickets": "0"
+            "conceded": "26",
+            "wickets": "1"
           }
         ],
         "bpo": "6",
         "byes": "0",
         "closure_id": "0",
         "closure_name": "",
-        "extras": "0",
+        "extras": "6",
         "fow": [
           {
-            "fow_ball_number": "1",
+            "fow_ball_number": "7",
             "fow_order": "0",
             "fow_over_number": "1",
-            "fow_overs": "0.1",
-            "fow_run_rate": "0.00",
-            "fow_runs": "0",
-            "fow_type": "complete",
-            "fow_wickets": "0",
-            "out_player_id": "0",
-            "partnership_balls": "1",
-            "partnership_dots": "1",
+            "fow_overs": "0.5",
+            "fow_run_rate": "15.60",
+            "fow_runs": "13",
+            "fow_type": "out",
+            "fow_wickets": "1",
+            "out_player_id": "65346",
+            "partnership_balls": "6",
+            "partnership_dots": "3",
             "partnership_fours": "0",
-            "partnership_high_score": "0*",
-            "partnership_overs": "0.1",
-            "partnership_run_rate": "0.00",
-            "partnership_runs": "0",
-            "partnership_sixes": "0",
+            "partnership_high_score": "13",
+            "partnership_overs": "1.0",
+            "partnership_run_rate": "13.00",
+            "partnership_runs": "13",
+            "partnership_sixes": "1",
             "partnership_wicket": "1",
-            "player1_balls": "1",
+            "player1_balls": "2",
+            "player1_id": "17613",
+            "player1_runs": "1",
+            "player2_balls": "4",
+            "player2_id": "65346",
+            "player2_runs": "6"
+          },
+          {
+            "fow_ball_number": "3",
+            "fow_order": "1",
+            "fow_over_number": "2",
+            "fow_overs": "1.3",
+            "fow_run_rate": "17.33",
+            "fow_runs": "26",
+            "fow_type": "complete",
+            "fow_wickets": "1",
+            "out_player_id": "0",
+            "partnership_balls": "4",
+            "partnership_dots": "0",
+            "partnership_fours": "1",
+            "partnership_high_score": "13*",
+            "partnership_overs": "0.4",
+            "partnership_run_rate": "19.50",
+            "partnership_runs": "13",
+            "partnership_sixes": "1",
+            "partnership_wicket": "2",
+            "player1_balls": "0",
             "player1_id": "17613",
             "player1_runs": "0",
-            "player2_balls": "0",
-            "player2_id": "65346",
-            "player2_runs": "0"
+            "player2_balls": "4",
+            "player2_id": "20227",
+            "player2_runs": "13"
           }
         ],
         "innings_number": "1",
         "innings_penalty_bonus": "0",
-        "lead": "0",
+        "lead": "26",
         "legbyes": "0",
         "live_status": "current",
-        "minutes": "0",
-        "noballs": "0",
+        "minutes": "9",
+        "noballs": "1",
         "over_limit": "9.0",
-        "overs": "0.1",
+        "overs": "1.3",
         "penalties": "0",
         "retirement": [],
         "reviews": {
@@ -459,19 +550,19 @@
           }
         },
         "run_breakdown": {
-          "dots": "1",
-          "fours": "0",
-          "ones": "0",
-          "sixes": "0",
+          "dots": "3",
+          "fours": "1",
+          "ones": "2",
+          "sixes": "2",
           "threes": "0",
-          "twos": "0"
+          "twos": "1"
         },
-        "run_rate": "0.00",
-        "runs": "0",
+        "run_rate": "17.33",
+        "runs": "26",
         "target": "0",
-        "total_balls_bowled": "1",
-        "wickets": "0",
-        "wides": "0"
+        "total_balls_bowled": "11",
+        "wickets": "1",
+        "wides": "5"
       }
     ],
     "match": {
@@ -553,7 +644,7 @@
       "rain_rule": "",
       "result_id": "0",
       "result_name": null,
-      "result_string": "India are 0 for 0 with 8.5 overs remaining",
+      "result_string": "India are 26 for 1 with 7.3 overs remaining",
       "resumption_time": null,
       "resumption_type_id": null,
       "resumption_type_name": null,
@@ -569,11 +660,13 @@
         "innings": [
           {
             "ball_limit": "54",
-            "balls": "1",
+            "balls": "9",
             "batting_team_id": "6",
             "closure_id": "0",
             "innings_number": "1",
-            "overs": "0.1"
+            "overs": "1.3",
+            "runs": "26",
+            "wickets": "1"
           },
           {
             "ball_limit": "54",
@@ -586,9 +679,9 @@
         ],
         "player": [
           {
-            "batting": "SV Samson 0* (1)\nA Sharma 0*",
+            "batting": "IP Kishan 13* (4)\nSV Samson 1* (2)",
             "batting_team_id": "6",
-            "bowling": "KMA Paul 0.1-0-0-0*",
+            "bowling": "KMA Paul 1-0-14-1\nRND Shepherd 0.3-0-12-0*",
             "innings_number": "1"
           },
           {
@@ -600,7 +693,7 @@
         ],
         "team": [
           {
-            "score": "0/0 (0.1/9 ov)",
+            "score": "26/1 (1.3/9 ov)",
             "team_id": "6"
           },
           {
