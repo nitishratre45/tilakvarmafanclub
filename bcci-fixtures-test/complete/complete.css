@@ -501,3 +501,22 @@ html body.complete-matches-page > header.topbar::after {
     content: none !important;
   }
 }
+
+
+/* Match Home's thin accent underline beneath the full-width navbar. */
+html body.complete-matches-page > header.topbar {
+  position: relative !important;
+  border-bottom: 0 !important;
+}
+html body.complete-matches-page > header.topbar::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset-inline: 0 !important;
+  bottom: 0 !important;
+  height: 2px !important;
+  background: linear-gradient(90deg, #ff8b58 0%, #ffb36e 28%, #65d9ee 52%, #ff8b58 100%) !important;
+  opacity: .95 !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
