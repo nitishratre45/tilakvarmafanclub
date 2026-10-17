@@ -202,7 +202,8 @@
         "/bcci-fixtures-test/recent-match/?team=" +
         encodeURIComponent(q.get("team") || match.teams[0]) +
         "&format=" +
-        encodeURIComponent(match.format);
+        encodeURIComponent(match.format) +
+        "#rm-list";
       const backLink = $("sc-back");
       backLink.href = recentResultsUrl;
       backLink.textContent = "← Back to Recent Results";
