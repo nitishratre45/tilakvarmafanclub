@@ -650,3 +650,27 @@ body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
 @media (max-width: 600px) {
   body.matches-page.match-details-page #sc-content > .sc-test-innings-nav { top: 154px !important; }
 }
+
+
+/* Final mobile sticky placement: keep innings tabs exactly below the fixed club header */
+body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
+  position: fixed !important;
+  top: 154px !important;
+  left: max(12px, calc((100vw - 760px) / 2)) !important;
+  right: max(12px, calc((100vw - 760px) / 2)) !important;
+  width: auto !important;
+  box-sizing: border-box !important;
+  z-index: 10001 !important;
+  margin: 0 !important;
+  border-radius: 0 0 16px 16px !important;
+}
+body.matches-page.match-details-page #sc-content > .sc-test-innings-nav + .sc-panel {
+  scroll-margin-top: 220px;
+}
+@media (max-width: 600px) {
+  body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
+    top: 154px !important;
+    left: 12px !important;
+    right: 12px !important;
+  }
+}
