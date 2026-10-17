@@ -733,27 +733,41 @@
             const normal = (value) =>
               String(value || "")
                 .toLowerCase()
+                .replace(/&/g, "and")
                 .replace(/[^a-z0-9]/g, "");
+            const normalDate = (value) => {
+              const raw = String(value || "").trim();
+              if (!raw) return "";
+              const iso = raw.match(/^(\\d{4}-\\d{2}-\\d{2})/);
+              if (iso) return iso[1];
+              const parsed = new Date(raw);
+              return Number.isNaN(parsed.getTime())
+                ? ""
+                : parsed.toISOString().slice(0, 10);
+            };
             const requestedTeam = normal(q.get("team") || "India");
             const requestedOpponent = normal(opponent);
+            const requestedDate = normalDate(date);
             const exact = rows.find((row) => {
-              const ids = [row.gid, row.match_gid, row.match_id, row.fixtureId, row.id].map((v) =>
-                String(v || "").trim(),
-              );
+              const ids = [
+                row.gid, row.match_gid, row.match_id, row.matchId, row.fixtureId, row.id,
+              ].map((v) => String(v || "").trim());
               if (matchId && ids.includes(String(matchId).trim())) return true;
-              const rowDate = String(
-                row.date || row.start_date || row.date_string || row.start_datetime_utc || "",
-              ).slice(0, 10);
+              const rowDate = normalDate(
+                row.start_date || row.date || row.end_date || row.start_datetime_utc || row.date_string,
+              );
               const teams = [
-                row.team1_name || row.team1_short_name || row.home_team_name || row.team1,
-                row.team2_name || row.team2_short_name || row.away_team_name || row.team2,
+                row.team1_name || row.team1_short_name || row.home_team_name || row.home_team_short_name || row.team1,
+                row.team2_name || row.team2_short_name || row.away_team_name || row.away_team_short_name || row.team2,
               ].map(normal);
+              const hasBothTeams =
+                teams.includes(requestedTeam) && teams.includes(requestedOpponent);
+              // BCCI date_string can be human-readable (e.g. "18 October 2026").
+              // Match the selected fixture by date and both teams, not by ID alone.
               return Boolean(
-                date &&
-                  opponent &&
-                  rowDate === String(date).slice(0, 10) &&
-                  teams.includes(requestedTeam) &&
-                  teams.includes(requestedOpponent),
+                opponent &&
+                  hasBothTeams &&
+                  (!requestedDate || !rowDate || rowDate === requestedDate),
               );
             });
             if (exact) {
