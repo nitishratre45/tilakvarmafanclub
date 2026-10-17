@@ -576,3 +576,62 @@ body.matches-page .sc-innings[hidden] { display: none !important; }
   body.matches-page .sc-test-innings-nav { top: 72px; margin-left: -2px; margin-right: -2px; }
   body.matches-page .sc-test-innings-tab { padding: 10px 12px; }
 }
+
+
+/* Test innings bar: horizontal, sticky directly below the fixed site header */
+body.matches-page.match-details-page #sc-content .sc-test-innings-nav {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 154px !important;
+  z-index: 80 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  gap: 8px !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding: 10px !important;
+  margin: 0 0 14px !important;
+  border: 1px solid rgba(125,190,255,.35) !important;
+  border-radius: 16px !important;
+  background: rgba(5,18,36,.97) !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,.25) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  scrollbar-width: none;
+}
+body.matches-page.match-details-page #sc-content .sc-test-innings-nav::-webkit-scrollbar { display: none; }
+body.matches-page.match-details-page #sc-content .sc-test-innings-nav .sc-test-innings-tab {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  min-height: 44px !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 10px 14px !important;
+  border: 1px solid rgba(143,188,228,.28) !important;
+  border-radius: 12px !important;
+  color: #c7d8ed !important;
+  background: #0b1d34 !important;
+  font: inherit !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+body.matches-page.match-details-page #sc-content .sc-test-innings-nav .sc-test-innings-tab.is-active {
+  color: #071426 !important;
+  border-color: #73dfff !important;
+  background: linear-gradient(135deg,#9be9ff,#65cfff) !important;
+  box-shadow: 0 4px 16px rgba(101,207,255,.2) !important;
+}
+@media (max-width: 600px) {
+  body.matches-page.match-details-page #sc-content .sc-test-innings-nav { top: 154px !important; }
+  body.matches-page.match-details-page #sc-content .sc-test-innings-nav .sc-test-innings-tab { padding: 10px 12px !important; }
+}
