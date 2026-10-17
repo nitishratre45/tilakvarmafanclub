@@ -176,16 +176,8 @@ def is_row(candidate: list[str], header: list[str]) -> bool:
         return False
     # Most BCCI fixtures include a serial number; some don't.
     return bool(ROW_NO_RE.fullmatch(candidate[0])) or (
-        bool(candidate)
-        and candidate[0].strip().lower()
-        in {
-            "monday",
-            "tuesday",
-            "wednesday",
-            "thursday",
-            "friday",
-            "saturday",
-            "sunday",
+        bool(candidate) and candidate[0].strip().lower() in {
+            "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"
         }
     )
 
