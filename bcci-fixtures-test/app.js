@@ -340,10 +340,20 @@
         const rawDate = String(f.date || "").slice(0, 10);
         const time = String(f.time || "00:00").match(/^(\\d{1,2}):(\\d{2})/);
         if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(rawDate)) return false;
-        const target = Date.parse(rawDate + "T" + (time ? time[1].padStart(2, "0") + ":" + time[2] : "00:00") + ":00+05:30");
-        return Number.isFinite(target) && target > now && !/live|completed|result|abandoned/i.test(String(f.status || ""));
+        const target = Date.parse(
+          rawDate + "T" + (time ? time[1].padStart(2, "0") + ":" + time[2] : "00:00") + ":00+05:30",
+        );
+        return (
+          Number.isFinite(target) &&
+          target > now &&
+          !/live|completed|result|abandoned/i.test(String(f.status || ""))
+        );
       })
-      .sort((a, b) => Date.parse(a.date + "T" + (a.time || "00:00") + ":00+05:30") - Date.parse(b.date + "T" + (b.time || "00:00") + ":00+05:30"))[0];
+      .sort(
+        (a, b) =>
+          Date.parse(a.date + "T" + (a.time || "00:00") + ":00+05:30") -
+          Date.parse(b.date + "T" + (b.time || "00:00") + ":00+05:30"),
+      )[0];
     if (!next) return;
     const host = $("fixtureList");
     if (!host) return;
@@ -356,14 +366,46 @@
     const banner = document.createElement("section");
     banner.id = "bcciNextMatchCountdown";
     banner.className = "bcci-next-countdown";
-    banner.innerHTML = '<div class="bcci-countdown-teams"><div class="bcci-countdown-side"><span>' + esc(next.home || "India") + '</span>' + renderTeam(next.home || "India") + '</div><div class="bcci-countdown-clock" role="timer" aria-label="Countdown to next match"><div><strong data-h>00</strong><small>HRS</small></div><div><strong data-m>00</strong><small>MINS</small></div><div><strong data-s>00</strong><small>SECS</small></div></div><div class="bcci-countdown-side"><span>' + esc(next.away || "Opponent") + '</span>' + renderTeam(next.away || "Opponent") + '</div></div><p class="bcci-countdown-title">' + esc(next.title || next.competition || "Upcoming match") + '</p><p class="bcci-countdown-meta">' + esc(fmt(next.date)) + (next.time ? ' · ' + esc(next.time) + ' IST' : '') + (next.venue ? ' · ' + esc(next.venue) : '') + '</p>';
+    banner.innerHTML =
+      '<div class="bcci-countdown-teams"><div class="bcci-countdown-side"><span>' +
+      esc(next.home || "India") +
+      "</span>" +
+      renderTeam(next.home || "India") +
+      '</div><div class="bcci-countdown-clock" role="timer" aria-label="Countdown to next match"><div><strong data-h>00</strong><small>HRS</small></div><div><strong data-m>00</strong><small>MINS</small></div><div><strong data-s>00</strong><small>SECS</small></div></div><div class="bcci-countdown-side"><span>' +
+      esc(next.away || "Opponent") +
+      "</span>" +
+      renderTeam(next.away || "Opponent") +
+      '</div></div><p class="bcci-countdown-title">' +
+      esc(next.title || next.competition || "Upcoming match") +
+      '</p><p class="bcci-countdown-meta">' +
+      esc(fmt(next.date)) +
+      (next.time ? " · " + esc(next.time) + " IST" : "") +
+      (next.venue ? " · " + esc(next.venue) : "") +
+      "</p>";
     host.parentNode.insertBefore(banner, host);
-    const targetTime = Date.parse(String(next.date).slice(0, 10) + "T" + ((String(next.time || "00:00").match(/^(\\d{1,2}):(\\d{2})/) || [,"00","00"])[1].padStart(2, "0")) + ":" + ((String(next.time || "00:00").match(/^(\\d{1,2}):(\\d{2})/) || [,"00","00"])[2]) + ":00+05:30");
+    const targetTime = Date.parse(
+      String(next.date).slice(0, 10) +
+        "T" +
+        (String(next.time || "00:00").match(/^(\\d{1,2}):(\\d{2})/) || [, "00", "00"])[1].padStart(
+          2,
+          "0",
+        ) +
+        ":" +
+        (String(next.time || "00:00").match(/^(\\d{1,2}):(\\d{2})/) || [, "00", "00"])[2] +
+        ":00+05:30",
+    );
     const tick = () => {
       const left = Math.max(0, targetTime - Date.now());
-      banner.querySelector("[data-h]").textContent = String(Math.floor(left / 3600000)).padStart(2, "0");
-      banner.querySelector("[data-m]").textContent = String(Math.floor((left % 3600000) / 60000)).padStart(2, "0");
-      banner.querySelector("[data-s]").textContent = String(Math.floor((left % 60000) / 1000)).padStart(2, "0");
+      banner.querySelector("[data-h]").textContent = String(Math.floor(left / 3600000)).padStart(
+        2,
+        "0",
+      );
+      banner.querySelector("[data-m]").textContent = String(
+        Math.floor((left % 3600000) / 60000),
+      ).padStart(2, "0");
+      banner.querySelector("[data-s]").textContent = String(
+        Math.floor((left % 60000) / 1000),
+      ).padStart(2, "0");
     };
     tick();
     countdownTimer = setInterval(tick, 1000);
