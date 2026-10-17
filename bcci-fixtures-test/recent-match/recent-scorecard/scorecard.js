@@ -155,11 +155,33 @@
         throw Error((lastError && lastError.message ? lastError.message + " " : "") +
           "Scorecard data could not be found. Check that the daily Cricsheet archive workflow has completed."); 
       }
-      $("sc-back").href =
+      const recentResultsUrl =
         "/bcci-fixtures-test/recent-match/?team=" +
         encodeURIComponent(q.get("team") || match.teams[0]) +
         "&format=" +
         encodeURIComponent(match.format);
+      const backLink = $("sc-back");
+      backLink.href = recentResultsUrl;
+      backLink.textContent = "← Back to Recent Results";
+      backLink.setAttribute("aria-label", "Back to Recent Match Results");
+      // If the scorecard was opened from Recent Results, restore that page (including its scroll position).
+      // Direct opens still have a reliable Recent Results URL as the fallback.
+      backLink.addEventListener("click", (event) => {
+        const referrer = document.referrer;
+        if (referrer) {
+          try {
+            const previous = new URL(referrer);
+            if (
+              previous.origin === location.origin &&
+              previous.pathname.replace(/\\/+$/, "/") === "/bcci-fixtures-test/recent-match/" &&
+              previous.pathname !== location.pathname
+            ) {
+              event.preventDefault();
+              history.back();
+            }
+          } catch (_) {}
+        }
+      });
       $("sc-loading").hidden = true;
       const teams = (match.teams || []).join(" vs ");
       $("sc-content").hidden = false;
