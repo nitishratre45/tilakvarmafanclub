@@ -101,7 +101,16 @@
       "</div></section>"
     );
   }
-  async function fetchWithTimeout(url, timeoutMs = 12000) {\n    const controller = new AbortController();\n    const timer = setTimeout(() => controller.abort(), timeoutMs);\n    try { return await fetch(url, { cache: "no-store", signal: controller.signal }); }\n    finally { clearTimeout(timer); }\n  }\n  async function init() {
+  async function fetchWithTimeout(url, timeoutMs = 12000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      return await fetch(url, { cache: "no-store", signal: controller.signal });
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  async function init() {
     if (!id) {
       $("sc-loading").hidden = true;
       $("sc-error").hidden = false;
