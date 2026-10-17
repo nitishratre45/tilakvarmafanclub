@@ -186,13 +186,28 @@ jobs:
           print("PASS: four exclusive Match Centre tabs; keyboard navigation; no stale results archive; unused modal assets removed.")
           PY
 
-      - name: Check deployed BCCI page
+      - name: Check deployed BCCI pages and exclusive tabs
         shell: bash
         run: |
           set -euo pipefail
           url="https://tilakvarmafc.pages.dev/bcci-fixtures-test/"
           code="$(curl -L -sS --max-time 25 -o /tmp/bcci-page.html -w '%{http_code}' "$url")"
-          echo "Deployed page HTTP status: $code"
+          echo "Deployed fixtures page HTTP status: $code"
           test "$code" = "200"
           grep -qi 'BCCI' /tmp/bcci-page.html
-          echo "Deployed BCCI test page returned HTTP 200 and contains BCCI branding."
+          score_url="https://tilakvarmafc.pages.dev/bcci-fixtures-test/bcci-scorecard-page.html?v=$GITHUB_SHA"
+          deployed=0
+          for attempt in 1 2 3 4 5 6; do
+            score_code="$(curl -L -sS --max-time 25 -o /tmp/bcci-scorecard-page.html -w '%{http_code}' "$score_url" || true)"
+            if [ "$score_code" = "200" ] && grep -Fq 'data-match-section="live-score"' /tmp/bcci-scorecard-page.html && grep -Fq 'data-match-panel="panel-live-score"' /tmp/bcci-scorecard-page.html; then
+              deployed=1
+              break
+            fi
+            echo "Waiting for deployed Match Centre tabs (attempt $attempt/6, HTTP $score_code)."
+            sleep 10
+          done
+          test "$deployed" = "1"
+          for section in live-score scorecard squads match-details; do
+            grep -Fq "data-match-section=\"$section\"" /tmp/bcci-scorecard-page.html
+          done
+          echo "PASS: deployed BCCI page is HTTP 200 and Match Centre contains all four exclusive sections."
