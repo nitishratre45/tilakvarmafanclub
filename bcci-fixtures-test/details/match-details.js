@@ -999,7 +999,7 @@
       // Load squads from the match-ID-specific snapshot written by fetch_bcci_squads.py.
       // The browser never calls the protected upstream squads API directly.
       let squadsSnapshot = null;
-      if (fixtureMatchId && /^\\d+$/.test(fixtureMatchId)) {
+      if (fixtureMatchId && /^\d+$/.test(fixtureMatchId)) {
         try {
           const squadResponse = await fetch(
             "/bcci-fixtures-test/squads/" +
