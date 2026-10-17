@@ -467,25 +467,21 @@
       // Read saved JSON snapshots only; do not call BCCI's API from the browser.
       // Keep the multi-megabyte historical BCCI results archive off the normal page load.
       // It is fetched only as a fallback for a fixture with a verified provider match ID.
-      const [
-        newsResponse,
-        statsResponse,
-        scorecardIndexResponse,
-        bcciFixturesResponse,
-      ] = await Promise.all([
-        fetch("/bcci-fixtures-test/bcci-fixtures.json?v=isolated-details1", {
-          cache: "no-store",
-        }).catch(() => null),
-        fetch("/bcci-fixtures-test/bcci-fixtures.json?v=isolated-details1", {
-          cache: "no-store",
-        }).catch(() => null),
-        fetch("/bcci-fixtures-test/scorecards/index.json?v=isolated-details1", {
-          cache: "no-store",
-        }).catch(() => null),
-        fetch("/bcci-fixtures-test/bcci-fixtures.json?v=20261017-bcci-fixtures1", {
-          cache: "no-store",
-        }).catch(() => null),
-      ]);
+      const [newsResponse, statsResponse, scorecardIndexResponse, bcciFixturesResponse] =
+        await Promise.all([
+          fetch("/bcci-fixtures-test/bcci-fixtures.json?v=isolated-details1", {
+            cache: "no-store",
+          }).catch(() => null),
+          fetch("/bcci-fixtures-test/bcci-fixtures.json?v=isolated-details1", {
+            cache: "no-store",
+          }).catch(() => null),
+          fetch("/bcci-fixtures-test/scorecards/index.json?v=isolated-details1", {
+            cache: "no-store",
+          }).catch(() => null),
+          fetch("/bcci-fixtures-test/bcci-fixtures.json?v=20261017-bcci-fixtures1", {
+            cache: "no-store",
+          }).catch(() => null),
+        ]);
       const snapshot =
         newsResponse && newsResponse.ok ? await newsResponse.json().catch(() => null) : null;
       const statsSnapshot =
@@ -912,7 +908,10 @@
       if (fixtureMatchId && /^\\d+$/.test(fixtureMatchId)) {
         try {
           const squadResponse = await fetch(
-            "/bcci-fixtures-test/squads/" + encodeURIComponent(fixtureMatchId) + ".json?v=" + Date.now(),
+            "/bcci-fixtures-test/squads/" +
+              encodeURIComponent(fixtureMatchId) +
+              ".json?v=" +
+              Date.now(),
             { cache: "no-store" },
           );
           if (squadResponse.ok) squadsSnapshot = await squadResponse.json().catch(() => null);
@@ -921,8 +920,19 @@
       const extractPlayerRows = (value, depth = 0) => {
         if (depth > 6 || value == null) return [];
         if (Array.isArray(value)) {
-          if (value.length && value.every((item) => item && typeof item === "object" &&
-            (item.player_name || item.player_known_as || item.name || item.full_name || item.player_id))) {
+          if (
+            value.length &&
+            value.every(
+              (item) =>
+                item &&
+                typeof item === "object" &&
+                (item.player_name ||
+                  item.player_known_as ||
+                  item.name ||
+                  item.full_name ||
+                  item.player_id),
+            )
+          ) {
             return value;
           }
           for (const item of value) {
@@ -932,7 +942,18 @@
           return [];
         }
         if (typeof value !== "object") return [];
-        for (const key of ["players", "player", "squad", "squads", "team_squad", "teamSquad", "data", "results", "items", "response"]) {
+        for (const key of [
+          "players",
+          "player",
+          "squad",
+          "squads",
+          "team_squad",
+          "teamSquad",
+          "data",
+          "results",
+          "items",
+          "response",
+        ]) {
           if (Object.prototype.hasOwnProperty.call(value, key)) {
             const found = extractPlayerRows(value[key], depth + 1);
             if (found.length) return found;
@@ -1068,9 +1089,12 @@
           const selectedTeams = [f.team, f.opponent].map(canonicalTeam).filter(Boolean);
           const renderLiveSnapshot = async () => {
             try {
-              const response = await fetch("/bcci-fixtures-test/live-matches.json?v=isolated-details1", {
-                cache: "no-store",
-              });
+              const response = await fetch(
+                "/bcci-fixtures-test/live-matches.json?v=isolated-details1",
+                {
+                  cache: "no-store",
+                },
+              );
               if (!response.ok) throw new Error("Live snapshot unavailable");
               const payload = await response.json();
               const liveRows = Array.isArray(payload.matches) ? payload.matches : [];
@@ -1612,10 +1636,7 @@
       $("details-source-links").innerHTML = [
         ...reviewedSources,
         sourceLink("Official match source", f.newsUrl || f.source),
-        sourceLink(
-          "BCCI match squads",
-          "https://www.bcci.tv/",
-        ),
+        sourceLink("BCCI match squads", "https://www.bcci.tv/"),
         sourceLink(
           "EllipseData squad source · India",
           "https://epr.ellipsedata.com/redirect/1/comp/9060/squads?team_id=6",
