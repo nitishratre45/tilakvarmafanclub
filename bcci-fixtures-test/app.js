@@ -398,196 +398,42 @@
     if (button) button.disabled = true;
     $("fixtureList").hidden = false;
     $("fixtureList").innerHTML =
-      '<div class="loading-state">Loading Tilak Varma squad-confirmed BCCI fixtures…</div>';
+      '<div class="loading-state">Loading BCCI fixtures…</div>';
     try {
-      // Read-only reuse of the Matches page's existing pipeline. Do not edit Matches files.
-      const [bcciResponse, confirmedResponse, statsResponse, liveResponse] = await Promise.all([
-        fetch("./bcci-fixtures.json?t=" + Date.now(), { cache: "no-store" }).catch(() => null),
-        fetch("/matches/upcoming-fixtures-refresh.json?t=" + Date.now(), {
-          cache: "no-store",
-        }).catch(() => null),
-        fetch("/matches/bcci-stats-fixtures.json?t=" + Date.now(), { cache: "no-store" }).catch(
-          () => null,
-        ),
-        fetch("./live-matches.json?t=" + Date.now(), { cache: "no-store" }).catch(
-          () => null,
-        ),
-      ]);
-      const bcciPayload = bcciResponse?.ok ? await bcciResponse.json().catch(() => null) : null;
-      const confirmedPayload = confirmedResponse?.ok
-        ? await confirmedResponse.json().catch(() => null)
-        : null;
-      const statsPayload = statsResponse?.ok ? await statsResponse.json().catch(() => null) : null;
-      const livePayload = liveResponse?.ok ? await liveResponse.json().catch(() => null) : null;
-      if (!bcciPayload) throw new Error("Could not load bcci-fixtures.json");
-      if (bcciPayload.status && bcciPayload.status !== "ok")
-        throw new Error(bcciPayload.error || "BCCI snapshot status: " + bcciPayload.status);
-
-      const norm = (value) =>
-        String(value || "")
-          .trim()
-          .toLowerCase()
-          .replace(/\s+/g, " ");
-      const normalMatch = (value) =>
-        String(value || "")
-          .trim()
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, " ")
-          .trim();
-      const bcciRoot = bcciPayload.data ?? bcciPayload;
-      const bcciMatches = Array.isArray(bcciRoot?.match)
-        ? bcciRoot.match
-        : Array.isArray(bcciRoot?.matches)
-          ? bcciRoot.matches
-          : [];
-      const savedLiveMatches = Array.isArray(livePayload?.matches) ? livePayload.matches.map((m) => ({
-        ...((m && typeof m.raw === "object" && m.raw) || {}),
-        id: m.id || m.gid || m.match_id,
-        team1_name: m.team1 || m.team1_name || m.team1Name,
-        team2_name: m.team2 || m.team2_name || m.team2Name,
-        team1_score: m.score1 || m.team1_score,
-        team2_score: m.score2 || m.team2_score,
-        match_status: m.status || m.match_status,
-        live_status_name: m.status || m.live_status_name,
-        name: m.match || m.name,
-        comp_name: m.series || m.comp_name,
-        ground_name: m.venue || m.ground_name,
-      })) : [];
-      renderLiveMatches(savedLiveMatches);
-      const liveMatches = [
-        ...savedLiveMatches,
-        ...bcciMatches.filter(isRelevantIndiaLiveMatch),
-      ];
-      const liveIds = new Set(
-        liveMatches.map((m) => norm(m.id || m.matchId || m.match_id || m.gid)).filter(Boolean),
-      );
-      const livePairKeys = new Set(
-        liveMatches
-          .map((m) => {
-            const a = norm(
-              m.team1 || m.team1_name || m.team1Name || m.homeTeam || m.team1_short_name,
-            );
-            const b = norm(
-              m.team2 || m.team2_name || m.team2Name || m.awayTeam || m.team2_short_name,
-            );
-            return [a, b].filter(Boolean).sort().join("|");
-          })
-          .filter((key) => key.includes("|")),
-      );
-      const statsFixtures =
-        statsPayload?.status === "updated-from-bcci-stats" && Array.isArray(statsPayload.fixtures)
-          ? statsPayload.fixtures
-          : [];
-      const newsFixtures =
-        confirmedPayload?.status === "updated-from-news-and-bcci-json" &&
-        Array.isArray(confirmedPayload.fixtures)
-          ? confirmedPayload.fixtures.filter(
-              (f) =>
-                f &&
-                f.tilakInSquad === true &&
-                f.confirmationSource === "BCCI squad announcement naming Tilak Varma" &&
-                String(f.newsUrl || "").startsWith("/News-details/index.html?id="),
-            )
-          : [];
-      const exactBcciFixture = (newsFixture) => {
-        const date = String(newsFixture.date || "");
-        const match = normalMatch(newsFixture.match);
-        const opponent = normalMatch(newsFixture.opponent);
-        if (!date || !match || !opponent) return null;
-        return (
-          statsFixtures.find(
-            (bcci) =>
-              String(bcci.date || "") === date &&
-              normalMatch(bcci.match) === match &&
-              [normalMatch(bcci.team), normalMatch(bcci.opponent)].includes("india") &&
-              [normalMatch(bcci.team), normalMatch(bcci.opponent)].includes(opponent) &&
-              new Set([normalMatch(bcci.team), normalMatch(bcci.opponent)]).size === 2,
-          ) || null
-        );
-      };
-
-      // Only show fixtures confirmed by the existing Matches pipeline, then require an exact BCCI date/match/opponent join.
-      const byKey = new Map();
-      newsFixtures.forEach((newsFixture) => {
-        const bcci = exactBcciFixture(newsFixture);
-        if (!bcci) return;
-        const ids = [
-          bcci.matchId,
-          bcci.match_id,
-          bcci.gid,
-          bcci.fixtureId,
-          bcci.id,
-          bcci.rawBcci?.match_id,
-          bcci.rawBcci?.gid,
-        ]
-          .map(norm)
-          .filter(Boolean);
-        const pair = [norm("India"), norm(bcci.opponent || newsFixture.opponent)].sort().join("|");
-        if (ids.some((id) => liveIds.has(id)) || livePairKeys.has(pair)) return;
-        const date = String(bcci.date || "");
-        const time = String(bcci.time || "").trim();
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
-        const today = new Intl.DateTimeFormat("en-CA", {
-          timeZone: "Asia/Kolkata",
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-        }).format(new Date());
-        if (date < today) return;
-        if (date === today && time) {
-          const startTime = Date.parse(date + "T" + time + ":00+05:30");
-          if (Number.isFinite(startTime) && startTime + 4 * 60 * 60 * 1000 <= Date.now()) return;
-        }
-        const key = [
-          date,
-          ...["India", bcci.opponent || newsFixture.opponent].map(normalMatch).sort(),
-        ].join("|");
-        if (!byKey.has(key)) {
-          byKey.set(key, {
-            home: bcci.team || "India",
-            away: bcci.opponent || newsFixture.opponent,
-            date,
-            time: bcci.time || "",
-            venue: bcci.venue || "",
-            competition: bcci.source
-              ? bcci.comp_name || bcci.competition || "BCCI Fixtures"
-              : bcci.comp_name || "BCCI Fixtures",
-            status: bcci.status || bcci.match_status || "forthcoming",
-            id: bcci.matchId || bcci.match_id || bcci.gid || "",
-            title: bcci.match || bcci.label || "",
-            result: "",
-            tilakConfirmed: true,
-            newsUrl: newsFixture.newsUrl || "",
-          });
-        }
+      // Fixture grid uses only bcci-fixtures.json. Live grid remains on its own
+      // independent live-matches.json polling pipeline below.
+      const response = await fetch("./bcci-fixtures.json?t=" + Date.now(), {
+        cache: "no-store",
       });
-      state.fixtures = [...byKey.values()].sort((a, b) => a.date.localeCompare(b.date));
-      const rawData = bcciPayload.data ?? bcciPayload;
-      const page = rawData.page ?? {};
+      if (!response.ok) throw new Error("Could not load bcci-fixtures.json");
+      const payload = await response.json();
+      if (payload.status && payload.status !== "ok") {
+        throw new Error(payload.error || "BCCI snapshot status: " + payload.status);
+      }
+
+      state.fixtures = normalise(payload).sort((a, b) => a.date.localeCompare(b.date));
+      const root = payload.data ?? payload;
+      const page = root.page ?? {};
       if ($("totalCount")) $("totalCount").textContent = state.fixtures.length;
-      if ($("pageCount"))
-        $("pageCount").textContent = page.last_page ?? statsPayload?.pagination?.last_page ?? 1;
+      if ($("pageCount")) $("pageCount").textContent = page.last_page ?? 1;
       if ($("lastUpdated"))
-        $("lastUpdated").textContent = bcciPayload.fetchedAt
-          ? fmt(bcciPayload.fetchedAt)
-          : statsPayload?.checkedAt
-            ? fmt(statsPayload.checkedAt)
-            : "Loaded";
+        $("lastUpdated").textContent = payload.fetchedAt ? fmt(payload.fetchedAt) : "Loaded";
       if ($("sourceStatus"))
-        $("sourceStatus").textContent =
-          "Squad confirmed · exact BCCI match · live/old fixtures excluded";
+        $("sourceStatus").textContent = "BCCI fixtures snapshot · live grid uses separate feed";
+
       const statuses = [...new Set(state.fixtures.map((f) => f.status).filter(Boolean))].sort();
       const filter = $("statusFilter");
-      const old = filter.value;
+      const previous = filter.value;
       filter.innerHTML =
         '<option value="all">All statuses</option>' +
-        statuses.map((s) => '<option value="' + esc(s) + '">' + esc(s) + "</option>").join("");
-      if (statuses.includes(old)) filter.value = old;
+        statuses.map((status) => '<option value="' + esc(status) + '">' + esc(status) + "</option>").join("");
+      if (statuses.includes(previous)) filter.value = previous;
       render();
+
       if (!state.fixtures.length) {
         $("fixtureList").hidden = false;
         $("fixtureList").innerHTML =
-          '<div class="loading-state">No upcoming BCCI fixture currently matches the Matches folder’s Tilak Varma squad-confirmation rules. No unconfirmed matches are shown.</div>';
+          '<div class="loading-state">No upcoming India men’s fixtures found in bcci-fixtures.json.</div>';
         $("emptyState").hidden = true;
       }
     } catch (error) {
