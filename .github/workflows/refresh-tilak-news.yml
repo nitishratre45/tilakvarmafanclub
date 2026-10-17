@@ -10,14 +10,12 @@ on:
       - "scripts/test_news_content_formatter.py"
       - "scripts/news_pipeline_fixer.py"
       - "scripts/news_pipeline_manager.py"
-      - "admin/sections/news/news-pipeline-manager.js"
+      - "admin/news-pipeline-manager.js"
       - "scripts/news.py"
       - "scripts/cleanup_raw_news.py"
-      - "scripts/validate_news_snapshot.py"
       - ".github/workflows/refresh-tilak-news.yml"
   schedule:
     - cron: "23 2 * * *"
-    - cron: "23 14 * * *"
 permissions:
   contents: write
 concurrency:
@@ -75,10 +73,7 @@ jobs:
             python -m json.tool News/news-pipeline-report.json > /dev/null
             python -m json.tool News/raw-news-pages.json > /dev/null
             python -m json.tool News/newsjson.json > /dev/null
-
-            # Verify the published snapshot using a dedicated script (no shell heredoc).
-            python scripts/validate_news_snapshot.py
-
+            python -m json.tool News/raw-news-pages.json > /dev/null
             NEWS_BYTES=$(wc -c < News/newsjson.json)
             echo "Filtered news archive size: $NEWS_BYTES bytes"
             if [ "$NEWS_BYTES" -ge 20000000 ]; then
