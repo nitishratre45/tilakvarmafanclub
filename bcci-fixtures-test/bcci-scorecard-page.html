@@ -33,36 +33,108 @@
         >
       </div>
       <nav class="match-section-tabs" aria-label="Match sections" role="tablist">
-        <button class="match-section-tab is-active" id="tab-live-score" type="button" role="tab" data-match-section="live-score" aria-controls="panel-live-score" aria-selected="true">▣ <span>Live Score</span></button>
-        <button class="match-section-tab" id="tab-scorecard" type="button" role="tab" data-match-section="scorecard" aria-controls="panel-scorecard" aria-selected="false" tabindex="-1">▤ <span>Scorecard</span></button>
-        <button class="match-section-tab" id="tab-squads" type="button" role="tab" data-match-section="squads" aria-controls="panel-squads" aria-selected="false" tabindex="-1">♟ <span>Squads</span></button>
-        <button class="match-section-tab" id="tab-match-details" type="button" role="tab" data-match-section="match-details" aria-controls="panel-match-details" aria-selected="false" tabindex="-1">ⓘ <span>Match Details</span></button>
+        <button
+          class="match-section-tab is-active"
+          id="tab-live-score"
+          type="button"
+          role="tab"
+          data-match-section="live-score"
+          aria-controls="panel-live-score"
+          aria-selected="true"
+        >
+          ▣ <span>Live Score</span>
+        </button>
+        <button
+          class="match-section-tab"
+          id="tab-scorecard"
+          type="button"
+          role="tab"
+          data-match-section="scorecard"
+          aria-controls="panel-scorecard"
+          aria-selected="false"
+          tabindex="-1"
+        >
+          ▤ <span>Scorecard</span>
+        </button>
+        <button
+          class="match-section-tab"
+          id="tab-squads"
+          type="button"
+          role="tab"
+          data-match-section="squads"
+          aria-controls="panel-squads"
+          aria-selected="false"
+          tabindex="-1"
+        >
+          ♟ <span>Squads</span>
+        </button>
+        <button
+          class="match-section-tab"
+          id="tab-match-details"
+          type="button"
+          role="tab"
+          data-match-section="match-details"
+          aria-controls="panel-match-details"
+          aria-selected="false"
+          tabindex="-1"
+        >
+          ⓘ <span>Match Details</span>
+        </button>
       </nav>
       <div class="eyebrow">OFFICIAL BCCI DATA SNAPSHOT</div>
       <h1 id="title">BCCI Match Scorecard</h1>
       <p id="meta" class="muted">Loading saved scorecard JSON…</p>
       <div id="status" class="status" aria-live="polite">Loading…</div>
-      <section class="match-section-panel is-active" id="panel-live-score" data-match-panel="live-score" role="tabpanel" aria-labelledby="tab-live-score">
+      <section
+        class="match-section-panel is-active"
+        id="panel-live-score"
+        data-match-panel="live-score"
+        role="tabpanel"
+        aria-labelledby="tab-live-score"
+      >
         <h2 class="match-section-title">Live Score</h2>
         <section id="top-scoreboard" class="top-scoreboard" aria-label="Both teams live score">
           <div class="scoreboard-loading">Loading both teams’ scores…</div>
         </section>
       </section>
-      <section class="match-section-panel" id="panel-scorecard" data-match-panel="scorecard" role="tabpanel" aria-labelledby="tab-scorecard" hidden>
+      <section
+        class="match-section-panel"
+        id="panel-scorecard"
+        data-match-panel="scorecard"
+        role="tabpanel"
+        aria-labelledby="tab-scorecard"
+        hidden
+      >
         <h2 class="match-section-title">Scorecard</h2>
         <div id="scorecard"></div>
       </section>
-      <section class="match-section-panel" id="panel-squads" data-match-panel="squads" role="tabpanel" aria-labelledby="tab-squads" hidden>
+      <section
+        class="match-section-panel"
+        id="panel-squads"
+        data-match-panel="squads"
+        role="tabpanel"
+        aria-labelledby="tab-squads"
+        hidden
+      >
         <h2 class="match-section-title">Squads &amp; Playing XI</h2>
         <div id="match-squads"></div>
       </section>
-      <section class="match-section-panel" id="panel-match-details" data-match-panel="match-details" role="tabpanel" aria-labelledby="tab-match-details" hidden>
+      <section
+        class="match-section-panel"
+        id="panel-match-details"
+        data-match-panel="match-details"
+        role="tabpanel"
+        aria-labelledby="tab-match-details"
+        hidden
+      >
         <h2 class="match-section-title">Match Details</h2>
         <div id="match-details"></div>
         <p class="source">
           Source:
-          <a href="https://stats.bcci.tv/match/" target="_blank" rel="noopener">BCCI official scorecard</a>.
-          Detailed batting and bowling rows appear when a matching full BCCI scorecard snapshot is available.
+          <a href="https://stats.bcci.tv/match/" target="_blank" rel="noopener"
+            >BCCI official scorecard</a
+          >. Detailed batting and bowling rows appear when a matching full BCCI scorecard snapshot
+          is available.
         </p>
       </section>
     </main>

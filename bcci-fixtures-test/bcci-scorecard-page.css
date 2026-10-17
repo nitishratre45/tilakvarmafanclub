@@ -955,7 +955,6 @@ h1 {
   }
 }
 
-
 /* Match Centre section switcher: one panel visible at a time, accessible on desktop and mobile. */
 .match-section-tabs {
   position: sticky;
@@ -968,10 +967,10 @@ h1 {
   scrollbar-width: thin;
   padding: 10px;
   margin: 18px 0 22px;
-  border: 1px solid rgba(142, 217, 255, .18);
+  border: 1px solid rgba(142, 217, 255, 0.18);
   border-radius: 16px;
-  background: rgba(7, 17, 31, .94);
-  box-shadow: 0 12px 34px rgba(0, 0, 0, .2);
+  background: rgba(7, 17, 31, 0.94);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(16px);
 }
 .match-section-tab {
@@ -989,18 +988,22 @@ h1 {
   font-size: 13px;
   font-weight: 800;
   white-space: nowrap;
-  transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease;
+  transition:
+    color 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
 }
 .match-section-tab:hover {
   color: var(--text);
-  border-color: rgba(142, 217, 255, .25);
+  border-color: rgba(142, 217, 255, 0.25);
   transform: translateY(-1px);
 }
 .match-section-tab.is-active {
   color: #061626;
   border-color: transparent;
   background: linear-gradient(120deg, var(--mint), #8ed9ff);
-  box-shadow: 0 5px 18px rgba(120, 226, 182, .16);
+  box-shadow: 0 5px 18px rgba(120, 226, 182, 0.16);
 }
 .match-section-tab:focus-visible {
   outline: 3px solid #fff;
@@ -1010,11 +1013,11 @@ h1 {
   min-width: 0;
   margin: 0 0 24px;
   padding: clamp(16px, 2.6vw, 28px);
-  border: 1px solid rgba(142, 217, 255, .16);
+  border: 1px solid rgba(142, 217, 255, 0.16);
   border-radius: 20px;
-  background: linear-gradient(145deg, rgba(13, 28, 46, .96), rgba(7, 17, 31, .98));
-  box-shadow: 0 18px 48px rgba(0, 0, 0, .16);
-  animation: match-section-enter .18s ease-out;
+  background: linear-gradient(145deg, rgba(13, 28, 46, 0.96), rgba(7, 17, 31, 0.98));
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.16);
+  animation: match-section-enter 0.18s ease-out;
 }
 .match-section-panel[hidden] {
   display: none !important;
@@ -1022,8 +1025,10 @@ h1 {
 .match-section-title {
   margin: 0 0 18px;
   color: var(--text);
-  font: 800 clamp(20px, 3vw, 28px)/1.2 "Space Grotesk", sans-serif;
-  letter-spacing: -.03em;
+  font:
+    800 clamp(20px, 3vw, 28px) / 1.2 "Space Grotesk",
+    sans-serif;
+  letter-spacing: -0.03em;
 }
 .match-section-panel .top-scoreboard,
 .match-section-panel #scorecard,
@@ -1038,8 +1043,14 @@ h1 {
   line-height: 1.6;
 }
 @keyframes match-section-enter {
-  from { opacity: .72; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0.72;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @media (max-width: 640px) {
   .match-section-tabs {
@@ -1061,6 +1072,10 @@ h1 {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .match-section-panel { animation: none; }
-  .match-section-tab { transition: none; }
+  .match-section-panel {
+    animation: none;
+  }
+  .match-section-tab {
+    transition: none;
+  }
 }

@@ -489,7 +489,8 @@
     tab.addEventListener("keydown", (event) => {
       let nextIndex = index;
       if (event.key === "ArrowRight") nextIndex = (index + 1) % sectionTabs.length;
-      else if (event.key === "ArrowLeft") nextIndex = (index - 1 + sectionTabs.length) % sectionTabs.length;
+      else if (event.key === "ArrowLeft")
+        nextIndex = (index - 1 + sectionTabs.length) % sectionTabs.length;
       else if (event.key === "Home") nextIndex = 0;
       else if (event.key === "End") nextIndex = sectionTabs.length - 1;
       else return;
