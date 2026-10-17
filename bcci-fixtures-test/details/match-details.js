@@ -205,12 +205,12 @@
         return (
           '<div class="details-player-row"><span class="details-player-avatar">' +
           (safeImage
-            ? '<img src="' +
-              esc(safeImage) +
-              '" alt="" loading="lazy" decoding="async"><span style="display:none">' +
+            ? '<span class="details-player-initials" aria-hidden="true">' +
               esc(initials) +
-              "</span>"
-            : esc(initials)) +
+              '</span><img src="' +
+              esc(safeImage) +
+              '" alt="" loading="lazy" decoding="async">'
+            : '<span class="details-player-initials" aria-hidden="true">' + esc(initials) + '</span>') +
           '</span><span class="details-player-copy"><strong>' +
           esc(n) +
           "</strong><small>" +
@@ -224,8 +224,8 @@
         "error",
         () => {
           img.remove();
-          const fallback = img.parentElement?.querySelector("span");
-          if (fallback) fallback.style.display = "inline";
+          const avatar = img.parentElement;
+          if (avatar) avatar.classList.add("has-no-player-image");
         },
         { once: true },
       );
