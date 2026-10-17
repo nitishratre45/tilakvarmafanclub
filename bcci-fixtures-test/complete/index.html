@@ -10,23 +10,23 @@
       href="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png"
     />
     <title>Complete Matches | Tilak Varma Fan Club · Matches</title>
-    <link rel="stylesheet" href="/matches/matches.css?v=20261017-complete-bg-menu4" />
+    <link rel="stylesheet" href="/matches/matches.css?v=20261017-complete-upcoming-parity5" />
     <link rel="stylesheet" href="/matches/premium-ui.css?v=20261014-complete-folder1" />
-    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-bg-menu4" />
-    <link rel="stylesheet" href="./complete.css?v=20261017-complete-bg-menu4" />
-    <link rel="stylesheet" href="../ui/site-nav.css?v=20261017-complete-bg-menu4" />
+    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-upcoming-parity5" />
+    <link rel="stylesheet" href="./complete.css?v=20261017-complete-upcoming-parity5" />
+    <link rel="stylesheet" href="../ui/site-nav.css?v=20261017-complete-upcoming-parity5" />
 
     <!-- Shared main-site visual system: header, glass menu, dock, responsive layout and motion. -->
-    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261017-complete-bg-menu4" />
-    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261017-complete-bg-menu4" />
-    <link rel="stylesheet" href="/assets/mobile-bottom-nav.css?v=20261017-complete-bg-menu4" />
+    <link rel="stylesheet" href="/assets/mobile-glass-menu.css?v=20261017-complete-upcoming-parity5" />
+    <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261017-complete-upcoming-parity5" />
+    <link rel="stylesheet" href="/assets/mobile-bottom-nav.css?v=20261017-complete-upcoming-parity5" />
     <link
       rel="stylesheet"
-      href="/assets/mobile-responsive-polish.css?v=20261017-complete-bg-menu4"
+      href="/assets/mobile-responsive-polish.css?v=20261017-complete-upcoming-parity5"
     />
-    <link rel="stylesheet" href="/assets/custom-selects.css?v=20261017-complete-bg-menu4" />
-    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261017-complete-bg-menu4" />
-    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-bg-menu4" />
+    <link rel="stylesheet" href="/assets/custom-selects.css?v=20261017-complete-upcoming-parity5" />
+    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261017-complete-upcoming-parity5" />
+    <link rel="stylesheet" href="/matches/match-centre.css?v=20261017-complete-upcoming-parity5" />
 
     <style>
       /* Match the Upcoming page header: no extra divider line under the shared masthead. */
@@ -40,10 +40,18 @@
       }
       /* Keep the Complete Matches shell identical to the Upcoming Matches header. */
       @media (max-width: 800px) {
+        html,
         html body.complete-matches-page {
+          width: 100% !important;
+          min-height: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
           background:
             radial-gradient(ellipse at 80% -10%, #173556 0, transparent 42%),
             #0b1726 !important;
+        }
+        html body.complete-matches-page {
+          overflow-x: hidden !important;
         }
         html body.complete-matches-page::before {
           content: none !important;
@@ -56,13 +64,17 @@
         }
         html body.complete-matches-page > header.topbar {
           position: sticky !important;
+          top: 0 !important;
+          z-index: 10000 !important;
           display: flex !important;
           width: 100% !important;
+          max-width: none !important;
           min-height: 74px !important;
           box-sizing: border-box !important;
           margin: 0 !important;
-          padding: 9px 18px !important;
-          background: linear-gradient(105deg, #052552 0%, #0b5fc4 54%, #083a7b 100%) !important;
+          padding: 9px 20px !important;
+          border-radius: 0 !important;
+          background: linear-gradient(110deg, #0b5fc4 0%, #0755ad 55%, #064994 100%) !important;
           border-bottom: 1px solid rgba(124, 229, 242, .5) !important;
           box-shadow: 0 8px 24px rgba(0, 22, 65, .22), 0 1px 0 rgba(255, 124, 69, .35) !important;
         }
@@ -238,7 +250,7 @@
     <script src="../ui/site-nav.js?v=20261016-glass-match1"></script>
     <script src="./complete.js?v=20261016-bcci-complete1"></script>
 
-    <script src="/assets/mobile-glass-menu.js?v=20261017-complete-bg-menu4" defer></script>
-    <script src="/assets/mobile-bottom-nav.js?v=20261017-complete-bg-menu4" defer></script>
+    <script src="/assets/mobile-glass-menu.js?v=20261017-complete-upcoming-parity5" defer></script>
+    <script src="/assets/mobile-bottom-nav.js?v=20261017-complete-upcoming-parity5" defer></script>
   </body>
 </html>
