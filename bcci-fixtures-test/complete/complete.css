@@ -319,3 +319,39 @@
 .bcci-view-tabs .match-centre-tab:active {
   text-decoration: none !important;
 }
+
+/* Home-matched navbar + remove top black gap on BCCI Complete Matches only */
+html:has(body.complete-matches-page), body.complete-matches-page {
+  margin:0!important; padding:0!important; min-height:100vh;
+  background:radial-gradient(ellipse at 10% 0%,#12395a88 0,transparent 36%),radial-gradient(ellipse at 95% 12%,#143b3180 0,transparent 28%),#07111f!important;
+}
+body.complete-matches-page>header.topbar {
+  width:100%!important;max-width:none!important;height:76px!important;min-height:76px!important;
+  margin:0!important;padding:0 max(22px,calc((100% - 1420px)/2))!important;
+  border:0!important;border-bottom:1px solid rgba(124,229,242,.5)!important;border-radius:0!important;
+  background:linear-gradient(110deg,#082b56 0%,#0b5fc4 52%,#08366c 100%)!important;
+  box-shadow:0 2px 0 rgba(255,124,69,.24)!important;display:flex!important;align-items:center!important;
+  justify-content:space-between!important;position:sticky!important;top:0!important;z-index:1000!important;box-sizing:border-box!important;
+}
+body.complete-matches-page>header.topbar .brand{flex:0 0 auto!important;min-width:220px;color:#fff!important}
+body.complete-matches-page>header.topbar .brand-mark{width:54px!important;height:54px!important;flex:0 0 54px!important;overflow:hidden;border:1px solid #7d9bb9!important;border-radius:15px!important;background:#09213b!important;box-shadow:none!important}
+body.complete-matches-page>header.topbar .brand-mark img{width:100%;height:100%;object-fit:cover}
+body.complete-matches-page>header.topbar #main-nav{display:flex!important;align-items:center!important;justify-content:flex-end!important;flex:1 1 auto!important;gap:clamp(12px,1.35vw,24px)!important;min-width:0;margin:0 0 0 auto!important;padding:0!important;position:static!important;background:transparent!important;border:0!important;box-shadow:none!important}
+body.complete-matches-page>header.topbar #main-nav a{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:76px!important;padding:0 0 2px!important;margin:0!important;white-space:nowrap!important;color:#f5f8ff!important;font-size:13px!important;font-weight:700!important;line-height:1!important;text-decoration:none!important;border:0!important;border-bottom:2px solid transparent!important;border-radius:0!important;background:transparent!important}
+body.complete-matches-page>header.topbar #main-nav a:hover,body.complete-matches-page>header.topbar #main-nav a[aria-current="page"]{color:#fff!important;border-bottom-color:#ff8b53!important}
+body.complete-matches-page>header.topbar .menu-toggle{display:none!important}
+body.complete-matches-page>.match-centre-controls.bcci-view-tabs{width:min(100% - 32px,1120px)!important;max-width:1120px!important;margin:22px auto 26px!important;padding:0!important}
+body.complete-matches-page>.match-centre-controls.bcci-view-tabs .match-centre-tabs{width:100%!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;padding:8px!important;border:1px solid #29445f!important;border-radius:20px!important;background:linear-gradient(135deg,#0c1b2d,#101a2a)!important;box-sizing:border-box!important}
+body.complete-matches-page>.match-centre-controls.bcci-view-tabs .match-centre-tab{display:flex!important;align-items:center!important;justify-content:center!important;min-height:58px!important;margin:0!important;padding:14px 20px!important;border:1px solid transparent!important;border-radius:13px!important;text-align:center!important;text-decoration:none!important;font-size:clamp(14px,1vw,17px)!important;font-weight:800!important;line-height:1.25!important;box-sizing:border-box!important}
+body.complete-matches-page>.match-centre-controls.bcci-view-tabs .match-centre-tab.is-active{color:#fff!important;border-color:#3d83d3!important;background:linear-gradient(110deg,#1263c5,#174f91)!important}
+body.complete-matches-page>main.complete-page-main{margin-top:0!important;padding-top:18px!important}
+@media(max-width:800px){
+ body.complete-matches-page>header.topbar{position:relative!important;height:74px!important;min-height:74px!important;padding:9px 20px!important}
+ body.complete-matches-page>header.topbar .brand-mark{width:48px!important;height:48px!important;flex-basis:48px!important}
+ body.complete-matches-page>header.topbar #main-nav{display:none!important}
+ body.complete-matches-page>header.topbar .menu-toggle{display:flex!important}
+ body.complete-matches-page>.match-centre-controls.bcci-view-tabs{width:calc(100% - 20px)!important;margin:14px auto 20px!important}
+ body.complete-matches-page>.match-centre-controls.bcci-view-tabs .match-centre-tabs{gap:8px!important;padding:6px!important;border-radius:15px!important}
+ body.complete-matches-page>.match-centre-controls.bcci-view-tabs .match-centre-tab{min-height:48px!important;padding:11px 8px!important;font-size:13px!important}
+}
+@media(max-width:380px){body.complete-matches-page>header.topbar{padding-inline:10px!important}body.complete-matches-page>.match-centre-controls.bcci-view-tabs .match-centre-tab{padding-inline:5px!important;font-size:12px!important}}
