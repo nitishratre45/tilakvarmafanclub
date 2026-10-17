@@ -995,18 +995,32 @@
         return [];
       };
       const responseTeams = squadsSnapshot?.teams || {};
-      const savedSquads = [
-        {
-          teamId: String(responseTeams.team1?.team_id || squadsSnapshot?.match?.team1_id || ""),
-          teamName: String(squadsSnapshot?.match?.team1_name || ""),
-          players: extractPlayerRows(responseTeams.team1?.response),
-        },
-        {
-          teamId: String(responseTeams.team2?.team_id || squadsSnapshot?.match?.team2_id || ""),
-          teamName: String(squadsSnapshot?.match?.team2_name || ""),
-          players: extractPlayerRows(responseTeams.team2?.response),
-        },
-      ];
+      // Ellipse returns multiple squad classes inside response.teams (for example
+      // T20I, ODI, and wider squad lists). Keep each class as a separate candidate
+      // so the match format can select the correct complete player list and portraits.
+      const savedSquads = ["team1", "team2"].flatMap((slot) => {
+        const savedTeam = responseTeams[slot] || {};
+        const response = savedTeam.response || {};
+        const teams = Array.isArray(response.teams) ? response.teams : [];
+        if (teams.length) {
+          return teams.map((entry) => ({
+            teamId: String(entry.team_id || savedTeam.team_id || ""),
+            teamName: String(entry.team_name || squadsSnapshot?.match?.[slot + "_name"] || ""),
+            classId: String(entry.squad_class_id ?? entry.class_id ?? response.class_id ?? ""),
+            teamLogo: entry.logo_url || "",
+            teamFlag: entry.flag_url || "",
+            players: Array.isArray(entry.players) ? entry.players : extractPlayerRows(entry),
+          }));
+        }
+        return [{
+          teamId: String(savedTeam.team_id || squadsSnapshot?.match?.[slot + "_id"] || ""),
+          teamName: String(squadsSnapshot?.match?.[slot + "_name"] || ""),
+          classId: String(response.class_id || ""),
+          teamLogo: "",
+          teamFlag: "",
+          players: extractPlayerRows(response),
+        }];
+      });
       const squadCheckedAt = squadsSnapshot?.fetched_at_utc || "";
       // Live scoreboard waits for the official ID; never substitute by date/team.
       const exactScorecardById = fixtureMatchId
