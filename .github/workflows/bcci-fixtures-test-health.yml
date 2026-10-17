@@ -153,6 +153,34 @@ jobs:
           ! grep -Eqi 'Live Scores|Results tab' bcci-fixtures-test/complete/index.html
           echo "Matches navigation, upcoming/completed views, and removal of obsolete Live/Results tabs verified."
 
+      - name: Test Match Centre exclusive section tabs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          root = Path("bcci-fixtures-test")
+          page = (root / "bcci-scorecard-page.html").read_text(encoding="utf-8")
+          js = (root / "bcci-scorecard-page.js").read_text(encoding="utf-8")
+          css = (root / "bcci-scorecard-page.css").read_text(encoding="utf-8")
+          names = ("live-score", "scorecard", "squads", "match-details")
+          for name in names:
+              assert f'data-match-section="{name}"' in page, f"missing {name} tab"
+              assert f'data-match-panel="{name}"' in page, f"missing {name} panel"
+              assert f'aria-controls="panel-{name}"' in page, f"missing aria-controls for {name}"
+          assert page.count('class="match-section-panel is-active"') == 1, "exactly one panel must be active on first render"
+          assert page.count('class="match-section-panel"') == 3, "the other three panels must start inactive"
+          for panel_id in ("panel-live-score", "panel-scorecard", "panel-squads", "panel-match-details"):
+              assert f'id="{panel_id}"' in page, f"missing panel ID {panel_id}"
+          assert 'function activateMatchSection(name' in js, "section switching function missing"
+          assert 'item.hidden = !active' in js, "inactive panels are not hidden"
+          assert 'aria-selected' in js and 'ArrowRight' in js and 'ArrowLeft' in js, "tab keyboard accessibility missing"
+          assert '.match-section-panel[hidden]' in css, "hidden panel CSS guard missing"
+          assert './results/results.json' not in js, "stale removed results folder is still referenced"
+          print("PASS: four Match Centre tabs; exactly one initial panel; inactive panels hidden; keyboard navigation and stale results reference checked.")
+          PY
+
       - name: Check deployed BCCI page
         shell: bash
         run: |
