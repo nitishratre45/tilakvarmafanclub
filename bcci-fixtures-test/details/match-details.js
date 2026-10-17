@@ -467,7 +467,7 @@
       // Read saved JSON snapshots only; do not call BCCI's API from the browser.
       // Keep the multi-megabyte historical BCCI results archive off the normal page load.
       // It is fetched only as a fallback for a fixture with a verified provider match ID.
-      const [newsResponse, statsResponse, squadsResponse, scorecardIndexResponse] =
+      const [newsResponse, statsResponse, squadsResponse, scorecardIndexResponse, bcciFixturesResponse] =
         await Promise.all([
           fetch("/matches/upcoming-fixtures-refresh.json?v=20261015-details3", {
             cache: "no-store",
@@ -481,6 +481,9 @@
           fetch("/matches/scorecards/index.json?v=20261015-full-scoreboard1", {
             cache: "no-store",
           }).catch(() => null),
+          fetch("/bcci-fixtures-test/bcci-fixtures.json?v=20261017-bcci-fixtures1", {
+            cache: "no-store",
+          }).catch(() => null),
         ]);
       const snapshot =
         newsResponse && newsResponse.ok ? await newsResponse.json().catch(() => null) : null;
@@ -492,6 +495,35 @@
         scorecardIndexResponse && scorecardIndexResponse.ok
           ? await scorecardIndexResponse.json().catch(() => null)
           : null;
+      const bcciFixturesSnapshot =
+        bcciFixturesResponse && bcciFixturesResponse.ok
+          ? await bcciFixturesResponse.json().catch(() => null)
+          : null;
+      const bcciFixtureRows = Array.isArray(bcciFixturesSnapshot?.data?.match)
+        ? bcciFixturesSnapshot.data.match
+        : Array.isArray(bcciFixturesSnapshot?.data?.matches)
+          ? bcciFixturesSnapshot.data.matches
+          : [];
+      const bcciFixtures = bcciFixtureRows.map((row) => {
+        const side1 = String(row.team1_name || row.team1_short_name || "").trim();
+        const side2 = String(row.team2_name || row.team2_short_name || "").trim();
+        const indiaIsSide1 = side1.toLowerCase() === "india";
+        const indiaIsSide2 = side2.toLowerCase() === "india";
+        return {
+          matchId: String(row.match_id || "").trim(),
+          match_id: String(row.match_id || "").trim(),
+          gid: String(row.gid || "").trim(),
+          fixtureId: String(row.gid || "").trim(),
+          date: String(row.start_date || row.date_string || "").trim(),
+          match: String(row.match_short_name || row.title || row.comp_name || "Match").trim(),
+          team: indiaIsSide1 || indiaIsSide2 ? "India" : side1,
+          opponent: indiaIsSide1 ? side2 : indiaIsSide2 ? side1 : side2,
+          venue: String(row.ground_name || row.ground_short_name || row.ground_city || "").trim(),
+          time: String(row.start_time_local || "").trim(),
+          tilakInSquad: false,
+          rawBcci: row,
+        };
+      });
       let manual = { matches: [] };
       try {
         const mr = await fetch(
@@ -520,7 +552,7 @@
         return [String(x.date || "").trim(), ...sides].join("|");
       };
       const byKey = new Map();
-      [...statsFixtures, ...newsFixtures].forEach((x) => {
+      [...statsFixtures, ...newsFixtures, ...bcciFixtures].forEach((x) => {
         const k = fixtureKey(x);
         const current = byKey.get(k);
         if (!current) {
