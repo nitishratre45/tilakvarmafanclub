@@ -279,6 +279,12 @@
           if (!row) return "";
           const runs = row.runs ?? row.total_runs ?? row.score;
           if (runs == null) return "";
+          const balls = Number(row.balls ?? row.balls_faced ?? 0);
+          const numericRuns = Number(runs);
+          const numericWickets = Number(row.wickets ?? 0);
+          // BCCI may publish empty innings as 0/0 at a delayed start.
+          // Do not present that placeholder as a real live score.
+          if (balls === 0 && numericRuns === 0 && numericWickets === 0) return "";
           return (
             String(runs) +
             (row.wickets != null ? "/" + row.wickets : "") +
@@ -303,7 +309,7 @@
         const venue = [m.ground_name, m.ground_city].filter(Boolean).join(", ");
         return (
           '<article class="fixture-card upcoming-match-card live-match-card">' +
-          '<div class="upcoming-card-top"><span class="live-now-pill"><i></i> LIVE NOW</span><span class="upcoming-date">' +
+          '<div class="upcoming-card-top"><span class="live-now-pill"><i></i> LIVE STATUS</span><span class="upcoming-date">' +
           esc(fmt(pick(m, ["date_string", "start_date", "date"]))) +
           "</span></div>" +
           '<div class="upcoming-teams"><div class="upcoming-team">' +
@@ -345,8 +351,8 @@
       const isoDateTime = (value) => {
         if (!value) return NaN;
         const normalised = value.includes("T") ? value : value.replace(" ", "T");
-        if (!/^\\d{4}-\\d{2}-\\d{2}T/.test(normalised)) return NaN;
-        const withZone = /(?:Z|[+-]\\d{2}:?\\d{2})$/i.test(normalised)
+        if (!/^\d{4}-\d{2}-\d{2}T/.test(normalised)) return NaN;
+        const withZone = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(normalised)
           ? normalised
           : normalised + "+05:30";
         const parsed = Date.parse(withZone);
@@ -359,8 +365,8 @@
       if (Number.isFinite(fullFromDate)) return fullFromDate;
 
       const date = dateValue.slice(0, 10);
-      if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date)) return NaN;
-      const clock = timeValue.match(/^(\\d{1,2}):(\\d{2})(?::(\\d{2}))?\\s*(AM|PM)?$/i);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return NaN;
+      const clock = timeValue.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?$/i);
       if (!clock) return Date.parse(date + "T00:00:00+05:30");
 
       let hours = Number(clock[1]);
@@ -456,7 +462,7 @@
           '<article class="fixture-card upcoming-match-card">' +
           '<div class="upcoming-card-top"><span class="upcoming-date">◷ ' +
           esc(fmt(f.date)) +
-          '</span><span class="squad-confirmed"><i aria-hidden="true"></i> TILAK IN SQUAD</span></div>' +
+          '</span><span class="squad-confirmed"><i aria-hidden="true"></i> INDIA MEN’S FIXTURE</span></div>' +
           '<div class="upcoming-teams"><div class="upcoming-team">' +
           renderTeam(f.home) +
           '</div><span class="upcoming-versus">VS</span><div class="upcoming-team">' +
