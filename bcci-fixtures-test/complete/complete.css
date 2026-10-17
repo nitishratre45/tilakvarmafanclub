@@ -417,7 +417,6 @@ body.complete-matches-page > main.complete-page-main {
   }
 }
 
-
 /* Mobile Complete Matches: force the shared navigation panel above page content. */
 @media (max-width: 800px) {
   html body.complete-matches-page > header.topbar > nav#main-nav {
@@ -437,10 +436,10 @@ body.complete-matches-page > main.complete-page-main {
     gap: 8px !important;
     padding: 13px !important;
     margin: 0 !important;
-    border: 1px solid rgba(255,255,255,.28) !important;
+    border: 1px solid rgba(255, 255, 255, 0.28) !important;
     border-radius: 22px !important;
-    background: linear-gradient(135deg, rgba(16,91,169,.97), rgba(5,20,42,.98)) !important;
-    box-shadow: 0 22px 55px rgba(0,10,28,.42) !important;
+    background: linear-gradient(135deg, rgba(16, 91, 169, 0.97), rgba(5, 20, 42, 0.98)) !important;
+    box-shadow: 0 22px 55px rgba(0, 10, 28, 0.42) !important;
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
@@ -461,7 +460,7 @@ body.complete-matches-page > main.complete-page-main {
     position: fixed !important;
     inset: 0 !important;
     z-index: 10000 !important;
-    background: rgba(2,13,28,.55) !important;
+    background: rgba(2, 13, 28, 0.55) !important;
     backdrop-filter: blur(3px) !important;
     pointer-events: none !important;
   }
@@ -473,7 +472,6 @@ body.complete-matches-page > main.complete-page-main {
     z-index: 2147483003 !important;
   }
 }
-
 
 /* Final override: make the Complete Matches masthead match Home exactly.
    Remove the extra full-width rule beneath the navbar without touching the
@@ -496,12 +494,15 @@ html body.complete-matches-page > header.topbar::after {
     border-bottom: 0 !important;
     background: transparent !important;
   }
-  html body.complete-matches-page > header.topbar > nav#main-nav > a[href="/bcci-fixtures-test/"]::after {
+  html
+    body.complete-matches-page
+    > header.topbar
+    > nav#main-nav
+    > a[href="/bcci-fixtures-test/"]::after {
     display: none !important;
     content: none !important;
   }
 }
-
 
 /* Match Home's thin accent underline beneath the full-width navbar. */
 html body.complete-matches-page > header.topbar {
@@ -516,7 +517,7 @@ html body.complete-matches-page > header.topbar::after {
   bottom: 0 !important;
   height: 2px !important;
   background: linear-gradient(90deg, #ff8b58 0%, #ffb36e 28%, #65d9ee 52%, #ff8b58 100%) !important;
-  opacity: .95 !important;
+  opacity: 0.95 !important;
   pointer-events: none !important;
   z-index: 2 !important;
 }

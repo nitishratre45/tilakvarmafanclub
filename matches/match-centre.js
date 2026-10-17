@@ -342,20 +342,51 @@
           .join("");
         const next = fixtures[0];
         const tm = String(next.time || "00:00").match(/^(\\d{1,2}):(\\d{2})/);
-        const target = Date.parse(String(next.date) + "T" + (tm ? tm[1].padStart(2, "0") + ":" + tm[2] : "00:00") + ":00+05:30");
+        const target = Date.parse(
+          String(next.date) +
+            "T" +
+            (tm ? tm[1].padStart(2, "0") + ":" + tm[2] : "00:00") +
+            ":00+05:30",
+        );
         if (Number.isFinite(target)) {
           const banner = document.createElement("section");
           banner.className = "match-countdown-hero";
-          banner.innerHTML = '<div class="match-countdown-teams"><div class="match-countdown-side"><span>' + esc(next.team || "India") + '</span>' + renderTeamLogo(next.team || "India", next.teamLogo || next.teamImageUrl) + '</div><div class="match-countdown-clock" role="timer"><div><strong data-h>00</strong><small>HRS</small></div><div><strong data-m>00</strong><small>MINS</small></div><div><strong data-s>00</strong><small>SECS</small></div></div><div class="match-countdown-side"><span>' + esc(next.opponent || "Opponent TBA") + '</span>' + renderTeamLogo(next.opponent || "Opponent", next.opponentLogo || next.opponentImageUrl) + '</div></div><p class="match-countdown-match">' + esc(next.match || "Upcoming match") + " · " + esc(next.label || dateLabel(next.date)) + (next.time ? ", " + esc(next.time) + " IST" : "") + '</p><p class="match-countdown-venue">' + esc(next.venue || "Venue to be announced") + '</p>';
+          banner.innerHTML =
+            '<div class="match-countdown-teams"><div class="match-countdown-side"><span>' +
+            esc(next.team || "India") +
+            "</span>" +
+            renderTeamLogo(next.team || "India", next.teamLogo || next.teamImageUrl) +
+            '</div><div class="match-countdown-clock" role="timer"><div><strong data-h>00</strong><small>HRS</small></div><div><strong data-m>00</strong><small>MINS</small></div><div><strong data-s>00</strong><small>SECS</small></div></div><div class="match-countdown-side"><span>' +
+            esc(next.opponent || "Opponent TBA") +
+            "</span>" +
+            renderTeamLogo(
+              next.opponent || "Opponent",
+              next.opponentLogo || next.opponentImageUrl,
+            ) +
+            '</div></div><p class="match-countdown-match">' +
+            esc(next.match || "Upcoming match") +
+            " · " +
+            esc(next.label || dateLabel(next.date)) +
+            (next.time ? ", " + esc(next.time) + " IST" : "") +
+            '</p><p class="match-countdown-venue">' +
+            esc(next.venue || "Venue to be announced") +
+            "</p>";
           host.prepend(banner);
           const tick = () => {
             const left = Math.max(0, target - Date.now());
-            banner.querySelector("[data-h]").textContent = String(Math.floor(left / 3600000)).padStart(2, "0");
-            banner.querySelector("[data-m]").textContent = String(Math.floor((left % 3600000) / 60000)).padStart(2, "0");
-            banner.querySelector("[data-s]").textContent = String(Math.floor((left % 60000) / 1000)).padStart(2, "0");
+            banner.querySelector("[data-h]").textContent = String(
+              Math.floor(left / 3600000),
+            ).padStart(2, "0");
+            banner.querySelector("[data-m]").textContent = String(
+              Math.floor((left % 3600000) / 60000),
+            ).padStart(2, "0");
+            banner.querySelector("[data-s]").textContent = String(
+              Math.floor((left % 60000) / 1000),
+            ).padStart(2, "0");
             if (left === 0) banner.classList.add("is-started");
           };
-          tick(); window.setInterval(tick, 1000);
+          tick();
+          window.setInterval(tick, 1000);
         }
       }
       const note = $("upcoming-matches-updated");
