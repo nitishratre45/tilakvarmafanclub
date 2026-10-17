@@ -425,15 +425,12 @@ export async function onRequest({ request, env }) {
       const hoursSinceAttempt = ageHours(attemptDate, now);
       const dueAt = dataDate ? new Date(dataDate.getTime() + def.intervalHours * 3600000) : null;
       const isStale = hoursSinceData === null || hoursSinceData > def.intervalHours;
+      // Source/data integrity takes priority over workflow activity. A queued or
+      // running workflow must not hide a known 503/partial source result in the
+      // admin badge; keep the latest attempt's problem visible until a clean
+      // successful refresh updates the saved snapshot.
       let status = "current";
       if (entry.error) status = "unavailable";
-      else if (latestRun && ["queued", "in_progress"].includes(latestRun.status))
-        status = "refreshing";
-      else if (
-        latestFailure &&
-        (!latestSuccess || latestFailure.createdAt > latestSuccess.createdAt)
-      )
-        status = "error";
       else if (
         info.attemptStatus === "source-unavailable" ||
         info.attemptStatus === "failed" ||
@@ -446,6 +443,13 @@ export async function onRequest({ request, env }) {
         (info.errors || []).length
       )
         status = "partial";
+      else if (
+        latestFailure &&
+        (!latestSuccess || latestFailure.createdAt > latestSuccess.createdAt)
+      )
+        status = "error";
+      else if (latestRun && ["queued", "in_progress"].includes(latestRun.status))
+        status = "refreshing";
       else if (isStale) status = "stale";
       return {
         id: def.id,
