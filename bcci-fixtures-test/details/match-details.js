@@ -1331,11 +1331,15 @@
             (teamName && normaliseTeamName(squad.teamName) === normaliseTeamName(teamName)),
         );
         if (!candidates.length) return null;
-        // Prefer the matching match format, but don't hide an available official squad
-        // merely because a fixture label uses a different format spelling/class ID.
+        // Empty categories can exist alongside populated classes in the same API
+        // response. Always prefer a populated squad, then prefer the selected format.
+        const populated = candidates.filter(
+          (squad) => Array.isArray(squad.players) && squad.players.length > 0,
+        );
         return (
+          populated.find((squad) => squadClassId && String(squad.classId) === squadClassId) ||
+          populated[0] ||
           candidates.find((squad) => squadClassId && String(squad.classId) === squadClassId) ||
-          candidates.find((squad) => Array.isArray(squad.players) && squad.players.length) ||
           candidates[0]
         );
       };
