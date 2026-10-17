@@ -160,7 +160,7 @@
       }),
     );
     const initial = location.hash.slice(1);
-    activate(sections.some((section) => section.id === initial) ? initial : "overview", false);
+    activate(sections.some((section) => section.id === initial) ? initial : "scoreboard", false);
   }
   function showPlayers(id, players) {
     const host = $(id);
@@ -1764,7 +1764,8 @@
       const reviewedSources = Array.isArray(detail.sources)
         ? detail.sources.map((source) => sourceLink(source.label || "Verified source", source.url))
         : [];
-      $("details-source-links").innerHTML = [
+      const sourceLinksHost = $("details-source-links");
+      if (sourceLinksHost) sourceLinksHost.innerHTML = [
         ...reviewedSources,
         sourceLink("Official match source", f.newsUrl || f.source),
         sourceLink("BCCI match squads", "https://www.bcci.tv/"),
