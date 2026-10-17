@@ -82,12 +82,24 @@ def parse_match(path, fmt):
                     wickets += 1
                     player_out = wicket.get("player_out") or batter
                     if player_out in bat:
-                        bat[player_out]["dismissal"] = str(wicket.get("kind", "out")).replace("_", " ")
+                        kind = str(wicket.get("kind", "out")).replace("_", " ")
+                        fielders = [str(item.get("name", "")).strip() for item in (wicket.get("fielders") or []) if isinstance(item, dict) and item.get("name")]
+                        if kind == "caught": detail = "c " + (fielders[0] if fielders else "fielder") + " b " + bowler
+                        elif kind == "bowled": detail = "b " + bowler
+                        elif kind == "lbw": detail = "lbw b " + bowler
+                        elif kind == "caught and bowled": detail = "c & b " + bowler
+                        elif kind == "stumped": detail = "st " + (fielders[0] if fielders else "keeper") + " b " + bowler
+                        elif kind == "run out": detail = "run out" + (" (" + ", ".join(fielders) + ")" if fielders else "")
+                        elif kind == "hit wicket": detail = "hit wicket b " + bowler
+                        elif kind in ("retired hurt", "retired out", "obstructing the field", "hit the ball twice", "handled the ball"): detail = kind
+                        else: detail = kind + (" b " + bowler if kind not in ("retired hurt", "retired out", "obstructing the field") else "")
+                        bat[player_out]["dismissal"] = kind
+                        bat[player_out]["dismissalDetails"] = detail
                         bat[player_out]["notOut"] = False
                     kind = str(wicket.get("kind", ""))
                     if kind not in ("run out", "retired hurt", "obstructing the field", "retired out"):
                         bowl[bowler]["wickets"] += 1
-                    fow.append({"wicket": wickets, "score": score_at_ball, "over": f"{over_no}.{ball_no}", "batter": player_out, "kind": kind.replace("_", " ")})
+                    fow.append({"wicket": wickets, "score": score_at_ball, "over": f"{over_no}.{ball_no}", "batter": player_out, "kind": kind.replace("_", " "), "bowler": bowler, "fielders": [item.get("name") for item in (wicket.get("fielders") or []) if isinstance(item, dict) and item.get("name")]})
         for player in (info.get("players") or {}).get(team, []):
             if player not in bat: bat[player] = {"batter": player, "runs": None, "balls": None, "fours": 0, "sixes": 0, "dismissal": "DNB", "notOut": False}
         for row in bat.values():
