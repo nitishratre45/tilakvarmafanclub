@@ -55,7 +55,7 @@
           result,
         );
       const live =
-        /(^|\b)(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed)(\b|$)/.test(
+        /(^|\b)(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed|match start delayed|start delayed|delayed start)(\b|$)/.test(
           status,
         );
       const terminal =
@@ -221,7 +221,7 @@
       .toLowerCase()
       .replace(/[_-]+/g, " ");
     return (
-      /\b(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed)\b/.test(
+      /\b(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed|match start delayed|start delayed|delayed start)\b/.test(
         status,
       ) &&
       !/complete|completed|finished|end of match|result|abandoned|no result|cancelled|canceled/.test(
