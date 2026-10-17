@@ -48,16 +48,22 @@ def valid_response(payload: object) -> bool:
 
 def fetch_team_squad(comp_id: str, team_id: str, edak: str) -> object:
     url = BASE_URL.format(comp_id=comp_id) + "?" + urlencode({"team_id": team_id})
+    # Match the supplied browser request headers, but keep the API key in
+    # the GitHub Actions secret instead of hardcoding it in the repository.
     headers = {
-        "accept": "application/json, text/plain, */*",
-        "accept-language": "en-US,en;q=0.9",
+        "accept": "*/*",
+        "accept-language": (
+            "en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7,hi;q=0.6,zh-CN;q=0.5,zh;q=0.4"
+        ),
         "cache-control": "no-cache",
+        "content-type": "application/json",
+        "origin": "https://www.bcci.tv",
         "pragma": "no-cache",
         "referer": "https://www.bcci.tv/",
         "user-agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
             "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/131.0.0.0 Safari/537.36"
+            "Chrome/155.0.0.0 Safari/537.36"
         ),
         "edak": edak,
     }
