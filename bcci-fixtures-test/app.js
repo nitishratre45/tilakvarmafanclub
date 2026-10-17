@@ -397,8 +397,7 @@
     const button = $("refreshBtn");
     if (button) button.disabled = true;
     $("fixtureList").hidden = false;
-    $("fixtureList").innerHTML =
-      '<div class="loading-state">Loading BCCI fixtures…</div>';
+    $("fixtureList").innerHTML = '<div class="loading-state">Loading BCCI fixtures…</div>';
     try {
       // Fixture grid uses only bcci-fixtures.json. Live grid remains on its own
       // independent live-matches.json polling pipeline below.
@@ -426,7 +425,9 @@
       const previous = filter.value;
       filter.innerHTML =
         '<option value="all">All statuses</option>' +
-        statuses.map((status) => '<option value="' + esc(status) + '">' + esc(status) + "</option>").join("");
+        statuses
+          .map((status) => '<option value="' + esc(status) + '">' + esc(status) + "</option>")
+          .join("");
       if (statuses.includes(previous)) filter.value = previous;
       render();
 
@@ -502,7 +503,9 @@
             });
             if (!check.ok) throw new Error("Live snapshot unavailable");
             const nextPayload = await check.json();
-            const nextMatches = (Array.isArray(nextPayload?.matches) ? nextPayload.matches : []).map((m) => ({
+            const nextMatches = (
+              Array.isArray(nextPayload?.matches) ? nextPayload.matches : []
+            ).map((m) => ({
               ...((m && typeof m.raw === "object" && m.raw) || {}),
               id: m.id || m.gid || m.match_id,
               team1_name: m.team1 || m.team1_name || m.team1Name,
