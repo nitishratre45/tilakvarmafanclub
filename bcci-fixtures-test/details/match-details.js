@@ -1765,30 +1765,31 @@
         ? detail.sources.map((source) => sourceLink(source.label || "Verified source", source.url))
         : [];
       const sourceLinksHost = $("details-source-links");
-      if (sourceLinksHost) sourceLinksHost.innerHTML = [
-        ...reviewedSources,
-        sourceLink("Official match source", f.newsUrl || f.source),
-        sourceLink("BCCI match squads", "https://www.bcci.tv/"),
-        sourceLink(
-          "EllipseData squad source · India",
-          "https://epr.ellipsedata.com/redirect/1/comp/9060/squads?team_id=6",
-        ),
-        sourceLink(
-          "EllipseData squad source · West Indies",
-          "https://epr.ellipsedata.com/redirect/1/comp/9060/squads?team_id=4",
-        ),
-        sourceLink(
-          "New Zealand Cricket · official T20I squad updates",
-          "https://www.nzc.nz/blackcaps-unleash-pace-attack-milne-returns-ravindra-ruled-out/",
-        ),
-        sourceLink("Original fixture source", f.source),
-        sourceLink("Weather · Open-Meteo", "https://open-meteo.com/"),
-        sourceLink("Tilak Varma stats", "/stats/"),
-        sourceLink("All matches", "/bcci-fixtures-test/"),
-      ]
-        .filter(Boolean)
-        .filter((link, index, links) => links.indexOf(link) === index)
-        .join("");
+      if (sourceLinksHost)
+        sourceLinksHost.innerHTML = [
+          ...reviewedSources,
+          sourceLink("Official match source", f.newsUrl || f.source),
+          sourceLink("BCCI match squads", "https://www.bcci.tv/"),
+          sourceLink(
+            "EllipseData squad source · India",
+            "https://epr.ellipsedata.com/redirect/1/comp/9060/squads?team_id=6",
+          ),
+          sourceLink(
+            "EllipseData squad source · West Indies",
+            "https://epr.ellipsedata.com/redirect/1/comp/9060/squads?team_id=4",
+          ),
+          sourceLink(
+            "New Zealand Cricket · official T20I squad updates",
+            "https://www.nzc.nz/blackcaps-unleash-pace-attack-milne-returns-ravindra-ruled-out/",
+          ),
+          sourceLink("Original fixture source", f.source),
+          sourceLink("Weather · Open-Meteo", "https://open-meteo.com/"),
+          sourceLink("Tilak Varma stats", "/stats/"),
+          sourceLink("All matches", "/bcci-fixtures-test/"),
+        ]
+          .filter(Boolean)
+          .filter((link, index, links) => links.indexOf(link) === index)
+          .join("");
       const startTime = f.time
         ? Date.parse(String(f.date || "") + "T" + String(f.time) + ":00+05:30")
         : Number.NaN;
