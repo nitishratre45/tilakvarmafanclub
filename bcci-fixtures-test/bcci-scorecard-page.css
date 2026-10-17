@@ -351,3 +351,66 @@ h3 {
 .top-score-team strong{display:block;margin-top:10px}
 .top-scoreboard-teams{align-items:center}
 @media(max-width:600px){.top-score-team .team-identity{gap:7px;flex-wrap:wrap}.team-logo,.team-logo-fallback{width:40px;height:40px;flex-basis:40px}.top-score-team .team-identity>span{font-size:12px}}
+
+/* Premium scorecard UI polish — consistent desktop layout and compact mobile header */
+:root{--bg:#06111f;--panel:#0c1c2e;--line:#263f59;--muted:#a4bad2;--mint:#72e5b8;--blue:#8edcff;--text:#f5f8ff}
+body{background:radial-gradient(ellipse at 8% 0%,#123b60 0,transparent 38%),radial-gradient(ellipse at 100% 12%,#103b37 0,transparent 32%),var(--bg);letter-spacing:-.01em}
+.top{min-height:78px;padding:12px max(18px,calc((100vw - 1180px)/2));background:linear-gradient(100deg,#082c57f5,#0c5fc4f5 55%,#08386cf5);border-bottom:1px solid #397bb8;box-shadow:0 8px 28px #0003}
+.top a{display:inline-flex;align-items:center;gap:8px;color:#fff;font-size:13px;padding:10px 13px;border:1px solid #ffffff28;border-radius:12px;background:#ffffff0b}
+.top a:hover{background:#ffffff18;text-decoration:none}
+.top span{font-size:13px;letter-spacing:.07em}
+.top small{display:block;margin-top:3px;font-size:9px;letter-spacing:.15em}
+#reload{border-color:#8edcff65;background:#ffffff12;padding:11px 15px}
+main{width:min(1180px,calc(100% - 40px));margin:38px auto 76px}
+.eyebrow{font-size:11px}
+h1{max-width:1000px;line-height:1.08;text-wrap:balance}
+#meta{font-size:14px;line-height:1.7;margin:10px 0 18px}
+.status{padding:14px 17px;border-radius:14px;background:linear-gradient(110deg,#102840,#0b1a2b);box-shadow:inset 0 1px #ffffff08}
+.top-scoreboard{position:relative;margin:22px 0 26px;padding:clamp(20px,3vw,32px);border-radius:22px;background:linear-gradient(125deg,#123c5d 0%,#0e2136 56%,#0c1b2b 100%);border-color:#315777;box-shadow:0 20px 55px #0003,inset 0 1px #ffffff0b}
+.top-scoreboard-heading{margin-bottom:20px;font-size:12px}
+.top-scoreboard-teams{grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);gap:clamp(12px,2.2vw,28px)}
+.top-score-team{min-height:150px;padding:clamp(16px,2vw,26px);border-radius:17px;background:#071625c9;border-color:#2d4c68;box-shadow:inset 0 1px #ffffff08}
+.top-score-team .team-identity{display:flex;align-items:center;gap:14px;min-width:0}
+.top-score-team .team-identity>span{font-size:clamp(14px,1.35vw,18px);font-weight:600;color:#b8cde2}
+.team-logo,.team-logo-fallback{width:clamp(44px,5vw,66px);height:clamp(44px,5vw,66px);flex:0 0 clamp(44px,5vw,66px);object-fit:contain;border-radius:50%;background:#fff;padding:4px;border:1px solid #ffffff40;box-shadow:0 4px 14px #0003}
+.top-score-team strong{font-size:clamp(22px,3.4vw,36px);line-height:1.15;margin:12px 0 4px}
+.top-score-vs{width:36px;height:36px;display:grid;place-items:center;justify-self:center;border-radius:50%;background:#050d18;border:1px solid #ffffff18;color:#ff967b;font-weight:900;font-size:12px}
+#match-details .innings,#match-squads .innings,#scorecard .innings{border-radius:18px;border-color:#263f59;background:linear-gradient(145deg,#0e2033,#091523);box-shadow:0 12px 32px #0002}
+.detail-grid{gap:12px}
+.detail-item{padding:16px;border-radius:14px;background:#071625a8}
+.squad-grid{gap:16px}
+.squad-card{padding:18px;border-radius:16px;background:linear-gradient(145deg,#0e2338,#091625)}
+.squad-card li{padding:11px 0}
+.table-scroll{border-radius:13px;border-color:#2a435c;box-shadow:0 8px 22px #0002}
+.score-table{min-width:720px;font-size:12px}
+.score-table th{position:sticky;top:0;background:#17334e;color:#cce8ff;padding:13px}
+.score-table td{padding:13px 14px}
+.score-table tbody tr:nth-child(even){background:#ffffff03}
+.score-table tbody tr:hover{background:#17406470}
+.source{line-height:1.8;border-top:1px solid #ffffff12;padding-top:18px}
+:focus-visible{outline:2px solid #8edcff;outline-offset:3px}
+@media(max-width:700px){
+ .top{gap:8px;padding:10px 12px;min-height:0}
+ .top span{order:0;flex:1;width:auto;font-size:11px}
+ .top a{font-size:11px;padding:9px}
+ #reload{padding:9px 10px;font-size:11px}
+ main{width:calc(100% - 22px);margin:24px auto 46px}
+ h1{font-size:clamp(25px,7vw,36px)}
+ .top-scoreboard{padding:14px;border-radius:17px}
+ .top-scoreboard-teams{grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr);gap:7px}
+ .top-score-team{min-height:125px;padding:12px 9px;border-radius:13px}
+ .top-score-team .team-identity{align-items:flex-start;gap:7px;flex-direction:column}
+ .team-logo,.team-logo-fallback{width:42px;height:42px;flex-basis:42px}
+ .top-score-team .team-identity>span{font-size:12px}
+ .top-score-team strong{font-size:clamp(17px,4.8vw,23px);margin-top:9px}
+ .top-score-team small{font-size:10px}
+ .top-score-vs{width:25px;height:25px;font-size:10px}
+ .top-scoreboard-heading{font-size:10px}
+ .innings{padding:13px;border-radius:14px}
+ .inn-head{gap:8px}
+ .total{font-size:22px}
+ .score-table{min-width:660px}
+ .score-table th,.score-table td{padding:10px}
+ .detail-grid,.squad-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:no-preference){button,.top a,.score-table tbody tr{transition:background-color .18s ease,border-color .18s ease,transform .18s ease}}
