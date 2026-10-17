@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#0b5fc4" />
     <title>Tilak Varma Fan Club | Match Scorecard</title>
-    <link rel="stylesheet" href="./bcci-scorecard-page.css?v=20261017-live-scoreboard1" />
+    <link rel="stylesheet" href="./bcci-scorecard-page.css?v=20261017-exclusive-sections1" />
     <link rel="stylesheet" href="./ui/site-nav.css?v=20261016-main-menu-grid7" />
 
     <!-- Shared main-site visual system: header, glass menu, dock, responsive layout and motion. -->
@@ -32,32 +32,40 @@
           >← Back to Match Centre</a
         >
       </div>
-      <nav class="match-section-tabs" aria-label="Match sections">
-        <a href="#top-scoreboard"><span aria-hidden="true">▣</span> Live Score</a>
-        <a href="#scorecard"><span aria-hidden="true">▤</span> Scorecard</a>
-        <a href="#match-squads"><span aria-hidden="true">♟</span> Squads</a>
-        <a href="#match-details"><span aria-hidden="true">ⓘ</span> Match Details</a>
+      <nav class="match-section-tabs" aria-label="Match sections" role="tablist">
+        <button class="match-section-tab is-active" id="tab-live-score" type="button" role="tab" data-match-section="live-score" aria-controls="panel-live-score" aria-selected="true">▣ <span>Live Score</span></button>
+        <button class="match-section-tab" id="tab-scorecard" type="button" role="tab" data-match-section="scorecard" aria-controls="panel-scorecard" aria-selected="false" tabindex="-1">▤ <span>Scorecard</span></button>
+        <button class="match-section-tab" id="tab-squads" type="button" role="tab" data-match-section="squads" aria-controls="panel-squads" aria-selected="false" tabindex="-1">♟ <span>Squads</span></button>
+        <button class="match-section-tab" id="tab-match-details" type="button" role="tab" data-match-section="match-details" aria-controls="panel-match-details" aria-selected="false" tabindex="-1">ⓘ <span>Match Details</span></button>
       </nav>
       <div class="eyebrow">OFFICIAL BCCI DATA SNAPSHOT</div>
       <h1 id="title">BCCI Match Scorecard</h1>
       <p id="meta" class="muted">Loading saved scorecard JSON…</p>
       <div id="status" class="status" aria-live="polite">Loading…</div>
-      <div id="match-details"></div>
-      <div id="match-squads"></div>
-      <section id="top-scoreboard" class="top-scoreboard" aria-label="Both teams live score">
-        <div class="scoreboard-loading">Loading both teams\u2019 scores…</div>
+      <section class="match-section-panel is-active" id="panel-live-score" data-match-panel="live-score" role="tabpanel" aria-labelledby="tab-live-score">
+        <h2 class="match-section-title">Live Score</h2>
+        <section id="top-scoreboard" class="top-scoreboard" aria-label="Both teams live score">
+          <div class="scoreboard-loading">Loading both teams’ scores…</div>
+        </section>
       </section>
-      <div id="scorecard"></div>
-      <p class="source">
-        Source:
-        <a href="https://stats.bcci.tv/match/" target="_blank" rel="noopener"
-          >BCCI official scorecard</a
-        >. When a match ID is supplied, this page loads that exact match from the saved results
-        archive; detailed batting and bowling rows appear when a matching full BCCI scorecard
-        snapshot is available.
-      </p>
-    </main>
-    <script src="./bcci-scorecard-page.js?v=20261017-live-scoreboard1" defer></script>
+      <section class="match-section-panel" id="panel-scorecard" data-match-panel="scorecard" role="tabpanel" aria-labelledby="tab-scorecard" hidden>
+        <h2 class="match-section-title">Scorecard</h2>
+        <div id="scorecard"></div>
+      </section>
+      <section class="match-section-panel" id="panel-squads" data-match-panel="squads" role="tabpanel" aria-labelledby="tab-squads" hidden>
+        <h2 class="match-section-title">Squads &amp; Playing XI</h2>
+        <div id="match-squads"></div>
+      </section>
+      <section class="match-section-panel" id="panel-match-details" data-match-panel="match-details" role="tabpanel" aria-labelledby="tab-match-details" hidden>
+        <h2 class="match-section-title">Match Details</h2>
+        <div id="match-details"></div>
+        <p class="source">
+          Source:
+          <a href="https://stats.bcci.tv/match/" target="_blank" rel="noopener">BCCI official scorecard</a>.
+          Detailed batting and bowling rows appear when a matching full BCCI scorecard snapshot is available.
+        </p>
+      </section>   </main>
+    <script src="./bcci-scorecard-page.js?v=20261017-exclusive-sections1" defer></script>
     <script src="./ui/site-nav.js?v=20261016-main-menu-grid7" defer></script>
 
     <script src="/assets/mobile-glass-menu.js?v=20261017-mobile-performance2" defer></script>
