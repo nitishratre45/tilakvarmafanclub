@@ -124,20 +124,30 @@
     const scoreB = teamScore(teamTwoId);
     const board = $("top-scoreboard");
     if (board) {
+      const teamLogo = (teamId, teamName) => {
+        const label = String(teamName || "").toLowerCase();
+        const logo = String(teamId) === "6" || /india/.test(label)
+          ? "https://scores.bcci.tv/images/team/india.png"
+          : String(teamId) === "4" || /west indies|windies/.test(label)
+            ? "https://scores.bcci.tv/images/team/west-indies.png" : "";
+        return logo
+          ? '<img class="team-logo" src="' + esc(logo) + '" alt="' + esc(teamName) + ' logo" loading="lazy" onerror="this.hidden=true">'
+          : '<span class="team-logo-fallback" aria-hidden="true">' + esc(String(teamName || "?").slice(0, 3).toUpperCase()) + '</span>';
+      };
       board.innerHTML =
         '<div class="top-scoreboard-heading"><span>' +
         (isLive ? "<i></i> LIVE SCORE" : "MATCH SCORE") +
         '</span><small>Both teams</small></div><div class="top-scoreboard-teams">' +
-        '<article class="top-score-team"><span>' +
+        '<article class="top-score-team"><div class="team-identity">' + teamLogo(teamOneId, teamOneName) + '<span>' +
         esc(teamOneName) +
-        "</span><strong>" +
+        "</span></div><strong>" +
         esc(scoreA.score) +
         "</strong><small>" +
         esc(scoreA.overs) +
         '</small></article><b class="top-score-vs">VS</b>' +
-        '<article class="top-score-team"><span>' +
+        '<article class="top-score-team"><div class="team-identity">' + teamLogo(teamTwoId, teamTwoName) + '<span>' +
         esc(teamTwoName) +
-        "</span><strong>" +
+        "</span></div><strong>" +
         esc(scoreB.score) +
         "</strong><small>" +
         esc(scoreB.overs) +
