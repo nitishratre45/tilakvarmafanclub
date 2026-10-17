@@ -205,6 +205,46 @@ export async function onRequest({ request, env }) {
           202,
         );
       }
+      if (body.action === "bcci-live-refresh-all") {
+        const workflows = [
+          { file: "refresh-bcci-live-matches.yml", label: "BCCI live scores" },
+          { file: "refresh-bcci-match-results.yml", label: "BCCI match results" },
+          { file: "refresh-bcci-squads.yml", label: "BCCI squads" },
+          { file: "refresh-bcci-stats-fixtures.yml", label: "BCCI stats fixtures" },
+          { file: "refresh-match-scorecards.yml", label: "BCCI scorecards" },
+          { file: "bcci-squads-refresh.yml", label: "BCCI fixture squads snapshot" },
+          { file: "refresh-upcoming-matches.yml", label: "Upcoming match details" },
+          { file: "bcci-fixtures-test-health.yml", label: "BCCI fixture health checks" },
+          { file: "matches-folder-audit.yml", label: "Matches folder audit" },
+        ];
+        const results = [];
+        for (const item of workflows) {
+          try {
+            const recent = await github(env, "/actions/workflows/" + item.file + "/runs?per_page=5");
+            const active = (recent.workflow_runs || []).find((run) =>
+              ["queued", "in_progress", "waiting", "requested", "pending"].includes(run.status),
+            );
+            if (active) {
+              results.push({ workflow: item.file, label: item.label, status: "already_running", url: active.html_url });
+              continue;
+            }
+            await github(env, "/actions/workflows/" + item.file + "/dispatches", {
+              method: "POST",
+              body: JSON.stringify({ ref: "main" }),
+            });
+            results.push({ workflow: item.file, label: item.label, status: "queued" });
+          } catch (error) {
+            results.push({ workflow: item.file, label: item.label, status: "failed", error: error.message });
+          }
+        }
+        const queued = results.filter((item) => item.status === "queued").length;
+        const failed = results.filter((item) => item.status === "failed").length;
+        return json({
+          ok: failed === 0,
+          message: queued + " workflow(s) queued; " + results.filter((item) => item.status === "already_running").length + " already running; " + failed + " dispatch error(s).",
+          results,
+        }, failed === results.length ? 502 : 202);
+      }
       const matchWorkflowActions = {
         "match-live-refresh": {
           workflow: "refresh-bcci-live-matches.yml",
