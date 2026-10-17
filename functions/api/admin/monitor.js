@@ -51,8 +51,28 @@ export async function onRequest({ request, env }) {
     return json({ error: "Admin session expired. Sign in again." }, 401);
   if (request.method === "GET") {
     try {
-      const payload = await github(env, "/actions/runs?per_page=20");
-      const runs = Array.isArray(payload.workflow_runs) ? payload.workflow_runs : [];
+      const requestUrl = new URL(request.url);
+      let runs = [];
+      if (requestUrl.searchParams.get("scope") === "bcci") {
+        const workflowFiles = [
+          "refresh-bcci-live-matches.yml", "refresh-bcci-match-results.yml",
+          "refresh-bcci-squads.yml", "refresh-bcci-stats-fixtures.yml",
+          "refresh-match-scorecards.yml", "bcci-squads-refresh.yml",
+          "refresh-upcoming-matches.yml", "bcci-fixtures-test-health.yml", "matches-folder-audit.yml",
+        ];
+        const batches = await Promise.all(workflowFiles.map(async (file) => {
+          try {
+            const payload = await github(env, "/actions/workflows/" + file + "/runs?per_page=8");
+            return (payload.workflow_runs || []).map((run) => ({ ...run, name: run.name || file, display_title: run.display_title || file }));
+          } catch { return []; }
+        }));
+        const unique = new Map();
+        batches.flat().forEach((run) => unique.set(run.id, run));
+        runs = [...unique.values()].sort((a, b) => Date.parse(b.created_at || 0) - Date.parse(a.created_at || 0)).slice(0, 60);
+      } else {
+        const payload = await github(env, "/actions/runs?per_page=20");
+        runs = Array.isArray(payload.workflow_runs) ? payload.workflow_runs : [];
+      }
       const failed = runs.filter((run) => run.conclusion === "failure").slice(0, 6);
       const failedDetails = await Promise.all(
         failed.map(async (run) => {
