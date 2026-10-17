@@ -224,7 +224,14 @@
             img.src = src;
             img.alt = team + " team logo";
             img.loading = "lazy";
-            img.onerror = () => { img.hidden = true; };
+            img.onerror = () => {
+              img.remove();
+              const fallback = document.createElement("span");
+              fallback.className = "sc-team-logo-fallback";
+              fallback.setAttribute("aria-hidden", "true");
+              fallback.textContent = String(team).split(/\\s+/).filter(Boolean).slice(0, 2).map(word => word[0]).join("").toUpperCase();
+              side.insertBefore(fallback, side.firstChild);
+            };
             side.appendChild(img);
           }
           const label = document.createElement("span");
