@@ -708,3 +708,12 @@ body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
     right: auto !important;
   }
 }
+
+
+/* Fine-tune: selector sticks a little closer under the fixed club header. */
+body.matches-page.match-details-page #sc-content > .sc-test-innings-nav {
+  top: 96px !important;
+}
+@media (max-width: 600px) {
+  body.matches-page.match-details-page #sc-content > .sc-test-innings-nav { top: 96px !important; }
+}
