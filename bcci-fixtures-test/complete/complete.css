@@ -333,27 +333,33 @@ body.complete-matches-page {
 body.complete-matches-page > header.topbar {
   width: 100% !important;
   max-width: none !important;
-  height: 78px !important;
   min-height: 78px !important;
+  height: 78px !important;
   margin: 0 !important;
-  padding: 0 max(22px, calc((100% - 1420px) / 2)) !important;
+  padding: 0 clamp(32px, 4.5vw, 76px) !important;
   border: 0 !important;
   border-bottom: 1px solid rgba(124, 229, 242, 0.5) !important;
   border-radius: 0 !important;
   background: linear-gradient(110deg, #082b56 0%, #0b5fc4 52%, #08366c 100%) !important;
-  box-shadow: 0 2px 0 rgba(255, 124, 69, 0.24) !important;
+  box-shadow: none !important;
   display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
   align-items: center !important;
   justify-content: space-between !important;
+  gap: clamp(16px, 2vw, 32px) !important;
   position: sticky !important;
   top: 0 !important;
-  z-index: 1000 !important;
+  z-index: 10000 !important;
   box-sizing: border-box !important;
 }
 body.complete-matches-page > header.topbar .brand {
   flex: 0 0 auto !important;
-  min-width: 220px;
+  min-width: 0 !important;
+  margin: 0 auto 0 0 !important;
+  padding: 0 !important;
   color: #fff !important;
+  white-space: nowrap !important;
 }
 body.complete-matches-page > header.topbar .brand-mark {
   width: 54px !important;
@@ -372,41 +378,51 @@ body.complete-matches-page > header.topbar .brand-mark img {
 }
 body.complete-matches-page > header.topbar #main-nav {
   display: flex !important;
+  flex: 0 1 auto !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
   align-items: center !important;
   justify-content: flex-end !important;
-  flex: 1 1 auto !important;
-  gap: clamp(12px, 1.35vw, 24px) !important;
-  min-width: 0;
+  gap: clamp(12px, 1.35vw, 22px) !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
   margin: 0 0 0 auto !important;
   padding: 0 !important;
   position: static !important;
+  transform: none !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
 }
 body.complete-matches-page > header.topbar #main-nav a {
   display: inline-flex !important;
+  flex: 0 0 auto !important;
   align-items: center !important;
   justify-content: center !important;
-  min-height: 78px !important;
-  height: 78px !important;
-  padding: 0 0 2px !important;
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 12px 0 !important;
   margin: 0 !important;
   white-space: nowrap !important;
   color: #f5f8ff !important;
-  font-size: 13px !important;
+  font-size: clamp(11px, 0.82vw, 13px) !important;
   font-weight: 700 !important;
-  line-height: 1 !important;
+  line-height: 1.2 !important;
   text-decoration: none !important;
   border: 0 !important;
-  border-bottom: 2px solid transparent !important;
   border-radius: 0 !important;
   background: transparent !important;
+  box-shadow: none !important;
 }
 body.complete-matches-page > header.topbar #main-nav a:hover,
-body.complete-matches-page > header.topbar #main-nav a[aria-current="page"] {
+body.complete-matches-page > header.topbar #main-nav a[href="/bcci-fixtures-test/"] {
   color: #fff !important;
-  border-bottom-color: #ff8b53 !important;
+  box-shadow: inset 0 -3px 0 #ff8b58 !important;
 }
 body.complete-matches-page > header.topbar .menu-toggle {
   display: none !important;
