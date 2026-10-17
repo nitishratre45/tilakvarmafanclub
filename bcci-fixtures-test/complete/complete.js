@@ -30,17 +30,21 @@
     "united states": "us",
     japan: "jp",
     italy: "it",
-    "mumbai indians": "in",
-    "chennai super kings": "in",
-    "kolkata knight riders": "in",
-    "royal challengers bengaluru": "in",
-    "royal challengers bangalore": "in",
-    "rajasthan royals": "in",
-    "sunrisers hyderabad": "in",
-    "delhi capitals": "in",
-    "punjab kings": "in",
-    "gujarat titans": "in",
-    "lucknow super giants": "in",
+  };
+  // Use actual IPL franchise PNG crests, not the India flag.
+  const iplLogos = {
+    "mumbai indians": "MI",
+    "chennai super kings": "CSK",
+    "kolkata knight riders": "KKR",
+    "royal challengers bengaluru": "RCB",
+    "royal challengers bangalore": "RCB",
+    "rajasthan royals": "RR",
+    "sunrisers hyderabad": "SRH",
+    "delhi capitals": "DC",
+    "punjab kings": "PBKS",
+    "kings xi punjab": "PBKS",
+    "gujarat titans": "GT",
+    "lucknow super giants": "LSG",
   };
   const initials = (n) =>
     String(n || "?")
@@ -54,15 +58,22 @@
       .toUpperCase();
   const logo = (n) => {
     const name = String(n || "").trim(),
-      code = logos[name.toLowerCase()];
+      key = name.toLowerCase(),
+      iplCode = iplLogos[key],
+      code = logos[key],
+      src = iplCode
+        ? "https://scores.iplt20.com/ipl/teamlogos/" + iplCode + ".png"
+        : code
+          ? "https://flagcdn.com/w80/" + code + ".png"
+          : "";
     return (
       '<span class="complete-team-crest' +
-      (code ? "" : " is-missing") +
+      (src ? "" : " is-missing") +
       '">' +
-      (code
-        ? '<img src="https://flagcdn.com/w80/' +
-          code +
-          '.png" alt="" loading="lazy" onerror="this.style.display=\'none\';this.parentElement.classList.add(\'is-missing\')">'
+      (src
+        ? '<img src="' +
+          src +
+          '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.parentElement.classList.add(\'is-missing\')">'
         : "") +
       '<span class="complete-team-crest-fallback" aria-hidden="true">' +
       esc(initials(name)) +
