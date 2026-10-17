@@ -200,19 +200,20 @@
       const innings = Array.from(document.querySelectorAll("#sc-content .sc-innings"));
       const teamNames = (match.teams || []).slice(0, 2);
       if (innings.length && teamNames.length === 2) {
+        const scorePanel = document.querySelector("#sc-content .sc-panel");
         const nav = document.createElement("nav");
         nav.className = "sc-team-switch";
         nav.setAttribute("aria-label", "Choose team scorecard");
         nav.setAttribute("role", "tablist");
         const list = document.createElement("div");
         list.className = "sc-team-innings-list";
+        const groups = teamNames.map(() => []);
         innings.forEach((section) => {
-          const wrapper = document.createElement("div");
-          wrapper.className = "sc-team-innings";
-          wrapper.dataset.teamIndex = String(Math.max(0, teamNames.indexOf(section.querySelector("h3")?.childNodes[0]?.textContent?.trim() || "")));
-          section.parentNode.insertBefore(wrapper, section);
-          wrapper.appendChild(section);
-          list.appendChild(wrapper);
+          const heading = section.querySelector("h3");
+          const team = heading ? heading.textContent.trim().replace(/\\s+\\d+\\s*\\/.*/, "").trim() : "";
+          let index = teamNames.findIndex(name => team === name || team.startsWith(name + " "));
+          if (index < 0) index = 0;
+          groups[index].push(section);
         });
         teamNames.forEach((team, index) => {
           const button = document.createElement("button");
@@ -226,15 +227,12 @@
               tab.classList.toggle("is-active", i === index);
               tab.setAttribute("aria-selected", i === index ? "true" : "false");
             });
-            list.querySelectorAll(".sc-team-innings").forEach((panel) => {
-              const heading = panel.querySelector("h3")?.childNodes[0]?.textContent?.trim() || "";
-              panel.hidden = !heading.startsWith(team);
-            });
+            groups.forEach((sections, i) => sections.forEach(section => { section.hidden = i !== index; }));
           });
           nav.appendChild(button);
         });
-        const scorePanel = document.querySelector("#sc-content .sc-panel");
         if (scorePanel) {
+          innings.forEach(section => list.appendChild(section));
           scorePanel.classList.add("sc-score-panel");
           scorePanel.insertBefore(nav, scorePanel.querySelector("h2")?.nextSibling || null);
           scorePanel.insertBefore(list, nav.nextSibling);
