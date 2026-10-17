@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="/matches/match-centre.css?v=20261014-premium-finish2" />
     <link
       rel="stylesheet"
-      href="/bcci-fixtures-test/details/match-details.css?v=20261017-broadcast-details2"
+      href="/bcci-fixtures-test/details/match-details.css?v=20261017-match-tabs-clean1"
     />
     <link
       rel="stylesheet"
@@ -36,12 +36,10 @@
       rel="stylesheet"
       href="/assets/mobile-bottom-nav.css?v=20261016-matches-news-stable-dock1"
     />
-    <link rel="stylesheet" href="/assets/site-loading-media.css?v=20261017-spinner-nav1" />
     <link
       rel="stylesheet"
       href="/assets/mobile-responsive-polish.css?v=20261016-mobile-responsive1"
     />
-    <link rel="stylesheet" href="/matches/matches-motion.css?v=20261016-smooth-motion1" />
   </head>
   <body class="matches-page match-details-page">
     <header class="topbar">
@@ -108,36 +106,9 @@
         </div>
       </section>
       <nav class="details-tabs" aria-label="Match details sections">
-        <a href="#overview">Overview</a><a href="#scoreboard">Scoreboard</a
-        ><a href="#squads">Squads</a><a href="#recent-results">Recent Results</a
-        ><a href="#conditions">Weather</a><a href="#sources">Sources</a>
+        <a href="#scoreboard">Scoreboard</a><a href="#squads">Squads</a>
+        <a href="#recent-results">Recent Results</a><a href="#conditions">Weather</a>
       </nav>
-      <section class="details-section" id="overview">
-        <div class="details-section-heading">
-          <div>
-            <span>01 / MATCHDAY</span>
-            <h2>Match <em>overview</em></h2>
-          </div>
-          <p>Verified fixture information, with unknown details kept clearly marked.</p>
-        </div>
-        <div class="details-info-grid">
-          <article class="details-info-card">
-            <span class="details-card-icon">◷</span>
-            <h3>Schedule</h3>
-            <p id="overview-schedule">Loading date and start time…</p>
-          </article>
-          <article class="details-info-card">
-            <span class="details-card-icon">⌖</span>
-            <h3>Ground & city</h3>
-            <p id="overview-venue">Loading venue…</p>
-          </article>
-          <article class="details-info-card">
-            <span class="details-card-icon">▤</span>
-            <h3>Series / match</h3>
-            <p id="overview-series">Loading series information…</p>
-          </article>
-        </div>
-      </section>
       <section class="details-section" id="scoreboard">
         <div class="details-section-heading">
           <div>
@@ -242,59 +213,14 @@
         </div>
       </section>
 
-      <section class="details-section" id="sources">
-        <div class="details-section-heading">
-          <div>
-            <span>05 / TRANSPARENCY</span>
-            <h2>Sources & <em>data workflow</em></h2>
-          </div>
-          <p>
-            Fixture data is read only from this BCCI folder. Missing sections remain unavailable
-            until their own source is added.
-          </p>
-        </div>
-        <div class="details-workflow-grid">
-          <article class="details-workflow-card">
-            <span class="workflow-dot workflow-ok"></span>
-            <div>
-              <strong>Fixture snapshot</strong>
-              <p id="workflow-fixture">Loading fixture snapshot status…</p>
-            </div>
-          </article>
-          <article class="details-workflow-card">
-            <span class="workflow-dot workflow-pending"></span>
-            <div>
-              <strong>Squad / playing XI</strong>
-              <p id="workflow-squad">
-                Waiting for official, saved squad data. No guessed players are shown.
-              </p>
-            </div>
-          </article>
-          <article class="details-workflow-card">
-            <span class="workflow-dot workflow-pending"></span>
-            <div>
-              <strong>Weather & pitch</strong>
-              <p id="workflow-weather">
-                Weather is sourced from Open-Meteo when forecast data is available. Pitch notes
-                require a source.
-              </p>
-            </div>
-          </article>
-        </div>
-        <div class="details-source-links" id="details-source-links">
-          <p class="details-muted">Loading official source links…</p>
-        </div>
-        <p class="details-last-updated" id="details-updated">Reading latest saved data…</p>
-      </section>
     </main>
     <footer>
       <span class="brand">TILAK VARMA FAN CLUB</span
       ><span>Match information · Verified sources · The 72 Club</span>
     </footer>
     <script src="/matches/theme.js?v=20261014-details-v1"></script>
-    <script src="/bcci-fixtures-test/details/match-details.js?v=20261017-squad-regex-fix1"></script>
+    <script src="/bcci-fixtures-test/details/match-details.js?v=20261017-match-tabs-clean1"></script>
     <script src="/assets/mobile-glass-menu.js?v=20261014-smooth-close6"></script>
     <script src="/assets/mobile-bottom-nav.js?v=20261017-spinner-nav1"></script>
-    <script src="/assets/site-loading-media.js?v=20261017-spinner-nav1" defer></script>
   </body>
 </html>
