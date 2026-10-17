@@ -8,7 +8,7 @@
   loader.setAttribute("role", "status");
   loader.setAttribute("aria-live", "polite");
   loader.innerHTML =
-    '<div class="site-loader-panel"><span class="site-loader-spinner" aria-hidden="true"></span><span>LOADING TILAK VARMA FAN CLUB</span></div>';
+    '<div class="site-loader-panel"><span class="site-loader-spinner" role="img" aria-label="Loading"></span></div>';
   document.documentElement.appendChild(loader);
 
   const bar = document.createElement("div");
