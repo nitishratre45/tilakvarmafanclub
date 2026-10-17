@@ -79,4 +79,19 @@ jobs:
             exit 0
           fi
           git commit -m "Refresh BCCI match squads"
-          git push origin HEAD:main
+          for attempt in 1 2 3 4; do
+            git fetch origin main
+            if ! git rebase origin/main; then
+              echo "::error::Squad snapshot rebase conflicted; refusing to publish an unverified merge."
+              git rebase --abort || true
+              exit 1
+            fi
+            if git push origin HEAD:main; then
+              echo "Published validated BCCI squad snapshots."
+              exit 0
+            fi
+            echo "Concurrent main update detected; retrying safely (attempt $attempt/4)."
+            sleep $((attempt * 2))
+          done
+          echo "::error::Unable to publish BCCI squad snapshots after four retries."
+          exit 1
