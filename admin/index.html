@@ -1210,32 +1210,61 @@
             <div>
               <div class="eyebrow">BCCI FIXTURES · LIVE OPERATIONS</div>
               <h2>BCCI Live Workflow Monitor</h2>
-              <p>Refresh BCCI fixture workflows from one place and inspect success, failure, running jobs, and the saved JSON snapshots.</p>
+              <p>
+                Refresh BCCI fixture workflows from one place and inspect success, failure, running
+                jobs, and the saved JSON snapshots.
+              </p>
             </div>
             <div class="actions">
               <button class="btn" id="bcci-live-check" type="button">↻ Check status</button>
-              <button class="btn primary" id="bcci-live-refresh-all" type="button">⟳ Refresh BCCI workflows</button>
+              <button class="btn primary" id="bcci-live-refresh-all" type="button">
+                ⟳ Refresh BCCI workflows
+              </button>
             </div>
           </div>
           <div class="section-body">
-            <p id="bcci-live-message" class="status" role="status" aria-live="polite">Loading BCCI workflow status…</p>
+            <p id="bcci-live-message" class="status" role="status" aria-live="polite">
+              Loading BCCI workflow status…
+            </p>
             <div class="repo-health-summary bcci-live-summary">
               <article><span>Success</span><strong id="bcci-live-success">—</strong></article>
               <article><span>Failed</span><strong id="bcci-live-failed">—</strong></article>
               <article><span>In progress</span><strong id="bcci-live-running">—</strong></article>
-              <article><span>Saved snapshots</span><strong id="bcci-live-saved-count">—</strong></article>
+              <article>
+                <span>Saved snapshots</span><strong id="bcci-live-saved-count">—</strong>
+              </article>
             </div>
             <div class="section-head bcci-live-subhead">
-              <div><div class="eyebrow">DATA ON DISK</div><h3>Saved BCCI JSON</h3></div>
+              <div>
+                <div class="eyebrow">DATA ON DISK</div>
+                <h3>Saved BCCI JSON</h3>
+              </div>
               <span id="bcci-live-checked-at" class="monitor-meta">Not checked yet</span>
             </div>
-            <div id="bcci-live-snapshots" class="run-list" aria-live="polite"><div class="empty">Checking saved JSON snapshots…</div></div>
-            <div class="section-head bcci-live-subhead">
-              <div><div class="eyebrow">GITHUB ACTIONS</div><h3>Workflow history</h3></div>
-              <a class="btn" href="https://github.com/nitishratre45/tilakvarmafanclub/actions" target="_blank" rel="noopener noreferrer">Open Actions ↗</a>
+            <div id="bcci-live-snapshots" class="run-list" aria-live="polite">
+              <div class="empty">Checking saved JSON snapshots…</div>
             </div>
-            <div id="bcci-live-runs" class="run-list" aria-live="polite"><div class="empty">Loading recent workflow runs…</div></div>
-            <p class="hint">“Saved” means the JSON file is reachable and parses successfully. Workflow success and data freshness are shown separately; an Actions success does not guarantee every upstream source returned new data.</p>
+            <div class="section-head bcci-live-subhead">
+              <div>
+                <div class="eyebrow">GITHUB ACTIONS</div>
+                <h3>Workflow history</h3>
+              </div>
+              <a
+                class="btn"
+                href="https://github.com/nitishratre45/tilakvarmafanclub/actions"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Open Actions ↗</a
+              >
+            </div>
+            <div id="bcci-live-runs" class="run-list" aria-live="polite">
+              <div class="empty">Loading recent workflow runs…</div>
+            </div>
+            <p class="hint">
+              “Saved” means the JSON file is reachable and parses successfully. Workflow success and
+              data freshness are shown separately; an Actions success does not guarantee every
+              upstream source returned new data.
+            </p>
           </div>
         </section>
         <section id="matches-manager" class="section hidden" hidden aria-hidden="true">
