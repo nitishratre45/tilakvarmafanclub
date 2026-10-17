@@ -1822,3 +1822,80 @@ body > footer {
     font-size: 11px !important;
   }
 }
+
+
+/* Final Home career-summary parity: bowling is one clean card, matching batting. */
+#home-snapshot .home-bowling-card {
+  margin: 18px 0 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+#home-snapshot .home-bowling-heading {
+  display: none !important;
+}
+#home-snapshot .home-bowling-table-section {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(110, 168, 255, .22) !important;
+  border-radius: 16px !important;
+  background: linear-gradient(145deg, rgba(16, 34, 57, .88), rgba(8, 18, 32, .97)) !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .14) !important;
+}
+#home-snapshot .home-bowling-table-section .home-career-table-title {
+  margin: 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(110, 168, 255, .18) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(100deg, #172d4b, #13233d 70%, #182642) !important;
+}
+#home-snapshot .home-bowling-table-section .home-career-table-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  -webkit-overflow-scrolling: touch;
+}
+#home-snapshot .home-bowling-table-section table.home-career-table {
+  width: 100% !important;
+  min-width: 900px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+#home-snapshot .home-bowling-table-section table.home-career-table th,
+#home-snapshot .home-bowling-table-section table.home-career-table td {
+  white-space: nowrap;
+}
+@media (min-width: 1024px) {
+  #home-snapshot .home-bowling-table-section table.home-career-table {
+    min-width: 100% !important;
+    table-layout: auto;
+  }
+}
+@media (max-width: 680px) {
+  #home-snapshot .home-bowling-card {
+    margin-top: 14px !important;
+  }
+  #home-snapshot .home-bowling-table-section {
+    border-radius: 14px !important;
+  }
+  #home-snapshot .home-bowling-table-section .home-career-table-title {
+    padding: 12px 13px !important;
+    font-size: .92rem !important;
+  }
+  #home-snapshot .home-bowling-table-section table.home-career-table {
+    min-width: 900px !important;
+  }
+}
