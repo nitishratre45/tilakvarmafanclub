@@ -1901,7 +1901,6 @@ footer {
   }
 }
 
-
 /* Back navigation for Upcoming and Live BCCI views */
 .bcci-back-button {
   display: inline-flex;
@@ -1910,28 +1909,51 @@ footer {
   gap: 8px;
   min-height: 40px;
   padding: 9px 15px;
-  border: 1px solid rgba(117, 190, 255, .34);
+  border: 1px solid rgba(117, 190, 255, 0.34);
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(18, 99, 197, .22), rgba(11, 31, 54, .94));
+  background: linear-gradient(135deg, rgba(18, 99, 197, 0.22), rgba(11, 31, 54, 0.94));
   color: #eaf4ff;
   font: inherit;
   font-weight: 800;
   text-decoration: none;
   white-space: nowrap;
-  box-shadow: inset 0 1px rgba(255,255,255,.06);
-  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.06);
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
 }
-.bcci-back-button:hover, .bcci-back-button:focus-visible {
+.bcci-back-button:hover,
+.bcci-back-button:focus-visible {
   border-color: #78e4ef;
   background: linear-gradient(135deg, #145eae, #15344f);
   color: #fff;
   transform: translateY(-1px);
 }
-.live-section-heading .section-actions { display: flex; align-items: center; gap: 12px; }
-.upcoming-back-button { margin: 0 0 22px; }
+.live-section-heading .section-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.upcoming-back-button {
+  margin: 0 0 22px;
+}
 @media (max-width: 600px) {
-  .live-section-heading { align-items: flex-start; gap: 12px; }
-  .live-section-heading .section-actions { flex-direction: column-reverse; align-items: flex-end; gap: 8px; }
-  .bcci-back-button { min-height: 38px; padding: 8px 11px; font-size: 13px; }
-  .upcoming-back-button { margin-bottom: 16px; }
+  .live-section-heading {
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .live-section-heading .section-actions {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .bcci-back-button {
+    min-height: 38px;
+    padding: 8px 11px;
+    font-size: 13px;
+  }
+  .upcoming-back-button {
+    margin-bottom: 16px;
+  }
 }
