@@ -134,7 +134,6 @@ def main():
                 zf.extractall(extracted)
             # ZIP is deleted immediately after extraction; the temporary folder is also
             # removed automatically after every match is parsed and output JSON is saved.
-            archive.unlink(missing_ok=True)
             for file in extracted.rglob("*.json"):
                 try: match = parse_match(file, fmt)
                 except (ValueError, KeyError, TypeError) as exc:
@@ -152,7 +151,8 @@ def main():
             target = DATA / filename
             target.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
             for m in matches:
-                index_rows.append({k: m.get(k) for k in ("matchId","sourceMatchId","date","format","event","season","teams","venue","city","result","outcome","innings") if k != "innings"})
+                index_rows.append({k: m.get(k) for k in ("matchId","sourceMatchId","date","format","event","season","teams","venue","city","result","outcome")})
+                index_rows[-1]["scores"] = [{"team": inn.get("team"), "runs": inn.get("runs"), "wickets": inn.get("wickets"), "overs": inn.get("overs")} for inn in m.get("innings", [])]
                 index_rows[-1]["scorecard"] = f"/bcci-fixtures-test/recent-match/data/{filename}"
         index_rows.sort(key=lambda m: (m.get("date", ""), m.get("matchId", "")), reverse=True)
         index = {"schemaVersion": 1, "updatedAt": datetime.now(timezone.utc).isoformat(), "source": "https://cricsheet.org/", "attribution": ATTRIBUTION, "formats": list(ARCHIVES), "matchCount": len(index_rows), "matches": index_rows}
