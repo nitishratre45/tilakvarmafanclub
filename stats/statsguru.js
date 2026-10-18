@@ -1263,10 +1263,7 @@
       render();
     });
   });
-  Promise.all([
-    window.TilakSiteData.load(),
-    window.TilakListAData?.ready || Promise.resolve(null),
-  ])
+  Promise.all([window.TilakSiteData.load(), window.TilakListAData?.ready || Promise.resolve(null)])
     .then(([d, listA]) => {
       data = d;
       if (listA) {
