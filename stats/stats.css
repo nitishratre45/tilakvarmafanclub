@@ -746,3 +746,103 @@
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
+
+
+/* Youth ODI polished responsive presentation */
+.stats-page .statsguru-panel #statsguru-summary .sg-youth-career {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+.stats-page .statsguru-panel #statsguru-summary .sg-youth-career h3 {
+  margin: 22px 0 9px;
+  color: var(--text, #f3f7ff);
+  font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+  line-height: 1.35;
+}
+.stats-page .statsguru-panel #statsguru-summary .sg-youth-subtitle {
+  margin: 0 0 14px;
+  color: var(--muted, #aabbd0);
+  font-size: .94rem;
+  line-height: 1.6;
+}
+.stats-page .statsguru-panel #statsguru-summary .sg-youth-metrics {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 12px;
+  margin: 12px 0 18px;
+}
+.stats-page .statsguru-panel #statsguru-summary .sg-youth-breakdown-wrap {
+  width: 100%;
+  max-width: 100%;
+  margin: 12px 0 20px;
+  border: 1px solid var(--border, #29445d);
+  border-radius: 12px;
+  background: rgba(7, 17, 31, .38);
+  overflow-x: auto !important;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown {
+  width: max-content !important;
+  min-width: 100% !important;
+  max-width: none !important;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+.stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown th,
+.stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown td {
+  padding: 11px 13px;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(145, 170, 198, .16);
+}
+.stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #1d394f;
+  color: #f1f8ff;
+  font-size: 11px;
+  letter-spacing: .05em;
+}
+.stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown th:first-child,
+.stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  min-width: 185px;
+  text-align: left;
+  background: #0c1929;
+}
+.stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown thead th:first-child {
+  z-index: 4;
+  background: #1d394f;
+}
+.stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown tbody tr:hover td {
+  background-color: rgba(80, 206, 236, .07);
+}
+@media (max-width: 1000px) {
+  .stats-page .statsguru-panel #statsguru-summary .sg-youth-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px;
+  }
+}
+@media (max-width: 650px) {
+  .stats-page .statsguru-panel #statsguru-summary .sg-youth-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px;
+  }
+  .stats-page .statsguru-panel #statsguru-summary .sg-youth-breakdown-wrap {
+    border-radius: 9px;
+  }
+  .stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown {
+    min-width: 1000px !important;
+    font-size: 12px;
+  }
+  .stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown th,
+  .stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown td {
+    padding: 9px 10px;
+  }
+}
