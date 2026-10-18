@@ -1,40 +1,65 @@
-name: Fetch BCCI 2021 List A Scorecard
+name: Fetch BCCI List A Scorecards via HYD Pipeline
 
 on:
   workflow_dispatch:
     inputs:
-      match_gid:
-        description: "BCCI match GID"
+      comp_gid:
+        description: "BCCI competition GID"
         required: true
-        default: "8a4ed6c8-2bf2-417f-82d6-bae2012d611d"
+        default: "16fd0877-f459-48ff-a92e-87756903ed20"
+      min_start_date:
+        description: "Minimum match date (YYYY-MM-DD)"
+        required: true
+        default: "2021-01-01"
+      first_page:
+        description: "First results page"
+        required: true
+        default: "1"
+      last_page:
+        description: "Last results page"
+        required: true
+        default: "20"
+      page_size:
+        description: "Results page size"
+        required: true
+        default: "12"
 
 permissions:
   contents: write
 
 jobs:
-  fetch-scorecard:
+  collect-scorecards:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install dependency
         run: python -m pip install requests
-      - name: Fetch scorecard and update List A JSON
+      - name: Fetch BCCI results through existing HYD.PY
         env:
-          BCCI_MATCH_GID: ${{ inputs.match_gid }}
+          BCCI_COMP_GID: ${{ inputs.comp_gid }}
+          BCCI_MIN_START_DATE: ${{ inputs.min_start_date }}
+          BCCI_FIRST_PAGE: ${{ inputs.first_page }}
+          BCCI_LAST_PAGE: ${{ inputs.last_page }}
+          BCCI_PAGE_SIZE: ${{ inputs.page_size }}
+          BCCI_RESULTS_OUTPUT_DIR: HYD/bcci_list_a_results
+        run: python HYD/HYD.PY
+      - name: Fetch scorecards using existing GID builder
+        env:
+          BCCI_SCOREBOARD_INPUT_JSON: HYD/bcci_list_a_results/vijay_hazare_results.json
+        run: python HYD/hyd_scoreboard_builder.py
+      - name: Extract Tilak Varma List A rows from downloaded scorecards
         run: python HYD/fetch_bcci_list_a_scorecard.py
-      - name: Commit generated scorecard and List A data
+      - name: Commit generated data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add HYD/hyd_scoreboards/json data/list-a.json
+          git add HYD/bcci_list_a_results HYD/hyd_scoreboards/json data/list-a.json
           if git diff --cached --quiet; then
             echo "No data changes to commit."
           else
-            git commit -m "Update List A stats from BCCI scorecard"
+            git commit -m "Fetch List A scorecards through HYD pipeline"
             git push
           fi
