@@ -495,3 +495,28 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Desktop Stats Explorer: let the innings/Statsguru table use the full panel width.
+   Keep mobile/tablet horizontal scrolling unchanged. */
+@media (min-width: 761px) {
+  .stats-page-main {
+    width: min(1700px, calc(100% - 48px));
+  }
+  .stats-page #stats .statsguru-section,
+  .stats-page #stats #statsguru,
+  .stats-page #stats .statsguru-panel {
+    width: 100%;
+    max-width: 100%;
+  }
+  .stats-page #stats .statsguru-table-wrap,
+  .stats-page #stats .statsguru-panel .table-wrap {
+    width: 100%;
+    max-width: 100%;
+  }
+  .stats-page #stats .statsguru-table-wrap table,
+  .stats-page #stats .statsguru-panel table {
+    width: 100%;
+    min-width: 100%;
+    table-layout: auto;
+  }
+}
