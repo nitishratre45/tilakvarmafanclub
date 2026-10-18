@@ -1263,9 +1263,27 @@
       render();
     });
   });
-  window.TilakSiteData.load()
-    .then((d) => {
+  Promise.all([
+    window.TilakSiteData.load(),
+    selectedFormat === "List A" && window.TilakListAData?.ready
+      ? window.TilakListAData.ready
+      : Promise.resolve(null),
+  ])
+    .then(([d, listA]) => {
       data = d;
+      if (listA) {
+        data.statsguru = data.statsguru || {};
+        data.statsguru.formats = data.statsguru.formats || {};
+        data.statsguru.formats["List A"] = {
+          summary: listA.summary || null,
+          innings: Array.isArray(listA.innings) ? listA.innings : [],
+          careerBreakdown: Array.isArray(listA.careerBreakdown) ? listA.careerBreakdown : [],
+          bowlingInnings: Array.isArray(listA.bowlingInnings) ? listA.bowlingInnings : [],
+          fieldingInnings: Array.isArray(listA.fieldingInnings) ? listA.fieldingInnings : [],
+          source: listA.source,
+          pilotScope: listA.scope,
+        };
+      }
       syncFilterOptions();
       render();
     })
