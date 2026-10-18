@@ -783,16 +783,14 @@
   }
   function renderYouthOdi() {
     if (!youthOdiData) {
-      $("statsguru-summary").innerHTML = metric("STATUS", "Loading Youth ODI data…");
-      rowsTable([], ["STATUS"], () => "", "Youth ODI data is loading.");
-      $("statsguru-note").textContent = "Loading verified ICC Under-19 World Cup 2020 data…";
+      $("statsguru-summary").innerHTML = metric("STATUS", "Loading Youth ODI career summary…");
+      $("statsguru-note").textContent = "Loading Youth ODI career totals…";
       return true;
     }
-    const summary = youthOdiData.summary || {};
     const career = youthOdiData.careerSummary || {};
     const fmtYouth = (v) => (v === null || v === undefined || v === "" ? "—" : v);
     $("statsguru-summary").innerHTML =
-      '<section class="sg-youth-career"><h3>Youth ODI Career Summary</h3><p class="sg-youth-subtitle">Statsguru career totals across 23 matches.</p><div class="sg-youth-metrics">' +
+      '<section class="sg-youth-career"><h3>Youth ODI Career Summary</h3><p class="sg-youth-subtitle">Complete Statsguru career summary across 23 Youth ODI matches.</p><div class="sg-youth-metrics">' +
       [
         ["MATCHES", career.matches],
         ["RUNS", career.runs],
@@ -806,178 +804,12 @@
         ["STUMPINGS", career.stumpings],
         ["5-WICKET HAULS", career.fiveWicketHauls],
         ["AVERAGE DIFFERENCE", career.averageDifference],
-      ]
-        .map(([label, value]) => metric(label, fmtYouth(value)))
-        .join("") +
-      '</div><h3>Career Breakdown</h3><div class="sg-youth-breakdown-wrap"><table class="sg-youth-breakdown"><thead><tr><th>GROUP</th><th>MAT</th><th>RUNS</th><th>HS</th><th>BAT AV</th><th>100</th><th>WKTS</th><th>BBI</th><th>BOWL AV</th><th>CT</th><th>ST</th></tr></thead><tbody>' +
-      (youthOdiData.careerBreakdown || [])
-        .filter((r) => r.group !== "overall")
-        .map(
-          (r) =>
-            "<tr>" +
-            [
-              r.group,
-              r.matches,
-              r.runs,
-              r.highestScore,
-              r.battingAverage,
-              r.hundreds,
-              r.wickets,
-              r.bestBowling,
-              r.bowlingAverage,
-              r.catches,
-              r.stumpings,
-            ]
-              .map((v) => "<td>" + esc(fmtYouth(v)) + "</td>")
-              .join("") +
-            "</tr>",
-        )
-        .join("") +
-      "</tbody></table></div>";
-
-    let records;
-    if (selectedCategory === "innings" || selectedCategory === "highscores") {
-      records = (youthOdiData.innings || []).slice();
-      if (selectedCategory === "highscores")
-        records.sort((a, b) => (Number(b.runs) || 0) - (Number(a.runs) || 0));
-    } else {
-      records = (youthOdiData.matches || []).slice();
-    }
-    if (appliedFrom) {
-      const min = Date.parse(appliedFrom + "T00:00:00Z");
-      records = records.filter((r) => parseDate(r.date) >= min);
-    }
-    if (appliedTo) {
-      const max = Date.parse(appliedTo + "T23:59:59Z");
-      records = records.filter((r) => parseDate(r.date) <= max);
-    }
-    if (activeBreakdownFilter === "opposition" && activeBreakdownValue !== "all") {
-      records = records.filter((r) =>
-        String(r.opposition || "")
-          .toLowerCase()
-          .includes(activeBreakdownValue.toLowerCase()),
-      );
-    }
-    if (activeBreakdownFilter === "ground" && activeBreakdownValue !== "all") {
-      records = records.filter((r) => String(r.ground || "") === activeBreakdownValue);
-    }
-    const matchList = selectedCategory !== "innings" && selectedCategory !== "highscores";
-    if (matchList) {
-      rowsTable(
-        records,
-        [
-          "DATE",
-          "OPPOSITION",
-          "BATTING STATUS",
-          "RUNS",
-          "BALLS",
-          "4s",
-          "6s",
-          "STRIKE RATE",
-          "RESULT",
-          "SCORECARD",
-        ],
-        (r) => {
-          const batted = r.battingStatus === "batted";
-          return (
-            "<tr>" +
-            "<td>" +
-            esc(r.date) +
-            "</td>" +
-            "<td>" +
-            esc(r.opposition) +
-            "</td>" +
-            "<td>" +
-            (batted ? "Batted" : "Did not bat") +
-            "</td>" +
-            "<td>" +
-            esc(batted ? r.runs : "—") +
-            "</td>" +
-            "<td>" +
-            esc(batted ? r.balls : "—") +
-            "</td>" +
-            "<td>" +
-            esc(
-              batted
-                ? ((youthOdiData.innings || []).find((i) => i.date === r.date)?.fours ?? "—")
-                : "—",
-            ) +
-            "</td>" +
-            "<td>" +
-            esc(
-              batted
-                ? ((youthOdiData.innings || []).find((i) => i.date === r.date)?.sixes ?? "—")
-                : "—",
-            ) +
-            "</td>" +
-            "<td>" +
-            esc(
-              batted
-                ? ((youthOdiData.innings || []).find((i) => i.date === r.date)?.strikeRate ?? "—")
-                : "—",
-            ) +
-            "</td>" +
-            "<td>" +
-            esc(r.result || "—") +
-            "</td>" +
-            "<td>" +
-            (r.matchUrl
-              ? '<a class="sg-scorecard-link" href="' +
-                esc(r.matchUrl) +
-                '" target="_blank" rel="noopener">↗</a>'
-              : "—") +
-            "</td>" +
-            "</tr>"
-          );
-        },
-        "No Youth ODI matches match the selected filters.",
-      );
-    } else {
-      rowsTable(
-        records,
-        [
-          "DATE",
-          "SCORE",
-          "BALLS",
-          "4s",
-          "6s",
-          "STRIKE RATE",
-          "DISMISSAL",
-          "OPPOSITION",
-          "GROUND",
-          "SCORECARD",
-        ],
-        (r) =>
-          "<tr><td>" +
-          esc(r.date) +
-          "</td><td>" +
-          esc(r.score || r.runs) +
-          "</td><td>" +
-          esc(r.balls) +
-          "</td><td>" +
-          esc(r.fours) +
-          "</td><td>" +
-          esc(r.sixes) +
-          "</td><td>" +
-          esc(r.strikeRate) +
-          "</td><td>" +
-          esc(r.dismissal) +
-          "</td><td>" +
-          esc(r.opposition) +
-          "</td><td>" +
-          esc(r.ground) +
-          '</td><td><a class="sg-scorecard-link" href="' +
-          esc(r.matchUrl) +
-          '" target="_blank" rel="noopener">↗</a></td></tr>',
-        "No Youth ODI batting innings match the selected filters.",
-      );
-    }
+      ].map(([label, value]) => metric(label, fmtYouth(value))).join("") +
+      "</div></section>";
     $("statsguru-note").textContent =
-      "Youth ODI career totals and career breakdown are shown above. Match-by-match records currently include the six verified ICC Under-19 World Cup 2020 matches; additional Youth ODI records can be added as they are verified.";
+      "Youth ODI career summary only. These Statsguru career totals are separate from senior List A, ODI and T20I records.";
     const status = $("sg-filter-status");
-    if (status)
-      status.textContent =
-        "Youth ODI · " + records.length + (matchList ? " matches" : " batting innings");
+    if (status) status.textContent = "Youth ODI · Career summary";
     return true;
   }
 
