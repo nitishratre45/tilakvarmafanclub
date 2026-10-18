@@ -789,7 +789,13 @@
       return true;
     }
     const summary = youthOdiData.summary || {};
-    $("statsguru-summary").innerHTML = [
+    const career = youthOdiData.careerSummary || {};
+    const fmtYouth = (v) => v === null || v === undefined || v === "" ? "—" : v;
+    $("statsguru-summary").innerHTML = '<section class="sg-youth-career"><h3>Youth ODI Career Summary</h3><p class="sg-youth-subtitle">Statsguru career totals across 23 matches.</p><div class="sg-youth-metrics">' + [
+      ["MATCHES", career.matches], ["RUNS", career.runs], ["HIGHEST SCORE", career.highestScore], ["BATTING AVERAGE", career.battingAverage], ["100s", career.hundreds], ["WICKETS", career.wickets], ["BEST BOWLING", career.bestBowling], ["BOWLING AVERAGE", career.bowlingAverage], ["CATCHES", career.catches], ["STUMPINGS", career.stumpings], ["5-WICKET HAULS", career.fiveWicketHauls], ["AVERAGE DIFFERENCE", career.averageDifference]
+    ].map(([label, value]) => metric(label, fmtYouth(value))).join("") + '</div><h3>Career Breakdown</h3><div class="sg-youth-breakdown-wrap"><table class="sg-youth-breakdown"><thead><tr><th>GROUP</th><th>MAT</th><th>RUNS</th><th>HS</th><th>BAT AV</th><th>100</th><th>WKTS</th><th>BBI</th><th>BOWL AV</th><th>CT</th><th>ST</th></tr></thead><tbody>' +
+      (youthOdiData.careerBreakdown || []).filter((r) => r.group !== "overall").map((r) => "<tr>" + [r.group,r.matches,r.runs,r.highestScore,r.battingAverage,r.hundreds,r.wickets,r.bestBowling,r.bowlingAverage,r.catches,r.stumpings].map((v) => "<td>"+esc(fmtYouth(v))+"</td>").join("") + "</tr>").join("") +
+      '</tbody></table></div><h3>U19 World Cup 2020 — Verified Subset</h3><p class="sg-youth-subtitle">Six verified World Cup records, separate from the full 23-match career summary.</p><div class="sg-youth-metrics">' + [
       ["MATCHES", summary.matches],
       ["BATTING INNINGS", summary.innings],
       ["RUNS", summary.runs],
@@ -941,11 +947,11 @@
       );
     }
     $("statsguru-note").textContent =
-      "ICC Under-19 Cricket World Cup 2020 · Youth ODI records are kept separate from senior List A totals. Matches include appearances where Tilak did not bat; 4s and 6s are counted only from verified batting innings.";
+      "Youth ODI career summary and breakdown are shown separately from the six scorecard-verified ICC Under-19 World Cup 2020 matches. The remaining 17 career matches still need match-by-match records.";
     const status = $("sg-filter-status");
     if (status)
       status.textContent =
-        "Youth ODI · ICC Under-19 Cricket World Cup 2020 · " +
+        "Youth ODI · " +
         records.length +
         (matchList ? " matches" : " batting innings");
     return true;
