@@ -804,7 +804,9 @@
         ["STUMPINGS", career.stumpings],
         ["5-WICKET HAULS", career.fiveWicketHauls],
         ["AVERAGE DIFFERENCE", career.averageDifference],
-      ].map(([label, value]) => metric(label, fmtYouth(value))).join("") +
+      ]
+        .map(([label, value]) => metric(label, fmtYouth(value)))
+        .join("") +
       "</div></section>";
     $("statsguru-note").textContent =
       "Youth ODI career summary only. These Statsguru career totals are separate from senior List A, ODI and T20I records.";
