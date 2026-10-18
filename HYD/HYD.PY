@@ -1,6 +1,7 @@
 
 import json
 import time
+import os
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -8,14 +9,14 @@ import requests
 
 # =============== CONFIG ===============
 API_URL = "https://stats.bcci.tv/match/results/"
-COMP_GID = "c0e6546e-e782-411e-9a38-6387eeaa5bc2"
+COMP_GID = os.getenv("BCCI_COMP_GID", "c0e6546e-e782-411e-9a38-6387eeaa5bc2")
 
-START_DATE = "2019-01-01"
-FIRST_PAGE = 1
-LAST_PAGE = 20
-PAGE_SIZE = 12
+START_DATE = os.getenv("BCCI_MIN_START_DATE", "2019-01-01")
+FIRST_PAGE = int(os.getenv("BCCI_FIRST_PAGE", "1"))
+LAST_PAGE = int(os.getenv("BCCI_LAST_PAGE", "20"))
+PAGE_SIZE = int(os.getenv("BCCI_PAGE_SIZE", "12"))
 
-OUTPUT_DIR = Path("hyderabad_vijay_hazare_data")
+OUTPUT_DIR = Path(os.getenv("BCCI_RESULTS_OUTPUT_DIR", "hyderabad_vijay_hazare_data"))
 PAGES_DIR = OUTPUT_DIR / "pages"
 
 HEADERS = {
