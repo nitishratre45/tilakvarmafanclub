@@ -43,7 +43,7 @@ check("dedicated Stats folder opens full Batting/Bowling/Explore page", async ()
   const expectedT20IRuns = Number(snapshot.careerFormats?.T20I?.runs).toLocaleString("en-IN");
   assert.notEqual(expectedT20IRuns, "NaN", "Saved T20I career runs must exist in the shared snapshot");
   await page.waitForFunction((expected) => document.querySelector('[data-stat="t20iRuns"]')?.textContent.trim() === expected, expectedT20IRuns);
-  assert.equal(await page.locator("#career-formats .format-card").count() >= 4, true, "Format-wise batting cards should populate from saved JSON");
+  assert.equal(await page.locator("#career-formats .format-card").count() >= Object.keys(snapshot.careerFormats || {}).length, true, "All saved career-format cards should populate from saved JSON");
   assert.notEqual(await page.locator("#data-status").innerText(), "Loading", "Career data status should finish loading");
   await page.locator('#stats [data-stats-tab="stats-bowling"]').click();
   assert.equal(await page.locator("#stats-bowling").isVisible(), true, "Bowling tab should open its full view");
