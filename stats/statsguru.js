@@ -1265,9 +1265,7 @@
   });
   Promise.all([
     window.TilakSiteData.load(),
-    selectedFormat === "List A" && window.TilakListAData?.ready
-      ? window.TilakListAData.ready
-      : Promise.resolve(null),
+    window.TilakListAData?.ready || Promise.resolve(null),
   ])
     .then(([d, listA]) => {
       data = d;
