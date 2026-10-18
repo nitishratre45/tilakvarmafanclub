@@ -55,6 +55,17 @@ def main():
         ground = val(match, "venue_name", "ground_name", "venue", "ground")
         result = val(match, "result", "result_string")
         label = val(match, "title", "match_name", "match_title") or path.stem
+        # Team names are often stored at the scorecard root, not inside match metadata.
+        team_names = [
+            val(payload, "team1_name", "team1_short_name"),
+            val(payload, "team2_name", "team2_short_name"),
+            val(match, "team1_name", "team2_name", "home_team_name", "away_team_name"),
+        ]
+        team_names = [str(name).strip() for name in team_names if name]
+        opposition = next(
+            (name for name in team_names if name.lower() not in {"hyderabad", "hyd"}),
+            ""
+        )
         for inn_no, inn in enumerate(innings_list, 1):
             if not isinstance(inn, dict): continue
             # BCCI often nests fielders under each dismissed batter row.
@@ -90,7 +101,7 @@ def main():
                             "strikeRate": round(runs * 100 / balls, 2) if balls else None,
                             "position": integer(val(row, "batting_position", "position"), None),
                             "dismissal": dismissal, "innings": inn_no,
-                            "opposition": val(row, "opposition", "opponent") or "",
+                            "opposition": val(row, "opposition", "opponent") or opposition,
                             "ground": ground, "series": series, "result": result,
                             "matchUrl": f"https://stats.bcci.tv/match/{gid}/scorecard",
                             "matchLabel": label, "sourceVerified": True, "matchGid": gid
@@ -107,6 +118,12 @@ def main():
         for field in ("date", "opposition", "ground", "series", "result", "matchLabel", "matchUrl"):
             if not row.get(field) and prior.get(field):
                 row[field] = prior[field]
+        # Fill historical blanks from the verified match title if root team fields are absent.
+        if not row.get("opposition"):
+            match_title = str(row.get("matchLabel") or "")
+            if " v " in match_title.lower():
+                sides = [part.strip() for part in match_title.split(" v ", 1)]
+                row["opposition"] = next((side for side in sides if side.lower() not in {"hyderabad", "hyd"}), "")
     # Scorecard-extracted rows are the source of truth, with verified metadata retained.
     data["innings"] = sorted(batting.values(), key=lambda x: (str(x.get("date") or ""), x["matchGid"], x["innings"]))
     data["bowlingInnings"], data["fieldingInnings"] = list(bowling.values()), list(fielding.values())
