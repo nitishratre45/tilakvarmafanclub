@@ -5,7 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PLAYER_ID = "69845"
-RAW_DIR = ROOT / "HYD" / "hyd_scoreboards" / "json"
+RAW_DIRS = [ROOT / "HYD" / "hyd_scoreboards" / "json", ROOT / "HYD" / "hyd  2021-22"]
 LIST_A_FILE = ROOT / "data" / "list-a.json"
 
 def val(obj, *keys):
@@ -40,7 +40,9 @@ def main():
                     existing[(gid0, int(row.get("innings") or 1))] = row
         except (OSError, json.JSONDecodeError, TypeError, ValueError):
             pass
-    for path in RAW_DIR.glob("*.json"):
+    for raw_dir in RAW_DIRS:
+        if not raw_dir.exists(): continue
+        for path in raw_dir.glob("*.json"):
         if path.name in {"fetch_report.json", "errors.json"}: continue
         try: payload = json.loads(path.read_text(encoding="utf-8-sig"))
         except (OSError, json.JSONDecodeError): continue
