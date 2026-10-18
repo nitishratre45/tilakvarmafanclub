@@ -139,27 +139,30 @@
 
   function sourceData() {
     const formats = data?.statsguru?.formats || {};
+    const career = data?.careerFormats || {};
+    const fallbackBuckets = {
+      T20: career["Overall T20 (all competitions)"],
+      FC: career["First-class"],
+      "List A": career["List A"],
+    };
     if (selectedFormat === "All") {
-      // Use disjoint career buckets only:
-      // T20 includes T20I + IPL + other T20 competitions; List A includes ODI;
-      // adding those sub-formats separately would double-count matches and runs.
+      // Sum only disjoint career buckets: Overall T20 already includes T20I/IPL,
+      // and List A already includes ODI. Prefer the latest Statsguru summary,
+      // but fall back to the saved career snapshot when a format summary is absent.
       const parts = ["T20", "FC", "List A"]
         .map((f) => {
-          if (formats[f]) return { format: f, ...formats[f] };
-          if (f === "FC" && data?.careerFormats?.["First-class"])
+          const saved = formats[f];
+          const fallback = fallbackBuckets[f];
+          const hasSummary = saved?.summary && typeof saved.summary === "object";
+          if (hasSummary || fallback) {
             return {
               format: f,
-              summary: data.careerFormats["First-class"],
-              innings: [],
-              careerBreakdown: [],
+              ...(saved || {}),
+              summary: hasSummary ? saved.summary : fallback,
+              innings: Array.isArray(saved?.innings) ? saved.innings : [],
+              careerBreakdown: Array.isArray(saved?.careerBreakdown) ? saved.careerBreakdown : [],
             };
-          if (f === "List A" && data?.careerFormats?.["List A"])
-            return {
-              format: f,
-              summary: data.careerFormats["List A"],
-              innings: [],
-              careerBreakdown: [],
-            };
+          }
           return null;
         })
         .filter(Boolean);
@@ -210,13 +213,18 @@
     }
     const entry = formats[selectedFormat] || {};
     const fallbackSummary =
-      selectedFormat === "FC"
-        ? data?.careerFormats?.["First-class"]
-        : selectedFormat === "List A"
-          ? data?.careerFormats?.["List A"]
-          : null;
+      selectedFormat === "T20"
+        ? career["Overall T20 (all competitions)"]
+        : selectedFormat === "FC"
+          ? career["First-class"]
+          : selectedFormat === "List A"
+            ? career["List A"]
+            : selectedFormat === "T20I" || selectedFormat === "ODI" || selectedFormat === "IPL"
+              ? career[selectedFormat]
+              : null;
+    const hasSavedSummary = entry.summary && typeof entry.summary === "object";
     return {
-      summary: withInferredBalls(entry.summary || fallbackSummary || null),
+      summary: withInferredBalls(hasSavedSummary ? entry.summary : fallbackSummary || null),
       innings: Array.isArray(entry.innings) ? entry.innings : [],
       breakdown: Array.isArray(entry.careerBreakdown) ? entry.careerBreakdown : [],
       formats,
