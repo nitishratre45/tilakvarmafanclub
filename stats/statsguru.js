@@ -833,20 +833,7 @@
             "</tr>",
         )
         .join("") +
-      '</tbody></table></div><h3>U19 World Cup 2020 — Verified Subset</h3><p class="sg-youth-subtitle">Six verified World Cup records, separate from the full 23-match career summary.</p><div class="sg-youth-metrics">' +
-      [
-        ["MATCHES", summary.matches],
-        ["BATTING INNINGS", summary.innings],
-        ["RUNS", summary.runs],
-        ["HIGHEST SCORE", summary.highestScore],
-        ["AVERAGE", summary.average],
-        ["BALLS FACED", summary.balls],
-        ["STRIKE RATE", summary.strikeRate],
-        ["FOURS (4s)", summary.fours],
-        ["SIXES (6s)", summary.sixes],
-      ]
-        .map(([label, value]) => metric(label, value))
-        .join("");
+      '</tbody></table></div>';
 
     let records;
     if (selectedCategory === "innings" || selectedCategory === "highscores") {
