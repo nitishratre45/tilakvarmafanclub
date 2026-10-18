@@ -1,16 +1,16 @@
 import json
 import time
+import os
 from pathlib import Path
 
 import requests
 
 BASE_DIR = Path(__file__).resolve().parent
 
-INPUT_JSON = (
-    BASE_DIR
-    / "hyderabad_vijay_hazare_data"
-    / "hyderabad_vijay_hazare_matches.json"
-)
+INPUT_JSON = Path(os.getenv(
+    "BCCI_SCOREBOARD_INPUT_JSON",
+    str(BASE_DIR / "hyderabad_vijay_hazare_data" / "hyderabad_vijay_hazare_matches.json"),
+))
 
 OUTPUT_DIR = BASE_DIR / "hyd_scoreboards" / "json"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
