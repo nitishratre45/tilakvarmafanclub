@@ -64,19 +64,18 @@ function validate(kind, value) {
   if (kind === "stats") {
     // This editor replaces the complete JSON file, not a partial patch.
     // Require the core sections so a truncated paste cannot erase site features.
+    // Validate the current site-data.json schema; legacy profile/bowlingStats/
+    // recentInnings keys are not present in the current saved snapshot.
     const requiredObjects = [
-      "profile",
       "careerStats",
       "careerFormats",
       "statsguru",
-      "bowlingStats",
       "fieldingStats",
     ];
     for (const key of requiredObjects) {
       if (!value[key] || typeof value[key] !== "object" || Array.isArray(value[key]))
         return "Stats file must retain its " + key + " object; refusing an incomplete replacement.";
     }
-    if (!Array.isArray(value.recentInnings)) return "recentInnings must remain an array.";
     if (
       !value.statsguru.formats ||
       typeof value.statsguru.formats !== "object" ||
@@ -84,7 +83,7 @@ function validate(kind, value) {
       !Object.keys(value.statsguru.formats).length
     )
       return "statsguru.formats must retain the saved format data.";
-    for (const format of ["T20I", "ODI", "T20", "IPL"]) {
+    for (const format of ["T20I", "ODI", "T20"]) {
       const snapshot = value.statsguru.formats[format];
       if (
         !snapshot ||
