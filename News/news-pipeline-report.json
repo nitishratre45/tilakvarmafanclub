@@ -1,11 +1,11 @@
 {
   "manager": "Tilak News Pipeline Manager",
-  "generatedAt": "2026-10-17T07:34:12.107191+00:00",
+  "generatedAt": "2026-10-18T07:20:28.168424+00:00",
   "status": "healthy",
-  "jsonFilesScanned": 251,
-  "validJsonFiles": 251,
+  "jsonFilesScanned": 346,
+  "validJsonFiles": 346,
   "invalidJsonFiles": [],
-  "totalJsonBytes": 46235788,
+  "totalJsonBytes": 108285345,
   "raw": {
     "candidateRecords": 36,
     "articleUrls": 190,
@@ -22,7 +22,7 @@
     "warnings": 0
   },
   "contentVerification": {
-    "checkedAt": "2026-10-17T07:34:11.490058+00:00",
+    "checkedAt": "2026-10-18T07:20:26.793847+00:00",
     "liveUrlsMatched": 36,
     "unverifiedRecordsExcluded": 0,
     "nonMatchingArticlesSkipped": 154,
@@ -44,7 +44,7 @@
   "files": [
     {
       "path": "manifest.json",
-      "bytes": 745,
+      "bytes": 910,
       "valid": true
     },
     {
@@ -64,27 +64,27 @@
     },
     {
       "path": "matches/bcci-match-results.json",
-      "bytes": 2494906,
+      "bytes": 2499988,
       "valid": true
     },
     {
       "path": "matches/bcci-stats-fixtures.json",
-      "bytes": 130453,
+      "bytes": 123605,
       "valid": true
     },
     {
       "path": "matches/upcoming-fixtures-refresh.json",
-      "bytes": 64326,
+      "bytes": 58413,
       "valid": true
     },
     {
       "path": "assets/bcci-videos.json",
-      "bytes": 135669,
+      "bytes": 138965,
       "valid": true
     },
     {
       "path": "assets/bcci-video-refresh-report.json",
-      "bytes": 232,
+      "bytes": 488,
       "valid": true
     },
     {
@@ -94,12 +94,12 @@
     },
     {
       "path": "data/repo-health.json",
-      "bytes": 37292,
+      "bytes": 33665,
       "valid": true
     },
     {
       "path": "data/automation-repo-monitor.json",
-      "bytes": 177500,
+      "bytes": 193865,
       "valid": true
     },
     {
@@ -114,7 +114,7 @@
     },
     {
       "path": "data/site-data.json",
-      "bytes": 795882,
+      "bytes": 797061,
       "valid": true
     },
     {
@@ -139,17 +139,27 @@
     },
     {
       "path": "News/news-pipeline-report.json",
-      "bytes": 38489,
+      "bytes": 38599,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/live-matches.json",
+      "bytes": 1387,
       "valid": true
     },
     {
       "path": "bcci-fixtures-test/bcci-fixtures.json",
-      "bytes": 49856,
+      "bytes": 71202,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/bcci-custom-fixtures.json",
+      "bytes": 195946,
       "valid": true
     },
     {
       "path": "bcci-fixtures-test/bcci-scorecard.json",
-      "bytes": 63846,
+      "bytes": 42304,
       "valid": true
     },
     {
@@ -169,7 +179,7 @@
     },
     {
       "path": "matches/live/live-matches.json",
-      "bytes": 1387,
+      "bytes": 3294,
       "valid": true
     },
     {
@@ -1295,6 +1305,471 @@
     {
       "path": "photos/all-photos/photos.json",
       "bytes": 21299,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/archive-index.json",
+      "bytes": 4003885,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/237265.json",
+      "bytes": 2731,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/237261.json",
+      "bytes": 32740,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/242111.json",
+      "bytes": 47110,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/242119.json",
+      "bytes": 47120,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/242114.json",
+      "bytes": 47116,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/242116.json",
+      "bytes": 47116,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/242117.json",
+      "bytes": 47116,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/242118.json",
+      "bytes": 47120,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/242109.json",
+      "bytes": 47114,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/242115.json",
+      "bytes": 47109,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/237263.json",
+      "bytes": 2733,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/237264.json",
+      "bytes": 2733,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/242112.json",
+      "bytes": 47109,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/237266.json",
+      "bytes": 2732,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/242113.json",
+      "bytes": 47108,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/242110.json",
+      "bytes": 47118,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/242108.json",
+      "bytes": 47114,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/237267.json",
+      "bytes": 2729,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/squads/237262.json",
+      "bytes": 2733,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2015.json",
+      "bytes": 938380,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2008.json",
+      "bytes": 718779,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2004.json",
+      "bytes": 566009,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2016.json",
+      "bytes": 618926,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2025.json",
+      "bytes": 3754445,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2015.json",
+      "bytes": 587514,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2020.json",
+      "bytes": 326758,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2001.json",
+      "bytes": 10188,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2008.json",
+      "bytes": 110196,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2009.json",
+      "bytes": 850315,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2011.json",
+      "bytes": 542471,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2020.json",
+      "bytes": 492997,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2021.json",
+      "bytes": 477124,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2023.json",
+      "bytes": 448638,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2019.json",
+      "bytes": 1453454,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2003.json",
+      "bytes": 275942,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2024.json",
+      "bytes": 660296,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2010.json",
+      "bytes": 402297,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2021.json",
+      "bytes": 2024805,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2014.json",
+      "bytes": 578135,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2024.json",
+      "bytes": 4400270,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2012.json",
+      "bytes": 610361,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2007.json",
+      "bytes": 257362,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2017.json",
+      "bytes": 770337,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2018.json",
+      "bytes": 774047,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2010.json",
+      "bytes": 570505,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2011.json",
+      "bytes": 150990,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2005.json",
+      "bytes": 22810,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2023.json",
+      "bytes": 1471277,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2017.json",
+      "bytes": 376292,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2014.json",
+      "bytes": 784577,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2023.json",
+      "bytes": 2477392,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2026.json",
+      "bytes": 673456,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2009.json",
+      "bytes": 336840,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2018.json",
+      "bytes": 671907,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2005.json",
+      "bytes": 489844,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2011.json",
+      "bytes": 1013181,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2005.json",
+      "bytes": 314387,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2006.json",
+      "bytes": 542933,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2016.json",
+      "bytes": 629203,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2003.json",
+      "bytes": 850622,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2017.json",
+      "bytes": 648233,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2026.json",
+      "bytes": 283824,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2021.json",
+      "bytes": 590545,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2002.json",
+      "bytes": 22460,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2025.json",
+      "bytes": 833412,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2019.json",
+      "bytes": 932129,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2006.json",
+      "bytes": 884650,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2010.json",
+      "bytes": 782721,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2022.json",
+      "bytes": 598047,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2013.json",
+      "bytes": 910488,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2015.json",
+      "bytes": 328230,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2006.json",
+      "bytes": 56433,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2007.json",
+      "bytes": 401737,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2024.json",
+      "bytes": 725150,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2004.json",
+      "bytes": 225769,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2002.json",
+      "bytes": 27165,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2013.json",
+      "bytes": 603779,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2016.json",
+      "bytes": 576906,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2008.json",
+      "bytes": 581429,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2022.json",
+      "bytes": 3133782,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2022.json",
+      "bytes": 1117974,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2018.json",
+      "bytes": 507058,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2020.json",
+      "bytes": 288407,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2012.json",
+      "bytes": 570884,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2009.json",
+      "bytes": 543252,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2013.json",
+      "bytes": 290050,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2026.json",
+      "bytes": 3687370,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2014.json",
+      "bytes": 405278,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2025.json",
+      "bytes": 561616,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/odi-2007.json",
+      "bytes": 1098489,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/t20i-2012.json",
+      "bytes": 501125,
+      "valid": true
+    },
+    {
+      "path": "bcci-fixtures-test/recent-match/data/test-2019.json",
+      "bytes": 477408,
       "valid": true
     }
   ]
