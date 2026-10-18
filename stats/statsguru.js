@@ -833,7 +833,7 @@
             "</tr>",
         )
         .join("") +
-      '</tbody></table></div>';
+      "</tbody></table></div>";
 
     let records;
     if (selectedCategory === "innings" || selectedCategory === "highscores") {
