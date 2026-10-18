@@ -8,26 +8,27 @@
   "format": "List A",
   "scope": {
     "matchesIncluded": 6,
-    "scopeLabel": "Initial six supplied scorecards only",
+    "scopeLabel": "Verified six-match pilot only",
     "completeCareer": false,
     "summarySource": "data/site-data.json",
-    "summaryCompleteCareer": true,
+    "summaryCompleteCareer": false,
     "breakdownMatchesIncluded": 6
   },
   "summary": {
-    "matches": 52,
-    "innings": 50,
-    "notOuts": 5,
-    "runs": 2142,
-    "highestScore": "156*",
-    "average": 47.6,
-    "strikeRate": 87.96,
-    "hundreds": 6,
-    "fifties": 14,
-    "fours": 157,
-    "sixes": 62,
-    "balls": 2435,
-    "source": "data/site-data.json"
+    "matches": 6,
+    "innings": 6,
+    "notOuts": null,
+    "runs": 213,
+    "highestScore": "83",
+    "average": null,
+    "strikeRate": 103.9,
+    "hundreds": 0,
+    "fifties": 2,
+    "fours": 17,
+    "sixes": 10,
+    "balls": 205,
+    "source": "data/list-a.json innings records",
+    "verifiedMatchCount": 6
   },
   "innings": [
     {
@@ -310,8 +311,10 @@
   "bowlingInnings": [],
   "fieldingInnings": [],
   "dataNotes": [
-    "Pilot dataset covers only six supplied scorecards, not the complete List A career.",
     "Not-outs, ground, batting position, match result, bowling and fielding figures are not filled unless verified in the supplied extract.",
-    "The 83-run innings dismissal status is not confirmed in the extracted record."
+    "The 83-run innings dismissal status is not confirmed in the extracted record.",
+    "This is a six-match verified pilot, not the complete List A career.",
+    "Not-outs and batting average remain unconfirmed because the 83-run innings dismissal status is not verified.",
+    "Career summary intentionally reflects only the six listed scorecards; the full-career snapshot is not mixed into this pilot dataset."
   ]
 }
