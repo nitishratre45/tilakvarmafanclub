@@ -7,29 +7,29 @@
   },
   "format": "List A",
   "scope": {
-    "matchesIncluded": 29,
+    "matchesIncluded": 30,
     "scopeLabel": "BCCI scorecards downloaded by HYD pipeline",
     "completeCareer": false,
     "summarySource": "data/site-data.json",
     "summaryCompleteCareer": false,
-    "breakdownMatchesIncluded": 29
+    "breakdownMatchesIncluded": 30
   },
   "summary": {
-    "matches": 31,
-    "innings": 31,
+    "matches": 32,
+    "innings": 32,
     "notOuts": 3,
     "runs": 1519,
     "highestScore": "156*",
-    "average": 54.25,
-    "strikeRate": 97.56,
+    "average": 52.38,
+    "strikeRate": 97.5,
     "hundreds": 6,
     "fifties": 6,
     "fours": 115,
     "sixes": 50,
-    "balls": 1557,
-    "source": "BCCI scorecard JSON snapshots",
-    "verifiedMatchCount": 31,
-    "ducks": 3
+    "balls": 1558,
+    "source": "BCCI scorecard JSON snapshots plus verified Cricbuzz India A scorecard",
+    "verifiedMatchCount": 32,
+    "ducks": 4
   },
   "innings": [
     {
@@ -351,6 +351,27 @@
       "matchLabel": "Group C",
       "sourceVerified": true,
       "matchGid": "343bc104-688b-4f84-9f72-58b14de8e104"
+    },
+    {
+      "date": "25 September 2022",
+      "runs": 0,
+      "score": "0",
+      "balls": 1,
+      "fours": 0,
+      "sixes": 0,
+      "strikeRate": 0,
+      "position": 5,
+      "dismissal": "c Cleaver b Duffy",
+      "innings": 2,
+      "opposition": "New Zealand A",
+      "ground": "MA Chidambaram Stadium, Chepauk, Chennai",
+      "series": "New Zealand A tour of India",
+      "result": "India A won by 4 wickets (with 96 balls remaining)",
+      "matchUrl": "https://www.cricbuzz.com/live-cricket-scorecard/51964/inda-vs-nza-2nd-unofficial-odi-new-zealand-a-tour-of-india-2022",
+      "matchLabel": "2nd unofficial ODI",
+      "sourceVerified": true,
+      "source": "Cricbuzz scorecard",
+      "matchGid": "cricbuzz-51964"
     },
     {
       "date": "12 November 2022",
@@ -1688,6 +1709,7 @@
     "Added five verified Vijay Hazare Trophy 2021/22 BCCI scorecards from HYD/hyd  2021-22. Extracted Tilak Varma batting, bowling and fielding records; duplicate match GIDs skipped.",
     "Added Tilak Varma records from HYD/hyd 2022 BCCI Vijay Hazare Trophy scorecards; duplicate match GIDs skipped.",
     "Added Tilak Varma's 2024/25 Vijay Hazare Trophy records from HYD/hyd 2024-25 scorecards. Did-not-bat entries excluded from batting innings; duplicate match GIDs skipped.",
-    "Added two verified Tilak Varma List A batting records from HYD/hyd 2025-26 (3 and 6 January 2026). Match IDs deduplicated. Scorecard snapshots did not expose dismissal strings for these rows; dismissal is shown as —."
+    "Added two verified Tilak Varma List A batting records from HYD/hyd 2025-26 (3 and 6 January 2026). Match IDs deduplicated. Scorecard snapshots did not expose dismissal strings for these rows; dismissal is shown as —.",
+    "Added Tilak Varma's 0 (1) in India A vs New Zealand A, 2nd unofficial ODI, Chennai, 25 September 2022. Dismissal: c Cleaver b Duffy. Source: Cricbuzz scorecard."
   ]
 }
