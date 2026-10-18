@@ -10,7 +10,8 @@ const FILES = {
     label: "Death Overs ball-by-ball and over summaries",
   },
 };
-const MAX_BYTES = 8 * 1024 * 1024;
+// Death Overs snapshot is larger than 8 MB; allow the verified current dataset with headroom.
+const MAX_BYTES = 12 * 1024 * 1024;
 
 async function readFile(env, path) {
   if (!env.GITHUB_TOKEN)
