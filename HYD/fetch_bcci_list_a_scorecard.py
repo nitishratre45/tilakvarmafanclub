@@ -56,7 +56,7 @@ def main():
                         runs = integer(val(row, "runs", "batsman_runs", "r"))
                         balls = integer(val(row, "balls_faced", "balls", "bf"))
                         dismissal = val(row, "dismissal_str", "dismissal", "how_out")
-                        not_out = not dismissal and not val(row, "dismissal_id", "wicket_type")
+                        not_out = str(dismissal or "").strip().lower() == "not out" or (not dismissal and not val(row, "dismissal_id", "wicket_type"))
                         batting[key] = {
                             "date": date, "runs": runs, "score": f"{runs}{'*' if not_out else ''}",
                             "balls": balls, "fours": integer(val(row, "fours", "4s")),
