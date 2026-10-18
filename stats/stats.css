@@ -697,3 +697,53 @@
     padding: 9px 10px;
   }
 }
+
+
+/* FINAL override: Youth ODI content must use the full Statsguru panel width */
+.stats-page .statsguru-panel #statsguru-summary {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  grid-column: 1 / -1 !important;
+  flex: 1 1 100% !important;
+  box-sizing: border-box !important;
+}
+.stats-page .statsguru-panel #statsguru-summary > .sg-youth-career {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+.stats-page .statsguru-panel #statsguru-summary .sg-youth-metrics {
+  display: grid !important;
+  width: 100% !important;
+  max-width: none !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  box-sizing: border-box !important;
+}
+.stats-page .statsguru-panel #statsguru-summary .sg-youth-breakdown-wrap {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  overflow-x: auto !important;
+  overflow-y: auto !important;
+  box-sizing: border-box !important;
+}
+.stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown {
+  width: max-content !important;
+  min-width: 1120px !important;
+  max-width: none !important;
+  table-layout: auto !important;
+}
+.stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown th,
+.stats-page .statsguru-panel #statsguru-summary table.sg-youth-breakdown td {
+  white-space: nowrap !important;
+}
+@media (max-width: 760px) {
+  .stats-page .statsguru-panel #statsguru-summary .sg-youth-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
