@@ -1210,27 +1210,45 @@ def main():
                 saved_overall = (data.get("careerFormats") or {}).get(
                     "Overall T20 (all competitions)", {}
                 )
-                if isinstance(saved_overall, dict) and saved_overall.get("runs") is not None:
+                if (
+                    isinstance(saved_overall, dict)
+                    and saved_overall.get("runs") is not None
+                ):
                     previous = old_formats.get("T20", {})
                     merged = dict(previous) if isinstance(previous, dict) else {}
                     merged["summary"] = {
                         key: saved_overall[key]
                         for key in (
-                            "matches", "innings", "notOuts", "runs", "highestScore",
-                            "average", "strikeRate", "hundreds", "fifties", "fours",
-                            "sixes", "balls",
+                            "matches",
+                            "innings",
+                            "notOuts",
+                            "runs",
+                            "highestScore",
+                            "average",
+                            "strikeRate",
+                            "hundreds",
+                            "fifties",
+                            "fours",
+                            "sixes",
+                            "balls",
                         )
                         if saved_overall.get(key) is not None
                     }
-                    merged["source"] = saved_overall.get("source", "Saved verified overall T20 career summary")
+                    merged["source"] = saved_overall.get(
+                        "source", "Saved verified overall T20 career summary"
+                    )
                     merged["detailStatus"] = "saved-summary-fallback"
                     merged["detailNote"] = (
                         "Live ESPNcricinfo T20 aggregate request failed; using the saved "
                         "overall-T20 career summary. Match-by-match rows were not fabricated."
                     )
-                    merged["checkedAt"] = saved_overall.get("updatedAt") or merged.get("checkedAt", "")
+                    merged["checkedAt"] = saved_overall.get("updatedAt") or merged.get(
+                        "checkedAt", ""
+                    )
                     new_formats["T20"] = merged
-                    print("T20: retained saved overall-T20 career summary after live refresh failure")
+                    print(
+                        "T20: retained saved overall-T20 career summary after live refresh failure"
+                    )
             message = fmt + ": " + str(exc)
             if fmt in optional_formats:
                 optional_warnings.append(message)
