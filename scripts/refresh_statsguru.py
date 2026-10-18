@@ -120,12 +120,12 @@ class TableParser(HTMLParser):
             self.row = None
 
 
-def fetch(url, retries=4):
-    """Fetch Statsguru with bounded backoff for temporary network/server errors.
+def fetch(url, retries=6):
+    """Fetch Statsguru with rate-limit-aware backoff for temporary failures.
 
-    HTTP 400 and other non-retryable client errors fail immediately. A failed
-    retry never changes saved snapshots; callers decide whether a format is
-    optional or required.
+    Respect Retry-After when supplied. 429 and 5xx responses get a much
+    longer cooldown than ordinary network errors; non-retryable HTTP 4xx
+    responses fail immediately so we do not hammer a rejected endpoint.
     """
     last_error = None
     for attempt in range(retries):
@@ -138,11 +138,22 @@ def fetch(url, retries=4):
             retryable = exc.code == 429 or 500 <= exc.code <= 599
             if not retryable or attempt >= retries - 1:
                 raise
+            retry_after = exc.headers.get("Retry-After")
         except (urllib.error.URLError, TimeoutError, ConnectionError) as exc:
             last_error = exc
+            retry_after = None
             if attempt >= retries - 1:
                 raise
-        delay = min(2 ** (attempt + 1), 12)
+        # Back off aggressively on throttling; honor Retry-After where possible.
+        if isinstance(last_error, urllib.error.HTTPError) and last_error.code == 429:
+            delay = min(60, 10 * (2 ** attempt))
+        else:
+            delay = min(30, 3 * (2 ** attempt))
+        try:
+            if retry_after:
+                delay = max(delay, min(120, int(retry_after)))
+        except (TypeError, ValueError):
+            pass
         print(
             "Temporary Statsguru fetch error; retrying in "
             + str(delay)
@@ -1162,6 +1173,10 @@ def main():
     optional_warnings = []
     optional_formats = {"FC", "List A"}
     for fmt, match_class in FORMATS.items():
+        # Avoid bursting consecutive requests into Statsguru, which frequently
+        # rate-limits the T20 aggregate endpoint when several formats are fetched.
+        if fmt != next(iter(FORMATS)):
+            time.sleep(3)
         try:
             result = scrape_format(fmt, match_class)
             previous = old_formats.get(fmt, {})
