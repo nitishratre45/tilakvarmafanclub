@@ -7,28 +7,28 @@
   },
   "format": "List A",
   "scope": {
-    "matchesIncluded": 34,
+    "matchesIncluded": 35,
     "scopeLabel": "BCCI scorecards downloaded by HYD pipeline",
     "completeCareer": false,
     "summarySource": "data/site-data.json",
     "summaryCompleteCareer": false,
-    "breakdownMatchesIncluded": 34
+    "breakdownMatchesIncluded": 35
   },
   "summary": {
-    "matches": 42,
-    "innings": 41,
+    "matches": 43,
+    "innings": 42,
     "notOuts": 4,
-    "runs": 1852,
+    "runs": 1912,
     "highestScore": "156*",
-    "average": 50.05,
-    "strikeRate": 92.19,
+    "average": 50.32,
+    "strikeRate": 90.79,
     "hundreds": 6,
-    "fifties": 11,
-    "fours": 139,
-    "sixes": 55,
-    "balls": 2009,
+    "fifties": 12,
+    "fours": 141,
+    "sixes": 56,
+    "balls": 2106,
     "source": "BCCI scorecard JSON snapshots plus verified Cricbuzz/ESPNcricinfo India A and senior ODI scorecards",
-    "verifiedMatchCount": 42,
+    "verifiedMatchCount": 43,
     "ducks": 4
   },
   "innings": [
@@ -739,6 +739,25 @@
       "matchGid": "cbf38d83-cee1-4384-8b3a-8ef6fba2f40c"
     },
     {
+      "date": "9 June 2025",
+      "runs": 60,
+      "score": "60",
+      "balls": 97,
+      "fours": 2,
+      "sixes": 1,
+      "strikeRate": 61.86,
+      "position": 5,
+      "dismissal": "b Shiraz",
+      "innings": 1,
+      "opposition": "Sri Lanka A",
+      "ground": null,
+      "series": "India A tour of Sri Lanka",
+      "result": "India A won by 8 runs",
+      "matchLabel": "1st unofficial ODI",
+      "sourceVerified": true,
+      "source": "User-provided scorecard screenshot"
+    },
+    {
       "date": "11 June 2025",
       "runs": 66,
       "score": "66",
@@ -1352,19 +1371,19 @@
     {
       "group": "v Sri Lanka A",
       "span": "2025-2025",
-      "matches": 2,
-      "innings": 2,
+      "matches": 3,
+      "innings": 3,
       "notOuts": 0,
-      "runs": 90,
+      "runs": 150,
       "highestScore": "67",
-      "average": 45,
-      "balls": 122,
-      "strikeRate": 73.77,
+      "average": 50,
+      "balls": 219,
+      "strikeRate": 68.49,
       "hundreds": 0,
-      "fifties": 1,
+      "fifties": 2,
       "ducks": 0,
-      "fours": 7,
-      "sixes": 1
+      "fours": 9,
+      "sixes": 2
     }
   ],
   "bowlingInnings": [
@@ -1661,6 +1680,27 @@
       "result": "India A won by 66 runs",
       "sourceVerified": true,
       "source": "User-provided scorecard screenshots"
+    },
+    {
+      "innings": 2,
+      "balls": "12",
+      "bowling_economy_rate": "7.50",
+      "bowling_position": "7",
+      "conceded": "15",
+      "display_live_status": null,
+      "dots": null,
+      "fours_conceded": null,
+      "live_status": "",
+      "maidens": "0",
+      "noballs": "0",
+      "overs": "2.0",
+      "player_id": "69845",
+      "sixes_conceded": null,
+      "wickets": "0",
+      "wides": null,
+      "matchGid": "india-a-sri-lanka-a-1st-unofficial-odi-2025",
+      "date": "9 June 2025",
+      "source": "User-provided scorecard screenshot"
     }
   ],
   "fieldingInnings": [
@@ -1950,6 +1990,7 @@
     "Added senior ODI batting innings from data/site-data.json Statsguru: 15 Sep 2023 Bangladesh (5), 17 Dec 2023 South Africa (1*), 19 Dec 2023 South Africa (10), 21 Dec 2023 South Africa (52). The 6 Dec 2025 ODI vs South Africa is DNB and contributes to matches, not batting innings.",
     "Added Tilak Varma's 59 (75) vs Afghanistan A in the 5th unofficial ODI (17 June 2025) and 67 (90) vs Sri Lanka A in the final unofficial ODI (21 June 2025), using user-provided scorecard screenshots. The screenshots did not show venue or canonical match URLs.",
     "Added Tilak Varma's 23 (32) vs Sri Lanka A in the 4th unofficial ODI (15 June 2025), including 3 fours and dismissal c Samarawickrama b Mathulan. Result and batting details taken from user-provided scorecard screenshot; venue and canonical match URL were not visible.",
-    "Added Tilak Varma's 66 (73) vs Afghanistan A in the 2nd unofficial ODI (11 June 2025), including 5 fours and dismissal c Bahir Shah b Ahmadzai. Match result and batting details taken from user-provided scorecard screenshot; venue and canonical match URL were not visible."
+    "Added Tilak Varma's 66 (73) vs Afghanistan A in the 2nd unofficial ODI (11 June 2025), including 5 fours and dismissal c Bahir Shah b Ahmadzai. Match result and batting details taken from user-provided scorecard screenshot; venue and canonical match URL were not visible.",
+    "Added Tilak Varma's 60 (97) vs Sri Lanka A in the 1st unofficial ODI (9 June 2025), 2 fours, 1 six, dismissed b Shiraz. Also recorded bowling figures 2 overs, 15 runs, 0 wickets. Match details taken from user-provided scorecard screenshots; venue and canonical match URL were not visible."
   ]
 }
