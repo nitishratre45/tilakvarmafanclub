@@ -629,7 +629,7 @@
   scrollbar-width: thin;
   border: 1px solid var(--border, #29445d);
   border-radius: 12px;
-  background: rgba(7, 17, 31, .38);
+  background: rgba(7, 17, 31, 0.38);
   box-sizing: border-box;
 }
 .stats-page #statsguru-summary table.sg-youth-breakdown {
@@ -648,7 +648,7 @@
   padding: 10px 12px;
   white-space: nowrap;
   vertical-align: middle;
-  border-bottom: 1px solid rgba(145, 170, 198, .16);
+  border-bottom: 1px solid rgba(145, 170, 198, 0.16);
 }
 .stats-page #statsguru-summary table.sg-youth-breakdown th {
   position: sticky;
@@ -657,7 +657,7 @@
   background: #203b51;
   color: #f7fbff;
   text-transform: uppercase;
-  letter-spacing: .045em;
+  letter-spacing: 0.045em;
   font-size: 11px;
 }
 .stats-page #statsguru-summary table.sg-youth-breakdown th:first-child,
@@ -673,11 +673,16 @@
   z-index: 4;
   background: #203b51;
 }
-.stats-page #statsguru-summary table.sg-youth-breakdown tbody tr:nth-child(even) td:not(:first-child) {
-  background: rgba(255, 255, 255, .025);
+.stats-page
+  #statsguru-summary
+  table.sg-youth-breakdown
+  tbody
+  tr:nth-child(even)
+  td:not(:first-child) {
+  background: rgba(255, 255, 255, 0.025);
 }
 .stats-page #statsguru-summary table.sg-youth-breakdown tbody tr:hover td {
-  background-color: rgba(83, 205, 236, .09);
+  background-color: rgba(83, 205, 236, 0.09);
 }
 @media (max-width: 1050px) {
   .stats-page #statsguru-summary .sg-youth-metrics {
