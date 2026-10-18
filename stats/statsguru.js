@@ -973,7 +973,7 @@
       );
     }
     $("statsguru-note").textContent =
-      "Youth ODI career summary and breakdown are shown separately from the six scorecard-verified ICC Under-19 World Cup 2020 matches. The remaining 17 career matches still need match-by-match records.";
+      "Youth ODI career totals and career breakdown are shown above. Match-by-match records currently include the six verified ICC Under-19 World Cup 2020 matches; additional Youth ODI records can be added as they are verified.";
     const status = $("sg-filter-status");
     if (status)
       status.textContent =
