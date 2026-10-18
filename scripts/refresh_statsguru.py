@@ -146,9 +146,9 @@ def fetch(url, retries=6):
                 raise
         # Back off aggressively on throttling; honor Retry-After where possible.
         if isinstance(last_error, urllib.error.HTTPError) and last_error.code == 429:
-            delay = min(60, 10 * (2 ** attempt))
+            delay = min(60, 10 * (2**attempt))
         else:
-            delay = min(30, 3 * (2 ** attempt))
+            delay = min(30, 3 * (2**attempt))
         try:
             if retry_after:
                 delay = max(delay, min(120, int(retry_after)))
