@@ -95,10 +95,41 @@ def main():
         "sixes": sum(integer(x.get("sixes")) for x in rows), "balls": balls,
         "verifiedMatchCount": len(matches), "source": "BCCI scorecard JSON snapshots"
     })
+    # Regenerate breakdown rows on every workflow run so the UI can show opponents as well as years.
+    def make_group(group, group_rows, span):
+        group_runs = sum(integer(x.get("runs")) for x in group_rows)
+        group_balls = sum(integer(x.get("balls")) for x in group_rows)
+        group_not_outs = sum(str(x.get("score", "")).endswith("*") for x in group_rows)
+        values = [integer(x.get("runs")) for x in group_rows]
+        return {
+            "group": group, "span": span,
+            "matches": len({x.get("matchGid") or x.get("matchLabel") for x in group_rows}),
+            "innings": len(group_rows), "notOuts": group_not_outs, "runs": group_runs,
+            "highestScore": max((str(x.get("score") or x.get("runs") or "0") for x in group_rows),
+                                key=lambda s: integer(s.replace("*", "")), default="0"),
+            "average": round(group_runs / (len(group_rows) - group_not_outs), 2) if len(group_rows) > group_not_outs else None,
+            "balls": group_balls, "strikeRate": round(group_runs * 100 / group_balls, 2) if group_balls else None,
+            "hundreds": sum(v >= 100 for v in values), "fifties": sum(50 <= v < 100 for v in values),
+            "ducks": sum(v == 0 for v in values),
+            "fours": sum(integer(x.get("fours")) for x in group_rows),
+            "sixes": sum(integer(x.get("sixes")) for x in group_rows)
+        }
+    years = sorted({str(x.get("date") or "")[-4:] for x in rows if str(x.get("date") or "")[-4:].isdigit()})
+    breakdown = [make_group("overall", rows, (years[0] + "-" + years[-1]) if years else "—")]
+    for year in years:
+        group_rows = [x for x in rows if str(x.get("date") or "").endswith(year)]
+        breakdown.append(make_group("year " + year, group_rows, year + "-" + year))
+    opponents = sorted({str(x.get("opposition") or "").strip() for x in rows if str(x.get("opposition") or "").strip()})
+    for opponent in opponents:
+        group_rows = [x for x in rows if str(x.get("opposition") or "").strip().lower() == opponent.lower()]
+        dates = [str(x.get("date") or "")[-4:] for x in group_rows if str(x.get("date") or "")[-4:].isdigit()]
+        span = (min(dates) + "-" + max(dates)) if dates else "—"
+        breakdown.append(make_group("v " + opponent, group_rows, span))
+    data["careerBreakdown"] = breakdown
     data.setdefault("scope", {}).update({"matchesIncluded": len(matches), "breakdownMatchesIncluded": len(matches),
         "completeCareer": False, "scopeLabel": "BCCI scorecards downloaded by HYD pipeline"})
     data["dataNotes"] = [
-        "Includes the manually verified pilot innings plus Tilak Varma rows extracted from readable scorecards in HYD/hyd_scoreboards/json.",
+        "Batting rows and overall/year/opposition breakdowns are regenerated from readable BCCI scorecards in HYD/hyd_scoreboards/json.",
         "This is not a complete-career claim; include all List A seasons/competitions before labelling it complete.",
         "Player matching uses BCCI player ID 69845 where that ID is present in the scorecard row."
     ]
