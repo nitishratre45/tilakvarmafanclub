@@ -580,93 +580,55 @@
   }
 }
 
-/* Youth ODI summary: full-width responsive cards; scoped only to Youth ODI. */
-.stats-page #statsguru-summary .sg-youth-career {
-  display: block;
-  width: 100%;
-  max-width: none;
-  min-width: 0;
-  margin: 0;
-  box-sizing: border-box;
+/* Youth ODI: force the summary content and metric grid to use the entire panel width. */
+.stats-page #statsguru-summary{
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  grid-column:1 / -1!important;
+  justify-self:stretch!important;
+  align-self:stretch!important;
+  box-sizing:border-box!important;
 }
-.stats-page #statsguru-summary .sg-youth-career h3 {
-  margin: 4px 0 10px;
-  color: var(--text, #f3f7ff);
-  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
-  line-height: 1.4;
+.stats-page .statsguru-panel #statsguru-summary,
+.stats-page #statsguru-summary .sg-youth-career{
+  display:block!important;width:100%!important;max-width:none!important;min-width:0!important;
+  margin:0!important;box-sizing:border-box!important;
 }
-.stats-page #statsguru-summary .sg-youth-subtitle {
-  max-width: 72ch;
-  margin: 0 0 18px;
-  color: var(--muted, #aabbd0);
-  line-height: 1.6;
+.stats-page #statsguru-summary .sg-youth-career h3{
+  margin:4px 0 10px;color:var(--text,#f3f7ff);
+  font-size:clamp(1.05rem,1.5vw,1.3rem);line-height:1.4;
 }
-.stats-page #statsguru-summary .sg-youth-metrics {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  width: 100% !important;
-  max-width: none !important;
-  min-width: 0;
-  margin: 12px 0 4px;
-  padding: 0;
-  align-items: stretch;
-  box-sizing: border-box;
+.stats-page #statsguru-summary .sg-youth-subtitle{
+  max-width:72ch;margin:0 0 18px;color:var(--muted,#aabbd0);line-height:1.6;
 }
-.stats-page #statsguru-summary .sg-youth-metrics .statsguru-metric {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 8px;
-  width: 100% !important;
-  max-width: none !important;
-  min-width: 0;
-  min-height: 104px;
-  padding: 16px !important;
-  margin: 0 !important;
-  box-sizing: border-box;
-  overflow: hidden;
+.stats-page #statsguru-summary .sg-youth-metrics{
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:12px;width:100%!important;max-width:none!important;min-width:0!important;
+  margin:12px 0 4px!important;padding:0!important;align-items:stretch;box-sizing:border-box!important;
 }
-.stats-page #statsguru-summary .sg-youth-metrics .statsguru-metric span {
-  display: block;
-  max-width: 100%;
-  font-size: 0.7rem;
-  line-height: 1.35;
-  letter-spacing: 0.07em;
-  white-space: normal;
-  overflow-wrap: normal;
-  word-break: normal;
+.stats-page #statsguru-summary .sg-youth-metrics .statsguru-metric{
+  display:flex;flex-direction:column;justify-content:flex-start;gap:8px;
+  width:100%!important;max-width:none!important;min-width:0!important;min-height:104px;
+  padding:16px!important;margin:0!important;box-sizing:border-box!important;overflow:visible!important;
 }
-.stats-page #statsguru-summary .sg-youth-metrics .statsguru-metric strong {
-  display: block;
-  max-width: 100%;
-  font-size: clamp(1.35rem, 2vw, 1.8rem);
-  line-height: 1.2;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: normal;
+.stats-page #statsguru-summary .sg-youth-metrics .statsguru-metric span{
+  display:block;max-width:100%;font-size:.7rem;line-height:1.35;letter-spacing:.07em;
+  white-space:normal;overflow-wrap:anywhere;word-break:normal;
 }
-@media (max-width: 1050px) {
-  .stats-page #statsguru-summary .sg-youth-metrics {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-  }
+.stats-page #statsguru-summary .sg-youth-metrics .statsguru-metric strong{
+  display:block;max-width:100%;font-size:clamp(1.35rem,2vw,1.8rem);line-height:1.2;
+  white-space:normal;overflow-wrap:normal;word-break:normal;
 }
-@media (max-width: 680px) {
-  .stats-page #statsguru-summary .sg-youth-metrics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 9px;
-  }
-  .stats-page #statsguru-summary .sg-youth-metrics .statsguru-metric {
-    min-height: 92px;
-    padding: 13px !important;
-  }
-  .stats-page #statsguru-summary .sg-youth-metrics .statsguru-metric strong {
-    font-size: 1.4rem;
-  }
+@media(max-width:1050px){
+ .stats-page #statsguru-summary .sg-youth-metrics{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px}
 }
-@media (max-width: 360px) {
-  .stats-page #statsguru-summary .sg-youth-metrics {
-    grid-template-columns: minmax(0, 1fr);
-  }
+@media(max-width:680px){
+ .stats-page #statsguru-summary .sg-youth-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px}
+ .stats-page #statsguru-summary .sg-youth-metrics .statsguru-metric{min-height:92px;padding:13px!important}
+ .stats-page #statsguru-summary .sg-youth-metrics .statsguru-metric strong{font-size:1.4rem}
+}
+@media(max-width:360px){
+ .stats-page #statsguru-summary .sg-youth-metrics{grid-template-columns:minmax(0,1fr)!important}
 }
