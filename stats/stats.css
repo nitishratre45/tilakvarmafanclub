@@ -521,16 +521,61 @@
   }
 }
 
-
 /* Youth ODI career summary and breakdown */
-.sg-youth-career { margin: 12px 0 18px; }
-.sg-youth-career h3 { margin: 16px 0 8px; font-size: 1rem; }
-.sg-youth-subtitle { margin: 0 0 10px; color: var(--muted, #64748b); font-size: .86rem; }
-.sg-youth-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)); gap: 8px; margin: 8px 0 16px; }
-.sg-youth-breakdown-wrap { max-width: 100%; overflow-x: auto; border: 1px solid var(--border, #dbe3ee); border-radius: 10px; }
-.sg-youth-breakdown { width: 100%; min-width: 760px; border-collapse: collapse; font-size: .82rem; }
-.sg-youth-breakdown th, .sg-youth-breakdown td { padding: 7px 9px; text-align: right; border-bottom: 1px solid var(--border, #e2e8f0); white-space: nowrap; }
-.sg-youth-breakdown th:first-child, .sg-youth-breakdown td:first-child { text-align: left; }
-.sg-youth-breakdown thead th { position: sticky; top: 0; background: var(--panel, #eff6ff); }
-.sg-youth-breakdown tbody tr:hover { background: var(--hover, #f8fafc); }
-@media (max-width: 640px) { .sg-youth-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } .sg-youth-breakdown { font-size: .76rem; } }
+.sg-youth-career {
+  margin: 12px 0 18px;
+}
+.sg-youth-career h3 {
+  margin: 16px 0 8px;
+  font-size: 1rem;
+}
+.sg-youth-subtitle {
+  margin: 0 0 10px;
+  color: var(--muted, #64748b);
+  font-size: 0.86rem;
+}
+.sg-youth-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+  gap: 8px;
+  margin: 8px 0 16px;
+}
+.sg-youth-breakdown-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border, #dbe3ee);
+  border-radius: 10px;
+}
+.sg-youth-breakdown {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.sg-youth-breakdown th,
+.sg-youth-breakdown td {
+  padding: 7px 9px;
+  text-align: right;
+  border-bottom: 1px solid var(--border, #e2e8f0);
+  white-space: nowrap;
+}
+.sg-youth-breakdown th:first-child,
+.sg-youth-breakdown td:first-child {
+  text-align: left;
+}
+.sg-youth-breakdown thead th {
+  position: sticky;
+  top: 0;
+  background: var(--panel, #eff6ff);
+}
+.sg-youth-breakdown tbody tr:hover {
+  background: var(--hover, #f8fafc);
+}
+@media (max-width: 640px) {
+  .sg-youth-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sg-youth-breakdown {
+    font-size: 0.76rem;
+  }
+}

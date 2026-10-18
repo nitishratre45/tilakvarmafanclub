@@ -790,24 +790,63 @@
     }
     const summary = youthOdiData.summary || {};
     const career = youthOdiData.careerSummary || {};
-    const fmtYouth = (v) => v === null || v === undefined || v === "" ? "—" : v;
-    $("statsguru-summary").innerHTML = '<section class="sg-youth-career"><h3>Youth ODI Career Summary</h3><p class="sg-youth-subtitle">Statsguru career totals across 23 matches.</p><div class="sg-youth-metrics">' + [
-      ["MATCHES", career.matches], ["RUNS", career.runs], ["HIGHEST SCORE", career.highestScore], ["BATTING AVERAGE", career.battingAverage], ["100s", career.hundreds], ["WICKETS", career.wickets], ["BEST BOWLING", career.bestBowling], ["BOWLING AVERAGE", career.bowlingAverage], ["CATCHES", career.catches], ["STUMPINGS", career.stumpings], ["5-WICKET HAULS", career.fiveWicketHauls], ["AVERAGE DIFFERENCE", career.averageDifference]
-    ].map(([label, value]) => metric(label, fmtYouth(value))).join("") + '</div><h3>Career Breakdown</h3><div class="sg-youth-breakdown-wrap"><table class="sg-youth-breakdown"><thead><tr><th>GROUP</th><th>MAT</th><th>RUNS</th><th>HS</th><th>BAT AV</th><th>100</th><th>WKTS</th><th>BBI</th><th>BOWL AV</th><th>CT</th><th>ST</th></tr></thead><tbody>' +
-      (youthOdiData.careerBreakdown || []).filter((r) => r.group !== "overall").map((r) => "<tr>" + [r.group,r.matches,r.runs,r.highestScore,r.battingAverage,r.hundreds,r.wickets,r.bestBowling,r.bowlingAverage,r.catches,r.stumpings].map((v) => "<td>"+esc(fmtYouth(v))+"</td>").join("") + "</tr>").join("") +
-      '</tbody></table></div><h3>U19 World Cup 2020 — Verified Subset</h3><p class="sg-youth-subtitle">Six verified World Cup records, separate from the full 23-match career summary.</p><div class="sg-youth-metrics">' + [
-      ["MATCHES", summary.matches],
-      ["BATTING INNINGS", summary.innings],
-      ["RUNS", summary.runs],
-      ["HIGHEST SCORE", summary.highestScore],
-      ["AVERAGE", summary.average],
-      ["BALLS FACED", summary.balls],
-      ["STRIKE RATE", summary.strikeRate],
-      ["FOURS (4s)", summary.fours],
-      ["SIXES (6s)", summary.sixes],
-    ]
-      .map(([label, value]) => metric(label, value))
-      .join("");
+    const fmtYouth = (v) => (v === null || v === undefined || v === "" ? "—" : v);
+    $("statsguru-summary").innerHTML =
+      '<section class="sg-youth-career"><h3>Youth ODI Career Summary</h3><p class="sg-youth-subtitle">Statsguru career totals across 23 matches.</p><div class="sg-youth-metrics">' +
+      [
+        ["MATCHES", career.matches],
+        ["RUNS", career.runs],
+        ["HIGHEST SCORE", career.highestScore],
+        ["BATTING AVERAGE", career.battingAverage],
+        ["100s", career.hundreds],
+        ["WICKETS", career.wickets],
+        ["BEST BOWLING", career.bestBowling],
+        ["BOWLING AVERAGE", career.bowlingAverage],
+        ["CATCHES", career.catches],
+        ["STUMPINGS", career.stumpings],
+        ["5-WICKET HAULS", career.fiveWicketHauls],
+        ["AVERAGE DIFFERENCE", career.averageDifference],
+      ]
+        .map(([label, value]) => metric(label, fmtYouth(value)))
+        .join("") +
+      '</div><h3>Career Breakdown</h3><div class="sg-youth-breakdown-wrap"><table class="sg-youth-breakdown"><thead><tr><th>GROUP</th><th>MAT</th><th>RUNS</th><th>HS</th><th>BAT AV</th><th>100</th><th>WKTS</th><th>BBI</th><th>BOWL AV</th><th>CT</th><th>ST</th></tr></thead><tbody>' +
+      (youthOdiData.careerBreakdown || [])
+        .filter((r) => r.group !== "overall")
+        .map(
+          (r) =>
+            "<tr>" +
+            [
+              r.group,
+              r.matches,
+              r.runs,
+              r.highestScore,
+              r.battingAverage,
+              r.hundreds,
+              r.wickets,
+              r.bestBowling,
+              r.bowlingAverage,
+              r.catches,
+              r.stumpings,
+            ]
+              .map((v) => "<td>" + esc(fmtYouth(v)) + "</td>")
+              .join("") +
+            "</tr>",
+        )
+        .join("") +
+      '</tbody></table></div><h3>U19 World Cup 2020 — Verified Subset</h3><p class="sg-youth-subtitle">Six verified World Cup records, separate from the full 23-match career summary.</p><div class="sg-youth-metrics">' +
+      [
+        ["MATCHES", summary.matches],
+        ["BATTING INNINGS", summary.innings],
+        ["RUNS", summary.runs],
+        ["HIGHEST SCORE", summary.highestScore],
+        ["AVERAGE", summary.average],
+        ["BALLS FACED", summary.balls],
+        ["STRIKE RATE", summary.strikeRate],
+        ["FOURS (4s)", summary.fours],
+        ["SIXES (6s)", summary.sixes],
+      ]
+        .map(([label, value]) => metric(label, value))
+        .join("");
 
     let records;
     if (selectedCategory === "innings" || selectedCategory === "highscores") {
@@ -951,9 +990,7 @@
     const status = $("sg-filter-status");
     if (status)
       status.textContent =
-        "Youth ODI · " +
-        records.length +
-        (matchList ? " matches" : " batting innings");
+        "Youth ODI · " + records.length + (matchList ? " matches" : " batting innings");
     return true;
   }
 
