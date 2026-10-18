@@ -43,75 +43,76 @@ def main():
     for raw_dir in RAW_DIRS:
         if not raw_dir.exists(): continue
         for path in raw_dir.glob("*.json"):
-        if path.name in {"fetch_report.json", "errors.json"}: continue
-        try: payload = json.loads(path.read_text(encoding="utf-8-sig"))
-        except (OSError, json.JSONDecodeError): continue
-        if not isinstance(payload, dict): continue
-        match = payload.get("match") or payload.get("match_info") or payload.get("matchInfo") or {}
-        innings_list = payload.get("innings") or payload.get("Innings") or []
-        if not isinstance(innings_list, list) or not innings_list: continue
-        readable += 1
-        gid = str(val(match, "gid", "match_gid", "match_id", "matchId") or path.stem)
-        date = val(match, "date_string", "start_date", "match_date", "date")
-        series = val(match, "comp_name", "competition_name", "series_name", "series") or "List A"
-        ground = val(match, "venue_name", "ground_name", "venue", "ground")
-        result = val(match, "result", "result_string")
-        label = val(match, "title", "match_name", "match_title") or path.stem
-        # Team names are often stored at the scorecard root, not inside match metadata.
-        team_names = [
-            val(payload, "team1_name", "team1_short_name"),
-            val(payload, "team2_name", "team2_short_name"),
-            val(match, "team1_name", "team2_name", "home_team_name", "away_team_name"),
-        ]
-        team_names = [str(name).strip() for name in team_names if name]
-        opposition = next(
-            (name for name in team_names if name.lower() not in {"hyderabad", "hyd"}),
-            ""
-        )
-        for inn_no, inn in enumerate(innings_list, 1):
-            if not isinstance(inn, dict): continue
-            # BCCI often nests fielders under each dismissed batter row.
-            for batter in (inn.get("batting") or inn.get("batsmen") or []):
-                if not isinstance(batter, dict): continue
-                for fielder in (batter.get("fielding") or []):
-                    if not isinstance(fielder, dict) or not is_tilak(fielder): continue
-                    fkey = (gid, inn_no, str(batter.get("player_id", "")), str(batter.get("dismissal_str", "")))
-                    fielding[fkey] = {
-                        "innings": inn_no, "player_id": PLAYER_ID,
-                        "fielder": val(fielder, "player_known_as", "player_name_short", "player_name") or "Tilak Varma",
-                        "dismissal": val(batter, "dismissal_str", "dismissal_name"),
-                        "dismissedBatterId": str(val(batter, "player_id", "player_gid", "id") or ""),
-                        "dismissedBatter": val(batter, "player_known_as", "player_name_short", "player_name"),
-                        "matchGid": gid, "date": date, "ground": ground, "series": series, "result": result,
-                        "matchUrl": f"https://stats.bcci.tv/match/{gid}/scorecard", "sourceVerified": True
-                    }
-            for section in ("batting", "batsmen", "bowling", "fielding"):
-                rows = inn.get(section) or []
-                if not isinstance(rows, list): continue
-                for row in rows:
-                    if not isinstance(row, dict) or not is_tilak(row): continue
-                    key = (gid, inn_no)
-                    if section in ("batting", "batsmen"):
-                        runs = integer(val(row, "runs", "batsman_runs", "r"))
-                        balls = integer(val(row, "balls_faced", "balls", "bf"))
-                        dismissal = val(row, "dismissal_str", "dismissal", "how_out")
-                        not_out = str(dismissal or "").strip().lower() == "not out" or (not dismissal and not val(row, "dismissal_id", "wicket_type"))
-                        batting[key] = {
-                            "date": date, "runs": runs, "score": f"{runs}{'*' if not_out else ''}",
-                            "balls": balls, "fours": integer(val(row, "fours", "4s")),
-                            "sixes": integer(val(row, "sixes", "6s")),
-                            "strikeRate": round(runs * 100 / balls, 2) if balls else None,
-                            "position": integer(val(row, "batting_position", "position"), None),
-                            "dismissal": dismissal, "innings": inn_no,
-                            "opposition": val(row, "opposition", "opponent") or opposition,
-                            "ground": ground, "series": series, "result": result,
-                            "matchUrl": f"https://stats.bcci.tv/match/{gid}/scorecard",
-                            "matchLabel": label, "sourceVerified": True, "matchGid": gid
+            if path.name in {"fetch_report.json", "errors.json"}: continue
+            try: payload = json.loads(path.read_text(encoding="utf-8-sig"))
+            except (OSError, json.JSONDecodeError): continue
+            if not isinstance(payload, dict): continue
+            match = payload.get("match") or payload.get("match_info") or payload.get("matchInfo") or {}
+            innings_list = payload.get("innings") or payload.get("Innings") or []
+            if not isinstance(innings_list, list) or not innings_list: continue
+            readable += 1
+            gid = str(val(match, "gid", "match_gid", "match_id", "matchId") or path.stem)
+            date = val(match, "date_string", "start_date", "match_date", "date")
+            series = val(match, "comp_name", "competition_name", "series_name", "series") or "List A"
+            ground = val(match, "venue_name", "ground_name", "venue", "ground")
+            result = val(match, "result", "result_string")
+            label = val(match, "title", "match_name", "match_title") or path.stem
+            # Team names are often stored at the scorecard root, not inside match metadata.
+            team_names = [
+                val(payload, "team1_name", "team1_short_name"),
+                val(payload, "team2_name", "team2_short_name"),
+                val(match, "team1_name", "team2_name", "home_team_name", "away_team_name"),
+            ]
+            team_names = [str(name).strip() for name in team_names if name]
+            opposition = next(
+                (name for name in team_names if name.lower() not in {"hyderabad", "hyd"}),
+                ""
+            )
+            for inn_no, inn in enumerate(innings_list, 1):
+                if not isinstance(inn, dict): continue
+                # BCCI often nests fielders under each dismissed batter row.
+                for batter in (inn.get("batting") or inn.get("batsmen") or []):
+                    if not isinstance(batter, dict): continue
+                    for fielder in (batter.get("fielding") or []):
+                        if not isinstance(fielder, dict) or not is_tilak(fielder): continue
+                        fkey = (gid, inn_no, str(batter.get("player_id", "")), str(batter.get("dismissal_str", "")))
+                        fielding[fkey] = {
+                            "innings": inn_no, "player_id": PLAYER_ID,
+                            "fielder": val(fielder, "player_known_as", "player_name_short", "player_name") or "Tilak Varma",
+                            "dismissal": val(batter, "dismissal_str", "dismissal_name"),
+                            "dismissedBatterId": str(val(batter, "player_id", "player_gid", "id") or ""),
+                            "dismissedBatter": val(batter, "player_known_as", "player_name_short", "player_name"),
+                            "matchGid": gid, "date": date, "ground": ground, "series": series, "result": result,
+                            "matchUrl": f"https://stats.bcci.tv/match/{gid}/scorecard", "sourceVerified": True
                         }
-                    elif section == "bowling":
-                        bowling[key] = {"innings": inn_no, **row, "matchGid": gid, "date": date}
-                    else:
-                        fielding[key] = {"innings": inn_no, **row, "matchGid": gid, "date": date}
+                for section in ("batting", "batsmen", "bowling", "fielding"):
+                    rows = inn.get(section) or []
+                    if not isinstance(rows, list): continue
+                    for row in rows:
+                        if not isinstance(row, dict) or not is_tilak(row): continue
+                        key = (gid, inn_no)
+                        if section in ("batting", "batsmen"):
+                            runs = integer(val(row, "runs", "batsman_runs", "r"))
+                            balls = integer(val(row, "balls_faced", "balls", "bf"))
+                            dismissal = val(row, "dismissal_str", "dismissal", "how_out")
+                            not_out = str(dismissal or "").strip().lower() == "not out" or (not dismissal and not val(row, "dismissal_id", "wicket_type"))
+                            batting[key] = {
+                                "date": date, "runs": runs, "score": f"{runs}{'*' if not_out else ''}",
+                                "balls": balls, "fours": integer(val(row, "fours", "4s")),
+                                "sixes": integer(val(row, "sixes", "6s")),
+                                "strikeRate": round(runs * 100 / balls, 2) if balls else None,
+                                "position": integer(val(row, "batting_position", "position"), None),
+                                "dismissal": dismissal, "innings": inn_no,
+                                "opposition": val(row, "opposition", "opponent") or opposition,
+                                "ground": ground, "series": series, "result": result,
+                                "matchUrl": f"https://stats.bcci.tv/match/{gid}/scorecard",
+                                "matchLabel": label, "sourceVerified": True, "matchGid": gid
+                            }
+                        elif section == "bowling":
+                            bowling[key] = {"innings": inn_no, **row, "matchGid": gid, "date": date}
+                        else:
+                            fielding[key] = {"innings": inn_no, **row, "matchGid": gid, "date": date}
+
     if not readable: raise SystemExit("No readable scorecard JSONs with innings; data/list-a.json left unchanged.")
     data = json.loads(LIST_A_FILE.read_text(encoding="utf-8"))
     # Preserve known opponent/date metadata if a BCCI batting row omits it.
