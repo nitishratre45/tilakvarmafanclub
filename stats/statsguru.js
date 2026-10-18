@@ -859,7 +859,16 @@
             : "");
       }
     }
-    if (selectedFormat === "Youth ODI" && renderYouthOdi()) return;
+    if (selectedFormat === "Youth ODI") {
+      // Youth ODI is a standalone format view; hide generic T20I category and detail controls.
+      if (categoryGrid) categoryGrid.style.display = "none";
+      if (analysisMenu) analysisMenu.style.display = "none";
+      if (detailTable) detailTable.style.display = "none";
+      $("statsguru-format-label").textContent = "Youth ODI · U19";
+      $("statsguru-title").textContent = "Youth ODI career summary";
+      $("statsguru-eyebrow").textContent = "YOUTH ODI · CAREER OVERVIEW";
+      if (renderYouthOdi()) return;
+    }
     const type = activeBreakdownFilter,
       value = activeBreakdownValue,
       group = selectedGroup(source);
