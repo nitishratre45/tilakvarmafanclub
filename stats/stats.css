@@ -580,7 +580,6 @@
   }
 }
 
-
 /* Youth ODI Statsguru layout repair: full-width cards and a properly scrollable breakdown */
 .stats-page #statsguru-summary .sg-youth-career {
   display: block;
@@ -643,7 +642,7 @@
   background: #203b51;
   color: #f7fbff;
   text-transform: uppercase;
-  letter-spacing: .045em;
+  letter-spacing: 0.045em;
   font-size: 11px;
 }
 .stats-page #statsguru-summary table.sg-youth-breakdown th:first-child,
@@ -659,11 +658,16 @@
   z-index: 4;
   background: #203b51;
 }
-.stats-page #statsguru-summary table.sg-youth-breakdown tbody tr:nth-child(even) td:not(:first-child) {
-  background: rgba(255,255,255,.025);
+.stats-page
+  #statsguru-summary
+  table.sg-youth-breakdown
+  tbody
+  tr:nth-child(even)
+  td:not(:first-child) {
+  background: rgba(255, 255, 255, 0.025);
 }
 .stats-page #statsguru-summary table.sg-youth-breakdown tbody tr:hover td {
-  background-color: rgba(83, 205, 236, .09);
+  background-color: rgba(83, 205, 236, 0.09);
 }
 .stats-page #statsguru-summary .sg-youth-career h3 {
   margin: 22px 0 10px;
