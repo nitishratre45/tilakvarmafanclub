@@ -66,12 +66,7 @@ function validate(kind, value) {
     // Require the core sections so a truncated paste cannot erase site features.
     // Validate the current site-data.json schema; legacy profile/bowlingStats/
     // recentInnings keys are not present in the current saved snapshot.
-    const requiredObjects = [
-      "careerStats",
-      "careerFormats",
-      "statsguru",
-      "fieldingStats",
-    ];
+    const requiredObjects = ["careerStats", "careerFormats", "statsguru", "fieldingStats"];
     for (const key of requiredObjects) {
       if (!value[key] || typeof value[key] !== "object" || Array.isArray(value[key]))
         return "Stats file must retain its " + key + " object; refusing an incomplete replacement.";
