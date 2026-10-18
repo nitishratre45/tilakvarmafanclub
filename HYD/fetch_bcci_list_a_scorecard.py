@@ -1,122 +1,108 @@
 #!/usr/bin/env python3
-"""Fetch one BCCI List A scorecard and merge Tilak Varma's batting/bowling/fielding
-figures into data/list-a.json. The raw BCCI JSON is saved under HYD/hyd_scoreboards/json.
-"""
+"""Extract Tilak Varma's List A rows from scorecards downloaded by hyd_scoreboard_builder.py."""
 import json
-import os
-import time
 from pathlib import Path
-
-import requests
 
 ROOT = Path(__file__).resolve().parents[1]
 PLAYER_ID = "69845"
-MATCH_GID = os.getenv("BCCI_MATCH_GID", "8a4ed6c8-2bf2-417f-82d6-bae2012d611d")
-SCORECARD_URL = f"https://stats.bcci.tv/match/{MATCH_GID}/scorecard"
 RAW_DIR = ROOT / "HYD" / "hyd_scoreboards" / "json"
-RAW_FILE = RAW_DIR / f"{MATCH_GID}.json"
 LIST_A_FILE = ROOT / "data" / "list-a.json"
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
-    "Accept": "application/json, text/plain, */*",
-    "Referer": "https://stats.bcci.tv/",
-}
 
-def as_int(value, default=0):
-    try:
-        return int(float(value or 0))
-    except (TypeError, ValueError):
-        return default
+def val(obj, *keys):
+    if not isinstance(obj, dict): return None
+    for key in keys:
+        if obj.get(key) not in (None, ""): return obj[key]
+    return None
 
-def find_player_rows(payload, section):
-    rows = []
-    for inn_no, innings in enumerate(payload.get("innings") or [], 1):
-        for row in innings.get(section) or []:
-            pid = str(row.get("player_id", row.get("batsman_id", row.get("bowler_id", row.get("fielder_id", "")))))
-            if pid == PLAYER_ID:
-                rows.append((inn_no, innings, row))
-    return rows
+def integer(value, default=0):
+    try: return int(float(value or 0))
+    except (TypeError, ValueError): return default
+
+def is_tilak(row):
+    for key in ("player_id", "player_gid", "playerId", "batsman_id", "bowler_id", "fielder_id"):
+        if str(row.get(key, "")) == PLAYER_ID: return True
+    for key in ("player", "batsman", "bowler", "fielder"):
+        p = row.get(key)
+        if isinstance(p, dict) and str(val(p, "player_id", "player_gid", "id") or "") == PLAYER_ID: return True
+    return False
 
 def main():
-    RAW_DIR.mkdir(parents=True, exist_ok=True)
-    response = requests.get(SCORECARD_URL, headers=HEADERS, timeout=45)
-    response.raise_for_status()
-    try:
-        payload = response.json()
-    except ValueError as exc:
-        raise SystemExit(f"BCCI scorecard did not return JSON (content-type={response.headers.get('content-type')}).") from exc
-    if not isinstance(payload, dict) or not isinstance(payload.get("match"), dict):
-        raise SystemExit("Unexpected BCCI scorecard schema; raw response not accepted.")
-    if not payload.get("innings"):
-        raise SystemExit("BCCI response has no innings; refusing to write empty scorecard.")
-    RAW_FILE.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
-    batting, bowling, fielding = [], [], []
-    for inn_no, innings in enumerate(payload.get("innings") or [], 1):
-        for row in innings.get("batting") or []:
-            if str(row.get("player_id", "")) == PLAYER_ID:
-                runs = as_int(row.get("runs"))
-                balls = as_int(row.get("balls_faced"))
-                dismissal = row.get("dismissal_str") or ""
-                not_out = not bool(row.get("dismissal_id")) and not dismissal
-                batting.append({
-                    "date": payload["match"].get("date_string") or payload["match"].get("start_date"),
-                    "runs": runs, "score": f"{runs}{'*' if not_out else ''}",
-                    "balls": balls, "fours": as_int(row.get("fours")),
-                    "sixes": as_int(row.get("sixes")),
-                    "strikeRate": round(runs * 100 / balls, 2) if balls else None,
-                    "position": as_int(row.get("batting_position"), None),
-                    "dismissal": dismissal or None, "innings": inn_no,
-                    "opposition": row.get("opposition") or "",
-                    "ground": payload["match"].get("venue_name") or payload["match"].get("ground_name"),
-                    "series": payload["match"].get("comp_name") or "List A",
-                    "result": payload["match"].get("result"),
-                    "matchUrl": SCORECARD_URL,
-                    "matchLabel": payload["match"].get("title") or payload["match"].get("match_name") or SCORECARD_URL,
-                    "sourceVerified": True, "matchGid": MATCH_GID
-                })
-        for row in innings.get("bowling") or []:
-            if str(row.get("player_id", "")) == PLAYER_ID:
-                bowling.append({"innings": inn_no, **row, "matchGid": MATCH_GID})
-        for row in innings.get("fielding") or []:
-            if str(row.get("player_id", "")) == PLAYER_ID:
-                fielding.append({"innings": inn_no, **row, "matchGid": MATCH_GID})
-
-    if not batting and not bowling and not fielding:
-        raise SystemExit(f"Scorecard saved at {RAW_FILE}, but Tilak Varma (player_id={PLAYER_ID}) was not found in batting/bowling/fielding. list-a.json unchanged.")
-
+    batting, bowling, fielding = {}, {}, {}
+    readable = 0
+    for path in RAW_DIR.glob("*.json"):
+        if path.name in {"fetch_report.json", "errors.json"}: continue
+        try: payload = json.loads(path.read_text(encoding="utf-8-sig"))
+        except (OSError, json.JSONDecodeError): continue
+        if not isinstance(payload, dict): continue
+        match = payload.get("match") or payload.get("match_info") or payload.get("matchInfo") or {}
+        innings_list = payload.get("innings") or payload.get("Innings") or []
+        if not isinstance(innings_list, list) or not innings_list: continue
+        readable += 1
+        gid = str(val(match, "gid", "match_gid", "match_id", "matchId") or path.stem)
+        date = val(match, "date_string", "start_date", "match_date", "date")
+        series = val(match, "comp_name", "competition_name", "series_name", "series") or "List A"
+        ground = val(match, "venue_name", "ground_name", "venue", "ground")
+        result = val(match, "result", "result_string")
+        label = val(match, "title", "match_name", "match_title") or path.stem
+        for inn_no, inn in enumerate(innings_list, 1):
+            if not isinstance(inn, dict): continue
+            for section in ("batting", "batsmen", "bowling", "fielding"):
+                rows = inn.get(section) or []
+                if not isinstance(rows, list): continue
+                for row in rows:
+                    if not isinstance(row, dict) or not is_tilak(row): continue
+                    key = (gid, inn_no)
+                    if section in ("batting", "batsmen"):
+                        runs = integer(val(row, "runs", "batsman_runs", "r"))
+                        balls = integer(val(row, "balls_faced", "balls", "bf"))
+                        dismissal = val(row, "dismissal_str", "dismissal", "how_out")
+                        not_out = not dismissal and not val(row, "dismissal_id", "wicket_type")
+                        batting[key] = {
+                            "date": date, "runs": runs, "score": f"{runs}{'*' if not_out else ''}",
+                            "balls": balls, "fours": integer(val(row, "fours", "4s")),
+                            "sixes": integer(val(row, "sixes", "6s")),
+                            "strikeRate": round(runs * 100 / balls, 2) if balls else None,
+                            "position": integer(val(row, "batting_position", "position"), None),
+                            "dismissal": dismissal, "innings": inn_no,
+                            "opposition": val(row, "opposition", "opponent") or "",
+                            "ground": ground, "series": series, "result": result,
+                            "matchUrl": f"https://stats.bcci.tv/match/{gid}/scorecard",
+                            "matchLabel": label, "sourceVerified": True, "matchGid": gid
+                        }
+                    elif section == "bowling":
+                        bowling[key] = {"innings": inn_no, **row, "matchGid": gid, "date": date}
+                    else:
+                        fielding[key] = {"innings": inn_no, **row, "matchGid": gid, "date": date}
+    if not readable: raise SystemExit("No readable scorecard JSONs with innings; data/list-a.json left unchanged.")
     data = json.loads(LIST_A_FILE.read_text(encoding="utf-8"))
-    for key, new_rows in (("innings", batting), ("bowlingInnings", bowling), ("fieldingInnings", fielding)):
-        existing = data.setdefault(key, [])
-        existing[:] = [x for x in existing if x.get("matchGid") != MATCH_GID]
-        existing.extend(new_rows)
-
-    # Recalculate batting summary only from the verified innings stored in this pilot.
-    rows = data.get("innings", [])
-    runs = sum(as_int(x.get("runs")) for x in rows)
-    balls = sum(as_int(x.get("balls")) for x in rows)
-    not_outs = sum(1 for x in rows if str(x.get("score", "")).endswith("*"))
-    outs = len(rows) - not_outs
-    scores = [as_int(x.get("runs")) for x in rows]
-    data["summary"].update({
-        "matches": len({x.get("matchGid") or x.get("matchLabel") for x in rows}),
-        "innings": len(rows), "notOuts": not_outs, "runs": runs,
-        "highestScore": (str(max(scores)) + ("*" if rows[scores.index(max(scores))].get("score", "").endswith("*") else "")) if scores else "0",
-        "average": round(runs / outs, 2) if outs else None,
+    # Keep the six manually verified pilot innings, replace only previously imported GID rows.
+    manual = [x for x in data.get("innings", []) if not x.get("matchGid")]
+    data["innings"] = manual + sorted(batting.values(), key=lambda x: (str(x.get("date") or ""), x["matchGid"], x["innings"]))
+    data["bowlingInnings"], data["fieldingInnings"] = list(bowling.values()), list(fielding.values())
+    rows = data["innings"]
+    runs = sum(integer(x.get("runs")) for x in rows)
+    balls = sum(integer(x.get("balls")) for x in rows)
+    not_outs = sum(str(x.get("score", "")).endswith("*") for x in rows)
+    dismissed = len(rows) - not_outs
+    scores = [integer(x.get("runs")) for x in rows]
+    matches = {x.get("matchGid") or x.get("matchLabel") for x in rows}
+    data.setdefault("summary", {}).update({
+        "matches": len(matches), "innings": len(rows), "notOuts": not_outs, "runs": runs,
+        "highestScore": str(max(scores)) if scores else "0",
+        "average": round(runs / dismissed, 2) if dismissed else None,
         "strikeRate": round(runs * 100 / balls, 2) if balls else None,
-        "fours": sum(as_int(x.get("fours")) for x in rows),
-        "sixes": sum(as_int(x.get("sixes")) for x in rows),
-        "balls": balls, "verifiedMatchCount": len({x.get("matchGid") or x.get("matchLabel") for x in rows}),
-        "source": "BCCI scorecard JSON snapshots"
+        "fours": sum(integer(x.get("fours")) for x in rows),
+        "sixes": sum(integer(x.get("sixes")) for x in rows), "balls": balls,
+        "verifiedMatchCount": len(matches), "source": "BCCI scorecard JSON snapshots"
     })
-    data["scope"]["matchesIncluded"] = data["summary"]["matches"]
-    data["scope"]["breakdownMatchesIncluded"] = data["summary"]["matches"]
-    data["scope"]["completeCareer"] = False
-    data["scope"]["scopeLabel"] = "Verified scorecards only"
+    data.setdefault("scope", {}).update({"matchesIncluded": len(matches), "breakdownMatchesIncluded": len(matches),
+        "completeCareer": False, "scopeLabel": "BCCI scorecards downloaded by HYD pipeline"})
+    data["dataNotes"] = [
+        "Includes the manually verified pilot innings plus Tilak Varma rows extracted from readable scorecards in HYD/hyd_scoreboards/json.",
+        "This is not a complete-career claim; include all List A seasons/competitions before labelling it complete.",
+        "Player matching uses BCCI player ID 69845 where that ID is present in the scorecard row."
+    ]
     LIST_A_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"scorecard_saved": str(RAW_FILE), "list_a_updated": str(LIST_A_FILE),
-        "new_batting_innings": len(batting), "new_bowling_rows": len(bowling),
-        "new_fielding_rows": len(fielding), "summary": data["summary"]}, ensure_ascii=False, indent=2))
+    print(json.dumps({"scorecards_read": readable, "batting_rows": len(batting), "bowling_rows": len(bowling), "fielding_rows": len(fielding), "summary": data["summary"]}, indent=2))
 
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__": main()
