@@ -75,9 +75,9 @@ def main():
                         fielding[key] = {"innings": inn_no, **row, "matchGid": gid, "date": date}
     if not readable: raise SystemExit("No readable scorecard JSONs with innings; data/list-a.json left unchanged.")
     data = json.loads(LIST_A_FILE.read_text(encoding="utf-8"))
-    # Keep the six manually verified pilot innings, replace only previously imported GID rows.
-    manual = [x for x in data.get("innings", []) if not x.get("matchGid")]
-    data["innings"] = manual + sorted(batting.values(), key=lambda x: (str(x.get("date") or ""), x["matchGid"], x["innings"]))
+    # Use scorecard-extracted rows as the single source of truth. Keeping manual rows here
+    # duplicates innings that are now present in BCCI scorecard snapshots.
+    data["innings"] = sorted(batting.values(), key=lambda x: (str(x.get("date") or ""), x["matchGid"], x["innings"]))
     data["bowlingInnings"], data["fieldingInnings"] = list(bowling.values()), list(fielding.values())
     rows = data["innings"]
     runs = sum(integer(x.get("runs")) for x in rows)
