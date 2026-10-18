@@ -1,7 +1,7 @@
 /* List A pilot data loader. Keeps the List A dataset separate from Statsguru/T20I data. */
 (function () {
   "use strict";
-  const url = "/data/list-a.json?v=20261018-pilot1";
+  const url = "/data/list-a.json?v=20261018-full-summary1";
   window.TilakListAData = window.TilakListAData || { ready: null, data: null };
   window.TilakListAData.ready = fetch(url, { cache: "no-cache" })
     .then(function (response) {
