@@ -29,6 +29,17 @@ def is_tilak(row):
 def main():
     batting, bowling, fielding = {}, {}, {}
     readable = 0
+    # Preserve verified metadata if the current BCCI scorecard omits it.
+    existing = {}
+    if LIST_A_FILE.exists():
+        try:
+            previous = json.loads(LIST_A_FILE.read_text(encoding="utf-8"))
+            for row in previous.get("innings", []):
+                gid0 = str(row.get("matchGid") or "")
+                if gid0:
+                    existing[(gid0, int(row.get("innings") or 1))] = row
+        except (OSError, json.JSONDecodeError, TypeError, ValueError):
+            pass
     for path in RAW_DIR.glob("*.json"):
         if path.name in {"fetch_report.json", "errors.json"}: continue
         try: payload = json.loads(path.read_text(encoding="utf-8-sig"))
@@ -46,6 +57,21 @@ def main():
         label = val(match, "title", "match_name", "match_title") or path.stem
         for inn_no, inn in enumerate(innings_list, 1):
             if not isinstance(inn, dict): continue
+            # BCCI often nests fielders under each dismissed batter row.
+            for batter in (inn.get("batting") or inn.get("batsmen") or []):
+                if not isinstance(batter, dict): continue
+                for fielder in (batter.get("fielding") or []):
+                    if not isinstance(fielder, dict) or not is_tilak(fielder): continue
+                    fkey = (gid, inn_no, str(batter.get("player_id", "")), str(batter.get("dismissal_str", "")))
+                    fielding[fkey] = {
+                        "innings": inn_no, "player_id": PLAYER_ID,
+                        "fielder": val(fielder, "player_known_as", "player_name_short", "player_name") or "Tilak Varma",
+                        "dismissal": val(batter, "dismissal_str", "dismissal_name"),
+                        "dismissedBatterId": str(val(batter, "player_id", "player_gid", "id") or ""),
+                        "dismissedBatter": val(batter, "player_known_as", "player_name_short", "player_name"),
+                        "matchGid": gid, "date": date, "ground": ground, "series": series, "result": result,
+                        "matchUrl": f"https://stats.bcci.tv/match/{gid}/scorecard", "sourceVerified": True
+                    }
             for section in ("batting", "batsmen", "bowling", "fielding"):
                 rows = inn.get(section) or []
                 if not isinstance(rows, list): continue
@@ -75,8 +101,13 @@ def main():
                         fielding[key] = {"innings": inn_no, **row, "matchGid": gid, "date": date}
     if not readable: raise SystemExit("No readable scorecard JSONs with innings; data/list-a.json left unchanged.")
     data = json.loads(LIST_A_FILE.read_text(encoding="utf-8"))
-    # Use scorecard-extracted rows as the single source of truth. Keeping manual rows here
-    # duplicates innings that are now present in BCCI scorecard snapshots.
+    # Preserve known opponent/date metadata if a BCCI batting row omits it.
+    for key, row in batting.items():
+        prior = existing.get(key, {})
+        for field in ("date", "opposition", "ground", "series", "result", "matchLabel", "matchUrl"):
+            if not row.get(field) and prior.get(field):
+                row[field] = prior[field]
+    # Scorecard-extracted rows are the source of truth, with verified metadata retained.
     data["innings"] = sorted(batting.values(), key=lambda x: (str(x.get("date") or ""), x["matchGid"], x["innings"]))
     data["bowlingInnings"], data["fieldingInnings"] = list(bowling.values()), list(fielding.values())
     rows = data["innings"]
