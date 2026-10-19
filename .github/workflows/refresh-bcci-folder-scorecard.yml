@@ -1,90 +1,17 @@
-name: Refresh BCCI Folder Scorecard JSON
+name: BCCI Folder Scorecard (deprecated)
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "4-59/5 * * * *"
 
 permissions:
-  contents: write
-
-concurrency:
-  group: bcci-folder-scorecard
-  cancel-in-progress: false
+  contents: read
 
 jobs:
-  refresh-scorecard:
+  deprecated:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 1
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-      - name: Validate Python syntax
-        run: python -m py_compile bcci-fixtures-test/fetch_bcci_scorecard.py
-      - name: Fetch BCCI folder scorecard
-        run: python bcci-fixtures-test/fetch_bcci_scorecard.py
-      - name: Validate scorecard JSON
-        run: python -m json.tool bcci-fixtures-test/bcci-scorecard.json > /dev/null
-      - name: Validate scorecard identity and payload before publishing
-        shell: bash
+      - name: Explain replacement workflow
         run: |
-          set -euo pipefail
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          path = Path("bcci-fixtures-test/bcci-scorecard.json")
-          payload = json.loads(path.read_text(encoding="utf-8"))
-          assert payload.get("status") == "ok", f"Scorecard status is not ok: {payload.get('status')!r}"
-          match_id = str(payload.get("matchId") or "").strip()
-          assert match_id.isdigit(), f"Invalid BCCI numeric matchId: {match_id!r}"
-          assert str(payload.get("source", "")).startswith("https://stats.bcci.tv/match/"), "Scorecard source is not official BCCI"
-          assert isinstance(payload.get("liveMatch"), dict), "Scorecard has no liveMatch object"
-          assert isinstance(payload.get("data"), dict), "Scorecard has no data object"
-          assert payload.get("httpStatus") == 200, f"Unexpected upstream HTTP status: {payload.get('httpStatus')!r}"
-          print(f"Validated BCCI scorecard for match {match_id} before commit.")
-          PY
-
-      - name: Commit BCCI folder scorecard only
-        shell: bash
-        run: |
-          set -euo pipefail
-          FILE="bcci-fixtures-test/bcci-scorecard.json"
-          TMP_FILE="$(mktemp)"
-          cp "$FILE" "$TMP_FILE"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          for attempt in 1 2 3 4; do
-            git fetch origin main
-            git reset --hard origin/main
-            cp "$TMP_FILE" "$FILE"
-            git add -f "$FILE"
-            if git diff --cached --quiet; then
-              echo "Scorecard unchanged on latest main."
-              exit 0
-            fi
-            git commit -m "Refresh BCCI folder scorecard JSON"
-            if git push origin HEAD:main; then
-              echo "Published validated BCCI folder scorecard."
-              exit 0
-            fi
-            echo "Concurrent main update detected; rebuilding commit on latest main (attempt $attempt/4)."
-            sleep $((attempt * 2))
-          done
-          echo "::error::Could not publish BCCI folder scorecard after four retries."
-          exit 1
-            fi
-            if git push origin HEAD:main; then
-              echo "Published validated BCCI folder scorecard."
-              exit 0
-            fi
-            echo "Concurrent main update detected; retrying safely (attempt $attempt/4)."
-            sleep $((attempt * 2))
-          done
-          echo "::error::Could not publish BCCI folder scorecard after four retries."
-          exit 1
+          echo "::notice::This duplicate scheduled workflow has been retired."
+          echo "Use 'Refresh BCCI Fixtures Scorecard JSON' for the single scheduled scorecard refresh."
