@@ -3613,26 +3613,3 @@ body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tab
     font-size: 13px !important;
   }
 }
-
-/* Match the Home page's two-line brand lockup without changing fixture layout. */
-body.bcci-matches-page > header.topbar > a.brand > span:last-child {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 3px;
-  font-size: 15px;
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: 0.045em;
-  white-space: nowrap;
-}
-body.bcci-matches-page > header.topbar > a.brand > span:last-child > small {
-  display: block;
-  margin: 0;
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
