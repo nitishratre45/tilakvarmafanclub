@@ -91,7 +91,7 @@
         );
       return hasIndiaMen;
     });
-    return upcoming.slice(0, 12).map((m, i) => ({
+    return upcoming.map((m, i) => ({
       home: pick(m, ["team1_name", "team1_short_name", "home_team_name"], "Team A"),
       away: pick(m, ["team2_name", "team2_short_name", "away_team_name"], "Team B"),
       date: pick(m, ["start_date", "date_string", "start_datetime_utc", "end_date"]),
