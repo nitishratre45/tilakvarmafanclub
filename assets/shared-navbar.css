@@ -2667,7 +2667,6 @@ html body > header.topbar > a.brand > span:last-child > small {
   }
 }
 
-
 /* Site-wide navigation interaction parity: animated orange underline and hover color. */
 @media (min-width: 801px) {
   html body > header.topbar nav#main-nav a,
@@ -2696,7 +2695,10 @@ html body > header.topbar > a.brand > span:last-child > small {
     border-radius: 999px !important;
     opacity: 0 !important;
     transform: translateX(0) !important;
-    transition: left 220ms ease, right 220ms ease, opacity 160ms ease !important;
+    transition:
+      left 220ms ease,
+      right 220ms ease,
+      opacity 160ms ease !important;
     pointer-events: none !important;
   }
 
