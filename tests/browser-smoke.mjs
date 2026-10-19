@@ -609,6 +609,25 @@ check("Admin Studio warns before discarding unsaved edits", async () => {
   await page.close();
 });
 
+
+check("Complete Matches opens a real archived scorecard", async () => {
+  const page = await browser.newPage();
+  page.setDefaultTimeout(12000);
+  const pageErrors = [];
+  page.on("pageerror", error => pageErrors.push(error.message));
+  await page.goto(baseURL + "/bcci-fixtures-test/complete/", { waitUntil: "domcontentloaded" });
+  await page.locator("#completed-match-list .complete-match-card").first().waitFor();
+  const cardCount = await page.locator("#completed-match-list .complete-match-card").count();
+  assert(cardCount > 0, "Complete Matches should render saved archive cards");
+  await page.locator("#completed-match-list .complete-match-card .scorecard-open").first().click();
+  await page.waitForURL(url => url.pathname === "/bcci-fixtures-test/scorecards/");
+  await page.waitForFunction(() => document.querySelector("#scorecard-page-status")?.textContent === "Scorecard loaded");
+  assert.equal(await page.locator("#scorecard-content .scorecard-detail-head").count(), 1, "Scorecard header should render");
+  assert(await page.locator("#scorecard-content .scorecard-innings").count() > 0, "At least one innings should render from the archived JSON");
+  assert.deepEqual(pageErrors, [], "Scorecard page errors: " + pageErrors.join(" | "));
+  await page.close();
+});
+
 try {
   for (const item of checks) {
     try {

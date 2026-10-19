@@ -35,6 +35,7 @@ jobs:
           set -euo pipefail
           python -m py_compile bcci-fixtures-test/fetch_bcci_scorecard.py
           python -m json.tool bcci-fixtures-test/bcci-fixtures.json >/dev/null
+          python -m unittest discover -s tests -p "test_bcci_scorecard_selection.py" -v
       - name: Fetch current BCCI scorecard into the BCCI Fixtures folder
         id: fetch
         run: python bcci-fixtures-test/fetch_bcci_scorecard.py
