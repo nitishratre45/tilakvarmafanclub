@@ -47,7 +47,7 @@ def choose_match():
                 gid = raw.get("gid") or raw.get("match_gid") or entry.get("id")
                 match_id = raw.get("match_id") or raw.get("id")
                 resolved = None
-                if not match_id and gid:
+                if (not match_id or not str(match_id).isdigit()) and gid:
                     resolved = next(
                         (
                             item
