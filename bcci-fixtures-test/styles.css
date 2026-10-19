@@ -29,54 +29,6 @@ input,
 select {
   font: inherit;
 }
-.topbar {
-  height: 72px;
-  border-bottom: 1px solid #203047;
-  background: #07111fef;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 max(22px, calc((100% - 1120px) / 2));
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  backdrop-filter: blur(14px);
-}
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  font:
-    700 14px "Space Grotesk",
-    sans-serif;
-  letter-spacing: 1px;
-}
-.brand small {
-  display: block;
-  color: var(--muted);
-  font:
-    600 9px "DM Sans",
-    sans-serif;
-  letter-spacing: 2px;
-  margin-top: 3px;
-} /* Navbar rules centralized in /assets/shared-navbar.css */
-.test-label {
-  border: 1px solid #3d705f;
-  color: var(--accent);
-  border-radius: 999px;
-  padding: 7px 11px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-.test-label i {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  margin-right: 6px;
-}
 .container {
   width: min(1120px, calc(100% - 36px));
   margin: 0 auto;
@@ -348,10 +300,6 @@ footer a {
   display: none !important;
 }
 @media (max-width: 700px) {
-  .topbar {
-    height: 62px;
-    padding: 0 17px;
-  }
   .container {
     width: calc(100% - 24px);
   }
@@ -807,11 +755,6 @@ body {
     radial-gradient(ellipse at 10% 0%, #12395a88 0, transparent 36%),
     radial-gradient(ellipse at 95% 12%, #143b3180 0, transparent 28%), var(--bg);
 }
-.topbar {
-  padding-inline: max(16px, calc((100% - 1120px) / 2));
-  border-bottom-color: #28415d;
-  box-shadow: 0 8px 28px #0002;
-} /* Navbar rules centralized in /assets/shared-navbar.css */
 .container {
   width: min(1120px, calc(100% - 32px));
 }
@@ -873,26 +816,6 @@ footer {
   padding-bottom: calc(22px + env(safe-area-inset-bottom, 0px));
 }
 @media (max-width: 760px) {
-  .topbar {
-    height: 64px;
-    padding-inline: 14px;
-    gap: 10px;
-  }
-  .brand {
-    font-size: 12px;
-    letter-spacing: 0.3px;
-    gap: 8px;
-  } /* Navbar rules centralized in /assets/shared-navbar.css */
-  .test-header-actions {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
-  .test-label {
-    font-size: 9px;
-    letter-spacing: 0.5px;
-    padding: 7px 9px;
-  }
   .container {
     width: calc(100% - 22px);
   }
@@ -972,16 +895,6 @@ footer {
   }
 }
 @media (max-width: 380px) {
-  .topbar {
-    padding-inline: 9px;
-  }
-  .brand {
-    font-size: 11px;
-  }
-  .test-label {
-    padding: 6px;
-    font-size: 8px;
-  }
   .hero-actions {
     grid-template-columns: 1fr;
   }
@@ -1926,7 +1839,7 @@ footer {
   }
 }
 
-/* 2026-10 premium live-match card polish — intentionally excludes navbar/menu */
+/* 2026-10 premium live-match card polish */
 #liveScoresPanel.panel {
   background: linear-gradient(145deg, rgba(16, 34, 54, 0.96), rgba(7, 18, 32, 0.98));
   border: 1px solid rgba(119, 169, 207, 0.24);
@@ -2358,8 +2271,7 @@ footer {
   }
 }
 
-/* Premium compact mobile live-match card — scoped to BCCI Fixtures Test.
-   Do not alter the shared site navbar or hamburger menu. */
+/* Premium compact mobile live-match card — scoped to BCCI Fixtures Test. */
 .live-matches-section {
   border-color: rgba(119, 202, 232, 0.22);
   background: linear-gradient(145deg, rgba(15, 31, 50, 0.96), rgba(7, 18, 31, 0.98));
@@ -2671,8 +2583,7 @@ footer {
   }
 }
 
-/* Hotfix: prevent duplicate team labels/logos and remove redundant back links
-   while the live-match view is active. Shared navbar/menu intentionally untouched. */
+/* Hotfix: prevent duplicate team labels/logos and remove redundant back links while the live-match view is active. */
 .live-match-card .upcoming-team .team-identity {
   display: flex;
   width: 100%;
@@ -2776,7 +2687,7 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
   }
 }
 
-/* Premium BCCI Fixtures polish — visual styling only; header/menu untouched. */
+/* Premium BCCI Fixtures polish — visual styling only. */
 #liveMatchesSection,
 .upcoming-hero,
 #upcomingMatchesSection,
@@ -3371,16 +3282,6 @@ body {
     radial-gradient(ellipse at 10% 0%, rgba(35, 91, 170, 0.22), transparent 36rem),
     radial-gradient(ellipse at 100% 25%, rgba(12, 94, 141, 0.14), transparent 32rem), #050e1d;
 }
-.topbar {
-  background: linear-gradient(
-    105deg,
-    rgba(8, 48, 96, 0.98),
-    rgba(12, 91, 177, 0.98) 55%,
-    rgba(7, 46, 92, 0.98)
-  );
-  border-bottom-color: rgba(128, 206, 255, 0.34);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
-}
 .panel,
 .filters,
 .live-matches-section {
@@ -3469,9 +3370,6 @@ button:focus-visible {
   -webkit-backdrop-filter: blur(16px);
 }
 @media (max-width: 560px) {
-  .topbar {
-    min-height: 72px;
-  }
   .filters {
     padding: 14px;
     border-radius: 18px;
@@ -3660,8 +3558,6 @@ button:focus-visible {
   }
 }
 
-/* Navbar geometry is centralized in /assets/shared-navbar.css. */
-
 /* Match the Upcoming / Complete view switch to the same shared tab component. */
 body.bcci-matches-page > .match-centre-controls.bcci-view-tabs {
   width: min(100% - 32px, 1120px) !important;
@@ -3702,7 +3598,7 @@ body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tab
   background: linear-gradient(110deg, #1263c5, #174f91) !important;
 }
 @media (max-width: 800px) {
-  /* Navbar rules centralized in /assets/shared-navbar.css */ /* Navbar rules centralized in /assets/shared-navbar.css */ /* Navbar rules centralized in /assets/shared-navbar.css */ /* Navbar rules centralized in /assets/shared-navbar.css */
+
   body.bcci-matches-page > .match-centre-controls.bcci-view-tabs {
     width: calc(100% - 20px) !important;
     margin: 14px auto 20px !important;
@@ -3717,10 +3613,4 @@ body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tab
     padding: 11px 8px !important;
     font-size: 13px !important;
   }
-} /* Navbar rules centralized in /assets/shared-navbar.css */ /* Navbar rules centralized in /assets/shared-navbar.css */
-@media (min-width: 801px) {
-  /* Navbar rules centralized in /assets/shared-navbar.css */ /* Navbar rules centralized in /assets/shared-navbar.css */ /* Navbar rules centralized in /assets/shared-navbar.css */ /* Navbar rules centralized in /assets/shared-navbar.css */ /* Navbar rules centralized in /assets/shared-navbar.css */ /* Navbar rules centralized in /assets/shared-navbar.css */
-}
-@media (max-width: 800px) {
-  /* Navbar rules centralized in /assets/shared-navbar.css */ /* Navbar rules centralized in /assets/shared-navbar.css */ /* Navbar rules centralized in /assets/shared-navbar.css */ /* Navbar rules centralized in /assets/shared-navbar.css */
 }
