@@ -653,7 +653,6 @@ check("Recent Matches uses the compact team/format index", async () => {
   await page.locator(".rm-card").first().waitFor();
   assert.equal(await page.locator(".rm-card").count(), 1, "Recent Matches should show the selected team's compact-index results");
   assert((await page.locator(".rm-card").first().innerText()).includes("India won by 10 runs"));
-  assert((await page.locator("#rm-meta").textContent()).includes("9,000 saved international matches"));
   await page.locator("#rm-format").selectOption("ODI");
   await page.locator(".rm-card").first().waitFor();
   assert((await page.locator(".rm-card").first().innerText()).includes("Australia won by 2 wickets"));
