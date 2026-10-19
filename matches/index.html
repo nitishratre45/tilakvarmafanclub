@@ -41,7 +41,7 @@
     <link rel="stylesheet" href="/assets/custom-selects.css?v=20261016-global-picker1" />
     <link rel="stylesheet" href="/matches/matches-motion.css?v=20261016-smooth-motion1" />
 
-    <link rel="stylesheet" href="/assets/shared-navbar.css?v=20261019-unified1" />
+    <link rel="stylesheet" href="/assets/shared-navbar.css?v=20261019-scrollbar-gutter1" />
   </head>
   <body class="matches-page">
     <header class="topbar">
@@ -200,33 +200,7 @@
     <script src="/matches/theme.js?v=20261014"></script>
     <script>
       (() => {
-        const menu = document.querySelector(".menu-toggle");
-        const nav = document.getElementById("main-nav");
-        if (menu && nav)
-          menu.addEventListener("click", () => {
-            const open = menu.getAttribute("aria-expanded") !== "true";
-            menu.setAttribute("aria-expanded", String(open));
-            nav.classList.toggle("open", open);
-          });
-        nav?.addEventListener("click", (event) => {
-          if (event.target.closest("a")) {
-            nav.classList.remove("open");
-            menu?.setAttribute("aria-expanded", "false");
-          }
-        });
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "Escape" && nav?.classList.contains("open")) {
-            nav.classList.remove("open");
-            menu?.setAttribute("aria-expanded", "false");
-            menu?.focus();
-          }
-        });
-        document.addEventListener("click", (event) => {
-          if (nav && menu && !nav.contains(event.target) && !menu.contains(event.target)) {
-            nav.classList.remove("open");
-            menu.setAttribute("aria-expanded", "false");
-          }
-        });
+        // Mobile navigation is handled only by /assets/mobile-glass-menu.js.
         const year = document.getElementById("year");
         if (year) year.textContent = new Date().getFullYear();
         const logo = document.querySelector("[data-tilak-logo]");
