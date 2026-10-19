@@ -36,8 +36,10 @@ jobs:
           python -m py_compile bcci-fixtures-test/fetch_bcci_scorecard.py
           python -m json.tool bcci-fixtures-test/bcci-fixtures.json >/dev/null
       - name: Fetch current BCCI scorecard into the BCCI Fixtures folder
+        id: fetch
         run: python bcci-fixtures-test/fetch_bcci_scorecard.py
       - name: Validate BCCI scorecard snapshot
+        if: steps.fetch.outputs.no_live_match != 'true'
         run: |
           set -euo pipefail
           python -m json.tool bcci-fixtures-test/bcci-scorecard.json >/dev/null
@@ -52,6 +54,7 @@ jobs:
           print(f"Innings: {len(p['data'].get('innings') or [])}; teams: {len(p['data'].get('team') or [])}")
           PY
       - name: Commit updated BCCI scorecard JSON only
+        if: steps.fetch.outputs.no_live_match != 'true'
         shell: bash
         run: |
           set -euo pipefail

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Refresh the scorecard for the currently live BCCI match in bcci-fixtures-test/."""
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -23,10 +24,15 @@ def choose_match():
     data = snapshot.get("data") or snapshot
     matches = data.get("match") or data.get("matches") or []
     if not matches:
-        raise RuntimeError("BCCI fixtures feed has no current live match")
+        # An empty fixtures snapshot is not evidence of a live match. Preserve the
+        # last verified scorecard instead of failing every scheduled no-match run.
+        return None
     live = [m for m in matches if str(m.get("match_status", "")).lower() in {"live", "in progress"}
             or "in play" in str(m.get("live_status_name", "")).lower()
             or str(m.get("live_status_id", "")) == "1"]
+    if not live:
+        # Upcoming/completed fixtures are normal when no match is in progress.
+        return None
     candidates = live
     candidates.sort(key=lambda m: (str(m.get("start_datetime_utc", "")), str(m.get("gid", ""))), reverse=True)
     for match in candidates:
@@ -48,7 +54,15 @@ def choose_match():
 
 def main():
     try:
-        match_id, live_match, is_live = choose_match()
+        selection = choose_match()
+        if selection is None:
+            print("No live BCCI match found; retaining the last verified scorecard.")
+            output_path = os.environ.get("GITHUB_OUTPUT")
+            if output_path:
+                with open(output_path, "a", encoding="utf-8") as output:
+                    output.write("no_live_match=true\n")
+            return 0
+        match_id, live_match, is_live = selection
         url = BASE.format(match_id)
         request = Request(url, headers={
             "User-Agent": "Mozilla/5.0 (compatible; CricZone-BCCI-Snapshot/1.0)",
