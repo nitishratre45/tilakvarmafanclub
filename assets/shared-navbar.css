@@ -1,0 +1,1237 @@
+/* Consolidated from assets/mobile-glass-menu.css; migrated into shared-navbar.css */
+/* Unified blue header and glass mobile navigation for every public section. */
+html body > header.topbar {
+  background: linear-gradient(110deg, #0b5fc4 0%, #0755ad 55%, #064994 100%) !important;
+  border-bottom: 1px solid rgba(150, 210, 255, 0.62) !important;
+  color: #fff !important;
+}
+html body > header.topbar .brand-mark,
+html body > header.topbar .brand-photo {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 13px !important;
+  background: rgba(5, 24, 48, 0.7) !important;
+  box-shadow:
+    0 4px 14px rgba(0, 16, 45, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+html body > header.topbar .brand-mark img,
+html body > header.topbar .brand-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+html body > header.topbar .brand small,
+html body > header.topbar .brand-copy small {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+html body > header.topbar .menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin: 5px auto;
+  border-radius: 2px;
+  background: #fff;
+  transform-origin: center;
+}
+
+@media (max-width: 800px) {
+  html body > header.topbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10000 !important;
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    min-height: 68px;
+    background: linear-gradient(110deg, #0b5fc4 0%, #0755ad 55%, #064994 100%) !important;
+    padding: 9px 14px;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  html body > header.topbar .brand {
+    min-width: 0;
+    max-width: calc(100% - 68px);
+    gap: 10px;
+  }
+  html body > header.topbar .brand-mark,
+  html body > header.topbar .brand-photo {
+    flex: 0 0 50px;
+    width: 50px;
+    height: 50px;
+  }
+  html body > header.topbar .menu-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 52px;
+    width: 52px;
+    min-width: 52px;
+    height: 52px;
+    min-height: 52px;
+    margin-left: auto;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    border-radius: 16px;
+    color: #fff !important;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.07));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 7px 18px rgba(0, 20, 55, 0.18);
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      transform 0.22s ease,
+      background 0.22s ease,
+      border-color 0.22s ease;
+  }
+  html body > header.topbar .menu-toggle:active {
+    transform: scale(0.94);
+  }
+  html body > header.topbar .menu-toggle span {
+    transition:
+      transform 0.22s ease,
+      opacity 0.18s ease;
+  }
+  html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+  html body > header.topbar nav#main-nav,
+  html body > header.topbar nav#death-nav,
+  html body > header.topbar nav#site-navigation {
+    display: grid !important;
+    position: absolute !important;
+    top: calc(100% + 9px) !important;
+    left: 10px !important;
+    right: 10px !important;
+    z-index: 2147483002 !important;
+    width: auto !important;
+    max-height: min(68dvh, 540px);
+    overflow: auto;
+    overscroll-behavior: contain;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 8px;
+    padding: 13px;
+    margin: 0;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 22px;
+    background:
+      linear-gradient(135deg, rgba(16, 91, 169, 0.78), rgba(5, 20, 42, 0.76)), rgba(8, 28, 54, 0.72);
+    -webkit-backdrop-filter: blur(10px) saturate(125%);
+    backdrop-filter: blur(10px) saturate(125%);
+    box-shadow:
+      0 22px 55px rgba(0, 10, 28, 0.42),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-9px) scale(0.985);
+    transform-origin: top center;
+    transition:
+      opacity 0.2s ease,
+      transform 0.24s cubic-bezier(0.2, 0.75, 0.25, 1),
+      visibility 0.2s ease;
+  }
+  html body > header.topbar nav#main-nav.open,
+  html body > header.topbar nav#death-nav.open,
+  html body > header.topbar nav#site-navigation.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+  html body > header.topbar nav#main-nav a,
+  html body > header.topbar nav#death-nav a,
+  html body > header.topbar nav#site-navigation a {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 48px;
+    padding: 9px 7px;
+    margin: 0;
+    border: 1px solid rgba(255, 255, 255, 0.13) !important;
+    border-radius: 13px !important;
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.085) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    transform: none !important;
+    touch-action: manipulation;
+    transition:
+      background 0.18s ease,
+      border-color 0.18s ease,
+      transform 0.18s ease;
+  }
+  html body > header.topbar nav#main-nav a.active,
+  html body > header.topbar nav#main-nav a[aria-current="page"],
+  html body > header.topbar nav#death-nav a.active,
+  html body > header.topbar nav#death-nav a[aria-current="page"],
+  html body > header.topbar nav#site-navigation a.active,
+  html body > header.topbar nav#site-navigation a[aria-current="page"] {
+    border-color: rgba(255, 145, 91, 0.75) !important;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 124, 69, 0.28),
+      rgba(255, 255, 255, 0.09)
+    ) !important;
+    box-shadow:
+      inset 0 -2px 0 #ff8b58,
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  html body > header.topbar nav a::after {
+    display: none !important;
+  }
+  html body.mobile-menu-open::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: rgba(1, 10, 24, 0.3);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    animation: tv-menu-scrim-in 0.18s ease both;
+  }
+  html body.mobile-menu-open {
+    overflow-x: clip;
+  }
+}
+@media (max-width: 390px) {
+  html body > header.topbar nav#main-nav,
+  html body > header.topbar nav#death-nav,
+  html body > header.topbar nav#site-navigation {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@keyframes tv-menu-scrim-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html body > header.topbar nav,
+  html body > header.topbar nav *,
+  html body > header.topbar .menu-toggle,
+  html body.mobile-menu-open::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Final cross-page parity pass: match News Details' blue glass treatment. */
+html body > header.topbar {
+  background: linear-gradient(
+    105deg,
+    rgba(5, 37, 82, 0.99),
+    rgba(11, 95, 196, 0.98) 54%,
+    rgba(8, 58, 123, 0.99)
+  ) !important;
+  border-bottom: 1px solid rgba(124, 229, 242, 0.5) !important;
+  box-shadow:
+    0 8px 24px rgba(0, 22, 65, 0.22),
+    0 1px 0 rgba(255, 124, 69, 0.35) !important;
+}
+html body > header.topbar .menu-toggle {
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  padding: 0 !important;
+  border: 1px solid rgba(124, 229, 242, 0.72) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(145deg, rgba(18, 104, 190, 0.9), rgba(5, 43, 91, 0.92)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 0 0 1px rgba(124, 229, 242, 0.12),
+    0 8px 22px rgba(0, 15, 50, 0.28) !important;
+}
+html body > header.topbar .menu-toggle span {
+  display: block !important;
+  flex: 0 0 2px !important;
+  width: 25px !important;
+  height: 2px !important;
+  min-height: 2px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 3px !important;
+  background: linear-gradient(90deg, #fff, #c8f6ff) !important;
+  box-shadow: 0 0 7px rgba(124, 229, 242, 0.22);
+  transform-origin: center !important;
+  transition:
+    transform 0.24s cubic-bezier(0.2, 0.75, 0.25, 1),
+    opacity 0.18s ease !important;
+}
+html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg) !important;
+}
+html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0 !important;
+  transform: scaleX(0.35) !important;
+}
+html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg) !important;
+}
+@media (max-width: 800px) {
+  html body > header.topbar nav#main-nav,
+  html body > header.topbar nav#death-nav,
+  html body > header.topbar nav#site-navigation {
+    background:
+      linear-gradient(135deg, rgba(10, 73, 139, 0.91), rgba(4, 28, 59, 0.88) 70%),
+      rgba(8, 40, 78, 0.86) !important;
+    border: 1px solid rgba(124, 229, 242, 0.48) !important;
+    border-radius: 24px !important;
+    -webkit-backdrop-filter: blur(10px) saturate(125%) !important;
+    backdrop-filter: blur(10px) saturate(125%) !important;
+    box-shadow:
+      0 24px 60px rgba(0, 10, 32, 0.48),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 0 24px rgba(17, 112, 207, 0.12) !important;
+    padding: 14px !important;
+    gap: 9px !important;
+  }
+  html body > header.topbar nav#main-nav a,
+  html body > header.topbar nav#death-nav a,
+  html body > header.topbar nav#site-navigation a {
+    min-height: 49px !important;
+    border: 1px solid rgba(151, 216, 255, 0.2) !important;
+    border-radius: 15px !important;
+    background: linear-gradient(
+      145deg,
+      rgba(70, 137, 199, 0.24),
+      rgba(255, 255, 255, 0.065)
+    ) !important;
+    color: #f5fbff !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.11) !important;
+    font-size: 13px !important;
+    font-weight: 750 !important;
+    letter-spacing: 0.01em;
+  }
+  html body > header.topbar nav#main-nav a.active,
+  html body > header.topbar nav#main-nav a[aria-current="page"],
+  html body > header.topbar nav#death-nav a.active,
+  html body > header.topbar nav#death-nav a[aria-current="page"],
+  html body > header.topbar nav#site-navigation a.active,
+  html body > header.topbar nav#site-navigation a[aria-current="page"] {
+    border-color: rgba(255, 145, 91, 0.88) !important;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 124, 69, 0.3),
+      rgba(36, 85, 132, 0.28)
+    ) !important;
+    box-shadow:
+      inset 0 -3px 0 #ff8554,
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      0 0 13px rgba(255, 124, 69, 0.09) !important;
+  }
+  html body.mobile-menu-open::before {
+    background: rgba(1, 12, 32, 0.43) !important;
+    -webkit-backdrop-filter: blur(2px) saturate(110%) !important;
+    backdrop-filter: blur(3px) saturate(110%) !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html body > header.topbar .menu-toggle span {
+    transition: none !important;
+  }
+}
+
+/* Smooth close polish: keep panel geometry fixed throughout both directions. */
+@media (max-width: 800px) {
+  html body > header.topbar nav#main-nav,
+  html body > header.topbar nav#death-nav,
+  html body > header.topbar nav#site-navigation {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    align-content: start !important;
+    will-change: opacity, transform;
+    transform: translate3d(0, -8px, 0) scale(0.985) !important;
+    transition:
+      opacity 240ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 280ms cubic-bezier(0.2, 0.75, 0.25, 1),
+      visibility 0s linear 280ms !important;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  html body > header.topbar nav#main-nav.open,
+  html body > header.topbar nav#death-nav.open,
+  html body > header.topbar nav#site-navigation.open {
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translate3d(0, 0, 0) scale(1) !important;
+    transition:
+      opacity 240ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 280ms cubic-bezier(0.2, 0.75, 0.25, 1),
+      visibility 0s linear 0s !important;
+  }
+  html body > header.topbar nav#main-nav a,
+  html body > header.topbar nav#death-nav a,
+  html body > header.topbar nav#site-navigation a {
+    transition:
+      color 180ms ease,
+      background-color 200ms ease,
+      border-color 200ms ease,
+      box-shadow 200ms ease,
+      transform 200ms cubic-bezier(0.2, 0.75, 0.25, 1) !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html body > header.topbar .menu-toggle {
+    will-change: transform;
+    transition:
+      transform 220ms cubic-bezier(0.2, 0.75, 0.25, 1),
+      background 220ms ease,
+      border-color 220ms ease,
+      box-shadow 220ms ease !important;
+  }
+  html body.mobile-menu-open::before {
+    animation: tv-menu-scrim-in 240ms ease both;
+  }
+}
+@media (max-width: 390px) {
+  html body > header.topbar nav#main-nav,
+  html body > header.topbar nav#death-nav,
+  html body > header.topbar nav#site-navigation {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html body > header.topbar nav#main-nav,
+  html body > header.topbar nav#death-nav,
+  html body > header.topbar nav#site-navigation,
+  html body > header.topbar nav#main-nav *,
+  html body > header.topbar nav#death-nav *,
+  html body > header.topbar nav#site-navigation *,
+  html body > header.topbar .menu-toggle {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* One Over nav parity: same glass grid as the main site menu */
+@media (max-width: 800px) {
+  html body > header.topbar nav#one-nav {
+    display: grid !important;
+    position: absolute !important;
+    top: calc(100% + 9px) !important;
+    left: 10px !important;
+    right: 10px !important;
+    z-index: 10002 !important;
+    width: auto !important;
+    max-height: min(68dvh, 540px);
+    overflow: auto;
+    overscroll-behavior: contain;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 8px;
+    padding: 13px;
+    margin: 0;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 22px;
+    background:
+      linear-gradient(135deg, rgba(16, 91, 169, 0.78), rgba(5, 20, 42, 0.76)), rgba(8, 28, 54, 0.72);
+    -webkit-backdrop-filter: blur(10px) saturate(125%);
+    backdrop-filter: blur(10px) saturate(125%);
+    box-shadow:
+      0 22px 55px rgba(0, 10, 28, 0.42),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-9px) scale(0.985);
+    transform-origin: top center;
+    transition:
+      opacity 0.2s ease,
+      transform 0.24s cubic-bezier(0.2, 0.75, 0.25, 1),
+      visibility 0.2s ease;
+  }
+  html body > header.topbar nav#one-nav.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+  html body > header.topbar nav#one-nav a {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 48px;
+    padding: 9px 7px;
+    margin: 0;
+    border: 1px solid rgba(255, 255, 255, 0.13) !important;
+    border-radius: 13px !important;
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.085) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    transform: none !important;
+    touch-action: manipulation;
+    transition:
+      background 0.18s ease,
+      border-color 0.18s ease,
+      transform 0.18s ease;
+  }
+  html body > header.topbar nav#one-nav a[aria-current="page"] {
+    border-color: rgba(255, 145, 91, 0.75) !important;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 124, 69, 0.28),
+      rgba(255, 255, 255, 0.09)
+    ) !important;
+    box-shadow:
+      inset 0 -2px 0 #ff8b58,
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+}
+@media (max-width: 390px) {
+  html body > header.topbar nav#one-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Desktop navigation uses the full link row; hamburger is mobile-only. */
+@media (min-width: 801px) {
+  html body > header.topbar > .menu-toggle {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Global desktop navigation repair: every section (Home, Stats, Matches, etc.)
+   must keep the same visible links; do not depend on Home-only stylesheets. */
+@media (min-width: 801px) {
+  html body > header.topbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: clamp(10px, 1.6vw, 24px) !important;
+    flex-wrap: nowrap !important;
+  }
+  html body > header.topbar > .brand {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+  }
+  html body > header.topbar > nav#main-nav,
+  html body > header.topbar > nav#death-nav,
+  html body > header.topbar > nav#site-navigation,
+  html body > header.topbar > nav#one-nav {
+    display: flex !important;
+    position: static !important;
+    inset: auto !important;
+    flex: 1 1 auto !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: clamp(7px, 1vw, 16px) !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+  html body > header.topbar > nav#main-nav a,
+  html body > header.topbar > nav#death-nav a,
+  html body > header.topbar > nav#site-navigation a,
+  html body > header.topbar > nav#one-nav a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    padding: 8px 2px !important;
+    white-space: nowrap !important;
+    font-size: clamp(10px, 0.78vw, 13px) !important;
+  }
+  html body > header.topbar > .menu-toggle {
+    display: none !important;
+  }
+}
+
+/* Final desktop navbar cleanup: active and recently-clicked links use underline only.
+   Override page-specific :focus/:active styling across the whole site. */
+@media (min-width: 801px) {
+  html body > header.topbar nav a,
+  html body > header.topbar nav a:hover,
+  html body > header.topbar nav a:focus,
+  html body > header.topbar nav a:focus-visible,
+  html body > header.topbar nav a:active,
+  html body > header.topbar nav a.active,
+  html body > header.topbar nav a[aria-current="page"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+  html body > header.topbar nav a.active,
+  html body > header.topbar nav a[aria-current="page"] {
+    box-shadow: inset 0 -2px 0 #ff7c45 !important;
+  }
+  html body > header.topbar nav a::before,
+  html body > header.topbar nav a::after {
+    border-radius: 0 !important;
+  }
+}
+
+/* Explicitly override the higher-specificity one-nav active pill on desktop.
+   This selector caused the persistent rounded box on the Matches/BCCI page. */
+@media (min-width: 801px) {
+  html body > header.topbar > nav#one-nav > a[aria-current="page"],
+  html body > header.topbar > nav#one-nav > a.active,
+  html body > header.topbar > nav#one-nav > a[aria-current="page"]:hover,
+  html body > header.topbar > nav#one-nav > a[aria-current="page"]:focus,
+  html body > header.topbar > nav#one-nav > a[aria-current="page"]:focus-visible {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-color: transparent !important;
+    border-radius: 0 !important;
+    outline: 0 !important;
+    box-shadow: inset 0 -2px 0 #ff7c45 !important;
+  }
+}
+
+
+/* Consolidated from assets/mobile-bottom-nav.css; migrated into shared-navbar.css */
+/* Shared mobile-only bottom navigation. Loaded after page styles for consistent priority. */
+html body.tv-bottom-nav-enabled {
+  --tv-bottom-nav-height: 76px;
+}
+.tv-mobile-bottom-nav {
+  display: none;
+}
+.tv-mobile-extra-menu[hidden] {
+  display: none !important;
+}
+@media screen and (max-width: 800px) {
+  /* When the header menu is open, the fixed dock must not cover menu links. */
+  html body.tv-bottom-nav-enabled.mobile-menu-open > .tv-mobile-bottom-nav {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  html body.tv-bottom-nav-enabled {
+    padding-bottom: calc(
+      var(--tv-bottom-nav-height) + 28px + env(safe-area-inset-bottom, 0px)
+    ) !important;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav {
+    position: fixed !important;
+    z-index: 2147483000 !important;
+    left: 16px !important;
+    right: 16px !important;
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+    gap: 2px !important;
+    min-height: 72px !important;
+    margin: 0 !important;
+    padding: 7px 6px calc(7px + env(safe-area-inset-bottom, 0px)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.82) !important;
+    border-radius: 25px !important;
+    background: rgba(242, 247, 255, 0.72) !important;
+    box-shadow:
+      0 12px 34px rgba(0, 12, 35, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.94) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(1.65) !important;
+    backdrop-filter: blur(28px) saturate(1.65) !important;
+    overflow: visible !important;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > a,
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > button {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    display: flex !important;
+    position: relative !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 54px !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 5px 1px !important;
+    flex: 1 1 0 !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    border: 0 !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    color: #303849 !important;
+    text-decoration: none !important;
+    font:
+      600 11px/1.15 system-ui,
+      -apple-system,
+      "Segoe UI",
+      sans-serif !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition:
+      background 0.18s ease,
+      color 0.18s ease,
+      transform 0.18s ease !important;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > a svg,
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > button svg {
+    display: block !important;
+    width: 24px !important;
+    height: 24px !important;
+    margin: 0 !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.85 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > a.is-active,
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > button.is-active,
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > button[aria-expanded="true"] {
+    color: #e65342 !important;
+    background: rgba(237, 73, 56, 0.1) !important;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > a:active,
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > button:active {
+    transform: scale(0.95) !important;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > a:focus-visible,
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > button:focus-visible {
+    outline: 2px solid #ed6348 !important;
+    outline-offset: 1px !important;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-extra-menu:not([hidden]) {
+    position: fixed !important;
+    z-index: 2147483001 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 7px !important;
+    left: 16px !important;
+    right: 16px !important;
+    bottom: calc(94px + env(safe-area-inset-bottom, 0px)) !important;
+    max-height: min(68vh, 470px) !important;
+    margin: 0 !important;
+    padding: 13px !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    border: 1px solid rgba(255, 255, 255, 0.84) !important;
+    border-radius: 26px !important;
+    background: linear-gradient(
+      145deg,
+      rgba(244, 249, 255, 0.82),
+      rgba(226, 236, 250, 0.7)
+    ) !important;
+    box-shadow:
+      0 24px 60px rgba(1, 12, 34, 0.32),
+      0 6px 20px rgba(2, 22, 55, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.94) !important;
+    -webkit-backdrop-filter: blur(32px) saturate(1.65) brightness(1.06) !important;
+    backdrop-filter: blur(32px) saturate(1.65) brightness(1.06) !important;
+    transform-origin: bottom center;
+    animation: tvSharedMenuRise 0.23s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-extra-menu:not([hidden])::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 90% at 0 0, rgba(255, 255, 255, 0.52), transparent 56%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 45%);
+  }
+  .tv-mobile-extra-menu__heading,
+  .tv-mobile-extra-menu > a {
+    position: relative;
+    z-index: 1;
+  }
+  .tv-mobile-extra-menu__heading {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 3px 5px 9px !important;
+    color: #50627a !important;
+    font:
+      800 10px/1.2 system-ui,
+      sans-serif !important;
+    letter-spacing: 0.17em !important;
+  }
+  .tv-mobile-extra-menu__heading > span::before {
+    content: "";
+    display: inline-block;
+    width: 17px;
+    height: 3px;
+    margin: 0 8px 3px 0;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #f06a4a, #f4b19b);
+  }
+  .tv-mobile-menu-close {
+    appearance: none !important;
+    display: grid !important;
+    place-items: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.82) !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.62) !important;
+    color: #293448 !important;
+    font-size: 22px !important;
+    box-shadow:
+      0 3px 12px rgba(10, 35, 68, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  }
+  .tv-mobile-extra-menu > a {
+    display: grid !important;
+    grid-template-columns: 42px minmax(0, 1fr) 20px !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-height: 61px !important;
+    margin: 0 !important;
+    padding: 8px 11px !important;
+    border: 1px solid rgba(255, 255, 255, 0.76) !important;
+    border-radius: 17px !important;
+    background: rgba(255, 255, 255, 0.46) !important;
+    color: #202b3e !important;
+    text-decoration: none !important;
+    box-shadow:
+      0 5px 16px rgba(8, 29, 58, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.84) !important;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    transition:
+      background 0.18s ease,
+      transform 0.18s ease !important;
+  }
+  .tv-mobile-extra-menu > a.is-active {
+    background: rgba(255, 255, 255, 0.82) !important;
+    border-color: rgba(237, 99, 72, 0.42) !important;
+  }
+  .tv-extra-icon {
+    display: grid !important;
+    place-items: center !important;
+    width: 38px !important;
+    height: 38px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.86) !important;
+    border-radius: 12px !important;
+    background: linear-gradient(
+      145deg,
+      rgba(222, 239, 255, 0.9),
+      rgba(204, 228, 252, 0.72)
+    ) !important;
+    color: #0b5fc4 !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92) !important;
+  }
+  .tv-mobile-extra-menu > a strong {
+    display: block !important;
+    color: #1c2c42 !important;
+    font:
+      700 13px/1.3 system-ui,
+      sans-serif !important;
+  }
+  .tv-mobile-extra-menu > a small {
+    display: block !important;
+    margin-top: 2px !important;
+    color: #61738b !important;
+    font:
+      400 10px/1.35 system-ui,
+      sans-serif !important;
+  }
+  .tv-extra-arrow {
+    color: #e85b43 !important;
+    font-size: 16px !important;
+    text-align: center !important;
+  }
+  html body.tv-bottom-nav-enabled.tv-shared-menu-open::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 2147482999;
+    pointer-events: none;
+    background: rgba(3, 13, 30, 0.1);
+    -webkit-backdrop-filter: blur(3px) saturate(0.9);
+    backdrop-filter: blur(3px) saturate(0.9);
+  }
+}
+@media screen and (min-width: 801px) {
+  html body.tv-bottom-nav-enabled {
+    padding-bottom: initial !important;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav,
+  html body.tv-bottom-nav-enabled > .tv-mobile-extra-menu {
+    display: none !important;
+  }
+  html body.tv-bottom-nav-enabled::after {
+    display: none !important;
+  }
+}
+@media (max-width: 360px) {
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav {
+    left: 8px !important;
+    right: 8px !important;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-extra-menu:not([hidden]) {
+    left: 8px !important;
+    right: 8px !important;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > a,
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > button {
+    font-size: 10px !important;
+  }
+}
+@keyframes tvSharedMenuRise {
+  from {
+    opacity: 0;
+    transform: translateY(13px) scale(0.975);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tv-mobile-extra-menu {
+    animation: none !important;
+  }
+}
+
+/* Keep the fixed bar visually present without intercepting clicks on page controls
+   that are scrolled underneath its transparent gaps. */
+@media screen and (max-width: 800px) {
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav {
+    pointer-events: none !important;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > a,
+  html body.tv-bottom-nav-enabled > .tv-mobile-bottom-nav > button {
+    pointer-events: auto !important;
+  }
+  html body.tv-bottom-nav-enabled > .tv-mobile-extra-menu:not([hidden]) {
+    pointer-events: auto !important;
+  }
+}
+
+/* Hard guarantee: the header hamburger panel always owns mobile pointer input. */
+@media screen and (max-width: 800px) {
+  html body.mobile-menu-open > .tv-mobile-bottom-nav,
+  html body.tv-shared-menu-open > .tv-mobile-bottom-nav,
+  html body.mobile-menu-open > nav[data-tv-bottom-nav-static="home"] {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  html body.mobile-menu-open > .tv-mobile-extra-menu,
+  html body.tv-shared-menu-open > .tv-mobile-extra-menu {
+    pointer-events: auto !important;
+  }
+}
+
+/* Recovery for pages whose global theme rules hide generic nav descendants. */
+@media screen and (max-width: 800px) {
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav,
+  html
+    body:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav[data-tv-bottom-nav-static="home"] {
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #26364c !important;
+  }
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav
+    > a,
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav
+    > button,
+  html
+    body:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav[data-tv-bottom-nav-static="home"]
+    > a,
+  html
+    body:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav[data-tv-bottom-nav-static="home"]
+    > button {
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #26364c !important;
+  }
+  html body.tv-bottom-nav-enabled > nav.tv-mobile-bottom-nav > a > span,
+  html body.tv-bottom-nav-enabled > nav.tv-mobile-bottom-nav > button > span,
+  html body > nav[data-tv-bottom-nav-static="home"] > a > span,
+  html body > nav[data-tv-bottom-nav-static="home"] > button > span {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: inherit !important;
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+  }
+  html body.tv-bottom-nav-enabled > nav.tv-mobile-bottom-nav > a > svg,
+  html body.tv-bottom-nav-enabled > nav.tv-mobile-bottom-nav > button > svg,
+  html body > nav[data-tv-bottom-nav-static="home"] > a > svg,
+  html body > nav[data-tv-bottom-nav-static="home"] > button > svg {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex: 0 0 24px !important;
+  }
+}
+
+/* Records/mobile fix: keep the dock stable after scrolling stops, even when page CSS
+   applies nav animations, transforms, or hidden states to generic navigation elements. */
+@media screen and (max-width: 800px) {
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav {
+    position: fixed !important;
+    inset: auto 16px max(8px, env(safe-area-inset-bottom, 0px)) 16px !important;
+    display: grid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    translate: none !important;
+    animation: none !important;
+    transition: none !important;
+    pointer-events: none !important;
+    z-index: 2147483000 !important;
+  }
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav
+    > a,
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav
+    > button {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    pointer-events: auto !important;
+    color: #26364c !important;
+  }
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav
+    > a
+    > span,
+  html
+    body.tv-bottom-nav-enabled:not(.mobile-menu-open):not(.tv-shared-menu-open)
+    > nav.tv-mobile-bottom-nav
+    > button
+    > span {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: inherit !important;
+  }
+}
+
+/* Gentle global interaction defaults; reduced-motion preferences always win. */
+html {
+  scroll-behavior: smooth;
+}
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+img {
+  image-rendering: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* Consolidated from assets/navbar-alignment-fix.css; migrated into shared-navbar.css */
+/* Shared desktop navbar geometry: keep Home, Matches and Records links in identical positions. */
+@media (min-width: 801px) {
+  html body > header.topbar {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 78px !important;
+    height: 78px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: clamp(16px, 2vw, 32px) !important;
+    padding: 0 clamp(32px, 4.5vw, 76px) !important;
+    margin: 0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10000 !important;
+  }
+  html body > header.topbar > a.brand {
+    flex: 0 0 auto !important;
+    margin: 0 auto 0 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+  }
+  html body > header.topbar > nav#main-nav {
+    display: flex !important;
+    flex: 0 1 auto !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: clamp(12px, 1.35vw, 22px) !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin: 0 0 0 auto !important;
+    padding: 0 !important;
+    position: static !important;
+    transform: none !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  html body > header.topbar > nav#main-nav > a {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 12px 0 !important;
+    line-height: 1.2 !important;
+    font-size: clamp(11px, 0.82vw, 13px) !important;
+    white-space: nowrap !important;
+    transform: none !important;
+  }
+  html body > header.topbar > .menu-toggle {
+    display: none !important;
+  }
+}
+
+/* Cross-folder hardening: the same header box and nav alignment on Home,
+   Matches, BCCI Fixtures Test and Complete Matches. */
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+html body {
+  margin: 0 !important;
+  padding-top: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  overflow-x: clip;
+}
+html body > header.topbar {
+  inset-inline: 0 !important;
+  box-sizing: border-box !important;
+  flex-shrink: 0 !important;
+  align-self: stretch !important;
+}
+html body > header.topbar > nav#main-nav {
+  flex-shrink: 0 !important;
+  align-self: center !important;
+}
+html body > header.topbar > nav#main-nav > a {
+  position: relative !important;
+  top: 0 !important;
+  left: auto !important;
+  right: auto !important;
+}
+@media (min-width: 801px) {
+  html body > header.topbar {
+    border-radius: 0 !important;
+    margin-inline: 0 !important;
+    transform: none !important;
+  }
+  html body > header.topbar > nav#main-nav {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+  }
+}
+
+
+
+/* UNIFIED NAVBAR — site-wide final override layer. Loaded last on every HTML page. */
+:root { --tv-nav-blue:#0758b8; --tv-nav-blue-deep:#063a7a; --tv-nav-orange:#ff8a00; --tv-nav-text:#fff; --tv-nav-height:68px; }
+html body > header.topbar, html body > header.tvfc-header {
+ position:sticky;top:0;z-index:1000;width:100%;box-sizing:border-box;
+ background:linear-gradient(110deg,#063a7a 0%,#0758b8 58%,#0878d1 100%);color:#fff;
+ border-bottom:1px solid rgba(255,255,255,.16);box-shadow:0 7px 24px rgba(0,25,65,.18)
+}
+html body > header.topbar > .brand,html body > header.tvfc-header > .brand,html body > header.topbar > a.tvfc-brand{color:#fff;text-decoration:none;flex-shrink:0}
+html body > header.topbar > nav#main-nav,html body > header.topbar > nav#death-nav,html body > header.topbar > nav#site-navigation,html body > header.tvfc-header > nav#main-nav,html body > header.topbar > nav.tvfc-nav{display:flex;align-items:center;justify-content:flex-end;gap:clamp(4px,.6vw,12px)}
+html body > header.topbar > nav#main-nav > a,html body > header.topbar > nav#death-nav > a,html body > header.topbar > nav#site-navigation > a,html body > header.tvfc-header > nav#main-nav > a,html body > header.topbar > nav.tvfc-nav > a{
+ color:#fff;background:transparent;border:0;border-radius:0;box-shadow:none;text-decoration:none;font-weight:750;white-space:nowrap;position:relative;padding:11px 10px;transition:color .18s ease,opacity .18s ease
+}
+html body > header.topbar > nav#main-nav > a::after,html body > header.topbar > nav#death-nav > a::after,html body > header.topbar > nav#site-navigation > a::after,html body > header.tvfc-header > nav#main-nav > a::after,html body > header.topbar > nav.tvfc-nav > a::after{
+ content:"";position:absolute;left:10px;right:10px;bottom:3px;height:3px;border-radius:5px;background:var(--tv-nav-orange);transform:scaleX(0);transform-origin:center;transition:transform .18s ease
+}
+html body > header.topbar > nav#main-nav > a:hover::after,html body > header.topbar > nav#main-nav > a:focus-visible::after,html body > header.topbar > nav#main-nav > a.active::after,html body > header.topbar > nav#main-nav > a[aria-current="page"]::after,html body > header.topbar > nav#death-nav > a:hover::after,html body > header.topbar > nav#death-nav > a.active::after,html body > header.topbar > nav#death-nav > a[aria-current="page"]::after,html body > header.topbar > nav#site-navigation > a:hover::after,html body > header.topbar > nav#site-navigation > a.active::after,html body > header.topbar > nav#site-navigation > a[aria-current="page"]::after,html body > header.tvfc-header > nav#main-nav > a:hover::after,html body > header.tvfc-header > nav#main-nav > a.active::after,html body > header.tvfc-header > nav#main-nav > a[aria-current="page"]::after,html body > header.topbar > nav.tvfc-nav > a:hover::after,html body > header.topbar > nav.tvfc-nav > a[aria-current="page"]::after{transform:scaleX(1)}
+html body > header.topbar .menu-toggle,html body > header.topbar .tvfc-menu-toggle,html body > header.tvfc-header .menu-toggle{color:#fff;border:1px solid rgba(255,255,255,.32);background:rgba(255,255,255,.12)}
+html body > header.live-top,html body > header.rm-top,html body > header.top{box-sizing:border-box;position:sticky;top:0;z-index:1000;width:100%;min-height:56px;background:linear-gradient(110deg,#063a7a,#0758b8 60%,#0878d1);color:#fff;border-bottom:1px solid rgba(255,255,255,.16);box-shadow:0 7px 24px rgba(0,25,65,.18)}
+html body > header.live-top a,html body > header.rm-top a,html body > header.top a{color:#fff;text-decoration:none}
+html body > header.live-top span,html body > header.rm-top span,html body > header.top span{color:#fff}
+html body > header.topbar nav a:focus-visible,html body > header.tvfc-header nav a:focus-visible,html body > header.live-top a:focus-visible,html body > header.rm-top a:focus-visible,html body > header.top a:focus-visible{outline:2px solid #ffb547;outline-offset:3px}
+@media(max-width:800px){html body > header.topbar,html body > header.tvfc-header{min-height:58px}html body > header.topbar > nav#main-nav,html body > header.topbar > nav#death-nav,html body > header.topbar > nav#site-navigation,html body > header.tvfc-header > nav#main-nav,html body > header.topbar > nav.tvfc-nav{gap:6px}}
+@media(prefers-reduced-motion:reduce){html body > header.topbar nav a,html body > header.tvfc-header nav a,html body > header.topbar nav a::after{transition:none!important}}
