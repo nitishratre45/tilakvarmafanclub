@@ -59,19 +59,7 @@ select {
     sans-serif;
   letter-spacing: 2px;
   margin-top: 3px;
-}
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background: var(--accent);
-  color: #082017;
-  font:
-    700 22px "Space Grotesk",
-    sans-serif;
-}
+}/* Navbar rules centralized in /assets/shared-navbar.css */
 .test-label {
   border: 1px solid #3d705f;
   color: var(--accent);
@@ -823,11 +811,7 @@ body {
   padding-inline: max(16px, calc((100% - 1120px) / 2));
   border-bottom-color: #28415d;
   box-shadow: 0 8px 28px #0002;
-}
-.brand-mark {
-  background: linear-gradient(145deg, #9bf3c8, #53d69b);
-  box-shadow: 0 4px 18px #67e6b444;
-}
+}/* Navbar rules centralized in /assets/shared-navbar.css */
 .container {
   width: min(1120px, calc(100% - 32px));
 }
@@ -898,12 +882,7 @@ footer {
     font-size: 12px;
     letter-spacing: 0.3px;
     gap: 8px;
-  }
-  .brand-mark {
-    width: 36px;
-    height: 36px;
-    font-size: 18px;
-  }
+  }/* Navbar rules centralized in /assets/shared-navbar.css */
   .test-header-actions {
     display: flex;
     gap: 6px;
@@ -3757,22 +3736,7 @@ body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tab
   border-color: #3d83d3 !important;
   background: linear-gradient(110deg, #1263c5, #174f91) !important;
 }
-@media (max-width: 800px) {
-  body.bcci-matches-page > header.topbar {
-    position: relative !important;
-    height: 74px !important;
-    min-height: 74px !important;
-    padding: 9px 20px !important;
-  }
-  body.bcci-matches-page > header.topbar #main-nav {
-    display: none !important;
-  }
-  body.bcci-matches-page > header.topbar #main-nav.open {
-    display: grid !important;
-  }
-  body.bcci-matches-page > header.topbar .menu-toggle {
-    display: flex !important;
-  }
+@media (max-width: 800px) {/* Navbar rules centralized in /assets/shared-navbar.css *//* Navbar rules centralized in /assets/shared-navbar.css *//* Navbar rules centralized in /assets/shared-navbar.css *//* Navbar rules centralized in /assets/shared-navbar.css */
   body.bcci-matches-page > .match-centre-controls.bcci-view-tabs {
     width: calc(100% - 20px) !important;
     margin: 14px auto 20px !important;
@@ -3787,108 +3751,8 @@ body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tab
     padding: 11px 8px !important;
     font-size: 13px !important;
   }
+}/* Navbar rules centralized in /assets/shared-navbar.css *//* Navbar rules centralized in /assets/shared-navbar.css */
+@media (min-width: 801px) {/* Navbar rules centralized in /assets/shared-navbar.css *//* Navbar rules centralized in /assets/shared-navbar.css *//* Navbar rules centralized in /assets/shared-navbar.css *//* Navbar rules centralized in /assets/shared-navbar.css *//* Navbar rules centralized in /assets/shared-navbar.css *//* Navbar rules centralized in /assets/shared-navbar.css */
 }
-
-
-/* Canonical BCCI navbar parity: keep Upcoming and Complete visually identical.
-   This block intentionally comes last to neutralize legacy page-local header rules. */
-html body.bcci-matches-page > header.topbar.tvfc-header {
-  box-sizing: border-box !important;
-  position: sticky !important;
-  top: 0 !important;
-  inset-block-start: 0 !important;
-  z-index: 10000 !important;
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  border-radius: 0 !important;
-  transform: none !important;
-  translate: none !important;
-  animation: none !important;
-  flex-shrink: 0 !important;
-}
-html body.bcci-matches-page > header.topbar.tvfc-header::before,
-html body.bcci-matches-page > header.topbar.tvfc-header::after {
-  pointer-events: none !important;
-}
-@media (min-width: 801px) {
-  html body.bcci-matches-page > header.topbar.tvfc-header {
-    height: 98px !important;
-    min-height: 98px !important;
-    max-height: 98px !important;
-    padding: 10px clamp(24px, 4.5vw, 72px) !important;
-    gap: clamp(16px, 2.2vw, 34px) !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    flex-wrap: nowrap !important;
-  }
-  html body.bcci-matches-page > header.topbar.tvfc-header > a.tvfc-brand {
-    display: inline-flex !important;
-    flex: 0 0 auto !important;
-    align-items: center !important;
-    gap: 12px !important;
-    margin: 0 auto 0 0 !important;
-    line-height: 1.15 !important;
-  }
-  html body.bcci-matches-page > header.topbar.tvfc-header .tvfc-brand-photo {
-    flex: 0 0 50px !important;
-    width: 50px !important;
-    height: 50px !important;
-    min-width: 50px !important;
-    min-height: 50px !important;
-    border-radius: 13px !important;
-  }
-  html body.bcci-matches-page > header.topbar.tvfc-header > nav#main-nav.tvfc-nav {
-    display: flex !important;
-    position: static !important;
-    width: auto !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    flex: 0 1 auto !important;
-    flex-wrap: nowrap !important;
-    justify-content: flex-end !important;
-    align-self: stretch !important;
-    gap: clamp(12px, 1.35vw, 22px) !important;
-    margin: 0 0 0 auto !important;
-    padding: 0 !important;
-    overflow: visible !important;
-    white-space: nowrap !important;
-  }
-  html body.bcci-matches-page > header.topbar.tvfc-header > nav#main-nav.tvfc-nav > a {
-    min-height: 42px !important;
-    height: auto !important;
-    padding: 0 1px !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    font-size: 13px !important;
-    line-height: 1.2 !important;
-  }
-  html body.bcci-matches-page > header.topbar.tvfc-header > nav#main-nav.tvfc-nav > a::after {
-    pointer-events: none !important;
-  }
-}
-@media (max-width: 800px) {
-  html body.bcci-matches-page > header.topbar.tvfc-header {
-    height: auto !important;
-    min-height: 68px !important;
-    max-height: none !important;
-    padding: 9px 18px !important;
-  }
-  html body.bcci-matches-page > header.topbar.tvfc-header .tvfc-brand-photo {
-    flex: 0 0 50px !important;
-    width: 50px !important;
-    height: 50px !important;
-    min-width: 50px !important;
-    min-height: 50px !important;
-  }
-  html body.bcci-matches-page > header.topbar.tvfc-header > nav#main-nav.tvfc-nav {
-    display: none !important;
-  }
-  html body.bcci-matches-page > header.topbar.tvfc-header > button.tvfc-menu-toggle {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
+@media (max-width: 800px) {/* Navbar rules centralized in /assets/shared-navbar.css *//* Navbar rules centralized in /assets/shared-navbar.css *//* Navbar rules centralized in /assets/shared-navbar.css *//* Navbar rules centralized in /assets/shared-navbar.css */
 }
