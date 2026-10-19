@@ -2364,7 +2364,6 @@ html body > header.topbar.scrolled-away {
   visibility: visible !important;
 }
 
-
 /* Final sticky-header correction: transformed/contained sticky elements can blink on scroll. */
 html body > header.topbar,
 html body > header.topbar.death-topbar,
@@ -2378,7 +2377,10 @@ html body > header.topbar.tvfc-header {
   animation: none !important;
   opacity: 1 !important;
   visibility: visible !important;
-  transition: background-color 160ms ease, box-shadow 160ms ease, border-color 160ms ease !important;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease !important;
   backface-visibility: visible !important;
 }
 html body > header.topbar.is-hidden,
