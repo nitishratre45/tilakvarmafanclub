@@ -126,7 +126,7 @@ def main() -> None:
         "publishedNewsFileModified": False,
     }
     RAW.write_text(
-        json.dumps(raw, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        json.dumps(raw, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8"
     )
     print(json.dumps(raw["rawCleanup"], ensure_ascii=False))
 
