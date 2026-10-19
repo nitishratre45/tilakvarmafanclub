@@ -2249,3 +2249,78 @@ html body > header.topbar {
   top: 0 !important;
   z-index: 10000 !important;
 }
+
+/* FINAL NAVBAR NORMALIZATION — prevent duplicate active indicators and layout shifts. */
+:root {
+  --tv-nav-height: 78px;
+  --tv-nav-height-mobile: 68px;
+}
+html {
+  scroll-padding-top: var(--tv-nav-height);
+}
+html body > header.topbar,
+html body > header.tvfc-header {
+  position: sticky !important;
+  inset-block-start: 0 !important;
+  z-index: 10000 !important;
+  box-sizing: border-box !important;
+  flex-shrink: 0 !important;
+  transform: none !important;
+  animation: none !important;
+  transition: background-color 180ms ease, box-shadow 180ms ease !important;
+}
+html body > header.topbar > nav#main-nav > a[aria-current="page"],
+html body > header.topbar > nav#main-nav > a.active,
+html body > header.tvfc-header > nav#main-nav > a[aria-current="page"],
+html body > header.tvfc-header > nav#main-nav > a.active {
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+/* Use one active underline only; remove legacy inset-shadow indicator. */
+html body > header.topbar > nav#main-nav > a[aria-current="page"]::after,
+html body > header.topbar > nav#main-nav > a.active::after,
+html body > header.tvfc-header > nav#main-nav > a[aria-current="page"]::after,
+html body > header.tvfc-header > nav#main-nav > a.active::after {
+  content: "" !important;
+  display: block !important;
+  transform: scaleX(1) !important;
+  background: var(--tv-nav-orange, #ff8a00) !important;
+}
+html body > header.topbar::after,
+html body > header.tvfc-header::after {
+  /* Prevent legacy animated header stripe from stacking with the active-link underline. */
+  animation: none !important;
+}
+@media (min-width: 801px) {
+  html body > header.topbar,
+  html body > header.tvfc-header {
+    height: var(--tv-nav-height) !important;
+    min-height: var(--tv-nav-height) !important;
+    max-height: var(--tv-nav-height) !important;
+  }
+  html body > header.topbar > nav#main-nav,
+  html body > header.tvfc-header > nav#main-nav {
+    align-self: stretch !important;
+  }
+}
+@media (max-width: 800px) {
+  html {
+    scroll-padding-top: var(--tv-nav-height-mobile);
+  }
+  html body > header.topbar,
+  html body > header.tvfc-header {
+    min-height: var(--tv-nav-height-mobile) !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  html body > header.topbar,
+  html body > header.tvfc-header,
+  html body > header.topbar nav a::after,
+  html body > header.tvfc-header nav a::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
