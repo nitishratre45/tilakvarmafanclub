@@ -2267,7 +2267,9 @@ html body > header.tvfc-header {
   flex-shrink: 0 !important;
   transform: none !important;
   animation: none !important;
-  transition: background-color 180ms ease, box-shadow 180ms ease !important;
+  transition:
+    background-color 180ms ease,
+    box-shadow 180ms ease !important;
 }
 html body > header.topbar > nav#main-nav > a[aria-current="page"],
 html body > header.topbar > nav#main-nav > a.active,
@@ -2315,7 +2317,9 @@ html body > header.tvfc-header::after {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto !important; }
+  html {
+    scroll-behavior: auto !important;
+  }
   html body > header.topbar,
   html body > header.tvfc-header,
   html body > header.topbar nav a::after,
