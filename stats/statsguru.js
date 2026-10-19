@@ -239,7 +239,7 @@
     if (/^v\s+/.test(g)) return "opposition";
     if (["home", "away", "neutral"].includes(g)) return "home-away";
     if (/^in\s+/.test(g)) return "country";
-    if (/^year\s+\d{4}$/.test(g)) return "year";
+    if (/^(?:vht\s+)?year\s+\d{4}$/i.test(g)) return "year";
     if (/^season\s+/.test(g)) return "season";
     if (["won match", "lost match", "tied match", "no result"].includes(g)) return "result";
     if (/^\d+(st|nd|rd|th) position$/.test(g)) return "position";
