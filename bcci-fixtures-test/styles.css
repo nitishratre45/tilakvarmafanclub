@@ -3717,3 +3717,71 @@ button:focus-visible {
     bottom: 1px !important;
   }
 }
+
+
+/* Match the Upcoming / Complete view switch to the same shared tab component. */
+body.bcci-matches-page > .match-centre-controls.bcci-view-tabs {
+  width: min(100% - 32px, 1120px) !important;
+  max-width: 1120px !important;
+  margin: 22px auto 26px !important;
+  padding: 0 !important;
+}
+body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tabs {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  padding: 8px !important;
+  border: 1px solid #29445f !important;
+  border-radius: 20px !important;
+  background: linear-gradient(135deg, #0c1b2d, #101a2a) !important;
+  box-sizing: border-box !important;
+}
+body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tab {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 58px !important;
+  margin: 0 !important;
+  padding: 14px 20px !important;
+  border: 1px solid transparent !important;
+  border-radius: 13px !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  font-size: clamp(14px, 1vw, 17px) !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+  box-sizing: border-box !important;
+}
+body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tab.is-active {
+  color: #fff !important;
+  border-color: #3d83d3 !important;
+  background: linear-gradient(110deg, #1263c5, #174f91) !important;
+}
+@media (max-width: 800px) {
+  body.bcci-matches-page > header.topbar {
+    position: relative !important;
+    height: 74px !important;
+    min-height: 74px !important;
+    padding: 9px 20px !important;
+  }
+  body.bcci-matches-page > header.topbar #main-nav { display: none !important; }
+  body.bcci-matches-page > header.topbar #main-nav.open {
+    display: grid !important;
+  }
+  body.bcci-matches-page > header.topbar .menu-toggle { display: flex !important; }
+  body.bcci-matches-page > .match-centre-controls.bcci-view-tabs {
+    width: calc(100% - 20px) !important;
+    margin: 14px auto 20px !important;
+  }
+  body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tabs {
+    gap: 8px !important;
+    padding: 6px !important;
+    border-radius: 15px !important;
+  }
+  body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tab {
+    min-height: 48px !important;
+    padding: 11px 8px !important;
+    font-size: 13px !important;
+  }
+}
