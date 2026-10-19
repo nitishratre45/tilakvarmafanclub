@@ -1058,3 +1058,11 @@ html body.photos-page img {
     gap: 7px;
   }
 }
+
+
+/* Navbar parity: use the shared-navbar active indicator, not this page's legacy animated pseudo-line. */
+html body.photos-page > header.topbar > nav#main-nav > a::after {
+  content: none !important;
+  display: none !important;
+  box-shadow: none !important;
+}
