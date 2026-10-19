@@ -2666,3 +2666,81 @@ html body > header.topbar > a.brand > span:last-child > small {
     font-size: 9px !important;
   }
 }
+
+
+/* Site-wide navigation interaction parity: animated orange underline and hover color. */
+@media (min-width: 801px) {
+  html body > header.topbar nav#main-nav a,
+  html body > header.topbar nav#death-nav a,
+  html body > header.topbar nav#site-navigation a,
+  html body > header.topbar nav#one-nav a {
+    position: relative !important;
+    color: #f4f7ff !important;
+    transition: color 180ms ease !important;
+    box-shadow: none !important;
+  }
+
+  html body > header.topbar nav#main-nav a::after,
+  html body > header.topbar nav#death-nav a::after,
+  html body > header.topbar nav#site-navigation a::after,
+  html body > header.topbar nav#one-nav a::after {
+    content: "" !important;
+    position: absolute !important;
+    left: 50% !important;
+    right: 50% !important;
+    bottom: -7px !important;
+    height: 3px !important;
+    width: auto !important;
+    background: linear-gradient(90deg, #ff9a3d, #ff5d43) !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    opacity: 0 !important;
+    transform: translateX(0) !important;
+    transition: left 220ms ease, right 220ms ease, opacity 160ms ease !important;
+    pointer-events: none !important;
+  }
+
+  html body > header.topbar nav#main-nav a:hover,
+  html body > header.topbar nav#main-nav a:focus-visible,
+  html body > header.topbar nav#death-nav a:hover,
+  html body > header.topbar nav#death-nav a:focus-visible,
+  html body > header.topbar nav#site-navigation a:hover,
+  html body > header.topbar nav#site-navigation a:focus-visible,
+  html body > header.topbar nav#one-nav a:hover,
+  html body > header.topbar nav#one-nav a:focus-visible {
+    color: #ffad70 !important;
+  }
+
+  html body > header.topbar nav#main-nav a:hover::after,
+  html body > header.topbar nav#main-nav a:focus-visible::after,
+  html body > header.topbar nav#death-nav a:hover::after,
+  html body > header.topbar nav#death-nav a:focus-visible::after,
+  html body > header.topbar nav#site-navigation a:hover::after,
+  html body > header.topbar nav#site-navigation a:focus-visible::after,
+  html body > header.topbar nav#one-nav a:hover::after,
+  html body > header.topbar nav#one-nav a:focus-visible::after,
+  html body > header.topbar nav#main-nav a.active::after,
+  html body > header.topbar nav#main-nav a[aria-current="page"]::after,
+  html body > header.topbar nav#death-nav a.active::after,
+  html body > header.topbar nav#death-nav a[aria-current="page"]::after,
+  html body > header.topbar nav#site-navigation a.active::after,
+  html body > header.topbar nav#site-navigation a[aria-current="page"]::after,
+  html body > header.topbar nav#one-nav a.active::after,
+  html body > header.topbar nav#one-nav a[aria-current="page"]::after {
+    left: 0 !important;
+    right: 0 !important;
+    opacity: 1 !important;
+  }
+
+  html body > header.topbar nav#main-nav a.active,
+  html body > header.topbar nav#main-nav a[aria-current="page"],
+  html body > header.topbar nav#death-nav a.active,
+  html body > header.topbar nav#death-nav a[aria-current="page"],
+  html body > header.topbar nav#site-navigation a.active,
+  html body > header.topbar nav#site-navigation a[aria-current="page"],
+  html body > header.topbar nav#one-nav a.active,
+  html body > header.topbar nav#one-nav a[aria-current="page"] {
+    color: #ffad70 !important;
+    box-shadow: none !important;
+  }
+}
