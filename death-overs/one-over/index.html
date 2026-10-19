@@ -21,7 +21,7 @@
     <title>Tilak Varma FC | One Over</title>
     <link rel="stylesheet" href="/death-overs/style.css?v=20261014-one-over-split1" />
     <link rel="stylesheet" href="/death-overs/premium-ui.css?v=20261014-one-over-split1" />
-    <link rel="stylesheet" href="/death-overs/site-refinement.css?v=20261019-death-nav-stable2" />
+    <link rel="stylesheet" href="/death-overs/site-refinement.css?v=20261019-standard-nav3" />
     <link rel="stylesheet" href="/death-overs/death-over-ui.css?v=20261014-desktop-polish1" />
 
     <style>
@@ -346,10 +346,10 @@
       href="/assets/mobile-responsive-polish.css?v=20261016-mobile-responsive1"
     />
     <link rel="stylesheet" href="/assets/custom-selects.css?v=20261016-global-picker1" />
-    <link rel="stylesheet" href="/assets/shared-navbar.css?v=20261019-scroll-stable2" />
+    <link rel="stylesheet" href="/assets/shared-navbar.css?v=20261019-standard-nav3" />
   </head>
   <body>
-    <header class="topbar death-topbar">
+    <header class="topbar">
       <a class="brand" href="/"
         ><span class="brand-mark brand-mark-photo"
           ><img
@@ -363,13 +363,13 @@
         class="menu-toggle"
         aria-label="Toggle menu"
         aria-expanded="false"
-        aria-controls="death-nav"
+        aria-controls="main-nav"
       >
         <span></span><span></span><span></span>
       </button>
       <script>
         document.addEventListener("DOMContentLoaded", () => {
-          const nav = document.querySelector("header.topbar #death-nav");
+          const nav = document.querySelector("header.topbar #main-nav");
           if (!nav) return;
           const normalizePath = (path) =>
             path.replace(/index\.html$/, "").replace(/\/+$/, "") || "/";
@@ -389,7 +389,7 @@
           });
         });
       </script>
-      <nav id="death-nav">
+      <nav id="main-nav" aria-label="Main navigation">
         <a href="/death-overs/#profile">Home</a><a href="/stats/">Stats</a
         ><a href="/death-overs/">Death-overs</a><a href="/bcci-fixtures-test/">Matches</a
         ><a href="/records/">Records</a><a href="/news/">News</a><a href="/photos/">Photos</a
