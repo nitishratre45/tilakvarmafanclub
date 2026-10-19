@@ -25,7 +25,11 @@ jobs:
           python-version: "3.x"
       - name: Install dependencies
         run: python -m pip install --upgrade requests
-      - name: Collect BCCI results, scorecards and commentary
+      - name: Run supplied BCCI match-results collector
+        run: python "SMAT/smat.py"
+      - name: Run supplied BCCI scorecard downloader
+        run: python "SMAT/smatscoreboard.py"
+      - name: Collect Tilak-specific summary and enhanced commentary
         env:
           BCCI_EDAK: ${{ secrets.BCCI_EDAK }}
         run: python "SMAT/tilak_ball_by_ball.py"
