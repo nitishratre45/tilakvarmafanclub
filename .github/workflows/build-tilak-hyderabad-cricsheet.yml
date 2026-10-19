@@ -1,0 +1,38 @@
+name: Build Tilak Varma Hyderabad Cricsheet JSON
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tilak-varma-hyderabad-cricsheet
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Download Cricsheet and build JSON
+        run: python "Tilak Varma/build_hyderabad_json.py"
+      - name: Commit generated JSON if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "Tilak Varma/matches.json"
+          if git diff --cached --quiet; then
+            echo "No changes to the generated Cricsheet JSON."
+          else
+            git commit -m "Refresh Tilak Varma Hyderabad Cricsheet JSON"
+            git push
+          fi
