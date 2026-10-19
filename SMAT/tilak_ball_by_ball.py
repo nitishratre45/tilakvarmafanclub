@@ -216,13 +216,13 @@ def main() -> None:
             response = session.get(SCORECARD_URL.format(gid=gid), timeout=40)
             response.raise_for_status()
             scorecard = response.json()
-            save_json(SCORECARDS_DIR / f"{gid}.json", scorecard)
         except Exception as exc:
             scorecard_failures.append({"gid": gid, "error": str(exc)})
             continue
 
         if not contains_tilak(scorecard):
             continue
+        save_json(SCORECARDS_DIR / f"{gid}.json", scorecard)
 
         match_info = meta.get("result_record", {})
         match_obj = scorecard.get("match", {}) if isinstance(scorecard, dict) else {}
