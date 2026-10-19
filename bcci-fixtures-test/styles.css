@@ -3718,7 +3718,6 @@ button:focus-visible {
   }
 }
 
-
 /* Match the Upcoming / Complete view switch to the same shared tab component. */
 body.bcci-matches-page > .match-centre-controls.bcci-view-tabs {
   width: min(100% - 32px, 1120px) !important;
@@ -3765,11 +3764,15 @@ body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tab
     min-height: 74px !important;
     padding: 9px 20px !important;
   }
-  body.bcci-matches-page > header.topbar #main-nav { display: none !important; }
+  body.bcci-matches-page > header.topbar #main-nav {
+    display: none !important;
+  }
   body.bcci-matches-page > header.topbar #main-nav.open {
     display: grid !important;
   }
-  body.bcci-matches-page > header.topbar .menu-toggle { display: flex !important; }
+  body.bcci-matches-page > header.topbar .menu-toggle {
+    display: flex !important;
+  }
   body.bcci-matches-page > .match-centre-controls.bcci-view-tabs {
     width: calc(100% - 20px) !important;
     margin: 14px auto 20px !important;
