@@ -96,7 +96,7 @@ async function load(){
   const res=await fetch('./matches.json?cache=' + Date.now(),{cache:'no-store'});
   if(!res.ok)throw new Error('matches.json returned HTTP '+res.status);
   const data=await res.json();
-  allMatches=Array.isArray(data)?data:(Array.isArray(data.matches)?data.matches:Array.isArray(data.data)?data.data:[]);
+  const sourceMatches=Array.isArray(data)?data:(Array.isArray(data.matches)?data.matches:Array.isArray(data.data)?data.data:[]);\n  // This page is specifically for Hyderabad domestic-team matches, not India international fixtures.\n  allMatches=sourceMatches.filter(m=>teamsOf(m).some(t=>/\\bhyderabad\\b/i.test(String(t))) || /\\bhyderabad\\b/i.test(String(m.team||m.batting_team||'')));
   $('totalMatches').textContent=allMatches.length;
   $('totalRuns').textContent=allMatches.reduce((s,m)=>s+runsOfMatch(m),0).toLocaleString();
   $('batInnings').textContent=allMatches.reduce((s,m)=>s+battingSummary(m).length,0);
