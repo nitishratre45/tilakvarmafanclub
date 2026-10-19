@@ -15,7 +15,8 @@ permissions:
 
 concurrency:
   group: bcci-fixtures-test-health
-  cancel-in-progress: true
+  # Queue overlapping pushes instead of cancelling the active health check.
+  cancel-in-progress: false
 
 jobs:
   validate:
