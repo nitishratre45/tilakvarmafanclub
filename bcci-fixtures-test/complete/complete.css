@@ -632,3 +632,112 @@ html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header {
     display: flex !important;
   }
 }
+
+
+/* 2026-10-19: authoritative BCCI navbar parity.
+   site-nav.js rewrites the source header to .topbar.tvfc-header, so target
+   the live classes rather than the pre-script markup. Page-specific rules
+   above must not change the shared header's dimensions or mobile menu. */
+html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header {
+  position: sticky !important;
+  inset-block-start: 0 !important;
+  z-index: 10000 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  transform: none !important;
+  translate: none !important;
+  animation: none !important;
+  box-sizing: border-box !important;
+  flex-shrink: 0 !important;
+}
+html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header::before,
+html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header::after {
+  pointer-events: none !important;
+}
+@media (min-width: 801px) {
+  html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header {
+    height: 82px !important;
+    min-height: 82px !important;
+    max-height: 82px !important;
+    padding: 10px clamp(24px, 4.5vw, 72px) !important;
+    gap: clamp(16px, 2.2vw, 34px) !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: nowrap !important;
+  }
+  html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header > a.tvfc-brand {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin: 0 auto 0 0 !important;
+    line-height: 1.15 !important;
+  }
+  html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header .tvfc-brand-photo {
+    flex: 0 0 46px !important;
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    min-height: 46px !important;
+    border-radius: 13px !important;
+  }
+  html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header > nav#main-nav.tvfc-nav {
+    display: flex !important;
+    position: static !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    flex: 0 1 auto !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-end !important;
+    align-self: stretch !important;
+    gap: clamp(12px, 1.35vw, 22px) !important;
+    margin: 0 0 0 auto !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+  }
+  html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header > nav#main-nav.tvfc-nav > a {
+    min-height: 42px !important;
+    height: auto !important;
+    padding: 0 1px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+  }
+  html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header > nav#main-nav.tvfc-nav > a[aria-current="page"]::after {
+    display: block !important;
+    content: "" !important;
+    height: 3px !important;
+    bottom: 1px !important;
+    background: var(--tv-nav-orange, #ff8a00) !important;
+  }
+}
+@media (max-width: 800px) {
+  html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header {
+    height: auto !important;
+    min-height: 68px !important;
+    max-height: none !important;
+    padding: 9px 18px !important;
+  }
+  html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header .tvfc-brand-photo {
+    flex: 0 0 54px !important;
+    width: 54px !important;
+    height: 54px !important;
+    min-width: 54px !important;
+    min-height: 54px !important;
+  }
+  html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header > nav#main-nav.tvfc-nav {
+    display: none !important;
+  }
+  html body.bcci-matches-page.complete-matches-page > header.topbar.tvfc-header > button.tvfc-menu-toggle {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
