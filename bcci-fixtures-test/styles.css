@@ -3378,97 +3378,160 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
   }
 }
 
-
 /* 2026-10-19 BCCI Fixtures Test premium responsive polish */
 :root {
-  --bcci-line: rgba(133, 183, 235, .22);
-  --bcci-glass: rgba(9, 25, 49, .84);
+  --bcci-line: rgba(133, 183, 235, 0.22);
+  --bcci-glass: rgba(9, 25, 49, 0.84);
   --bcci-cyan: #a4e5ff;
 }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 body {
   background:
-    radial-gradient(ellipse at 10% 0%, rgba(35, 91, 170, .22), transparent 36rem),
-    radial-gradient(ellipse at 100% 25%, rgba(12, 94, 141, .14), transparent 32rem),
-    #050e1d;
+    radial-gradient(ellipse at 10% 0%, rgba(35, 91, 170, 0.22), transparent 36rem),
+    radial-gradient(ellipse at 100% 25%, rgba(12, 94, 141, 0.14), transparent 32rem), #050e1d;
 }
 .topbar {
-  background: linear-gradient(105deg, rgba(8, 48, 96, .98), rgba(12, 91, 177, .98) 55%, rgba(7, 46, 92, .98));
-  border-bottom-color: rgba(128, 206, 255, .34);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, .2);
+  background: linear-gradient(
+    105deg,
+    rgba(8, 48, 96, 0.98),
+    rgba(12, 91, 177, 0.98) 55%,
+    rgba(7, 46, 92, 0.98)
+  );
+  border-bottom-color: rgba(128, 206, 255, 0.34);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
 }
-.panel, .filters, .live-matches-section {
+.panel,
+.filters,
+.live-matches-section {
   border-color: var(--bcci-line);
-  box-shadow: 0 16px 38px rgba(0,0,0,.16), inset 0 1px rgba(255,255,255,.025);
+  box-shadow:
+    0 16px 38px rgba(0, 0, 0, 0.16),
+    inset 0 1px rgba(255, 255, 255, 0.025);
 }
-.upcoming-hero h1 { letter-spacing: -.045em; text-wrap: balance; }
+.upcoming-hero h1 {
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
 .filters {
-  background: linear-gradient(150deg, rgba(13, 31, 56, .96), rgba(6, 18, 36, .98));
+  background: linear-gradient(150deg, rgba(13, 31, 56, 0.96), rgba(6, 18, 36, 0.98));
   border-radius: 22px;
 }
-.filter-row { gap: 12px; }
-.search-box, .filter-row select {
-  min-height: 48px;
-  border: 1px solid rgba(135, 185, 233, .25);
-  border-radius: 13px;
-  background: rgba(4, 17, 37, .78);
+.filter-row {
+  gap: 12px;
 }
-.search-box:focus-within, .filter-row select:focus-visible {
+.search-box,
+.filter-row select {
+  min-height: 48px;
+  border: 1px solid rgba(135, 185, 233, 0.25);
+  border-radius: 13px;
+  background: rgba(4, 17, 37, 0.78);
+}
+.search-box:focus-within,
+.filter-row select:focus-visible {
   outline: 2px solid var(--bcci-cyan);
   outline-offset: 2px;
 }
-#fixtureList.fixture-list { gap: 16px; }
+#fixtureList.fixture-list {
+  gap: 16px;
+}
 #fixtureList > .upcoming-match-card {
   overflow: hidden;
-  border: 1px solid rgba(124, 178, 235, .27);
+  border: 1px solid rgba(124, 178, 235, 0.27);
   border-radius: 22px;
-  background: linear-gradient(145deg, rgba(18, 47, 91, .96), rgba(7, 22, 45, .98));
-  box-shadow: 0 16px 36px rgba(0,0,0,.2), inset 0 1px rgba(255,255,255,.035);
-  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+  background: linear-gradient(145deg, rgba(18, 47, 91, 0.96), rgba(7, 22, 45, 0.98));
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.2),
+    inset 0 1px rgba(255, 255, 255, 0.035);
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 #fixtureList > .upcoming-match-card:hover {
-  border-color: rgba(135, 218, 255, .52);
+  border-color: rgba(135, 218, 255, 0.52);
   transform: translateY(-2px);
-  box-shadow: 0 20px 42px rgba(0,0,0,.26);
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.26);
 }
-#fixtureList .upcoming-card-top { padding: 18px 20px 4px; }
+#fixtureList .upcoming-card-top {
+  padding: 18px 20px 4px;
+}
 #fixtureList .upcoming-teams {
   gap: 12px;
   padding: 18px 20px 20px;
 }
 #fixtureList .upcoming-team {
   min-width: 0;
-  border: 1px solid rgba(143, 188, 236, .17);
+  border: 1px solid rgba(143, 188, 236, 0.17);
   border-radius: 16px;
-  background: rgba(3, 17, 39, .48);
+  background: rgba(3, 17, 39, 0.48);
 }
-#fixtureList .upcoming-match-info { gap: 8px; padding: 0 20px 20px; }
-#fixtureList .upcoming-match-info > strong { font-size: 15px; line-height: 1.55; }
-#fixtureList .upcoming-details { min-height: 50px; font-weight: 800; }
+#fixtureList .upcoming-match-info {
+  gap: 8px;
+  padding: 0 20px 20px;
+}
+#fixtureList .upcoming-match-info > strong {
+  font-size: 15px;
+  line-height: 1.55;
+}
+#fixtureList .upcoming-details {
+  min-height: 50px;
+  font-weight: 800;
+}
 #fixtureList .upcoming-details:focus-visible,
 #fixtureList a:focus-visible,
-button:focus-visible { outline: 2px solid var(--bcci-cyan); outline-offset: 3px; }
+button:focus-visible {
+  outline: 2px solid var(--bcci-cyan);
+  outline-offset: 3px;
+}
 .match-centre-controls {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
 @media (max-width: 560px) {
-  .topbar { min-height: 72px; }
-  .filters { padding: 14px; border-radius: 18px; }
-  .section-heading { gap: 10px; }
-  #fixtureList.fixture-list { gap: 13px; }
-  #fixtureList > .upcoming-match-card { border-radius: 18px; }
-  #fixtureList .upcoming-card-top { padding: 14px 14px 2px; }
-  #fixtureList .upcoming-teams { padding: 13px 12px 15px; gap: 6px; }
-  #fixtureList .upcoming-team { min-height: 112px; padding: 10px 5px; }
-  #fixtureList .upcoming-match-info { padding: 0 14px 15px; }
-  #fixtureList .upcoming-details { min-height: 48px; }
+  .topbar {
+    min-height: 72px;
+  }
+  .filters {
+    padding: 14px;
+    border-radius: 18px;
+  }
+  .section-heading {
+    gap: 10px;
+  }
+  #fixtureList.fixture-list {
+    gap: 13px;
+  }
+  #fixtureList > .upcoming-match-card {
+    border-radius: 18px;
+  }
+  #fixtureList .upcoming-card-top {
+    padding: 14px 14px 2px;
+  }
+  #fixtureList .upcoming-teams {
+    padding: 13px 12px 15px;
+    gap: 6px;
+  }
+  #fixtureList .upcoming-team {
+    min-height: 112px;
+    padding: 10px 5px;
+  }
+  #fixtureList .upcoming-match-info {
+    padding: 0 14px 15px;
+  }
+  #fixtureList .upcoming-details {
+    min-height: 48px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  #fixtureList > .upcoming-match-card { transition: none; }
+  html {
+    scroll-behavior: auto;
+  }
+  #fixtureList > .upcoming-match-card {
+    transition: none;
+  }
 }
-
 
 /* Final alignment: prevent country flags from cropping and keep fixture cards consistent */
 #fixtureList .bcci-countdown-side .team-logo,
@@ -3497,7 +3560,7 @@ button:focus-visible { outline: 2px solid var(--bcci-cyan); outline-offset: 3px;
 #fixtureList > .upcoming-match-card {
   border-radius: 22px;
   background:
-    radial-gradient(ellipse at 12% 0%, rgba(42, 104, 205, .3), transparent 48%),
+    radial-gradient(ellipse at 12% 0%, rgba(42, 104, 205, 0.3), transparent 48%),
     linear-gradient(145deg, #112f63 0%, #0b2048 55%, #08182f 100%);
 }
 #fixtureList .upcoming-card-top {
@@ -3508,7 +3571,7 @@ button:focus-visible { outline: 2px solid var(--bcci-cyan); outline-offset: 3px;
   gap: 10px;
 }
 #fixtureList .upcoming-teams {
-  grid-template-columns: minmax(0,1fr) 30px minmax(0,1fr);
+  grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr);
   gap: 8px;
 }
 #fixtureList .upcoming-team .team-logo {
@@ -3528,7 +3591,7 @@ button:focus-visible { outline: 2px solid var(--bcci-cyan); outline-offset: 3px;
 }
 @media (max-width: 420px) {
   #fixtureList .upcoming-teams {
-    grid-template-columns: minmax(0,1fr) 24px minmax(0,1fr);
+    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
     gap: 5px;
   }
   #fixtureList .upcoming-team .team-logo {
@@ -3539,7 +3602,6 @@ button:focus-visible { outline: 2px solid var(--bcci-cyan); outline-offset: 3px;
     font-size: 13px;
   }
 }
-
 
 /* Fix real upcoming fixture team layout: remove cramped/cropped flag presentation */
 #fixtureList .upcoming-teams {
@@ -3555,9 +3617,9 @@ button:focus-visible { outline: 2px solid var(--bcci-cyan); outline-offset: 3px;
   gap: 10px;
   min-width: 0;
   padding: 14px 8px;
-  border: 1px solid rgba(135, 185, 233, .18);
+  border: 1px solid rgba(135, 185, 233, 0.18);
   border-radius: 18px;
-  background: rgba(3, 17, 39, .48);
+  background: rgba(3, 17, 39, 0.48);
 }
 #fixtureList .upcoming-team .team-identity {
   display: flex;
@@ -3573,7 +3635,7 @@ button:focus-visible { outline: 2px solid var(--bcci-cyan); outline-offset: 3px;
   padding: 0;
   border-radius: 12px;
   overflow: hidden;
-  background: rgba(255,255,255,.05);
+  background: rgba(255, 255, 255, 0.05);
 }
 #fixtureList .upcoming-team .team-logo img {
   display: block;
@@ -3603,10 +3665,18 @@ button:focus-visible { outline: 2px solid var(--bcci-cyan); outline-offset: 3px;
 }
 @media (max-width: 420px) {
   #fixtureList .upcoming-teams {
-    grid-template-columns: minmax(0,1fr) 24px minmax(0,1fr);
+    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
     gap: 5px;
   }
-  #fixtureList .upcoming-team { padding: 11px 4px; border-radius: 14px; }
-  #fixtureList .upcoming-team .team-logo { width: 54px; height: 46px; }
-  #fixtureList .upcoming-team .team-name { font-size: 12px; }
+  #fixtureList .upcoming-team {
+    padding: 11px 4px;
+    border-radius: 14px;
+  }
+  #fixtureList .upcoming-team .team-logo {
+    width: 54px;
+    height: 46px;
+  }
+  #fixtureList .upcoming-team .team-name {
+    font-size: 12px;
+  }
 }
