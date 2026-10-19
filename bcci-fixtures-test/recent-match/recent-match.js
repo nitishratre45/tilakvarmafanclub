@@ -93,11 +93,7 @@
       if (!r.ok) throw Error("Archive not generated yet");
       index = await r.json();
       const fixtureTeams = params.getAll("team");
-      const teams = [
-        ...new Set(
-          (index.teamsByFormat?.[formatSel.value] || []),
-        ),
-      ].sort();
+      const teams = [...new Set(index.teamsByFormat?.[formatSel.value] || [])].sort();
       const requested = params.get("team") || fixtureTeams[0] || "India";
       teamSel.innerHTML = teams
         .map(
@@ -126,11 +122,7 @@
   formatSel.addEventListener("change", () => {
     if (index) {
       const current = teamSel.value;
-      const teams = [
-        ...new Set(
-          index.teamsByFormat?.[formatSel.value] || [],
-        ),
-      ].sort();
+      const teams = [...new Set(index.teamsByFormat?.[formatSel.value] || [])].sort();
       teamSel.innerHTML = teams
         .map((t) => '<option value="' + esc(t) + '">' + esc(t) + "</option>")
         .join("");
