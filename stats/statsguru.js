@@ -1184,11 +1184,13 @@
       (selectedFormat === "FC" && !sg.formats?.FC?.summary) ||
       (selectedFormat === "List A" && !sg.formats?.["List A"]?.summary);
     note.textContent =
-      selectedFormat === "All"
-        ? "LAST UPDATE: " + formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable")
-        : domesticSummaryOnly
-          ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated. "
-          : "LAST UPDATE: " + formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable");
+      selectedFormat === "List A"
+        ? "SOURCE: Dedicated data/list-a.json dataset. Career profile summary: 52 matches, 50 innings and 2,142 runs; 50 batting innings are currently saved, so match-by-match coverage is still incomplete."
+        : selectedFormat === "All"
+          ? "LAST UPDATE: " + formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable")
+          : domesticSummaryOnly
+            ? "Domestic career summary from the saved profile snapshot. ESPNcricinfo Statsguru has not returned verified match-by-match rows for this format yet; those rows are not fabricated."
+            : "LAST UPDATE: " + formatIndiaTimestamp(sg.updatedAt || "timestamp unavailable");
   }
   function resetFilters() {
     $("sg-filter-type").value = "all";
