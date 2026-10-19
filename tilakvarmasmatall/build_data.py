@@ -96,7 +96,10 @@ def main():
     (OUT / "matches.json").write_text(json.dumps(matches, ensure_ascii=False, indent=2), encoding="utf-8")
     (OUT / "batting_innings.json").write_text(json.dumps(innings_rows, ensure_ascii=False, indent=2), encoding="utf-8")
     (OUT / "ball_by_ball.json").write_text(json.dumps(ball_events, ensure_ascii=False, indent=2), encoding="utf-8")
-    (OUT / "source_index.json").write_text(json.dumps({"scorecards": scorecard_files, "commentary": commentary_files}, ensure_ascii=False, indent=2), encoding="utf-8")
+    source_index = {"scorecards": scorecard_files, "commentary": commentary_files}
+    (OUT / "source_index.json").write_text(json.dumps(source_index, ensure_ascii=False, indent=2), encoding="utf-8")
+    tilak_data = {"player": {"name": "Tilak Varma", "player_id": PLAYER_ID}, "format": "Syed Mushtaq Ali Trophy / domestic T20", "generated_at_utc": summary["generated_at_utc"], "summary": summary, "matches": matches, "batting_innings": innings_rows, "ball_by_ball": ball_events, "source_index": source_index}
+    (OUT / "tilak.json").write_text(json.dumps(tilak_data, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 
 if __name__ == "__main__":
