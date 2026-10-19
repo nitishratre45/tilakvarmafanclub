@@ -51,7 +51,7 @@ def write_json_atomic(path: Path, data: Any) -> None:
     fd, tmp = tempfile.mkstemp(dir=path.parent, prefix=path.name, suffix=".tmp")
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as fh:
-            json.dump(data, fh, ensure_ascii=False, indent=2)
+            json.dump(data, fh, ensure_ascii=False, separators=(",", ":"))
             fh.write("\n")
         os.replace(tmp, path)
     except BaseException:
