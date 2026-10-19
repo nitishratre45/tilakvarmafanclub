@@ -36,6 +36,9 @@ COMPETITIONS = [
 RESULTS_URL = "https://stats.bcci.tv/match/results/"
 SCORECARD_URL = "https://stats.bcci.tv/match/{gid}/scorecard"
 COMMENTARY_URL = "https://epr.ellipsedata.com/redirect/1/match/{gid}/commentary?type=enhanced"
+# UUID supplied by the user as a confirmed endpoint example. It is only used when
+# a record/scorecard identifies this UUID; do not reuse one match's commentary for all matches.
+USER_SUPPLIED_COMMENTARY_UUID = "202d617c-d743-47fc-8caa-0d3e58dca239"
 PAGE_SIZE = 12
 MAX_PAGES = 100
 PLAYER_NAME = "tilak varma"
@@ -44,11 +47,22 @@ HEADERS = {
     "Accept": "application/json, text/plain, */*",
     "Referer": "https://www.bcci.tv/",
 }
+# Match the request headers from the user's working commentary example.
 COMMENTARY_HEADERS = {
-    **HEADERS,
-    "Origin": "https://www.bcci.tv",
-    "Content-Type": "application/json",
+    "accept": "*/*",
+    "accept-language": "en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7,hi;q=0.6,zh-CN;q=0.5,zh;q=0.4",
+    "cache-control": "no-cache",
+    "content-type": "application/json",
+    "origin": "https://www.bcci.tv",
+    "pragma": "no-cache",
+    "referer": "https://www.bcci.tv/",
+    "user-agent": (
+        "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) "
+        "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1"
+    ),
 }
+if os.getenv("BCCI_EDAK"):
+    COMMENTARY_HEADERS["edak"] = os.environ["BCCI_EDAK"]
 if os.getenv("BCCI_EDAK"):
     COMMENTARY_HEADERS["edak"] = os.environ["BCCI_EDAK"]
 
@@ -97,6 +111,22 @@ def match_gid(record: dict) -> str | None:
         value = parent.get("gid")
         if isinstance(value, str) and value.strip():
             return value.strip()
+    return None
+
+
+def commentary_uuid(*sources: Any) -> str | None:
+    """Find the Ellipse commentary UUID exposed by BCCI match metadata."""
+    keys = {
+        "commentary_gid", "commentary_uuid", "ellipse_match_id",
+        "enhanced_commentary_id", "epr_match_id", "match_uuid",
+    }
+    for source in sources:
+        for item in walk_dicts(source):
+            for key, value in item.items():
+                if str(key).lower() in keys and isinstance(value, str):
+                    value = value.strip()
+                    if re.fullmatch(r"[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}", value):
+                        return value
     return None
 
 
@@ -240,11 +270,15 @@ def main() -> None:
         summary_rows.extend(rows)
 
         try:
-            # BCCI match GID is the candidate UUID for the commentary endpoint.
-            # Save response as-is even if its schema is new or unexpectedly empty.
-            comm_response = session.get(COMMENTARY_URL.format(gid=gid), headers=COMMENTARY_HEADERS, timeout=45)
+            # Prefer the separate Ellipse UUID when BCCI metadata exposes it.
+            # BCCI GID is only a fallback; it is not assumed to equal the commentary UUID.
+            comm_gid = commentary_uuid(meta.get("result_record", {}), scorecard) or gid
+            comm_response = session.get(COMMENTARY_URL.format(gid=comm_gid), headers=COMMENTARY_HEADERS, timeout=45)
             comm_response.raise_for_status()
-            commentary = comm_response.json()
+            try:
+                commentary = comm_response.json()
+            except ValueError as exc:
+                raise ValueError(f"Commentary endpoint returned non-JSON (HTTP {comm_response.status_code})") from exc
             save_json(COMMENTARY_DIR / f"{gid}.json", commentary)
             deliveries = extract_delivery_objects(commentary)
             tilak_deliveries = []
@@ -261,7 +295,12 @@ def main() -> None:
                 "tilak_events_detected": len(tilak_deliveries),
             })
         except Exception as exc:
-            commentary_failures.append({"gid": gid, "match": metadata.get("match"), "error": str(exc)})
+            commentary_failures.append({
+                "gid": gid,
+                "commentary_uuid_tried": commentary_uuid(meta.get("result_record", {}), scorecard) or gid,
+                "match": metadata.get("match"),
+                "error": str(exc),
+            })
         time.sleep(0.35)
 
     total_runs = sum(row["runs"] for row in summary_rows)
