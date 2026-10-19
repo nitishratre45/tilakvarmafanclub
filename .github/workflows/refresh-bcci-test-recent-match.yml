@@ -29,24 +29,30 @@ jobs:
       - name: Validate archive index and format bundles
         run: |
           python -m json.tool bcci-fixtures-test/recent-match/archive-index.json >/dev/null
+          python -m json.tool bcci-fixtures-test/recent-match/recent-match-list.json >/dev/null
           python - <<'PY'
           import json
           from pathlib import Path
           root = Path("bcci-fixtures-test/recent-match")
           index = json.loads((root / "archive-index.json").read_text())
+          light = json.loads((root / "recent-match-list.json").read_text())
           assert index["matchCount"] > 0
           assert set(index["formats"]) == {"T20I", "ODI", "Test"}
+          assert light["matchCount"] == index["matchCount"]
+          assert 0 < light["listedMatchCount"] <= light["matchCount"]
+          assert set(light["teamsByFormat"]) == set(index["formats"])
+          assert all(set(("matchId", "date", "format", "teams", "result", "outcome", "scores")) <= set(m) for m in light["matches"])
           for p in (root / "data").glob("*.json"):
               d = json.loads(p.read_text())
               assert d["matches"] and all(m.get("innings") is not None for m in d["matches"])
-          print(f"Validated {index['matchCount']} international matches.")
+          print(f"Validated {index['matchCount']} international matches; lightweight listing has {light['listedMatchCount']}.")
           PY
       - name: Commit archive snapshots
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add bcci-fixtures-test/recent-match/archive-index.json bcci-fixtures-test/recent-match/data
+          git add bcci-fixtures-test/recent-match/archive-index.json bcci-fixtures-test/recent-match/recent-match-list.json bcci-fixtures-test/recent-match/data
           if git diff --cached --quiet; then echo "Archive unchanged."; exit 0; fi
           git commit -m "data: refresh Cricsheet international recent scorecards"
           for attempt in 1 2 3 4; do
