@@ -2500,9 +2500,9 @@ html body.bcci-matches-page > header.topbar.tvfc-header::after {
 }
 @media (min-width: 801px) {
   html body.bcci-matches-page > header.topbar.tvfc-header {
-    height: 98px !important;
-    min-height: 98px !important;
-    max-height: 98px !important;
+    height: var(--tv-nav-height, 78px) !important;
+    min-height: var(--tv-nav-height, 78px) !important;
+    max-height: var(--tv-nav-height, 78px) !important;
     padding: 10px clamp(24px, 4.5vw, 72px) !important;
     gap: clamp(16px, 2.2vw, 34px) !important;
     align-items: center !important;
