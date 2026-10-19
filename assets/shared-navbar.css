@@ -630,7 +630,6 @@ html body > header.topbar .menu-toggle[aria-expanded="true"] span:nth-child(3) {
   }
 }
 
-
 /* Consolidated from assets/mobile-bottom-nav.css; migrated into shared-navbar.css */
 /* Shared mobile-only bottom navigation. Loaded after page styles for consistent priority. */
 html body.tv-bottom-nav-enabled {
@@ -1103,7 +1102,6 @@ img {
   }
 }
 
-
 /* Consolidated from assets/navbar-alignment-fix.css; migrated into shared-navbar.css */
 /* Shared desktop navbar geometry: keep Home, Matches and Records links in identical positions. */
 @media (min-width: 801px) {
@@ -1210,28 +1208,153 @@ html body > header.topbar > nav#main-nav > a {
   }
 }
 
-
-
 /* UNIFIED NAVBAR — site-wide final override layer. Loaded last on every HTML page. */
-:root { --tv-nav-blue:#0758b8; --tv-nav-blue-deep:#063a7a; --tv-nav-orange:#ff8a00; --tv-nav-text:#fff; --tv-nav-height:68px; }
-html body > header.topbar, html body > header.tvfc-header {
- position:sticky;top:0;z-index:1000;width:100%;box-sizing:border-box;
- background:linear-gradient(110deg,#063a7a 0%,#0758b8 58%,#0878d1 100%);color:#fff;
- border-bottom:1px solid rgba(255,255,255,.16);box-shadow:0 7px 24px rgba(0,25,65,.18)
+:root {
+  --tv-nav-blue: #0758b8;
+  --tv-nav-blue-deep: #063a7a;
+  --tv-nav-orange: #ff8a00;
+  --tv-nav-text: #fff;
+  --tv-nav-height: 68px;
 }
-html body > header.topbar > .brand,html body > header.tvfc-header > .brand,html body > header.topbar > a.tvfc-brand{color:#fff;text-decoration:none;flex-shrink:0}
-html body > header.topbar > nav#main-nav,html body > header.topbar > nav#death-nav,html body > header.topbar > nav#site-navigation,html body > header.tvfc-header > nav#main-nav,html body > header.topbar > nav.tvfc-nav{display:flex;align-items:center;justify-content:flex-end;gap:clamp(4px,.6vw,12px)}
-html body > header.topbar > nav#main-nav > a,html body > header.topbar > nav#death-nav > a,html body > header.topbar > nav#site-navigation > a,html body > header.tvfc-header > nav#main-nav > a,html body > header.topbar > nav.tvfc-nav > a{
- color:#fff;background:transparent;border:0;border-radius:0;box-shadow:none;text-decoration:none;font-weight:750;white-space:nowrap;position:relative;padding:11px 10px;transition:color .18s ease,opacity .18s ease
+html body > header.topbar,
+html body > header.tvfc-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(110deg, #063a7a 0%, #0758b8 58%, #0878d1 100%);
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 7px 24px rgba(0, 25, 65, 0.18);
 }
-html body > header.topbar > nav#main-nav > a::after,html body > header.topbar > nav#death-nav > a::after,html body > header.topbar > nav#site-navigation > a::after,html body > header.tvfc-header > nav#main-nav > a::after,html body > header.topbar > nav.tvfc-nav > a::after{
- content:"";position:absolute;left:10px;right:10px;bottom:3px;height:3px;border-radius:5px;background:var(--tv-nav-orange);transform:scaleX(0);transform-origin:center;transition:transform .18s ease
+html body > header.topbar > .brand,
+html body > header.tvfc-header > .brand,
+html body > header.topbar > a.tvfc-brand {
+  color: #fff;
+  text-decoration: none;
+  flex-shrink: 0;
 }
-html body > header.topbar > nav#main-nav > a:hover::after,html body > header.topbar > nav#main-nav > a:focus-visible::after,html body > header.topbar > nav#main-nav > a.active::after,html body > header.topbar > nav#main-nav > a[aria-current="page"]::after,html body > header.topbar > nav#death-nav > a:hover::after,html body > header.topbar > nav#death-nav > a.active::after,html body > header.topbar > nav#death-nav > a[aria-current="page"]::after,html body > header.topbar > nav#site-navigation > a:hover::after,html body > header.topbar > nav#site-navigation > a.active::after,html body > header.topbar > nav#site-navigation > a[aria-current="page"]::after,html body > header.tvfc-header > nav#main-nav > a:hover::after,html body > header.tvfc-header > nav#main-nav > a.active::after,html body > header.tvfc-header > nav#main-nav > a[aria-current="page"]::after,html body > header.topbar > nav.tvfc-nav > a:hover::after,html body > header.topbar > nav.tvfc-nav > a[aria-current="page"]::after{transform:scaleX(1)}
-html body > header.topbar .menu-toggle,html body > header.topbar .tvfc-menu-toggle,html body > header.tvfc-header .menu-toggle{color:#fff;border:1px solid rgba(255,255,255,.32);background:rgba(255,255,255,.12)}
-html body > header.live-top,html body > header.rm-top,html body > header.top{box-sizing:border-box;position:sticky;top:0;z-index:1000;width:100%;min-height:56px;background:linear-gradient(110deg,#063a7a,#0758b8 60%,#0878d1);color:#fff;border-bottom:1px solid rgba(255,255,255,.16);box-shadow:0 7px 24px rgba(0,25,65,.18)}
-html body > header.live-top a,html body > header.rm-top a,html body > header.top a{color:#fff;text-decoration:none}
-html body > header.live-top span,html body > header.rm-top span,html body > header.top span{color:#fff}
-html body > header.topbar nav a:focus-visible,html body > header.tvfc-header nav a:focus-visible,html body > header.live-top a:focus-visible,html body > header.rm-top a:focus-visible,html body > header.top a:focus-visible{outline:2px solid #ffb547;outline-offset:3px}
-@media(max-width:800px){html body > header.topbar,html body > header.tvfc-header{min-height:58px}html body > header.topbar > nav#main-nav,html body > header.topbar > nav#death-nav,html body > header.topbar > nav#site-navigation,html body > header.tvfc-header > nav#main-nav,html body > header.topbar > nav.tvfc-nav{gap:6px}}
-@media(prefers-reduced-motion:reduce){html body > header.topbar nav a,html body > header.tvfc-header nav a,html body > header.topbar nav a::after{transition:none!important}}
+html body > header.topbar > nav#main-nav,
+html body > header.topbar > nav#death-nav,
+html body > header.topbar > nav#site-navigation,
+html body > header.tvfc-header > nav#main-nav,
+html body > header.topbar > nav.tvfc-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(4px, 0.6vw, 12px);
+}
+html body > header.topbar > nav#main-nav > a,
+html body > header.topbar > nav#death-nav > a,
+html body > header.topbar > nav#site-navigation > a,
+html body > header.tvfc-header > nav#main-nav > a,
+html body > header.topbar > nav.tvfc-nav > a {
+  color: #fff;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  text-decoration: none;
+  font-weight: 750;
+  white-space: nowrap;
+  position: relative;
+  padding: 11px 10px;
+  transition:
+    color 0.18s ease,
+    opacity 0.18s ease;
+}
+html body > header.topbar > nav#main-nav > a::after,
+html body > header.topbar > nav#death-nav > a::after,
+html body > header.topbar > nav#site-navigation > a::after,
+html body > header.tvfc-header > nav#main-nav > a::after,
+html body > header.topbar > nav.tvfc-nav > a::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 3px;
+  height: 3px;
+  border-radius: 5px;
+  background: var(--tv-nav-orange);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.18s ease;
+}
+html body > header.topbar > nav#main-nav > a:hover::after,
+html body > header.topbar > nav#main-nav > a:focus-visible::after,
+html body > header.topbar > nav#main-nav > a.active::after,
+html body > header.topbar > nav#main-nav > a[aria-current="page"]::after,
+html body > header.topbar > nav#death-nav > a:hover::after,
+html body > header.topbar > nav#death-nav > a.active::after,
+html body > header.topbar > nav#death-nav > a[aria-current="page"]::after,
+html body > header.topbar > nav#site-navigation > a:hover::after,
+html body > header.topbar > nav#site-navigation > a.active::after,
+html body > header.topbar > nav#site-navigation > a[aria-current="page"]::after,
+html body > header.tvfc-header > nav#main-nav > a:hover::after,
+html body > header.tvfc-header > nav#main-nav > a.active::after,
+html body > header.tvfc-header > nav#main-nav > a[aria-current="page"]::after,
+html body > header.topbar > nav.tvfc-nav > a:hover::after,
+html body > header.topbar > nav.tvfc-nav > a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+html body > header.topbar .menu-toggle,
+html body > header.topbar .tvfc-menu-toggle,
+html body > header.tvfc-header .menu-toggle {
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.12);
+}
+html body > header.live-top,
+html body > header.rm-top,
+html body > header.top {
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  min-height: 56px;
+  background: linear-gradient(110deg, #063a7a, #0758b8 60%, #0878d1);
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 7px 24px rgba(0, 25, 65, 0.18);
+}
+html body > header.live-top a,
+html body > header.rm-top a,
+html body > header.top a {
+  color: #fff;
+  text-decoration: none;
+}
+html body > header.live-top span,
+html body > header.rm-top span,
+html body > header.top span {
+  color: #fff;
+}
+html body > header.topbar nav a:focus-visible,
+html body > header.tvfc-header nav a:focus-visible,
+html body > header.live-top a:focus-visible,
+html body > header.rm-top a:focus-visible,
+html body > header.top a:focus-visible {
+  outline: 2px solid #ffb547;
+  outline-offset: 3px;
+}
+@media (max-width: 800px) {
+  html body > header.topbar,
+  html body > header.tvfc-header {
+    min-height: 58px;
+  }
+  html body > header.topbar > nav#main-nav,
+  html body > header.topbar > nav#death-nav,
+  html body > header.topbar > nav#site-navigation,
+  html body > header.tvfc-header > nav#main-nav,
+  html body > header.topbar > nav.tvfc-nav {
+    gap: 6px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html body > header.topbar nav a,
+  html body > header.tvfc-header nav a,
+  html body > header.topbar nav a::after {
+    transition: none !important;
+  }
+}
