@@ -6,8 +6,8 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "tilakvarmasmatall"
-SCORE_DIR = ROOT / "hyd_scoreboards" / "json"
-COMMENTARY_DIR = ROOT / "tilak_varma_commentaries"
+SCORE_DIR = OUT / "hyd_scoreboards" / "json"
+COMMENTARY_DIR = OUT / "tilak_varma_commentaries"
 PLAYER_ID = "69845"  # verified in source scorecards/commentary for Tilak Varma
 
 def read_json(path):
