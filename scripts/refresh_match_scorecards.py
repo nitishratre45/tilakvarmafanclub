@@ -326,7 +326,7 @@ def main():
         if not card:
             continue
         (DATA / (card["matchId"] + ".json")).write_text(
-            json.dumps(card, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+            json.dumps(card, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8"
         )
         written += 1
         player_runs = sum(
@@ -371,7 +371,7 @@ def main():
     }
     INDEX.parent.mkdir(parents=True, exist_ok=True)
     INDEX.write_text(
-        json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        json.dumps(index, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8"
     )
     print(
         f"Archive files: {len(archive.namelist())}; scorecards written: {written}; indexed matches: {len(rows)}; stale files removed: {removed_stale}; malformed files skipped: {malformed}"
