@@ -184,7 +184,7 @@ def main():
         "This is not a complete-career claim; include all List A seasons/competitions before labelling it complete.",
         "Player matching uses BCCI player ID 69845 where that ID is present in the scorecard row."
     ]
-    LIST_A_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    LIST_A_FILE.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     print(json.dumps({"scorecards_read": readable, "batting_rows": len(batting), "bowling_rows": len(bowling), "fielding_rows": len(fielding), "summary": data["summary"]}, indent=2))
 
 if __name__ == "__main__": main()
