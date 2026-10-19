@@ -182,7 +182,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          grep -q 'id="main-nav"' bcci-fixtures-test/ui/site-nav.js
+          grep -q '#main-nav' bcci-fixtures-test/ui/site-nav.js
           grep -q '/assets/mobile-glass-menu.js' bcci-fixtures-test/index.html
           grep -q '/assets/mobile-bottom-nav.js' bcci-fixtures-test/index.html
           grep -q 'Upcoming Match' bcci-fixtures-test/index.html
