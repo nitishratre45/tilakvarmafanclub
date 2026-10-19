@@ -2363,3 +2363,31 @@ html body > header.topbar.scrolled-away {
   opacity: 1 !important;
   visibility: visible !important;
 }
+
+
+/* Final sticky-header correction: transformed/contained sticky elements can blink on scroll. */
+html body > header.topbar,
+html body > header.topbar.death-topbar,
+html body > header.topbar.tvfc-header {
+  position: sticky !important;
+  top: 0 !important;
+  transform: none !important;
+  translate: none !important;
+  contain: none !important;
+  will-change: auto !important;
+  animation: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: background-color 160ms ease, box-shadow 160ms ease, border-color 160ms ease !important;
+  backface-visibility: visible !important;
+}
+html body > header.topbar.is-hidden,
+html body > header.topbar.nav-hidden,
+html body > header.topbar.header-hidden,
+html body > header.topbar.hide-on-scroll,
+html body > header.topbar.scrolled-away {
+  transform: none !important;
+  translate: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
