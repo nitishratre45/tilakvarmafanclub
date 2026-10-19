@@ -2746,3 +2746,38 @@ html body > header.topbar > a.brand > span:last-child > small {
     box-shadow: none !important;
   }
 }
+
+
+/* Premium micro-interactions for the shared desktop navbar. */
+@media (min-width: 801px) and (prefers-reduced-motion: no-preference) {
+  html body > header.topbar nav#main-nav a,
+  html body > header.topbar nav#death-nav a,
+  html body > header.topbar nav#site-navigation a,
+  html body > header.topbar nav#one-nav a {
+    text-decoration: none !important;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      color 180ms ease,
+      transform 180ms ease,
+      text-shadow 180ms ease !important;
+  }
+
+  html body > header.topbar nav#main-nav a:hover,
+  html body > header.topbar nav#death-nav a:hover,
+  html body > header.topbar nav#site-navigation a:hover,
+  html body > header.topbar nav#one-nav a:hover {
+    transform: translateY(-1px);
+    text-shadow: 0 0 16px rgba(255, 154, 61, 0.22);
+  }
+
+  html body > header.topbar nav#main-nav a.active::after,
+  html body > header.topbar nav#main-nav a[aria-current="page"]::after,
+  html body > header.topbar nav#death-nav a.active::after,
+  html body > header.topbar nav#death-nav a[aria-current="page"]::after,
+  html body > header.topbar nav#site-navigation a.active::after,
+  html body > header.topbar nav#site-navigation a[aria-current="page"]::after,
+  html body > header.topbar nav#one-nav a.active::after,
+  html body > header.topbar nav#one-nav a[aria-current="page"]::after {
+    box-shadow: 0 0 9px rgba(255, 124, 69, 0.35);
+  }
+}
