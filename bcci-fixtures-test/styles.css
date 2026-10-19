@@ -3539,3 +3539,74 @@ button:focus-visible { outline: 2px solid var(--bcci-cyan); outline-offset: 3px;
     font-size: 13px;
   }
 }
+
+
+/* Fix real upcoming fixture team layout: remove cramped/cropped flag presentation */
+#fixtureList .upcoming-teams {
+  grid-template-columns: minmax(0, 1fr) minmax(26px, 36px) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(8px, 2vw, 18px);
+}
+#fixtureList .upcoming-team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px 8px;
+  border: 1px solid rgba(135, 185, 233, .18);
+  border-radius: 18px;
+  background: rgba(3, 17, 39, .48);
+}
+#fixtureList .upcoming-team .team-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+#fixtureList .upcoming-team .team-logo {
+  width: clamp(62px, 16vw, 82px);
+  height: clamp(50px, 12vw, 64px);
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255,255,255,.05);
+}
+#fixtureList .upcoming-team .team-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  object-fit: contain;
+  box-sizing: border-box;
+}
+#fixtureList .upcoming-team .team-logo-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+#fixtureList .upcoming-team .team-name {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: clamp(12px, 3.5vw, 15px);
+  font-weight: 800;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+#fixtureList .upcoming-vs {
+  align-self: center;
+  margin-top: 30px;
+}
+@media (max-width: 420px) {
+  #fixtureList .upcoming-teams {
+    grid-template-columns: minmax(0,1fr) 24px minmax(0,1fr);
+    gap: 5px;
+  }
+  #fixtureList .upcoming-team { padding: 11px 4px; border-radius: 14px; }
+  #fixtureList .upcoming-team .team-logo { width: 54px; height: 46px; }
+  #fixtureList .upcoming-team .team-name { font-size: 12px; }
+}
