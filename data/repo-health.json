@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-19T08:17:14+00:00",
+  "checkedAt": "2026-10-19T14:03:47+00:00",
   "intervalMinutes": 10,
   "status": "healthy",
   "summary": {
-    "filesScanned": 830,
-    "checksPassed": 749,
+    "filesScanned": 840,
+    "checksPassed": 755,
     "issues": 0,
     "warnings": 0
   },
@@ -1152,6 +1152,36 @@
     },
     {
       "level": "pass",
+      "message": "Python syntax OK",
+      "file": "SMAT/smat.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "SMAT/smatscoreboard.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "SMAT/tilak_ball_by_ball.py"
+    },
+    {
+      "level": "pass",
+      "message": "Python syntax OK",
+      "file": "Tilak Varma/build_hyderabad_json.py"
+    },
+    {
+      "level": "pass",
+      "message": "No duplicate HTML IDs",
+      "file": "Tilak Varma/index.html"
+    },
+    {
+      "level": "pass",
+      "message": "Valid JSON",
+      "file": "Tilak Varma/matches.json"
+    },
+    {
+      "level": "pass",
       "message": "CSS block/string/comment structure OK",
       "file": "admin/admin-premium.css"
     },
@@ -1229,36 +1259,6 @@
       "level": "pass",
       "message": "JavaScript syntax OK",
       "file": "assets/mobile-bottom-nav.js"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "assets/mobile-glass-menu.js"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "assets/mobile-responsive-polish.css"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "assets/shared-navbar.css"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "assets/site-data-store.js"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "assets/site-loading-media.css"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "assets/site-loading-media.js"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "96ac611d"
+    "branch": "e51f2053"
   }
 }
