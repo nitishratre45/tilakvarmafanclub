@@ -2450,3 +2450,31 @@ html {
     line-height: 1.2 !important;
   }
 }
+
+
+/* Single underline source: suppress legacy inset/shadow indicators that can
+   render as a second line beneath the shared animated pseudo-element. */
+@media (min-width: 801px) {
+  html body > header.topbar nav#main-nav a.active,
+  html body > header.topbar nav#main-nav a[aria-current="page"],
+  html body > header.topbar nav#death-nav a.active,
+  html body > header.topbar nav#death-nav a[aria-current="page"],
+  html body > header.topbar nav#site-navigation a.active,
+  html body > header.topbar nav#site-navigation a[aria-current="page"],
+  html body > header.topbar nav#one-nav a.active,
+  html body > header.topbar nav#one-nav a[aria-current="page"] {
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+  }
+  html body > header.topbar nav#main-nav a::after,
+  html body > header.topbar nav#death-nav a::after,
+  html body > header.topbar nav#site-navigation a::after,
+  html body > header.topbar nav#one-nav a::after {
+    content: "" !important;
+    display: block !important;
+    height: 3px !important;
+    bottom: 1px !important;
+    box-shadow: 0 0 12px rgba(255, 116, 75, 0.35) !important;
+  }
+}
