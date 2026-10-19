@@ -11,6 +11,7 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parent
 OUTPUT = ROOT / "bcci-scorecard.json"
 FIXTURES_FILE = ROOT / "bcci-fixtures.json"
+LIVE_FILE = ROOT / "live-matches.json"
 BASE = "https://stats.bcci.tv/match/{}/scorecard"
 
 def read_json(path):
@@ -20,36 +21,69 @@ def read_json(path):
 def choose_match():
     if not FIXTURES_FILE.exists():
         raise RuntimeError("bcci-fixtures.json is missing")
-    snapshot = read_json(FIXTURES_FILE)
-    data = snapshot.get("data") or snapshot
-    matches = data.get("match") or data.get("matches") or []
-    if not matches:
-        # An empty fixtures snapshot is not evidence of a live match. Preserve the
-        # last verified scorecard instead of failing every scheduled no-match run.
-        return None
-    live = [m for m in matches if str(m.get("match_status", "")).lower() in {"live", "in progress"}
-            or "in play" in str(m.get("live_status_name", "")).lower()
-            or str(m.get("live_status_id", "")) == "1"]
+
+    fixture_snapshot = read_json(FIXTURES_FILE)
+    fixture_data = fixture_snapshot.get("data") or fixture_snapshot
+    fixtures = fixture_data.get("match") or fixture_data.get("matches") or []
+
+    # The fixtures snapshot can be hours old and still say "forthcoming" while a
+    # match is live. Prefer the dedicated five-minute live-score snapshot.
+    if LIVE_FILE.exists():
+        live_snapshot = read_json(LIVE_FILE)
+        if live_snapshot.get("status") == "updated-from-bcci-live-scores":
+            live_rows = live_snapshot.get("matches")
+            if not isinstance(live_rows, list):
+                raise RuntimeError("BCCI live snapshot has an invalid matches field")
+            if not live_rows:
+                return None
+
+            candidates = sorted(
+                live_rows,
+                key=lambda row: str((row.get("raw") or {}).get("start_datetime_utc", "")),
+                reverse=True,
+            )
+            for entry in candidates:
+                raw = entry.get("raw") if isinstance(entry.get("raw"), dict) else {}
+                gid = raw.get("gid") or raw.get("match_gid") or entry.get("id")
+                match_id = raw.get("match_id") or raw.get("id")
+                resolved = None
+                if not match_id and gid:
+                    resolved = next(
+                        (
+                            item
+                            for item in fixtures
+                            if str(item.get("gid") or item.get("match_gid") or "") == str(gid)
+                            and item.get("match_id")
+                        ),
+                        None,
+                    )
+                    if resolved:
+                        match_id = resolved.get("match_id") or resolved.get("id")
+                if match_id and str(match_id).isdigit():
+                    match = {**(resolved or {}), **raw, **entry}
+                    match["gid"] = gid or match.get("gid")
+                    return str(match_id), match, True
+
+            raise RuntimeError("Live BCCI match found, but its numeric match_id could not be resolved")
+
+    # Backward-compatible fallback for deployments where the live snapshot has
+    # not been created yet. Never treat a valid empty live snapshot as stale data.
+    live = [
+        m for m in fixtures
+        if str(m.get("match_status", "")).lower() in {"live", "in progress"}
+        or "in play" in str(m.get("live_status_name", "")).lower()
+        or str(m.get("live_status_id", "")) == "1"
+    ]
     if not live:
-        # Upcoming/completed fixtures are normal when no match is in progress.
         return None
-    candidates = live
-    candidates.sort(key=lambda m: (str(m.get("start_datetime_utc", "")), str(m.get("gid", ""))), reverse=True)
-    for match in candidates:
-        # BCCI /match/{id}/scorecard expects the numeric match_id (e.g. 237261),
-        # not the UUID gid used by fixtures/live_scores (e.g. b567f7d4-...).
+    live.sort(
+        key=lambda m: (str(m.get("start_datetime_utc", "")), str(m.get("gid", ""))),
+        reverse=True,
+    )
+    for match in live:
         match_id = match.get("match_id") or match.get("id")
-        gid = match.get("gid") or match.get("match_gid")
-        if match_id:
-            return str(match_id), match, bool(live)
-        if gid:
-            # The live_scores feed may omit match_id; resolve it from fixtures,
-            # whose records normally contain both gid and numeric match_id.
-            fixtures = read_json(FIXTURES_FILE)
-            all_matches = (fixtures.get("data") or fixtures).get("match") or []
-            resolved = next((m for m in all_matches if str(m.get("gid", "")) == str(gid) and m.get("match_id")), None)
-            if resolved:
-                return str(resolved["match_id"]), {**resolved, **match}, bool(live)
+        if match_id and str(match_id).isdigit():
+            return str(match_id), match, True
     raise RuntimeError("No numeric BCCI match_id found in live feed / fixtures")
 
 def main():
