@@ -3377,3 +3377,94 @@ body.has-live-matches #liveMatchesSection .live-section-heading .section-actions
     font-size: 14px;
   }
 }
+
+
+/* 2026-10-19 BCCI Fixtures Test premium responsive polish */
+:root {
+  --bcci-line: rgba(133, 183, 235, .22);
+  --bcci-glass: rgba(9, 25, 49, .84);
+  --bcci-cyan: #a4e5ff;
+}
+html { scroll-behavior: smooth; }
+body {
+  background:
+    radial-gradient(ellipse at 10% 0%, rgba(35, 91, 170, .22), transparent 36rem),
+    radial-gradient(ellipse at 100% 25%, rgba(12, 94, 141, .14), transparent 32rem),
+    #050e1d;
+}
+.topbar {
+  background: linear-gradient(105deg, rgba(8, 48, 96, .98), rgba(12, 91, 177, .98) 55%, rgba(7, 46, 92, .98));
+  border-bottom-color: rgba(128, 206, 255, .34);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .2);
+}
+.panel, .filters, .live-matches-section {
+  border-color: var(--bcci-line);
+  box-shadow: 0 16px 38px rgba(0,0,0,.16), inset 0 1px rgba(255,255,255,.025);
+}
+.upcoming-hero h1 { letter-spacing: -.045em; text-wrap: balance; }
+.filters {
+  background: linear-gradient(150deg, rgba(13, 31, 56, .96), rgba(6, 18, 36, .98));
+  border-radius: 22px;
+}
+.filter-row { gap: 12px; }
+.search-box, .filter-row select {
+  min-height: 48px;
+  border: 1px solid rgba(135, 185, 233, .25);
+  border-radius: 13px;
+  background: rgba(4, 17, 37, .78);
+}
+.search-box:focus-within, .filter-row select:focus-visible {
+  outline: 2px solid var(--bcci-cyan);
+  outline-offset: 2px;
+}
+#fixtureList.fixture-list { gap: 16px; }
+#fixtureList > .upcoming-match-card {
+  overflow: hidden;
+  border: 1px solid rgba(124, 178, 235, .27);
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(18, 47, 91, .96), rgba(7, 22, 45, .98));
+  box-shadow: 0 16px 36px rgba(0,0,0,.2), inset 0 1px rgba(255,255,255,.035);
+  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+#fixtureList > .upcoming-match-card:hover {
+  border-color: rgba(135, 218, 255, .52);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px rgba(0,0,0,.26);
+}
+#fixtureList .upcoming-card-top { padding: 18px 20px 4px; }
+#fixtureList .upcoming-teams {
+  gap: 12px;
+  padding: 18px 20px 20px;
+}
+#fixtureList .upcoming-team {
+  min-width: 0;
+  border: 1px solid rgba(143, 188, 236, .17);
+  border-radius: 16px;
+  background: rgba(3, 17, 39, .48);
+}
+#fixtureList .upcoming-match-info { gap: 8px; padding: 0 20px 20px; }
+#fixtureList .upcoming-match-info > strong { font-size: 15px; line-height: 1.55; }
+#fixtureList .upcoming-details { min-height: 50px; font-weight: 800; }
+#fixtureList .upcoming-details:focus-visible,
+#fixtureList a:focus-visible,
+button:focus-visible { outline: 2px solid var(--bcci-cyan); outline-offset: 3px; }
+.match-centre-controls {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+@media (max-width: 560px) {
+  .topbar { min-height: 72px; }
+  .filters { padding: 14px; border-radius: 18px; }
+  .section-heading { gap: 10px; }
+  #fixtureList.fixture-list { gap: 13px; }
+  #fixtureList > .upcoming-match-card { border-radius: 18px; }
+  #fixtureList .upcoming-card-top { padding: 14px 14px 2px; }
+  #fixtureList .upcoming-teams { padding: 13px 12px 15px; gap: 6px; }
+  #fixtureList .upcoming-team { min-height: 112px; padding: 10px 5px; }
+  #fixtureList .upcoming-match-info { padding: 0 14px 15px; }
+  #fixtureList .upcoming-details { min-height: 48px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  #fixtureList > .upcoming-match-card { transition: none; }
+}
