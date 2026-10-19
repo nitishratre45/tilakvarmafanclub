@@ -2265,3 +2265,42 @@ html body header.topbar nav a[aria-current="page"] {
     padding: 11px 10px !important;
   }
 }
+
+
+/* Final Death Overs masthead fix: same stable shared header contract as other sections. */
+html body > header.topbar.death-topbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10050 !important;
+  height: 78px !important;
+  min-height: 78px !important;
+  max-height: 78px !important;
+  transform: none !important;
+  animation: none !important;
+  transition: background-color 160ms ease, box-shadow 160ms ease !important;
+  will-change: auto !important;
+  margin: 0 !important;
+}
+html body > header.topbar.death-topbar nav#death-nav {
+  position: static;
+}
+html body > header.topbar.death-topbar nav#death-nav a::after {
+  transition: transform 180ms ease !important;
+}
+@media (max-width: 800px) {
+  html body > header.topbar.death-topbar {
+    height: 68px !important;
+    min-height: 68px !important;
+    max-height: 68px !important;
+  }
+  html body > header.topbar.death-topbar nav#death-nav {
+    position: absolute;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html body > header.topbar.death-topbar,
+  html body > header.topbar.death-topbar nav#death-nav a::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
