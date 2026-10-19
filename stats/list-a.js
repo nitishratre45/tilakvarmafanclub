@@ -1,7 +1,7 @@
 /* List A pilot data loader. Keeps the List A dataset separate from Statsguru/T20I data. */
 (function () {
   "use strict";
-  const url = "/data/list-a.json?v=20261019-list-a-2026-india-a-added2";
+  const url = "/data/list-a.json?v=20261019-remove-duplicate-june-2026-entries";
   window.TilakListAData = window.TilakListAData || { ready: null, data: null };
   window.TilakListAData.ready = fetch(url, { cache: "no-cache" })
     .then(function (response) {
