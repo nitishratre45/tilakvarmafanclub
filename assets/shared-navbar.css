@@ -2582,3 +2582,54 @@ html body.bcci-matches-page > header.topbar.tvfc-header::after {
     opacity: 1 !important;
   }
 }
+
+
+/* Brand lockup parity: use the same compact sizing as Home and Stats site header
+   across every page that imports the shared navbar stylesheet. */
+html body > header.topbar > a.brand,
+html body > header.topbar > .brand {
+  gap: 12px !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
+  line-height: 1.15 !important;
+}
+html body > header.topbar > a.brand > span:last-child,
+html body > header.topbar > .brand > .brand-copy {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+}
+html body > header.topbar > a.brand > span:last-child > small,
+html body > header.topbar > .brand > .brand-copy > small,
+html body > header.topbar > a.brand > small {
+  display: block !important;
+  margin: 0 !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2em !important;
+  line-height: 1.2 !important;
+  text-transform: uppercase;
+}
+@media (max-width: 800px) {
+  html body > header.topbar > a.brand,
+  html body > header.topbar > .brand {
+    gap: 10px !important;
+  }
+  html body > header.topbar > a.brand > span:last-child,
+  html body > header.topbar > .brand > .brand-copy {
+    font-size: 12px !important;
+  }
+  html body > header.topbar > a.brand > span:last-child > small,
+  html body > header.topbar > .brand > .brand-copy > small,
+  html body > header.topbar > a.brand > small {
+    font-size: 9px !important;
+  }
+}
