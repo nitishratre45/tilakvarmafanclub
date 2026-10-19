@@ -325,7 +325,7 @@ def main():
     data["activityLog"] = unique_activity[:12]
     update_last_updated(data)
     DATA_FILE.write_text(
-        json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8"
     )
     print(
         f"Data refresh finished. Recent rows available: {len(data.get('recentInnings', []))}"
