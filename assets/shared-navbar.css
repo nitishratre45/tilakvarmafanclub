@@ -2328,3 +2328,37 @@ html body > header.tvfc-header::after {
     transition: none !important;
   }
 }
+
+
+/* Stability fix: keep the masthead from flickering/jumping during document scroll. */
+html { scroll-behavior: smooth; }
+html body > header.topbar,
+html body > header.topbar.death-topbar,
+html body > header.topbar.tvfc-header {
+  position: sticky !important;
+  top: 0 !important;
+  transform: translateZ(0) !important;
+  will-change: auto !important;
+  animation: none !important;
+  transition-property: background-color, box-shadow, border-color !important;
+  transition-duration: 160ms !important;
+  contain: layout style !important;
+  backface-visibility: hidden;
+}
+html body > header.topbar.death-topbar {
+  z-index: 10050 !important;
+  margin-block-start: 0 !important;
+}
+html body > header.topbar.death-topbar + * {
+  scroll-margin-top: 12px;
+}
+/* Prevent old hide-on-scroll classes/scripts from translating the header off-screen. */
+html body > header.topbar.is-hidden,
+html body > header.topbar.nav-hidden,
+html body > header.topbar.header-hidden,
+html body > header.topbar.hide-on-scroll,
+html body > header.topbar.scrolled-away {
+  transform: translateZ(0) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
