@@ -2329,9 +2329,10 @@ html body > header.tvfc-header::after {
   }
 }
 
-
 /* Stability fix: keep the masthead from flickering/jumping during document scroll. */
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 html body > header.topbar,
 html body > header.topbar.death-topbar,
 html body > header.topbar.tvfc-header {
