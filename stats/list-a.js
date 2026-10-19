@@ -19,7 +19,9 @@
         throw new Error("List A JSON has an invalid schema");
       }
       window.TilakListAData.data = payload;
-      window.dispatchEvent(new CustomEvent("tilak:list-a-loaded", { detail: { innings: payload.innings.length } }));
+      window.dispatchEvent(
+        new CustomEvent("tilak:list-a-loaded", { detail: { innings: payload.innings.length } }),
+      );
       return payload;
     });
 })();
