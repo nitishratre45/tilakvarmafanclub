@@ -1461,7 +1461,7 @@ html body > header.topbar.death-topbar nav a[aria-current="page"]::after {
   --tv-orange: #ff8b58;
   --tv-glass: rgba(9, 28, 52, 0.94);
 }
-body {
+body.bcci-matches-page {
   padding-bottom: 0;
 }
 .tvfc-header {
@@ -1559,7 +1559,7 @@ body {
   color: #a8bbd2;
 }
 @media (max-width: 800px) {
-  body {
+  body.bcci-matches-page {
     padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)) !important;
   }
   .tvfc-header {
@@ -1740,7 +1740,7 @@ body {
     background: #0b5fc41a;
     color: #0b5fc4;
   }
-  body.tvfc-menu-open:after {
+  body.bcci-matches-page.tvfc-menu-open:after {
     content: "";
     position: fixed;
     z-index: 10000;
@@ -1748,7 +1748,7 @@ body {
     background: #020d1c66;
     backdrop-filter: blur(2px);
   }
-  body.tvfc-menu-open .tvfc-mobile-dock {
+  body.bcci-matches-page.tvfc-menu-open .tvfc-mobile-dock {
     visibility: hidden;
     pointer-events: none;
   }
@@ -1873,7 +1873,7 @@ body {
   }
 }
 @media (max-width: 800px) {
-  body {
+  body.bcci-matches-page {
     padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important;
   }
   .tvfc-header {
@@ -2036,7 +2036,7 @@ body {
       inset 0 -3px 0 #ff8b58,
       inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
   }
-  body.mobile-menu-open::before {
+  body.bcci-matches-page.mobile-menu-open::before {
     content: "";
     position: fixed;
     inset: 0;
@@ -2045,7 +2045,7 @@ body {
     -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
   }
-  body.mobile-menu-open > .tvfc-mobile-dock {
+  body.bcci-matches-page.mobile-menu-open > .tvfc-mobile-dock {
     visibility: hidden !important;
     pointer-events: none !important;
   }
@@ -2063,12 +2063,12 @@ body {
 
 /* Match-page interaction motion parity — scoped to BCCI fixtures test only. */
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .fixture-card,
-  .upcoming-match-card,
-  .team-logo,
-  .tvfc-mobile-menu a,
-  .tvfc-mobile-dock a,
-  .tvfc-mobile-dock button {
+  .bcci-matches-page .fixture-card,
+  .bcci-matches-page .upcoming-match-card,
+  .bcci-matches-page .team-logo,
+  .bcci-matches-page .tvfc-mobile-menu a,
+  .bcci-matches-page .tvfc-mobile-dock a,
+  .bcci-matches-page .tvfc-mobile-dock button {
     transition:
       transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1),
       border-color 200ms ease,
@@ -2077,36 +2077,36 @@ body {
       color 180ms ease,
       opacity 180ms ease;
   }
-  .fixture-card:hover,
-  .upcoming-match-card:hover {
+  .bcci-matches-page .fixture-card:hover,
+  .bcci-matches-page .upcoming-match-card:hover {
     transform: translateY(-2px);
     border-color: rgba(117, 227, 255, 0.48);
     box-shadow: 0 14px 32px rgba(0, 8, 24, 0.24);
   }
-  .tvfc-mobile-menu a:hover {
+  .bcci-matches-page .tvfc-mobile-menu a:hover {
     transform: translateY(-1px);
     border-color: rgba(150, 210, 255, 0.42);
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.075));
   }
 }
-.fixture-card,
-.upcoming-match-card {
+.bcci-matches-page .fixture-card,
+.bcci-matches-page .upcoming-match-card {
   animation: bcci-match-card-in 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
-.fixture-card:nth-child(2),
-.upcoming-match-card:nth-child(2) {
+.bcci-matches-page .fixture-card:nth-child(2),
+.bcci-matches-page .upcoming-match-card:nth-child(2) {
   animation-delay: 45ms;
 }
-.fixture-card:nth-child(3),
-.upcoming-match-card:nth-child(3) {
+.bcci-matches-page .fixture-card:nth-child(3),
+.bcci-matches-page .upcoming-match-card:nth-child(3) {
   animation-delay: 90ms;
 }
-.fixture-card:nth-child(4),
-.upcoming-match-card:nth-child(4) {
+.bcci-matches-page .fixture-card:nth-child(4),
+.bcci-matches-page .upcoming-match-card:nth-child(4) {
   animation-delay: 135ms;
 }
-.fixture-card:nth-child(5),
-.upcoming-match-card:nth-child(5) {
+.bcci-matches-page .fixture-card:nth-child(5),
+.bcci-matches-page .upcoming-match-card:nth-child(5) {
   animation-delay: 180ms;
 }
 @keyframes bcci-match-card-in {
@@ -2120,13 +2120,13 @@ body {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .fixture-card,
-  .upcoming-match-card,
-  .tvfc-mobile-menu,
-  .tvfc-mobile-menu a,
-  .tvfc-mobile-dock,
-  .tvfc-mobile-dock a,
-  .tvfc-mobile-dock button {
+  .bcci-matches-page .fixture-card,
+  .bcci-matches-page .upcoming-match-card,
+  .bcci-matches-page .tvfc-mobile-menu,
+  .bcci-matches-page .tvfc-mobile-menu a,
+  .bcci-matches-page .tvfc-mobile-dock,
+  .bcci-matches-page .tvfc-mobile-dock a,
+  .bcci-matches-page .tvfc-mobile-dock button {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;
