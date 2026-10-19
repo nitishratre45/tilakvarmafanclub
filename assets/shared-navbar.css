@@ -2393,3 +2393,13 @@ html body > header.topbar.scrolled-away {
   opacity: 1 !important;
   visibility: visible !important;
 }
+
+
+/* Keep the viewport width stable when switching between pages with/without vertical overflow. */
+html {
+  overflow-y: scroll !important;
+  scrollbar-gutter: stable;
+}
+@supports (scrollbar-gutter: stable) {
+  html { overflow-y: auto !important; }
+}
