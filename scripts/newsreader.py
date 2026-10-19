@@ -248,7 +248,8 @@ def main():
     doc["articleFetchErrors"] = errors
     doc["articles"] = results
     RAW.write_text(
-        json.dumps(doc, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8"
+        json.dumps(doc, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8",
     )
     print(
         f"Saved full page details for {len(results)} BCCI article URLs to {RAW.relative_to(ROOT)}",

@@ -151,7 +151,8 @@ def main() -> None:
         "pages": pages,
     }
     OUT.write_text(
-        json.dumps(document, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8"
+        json.dumps(document, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8",
     )
     print(f"Saved {len(pages)} BCCI API page(s) to {OUT.relative_to(ROOT)}", flush=True)
 
