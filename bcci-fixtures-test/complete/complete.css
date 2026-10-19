@@ -521,3 +521,19 @@ html body.complete-matches-page > header.topbar::after {
   pointer-events: none !important;
   z-index: 2 !important;
 }
+
+
+/* Preserve Complete Matches page canvas independently of the shared navbar. */
+@media (max-width: 800px) {
+  html,
+  html body.complete-matches-page {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background:
+      radial-gradient(ellipse at 10% 0%, #12395a88 0, transparent 36%),
+      radial-gradient(ellipse at 95% 12%, #143b3180 0, transparent 28%), #07111f;
+  }
+}
