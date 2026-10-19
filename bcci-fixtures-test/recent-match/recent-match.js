@@ -87,7 +87,7 @@
   }
   async function init() {
     try {
-      const r = await fetch("/bcci-fixtures-test/recent-match/archive-index.json", {
+      const r = await fetch("/bcci-fixtures-test/recent-match/recent-match-list.json", {
         cache: "no-store",
       });
       if (!r.ok) throw Error("Archive not generated yet");
@@ -95,9 +95,7 @@
       const fixtureTeams = params.getAll("team");
       const teams = [
         ...new Set(
-          (index.matches || [])
-            .filter((m) => m.format === formatSel.value)
-            .flatMap((m) => m.teams || []),
+          (index.teamsByFormat?.[formatSel.value] || []),
         ),
       ].sort();
       const requested = params.get("team") || fixtureTeams[0] || "India";
@@ -130,7 +128,7 @@
       const current = teamSel.value;
       const teams = [
         ...new Set(
-          index.matches.filter((m) => m.format === formatSel.value).flatMap((m) => m.teams || []),
+          index.teamsByFormat?.[formatSel.value] || [],
         ),
       ].sort();
       teamSel.innerHTML = teams

@@ -628,6 +628,38 @@ check("Complete Matches opens a real archived scorecard", async () => {
   await page.close();
 });
 
+check("Recent Matches uses the compact team/format index", async () => {
+  const page = await browser.newPage();
+  page.setDefaultTimeout(10000);
+  const pageErrors = [];
+  page.on("pageerror", error => pageErrors.push(error.message));
+  await page.route("**/recent-match-list.json*", route => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({
+      schemaVersion: 1,
+      updatedAt: "2026-10-19T00:00:00Z",
+      matchCount: 9000,
+      listedMatchCount: 2,
+      formats: ["T20I", "ODI", "Test"],
+      teamsByFormat: { T20I: ["Australia", "India"], ODI: ["India"], Test: ["India"] },
+      matches: [
+        { matchId: "test-ind-aus-1", date: "2026-10-18", format: "T20I", teams: ["India", "Australia"], result: "India won by 10 runs", outcome: { winner: "India", by: { runs: 10 } }, scores: [{ team: "India", runs: 180, wickets: 5, overs: "20" }, { team: "Australia", runs: 170, wickets: 8, overs: "20" }] },
+        { matchId: "test-ind-aus-2", date: "2026-10-17", format: "ODI", teams: ["India", "Australia"], result: "Australia won by 2 wickets", outcome: { winner: "Australia", by: { wickets: 2 } }, scores: [{ team: "India", runs: 250, wickets: 10, overs: "49" }, { team: "Australia", runs: 251, wickets: 8, overs: "48" }] }
+      ]
+    })
+  }));
+  await page.goto(baseURL + "/bcci-fixtures-test/recent-match/", { waitUntil: "domcontentloaded" });
+  await page.locator(".rm-card").first().waitFor();
+  assert.equal(await page.locator(".rm-card").count(), 1, "Recent Matches should show the selected team's compact-index results");
+  assert((await page.locator(".rm-card").first().innerText()).includes("India won by 10 runs"));
+  await page.locator("#rm-format").selectOption("ODI");
+  await page.locator(".rm-card").first().waitFor();
+  assert((await page.locator(".rm-card").first().innerText()).includes("Australia won by 2 wickets"));
+  assert.deepEqual(pageErrors, [], "Recent Matches page errors: " + pageErrors.join(" | "));
+  await page.close();
+});
+
 try {
   for (const item of checks) {
     try {

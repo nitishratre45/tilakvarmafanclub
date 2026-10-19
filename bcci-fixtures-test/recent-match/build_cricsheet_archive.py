@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 INDEX = ROOT / "archive-index.json"
+LIST_INDEX = ROOT / "recent-match-list.json"
 ARCHIVES = {
     "T20I": "https://cricsheet.org/downloads/t20s_male_json.zip",
     "ODI": "https://cricsheet.org/downloads/odis_male_json.zip",
@@ -170,6 +171,36 @@ def main():
         index_rows.sort(key=lambda m: (m.get("date", ""), m.get("matchId", "")), reverse=True)
         index = {"schemaVersion": 1, "updatedAt": datetime.now(timezone.utc).isoformat(), "source": "https://cricsheet.org/", "attribution": ATTRIBUTION, "formats": list(ARCHIVES), "matchCount": len(index_rows), "matches": index_rows}
         INDEX.write_text(json.dumps(index, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+
+        # The landing page displays five matches per team/format. Keep its catalog
+        # small; the full index remains available to detail and scorecard pages.
+        teams_by_format = {fmt: sorted({team for row in index_rows if row.get("format") == fmt for team in row.get("teams", [])}) for fmt in ARCHIVES}
+        counts = {}
+        light_rows = []
+        light_fields = ("matchId", "date", "format", "teams", "result", "outcome", "scores")
+        for row in index_rows:
+            fmt = row.get("format", "")
+            row_is_needed = False
+            for team in row.get("teams", []):
+                key = (fmt, "".join(ch.lower() for ch in team if ch.isalnum()))
+                seen = counts.get(key, 0)
+                if seen < 5:
+                    row_is_needed = True
+                    counts[key] = seen + 1
+            if row_is_needed:
+                light_rows.append({key: row.get(key) for key in light_fields})
+        light_index = {
+            "schemaVersion": 1,
+            "updatedAt": index["updatedAt"],
+            "source": index["source"],
+            "attribution": index["attribution"],
+            "formats": index["formats"],
+            "matchCount": len(index_rows),
+            "listedMatchCount": len(light_rows),
+            "teamsByFormat": teams_by_format,
+            "matches": light_rows,
+        }
+        LIST_INDEX.write_text(json.dumps(light_index, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     # TemporaryDirectory removes extracted source JSON and any residual ZIPs after data saves.
     print(f"Saved {len(index_rows)} international matches across {len(grouped)} format/year bundles.")
     print("Downloaded ZIP archives and extracted source files removed after JSON generation.")
