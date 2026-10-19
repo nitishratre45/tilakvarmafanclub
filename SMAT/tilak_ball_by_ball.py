@@ -36,9 +36,6 @@ COMPETITIONS = [
 RESULTS_URL = "https://stats.bcci.tv/match/results/"
 SCORECARD_URL = "https://stats.bcci.tv/match/{gid}/scorecard"
 COMMENTARY_URL = "https://epr.ellipsedata.com/redirect/1/match/{gid}/commentary?type=enhanced"
-# UUID supplied by the user as a confirmed endpoint example. It is only used when
-# a record/scorecard identifies this UUID; do not reuse one match's commentary for all matches.
-USER_SUPPLIED_COMMENTARY_UUID = "202d617c-d743-47fc-8caa-0d3e58dca239"
 PAGE_SIZE = 12
 MAX_PAGES = 100
 PLAYER_NAME = "tilak varma"
