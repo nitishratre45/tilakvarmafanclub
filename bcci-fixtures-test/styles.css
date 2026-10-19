@@ -3468,3 +3468,74 @@ button:focus-visible { outline: 2px solid var(--bcci-cyan); outline-offset: 3px;
   html { scroll-behavior: auto; }
   #fixtureList > .upcoming-match-card { transition: none; }
 }
+
+
+/* Final alignment: prevent country flags from cropping and keep fixture cards consistent */
+#fixtureList .bcci-countdown-side .team-logo,
+#fixtureList .bcci-countdown-side .team-crest {
+  overflow: hidden;
+  padding: 0;
+  box-sizing: border-box;
+}
+#fixtureList .bcci-countdown-side .team-logo img,
+#fixtureList .bcci-countdown-side .team-crest img,
+#fixtureList .bcci-countdown-side > img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  padding: 2px;
+  box-sizing: border-box;
+  object-fit: contain;
+}
+#fixtureList .bcci-countdown-side .team-logo-fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+#fixtureList > .upcoming-match-card {
+  border-radius: 22px;
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(42, 104, 205, .3), transparent 48%),
+    linear-gradient(145deg, #112f63 0%, #0b2048 55%, #08182f 100%);
+}
+#fixtureList .upcoming-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+#fixtureList .upcoming-teams {
+  grid-template-columns: minmax(0,1fr) 30px minmax(0,1fr);
+  gap: 8px;
+}
+#fixtureList .upcoming-team .team-logo {
+  width: clamp(54px, 14vw, 76px);
+  height: clamp(54px, 14vw, 76px);
+  padding: 4px;
+  box-sizing: border-box;
+}
+#fixtureList .upcoming-team .team-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+#fixtureList .upcoming-team .team-name {
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 420px) {
+  #fixtureList .upcoming-teams {
+    grid-template-columns: minmax(0,1fr) 24px minmax(0,1fr);
+    gap: 5px;
+  }
+  #fixtureList .upcoming-team .team-logo {
+    width: 52px;
+    height: 52px;
+  }
+  #fixtureList .upcoming-team .team-name {
+    font-size: 13px;
+  }
+}
