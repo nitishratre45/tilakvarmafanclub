@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-19T07:19:36+00:00",
+  "checkedAt": "2026-10-19T07:20:07+00:00",
   "intervalMinutes": 10,
   "status": "error",
   "summary": {
     "filesScanned": 835,
     "checksPassed": 754,
-    "issues": 17,
+    "issues": 22,
     "warnings": 0
   },
   "items": [
@@ -94,6 +94,31 @@
       "level": "error",
       "message": "Missing local asset: /assets/shared-navbar.css",
       "file": "matches/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /assets/shared-navbar.css",
+      "file": "matches/live/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /assets/shared-navbar.css",
+      "file": "matches/recent-scorecard/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /assets/shared-navbar.css",
+      "file": "matches/scorecards/bcci-scorecard.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /assets/shared-navbar.css",
+      "file": "matches/scorecards/index.html"
+    },
+    {
+      "level": "error",
+      "message": "Missing local asset: /assets/shared-navbar.css",
+      "file": "news/index.html"
     },
     {
       "level": "pass",
@@ -1234,31 +1259,6 @@
       "level": "pass",
       "message": "Valid JSON",
       "file": "News/raw-news-pages.json"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "admin/admin-premium.css"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "admin/assets/admin-core.js"
-    },
-    {
-      "level": "pass",
-      "message": "CSS block/string/comment structure OK",
-      "file": "admin/assets/admin.css"
-    },
-    {
-      "level": "pass",
-      "message": "No duplicate HTML IDs",
-      "file": "admin/index.html"
-    },
-    {
-      "level": "pass",
-      "message": "JavaScript syntax OK",
-      "file": "admin/sections/bcci-live-monitor.js"
     }
   ],
   "autoRepair": {
@@ -1266,6 +1266,6 @@
     "result": "No logic/data changes are made automatically. Formatting is handled by the separate safe-format workflow; code or data errors require a reviewed fix."
   },
   "source": {
-    "branch": "f5c2c6fa"
+    "branch": "b01455ee"
   }
 }
