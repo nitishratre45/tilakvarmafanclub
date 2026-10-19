@@ -26,7 +26,7 @@ HEADERS = {
 
 def save_json(path, data):
     path.write_text(
-        json.dumps(data, indent=2, ensure_ascii=False),
+        json.dumps(data, ensure_ascii=False, separators=(",", ":")),
         encoding="utf-8",
     )
 
