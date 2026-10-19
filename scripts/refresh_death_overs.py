@@ -595,7 +595,7 @@ def main():
             pass
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(
-        json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        json.dumps(out, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8"
     )
     print("Wrote formats:", ", ".join(formats))
 
