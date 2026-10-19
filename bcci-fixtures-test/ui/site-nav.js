@@ -20,7 +20,9 @@
     ["/videos", "videos"],
   ];
   const active = routes
-    .filter(([route]) => route === "/" ? path === "/" : path === route || path.startsWith(route + "/"))
+    .filter(([route]) =>
+      route === "/" ? path === "/" : path === route || path.startsWith(route + "/"),
+    )
     .sort((a, b) => b[0].length - a[0].length)[0]?.[1];
 
   const header = document.querySelector("body > header.topbar");
@@ -30,7 +32,7 @@
   nav.querySelectorAll("a[href]").forEach((link) => {
     const href = new URL(link.href, window.location.origin).pathname.replace(/\/+$/, "") || "/";
     const route = routes
-      .filter(([base]) => base === "/" ? href === "/" : href === base)
+      .filter(([base]) => (base === "/" ? href === "/" : href === base))
       .map(([, key]) => key)[0];
     const isActive = Boolean(route && route === active);
     link.classList.toggle("active", isActive);
