@@ -2632,3 +2632,38 @@ html body > header.topbar > a.brand > small {
     font-size: 9px !important;
   }
 }
+
+
+/* Final brand lockup parity: exactly the compact Home/Stats typography everywhere. */
+html body > header.topbar > a.brand > span:last-child {
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  font-family: inherit !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.1em !important;
+  white-space: nowrap !important;
+}
+html body > header.topbar > a.brand > span:last-child > small {
+  display: block !important;
+  margin: 0 !important;
+  color: rgba(255,255,255,.78) !important;
+  font-family: var(--mono, ui-monospace, SFMono-Regular, Consolas, monospace) !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+}
+@media (max-width: 800px) {
+  html body > header.topbar > a.brand > span:last-child {
+    font-size: 12px !important;
+  }
+  html body > header.topbar > a.brand > span:last-child > small {
+    font-size: 9px !important;
+  }
+}
