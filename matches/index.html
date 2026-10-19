@@ -31,85 +31,10 @@
     <link rel="stylesheet" href="/matches/matches.css?v=20261016-compact-recent-match-mobile1" />
     <link rel="stylesheet" href="/matches/match-centre.css?v=20261014-match-details1" />
 
-    <style id="site-navbar-theme">
-      /* Unified blue navbar; orange underline marks the current page and keyboard focus. */
-      html body header.topbar {
-        background: #0b5fc4 !important;
-        background-color: #0b5fc4 !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.22) !important;
-        box-shadow: 0 5px 18px rgba(0, 30, 90, 0.18) !important;
-        -webkit-backdrop-filter: none !important;
-        backdrop-filter: none !important;
-      }
-      html body header.topbar nav,
-      html body header.topbar nav a {
-        color: #fff !important;
-      }
-      html body header.topbar nav a,
-      html body header.topbar nav a:hover,
-      html body header.topbar nav a:focus,
-      html body header.topbar nav a:focus-visible,
-      html body header.topbar nav a:active {
-        background: transparent !important;
-        border-color: transparent !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-      }
-      html body header.topbar nav a:hover,
-      html body header.topbar nav a:focus-visible,
-      html body header.topbar nav a.active,
-      html body header.topbar nav a[aria-current="page"] {
-        color: #fff !important;
-      }
-      html body header.topbar nav#main-nav > a.active,
-      html body header.topbar nav#main-nav > a[aria-current="page"] {
-        color: #fff !important;
-        background: transparent !important;
-        background-color: transparent !important;
-        border: 0 !important;
-        border-color: transparent !important;
-        border-radius: 0 !important;
-        outline: 0 !important;
-        box-shadow: inset 0 -3px 0 #ff7c45 !important;
-      }
-      html body header.topbar nav#main-nav > a.active:hover,
-      html body header.topbar nav#main-nav > a.active:focus,
-      html body header.topbar nav#main-nav > a.active:focus-visible {
-        background: transparent !important;
-        background-color: transparent !important;
-        border: 0 !important;
-        border-radius: 0 !important;
-      }
-
-      /* Match page: keep desktop active navigation consistent with Records/Home.
-         No rounded active box on the desktop navbar. */
-      @media (min-width: 801px) {
-        html body.matches-page > header.topbar > nav#main-nav > a.active,
-        html body.matches-page > header.topbar > nav#main-nav > a[aria-current="page"] {
-          background: transparent !important;
-          border: 0 !important;
-          border-radius: 0 !important;
-          box-shadow: inset 0 -3px 0 #ff7c45 !important;
-          outline: 0 !important;
-        }
-      }
-      html body header.topbar nav a:focus-visible {
-        outline: 2px solid rgba(255, 255, 255, 0.9) !important;
-        outline-offset: 3px !important;
-      }
-      html body header.topbar .menu-toggle {
-        color: #fff !important;
-      }
-    </style>
-    <link
-      rel="stylesheet"
-      href="/assets/mobile-glass-menu.css?v=20261017-active-pill-specificity4"
-    />
+    
+    
     <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261015-india-theme1" />
-    <link
-      rel="stylesheet"
-      href="/assets/mobile-bottom-nav.css?v=20261016-matches-news-stable-dock1"
-    />
+    
     <link rel="stylesheet" href="/assets/site-loading-media.css?v=20261017-no-shimmer2" />
     <link
       rel="stylesheet"
@@ -117,8 +42,9 @@
     />
     <link rel="stylesheet" href="/assets/custom-selects.css?v=20261016-global-picker1" />
     <link rel="stylesheet" href="/matches/matches-motion.css?v=20261016-smooth-motion1" />
-    <link rel="stylesheet" href="/assets/navbar-alignment-fix.css?v=20261017-shared-nav1" />
-  </head>
+    
+    <link rel="stylesheet" href="/assets/shared-navbar.css?v=20261019-unified1" />
+</head>
   <body class="matches-page">
     <header class="topbar">
       <a class="brand" href="/" aria-label="Home"
