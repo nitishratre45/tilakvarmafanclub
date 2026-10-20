@@ -560,24 +560,3 @@
     justify-content: center !important;
   }
 }
-
-/* Match the Upcoming Matches mobile glass-menu appearance exactly. */
-@media (max-width: 800px) {
-  html body.complete-matches-page > header.topbar nav#main-nav a.active,
-  html body.complete-matches-page > header.topbar nav#main-nav a[aria-current="page"] {
-    border: 1px solid rgba(255, 145, 91, 0.75) !important;
-    border-radius: 13px !important;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 124, 69, 0.28),
-      rgba(255, 255, 255, 0.09)
-    ) !important;
-    box-shadow:
-      inset 0 -2px 0 #ff8b58,
-      inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
-  }
-
-  html body.complete-matches-page > header.topbar nav#main-nav a::after {
-    display: none !important;
-  }
-}
