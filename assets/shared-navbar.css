@@ -2950,3 +2950,52 @@ html body > header.topbar > a.brand > span:last-child > small {
     max-height: 74px !important;
   }
 }
+
+
+/* Final mobile geometry correction for Complete Matches: Home-height masthead,
+   not an oversized 145px header. */
+@media (max-width: 800px) {
+  html body.bcci-complete-page > header.topbar {
+    box-sizing: border-box !important;
+    height: 103px !important;
+    min-height: 103px !important;
+    max-height: 103px !important;
+    padding: 9px 18px !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    overflow: hidden !important;
+  }
+
+  html body.bcci-complete-page > header.topbar > a.brand {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    max-width: calc(100% - 68px) !important;
+    height: 74px !important;
+    gap: 14px !important;
+  }
+
+  html body.bcci-complete-page > header.topbar .brand-mark,
+  html body.bcci-complete-page > header.topbar .brand-mark-photo {
+    box-sizing: border-box !important;
+    flex: 0 0 74px !important;
+    width: 74px !important;
+    min-width: 74px !important;
+    max-width: 74px !important;
+    height: 74px !important;
+    min-height: 74px !important;
+    max-height: 74px !important;
+  }
+
+  html body.bcci-complete-page > header.topbar > .menu-toggle {
+    box-sizing: border-box !important;
+    flex: 0 0 78px !important;
+    width: 78px !important;
+    min-width: 78px !important;
+    max-width: 78px !important;
+    height: 78px !important;
+    min-height: 78px !important;
+    max-height: 78px !important;
+    padding: 0 !important;
+    margin: 0 0 0 auto !important;
+  }
+}
