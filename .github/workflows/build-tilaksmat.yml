@@ -1,0 +1,49 @@
+name: Build Tilak Hyderabad SMAT Ball-by-Ball
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */12 * * *"
+  push:
+    paths:
+      - "data/death-overs.json"
+      - "scripts/build_tilaksmat.py"
+      - ".github/workflows/build-tilaksmat.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-tilaksmat
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build full Hyderabad match ball-by-ball JSON
+        run: python scripts/build_tilaksmat.py
+
+      - name: Validate output JSON
+        run: python -m json.tool data/tilaksmat.json > /dev/null
+
+      - name: Commit updated JSON
+        run: |
+          if git diff --quiet -- data/tilaksmat.json; then
+            echo "No tilaksmat.json changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/tilaksmat.json
+          git commit -m "Refresh Tilak Hyderabad SMAT ball-by-ball data"
+          git push
