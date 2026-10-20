@@ -399,3 +399,42 @@ body.complete-matches-page > main.complete-page-main {
     padding: 12px 8px !important;
   }
 }
+
+
+/* Phone-width cleanup: keep the summary tiles readable without broken words. */
+@media (max-width: 650px) {
+  body.complete-matches-page .complete-hero h1 {
+    font-size: clamp(29px, 7.2vw, 38px) !important;
+    letter-spacing: -1px !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+  }
+  body.complete-matches-page .complete-hero-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+  }
+  body.complete-matches-page .complete-hero-stats > span {
+    min-width: 0 !important;
+    padding: 11px 8px !important;
+    overflow: hidden !important;
+  }
+  body.complete-matches-page .complete-hero-stats strong {
+    font-size: clamp(11px, 3.15vw, 14px) !important;
+    line-height: 1.25 !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: none !important;
+  }
+  body.complete-matches-page .complete-hero-stats small {
+    font-size: 8px !important;
+    line-height: 1.4 !important;
+    letter-spacing: 0 !important;
+    overflow-wrap: normal !important;
+  }
+  body.complete-matches-page .complete-page-main {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    padding-right: 12px !important;
+    padding-left: 12px !important;
+  }
+}
