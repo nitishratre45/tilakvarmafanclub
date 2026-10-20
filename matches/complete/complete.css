@@ -495,3 +495,69 @@
     transition: none !important;
   }
 }
+
+
+/* Mobile header regression guard: keep the player portrait inside the compact brand mark. */
+.complete-matches-page > header.topbar {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+.complete-matches-page > header.topbar > .brand {
+  display: inline-flex !important;
+  align-items: center !important;
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  max-width: calc(100% - 68px) !important;
+}
+.complete-matches-page > header.topbar .brand-mark,
+.complete-matches-page > header.topbar .brand-mark-photo {
+  box-sizing: border-box !important;
+  display: block !important;
+  position: relative !important;
+  flex: 0 0 50px !important;
+  width: 50px !important;
+  height: 50px !important;
+  min-width: 50px !important;
+  min-height: 50px !important;
+  max-width: 50px !important;
+  max-height: 50px !important;
+  overflow: hidden !important;
+}
+.complete-matches-page > header.topbar .brand-mark img,
+.complete-matches-page > header.topbar img[data-tilak-logo] {
+  display: block !important;
+  position: static !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+}
+@media (max-width: 800px) {
+  .complete-matches-page > header.topbar {
+    height: 88px !important;
+    min-height: 68px !important;
+    max-height: 88px !important;
+    padding: 9px 18px !important;
+    gap: 10px !important;
+  }
+  .complete-matches-page > header.topbar > .menu-toggle {
+    display: inline-flex !important;
+    flex: 0 0 52px !important;
+    width: 52px !important;
+    height: 52px !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
