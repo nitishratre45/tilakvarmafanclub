@@ -2780,3 +2780,37 @@ html body > header.topbar > a.brand > span:last-child > small {
     box-shadow: 0 0 9px rgba(255, 124, 69, 0.35);
   }
 }
+
+
+/* BCCI Matches mobile-menu parity fix: keep the menu panel sharp like Home.
+   The legacy BCCI scrim was painted above the header menu and blurred the links. */
+@media (max-width: 800px) {
+  html body.bcci-matches-page.tvfc-menu-open::after,
+  html body.bcci-matches-page.mobile-menu-open::before,
+  html body.bcci-matches-page.tvfc-menu-open::before {
+    z-index: 9997 !important;
+    pointer-events: none !important;
+    -webkit-backdrop-filter: blur(2px) saturate(105%) !important;
+    backdrop-filter: blur(2px) saturate(105%) !important;
+  }
+
+  html body.bcci-matches-page .tvfc-mobile-menu:not([hidden]) {
+    position: fixed !important;
+    z-index: 2147483003 !important;
+    opacity: 1 !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    transform: none !important;
+    isolation: isolate !important;
+  }
+
+  html body.bcci-matches-page > header.topbar {
+    z-index: 2147483004 !important;
+  }
+
+  html body.bcci-matches-page.tvfc-menu-open > .tvfc-mobile-dock,
+  html body.bcci-matches-page.mobile-menu-open > .tvfc-mobile-dock {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
