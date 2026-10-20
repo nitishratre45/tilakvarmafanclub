@@ -2814,7 +2814,6 @@ html body > header.topbar > a.brand > span:last-child > small {
   }
 }
 
-
 /* Make the BCCI Complete Matches header/menu match the Home mobile chrome exactly. */
 @media (max-width: 800px) {
   html body.bcci-complete-page > header.topbar {
@@ -2853,7 +2852,7 @@ html body > header.topbar > a.brand > span:last-child > small {
     font-size: 17px !important;
     font-weight: 800 !important;
     line-height: 1.15 !important;
-    letter-spacing: .055em !important;
+    letter-spacing: 0.055em !important;
     white-space: nowrap !important;
   }
 
@@ -2894,7 +2893,7 @@ html body > header.topbar > a.brand > span:last-child > small {
     font-size: 12px !important;
     font-weight: 500 !important;
     line-height: 1.15 !important;
-    letter-spacing: .22em !important;
+    letter-spacing: 0.22em !important;
   }
 
   html body.bcci-complete-page > header.topbar > .menu-toggle {
@@ -2913,10 +2912,14 @@ html body > header.topbar > a.brand > span:last-child > small {
 
   html body.bcci-complete-page .tvfc-mobile-menu a[aria-current="page"] {
     position: relative !important;
-    border: 1px solid rgba(255,255,255,.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 17px !important;
-    background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.055)) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.13),
+      rgba(255, 255, 255, 0.055)
+    ) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
   }
 
   html body.bcci-complete-page .tvfc-mobile-menu a[aria-current="page"]::after {
