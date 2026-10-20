@@ -50,8 +50,12 @@ def find_hyderabad_zip_url():
             href = href.strip(chr(34) + chr(39))
             label_text = re.sub(r"<[^>]+>", " ", label).lower()
             if "json" in label_text and ".zip" in href.lower():
-                return href if href.startswith("http") else "https://cricsheet.org" + href
-    raise RuntimeError("Could not find Hyderabad (India) JSON ZIP on Cricsheet downloads page.")
+                return (
+                    href if href.startswith("http") else "https://cricsheet.org" + href
+                )
+    raise RuntimeError(
+        "Could not find Hyderabad (India) JSON ZIP on Cricsheet downloads page."
+    )
 
 
 def get_tilak_hyderabad_ids(snapshot):
@@ -86,14 +90,18 @@ def delivery_record(delivery, over_number, ball_number):
         "extras": {str(k): int(v or 0) for k, v in extras.items()},
         "totalRuns": int(runs.get("total", batter_runs) or 0),
         "wickets": wickets,
-        "isTilakDelivery": is_tilak(delivery.get("batter", delivery.get("batsman", ""))),
+        "isTilakDelivery": is_tilak(
+            delivery.get("batter", delivery.get("batsman", ""))
+        ),
     }
 
 
 def parse_full_match(data, filename):
     info = data.get("info", {}) or {}
     players = info.get("players", {}) or {}
-    if not any(is_tilak(player) for team_players in players.values() for player in team_players):
+    if not any(
+        is_tilak(player) for team_players in players.values() for player in team_players
+    ):
         return None
 
     teams = info.get("teams", []) or []
@@ -114,15 +122,17 @@ def parse_full_match(data, filename):
                 deliveries.append(record)
         if not deliveries:
             continue
-        innings_out.append({
-            "innings": innings_number,
-            "battingTeam": team,
-            "overs": len(innings.get("overs", []) or []),
-            "deliveriesCount": len(deliveries),
-            "tilakFacedBalls": tilak_balls,
-            "tilakRuns": tilak_runs,
-            "deliveries": deliveries,
-        })
+        innings_out.append(
+            {
+                "innings": innings_number,
+                "battingTeam": team,
+                "overs": len(innings.get("overs", []) or []),
+                "deliveriesCount": len(deliveries),
+                "tilakFacedBalls": tilak_balls,
+                "tilakRuns": tilak_runs,
+                "deliveries": deliveries,
+            }
+        )
         if tilak_balls:
             tilak_batting_innings.append(innings_number)
 
@@ -184,7 +194,10 @@ def main():
             except Exception as exc:
                 errors.append({"matchId": match_id, "error": str(exc)})
 
-    matches.sort(key=lambda match: (match.get("date", ""), match.get("matchId", "")), reverse=True)
+    matches.sort(
+        key=lambda match: (match.get("date", ""), match.get("matchId", "")),
+        reverse=True,
+    )
     missing_ids = sorted(match_ids - found_ids)
     out = {
         "schemaVersion": 1,
@@ -214,7 +227,9 @@ def main():
             "No matching full match JSON files were found; existing tilaksmat.json was not overwritten."
         )
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
-    OUT_JSON.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    OUT_JSON.write_text(
+        json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     print(
         f"Wrote {OUT_JSON.relative_to(ROOT)}: {len(matches)} matches, "
         f"{sum(i['deliveriesCount'] for m in matches for i in m['innings'])} deliveries, "
