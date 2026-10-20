@@ -1,0 +1,233 @@
+/* BCCI Fixtures mobile-only navbar parity with the Home page.
+   Loaded after shared-navbar.css; desktop and non-BCCI pages are untouched. */
+@media (max-width: 800px) {
+  html body.bcci-matches-page > header.topbar {
+    box-sizing: border-box !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 2147483004 !important;
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 68px !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 9px 14px !important;
+    border-radius: 0 !important;
+    transform: none !important;
+    overflow: visible !important;
+  }
+
+  html body.bcci-matches-page > header.topbar > a.brand {
+    display: inline-flex !important;
+    flex: 1 1 auto !important;
+    align-items: center !important;
+    min-width: 0 !important;
+    max-width: calc(100% - 64px) !important;
+    margin: 0 auto 0 0 !important;
+    gap: 10px !important;
+    white-space: nowrap !important;
+  }
+
+  html body.bcci-matches-page > header.topbar > a.brand > .brand-mark,
+  html body.bcci-matches-page > header.topbar > a.brand > .brand-mark-photo {
+    box-sizing: border-box !important;
+    display: block !important;
+    flex: 0 0 50px !important;
+    width: 50px !important;
+    min-width: 50px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    overflow: hidden !important;
+    border-radius: 13px !important;
+  }
+
+  html body.bcci-matches-page > header.topbar > a.brand > .brand-mark img,
+  html body.bcci-matches-page > header.topbar > a.brand > .brand-mark-photo img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: cover !important;
+    object-position: center top !important;
+  }
+
+  html body.bcci-matches-page > header.topbar > a.brand > span:last-child {
+    display: inline-flex !important;
+    flex: 0 1 auto !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    min-width: 0 !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    line-height: 1.05 !important;
+    letter-spacing: .045em !important;
+    white-space: nowrap !important;
+  }
+
+  html body.bcci-matches-page > header.topbar > a.brand > span:last-child > small {
+    display: block !important;
+    margin: 0 !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    line-height: 1.1 !important;
+    letter-spacing: .18em !important;
+    text-transform: uppercase !important;
+  }
+
+  html body.bcci-matches-page > header.topbar > button.menu-toggle {
+    display: inline-flex !important;
+    position: relative !important;
+    flex: 0 0 52px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 52px !important;
+    min-width: 52px !important;
+    max-width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    max-height: 52px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid rgba(124, 229, 242, .72) !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg, rgba(18,104,190,.9), rgba(5,43,91,.92)) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 0 0 1px rgba(124,229,242,.12), 0 8px 22px rgba(0,15,50,.28) !important;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+  }
+
+  html body.bcci-matches-page > header.topbar > nav#main-nav {
+    display: grid !important;
+    position: absolute !important;
+    top: calc(100% + 9px) !important;
+    left: 10px !important;
+    right: 10px !important;
+    z-index: 2147483005 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: min(68dvh, 540px) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+    gap: 13px !important;
+    margin: 0 !important;
+    padding: 22px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    border: 1px solid rgba(255,255,255,.28) !important;
+    border-radius: 22px !important;
+    background: linear-gradient(135deg, rgba(16,91,169,.78), rgba(5,20,42,.76)), rgba(8,28,54,.72) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(125%) !important;
+    backdrop-filter: blur(10px) saturate(125%) !important;
+    box-shadow: 0 22px 55px rgba(0,10,28,.42), inset 0 1px 0 rgba(255,255,255,.18) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(-9px) scale(.985) !important;
+    transform-origin: top center !important;
+    transition: opacity .2s ease, transform .24s cubic-bezier(.2,.75,.25,1), visibility .2s ease !important;
+  }
+
+  html body.bcci-matches-page > header.topbar > nav#main-nav.open {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) scale(1) !important;
+  }
+
+  html body.bcci-matches-page > header.topbar > nav#main-nav > a {
+    box-sizing: border-box !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    min-height: 73px !important;
+    margin: 0 !important;
+    padding: 12px 7px !important;
+    border: 1px solid rgba(151,216,255,.2) !important;
+    border-radius: 22px !important;
+    background: linear-gradient(145deg, rgba(70,137,199,.24), rgba(255,255,255,.065)) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.07) !important;
+    color: #fff !important;
+    font-size: 13px !important;
+    font-weight: 750 !important;
+    line-height: 1.25 !important;
+    letter-spacing: .01em !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    transform: none !important;
+  }
+
+  html body.bcci-matches-page > header.topbar > nav#main-nav > a.active,
+  html body.bcci-matches-page > header.topbar > nav#main-nav > a[aria-current="page"] {
+    border-color: rgba(255,145,91,.88) !important;
+    border-radius: 22px !important;
+    background: linear-gradient(135deg, rgba(255,124,69,.3), rgba(36,85,132,.28)) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 0 13px rgba(255,124,69,.09) !important;
+    color: #fff !important;
+  }
+
+  html body.bcci-matches-page > header.topbar > nav#main-nav > a::after {
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    left: 18px !important;
+    right: auto !important;
+    bottom: 7px !important;
+    width: 0 !important;
+    height: 4px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 99px !important;
+    background: linear-gradient(90deg, #ff8a36, #ffb347) !important;
+    box-shadow: 0 0 10px rgba(255,138,54,.22) !important;
+    transition: width .18s ease !important;
+  }
+  html body.bcci-matches-page > header.topbar > nav#main-nav > a.active::after,
+  html body.bcci-matches-page > header.topbar > nav#main-nav > a[aria-current="page"]::after {
+    width: 36px !important;
+  }
+
+  html body.bcci-matches-page.mobile-menu-open::before {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9998 !important;
+    pointer-events: none !important;
+    background: rgba(1,12,32,.43) !important;
+    -webkit-backdrop-filter: blur(2px) saturate(110%) !important;
+    backdrop-filter: blur(2px) saturate(110%) !important;
+  }
+
+  html body.bcci-matches-page.mobile-menu-open > nav.tv-mobile-bottom-nav {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (max-width: 390px) {
+  html body.bcci-matches-page > header.topbar > nav#main-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body.bcci-matches-page > header.topbar > nav#main-nav,
+  html body.bcci-matches-page > header.topbar > nav#main-nav > a,
+  html body.bcci-matches-page > header.topbar > button.menu-toggle {
+    transition: none !important;
+  }
+}
