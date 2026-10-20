@@ -38,14 +38,14 @@ def request_bytes(url):
 
 def find_hyderabad_zip_url():
     page = request_bytes(DOWNLOADS_URL).decode("utf-8", "replace")
-    for row_match in re.finditer(r"<tr\\b[^>]*>(.*?)</tr>", page, re.I | re.S):
+    for row_match in re.finditer(r"<tr\b[^>]*>(.*?)</tr>", page, re.I | re.S):
         row = row_match.group(1)
         row_text = re.sub(r"<[^>]+>", " ", row)
-        row_text = re.sub(r"\\s+", " ", row_text).strip()
+        row_text = re.sub(r"\s+", " ", row_text).strip()
         if "Hyderabad (India)" not in row_text:
             continue
         for href, label in re.findall(
-            r"<a\\b[^>]*href=([^\\s>]+)[^>]*>(.*?)</a>", row, re.I | re.S
+            r"<a\b[^>]*href=([^\s>]+)[^>]*>(.*?)</a>", row, re.I | re.S
         ):
             href = href.strip(chr(34) + chr(39))
             label_text = re.sub(r"<[^>]+>", " ", label).lower()
@@ -214,7 +214,7 @@ def main():
             "No matching full match JSON files were found; existing tilaksmat.json was not overwritten."
         )
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
-    OUT_JSON.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+    OUT_JSON.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(
         f"Wrote {OUT_JSON.relative_to(ROOT)}: {len(matches)} matches, "
         f"{sum(i['deliveriesCount'] for m in matches for i in m['innings'])} deliveries, "
