@@ -3143,7 +3143,11 @@ html body > header.topbar > a.brand img[data-tilak-logo] {
   html body.bcci-matches-page > header.topbar > nav#main-nav > a[aria-current="page"] {
     border: 1px solid rgba(151, 216, 255, 0.2) !important;
     border-radius: 0 !important;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.19), rgba(255, 255, 255, 0.09)) !important;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.19),
+      rgba(255, 255, 255, 0.09)
+    ) !important;
     box-shadow: none !important;
     color: #fff !important;
     outline: 0 !important;
@@ -3167,4 +3171,3 @@ html body > header.topbar > a.brand img[data-tilak-logo] {
     transform: none !important;
   }
 }
-
