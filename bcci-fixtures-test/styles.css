@@ -3613,3 +3613,65 @@ body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tab
     font-size: 13px !important;
   }
 }
+
+/* BCCI view switcher: mobile parity lock for Upcoming and Complete pages. */
+@media (max-width: 800px) {
+  body.bcci-matches-page > nav.match-centre-controls.bcci-view-tabs {
+    display: block !important;
+    width: calc(100% - 26px) !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    margin: 14px auto 20px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  body.bcci-matches-page > nav.match-centre-controls.bcci-view-tabs > .match-centre-tabs {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 6px !important;
+    border: 1px solid #29445f !important;
+    border-radius: 20px !important;
+    background: linear-gradient(135deg, #0c1b2d, #101a2a) !important;
+    box-sizing: border-box !important;
+  }
+
+  body.bcci-matches-page > nav.match-centre-controls.bcci-view-tabs > .match-centre-tabs > .match-centre-tab {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 60px !important;
+    height: 60px !important;
+    margin: 0 !important;
+    padding: 8px 6px !important;
+    border: 1px solid transparent !important;
+    border-radius: 18px !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+  }
+
+  body.bcci-matches-page > nav.match-centre-controls.bcci-view-tabs > .match-centre-tabs > .match-centre-tab.is-active {
+    color: #fff !important;
+    border-color: #3d83d3 !important;
+    background: linear-gradient(110deg, #1263c5, #174f91) !important;
+    box-shadow: 0 7px 18px #06152a55, inset 0 1px #ffffff18 !important;
+  }
+
+  body.bcci-matches-page > nav.match-centre-controls.bcci-view-tabs > .match-centre-tabs > .match-centre-tab:not(.is-active) {
+    color: #aebed2 !important;
+    background: #0b1727 !important;
+  }
+}
+
