@@ -1269,16 +1269,8 @@
               }
               scoreHost.innerHTML =
                 '<div class="scoreboard-result"><h3>' +
-                (matchStarted ? "Waiting for verified live score…" : "Official BCCI scoreboard") +
-                "</h3><p>" +
-                (liveRows.length
-                  ? "A live match is available, but it does not match this fixture. This page will not show another match’s score."
-                  : "Live scores will appear here after BCCI publishes this match as live. This panel checks the saved BCCI snapshot automatically.") +
-                '</p><p class="scoreboard-status">Fixture: ' +
-                escHtml([f.team, f.opponent, f.date].filter(Boolean).join(" · ")) +
-                '</p><p><a class="bcci-live-score-link" href="' +
-                escHtml(bcciLiveScoresUrl) +
-                '" target="_blank" rel="noopener noreferrer">Open official BCCI live scores ↗</a></p></div>';
+                (matchStarted ? "Waiting for verified live score…" : "Scoreboard not available yet") +
+                "</h3></div>";
             } catch (_) {
               scoreHost.innerHTML =
                 '<div class="scoreboard-result"><h3>Live scoreboard temporarily unavailable</h3><p>Could not load the latest saved BCCI score snapshot. Please retry shortly.</p><p><a class="bcci-live-score-link" href="' +
@@ -1342,7 +1334,7 @@
       );
       set("details-date", dateLabel(f.date) + " · " + timeLabel(f.time));
       set("details-venue", f.venue || "Venue TBA");
-      set("details-location", detail.ground || "City / ground as listed by source");
+      set("details-location", detail.ground || "");
       set("details-match-name", f.match || "Match");
       set("details-format", detail.format || f.format || "MATCH PREVIEW");
       set("details-status-note", "Pre-match information");
@@ -1668,11 +1660,7 @@
             );
           };
           recentResultsHost.innerHTML =
-            '<div class="recent-results-meta">Cricsheet archive · ' +
-            escHtml(requestedFormat || "Format not identified") +
-            " · " +
-            escHtml(String(archive.matchCount || 0)) +
-            ' international matches</div><div class="recent-results-team-picker" role="group" aria-label="Choose team recent results">' +
+            '<div class="recent-results-team-picker" role="group" aria-label="Choose team recent results">' +
             recentTeamNames
               .map(
                 (name, i) =>
