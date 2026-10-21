@@ -91,18 +91,36 @@
         );
       return hasIndiaMen;
     });
-    return upcoming.map((m, i) => ({
-      home: pick(m, ["team1_name", "team1_short_name", "home_team_name"], "Team A"),
-      away: pick(m, ["team2_name", "team2_short_name", "away_team_name"], "Team B"),
-      date: pick(m, ["start_date", "date_string", "start_datetime_utc", "end_date"]),
-      time: pick(m, ["start_time_local", "start_datetime_utc"]),
-      venue: pick(m, ["ground_name", "ground_city", "ground_short_name"]),
-      competition: pick(m, ["comp_name", "primary_event_name", "alt_comp_name"], "BCCI Fixture"),
-      status: pick(m, ["match_status", "match_status_str", "match_status_name"], "Scheduled"),
-      id: pick(m, ["match_id", "gid"], String(i)),
-      title: pick(m, ["title", "match_short_name", "name"]),
-      result: pick(m, ["result_string"]),
-    }));
+    return upcoming.map((m, i) => {
+      // BCCI's start_time_local is the venue's clock, not IST. Prefer UTC kickoff.
+      const utcKickoff = String(m.start_datetime_utc || m.startDateTimeUtc || "").trim();
+      const utcIso = utcKickoff
+        ? (utcKickoff.includes("T") ? utcKickoff : utcKickoff.replace(" ", "T")) +
+          (/(Z|[+-]\d{2}:?\d{2})$/i.test(utcKickoff) ? "" : "Z")
+        : "";
+      const kickoffDate = utcIso ? new Date(utcIso) : null;
+      const istTime =
+        kickoffDate && Number.isFinite(kickoffDate.getTime())
+          ? new Intl.DateTimeFormat("en-GB", {
+              timeZone: "Asia/Kolkata",
+              hour: "2-digit",
+              minute: "2-digit",
+              hourCycle: "h23",
+            }).format(kickoffDate)
+          : pick(m, ["start_time_ist", "startTimeIST"]);
+      return {
+        home: pick(m, ["team1_name", "team1_short_name", "home_team_name"], "Team A"),
+        away: pick(m, ["team2_name", "team2_short_name", "away_team_name"], "Team B"),
+        date: pick(m, ["start_date", "date_string", "start_datetime_utc", "end_date"]),
+        time: istTime,
+        venue: pick(m, ["ground_name", "ground_city", "ground_short_name"]),
+        competition: pick(m, ["comp_name", "primary_event_name", "alt_comp_name"], "BCCI Fixture"),
+        status: pick(m, ["match_status", "match_status_str", "match_status_name"], "Scheduled"),
+        id: pick(m, ["match_id", "gid"], String(i)),
+        title: pick(m, ["title", "match_short_name", "name"]),
+        result: pick(m, ["result_string"]),
+      };
+    });
   }
 
   const esc = (s) =>
