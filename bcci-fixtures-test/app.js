@@ -111,8 +111,18 @@
       return {
         home: pick(m, ["team1_name", "team1_short_name", "home_team_name"], "Team A"),
         away: pick(m, ["team2_name", "team2_short_name", "away_team_name"], "Team B"),
-        date: pick(m, ["start_date", "date_string", "start_datetime_utc", "end_date"]),
+        date: kickoffDate && Number.isFinite(kickoffDate.getTime())
+          ? new Intl.DateTimeFormat("en-CA", {
+              timeZone: "Asia/Kolkata",
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            }).format(kickoffDate)
+          : pick(m, ["start_date", "date_string", "start_datetime_utc", "end_date"]),
         time: istTime,
+        kickoffTimestamp: kickoffDate && Number.isFinite(kickoffDate.getTime())
+          ? kickoffDate.getTime()
+          : null,
         venue: pick(m, ["ground_name", "ground_city", "ground_short_name"]),
         competition: pick(m, ["comp_name", "primary_event_name", "alt_comp_name"], "BCCI Fixture"),
         status: pick(m, ["match_status", "match_status_str", "match_status_name"], "Scheduled"),
@@ -365,6 +375,9 @@
     // BCCI can return a date-only field, a local clock time, or a complete
     // ISO datetime in either field. Parse those shapes consistently as IST.
     const matchTimestamp = (fixture) => {
+      // Prefer the exact UTC kickoff from BCCI so countdown matches the displayed IST time.
+      const exactKickoff = Number(fixture?.kickoffTimestamp);
+      if (Number.isFinite(exactKickoff) && exactKickoff > 0) return exactKickoff;
       const dateValue = String(fixture?.date || "").trim();
       const timeValue = String(fixture?.time || "").trim();
       if (!dateValue) return NaN;
