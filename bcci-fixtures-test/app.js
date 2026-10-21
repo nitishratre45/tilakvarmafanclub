@@ -111,18 +111,18 @@
       return {
         home: pick(m, ["team1_name", "team1_short_name", "home_team_name"], "Team A"),
         away: pick(m, ["team2_name", "team2_short_name", "away_team_name"], "Team B"),
-        date: kickoffDate && Number.isFinite(kickoffDate.getTime())
-          ? new Intl.DateTimeFormat("en-CA", {
-              timeZone: "Asia/Kolkata",
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-            }).format(kickoffDate)
-          : pick(m, ["start_date", "date_string", "start_datetime_utc", "end_date"]),
+        date:
+          kickoffDate && Number.isFinite(kickoffDate.getTime())
+            ? new Intl.DateTimeFormat("en-CA", {
+                timeZone: "Asia/Kolkata",
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              }).format(kickoffDate)
+            : pick(m, ["start_date", "date_string", "start_datetime_utc", "end_date"]),
         time: istTime,
-        kickoffTimestamp: kickoffDate && Number.isFinite(kickoffDate.getTime())
-          ? kickoffDate.getTime()
-          : null,
+        kickoffTimestamp:
+          kickoffDate && Number.isFinite(kickoffDate.getTime()) ? kickoffDate.getTime() : null,
         venue: pick(m, ["ground_name", "ground_city", "ground_short_name"]),
         competition: pick(m, ["comp_name", "primary_event_name", "alt_comp_name"], "BCCI Fixture"),
         status: pick(m, ["match_status", "match_status_str", "match_status_name"], "Scheduled"),
