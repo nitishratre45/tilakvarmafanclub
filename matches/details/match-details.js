@@ -1423,7 +1423,9 @@
       const startTime = f.time
         ? Date.parse(String(f.date || "") + "T" + String(f.time) + ":00+05:30")
         : Number.NaN;
+      const countdownEl = $("details-countdown");
       if (Number.isFinite(startTime)) {
+        if (countdownEl) countdownEl.hidden = false;
         const mins = Math.floor((startTime - Date.now()) / 60000);
         set(
           "details-countdown",
@@ -1434,7 +1436,10 @@
                 " hrs to start"
             : "Start time reached / passed",
         );
-      } else set("details-countdown", "Start time not confirmed");
+      } else if (countdownEl) {
+        countdownEl.textContent = "";
+        countdownEl.hidden = true;
+      }
       weather(f.venue, f.date);
     } catch (e) {
       console.error("Match details:", e);
