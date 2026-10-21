@@ -3086,38 +3086,3 @@ html body > header.topbar > a.brand img[data-tilak-logo] {
   object-position: center top;
 }
 
-/* Final parity with the current Upcoming menu reference:
-   active Matches tile uses a square slate highlight and orange bottom bar, not an orange outline. */
-@media (max-width: 800px) {
-  html body.bcci-matches-page > header.topbar > nav#main-nav > a.active,
-  html body.bcci-matches-page > header.topbar > nav#main-nav > a[aria-current="page"] {
-    border: 1px solid rgba(151, 216, 255, 0.2) !important;
-    border-radius: 0 !important;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.19),
-      rgba(255, 255, 255, 0.09)
-    ) !important;
-    box-shadow: none !important;
-    color: #fff !important;
-    outline: 0 !important;
-  }
-
-  html body.bcci-matches-page > header.topbar > nav#main-nav > a.active::before,
-  html body.bcci-matches-page > header.topbar > nav#main-nav > a[aria-current="page"]::before {
-    content: "" !important;
-    display: block !important;
-    position: absolute !important;
-    left: 12px !important;
-    right: 12px !important;
-    bottom: 5px !important;
-    width: auto !important;
-    height: 4px !important;
-    border: 0 !important;
-    border-radius: 999px !important;
-    background: linear-gradient(90deg, #ff8a36, #ffb347) !important;
-    box-shadow: 0 0 10px rgba(255, 138, 54, 0.22) !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
