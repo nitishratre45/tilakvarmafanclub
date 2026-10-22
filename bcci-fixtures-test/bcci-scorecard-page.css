@@ -1492,3 +1492,144 @@ a:focus-visible {
     scroll-behavior: auto;
   }
 }
+
+
+/* 2026-10-22: final Match Centre responsive/data presentation overrides */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+main,
+.match-section-panel,
+#top-scoreboard,
+#scorecard,
+#match-squads,
+#match-details,
+.innings,
+.table-scroll,
+.squad-grid,
+.squad-card {
+  min-width: 0;
+  box-sizing: border-box;
+}
+.match-section-tabs {
+  max-width: 100%;
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+}
+.match-section-tab {
+  flex-shrink: 0;
+}
+.match-section-panel[hidden] {
+  display: none !important;
+}
+.table-scroll,
+.table-wrap,
+.scorecard-table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.match-section-panel table {
+  max-width: 100%;
+}
+.squad-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 20px);
+}
+.squad-card {
+  overflow-wrap: anywhere;
+}
+.squad-card ol {
+  padding-inline-start: 1.5rem;
+}
+.squad-card li {
+  min-width: 0;
+}
+#status {
+  overflow-wrap: anywhere;
+  line-height: 1.55;
+}
+@media (max-width: 700px) {
+  main {
+    width: calc(100% - 24px);
+    max-width: 100%;
+  }
+  .match-section-tabs {
+    position: sticky;
+    top: 6px;
+    z-index: 20;
+    display: flex;
+    gap: 6px;
+    padding: 7px;
+    margin: 12px 0 16px;
+    border-radius: 14px;
+  }
+  .match-section-tab {
+    flex: 0 0 auto;
+    min-height: 42px;
+    padding: 9px 11px;
+    font-size: 12px;
+  }
+  .match-section-panel {
+    padding: 13px 10px;
+    border-radius: 16px;
+  }
+  .match-section-title {
+    font-size: clamp(20px, 6vw, 26px);
+    line-height: 1.2;
+  }
+  .match-section-panel .top-scoreboard {
+    padding: 10px;
+    border-radius: 14px;
+  }
+  .match-section-panel .table-scroll table,
+  .match-section-panel .table-wrap table,
+  .match-section-panel .scorecard-table-wrap table {
+    min-width: 520px;
+  }
+  .squad-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .squad-card {
+    padding: 13px;
+    border-radius: 14px;
+  }
+  .squad-card li {
+    grid-template-columns: 34px minmax(0, 1fr);
+    column-gap: 9px;
+  }
+  .squad-card li small {
+    grid-column: 2;
+    overflow-wrap: anywhere;
+  }
+  #title {
+    font-size: clamp(25px, 7.5vw, 36px);
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+  }
+  #meta,
+  #status {
+    font-size: 13px;
+  }
+}
+@media (max-width: 380px) {
+  main {
+    width: calc(100% - 18px);
+  }
+  .match-section-panel {
+    padding: 11px 8px;
+  }
+  .match-section-tab {
+    padding-inline: 9px;
+    font-size: 11px;
+  }
+  .match-section-panel .top-scoreboard {
+    padding: 8px;
+  }
+}
