@@ -213,7 +213,7 @@ export async function onRequest({ request, env }) {
           {
             ok: true,
             message:
-              "Run All Workflows batch queued. It will start 26 manually runnable workflows; the event-driven auto-rerun workflow is excluded.",
+              "Run All Workflows batch queued. It will start 25 manually runnable workflows; the event-driven auto-rerun workflow is excluded.",
           },
           202,
         );
