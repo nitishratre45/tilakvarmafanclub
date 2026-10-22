@@ -3685,3 +3685,91 @@ body.bcci-matches-page > .match-centre-controls.bcci-view-tabs .match-centre-tab
     background: #0b1727 !important;
   }
 }
+
+
+/* Match Centre final responsive safety layer */
+#liveMatchList,
+#fixtureList,
+#upcomingMatchesSection,
+#completeMatchesSection,
+.fixture-card,
+.upcoming-match-card {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#liveMatchList,
+#fixtureList {
+  width: 100%;
+}
+.fixture-card,
+.upcoming-match-card,
+.live-match-card {
+  overflow-wrap: anywhere;
+}
+.upcoming-match-info,
+.upcoming-match-info > strong,
+.live-status-text,
+.upcoming-venue {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  #liveMatchesSection,
+  #upcomingMatchesSection,
+  #completeMatchesSection {
+    min-width: 0;
+    max-width: 100%;
+  }
+  #liveMatchList,
+  #fixtureList {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  #liveMatchesSection .live-match-card,
+  #fixtureList > .upcoming-match-card {
+    width: 100%;
+    margin-inline: 0;
+    padding: 14px 12px;
+    border-radius: 17px;
+  }
+  #liveMatchesSection .live-match-card .upcoming-teams,
+  #fixtureList .upcoming-teams {
+    grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr);
+    gap: 7px;
+  }
+  #liveMatchesSection .live-match-card .upcoming-team,
+  #fixtureList .upcoming-team {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  #liveMatchesSection .live-match-card .upcoming-team .team-name,
+  #fixtureList .upcoming-team .team-name {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  #liveMatchesSection .live-match-card .live-score-line {
+    gap: 6px;
+    flex-wrap: wrap;
+    overflow-wrap: anywhere;
+  }
+  #liveMatchesSection .live-match-card .live-match-centre-link,
+  #fixtureList .upcoming-details {
+    min-height: 44px;
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 360px) {
+  #liveMatchesSection .live-match-card,
+  #fixtureList > .upcoming-match-card {
+    padding: 12px 9px;
+  }
+  #liveMatchesSection .live-match-card .upcoming-teams,
+  #fixtureList .upcoming-teams {
+    grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1fr);
+    gap: 5px;
+  }
+}
