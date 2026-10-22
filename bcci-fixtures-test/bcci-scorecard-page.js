@@ -393,14 +393,35 @@
           const sideData = payload.teams?.[side] || {};
           const responseData = sideData.response || {};
           const teamRows = asArray(responseData.teams);
+          const classes = asArray(responseData.classes);
+          const className = (row) => String(row?.name || row?.short_name || "").toLowerCase();
+          const preferredClass = classes.find((row) =>
+            /t20|twenty20/.test(className(row)),
+          ) || classes.find((row) => /one.day|odi/.test(className(row))) || classes[0];
+          const preferredClassId = String(preferredClass?.class_id ?? preferredClass?.id ?? "");
+          const matchingTeamRows = teamRows.filter(
+            (row) => String(row.team_id) === String(sideData.team_id),
+          );
+          // BCCI returns multiple rows per team (different squad classes); the first
+          // row can be empty. Prefer the populated T20I squad for T20 matches.
           const team =
-            teamRows.find((row) => String(row.team_id) === String(sideData.team_id)) ||
-            teamRows[0] ||
+            matchingTeamRows.find(
+              (row) =>
+                preferredClassId &&
+                String(row.squad_class_id ?? row.class_id ?? "") === preferredClassId &&
+                asArray(row.players).length,
+            ) ||
+            matchingTeamRows.find((row) => asArray(row.players).length) ||
+            matchingTeamRows.find(
+              (row) => preferredClassId &&
+                String(row.squad_class_id ?? row.class_id ?? "") === preferredClassId,
+            ) ||
+            matchingTeamRows[0] ||
             {};
           return {
             name: team.team_name || payload.match?.[side + "_name"] || side,
             players: asArray(team.players),
-            isXI: false,
+            isXI: asArray(team.players).length === 11,
           };
         });
       } catch (_) {
