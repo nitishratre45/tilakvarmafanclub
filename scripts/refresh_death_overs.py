@@ -85,6 +85,61 @@ def norm(v):
 def target(v):
     return norm(v) in ALIASES
 
+# Curated bowling-style aliases for common bowlers in the IPL and men's T20Is.
+# Unknown names remain unclassified; never infer a bowling style from name alone.
+BOWLING_STYLE_BY_NAME = {
+    # Spin
+    "ravichandran ashwin": "spin", "yuzvendra chahal": "spin", "kuldeep yadav": "spin",
+    "axar patel": "spin", "ravindra jadeja": "spin", "varun chakravarthy": "spin",
+    "ravi bishnoi": "spin", "washington sundar": "spin", "rahul chahar": "spin",
+    "varun chakravarthy": "spin", "piyush chawla": "spin", "amit mishra": "spin",
+    "sunil narine": "spin", "varun chakravarthy": "spin", "suyash sharma": "spin",
+    "noor ahmad": "spin", "rashid khan": "spin", "mohammed nabi": "spin",
+    "mujeeb ur rahman": "spin", "adam zampa": "spin", "mitchell santner": "spin",
+    "ish sodhi": "spin", "maheesh theekshana": "spin", "wanindu hasaranga": "spin",
+    "dunith wellalage": "spin", "akila dananjaya": "spin", "shadab khan": "spin",
+    "usama mir": "spin", "imad wasim": "spin", "mohammad nawaz": "spin",
+    "sikandar raza": "spin", "aiden markram": "spin", "tabraiz shamsi": "spin",
+    "keshav maharaj": "spin", "adil rashid": "spin", "matthew short": "spin",
+    "mohammad hafeez": "spin", "mohammadullah": "spin", "mehidy hasan": "spin",
+    "shakib al hasan": "spin", "mahedi hasan": "spin", "tanvir islam": "spin",
+    "michael bracewell": "spin", "glenn maxwell": "spin", "marnus labuschagne": "spin",
+    # Pace / seam / fast-medium
+    "jasprit bumrah": "pace", "mohammed siraj": "pace", "arshdeep singh": "pace",
+    "mohammed shami": "pace", "umran malik": "pace", "mukesh kumar": "pace",
+    "deepak chahar": "pace", "harshal patel": "pace", "avesh khan": "pace",
+    "prasidh krishna": "pace", "t natarajan": "pace", "khaleel ahmed": "pace",
+    "bhuvneshwar kumar": "pace", "shardul thakur": "pace", "hardik pandya": "pace",
+    "gerald coetzee": "pace", "trent boult": "pace", "jofra archer": "pace",
+    "lasith malinga": "pace", "mitchell starc": "pace", "pat cummins": "pace",
+    "josh hazlewood": "pace", "mohammad amir": "pace", "shaheen shah afridi": "pace",
+    "haris rauf": "pace", "naseem shah": "pace", "hasan ali": "pace",
+    "naseem shah": "pace", "lockie ferguson": "pace", "tim southee": "pace",
+    "kagiso rabada": "pace", "anrich nortje": "pace", "lungi ngidi": "pace",
+    "marco jansen": "pace", "wayne parnell": "pace", "mark wood": "pace",
+    "reece topley": "pace", "chris jordan": "pace", "sam curran": "pace",
+    "reece topley": "pace", "andre russell": "pace", "dwayne bravo": "pace",
+    "alzarri joseph": "pace", "romario shepherd": "pace", "ob ed mccoy": "pace",
+    "ob ed mccoy": "pace", "shamar joseph": "pace", "jason holder": "pace",
+    "fazalhaq farooqi": "pace", "naveen ul haq": "pace", "bilal sami": "pace",
+    "dushmantha chameera": "pace", "matheesha pathirana": "pace",
+    "dilshan madushanka": "pace", "nuwan thushara": "pace",
+    "mustafizur rahman": "pace", "taskin ahmed": "pace", "shoriful islam": "pace",
+    "nahid rana": "pace", "mark adair": "pace", "josh little": "pace",
+    "ben sears": "pace", "blessings muzarabani": "pace", "richard ngarava": "pace",
+}
+
+def bowling_style(bowler, source_style=""):
+    """Return spin/pace only when source metadata or curated alias supports it."""
+    raw = str(source_style or "").strip().lower()
+    if re.search(r"spin|orthodox|leg.?break|off.?break|chinaman|wrist.?spin|finger.?spin", raw):
+        return "spin"
+    if re.search(r"pace|fast|medium|seam|quick", raw):
+        return "pace"
+    name = re.sub(r"[^a-z0-9 ]", "", str(bowler or "").casefold())
+    name = re.sub(r"\\s+", " ", name).strip()
+    return BOWLING_STYLE_BY_NAME.get(name, "")
+
 
 def download(url):
     req = urllib.request.Request(url, headers={"User-Agent": "TilakVarmaFC/1.1"})
@@ -177,12 +232,9 @@ def parse_match(data, filename, key, totals, all_male_fallback=False):
                         ),
                         "batter": batter_name,
                         "bowler": str(d.get("bowler", "")),
-                        "bowlingType": str(
-                            d.get(
-                                "bowling_type",
-                                d.get("bowlingType", d.get("bowlerType", "")),
-                            )
-                            or ""
+                        "bowlingType": bowling_style(
+                            d.get("bowler", ""),
+                            d.get("bowling_type", d.get("bowlingType", d.get("bowlerType", ""))),
                         ),
                         "tilak": is_tilak,
                         "batterRuns": br,
