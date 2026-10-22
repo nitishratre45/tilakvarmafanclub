@@ -1633,3 +1633,74 @@ main,
     padding: 8px;
   }
 }
+
+
+/* Scorecard uses the same global site navbar as Upcoming Matches and Home. */
+body > header.topbar { position: sticky; top: 0; z-index: 100; }
+.scorecard-toolbar {
+  width: min(1180px, calc(100% - 40px));
+  margin: 12px auto 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.scorecard-toolbar .scorecard-page-label {
+  color: #a9c9e8;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+.scorecard-toolbar #reload { flex: 0 0 auto; }
+.match-section-tabs { top: 92px; }
+.squad-card ol { list-style: none; padding: 0; margin: 12px 0 0; }
+.squad-card li {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) minmax(78px, auto);
+  align-items: center;
+  gap: 12px;
+  min-height: 66px;
+  padding: 9px 8px;
+  border-bottom: 1px solid rgba(142, 185, 219, .14);
+}
+.squad-card li > img {
+  display: block;
+  width: 48px;
+  height: 48px;
+  max-width: 48px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #1b354d, #102237);
+  border: 1px solid rgba(155, 202, 236, .2);
+}
+.squad-card li > span {
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.squad-card li > small {
+  min-width: 0;
+  max-width: 130px;
+  text-align: right;
+  color: #9ec4e8;
+  font-size: 11px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+@media(max-width:700px) {
+  .scorecard-toolbar { width: calc(100% - 24px); margin: 10px auto 16px; gap: 8px; }
+  .scorecard-toolbar .scorecard-page-label { display: none; }
+  .scorecard-toolbar .match-centre-back { min-height: 40px; padding: 9px 11px; font-size: 12px; }
+  .match-section-tabs { top: 68px; }
+  .squad-card li { grid-template-columns: 42px minmax(0,1fr); gap: 10px; min-height: 60px; }
+  .squad-card li > img { width: 42px; height: 42px; max-width: 42px; }
+  .squad-card li > small { grid-column: 2; text-align: left; max-width: none; margin-top: -7px; }
+}
+@media(max-width:380px) {
+  .squad-card li { grid-template-columns: 36px minmax(0,1fr); gap: 8px; padding-inline: 3px; }
+  .squad-card li > img { width: 36px; height: 36px; max-width: 36px; }
+  .squad-card li > span { font-size: 13px; }
+}
