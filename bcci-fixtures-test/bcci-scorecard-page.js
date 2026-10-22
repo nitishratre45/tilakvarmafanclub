@@ -67,7 +67,12 @@
   }
   function render(payload) {
     const data = payload?.data ?? payload;
-    const innings = asArray(data?.innings);
+    // Keep placeholder innings with no score out of the scorecard tables.
+    // BCCI can publish an innings shell before the first ball with no runs field.
+    const innings = asArray(data?.innings).filter((inn) => {
+      const runs = inn?.total_runs ?? inn?.runs ?? inn?.score;
+      return runs !== undefined && runs !== null && runs !== "";
+    });
     const teams = asArray(data?.team);
     const match = data?.match || payload?.liveMatch || {};
     const allPlayers = teams.flatMap((t) => asArray(t.player));
@@ -125,9 +130,12 @@
       const balls = Number(
         row.balls_bowled ?? row.total_balls_bowled ?? row.balls ?? row.balls_faced ?? 0,
       );
-      // A delayed-start match can include placeholder 0/0 innings rows from BCCI.
-      // Treat them as not-yet-started instead of displaying a misleading score.
-      if (balls === 0 && Number(runs) === 0 && Number(wickets === "—" ? 0 : wickets) === 0) {
+      // Fixture feeds often include an innings shell without a runs field.
+      // Never turn that placeholder into a fake "—/0" score.
+      if (
+        runs === "—" ||
+        (balls === 0 && Number(runs) === 0 && Number(wickets === "—" ? 0 : wickets) === 0)
+      ) {
         return { score: isLive ? "Awaiting first ball" : "Yet to bat", overs: "" };
       }
       return {
@@ -514,20 +522,33 @@
               .some((value) => String(value) === String(requestedGid)),
           ) || null;
       }
-      // Live fixtures are intentionally excluded from the upcoming-fixtures snapshot.
-      // Resolve the selected match from the dedicated BCCI live snapshot, preserving its raw
-      // official record so today's match can open even before innings/scorecard rows exist.
-      if (requestedGid && !selected && liveResponse?.ok) {
+      // Merge the latest live snapshot into the selected fixture by official GID.
+      // Keep the fixture's numeric match_id for its squad JSON filename.
+      if (requestedGid && liveResponse?.ok) {
         const liveSnapshot = await liveResponse.json().catch(() => null);
         const liveRows = Array.isArray(liveSnapshot?.matches) ? liveSnapshot.matches : [];
         const liveEntry = liveRows.find((entry) => {
           const raw = entry?.raw || {};
-          return [entry?.id, entry?.gid, entry?.match_id, raw.gid, raw.match_id, raw.matchId]
+          const ids = [entry?.id, entry?.gid, entry?.match_id, raw.gid, raw.match_id, raw.matchId];
+          return ids
             .filter((value) => value !== undefined && value !== null && value !== "")
-            .some((value) => String(value) === String(requestedGid));
+            .some(
+              (value) =>
+                String(value) === String(requestedGid) ||
+                (selected?.gid && String(value) === String(selected.gid)),
+            );
         });
-        if (liveEntry)
-          selected = { ...(liveEntry.raw || {}), ...liveEntry.raw, liveSnapshotEntry: liveEntry };
+        if (liveEntry) {
+          const raw = liveEntry.raw || {};
+          selected = {
+            ...(selected || {}),
+            ...raw,
+            match_id: selected?.match_id || raw.match_id || raw.matchId || "",
+            gid: selected?.gid || raw.gid || "",
+            summary: raw.summary || selected?.summary || {},
+            liveSnapshotEntry: liveEntry,
+          };
+        }
       }
       if (requestedGid) {
         if (!selected)
