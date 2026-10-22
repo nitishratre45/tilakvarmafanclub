@@ -177,15 +177,9 @@
     const host = $("admin-match-workflows");
     if (!host) return;
     const names = [
-      "Refresh Upcoming Matches from BCCI News JSON",
-      "Refresh BCCI Live Matches",
-      "Refresh BCCI Match Results",
-      "Refresh BCCI Squads",
-      "Refresh BCCI Stats Fixtures JSON",
-      "Refresh Tilak Varma Match Scorecards",
-      "Matches Folder Audit (12h)",
-      "Matches Safe Auto-Repair",
-      "Matches Repair Verification & Admin Report",
+      "Refresh BCCI Fixtures JSON - BCCI Folder Only",
+      "Refresh BCCI Fixtures Scorecard JSON",
+      "BCCI Match Squads Refresh",
     ];
     const rows = state.runs
       .filter((r) => names.some((n) => (r.name || "").includes(n) || (r.title || "").includes(n)))
@@ -347,14 +341,14 @@
     try {
       const d = await api("/api/admin/monitor", {
         method: "POST",
-        body: JSON.stringify({ action: "match-refresh" }),
+        body: JSON.stringify({ action: "bcci-fixtures-refresh" }),
       });
-      status(d.message || "News JSON refresh queued.");
+      status(d.message || "BCCI Fixtures JSON refresh queued.");
     } catch (e) {
       status(e.message || "Could not queue refresh.", true);
     } finally {
       b.disabled = false;
-      b.textContent = "⟳ Refresh from News JSON";
+      b.textContent = "⟳ Refresh BCCI Fixtures JSON";
     }
   });
   load();
