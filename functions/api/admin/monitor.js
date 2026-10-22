@@ -325,12 +325,20 @@ export async function onRequest({ request, env }) {
         const results = [];
         for (const item of workflows) {
           try {
-            const recent = await github(env, "/actions/workflows/" + item.file + "/runs?per_page=5");
+            const recent = await github(
+              env,
+              "/actions/workflows/" + item.file + "/runs?per_page=5",
+            );
             const active = (recent.workflow_runs || []).find((run) =>
               ["queued", "in_progress", "waiting", "requested", "pending"].includes(run.status),
             );
             if (active) {
-              results.push({ workflow: item.file, label: item.label, status: "already_running", url: active.html_url });
+              results.push({
+                workflow: item.file,
+                label: item.label,
+                status: "already_running",
+                url: active.html_url,
+              });
               continue;
             }
             await github(env, "/actions/workflows/" + item.file + "/dispatches", {
@@ -339,17 +347,31 @@ export async function onRequest({ request, env }) {
             });
             results.push({ workflow: item.file, label: item.label, status: "queued" });
           } catch (error) {
-            results.push({ workflow: item.file, label: item.label, status: "failed", error: error.message });
+            results.push({
+              workflow: item.file,
+              label: item.label,
+              status: "failed",
+              error: error.message,
+            });
           }
         }
         const queued = results.filter((item) => item.status === "queued").length;
         const running = results.filter((item) => item.status === "already_running").length;
         const failed = results.filter((item) => item.status === "failed").length;
-        return json({
-          ok: failed === 0,
-          message: queued + " BCCI workflow(s) queued; " + running + " already running; " + failed + " dispatch error(s).",
-          results,
-        }, failed === results.length ? 502 : 202);
+        return json(
+          {
+            ok: failed === 0,
+            message:
+              queued +
+              " BCCI workflow(s) queued; " +
+              running +
+              " already running; " +
+              failed +
+              " dispatch error(s).",
+            results,
+          },
+          failed === results.length ? 502 : 202,
+        );
       }
       if (body.action === "bcci-fixtures-refresh") {
         const workflow = "fetch-bcci-fixtures-json.yml";
