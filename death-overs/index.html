@@ -2626,41 +2626,38 @@
         }
         function renderBreakdown(d, a, b) {
           const box = document.getElementById("over-breakdown");
-          if (!d?.innings?.length) {
-            box.innerHTML = '<div class="empty-state">No over totals for this format/year.</div>';
-            return;
-          }
+          if (!d?.innings?.length) { box.innerHTML = '<div class="empty-state">No over totals for this format/year.</div>'; return; }
+          const makeStats = () => ({ runs: 0, balls: 0, fours: 0, sixes: 0 });
           const totals = new Map();
-          for (let n = a; n <= b; n++)
-            totals.set(n, { over: n, runs: 0, balls: 0, fours: 0, sixes: 0 });
-          for (const innings of d.innings) {
-            for (const over of innings.overs || []) {
-              const n = +over.over;
-              if (!totals.has(n)) continue;
-              const t = totals.get(n);
-              for (const k of ["runs", "balls", "fours", "sixes"]) t[k] += +(over[k] || 0);
+          for (let n = a; n <= b; n++) totals.set(n, { over: n, ...makeStats(), spin: makeStats(), pace: makeStats(), hasTypeData: false });
+          const bowlingKind = (delivery) => {
+            const raw = String(delivery?.bowlingType || delivery?.bowlerType || delivery?.bowlingStyle || delivery?.bowlerStyle || "").toLowerCase();
+            if (/spin|orthodox|leg.?break|off.?break|chinaman|wrist.?spin|finger.?spin/.test(raw)) return "spin";
+            if (/pace|fast|medium|seam|quick/.test(raw)) return "pace";
+            return "";
+          };
+          for (const innings of d.innings) for (const over of innings.overs || []) {
+            const n = +over.over; if (!totals.has(n)) continue;
+            const t = totals.get(n);
+            for (const k of ["runs", "balls", "fours", "sixes"]) t[k] += +(over[k] || 0);
+            for (const delivery of over.deliveries || []) {
+              if (!delivery.tilak) continue;
+              const kind = bowlingKind(delivery); if (!kind) continue;
+              const part = t[kind], runs = Math.max(0, +(delivery.batterRuns ?? delivery.runs ?? 0));
+              part.runs += runs; if (!delivery.wide) part.balls += 1;
+              if (runs === 4) part.fours += 1; if (runs === 6) part.sixes += 1;
+              t.hasTypeData = true;
             }
           }
-          box.innerHTML = [...totals.values()]
-            .map(
-              (t) =>
-                '<article class="breakdown-card"><span class="over-label">OVER ' +
-                t.over +
-                "</span><strong>" +
-                fmt(t.runs) +
-                " RUNS</strong><small>" +
-                fmt(t.balls) +
-                " balls · " +
-                fmt(t.fours) +
-                " fours · " +
-                fmt(t.sixes) +
-                " sixes</small><span>SR " +
-                (t.balls ? ((t.runs * 100) / t.balls).toFixed(2) : "—") +
-                "</span></article>",
-            )
-            .join("");
-          document.getElementById("breakdown-summary").textContent =
-            "Overs " + a + "–" + b + " · " + (year.value === "all" ? "all years" : year.value);
+          const sr = (s) => s.balls ? ((s.runs * 100) / s.balls).toFixed(2) : "—";
+          const mini = (label, cls, s) => '<div class="bowling-split ' + cls + '"><span class="bowling-split-title">' + label + '</span><strong>' + fmt(s.runs) + ' runs</strong><small>' + fmt(s.balls) + ' balls · ' + fmt(s.fours) + ' fours · ' + fmt(s.sixes) + ' sixes</small><span>SR ' + sr(s) + '</span></div>';
+          box.innerHTML = [...totals.values()].map((t) => {
+            const split = t.hasTypeData
+              ? '<div class="bowling-split-grid">' + mini("SPIN", "is-spin", t.spin) + mini("PACE", "is-pace", t.pace) + '</div>'
+              : '<div class="bowling-split-empty">Spin / Pace split needs bowling-type metadata in the saved JSON.</div>';
+            return '<article class="breakdown-card"><span class="over-label">OVER ' + t.over + '</span><strong>' + fmt(t.runs) + ' RUNS</strong><small>' + fmt(t.balls) + ' balls · ' + fmt(t.fours) + ' fours · ' + fmt(t.sixes) + ' sixes</small><span>SR ' + sr(t) + '</span>' + split + '</article>';
+          }).join("");
+          document.getElementById("breakdown-summary").textContent = "Overs " + a + "–" + b + " · " + (year.value === "all" ? "all years" : year.value);
         }
         function snapshot() {
           const d = data(),
