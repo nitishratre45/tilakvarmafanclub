@@ -250,12 +250,21 @@
       .join(" ")
       .toLowerCase()
       .replace(/[_-]+/g, " ");
+    // BCCI's broad match_status can say "live" before play starts. The
+    // specific live_status_name is authoritative for the actual match state.
+    const specificStatus = String(
+      match?.live_status_name || match?.match_status_name || match?.match_status_str || "",
+    ).toLowerCase().replace(/[_-]+/g, " ").trim();
+    if (/^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(specificStatus)) {
+      return false;
+    }
+    const effectiveStatus = specificStatus || status;
     return (
       /\b(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed|match start delayed|start delayed|delayed start)\b/.test(
-        status,
+        effectiveStatus,
       ) &&
       !/complete|completed|finished|end of match|result|abandoned|no result|cancelled|canceled/.test(
-        status,
+        effectiveStatus,
       )
     );
   };
@@ -628,8 +637,9 @@
         team2_name: m.team2 || m.team2_name || m.team2Name,
         team1_score: m.score1 || m.team1_score,
         team2_score: m.score2 || m.team2_score,
-        match_status: m.status || m.match_status,
-        live_status_name: m.status || m.live_status_name,
+        // Preserve BCCI's broad and specific status fields separately.
+        match_status: m.raw?.match_status || m.match_status || m.status,
+        live_status_name: m.raw?.live_status_name || m.live_status_name || m.status,
         name: m.match || m.name,
         comp_name: m.series || m.comp_name,
         ground_name: m.venue || m.ground_name,
@@ -691,8 +701,9 @@
               team2_name: m.team2 || m.team2_name || m.team2Name,
               team1_score: m.score1 || m.team1_score,
               team2_score: m.score2 || m.team2_score,
-              match_status: m.status || m.match_status,
-              live_status_name: m.status || m.live_status_name,
+              // Preserve BCCI's broad and specific status fields separately.
+              match_status: m.raw?.match_status || m.match_status || m.status,
+              live_status_name: m.raw?.live_status_name || m.live_status_name || m.status,
               name: m.match || m.name,
               comp_name: m.series || m.comp_name,
               ground_name: m.venue || m.ground_name,
