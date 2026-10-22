@@ -59,17 +59,13 @@ export async function onRequest({ request, env }) {
           "refresh-bcci-match-results.yml",
           "refresh-bcci-squads.yml",
           "refresh-bcci-stats-fixtures.yml",
-          "refresh-bcci-folder-scorecard.yml",
-          "refresh-match-scorecards.yml",
           "refresh-bcci-videos.yml",
           "refresh-custom-bcci-fixtures.yml",
           "bcci-squads-refresh.yml",
-          "refresh-upcoming-matches.yml",
           "bcci-fixtures-test-health.yml",
           "refresh-bcci-test-recent-match.yml",
           "fetch-bcci-fixtures-json.yml",
           "fetch-bcci-scorecard-json.yml",
-          "matches-folder-audit.yml",
         ];
         const batches = await Promise.all(
           workflowFiles.map(async (file) => {
@@ -251,21 +247,17 @@ export async function onRequest({ request, env }) {
           { file: "refresh-bcci-live-matches.yml", label: "BCCI live grid / scores" },
           { file: "fetch-bcci-fixtures-json.yml", label: "BCCI Fixtures JSON snapshot" },
           { file: "fetch-bcci-scorecard-json.yml", label: "BCCI Fixtures scorecard JSON" },
-          { file: "refresh-bcci-folder-scorecard.yml", label: "BCCI folder scorecards" },
-          { file: "refresh-match-scorecards.yml", label: "Match Centre scorecards" },
           { file: "refresh-bcci-match-results.yml", label: "BCCI match results" },
           { file: "refresh-bcci-squads.yml", label: "BCCI squads" },
           { file: "bcci-squads-refresh.yml", label: "BCCI fixture squads snapshot" },
           { file: "refresh-custom-bcci-fixtures.yml", label: "Custom BCCI fixtures" },
           { file: "refresh-bcci-stats-fixtures.yml", label: "BCCI stats fixtures" },
           { file: "refresh-bcci-videos.yml", label: "BCCI videos" },
-          { file: "refresh-upcoming-matches.yml", label: "Upcoming match details" },
           { file: "bcci-fixtures-test-health.yml", label: "BCCI fixture health checks" },
           {
             file: "refresh-bcci-test-recent-match.yml",
             label: "Cricsheet recent match archive (T20I / ODI / Test)",
           },
-          { file: "matches-folder-audit.yml", label: "Matches folder audit" },
         ];
         const results = [];
         for (const item of workflows) {
@@ -342,37 +334,6 @@ export async function onRequest({ request, env }) {
             ok: true,
             message:
               "BCCI Fixtures JSON refresh queued. This refresh updates bcci-fixtures-test/bcci-fixtures.json only; it does not refresh the Matches folder.",
-          },
-          202,
-        );
-      }
-      if (body.action === "match-scorecards-refresh") {
-        const recent = await github(
-          env,
-          "/actions/workflows/refresh-match-scorecards.yml/runs?per_page=10",
-        );
-        const active = (recent.workflow_runs || []).find((run) =>
-          ["queued", "in_progress", "waiting", "requested", "pending"].includes(run.status),
-        );
-        if (active) {
-          return json(
-            {
-              error: "A match scorecard refresh is already running.",
-              runUrl: active.html_url,
-              runId: active.id,
-            },
-            409,
-          );
-        }
-        await github(env, "/actions/workflows/refresh-match-scorecards.yml/dispatches", {
-          method: "POST",
-          body: JSON.stringify({ ref: "main" }),
-        });
-        return json(
-          {
-            ok: true,
-            message:
-              "Match scorecard refresh queued. The workflow validates the generated archive and restores the previous verified data if refresh or validation fails.",
           },
           202,
         );
