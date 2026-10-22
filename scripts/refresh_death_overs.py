@@ -176,6 +176,8 @@ def parse_match(data, filename, key, totals, all_male_fallback=False):
                             legal_ball_number if not wide and not no_ball else None
                         ),
                         "batter": batter_name,
+                        "bowler": str(d.get("bowler", "")),
+                        "bowlingType": str(d.get("bowling_type", d.get("bowlingType", d.get("bowlerType", ""))) or ""),
                         "tilak": is_tilak,
                         "batterRuns": br,
                         "totalRuns": int(rd.get("total", br) or 0),
