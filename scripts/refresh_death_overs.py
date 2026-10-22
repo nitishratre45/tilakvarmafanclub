@@ -51,6 +51,15 @@ ARCHIVES = {
 }
 
 
+def download(url):
+    """Download an archive and return its bytes."""
+    req = urllib.request.Request(
+        url, headers={"User-Agent": "TilakVarmaFC/1.1"}
+    )
+    with urllib.request.urlopen(req, timeout=120) as response:
+        return response.read()
+
+
 def discover_hyderabad_archive():
     req = urllib.request.Request(
         "https://cricsheet.org/downloads/", headers={"User-Agent": "TilakVarmaFC/1.1"}
