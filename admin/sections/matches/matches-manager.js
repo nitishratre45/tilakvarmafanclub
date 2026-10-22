@@ -232,7 +232,7 @@
           " manual corrections.",
       );
       try {
-        const data = await api("/api/admin/monitor");
+        const data = await api("/api/admin/monitor?scope=bcci-fixtures");
         state.runs = Array.isArray(data.runs) ? data.runs : [];
       } catch (e) {
         state.runs = [];
