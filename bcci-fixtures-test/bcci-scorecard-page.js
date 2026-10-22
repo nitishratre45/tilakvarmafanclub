@@ -571,7 +571,9 @@
           },
           matchName: selected.name || selected.match_short_name,
         });
-        await loadSquadSnapshot(selected, scorePayload?.matchId, scorePayload?.data);
+        // The global scorecard snapshot may belong to another match. For a
+        // selected fixture, load squads only from that fixture's own numeric BCCI ID.
+        await loadSquadSnapshot(selected, "", null);
         $("status").textContent =
           "MATCH SCORECARD · " +
           (selected.name || selected.match_short_name || "Selected match") +
