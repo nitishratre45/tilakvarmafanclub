@@ -1493,7 +1493,6 @@ a:focus-visible {
   }
 }
 
-
 /* 2026-10-22: final Match Centre responsive/data presentation overrides */
 html,
 body {
@@ -1634,9 +1633,12 @@ main,
   }
 }
 
-
 /* Scorecard uses the same global site navbar as Upcoming Matches and Home. */
-body > header.topbar { position: sticky; top: 0; z-index: 100; }
+body > header.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 .scorecard-toolbar {
   width: min(1180px, calc(100% - 40px));
   margin: 12px auto 22px;
@@ -1649,11 +1651,19 @@ body > header.topbar { position: sticky; top: 0; z-index: 100; }
   color: #a9c9e8;
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: .16em;
+  letter-spacing: 0.16em;
 }
-.scorecard-toolbar #reload { flex: 0 0 auto; }
-.match-section-tabs { top: 92px; }
-.squad-card ol { list-style: none; padding: 0; margin: 12px 0 0; }
+.scorecard-toolbar #reload {
+  flex: 0 0 auto;
+}
+.match-section-tabs {
+  top: 92px;
+}
+.squad-card ol {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
 .squad-card li {
   display: grid;
   grid-template-columns: 48px minmax(0, 1fr) minmax(78px, auto);
@@ -1661,7 +1671,7 @@ body > header.topbar { position: sticky; top: 0; z-index: 100; }
   gap: 12px;
   min-height: 66px;
   padding: 9px 8px;
-  border-bottom: 1px solid rgba(142, 185, 219, .14);
+  border-bottom: 1px solid rgba(142, 185, 219, 0.14);
 }
 .squad-card li > img {
   display: block;
@@ -1672,7 +1682,7 @@ body > header.topbar { position: sticky; top: 0; z-index: 100; }
   object-position: center top;
   border-radius: 10px;
   background: linear-gradient(145deg, #1b354d, #102237);
-  border: 1px solid rgba(155, 202, 236, .2);
+  border: 1px solid rgba(155, 202, 236, 0.2);
 }
 .squad-card li > span {
   min-width: 0;
@@ -1690,25 +1700,66 @@ body > header.topbar { position: sticky; top: 0; z-index: 100; }
   line-height: 1.35;
   overflow-wrap: anywhere;
 }
-@media(max-width:700px) {
-  .scorecard-toolbar { width: calc(100% - 24px); margin: 10px auto 16px; gap: 8px; }
-  .scorecard-toolbar .scorecard-page-label { display: none; }
-  .scorecard-toolbar .match-centre-back { min-height: 40px; padding: 9px 11px; font-size: 12px; }
-  .match-section-tabs { top: 68px; }
-  .squad-card li { grid-template-columns: 42px minmax(0,1fr); gap: 10px; min-height: 60px; }
-  .squad-card li > img { width: 42px; height: 42px; max-width: 42px; }
-  .squad-card li > small { grid-column: 2; text-align: left; max-width: none; margin-top: -7px; }
+@media (max-width: 700px) {
+  .scorecard-toolbar {
+    width: calc(100% - 24px);
+    margin: 10px auto 16px;
+    gap: 8px;
+  }
+  .scorecard-toolbar .scorecard-page-label {
+    display: none;
+  }
+  .scorecard-toolbar .match-centre-back {
+    min-height: 40px;
+    padding: 9px 11px;
+    font-size: 12px;
+  }
+  .match-section-tabs {
+    top: 68px;
+  }
+  .squad-card li {
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 10px;
+    min-height: 60px;
+  }
+  .squad-card li > img {
+    width: 42px;
+    height: 42px;
+    max-width: 42px;
+  }
+  .squad-card li > small {
+    grid-column: 2;
+    text-align: left;
+    max-width: none;
+    margin-top: -7px;
+  }
 }
-@media(max-width:380px) {
-  .squad-card li { grid-template-columns: 36px minmax(0,1fr); gap: 8px; padding-inline: 3px; }
-  .squad-card li > img { width: 36px; height: 36px; max-width: 36px; }
-  .squad-card li > span { font-size: 13px; }
+@media (max-width: 380px) {
+  .squad-card li {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 8px;
+    padding-inline: 3px;
+  }
+  .squad-card li > img {
+    width: 36px;
+    height: 36px;
+    max-width: 36px;
+  }
+  .squad-card li > span {
+    font-size: 13px;
+  }
 }
 
 /* Squad layout hotfix: keep player names readable instead of breaking each word. */
-.squad-grid { align-items: start; }
-.squad-card { min-width: 0; }
-.squad-card ol { padding-inline-start: 0 !important; }
+.squad-grid {
+  align-items: start;
+}
+.squad-card {
+  min-width: 0;
+}
+.squad-card ol {
+  padding-inline-start: 0 !important;
+}
 .squad-card li {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) minmax(90px, 34%);
@@ -1736,14 +1787,36 @@ body > header.topbar { position: sticky; top: 0; z-index: 100; }
   line-height: 1.35;
 }
 @media (max-width: 700px) {
-  .squad-card li { grid-template-columns: minmax(0, 1fr) minmax(78px, 38%); column-gap: 10px; }
-  .squad-card li small, .squad-card li > small { grid-column: auto; text-align: right; margin-top: 0; }
+  .squad-card li {
+    grid-template-columns: minmax(0, 1fr) minmax(78px, 38%);
+    column-gap: 10px;
+  }
+  .squad-card li small,
+  .squad-card li > small {
+    grid-column: auto;
+    text-align: right;
+    margin-top: 0;
+  }
 }
 @media (max-width: 390px) {
-  .squad-card li { grid-template-columns: minmax(0, 1fr) minmax(70px, 38%); column-gap: 8px; }
-  .squad-card li span, .squad-card li > span { font-size: 13px; }
-  .squad-card li small, .squad-card li > small { font-size: 10px; }
+  .squad-card li {
+    grid-template-columns: minmax(0, 1fr) minmax(70px, 38%);
+    column-gap: 8px;
+  }
+  .squad-card li span,
+  .squad-card li > span {
+    font-size: 13px;
+  }
+  .squad-card li small,
+  .squad-card li > small {
+    font-size: 10px;
+  }
 }
 /* Keep the page title from painting underneath the sticky match tabs. */
-#title { position: relative; z-index: 1; }
-.match-section-tabs { background: #061326; }
+#title {
+  position: relative;
+  z-index: 1;
+}
+.match-section-tabs {
+  background: #061326;
+}

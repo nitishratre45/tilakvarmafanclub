@@ -113,12 +113,16 @@
         match.match_status ||
         payload?.liveMatch?.match_status ||
         "",
-    ).toLowerCase().replace(/[_-]+/g, " ").trim();
-    const isPreMatch = /^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(actualStatus);
+    )
+      .toLowerCase()
+      .replace(/[_-]+/g, " ")
+      .trim();
+    const isPreMatch = /^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(
+      actualStatus,
+    );
     const isLive =
       !isPreMatch &&
-      (payload?.isLive === true ||
-        /live|in play|in progress|innings break/i.test(actualStatus));
+      (payload?.isLive === true || /live|in play|in progress|innings break/i.test(actualStatus));
     const teamScore = (teamId) => {
       const row = scoreRows.find(
         (inn) => String(inn.batting_team_id ?? inn.team_id) === String(teamId),
@@ -410,9 +414,10 @@
           const teamRows = asArray(responseData.teams);
           const classes = asArray(responseData.classes);
           const className = (row) => String(row?.name || row?.short_name || "").toLowerCase();
-          const preferredClass = classes.find((row) =>
-            /t20|twenty20/.test(className(row)),
-          ) || classes.find((row) => /one.day|odi/.test(className(row))) || classes[0];
+          const preferredClass =
+            classes.find((row) => /t20|twenty20/.test(className(row))) ||
+            classes.find((row) => /one.day|odi/.test(className(row))) ||
+            classes[0];
           const preferredClassId = String(preferredClass?.class_id ?? preferredClass?.id ?? "");
           const matchingTeamRows = teamRows.filter(
             (row) => String(row.team_id) === String(sideData.team_id),
@@ -428,7 +433,8 @@
             ) ||
             matchingTeamRows.find((row) => asArray(row.players).length) ||
             matchingTeamRows.find(
-              (row) => preferredClassId &&
+              (row) =>
+                preferredClassId &&
                 String(row.squad_class_id ?? row.class_id ?? "") === preferredClassId,
             ) ||
             matchingTeamRows[0] ||
@@ -623,7 +629,10 @@
           liveMeta.match_status_str ||
           liveMeta.match_status ||
           "",
-      ).toLowerCase().replace(/[_-]+/g, " ").trim();
+      )
+        .toLowerCase()
+        .replace(/[_-]+/g, " ")
+        .trim();
       const liveState =
         !/^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(liveStatus) &&
         (scorePayload.isLive === true ||

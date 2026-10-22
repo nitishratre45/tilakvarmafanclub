@@ -56,9 +56,13 @@
         );
       const specificStatus = String(
         m.live_status_name || m.match_status_name || m.match_status_str || "",
-      ).toLowerCase().replace(/[_-]+/g, " ").trim();
-      const explicitlyPreMatch =
-        /^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(specificStatus);
+      )
+        .toLowerCase()
+        .replace(/[_-]+/g, " ")
+        .trim();
+      const explicitlyPreMatch = /^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(
+        specificStatus,
+      );
       const live =
         !explicitlyPreMatch &&
         /(^|\b)(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed|match start delayed|start delayed|delayed start)(\b|$)/.test(
@@ -131,7 +135,11 @@
           kickoffDate && Number.isFinite(kickoffDate.getTime()) ? kickoffDate.getTime() : null,
         venue: pick(m, ["ground_name", "ground_city", "ground_short_name"]),
         competition: pick(m, ["comp_name", "primary_event_name", "alt_comp_name"], "BCCI Fixture"),
-        status: pick(m, ["live_status_name", "match_status_name", "match_status_str", "match_status"], "Scheduled"),
+        status: pick(
+          m,
+          ["live_status_name", "match_status_name", "match_status_str", "match_status"],
+          "Scheduled",
+        ),
         id: pick(m, ["match_id", "gid"], String(i)),
         title: pick(m, ["title", "match_short_name", "name"]),
         result: pick(m, ["result_string"]),
@@ -260,20 +268,32 @@
     // specific live_status_name is authoritative for the actual match state.
     const specificStatus = String(
       match?.live_status_name || match?.match_status_name || match?.match_status_str || "",
-    ).toLowerCase().replace(/[_-]+/g, " ").trim();
-    const isPreMatch = /^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(specificStatus);
+    )
+      .toLowerCase()
+      .replace(/[_-]+/g, " ")
+      .trim();
+    const isPreMatch = /^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(
+      specificStatus,
+    );
     // Keep the current-day India fixture in the top match-centre card before
     // the first ball, while preserving its truthful PRE-MATCH status.
     const startValue = match?.start_datetime_utc || match?.start_date || match?.date_string || "";
     const startDate = startValue ? new Date(startValue) : null;
     const today = new Intl.DateTimeFormat("en-CA", {
-      timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit",
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
     }).format(new Date());
-    const matchDay = startDate && !Number.isNaN(startDate.getTime())
-      ? new Intl.DateTimeFormat("en-CA", {
-          timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit",
-        }).format(startDate)
-      : String(startValue).slice(0, 10);
+    const matchDay =
+      startDate && !Number.isNaN(startDate.getTime())
+        ? new Intl.DateTimeFormat("en-CA", {
+            timeZone: "Asia/Kolkata",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          }).format(startDate)
+        : String(startValue).slice(0, 10);
     if (isPreMatch) return matchDay === today;
     const effectiveStatus = specificStatus || status;
     return (
@@ -358,10 +378,20 @@
               esc(scoreB || "Yet to bat") +
               "</span></div>"
             : '<div class="live-score-line live-score-pending">' +
-              (/^(pre match|scheduled|forthcoming|upcoming|not started)$/i.test(String(pick(m, ["live_status_name", "match_status_name", "match_status_str", "match_status"], "")).replace(/[_-]+/g, " ").trim())
-                ? 'Scoreboard will appear when the first ball is bowled.'
-                : 'Live score is updating from BCCI…') +
-              '</div>';
+              (/^(pre match|scheduled|forthcoming|upcoming|not started)$/i.test(
+                String(
+                  pick(
+                    m,
+                    ["live_status_name", "match_status_name", "match_status_str", "match_status"],
+                    "",
+                  ),
+                )
+                  .replace(/[_-]+/g, " ")
+                  .trim(),
+              )
+                ? "Scoreboard will appear when the first ball is bowled."
+                : "Live score is updating from BCCI…") +
+              "</div>";
         const status = pick(
           m,
           ["live_status_name", "match_status_name", "match_status_str", "match_status"],
@@ -371,9 +401,17 @@
         return (
           '<article class="fixture-card upcoming-match-card live-match-card">' +
           '<div class="upcoming-card-top"><span class="live-now-pill ' +
-          (/^(pre match|scheduled|forthcoming|upcoming|not started)$/i.test(String(status).replace(/[_-]+/g, " ").trim()) ? 'is-upcoming' : '') +
+          (/^(pre match|scheduled|forthcoming|upcoming|not started)$/i.test(
+            String(status).replace(/[_-]+/g, " ").trim(),
+          )
+            ? "is-upcoming"
+            : "") +
           '"><i></i> ' +
-          (/^(pre match|scheduled|forthcoming|upcoming|not started)$/i.test(String(status).replace(/[_-]+/g, " ").trim()) ? 'UPCOMING · BCCI' : 'LIVE NOW') +
+          (/^(pre match|scheduled|forthcoming|upcoming|not started)$/i.test(
+            String(status).replace(/[_-]+/g, " ").trim(),
+          )
+            ? "UPCOMING · BCCI"
+            : "LIVE NOW") +
           '</span><span class="upcoming-date">' +
           esc(fmt(pick(m, ["date_string", "start_date", "date"]))) +
           "</span></div>" +
@@ -700,18 +738,25 @@
       renderLiveMatches(combinedMatches);
       if (live.length) {
         liveMode = true;
-        const hasActuallyLive = live.some((match) =>
-          /\b(live|in progress|in play|innings break|stumps|lunch|tea break|drinks)\b/i.test(
-            String(match.live_status_name || match.match_status_name || match.match_status_str || ""),
-          ) &&
-          !/pre.?match|scheduled|upcoming|not started/i.test(
-            String(match.live_status_name || match.match_status_name || match.match_status_str || ""),
-          ),
+        const hasActuallyLive = live.some(
+          (match) =>
+            /\b(live|in progress|in play|innings break|stumps|lunch|tea break|drinks)\b/i.test(
+              String(
+                match.live_status_name || match.match_status_name || match.match_status_str || "",
+              ),
+            ) &&
+            !/pre.?match|scheduled|upcoming|not started/i.test(
+              String(
+                match.live_status_name || match.match_status_name || match.match_status_str || "",
+              ),
+            ),
         );
-        if (title) title.textContent = hasActuallyLive ? "Live match updates" : "Match Centre updates";
+        if (title)
+          title.textContent = hasActuallyLive ? "Live match updates" : "Match Centre updates";
         if (message)
           message.textContent = hasActuallyLive
-            ? live.length + " live match(es) detected. BCCI score data is rechecked every 60 seconds."
+            ? live.length +
+              " live match(es) detected. BCCI score data is rechecked every 60 seconds."
             : "Today's India match is pinned here. Live scoreboard will populate when BCCI reports ball-by-ball scores.";
         if (stateBadge) {
           stateBadge.textContent = hasActuallyLive ? "LIVE · AUTO" : "MATCH TRACKING";
