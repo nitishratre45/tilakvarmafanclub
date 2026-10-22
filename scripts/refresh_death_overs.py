@@ -53,9 +53,7 @@ ARCHIVES = {
 
 def download(url):
     """Download an archive and return its bytes."""
-    req = urllib.request.Request(
-        url, headers={"User-Agent": "TilakVarmaFC/1.1"}
-    )
+    req = urllib.request.Request(url, headers={"User-Agent": "TilakVarmaFC/1.1"})
     with urllib.request.urlopen(req, timeout=120) as response:
         return response.read()
 
