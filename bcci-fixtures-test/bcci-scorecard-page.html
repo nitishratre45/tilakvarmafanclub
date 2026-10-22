@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#0b5fc4" />
     <title>Tilak Varma Fan Club | Match Scorecard</title>
-    <link rel="stylesheet" href="./bcci-scorecard-page.css?v=20261022-mobile-data-fix1" />
+    <link rel="stylesheet" href="./bcci-scorecard-page.css?v=20261022-shared-nav-player-photo2" />
     <!-- Shared main-site visual system: header, glass menu, dock, responsive layout and motion. -->
 
     <link rel="stylesheet" href="/assets/india-cricket-theme.css?v=20261017-mobile-performance2" />
@@ -20,11 +20,27 @@
     <link rel="stylesheet" href="/assets/shared-navbar.css?v=20261021-nav-unified-final1" />
   </head>
   <body>
-    <header class="top">
-      <a href="/matches/">← Matches</a
-      ><span>Tilak Varma Fan Club <small>· BCCI SCORECARD</small></span
-      ><button id="reload" type="button">↻ Reload JSON</button>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Home">
+        <span class="brand-mark brand-mark-photo">
+          <img data-tilak-logo src="https://images.icc-cricket.com/image/upload/t_player-headshot-portrait-lg-webp/prd/assets/players/generic/colored/70761.png" alt="" aria-hidden="true" />
+        </span>
+        <span>TILAK VARMA <small>FAN CLUB</small></span>
+      </a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="main-nav">
+        <a href="/">Home</a><a href="/stats/">Stats</a><a href="/death-overs/">Death-overs</a>
+        <a href="/bcci-fixtures-test/" class="active" aria-current="page">Matches</a>
+        <a href="/records/">Records</a><a href="/news/">News</a><a href="/photos/">Photos</a><a href="/videos/">Videos</a>
+      </nav>
     </header>
+    <div class="scorecard-toolbar">
+      <a class="match-centre-back" href="/bcci-fixtures-test/">← Upcoming Matches</a>
+      <span class="scorecard-page-label">BCCI SCORECARD</span>
+      <button id="reload" type="button">↻ Reload JSON</button>
+    </div>
     <main>
       <div class="match-centre-back-row">
         <a class="match-centre-back" href="/bcci-fixtures-test/" id="match-centre-back"
