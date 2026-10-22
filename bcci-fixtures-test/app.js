@@ -54,7 +54,13 @@
         /^(teams will be announced(?: at the toss)?|match yet to begin|to be announced|toss yet to take place|scheduled|to be played)$/.test(
           result,
         );
+      const specificStatus = String(
+        m.live_status_name || m.match_status_name || m.match_status_str || "",
+      ).toLowerCase().replace(/[_-]+/g, " ").trim();
+      const explicitlyPreMatch =
+        /^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(specificStatus);
       const live =
+        !explicitlyPreMatch &&
         /(^|\b)(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed|match start delayed|start delayed|delayed start)(\b|$)/.test(
           status,
         );
@@ -125,7 +131,7 @@
           kickoffDate && Number.isFinite(kickoffDate.getTime()) ? kickoffDate.getTime() : null,
         venue: pick(m, ["ground_name", "ground_city", "ground_short_name"]),
         competition: pick(m, ["comp_name", "primary_event_name", "alt_comp_name"], "BCCI Fixture"),
-        status: pick(m, ["match_status", "match_status_str", "match_status_name"], "Scheduled"),
+        status: pick(m, ["live_status_name", "match_status_name", "match_status_str", "match_status"], "Scheduled"),
         id: pick(m, ["match_id", "gid"], String(i)),
         title: pick(m, ["title", "match_short_name", "name"]),
         result: pick(m, ["result_string"]),
