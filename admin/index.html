@@ -1274,39 +1274,20 @@
               <div class="eyebrow">MATCH CENTRE · WORKFLOW CONTROL</div>
               <h2>Upcoming Matches</h2>
               <p>
-                Monitor News JSON refresh, match count and workflow runs. Add or correct upcoming
-                fixtures manually when the source data is wrong.
+                Refresh and monitor the dedicated BCCI Fixtures JSON source. This control does not refresh the Matches folder.
               </p>
             </div>
             <div class="actions">
               <button class="btn" id="admin-matches-refresh" type="button">↻ Refresh status</button>
               <button class="btn primary" id="admin-matches-source-refresh" type="button">
-                ⟳ Refresh from News JSON
-              </button>
-              <button class="btn" type="button" data-match-action="match-live-refresh">
-                ↻ Refresh live scores
-              </button>
-              <button class="btn" type="button" data-match-action="match-results-refresh">
-                ↻ Refresh results
-              </button>
-              <button class="btn" type="button" data-match-action="match-squads-refresh">
-                ↻ Refresh squads
-              </button>
-              <button class="btn" type="button" data-match-action="match-stats-refresh">
-                ↻ Refresh stats fixtures
-              </button>
-              <button class="btn" type="button" data-match-action="match-scorecards-refresh">
-                ↻ Refresh scorecards
-              </button>
-              <button class="btn" type="button" data-match-action="match-audit">
-                ✓ Run matches audit
+                ⟳ Refresh BCCI Fixtures JSON
               </button>
               <a
                 class="btn"
-                href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/refresh-upcoming-matches.yml"
+                href="https://github.com/nitishratre45/tilakvarmafanclub/actions/workflows/fetch-bcci-fixtures-json.yml"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Open workflow ↗</a
+                >Open BCCI Fixtures workflow ↗</a
               >
             </div>
           </div>
