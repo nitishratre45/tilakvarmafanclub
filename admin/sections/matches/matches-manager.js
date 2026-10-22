@@ -333,6 +333,25 @@
       }
     });
   });
+  $("admin-matches-refresh-all-bcci")?.addEventListener("click", async () => {
+    const button = $("admin-matches-refresh-all-bcci");
+    if (!window.confirm("Queue all BCCI fixture-related refresh workflows? Matches-folder audit and repair workflows are excluded.")) return;
+    button.disabled = true;
+    button.textContent = "⏳ Queueing BCCI workflows…";
+    try {
+      const data = await api("/api/admin/monitor", {
+        method: "POST",
+        body: JSON.stringify({ action: "bcci-fixtures-refresh-all" }),
+      });
+      status(data.message || "BCCI fixture workflows queued.");
+      await load();
+    } catch (error) {
+      status(error.message || "Could not queue BCCI fixture workflows.", true);
+    } finally {
+      button.disabled = false;
+      button.textContent = "↻ Refresh All BCCI Fixture Workflows";
+    }
+  });
   $("admin-matches-source-refresh")?.addEventListener("click", async () => {
     const b = $("admin-matches-source-refresh");
     if (!b || b.disabled) return;
