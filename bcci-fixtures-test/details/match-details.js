@@ -37,6 +37,26 @@
       }) + " IST"
     );
   };
+  // BCCI start_time_local is venue-local (e.g. New Zealand time), not IST.
+  // Prefer the provider's UTC kickoff timestamp and convert it to India time.
+  const istKickoff = (rawUtc) => {
+    const value = String(rawUtc || "").trim();
+    if (!value) return null;
+    const iso = value.includes("T") ? value : value.replace(" ", "T") + "Z";
+    const date = new Date(/(?:Z|[+-]\\d{2}:?\\d{2})$/i.test(iso) ? iso : iso + "Z");
+    if (Number.isNaN(date.getTime())) return null;
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    }).formatToParts(date);
+    const part = (type) => parts.find((item) => item.type === type)?.value || "";
+    return { date: part("year") + "-" + part("month") + "-" + part("day"), time: part("hour") + ":" + part("minute") };
+  };
   const key = (f) =>
     [f.date, f.match, f.opponent || f.team]
       .map((v) =>
@@ -529,12 +549,12 @@
           match_id: String(row.match_id || "").trim(),
           gid: String(row.gid || "").trim(),
           fixtureId: String(row.gid || "").trim(),
-          date: String(row.start_date || row.date_string || "").trim(),
+          date: istKickoff(row.start_datetime_utc)?.date || String(row.start_date || row.date_string || "").trim(),
           match: String(row.match_short_name || row.title || row.comp_name || "Match").trim(),
           team: indiaIsSide1 || indiaIsSide2 ? "India" : side1,
           opponent: indiaIsSide1 ? side2 : indiaIsSide2 ? side1 : side2,
           venue: String(row.ground_name || row.ground_short_name || row.ground_city || "").trim(),
-          time: String(row.start_time_local || "").trim(),
+          time: istKickoff(row.start_datetime_utc)?.time || String(row.start_time_local || "").trim(),
           tilakInSquad: false,
           rawBcci: row,
         };
@@ -774,7 +794,7 @@
                 team: home,
                 opponent: away,
                 venue: exact.ground_name || exact.ground_city || exact.venue || exact.ground || "",
-                time: exact.start_time || exact.start_time_ist || "",
+                time: istKickoff(exact.start_datetime_utc || exact.start_datetime || exact.start_datetime_local_utc)?.time || exact.start_time_ist || exact.start_time || "",
                 matchId: String(exact.match_id || exact.gid || exact.matchId || matchId),
                 rawBcci: exact,
                 result: exact.result_string || exact.result || "",
