@@ -324,17 +324,27 @@ export async function onRequest({ request, env }) {
           ["queued", "in_progress", "waiting", "requested", "pending"].includes(run.status),
         );
         if (active) {
-          return json({
-            error: "BCCI Fixtures JSON refresh is already queued or running.",
-            runUrl: active.html_url,
-            runId: active.id,
-          }, 409);
+          return json(
+            {
+              error: "BCCI Fixtures JSON refresh is already queued or running.",
+              runUrl: active.html_url,
+              runId: active.id,
+            },
+            409,
+          );
         }
         await github(env, "/actions/workflows/" + workflow + "/dispatches", {
           method: "POST",
           body: JSON.stringify({ ref: "main" }),
         });
-        return json({ ok: true, message: "BCCI Fixtures JSON refresh queued. This refresh updates bcci-fixtures-test/bcci-fixtures.json only; it does not refresh the Matches folder." }, 202);
+        return json(
+          {
+            ok: true,
+            message:
+              "BCCI Fixtures JSON refresh queued. This refresh updates bcci-fixtures-test/bcci-fixtures.json only; it does not refresh the Matches folder.",
+          },
+          202,
+        );
       }
       if (body.action === "match-scorecards-refresh") {
         const recent = await github(
