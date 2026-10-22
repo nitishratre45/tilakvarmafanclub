@@ -35,6 +35,7 @@ jobs:
       - name: Download archive and build stats JSON
         run: |
           python -u scripts/refresh_death_overs.py
+          python -u scripts/merge_smat_death_overs.py
 
       - name: Validate generated data
         run: |
@@ -109,6 +110,7 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
             python -u scripts/refresh_death_overs.py
+            python -u scripts/merge_smat_death_overs.py
             python -c "import json; d=json.load(open('data/death-overs.json')); assert d.get('innings'), 'No innings found'; assert d.get('updatedAt'), 'Missing timestamp'; print('Validated', d.get('matchesFound'), 'matches and', d.get('inningsFound'), 'innings')"
             git add data/death-overs.json
             if git diff --cached --quiet; then
