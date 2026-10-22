@@ -60,9 +60,11 @@ def main():
         existing_rows = []
         for fmt in formats.values():
             existing_rows.extend(fmt.get("innings", []))
-        if any(str(r.get("date", "")) == date and
-               str(r.get("opposition", "")).lower() == opposition.lower()
-               for r in existing_rows):
+        if any(
+            str(r.get("date", "")) == date
+            and str(r.get("opposition", "")).lower() == opposition.lower()
+            for r in existing_rows
+        ):
             continue
         if any(str(r.get("matchId", "")) == gid for r in existing_rows):
             continue
@@ -82,30 +84,51 @@ def main():
                 balls_faced += 1
                 fours += int(batter_runs == 4)
                 sixes += int(batter_runs == 6)
-                deliveries.append({
-                    "ball": ball_no, "legalBall": ball_no,
-                    "displayOver": b.get("over_ball", ""),
-                    "batter": "Tilak Varma", "tilak": True,
-                    "batterRuns": batter_runs, "totalRuns": batter_runs,
-                    "extras": 0, "four": batter_runs == 4,
-                    "six": batter_runs == 6, "wicket": is_wicket,
-                    "wide": False, "noBall": False,
-                    "commentary": b.get("commentary", ""),
-                    "scoring": scoring
-                })
-            overs.append({
-                "over": over_no, "runs": runs, "balls": balls_faced,
-                "fours": fours, "sixes": sixes, "deliveries": deliveries,
-                "strikeRate": round(runs * 100 / balls_faced, 2) if balls_faced else 0
-            })
+                deliveries.append(
+                    {
+                        "ball": ball_no,
+                        "legalBall": ball_no,
+                        "displayOver": b.get("over_ball", ""),
+                        "batter": "Tilak Varma",
+                        "tilak": True,
+                        "batterRuns": batter_runs,
+                        "totalRuns": batter_runs,
+                        "extras": 0,
+                        "four": batter_runs == 4,
+                        "six": batter_runs == 6,
+                        "wicket": is_wicket,
+                        "wide": False,
+                        "noBall": False,
+                        "commentary": b.get("commentary", ""),
+                        "scoring": scoring,
+                    }
+                )
+            overs.append(
+                {
+                    "over": over_no,
+                    "runs": runs,
+                    "balls": balls_faced,
+                    "fours": fours,
+                    "sixes": sixes,
+                    "deliveries": deliveries,
+                    "strikeRate": (
+                        round(runs * 100 / balls_faced, 2) if balls_faced else 0
+                    ),
+                }
+            )
         if not overs:
             continue
         row = {
-            "date": date, "matchId": gid, "format": "hyderabad",
-            "teams": " vs ".join(teams), "opposition": opposition,
-            "venue": m.get("ground", ""), "innings": 1,
-            "battingTeam": "Hyderabad", "sourceStatus": "Manual SMAT data from tilakvarmasmatall",
-            "overs": overs
+            "date": date,
+            "matchId": gid,
+            "format": "hyderabad",
+            "teams": " vs ".join(teams),
+            "opposition": opposition,
+            "venue": m.get("ground", ""),
+            "innings": 1,
+            "battingTeam": "Hyderabad",
+            "sourceStatus": "Manual SMAT data from tilakvarmasmatall",
+            "overs": overs,
         }
         for key in ("hyderabad", "overall_t20"):
             fmt = formats.get(key)
@@ -116,24 +139,44 @@ def main():
             if key == "overall_t20":
                 clone["matchId"] = "hyderabad:" + gid
             fmt.setdefault("innings", []).append(clone)
-            fmt["innings"].sort(key=lambda r: (r.get("date", ""), str(r.get("matchId", ""))), reverse=True)
+            fmt["innings"].sort(
+                key=lambda r: (r.get("date", ""), str(r.get("matchId", ""))),
+                reverse=True,
+            )
             fmt["inningsFound"] = len(fmt["innings"])
-            fmt["matchesFound"] = len({str(r.get("matchId", "")) for r in fmt["innings"]})
-            totals = defaultdict(lambda: {"runs": 0, "balls": 0, "fours": 0, "sixes": 0})
+            fmt["matchesFound"] = len(
+                {str(r.get("matchId", "")) for r in fmt["innings"]}
+            )
+            totals = defaultdict(
+                lambda: {"runs": 0, "balls": 0, "fours": 0, "sixes": 0}
+            )
             for inning in fmt["innings"]:
                 for ov in inning.get("overs", []):
                     n = int(ov.get("over", 0) or 0)
                     for metric in ("runs", "balls", "fours", "sixes"):
                         totals[n][metric] += int(ov.get(metric, 0) or 0)
-            fmt["overTotals"] = [{
-                "over": n, **totals[n],
-                "strikeRate": round(totals[n]["runs"] * 100 / totals[n]["balls"], 2) if totals[n]["balls"] else 0
-            } for n in range(1, 21)]
+            fmt["overTotals"] = [
+                {
+                    "over": n,
+                    **totals[n],
+                    "strikeRate": (
+                        round(totals[n]["runs"] * 100 / totals[n]["balls"], 2)
+                        if totals[n]["balls"]
+                        else 0
+                    ),
+                }
+                for n in range(1, 21)
+            ]
         added += 1
 
     if added:
-        DATA.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
-    print(f"Manual Hyderabad SMAT death-over innings added: {added}; duplicates skipped")
+        DATA.write_text(
+            json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n",
+            encoding="utf-8",
+        )
+    print(
+        f"Manual Hyderabad SMAT death-over innings added: {added}; duplicates skipped"
+    )
     print(f"Dataset unchanged: {added == 0}")
 
 
