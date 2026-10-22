@@ -100,13 +100,20 @@
       match.team1_name || match.team1_short_name || payload?.liveMatch?.team1_name || "Team 1";
     const teamTwoName =
       match.team2_name || match.team2_short_name || payload?.liveMatch?.team2_name || "Team 2";
+    const actualStatus = String(
+      match.live_status_name ||
+        match.match_status_name ||
+        match.match_status_str ||
+        payload?.liveMatch?.live_status_name ||
+        match.match_status ||
+        payload?.liveMatch?.match_status ||
+        "",
+    ).toLowerCase().replace(/[_-]+/g, " ").trim();
+    const isPreMatch = /^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(actualStatus);
     const isLive =
-      payload?.isLive === true ||
-      /live|in play|in progress|innings break/i.test(
-        String(
-          match.match_status || match.live_status_name || payload?.liveMatch?.match_status || "",
-        ),
-      );
+      !isPreMatch &&
+      (payload?.isLive === true ||
+        /live|in play|in progress|innings break/i.test(actualStatus));
     const teamScore = (teamId) => {
       const row = scoreRows.find(
         (inn) => String(inn.batting_team_id ?? inn.team_id) === String(teamId),
@@ -587,11 +594,17 @@
         scorePayload.matchName ||
         $("title").textContent ||
         "BCCI Scorecard";
+      const liveStatus = String(
+        liveMeta.live_status_name ||
+          liveMeta.match_status_name ||
+          liveMeta.match_status_str ||
+          liveMeta.match_status ||
+          "",
+      ).toLowerCase().replace(/[_-]+/g, " ").trim();
       const liveState =
-        scorePayload.isLive === true ||
-        /^(live|in play|in progress|innings break)$/i.test(
-          String(liveMeta.match_status || liveMeta.live_status_name || ""),
-        );
+        !/^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(liveStatus) &&
+        (scorePayload.isLive === true ||
+          /^(live|in play|in progress|innings break)$/.test(liveStatus));
       $("status").textContent =
         (liveState ? "LIVE MATCH · " : "LATEST SCORECARD · ") +
         liveName +
