@@ -261,9 +261,20 @@
     const specificStatus = String(
       match?.live_status_name || match?.match_status_name || match?.match_status_str || "",
     ).toLowerCase().replace(/[_-]+/g, " ").trim();
-    if (/^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(specificStatus)) {
-      return false;
-    }
+    const isPreMatch = /^(pre match|scheduled|forthcoming|upcoming|not started)$/.test(specificStatus);
+    // Keep the current-day India fixture in the top match-centre card before
+    // the first ball, while preserving its truthful PRE-MATCH status.
+    const startValue = match?.start_datetime_utc || match?.start_date || match?.date_string || "";
+    const startDate = startValue ? new Date(startValue) : null;
+    const today = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit",
+    }).format(new Date());
+    const matchDay = startDate && !Number.isNaN(startDate.getTime())
+      ? new Intl.DateTimeFormat("en-CA", {
+          timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit",
+        }).format(startDate)
+      : String(startValue).slice(0, 10);
+    if (isPreMatch) return matchDay === today;
     const effectiveStatus = specificStatus || status;
     return (
       /\b(live|in progress|in play|innings break|stumps|lunch|tea break|drinks|rain delay|match delayed|match start delayed|start delayed|delayed start)\b/.test(
@@ -346,7 +357,11 @@
               "</span><b>LIVE SCORE</b><span>" +
               esc(scoreB || "Yet to bat") +
               "</span></div>"
-            : '<div class="live-score-line live-score-pending">Live score is updating from BCCI…</div>';
+            : '<div class="live-score-line live-score-pending">' +
+              (/^(pre match|scheduled|forthcoming|upcoming|not started)$/i.test(String(pick(m, ["live_status_name", "match_status_name", "match_status_str", "match_status"], "")).replace(/[_-]+/g, " ").trim())
+                ? 'Scoreboard will appear when the first ball is bowled.'
+                : 'Live score is updating from BCCI…') +
+              '</div>';
         const status = pick(
           m,
           ["live_status_name", "match_status_name", "match_status_str", "match_status"],
@@ -355,7 +370,11 @@
         const venue = [m.ground_name, m.ground_city].filter(Boolean).join(", ");
         return (
           '<article class="fixture-card upcoming-match-card live-match-card">' +
-          '<div class="upcoming-card-top"><span class="live-now-pill"><i></i> LIVE STATUS</span><span class="upcoming-date">' +
+          '<div class="upcoming-card-top"><span class="live-now-pill ' +
+          (/^(pre match|scheduled|forthcoming|upcoming|not started)$/i.test(String(status).replace(/[_-]+/g, " ").trim()) ? 'is-upcoming' : '') +
+          '"><i></i> ' +
+          (/^(pre match|scheduled|forthcoming|upcoming|not started)$/i.test(String(status).replace(/[_-]+/g, " ").trim()) ? 'UPCOMING · BCCI' : 'LIVE NOW') +
+          '</span><span class="upcoming-date">' +
           esc(fmt(pick(m, ["date_string", "start_date", "date"]))) +
           "</span></div>" +
           '<div class="upcoming-teams"><div class="upcoming-team">' +
