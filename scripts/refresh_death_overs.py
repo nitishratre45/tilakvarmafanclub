@@ -213,7 +213,7 @@ def bowling_style(bowler, source_style=""):
     if re.search(r"pace|fast|medium|seam|quick", raw):
         return "pace"
     name = re.sub(r"[^a-z0-9 ]", "", str(bowler or "").casefold())
-    name = re.sub(r"\\s+", " ", name).strip()
+    name = re.sub(r"\s+", " ", name).strip()
     return BOWLING_STYLE_BY_NAME.get(name, "")
 
 
