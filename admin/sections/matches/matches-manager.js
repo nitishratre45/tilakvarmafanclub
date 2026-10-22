@@ -335,7 +335,12 @@
   });
   $("admin-matches-refresh-all-bcci")?.addEventListener("click", async () => {
     const button = $("admin-matches-refresh-all-bcci");
-    if (!window.confirm("Queue all BCCI fixture-related refresh workflows? Matches-folder audit and repair workflows are excluded.")) return;
+    if (
+      !window.confirm(
+        "Queue all BCCI fixture-related refresh workflows? Matches-folder audit and repair workflows are excluded.",
+      )
+    )
+      return;
     button.disabled = true;
     button.textContent = "⏳ Queueing BCCI workflows…";
     try {
