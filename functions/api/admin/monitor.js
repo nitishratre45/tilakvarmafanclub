@@ -53,7 +53,7 @@ export async function onRequest({ request, env }) {
     try {
       const requestUrl = new URL(request.url);
       let runs = [];
-      if (requestUrl.searchParams.get("scope") === "bcci") {
+      if (["bcci", "bcci-fixtures"].includes(requestUrl.searchParams.get("scope"))) {
         const workflowFiles = [
           "refresh-bcci-live-matches.yml",
           "refresh-bcci-match-results.yml",
@@ -308,6 +308,48 @@ export async function onRequest({ request, env }) {
           },
           failed === results.length ? 502 : 202,
         );
+      }
+      if (body.action === "bcci-fixtures-refresh-all") {
+        const workflows = [
+          { file: "fetch-bcci-fixtures-json.yml", label: "BCCI Fixtures JSON" },
+          { file: "fetch-bcci-scorecard-json.yml", label: "BCCI Fixtures scorecard JSON" },
+          { file: "bcci-squads-refresh.yml", label: "BCCI fixture squads snapshots" },
+          { file: "refresh-bcci-live-matches.yml", label: "BCCI live matches" },
+          { file: "refresh-bcci-match-results.yml", label: "BCCI match results" },
+          { file: "refresh-bcci-squads.yml", label: "BCCI squads" },
+          { file: "refresh-bcci-stats-fixtures.yml", label: "BCCI stats fixtures" },
+          { file: "refresh-bcci-videos.yml", label: "BCCI videos" },
+          { file: "bcci-fixtures-test-health.yml", label: "BCCI fixtures health" },
+          { file: "refresh-bcci-test-recent-match.yml", label: "BCCI recent match archive" },
+        ];
+        const results = [];
+        for (const item of workflows) {
+          try {
+            const recent = await github(env, "/actions/workflows/" + item.file + "/runs?per_page=5");
+            const active = (recent.workflow_runs || []).find((run) =>
+              ["queued", "in_progress", "waiting", "requested", "pending"].includes(run.status),
+            );
+            if (active) {
+              results.push({ workflow: item.file, label: item.label, status: "already_running", url: active.html_url });
+              continue;
+            }
+            await github(env, "/actions/workflows/" + item.file + "/dispatches", {
+              method: "POST",
+              body: JSON.stringify({ ref: "main" }),
+            });
+            results.push({ workflow: item.file, label: item.label, status: "queued" });
+          } catch (error) {
+            results.push({ workflow: item.file, label: item.label, status: "failed", error: error.message });
+          }
+        }
+        const queued = results.filter((item) => item.status === "queued").length;
+        const running = results.filter((item) => item.status === "already_running").length;
+        const failed = results.filter((item) => item.status === "failed").length;
+        return json({
+          ok: failed === 0,
+          message: queued + " BCCI workflow(s) queued; " + running + " already running; " + failed + " dispatch error(s).",
+          results,
+        }, failed === results.length ? 502 : 202);
       }
       if (body.action === "bcci-fixtures-refresh") {
         const workflow = "fetch-bcci-fixtures-json.yml";
