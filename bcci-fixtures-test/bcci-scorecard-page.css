@@ -1704,3 +1704,46 @@ body > header.topbar { position: sticky; top: 0; z-index: 100; }
   .squad-card li > img { width: 36px; height: 36px; max-width: 36px; }
   .squad-card li > span { font-size: 13px; }
 }
+
+/* Squad layout hotfix: keep player names readable instead of breaking each word. */
+.squad-grid { align-items: start; }
+.squad-card { min-width: 0; }
+.squad-card ol { padding-inline-start: 0 !important; }
+.squad-card li {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(90px, 34%);
+  align-items: center;
+  column-gap: 14px;
+  min-width: 0;
+}
+.squad-card li span,
+.squad-card li > span {
+  min-width: 0;
+  width: auto;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  hyphens: manual;
+  white-space: normal;
+  line-height: 1.35;
+}
+.squad-card li small,
+.squad-card li > small {
+  min-width: 0;
+  max-width: none;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  text-align: right;
+  line-height: 1.35;
+}
+@media (max-width: 700px) {
+  .squad-card li { grid-template-columns: minmax(0, 1fr) minmax(78px, 38%); column-gap: 10px; }
+  .squad-card li small, .squad-card li > small { grid-column: auto; text-align: right; margin-top: 0; }
+}
+@media (max-width: 390px) {
+  .squad-card li { grid-template-columns: minmax(0, 1fr) minmax(70px, 38%); column-gap: 8px; }
+  .squad-card li span, .squad-card li > span { font-size: 13px; }
+  .squad-card li small, .squad-card li > small { font-size: 10px; }
+}
+/* Keep the page title from painting underneath the sticky match tabs. */
+#title { position: relative; z-index: 1; }
+.match-section-tabs { background: #061326; }
