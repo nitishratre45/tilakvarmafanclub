@@ -508,9 +508,10 @@
         const data = snapshot?.data ?? snapshot;
         const matches = Array.isArray(data?.match) ? data.match : [];
         selected =
-          matches.find(
-            (m) =>
-              String(m.gid || m.match_gid || m.match_id || m.id || "") === String(requestedGid),
+          matches.find((m) =>
+            [m.gid, m.match_gid, m.match_id, m.matchId, m.id]
+              .filter((value) => value !== undefined && value !== null && value !== "")
+              .some((value) => String(value) === String(requestedGid)),
           ) || null;
       }
       // Live fixtures are intentionally excluded from the upcoming-fixtures snapshot.
@@ -521,10 +522,9 @@
         const liveRows = Array.isArray(liveSnapshot?.matches) ? liveSnapshot.matches : [];
         const liveEntry = liveRows.find((entry) => {
           const raw = entry?.raw || {};
-          return (
-            String(entry?.id || raw.gid || raw.match_id || raw.matchId || "") ===
-            String(requestedGid)
-          );
+          return [entry?.id, entry?.gid, entry?.match_id, raw.gid, raw.match_id, raw.matchId]
+            .filter((value) => value !== undefined && value !== null && value !== "")
+            .some((value) => String(value) === String(requestedGid));
         });
         if (liveEntry)
           selected = { ...(liveEntry.raw || {}), ...liveEntry.raw, liveSnapshotEntry: liveEntry };
