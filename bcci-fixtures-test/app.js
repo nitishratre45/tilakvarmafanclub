@@ -700,14 +700,22 @@
       renderLiveMatches(combinedMatches);
       if (live.length) {
         liveMode = true;
-        if (title) title.textContent = "Live match updates";
+        const hasActuallyLive = live.some((match) =>
+          /\b(live|in progress|in play|innings break|stumps|lunch|tea break|drinks)\b/i.test(
+            String(match.live_status_name || match.match_status_name || match.match_status_str || ""),
+          ) &&
+          !/pre.?match|scheduled|upcoming|not started/i.test(
+            String(match.live_status_name || match.match_status_name || match.match_status_str || ""),
+          ),
+        );
+        if (title) title.textContent = hasActuallyLive ? "Live match updates" : "Match Centre updates";
         if (message)
-          message.textContent =
-            live.length +
-            " live match(es) detected. BCCI fixture/score data is rechecked every 60 seconds.";
+          message.textContent = hasActuallyLive
+            ? live.length + " live match(es) detected. BCCI score data is rechecked every 60 seconds."
+            : "Today's India match is pinned here. Live scoreboard will populate when BCCI reports ball-by-ball scores.";
         if (stateBadge) {
-          stateBadge.textContent = "LIVE · AUTO";
-          stateBadge.classList.add("is-live");
+          stateBadge.textContent = hasActuallyLive ? "LIVE · AUTO" : "MATCH TRACKING";
+          stateBadge.classList.toggle("is-live", hasActuallyLive);
         }
         if (liveRefreshTimer) clearInterval(liveRefreshTimer);
         liveRefreshTimer = setInterval(async () => {
