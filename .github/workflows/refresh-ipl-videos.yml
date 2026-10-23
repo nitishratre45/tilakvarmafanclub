@@ -1,0 +1,57 @@
+name: Refresh IPL Videos
+
+on:
+  push:
+    paths:
+      - 'scripts/refresh_ipl_videos.py'
+      - '.github/workflows/refresh-ipl-videos.yml'
+  schedule:
+    - cron: "15 1,13 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-ipl-videos
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Refresh official BCCI IPL video feed
+        run: python scripts/refresh_ipl_videos.py
+      - name: Commit refreshed feed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          feed_snapshot="$(mktemp)"
+          report_snapshot="$(mktemp)"
+          cp assets/ipl-videos.json "$feed_snapshot"
+          cp assets/ipl-video-refresh-report.json "$report_snapshot"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp "$feed_snapshot" assets/ipl-videos.json
+            cp "$report_snapshot" assets/ipl-video-refresh-report.json
+            python -m json.tool assets/ipl-videos.json >/dev/null
+            python -m json.tool assets/ipl-video-refresh-report.json >/dev/null
+            if git diff --quiet -- assets/ipl-videos.json assets/ipl-video-refresh-report.json; then
+              echo "No changes to the IPL feed."
+              exit 0
+            fi
+            git add assets/ipl-videos.json assets/ipl-video-refresh-report.json
+            git commit -m "Refresh official IPL video feed"
+            if git push origin HEAD:main; then exit 0; fi
+            echo "Concurrent repository update on attempt $attempt; retrying."
+            sleep 2
+          done
+          exit 1
