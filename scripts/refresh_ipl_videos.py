@@ -45,10 +45,9 @@ def media_url(url):
 def normalize(item):
     title = text(item.get("title"), item.get("name"), item.get("videoTitle"))
     if not title: return None
-    searchable = title.lower() + " " + text(item.get("slug"), item.get("description"), item.get("tags"), item.get("taxonomy")).lower()
-    # Only publish videos identified as IPL by the official IPL-tagged catalogue or metadata.
-    if not any(term in searchable for term in ("ipl", "indian premier league", "tata ipl")):
-        return None
+    # Every request sent to this normalizer is scoped to the official IPL-tagged
+    # catalogue. Individual clip titles often omit the league name, so do not
+    # incorrectly discard match highlights whose title only names the teams.
     playback = text(item.get("playbackUrl"), item.get("playback_url"), item.get("playUrl"), item.get("play_url"), item.get("streamUrl"), item.get("stream_url"), item.get("videoUrl"), item.get("video_url"))
     if not media_url(playback): return None
     category_raw = text(item.get("category"), item.get("videoType"), item.get("contentType"), item.get("type")).lower()
