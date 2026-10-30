@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-30T01:16:21.643538+00:00",
+  "fetchedAt": "2026-10-30T07:18:24.931714+00:00",
   "source": "https://stats.bcci.tv/match/fixtures/ (pages 1-10, size=12)",
   "pagesRequested": 10,
   "pagesFetched": 3,
@@ -12,7 +12,7 @@
         "alt_comp_id": "21002",
         "alt_comp_name": "New Zealand v India T20 Series 2026",
         "away_team_id": "6",
-        "batting_first_team_id": "0",
+        "batting_first_team_id": "5",
         "bpo": "6",
         "class": [
           {
@@ -20,14 +20,14 @@
             "name": "Twenty20 internationals",
             "number": "4194",
             "type": "international",
-            "valid": "0"
+            "valid": "1"
           },
           {
             "id": "6",
             "name": "List A Twenty20",
             "number": "17551",
             "type": "general",
-            "valid": "0"
+            "valid": "1"
           }
         ],
         "comp_gid": "34154bc1-ebbf-4109-ba78-67cf9cf7aafa",
@@ -39,7 +39,7 @@
         "country_name": "New Zealand",
         "coverage_detail": "Scorecard, BBB all details (live-fastpath)",
         "coverage_detail_id": "70",
-        "current_day": null,
+        "current_day": "1",
         "date_string": "30 October 2026",
         "end_date": "2026-10-30",
         "end_date_utc": "2026-10-30",
@@ -59,8 +59,8 @@
         "is_followon": "0",
         "is_reduced_innings": "0",
         "is_reduced_overs": "0",
-        "live_status_id": "0",
-        "live_status_name": "",
+        "live_status_id": "1",
+        "live_status_name": "in play",
         "loser_team_id": null,
         "match_group": null,
         "match_group_id": null,
@@ -68,8 +68,8 @@
         "match_round": null,
         "match_round_id": null,
         "match_short_name": "NZL v IND, 4th T20I, 30 Oct",
-        "match_status": "forthcoming",
-        "match_status_id": "0",
+        "match_status": "live",
+        "match_status_id": "1",
         "match_tbc": "0",
         "name": "New Zealand v India at Auckland, 4th T20I, 30 Oct 2026",
         "opta_game_id": null,
@@ -80,7 +80,7 @@
         "primary_event_name": "India tour",
         "rain_rule": null,
         "result_id": "0",
-        "result_string": "Teams will be announced at the toss",
+        "result_string": "New Zealand are 34 for 1 with 17.2 overs remaining",
         "scheduled_days": "1",
         "scheduled_innings": "1",
         "scheduled_overs": "20",
@@ -90,9 +90,49 @@
         "start_time_local": "20:00:00",
         "start_time_offset": "780",
         "summary": {
-          "innings": [],
-          "player": [],
-          "team": []
+          "innings": [
+            {
+              "ball_limit": "120",
+              "balls": "16",
+              "batting_team_id": "5",
+              "closure_id": "0",
+              "innings_number": "1",
+              "overs": "2.4",
+              "runs": "34",
+              "wickets": "1"
+            },
+            {
+              "ball_limit": "120",
+              "batting_team_id": "6",
+              "closure_id": "0",
+              "innings_number": "2",
+              "overs": "0.0"
+            }
+          ],
+          "player": [
+            {
+              "batting": "DJ Mitchell 24* (8)\nFH Allen 5* (4)",
+              "batting_team_id": "5",
+              "bowling": "MP Yadav 1.4-0-25-1*",
+              "innings_number": "1"
+            },
+            {
+              "batting": "",
+              "batting_team_id": "6",
+              "bowling": "",
+              "innings_number": "2"
+            }
+          ],
+          "team": [
+            {
+              "score": "34/1 (2.4/20 ov)",
+              "team_id": "5"
+            },
+            {
+              "score": "",
+              "team_id": "6"
+            }
+          ]
         },
         "team1_abbreviation": "NZL",
         "team1_colour_primary": "141134",
@@ -111,14 +151,14 @@
         "tiebreaker_id": "0",
         "title": "4th T20I",
         "toss_choice_team_id": "0",
-        "toss_decision": "",
-        "toss_winner_team_id": null,
+        "toss_decision": "field",
+        "toss_winner_team_id": "6",
         "tournament_match_number": "0",
         "weather": [
           {
             "description": "light rain",
             "end_datetime_utc": "2026-10-30 09:00:00",
-            "last_updated_utc": "2026-10-30 01:00:02.54",
+            "last_updated_utc": "2026-10-30 05:00:02.48",
             "main": "Rain",
             "start_datetime_utc": "2026-10-30 06:00:00",
             "type": "forecast"
