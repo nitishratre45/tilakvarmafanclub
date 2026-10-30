@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-30T08:37:02.292Z",
+  "checkedAt": "2026-10-30T15:55:10.217Z",
   "retentionHours": 15,
   "intervalMinutes": 60,
   "summary": {
     "workflows": 43,
     "enabled": 43,
     "running": 1,
-    "failedLatest": 6,
-    "successfulLatest": 33,
+    "failedLatest": 7,
+    "successfulLatest": 32,
     "noRecentRun": 0
   },
   "workflows": [
@@ -171,17 +171,28 @@
         "push"
       ],
       "latest": {
-        "id": 41010758221,
+        "id": 41059370466,
         "status": "completed",
         "conclusion": "success",
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-30T05:51:38Z",
-        "updatedAt": "2026-10-30T05:51:54Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41010758221",
+        "createdAt": "2026-10-30T12:58:03Z",
+        "updatedAt": "2026-10-30T12:58:21Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41059370466",
         "title": "Admin Python diagnostics"
       },
       "recentRuns": [
+        {
+          "id": 41059370466,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-30T12:58:03Z",
+          "updatedAt": "2026-10-30T12:58:21Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41059370466",
+          "title": "Admin Python diagnostics"
+        },
         {
           "id": 41010758221,
           "status": "completed",
@@ -280,23 +291,12 @@
           "updatedAt": "2026-10-27T22:15:28Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40593396087",
           "title": "Admin Python diagnostics"
-        },
-        {
-          "id": 40556429290,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "schedule",
-          "branch": "main",
-          "createdAt": "2026-10-27T18:03:52Z",
-          "updatedAt": "2026-10-27T18:03:55Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40556429290",
-          "title": "Admin Python diagnostics"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 6,
-        "failed": 4,
+        "successful": 7,
+        "failed": 3,
         "running": 0
       }
     },
@@ -312,17 +312,50 @@
         "workflow_run"
       ],
       "latest": {
-        "id": 41021891193,
+        "id": 41058558396,
         "status": "completed",
         "conclusion": "skipped",
         "event": "workflow_run",
         "branch": "main",
-        "createdAt": "2026-10-30T07:44:02Z",
-        "updatedAt": "2026-10-30T07:44:03Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41021891193",
+        "createdAt": "2026-10-30T12:51:41Z",
+        "updatedAt": "2026-10-30T12:51:49Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41058558396",
         "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
       },
       "recentRuns": [
+        {
+          "id": 41058558396,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-30T12:51:41Z",
+          "updatedAt": "2026-10-30T12:51:49Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41058558396",
+          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
+        },
+        {
+          "id": 41033974101,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-30T09:30:48Z",
+          "updatedAt": "2026-10-30T09:30:55Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41033974101",
+          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
+        },
+        {
+          "id": 41029543583,
+          "status": "completed",
+          "conclusion": "skipped",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-30T08:53:56Z",
+          "updatedAt": "2026-10-30T08:53:57Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41029543583",
+          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
+        },
         {
           "id": 41021891193,
           "status": "completed",
@@ -399,39 +432,6 @@
           "updatedAt": "2026-10-30T06:09:55Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41012477329",
           "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
-        },
-        {
-          "id": 41012030748,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-30T06:05:18Z",
-          "updatedAt": "2026-10-30T06:05:29Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41012030748",
-          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
-        },
-        {
-          "id": 41011446524,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-30T05:59:15Z",
-          "updatedAt": "2026-10-30T05:59:16Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41011446524",
-          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
-        },
-        {
-          "id": 41010143952,
-          "status": "completed",
-          "conclusion": "skipped",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-30T05:45:02Z",
-          "updatedAt": "2026-10-30T05:45:03Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41010143952",
-          "title": "Auto-rerun and diagnose failed GitHub Actions jobs"
         }
       ],
       "counts": {
@@ -457,25 +457,36 @@
         "push"
       ],
       "latest": {
-        "id": 41027621566,
+        "id": 41085079978,
         "status": "in_progress",
         "conclusion": null,
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-30T08:36:48Z",
-        "updatedAt": "2026-10-30T08:36:53Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41027621566",
+        "createdAt": "2026-10-30T15:54:57Z",
+        "updatedAt": "2026-10-30T15:55:01Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41085079978",
         "title": "Automation repository monitor (hourly)"
       },
       "recentRuns": [
         {
-          "id": 41027621566,
+          "id": 41085079978,
           "status": "in_progress",
           "conclusion": null,
           "event": "schedule",
           "branch": "main",
+          "createdAt": "2026-10-30T15:54:57Z",
+          "updatedAt": "2026-10-30T15:55:01Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41085079978",
+          "title": "Automation repository monitor (hourly)"
+        },
+        {
+          "id": 41027621566,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
           "createdAt": "2026-10-30T08:36:48Z",
-          "updatedAt": "2026-10-30T08:36:53Z",
+          "updatedAt": "2026-10-30T08:37:08Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41027621566",
           "title": "Automation repository monitor (hourly)"
         },
@@ -566,23 +577,12 @@
           "updatedAt": "2026-10-28T13:36:44Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40697971146",
           "title": "Automation repository monitor (hourly)"
-        },
-        {
-          "id": 40691121349,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "schedule",
-          "branch": "main",
-          "createdAt": "2026-10-28T12:50:13Z",
-          "updatedAt": "2026-10-28T12:50:16Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40691121349",
-          "title": "Automation repository monitor (hourly)"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 8,
-        "failed": 1,
+        "successful": 9,
+        "failed": 0,
         "running": 1
       }
     },
@@ -602,17 +602,28 @@
         "push"
       ],
       "latest": {
-        "id": 41015047966,
+        "id": 41063944083,
         "status": "completed",
         "conclusion": "success",
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-30T06:36:17Z",
-        "updatedAt": "2026-10-30T06:36:40Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41015047966",
+        "createdAt": "2026-10-30T13:31:26Z",
+        "updatedAt": "2026-10-30T13:32:15Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41063944083",
         "title": "BCCI Fixtures Test Health Monitor"
       },
       "recentRuns": [
+        {
+          "id": 41063944083,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-30T13:31:26Z",
+          "updatedAt": "2026-10-30T13:32:15Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41063944083",
+          "title": "BCCI Fixtures Test Health Monitor"
+        },
         {
           "id": 41015047966,
           "status": "completed",
@@ -711,23 +722,12 @@
           "updatedAt": "2026-10-28T14:30:23Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40706536707",
           "title": "BCCI Fixtures Test Health Monitor"
-        },
-        {
-          "id": 40651662998,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "schedule",
-          "branch": "main",
-          "createdAt": "2026-10-28T07:41:02Z",
-          "updatedAt": "2026-10-28T07:41:06Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40651662998",
-          "title": "BCCI Fixtures Test Health Monitor"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 9,
-        "failed": 1,
+        "successful": 10,
+        "failed": 0,
         "running": 0
       }
     },
@@ -1236,17 +1236,28 @@
         "schedule"
       ],
       "latest": {
-        "id": 41019251919,
+        "id": 41071255821,
         "status": "completed",
         "conclusion": "success",
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-30T07:18:10Z",
-        "updatedAt": "2026-10-30T07:18:34Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41019251919",
+        "createdAt": "2026-10-30T14:23:16Z",
+        "updatedAt": "2026-10-30T14:24:36Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41071255821",
         "title": "Refresh BCCI Fixtures JSON - BCCI Folder Only"
       },
       "recentRuns": [
+        {
+          "id": 41071255821,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-30T14:23:16Z",
+          "updatedAt": "2026-10-30T14:24:36Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41071255821",
+          "title": "Refresh BCCI Fixtures JSON - BCCI Folder Only"
+        },
         {
           "id": 41019251919,
           "status": "completed",
@@ -1344,17 +1355,6 @@
           "createdAt": "2026-10-28T14:23:51Z",
           "updatedAt": "2026-10-28T14:24:16Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40705511757",
-          "title": "Refresh BCCI Fixtures JSON - BCCI Folder Only"
-        },
-        {
-          "id": 40697980367,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "workflow_dispatch",
-          "branch": "main",
-          "createdAt": "2026-10-28T13:36:26Z",
-          "updatedAt": "2026-10-28T13:36:57Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40697980367",
           "title": "Refresh BCCI Fixtures JSON - BCCI Folder Only"
         }
       ],
@@ -1487,17 +1487,28 @@
         "push"
       ],
       "latest": {
-        "id": 41009994366,
+        "id": 41049904347,
         "status": "completed",
         "conclusion": "success",
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-30T05:43:21Z",
-        "updatedAt": "2026-10-30T05:43:36Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41009994366",
+        "createdAt": "2026-10-30T11:41:38Z",
+        "updatedAt": "2026-10-30T11:41:56Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41049904347",
         "title": "Refresh BCCI Fixtures Scorecard JSON"
       },
       "recentRuns": [
+        {
+          "id": 41049904347,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-30T11:41:38Z",
+          "updatedAt": "2026-10-30T11:41:56Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41049904347",
+          "title": "Refresh BCCI Fixtures Scorecard JSON"
+        },
         {
           "id": 41009994366,
           "status": "completed",
@@ -1596,23 +1607,12 @@
           "updatedAt": "2026-10-28T13:36:41Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40697983375",
           "title": "Refresh BCCI Fixtures Scorecard JSON"
-        },
-        {
-          "id": 40689968110,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "schedule",
-          "branch": "main",
-          "createdAt": "2026-10-28T12:42:01Z",
-          "updatedAt": "2026-10-28T12:42:04Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40689968110",
-          "title": "Refresh BCCI Fixtures Scorecard JSON"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 9,
-        "failed": 1,
+        "successful": 10,
+        "failed": 0,
         "running": 0
       }
     },
@@ -1771,17 +1771,50 @@
         "workflow_dispatch"
       ],
       "latest": {
-        "id": 41009087385,
+        "id": 41081204335,
         "status": "completed",
         "conclusion": "success",
         "event": "workflow_run",
         "branch": "main",
-        "createdAt": "2026-10-30T05:33:27Z",
-        "updatedAt": "2026-10-30T05:33:54Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41009087385",
+        "createdAt": "2026-10-30T15:29:37Z",
+        "updatedAt": "2026-10-30T15:29:52Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41081204335",
         "title": "Job recovery manager"
       },
       "recentRuns": [
+        {
+          "id": 41081204335,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-30T15:29:37Z",
+          "updatedAt": "2026-10-30T15:29:52Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41081204335",
+          "title": "Job recovery manager"
+        },
+        {
+          "id": 41029208609,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-30T08:50:53Z",
+          "updatedAt": "2026-10-30T08:51:08Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41029208609",
+          "title": "Job recovery manager"
+        },
+        {
+          "id": 41027664862,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "workflow_run",
+          "branch": "main",
+          "createdAt": "2026-10-30T08:37:11Z",
+          "updatedAt": "2026-10-30T08:37:26Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41027664862",
+          "title": "Job recovery manager"
+        },
         {
           "id": 41009087385,
           "status": "completed",
@@ -1857,39 +1890,6 @@
           "createdAt": "2026-10-29T18:27:27Z",
           "updatedAt": "2026-10-29T18:27:45Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40930977811",
-          "title": "Job recovery manager"
-        },
-        {
-          "id": 40930395191,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-29T18:23:46Z",
-          "updatedAt": "2026-10-29T18:24:03Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40930395191",
-          "title": "Job recovery manager"
-        },
-        {
-          "id": 40930365680,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-29T18:23:34Z",
-          "updatedAt": "2026-10-29T18:23:48Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40930365680",
-          "title": "Job recovery manager"
-        },
-        {
-          "id": 40916341623,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "workflow_run",
-          "branch": "main",
-          "createdAt": "2026-10-29T16:55:39Z",
-          "updatedAt": "2026-10-29T16:55:53Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40916341623",
           "title": "Job recovery manager"
         }
       ],
@@ -2203,17 +2203,28 @@
         "push"
       ],
       "latest": {
-        "id": 41010758654,
+        "id": 41059373750,
         "status": "completed",
         "conclusion": "success",
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-30T05:51:39Z",
-        "updatedAt": "2026-10-30T05:52:03Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41010758654",
+        "createdAt": "2026-10-30T12:58:05Z",
+        "updatedAt": "2026-10-30T12:58:31Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41059373750",
         "title": "Photo Section Guardian"
       },
       "recentRuns": [
+        {
+          "id": 41059373750,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-30T12:58:05Z",
+          "updatedAt": "2026-10-30T12:58:31Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41059373750",
+          "title": "Photo Section Guardian"
+        },
         {
           "id": 41010758654,
           "status": "completed",
@@ -2312,23 +2323,12 @@
           "updatedAt": "2026-10-27T22:15:28Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40593395489",
           "title": "Photo Section Guardian"
-        },
-        {
-          "id": 40556437382,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "schedule",
-          "branch": "main",
-          "createdAt": "2026-10-27T18:03:55Z",
-          "updatedAt": "2026-10-27T18:03:59Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40556437382",
-          "title": "Photo Section Guardian"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 6,
-        "failed": 4,
+        "successful": 7,
+        "failed": 3,
         "running": 0
       }
     },
@@ -2489,17 +2489,28 @@
         "push"
       ],
       "latest": {
-        "id": 40994431163,
+        "id": 41033928786,
         "status": "completed",
         "conclusion": "success",
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-30T02:55:11Z",
-        "updatedAt": "2026-10-30T02:55:30Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40994431163",
+        "createdAt": "2026-10-30T09:30:28Z",
+        "updatedAt": "2026-10-30T09:30:45Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41033928786",
         "title": "Refresh BCCI Live Matches"
       },
       "recentRuns": [
+        {
+          "id": 41033928786,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-30T09:30:28Z",
+          "updatedAt": "2026-10-30T09:30:45Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41033928786",
+          "title": "Refresh BCCI Live Matches"
+        },
         {
           "id": 40994431163,
           "status": "completed",
@@ -2598,23 +2609,12 @@
           "updatedAt": "2026-10-28T13:36:49Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40697994164",
           "title": "Refresh BCCI Live Matches"
-        },
-        {
-          "id": 40680231795,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "schedule",
-          "branch": "main",
-          "createdAt": "2026-10-28T11:28:30Z",
-          "updatedAt": "2026-10-28T11:28:33Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40680231795",
-          "title": "Refresh BCCI Live Matches"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 9,
-        "failed": 1,
+        "successful": 10,
+        "failed": 0,
         "running": 0
       }
     },
@@ -2634,17 +2634,28 @@
         "push"
       ],
       "latest": {
-        "id": 41010085632,
+        "id": 41058466080,
         "status": "completed",
         "conclusion": "success",
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-30T05:44:22Z",
-        "updatedAt": "2026-10-30T05:44:59Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41010085632",
+        "createdAt": "2026-10-30T12:50:58Z",
+        "updatedAt": "2026-10-30T12:51:39Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41058466080",
         "title": "Refresh BCCI Match Results"
       },
       "recentRuns": [
+        {
+          "id": 41058466080,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-30T12:50:58Z",
+          "updatedAt": "2026-10-30T12:51:39Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41058466080",
+          "title": "Refresh BCCI Match Results"
+        },
         {
           "id": 41010085632,
           "status": "completed",
@@ -2743,23 +2754,12 @@
           "updatedAt": "2026-10-27T22:11:11Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40592822489",
           "title": "Refresh BCCI Match Results"
-        },
-        {
-          "id": 40555699159,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "schedule",
-          "branch": "main",
-          "createdAt": "2026-10-27T17:59:14Z",
-          "updatedAt": "2026-10-27T17:59:21Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40555699159",
-          "title": "Refresh BCCI Match Results"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 6,
-        "failed": 4,
+        "successful": 7,
+        "failed": 3,
         "running": 0
       }
     },
@@ -3164,17 +3164,28 @@
         "push"
       ],
       "latest": {
-        "id": 40845364913,
+        "id": 41029863344,
         "status": "completed",
-        "conclusion": "success",
+        "conclusion": "failure",
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-29T08:53:03Z",
-        "updatedAt": "2026-10-29T08:53:47Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40845364913",
+        "createdAt": "2026-10-30T08:56:49Z",
+        "updatedAt": "2026-10-30T08:57:03Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41029863344",
         "title": "Refresh BCCI Test Recent Match Archive"
       },
       "recentRuns": [
+        {
+          "id": 41029863344,
+          "status": "completed",
+          "conclusion": "failure",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-30T08:56:49Z",
+          "updatedAt": "2026-10-30T08:57:03Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41029863344",
+          "title": "Refresh BCCI Test Recent Match Archive"
+        },
         {
           "id": 40845364913,
           "status": "completed",
@@ -3273,23 +3284,12 @@
           "updatedAt": "2026-10-22T13:24:56Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/39786488000",
           "title": "Refresh BCCI Test Recent Match Archive"
-        },
-        {
-          "id": 39743927502,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "schedule",
-          "branch": "main",
-          "createdAt": "2026-10-22T07:55:21Z",
-          "updatedAt": "2026-10-22T07:56:10Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/39743927502",
-          "title": "Refresh BCCI Test Recent Match Archive"
         }
       ],
       "counts": {
         "recent": 10,
-        "successful": 7,
-        "failed": 3,
+        "successful": 6,
+        "failed": 4,
         "running": 0
       }
     },
@@ -4454,17 +4454,28 @@
         "schedule"
       ],
       "latest": {
-        "id": 40843812316,
+        "id": 41028708795,
         "status": "completed",
         "conclusion": "success",
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-29T08:40:16Z",
-        "updatedAt": "2026-10-29T08:46:19Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40843812316",
+        "createdAt": "2026-10-30T08:46:25Z",
+        "updatedAt": "2026-10-30T08:53:53Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41028708795",
         "title": "Refresh Tilak Varma news"
       },
       "recentRuns": [
+        {
+          "id": 41028708795,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-30T08:46:25Z",
+          "updatedAt": "2026-10-30T08:53:53Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41028708795",
+          "title": "Refresh Tilak Varma news"
+        },
         {
           "id": 40843812316,
           "status": "completed",
@@ -4562,17 +4573,6 @@
           "createdAt": "2026-10-22T15:20:01Z",
           "updatedAt": "2026-10-22T15:30:32Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/39803829005",
-          "title": "Refresh Tilak Varma news"
-        },
-        {
-          "id": 39742668147,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "schedule",
-          "branch": "main",
-          "createdAt": "2026-10-22T07:44:57Z",
-          "updatedAt": "2026-10-22T07:55:03Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/39742668147",
           "title": "Refresh Tilak Varma news"
         }
       ],
@@ -4844,17 +4844,39 @@
         "push"
       ],
       "latest": {
-        "id": 40991190817,
+        "id": 41081125746,
         "status": "completed",
         "conclusion": "failure",
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-30T02:21:18Z",
-        "updatedAt": "2026-10-30T02:21:46Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40991190817",
+        "createdAt": "2026-10-30T15:29:05Z",
+        "updatedAt": "2026-10-30T15:29:33Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41081125746",
         "title": "Repository health monitor (10 minutes)"
       },
       "recentRuns": [
+        {
+          "id": 41081125746,
+          "status": "completed",
+          "conclusion": "failure",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-30T15:29:05Z",
+          "updatedAt": "2026-10-30T15:29:33Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41081125746",
+          "title": "Repository health monitor (10 minutes)"
+        },
+        {
+          "id": 41029150637,
+          "status": "completed",
+          "conclusion": "failure",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-30T08:50:21Z",
+          "updatedAt": "2026-10-30T08:50:50Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41029150637",
+          "title": "Repository health monitor (10 minutes)"
+        },
         {
           "id": 40991190817,
           "status": "completed",
@@ -4941,28 +4963,6 @@
           "createdAt": "2026-10-28T15:25:56Z",
           "updatedAt": "2026-10-28T15:26:28Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40715881100",
-          "title": "Repository health monitor (10 minutes)"
-        },
-        {
-          "id": 40698025474,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "workflow_dispatch",
-          "branch": "main",
-          "createdAt": "2026-10-28T13:36:44Z",
-          "updatedAt": "2026-10-28T13:37:14Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40698025474",
-          "title": "Repository health monitor (10 minutes)"
-        },
-        {
-          "id": 40658273186,
-          "status": "completed",
-          "conclusion": "failure",
-          "event": "schedule",
-          "branch": "main",
-          "createdAt": "2026-10-28T08:38:40Z",
-          "updatedAt": "2026-10-28T08:38:43Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40658273186",
           "title": "Repository health monitor (10 minutes)"
         }
       ],
@@ -5130,17 +5130,28 @@
         "push"
       ],
       "latest": {
-        "id": 40855467979,
+        "id": 41039029486,
         "status": "completed",
         "conclusion": "success",
         "event": "schedule",
         "branch": "main",
-        "createdAt": "2026-10-29T10:10:42Z",
-        "updatedAt": "2026-10-29T10:11:20Z",
-        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/40855467979",
+        "createdAt": "2026-10-30T10:12:26Z",
+        "updatedAt": "2026-10-30T10:12:56Z",
+        "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41039029486",
         "title": "Self-healing code guard"
       },
       "recentRuns": [
+        {
+          "id": 41039029486,
+          "status": "completed",
+          "conclusion": "success",
+          "event": "schedule",
+          "branch": "main",
+          "createdAt": "2026-10-30T10:12:26Z",
+          "updatedAt": "2026-10-30T10:12:56Z",
+          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/41039029486",
+          "title": "Self-healing code guard"
+        },
         {
           "id": 40855467979,
           "status": "completed",
@@ -5239,17 +5250,6 @@
           "updatedAt": "2026-10-23T12:09:47Z",
           "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/39951241291",
           "title": "Undo unrequested IPL feed cache"
-        },
-        {
-          "id": 39951226945,
-          "status": "completed",
-          "conclusion": "success",
-          "event": "push",
-          "branch": "main",
-          "createdAt": "2026-10-23T12:09:36Z",
-          "updatedAt": "2026-10-23T12:10:22Z",
-          "runUrl": "https://github.com/nitishratre45/tilakvarmafanclub/actions/runs/39951226945",
-          "title": "Undo unrequested IPL video collector"
         }
       ],
       "counts": {
@@ -5739,15 +5739,6 @@
   ],
   "snapshots": [
     {
-      "checkedAt": "2026-10-29T21:48:20.871Z",
-      "workflows": 43,
-      "enabled": 43,
-      "running": 1,
-      "failedLatest": 6,
-      "successfulLatest": 33,
-      "noRecentRun": 0
-    },
-    {
       "checkedAt": "2026-10-30T01:56:51.447Z",
       "workflows": 43,
       "enabled": 43,
@@ -5763,6 +5754,15 @@
       "running": 1,
       "failedLatest": 6,
       "successfulLatest": 33,
+      "noRecentRun": 0
+    },
+    {
+      "checkedAt": "2026-10-30T15:55:10.217Z",
+      "workflows": 43,
+      "enabled": 43,
+      "running": 1,
+      "failedLatest": 7,
+      "successfulLatest": 32,
       "noRecentRun": 0
     }
   ]
