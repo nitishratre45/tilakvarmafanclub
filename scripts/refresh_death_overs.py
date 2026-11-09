@@ -93,7 +93,6 @@ def target(v):
     return norm(v) in ALIASES
 
 
-
 def classify(info):
     """Map Cricsheet match metadata to the archive format keys."""
     match_type = str(info.get("match_type", "")).strip().lower()
