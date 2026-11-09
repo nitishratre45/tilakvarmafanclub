@@ -233,6 +233,7 @@ def build(payload, key, all_male_fallback=False):
                 errors.append({"file": name, "error": str(e)})
     if errors:
         from collections import Counter
+
         error_types = Counter(
             (item["error"].split(":", 1)[0] or item["error"]) for item in errors
         )
