@@ -93,6 +93,21 @@ def target(v):
     return norm(v) in ALIASES
 
 
+
+def classify(info):
+    """Map Cricsheet match metadata to the archive format keys."""
+    match_type = str(info.get("match_type", "")).strip().lower()
+    if match_type in {"t20", "t20i", "it20", "international t20"}:
+        return "t20i" if match_type in {"t20i", "it20", "international t20"} else "t20"
+    if match_type in {"odi", "one day"}:
+        return "odi"
+    if match_type in {"test", "tests"}:
+        return "test"
+    # Cricsheet labels some international T20s simply as T20; use
+    # match_type_number only as a fallback when supplied by the source.
+    return None
+
+
 def parse_match(data, filename, key, totals, all_male_fallback=False):
     info = data.get("info", {})
     if key == "overall_t20":
