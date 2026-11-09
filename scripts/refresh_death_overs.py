@@ -231,6 +231,16 @@ def build(payload, key, all_male_fallback=False):
                     ids.add(mid)
             except Exception as e:
                 errors.append({"file": name, "error": str(e)})
+    if errors:
+        from collections import Counter
+        error_types = Counter(
+            (item["error"].split(":", 1)[0] or item["error"]) for item in errors
+        )
+        print(
+            f"DIAGNOSTIC {key}: {len(errors)} read errors; "
+            f"types={dict(error_types.most_common(8))}; "
+            f"samples={errors[:3]}"
+        )
     innings.sort(key=lambda x: (x["date"], x["matchId"], x["innings"]), reverse=True)
     maximum = 50 if key == "odi" else 90 if key == "test" else 20
     summary = []
