@@ -1,9 +1,9 @@
 {
   "source": "News/newsjson.json squad confirmation + matches/bcci-stats-fixtures.json exact fixture match",
-  "newsUpdatedAt": "2026-11-12T10:03:03.905118+00:00",
-  "bcciFixturesCheckedAt": "2026-11-12T20:23:40.304201+00:00",
+  "newsUpdatedAt": "2026-11-13T09:50:41.659131+00:00",
+  "bcciFixturesCheckedAt": "2026-11-13T07:12:28.571002+00:00",
   "unmatchedNewsFixtures": [],
-  "checkedAt": "2026-11-13T07:04:37.428276+00:00",
+  "checkedAt": "2026-11-13T19:57:16.118611+00:00",
   "status": "updated-from-news-and-bcci-json",
   "fixtureCount": 2,
   "fixtures": [
@@ -22,7 +22,7 @@
         "alt_comp_id": "21003",
         "alt_comp_name": "New Zealand v India ODI Series 2026",
         "away_team_id": "6",
-        "batting_first_team_id": "0",
+        "batting_first_team_id": "5",
         "bpo": "6",
         "class": [
           {
@@ -30,14 +30,14 @@
             "name": "One-day internationals",
             "number": "5065",
             "type": "international",
-            "valid": "0"
+            "valid": "1"
           },
           {
             "id": "5",
             "name": "List A one-day",
             "number": "32731",
             "type": "general",
-            "valid": "0"
+            "valid": "1"
           }
         ],
         "comp_gid": "34154bc1-ebbf-4109-ba78-67cf9cf7aafa",
@@ -49,7 +49,7 @@
         "country_name": "New Zealand",
         "coverage_detail": "Scorecard, BBB all details (live-fastpath)",
         "coverage_detail_id": "70",
-        "current_day": null,
+        "current_day": "1",
         "date_string": "13 November 2026",
         "end_date": "2026-11-13",
         "end_date_utc": "2026-11-13",
@@ -69,8 +69,8 @@
         "is_followon": "0",
         "is_reduced_innings": "0",
         "is_reduced_overs": "0",
-        "live_status_id": "0",
-        "live_status_name": "",
+        "live_status_id": "1",
+        "live_status_name": "in play",
         "loser_team_id": null,
         "match_group": null,
         "match_group_id": null,
@@ -78,8 +78,8 @@
         "match_round": null,
         "match_round_id": null,
         "match_short_name": "NZL v IND, 4th ODI, 13 Nov",
-        "match_status": "forthcoming",
-        "match_status_id": "0",
+        "match_status": "live",
+        "match_status_id": "1",
         "match_tbc": "0",
         "name": "New Zealand v India at Mount Maunganui, 4th ODI, 13 Nov 2026",
         "opta_game_id": null,
@@ -90,7 +90,7 @@
         "primary_event_name": "India tour",
         "rain_rule": null,
         "result_id": "0",
-        "result_string": "Teams will be announced at the toss",
+        "result_string": "India need 306 runs to win from 38.3 overs with 6 wickets remaining",
         "scheduled_days": "1",
         "scheduled_innings": "1",
         "scheduled_overs": "50",
@@ -100,9 +100,53 @@
         "start_time_local": "15:00:00",
         "start_time_offset": "780",
         "summary": {
-          "innings": [],
-          "player": [],
-          "team": []
+          "innings": [
+            {
+              "ball_limit": "300",
+              "balls": "300",
+              "batting_team_id": "5",
+              "closure_id": "1",
+              "innings_number": "1",
+              "overs": "50.0",
+              "runs": "333",
+              "wickets": "10"
+            },
+            {
+              "ball_limit": "300",
+              "balls": "69",
+              "batting_team_id": "6",
+              "closure_id": "0",
+              "innings_number": "2",
+              "overs": "11.3",
+              "runs": "28",
+              "target": "334",
+              "wickets": "4"
+            }
+          ],
+          "player": [
+            {
+              "batting": "WA Young 125 (108)\nTL Seifert 58 (48)\nFH Allen 41 (30)",
+              "batting_team_id": "5",
+              "bowling": "AR Patel 10-0-39-2\nA Nabi 8-0-59-2\nG Brar 10-0-69-2",
+              "innings_number": "1"
+            },
+            {
+              "batting": "IP Kishan 17* (33)\nAR Patel 5* (17)",
+              "batting_team_id": "6",
+              "bowling": "MJ Henry 6-2-16-3\nKA Jamieson 5.3-1-12-1*",
+              "innings_number": "2"
+            }
+          ],
+          "team": [
+            {
+              "score": "333 (50/50 ov)",
+              "team_id": "5"
+            },
+            {
+              "score": "28/4 (11.3/50 ov, target: 334)",
+              "team_id": "6"
+            }
+          ]
         },
         "team1_abbreviation": "NZL",
         "team1_colour_primary": "141134",
@@ -121,14 +165,14 @@
         "tiebreaker_id": "0",
         "title": "4th ODI",
         "toss_choice_team_id": "0",
-        "toss_decision": "",
-        "toss_winner_team_id": null,
+        "toss_decision": "field",
+        "toss_winner_team_id": "6",
         "tournament_match_number": "0",
         "weather": [
           {
             "description": "clear sky",
             "end_datetime_utc": "2026-11-13 03:00:00",
-            "last_updated_utc": "2026-11-12 20:00:01.79",
+            "last_updated_utc": "2026-11-12 23:00:02.25",
             "main": "Clear",
             "start_datetime_utc": "2026-11-13 00:00:00",
             "type": "forecast"
@@ -257,11 +301,11 @@
         "tournament_match_number": "0",
         "weather": [
           {
-            "description": null,
-            "end_datetime_utc": null,
-            "last_updated_utc": null,
-            "main": null,
-            "start_datetime_utc": null,
+            "description": "overcast clouds",
+            "end_datetime_utc": "2026-11-15 03:00:00",
+            "last_updated_utc": "2026-11-13 00:00:03.92",
+            "main": "Clouds",
+            "start_datetime_utc": "2026-11-15 00:00:00",
             "type": "forecast"
           }
         ]
