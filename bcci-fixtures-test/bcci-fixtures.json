@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-18T17:10:45.943975+00:00",
+  "fetchedAt": "2026-11-18T23:25:07.918829+00:00",
   "source": "https://stats.bcci.tv/match/fixtures/ (pages 1-10, size=12)",
   "pagesRequested": 10,
   "pagesFetched": 2,
@@ -12,7 +12,7 @@
         "alt_comp_id": "21004",
         "alt_comp_name": "New Zealand v India Test Series 2026",
         "away_team_id": "6",
-        "batting_first_team_id": "0",
+        "batting_first_team_id": "5",
         "bpo": "6",
         "class": [
           {
@@ -20,14 +20,14 @@
             "name": "Tests",
             "number": "2647",
             "type": "international",
-            "valid": "0"
+            "valid": "1"
           },
           {
             "id": "4",
             "name": "First-class",
             "number": "63893",
             "type": "general",
-            "valid": "0"
+            "valid": "1"
           }
         ],
         "comp_gid": "34154bc1-ebbf-4109-ba78-67cf9cf7aafa",
@@ -39,7 +39,7 @@
         "country_name": "New Zealand",
         "coverage_detail": "Scorecard, BBB all details (live-fastpath)",
         "coverage_detail_id": "70",
-        "current_day": null,
+        "current_day": "1",
         "date_string": "19 November 2026",
         "end_date": "2026-11-23",
         "end_date_utc": "2026-11-23",
@@ -59,8 +59,8 @@
         "is_followon": "0",
         "is_reduced_innings": "0",
         "is_reduced_overs": "0",
-        "live_status_id": "0",
-        "live_status_name": "",
+        "live_status_id": "1",
+        "live_status_name": "in play",
         "loser_team_id": null,
         "match_group": null,
         "match_group_id": null,
@@ -68,8 +68,8 @@
         "match_round": null,
         "match_round_id": null,
         "match_short_name": "NZL v IND, 1st Test, 19-23 Nov",
-        "match_status": "forthcoming",
-        "match_status_id": "0",
+        "match_status": "live",
+        "match_status_id": "1",
         "match_tbc": "0",
         "name": "New Zealand v India at Wellington (BR), 1st Test, 19-23 Nov 2026",
         "opta_game_id": null,
@@ -79,9 +79,9 @@
         "primary_event_gid": "982faad8-add6-11f1-88f3-0cc47ae7cfb8",
         "primary_event_id": "1364",
         "primary_event_name": "India tour",
-        "rain_rule": null,
+        "rain_rule": "",
         "result_id": "0",
-        "result_string": "Teams will be announced at the toss",
+        "result_string": "New Zealand are 45 for 2",
         "scheduled_days": "5",
         "scheduled_innings": "2",
         "scheduled_overs": "0",
@@ -91,9 +91,47 @@
         "start_time_local": "11:00:00",
         "start_time_offset": "780",
         "summary": {
-          "innings": [],
-          "player": [],
-          "team": []
+          "innings": [
+            {
+              "balls": "99",
+              "batting_team_id": "5",
+              "closure_id": "0",
+              "innings_number": "1",
+              "overs": "16.3",
+              "runs": "45",
+              "wickets": "2"
+            },
+            {
+              "batting_team_id": "6",
+              "closure_id": "0",
+              "innings_number": "2",
+              "overs": "0.0"
+            }
+          ],
+          "player": [
+            {
+              "batting": "HM Nicholls 21*\nR Ravindra 14*",
+              "batting_team_id": "5",
+              "bowling": "M Prasidh Krishna 0/6*",
+              "innings_number": "1"
+            },
+            {
+              "batting": "",
+              "batting_team_id": "6",
+              "bowling": "",
+              "innings_number": "2"
+            }
+          ],
+          "team": [
+            {
+              "score": "45/2",
+              "team_id": "5"
+            },
+            {
+              "score": "",
+              "team_id": "6"
+            }
+          ]
         },
         "team1_abbreviation": "NZL",
         "team1_colour_primary": "141134",
@@ -112,14 +150,14 @@
         "tiebreaker_id": "0",
         "title": "1st Test",
         "toss_choice_team_id": "0",
-        "toss_decision": "",
-        "toss_winner_team_id": null,
+        "toss_decision": "field",
+        "toss_winner_team_id": "6",
         "tournament_match_number": "0",
         "weather": [
           {
             "description": "broken clouds",
             "end_datetime_utc": "2026-11-19 00:00:00",
-            "last_updated_utc": "2026-11-18 17:00:02.53",
+            "last_updated_utc": "2026-11-18 20:00:02.93",
             "main": "Clouds",
             "start_datetime_utc": "2026-11-18 21:00:00",
             "type": "forecast"
